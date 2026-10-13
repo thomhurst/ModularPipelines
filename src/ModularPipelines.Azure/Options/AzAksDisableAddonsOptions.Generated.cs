@@ -72,6 +72,12 @@ public record AzAksDisableAddonsOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// Do not prompt for confirmation.
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
+
+    /// <summary>
     /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
     /// </summary>
     [CliOption("--subscription")]

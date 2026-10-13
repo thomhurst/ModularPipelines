@@ -1,9 +1,19 @@
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class SynopsisIdentifierRegressionTests
 {
+    [Test]
+    [Arguments("404-document", "Number404Document")]
+    [Arguments("9p", "Number9p")]
+    [Arguments("123", "Number123")]
+    public async Task Leading_Digits_Have_A_Readable_Prefix(string input, string expected)
+    {
+        await Assert.That(GeneratorUtils.ToPascalCase(input)).IsEqualTo(expected);
+    }
+
     [Test]
     [Arguments("X_1 ... X_N", "X")]
     [Arguments("KEY_1=VAL_1 ... KEY_N=VAL_N", "KeyVal")]

@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmExtensionImageListVersionsOptions : AzOptions
 {
     /// <summary>
+    /// Expand the response to include additional read-only metadata. Allowed values: `properties` — returns extended metadata (`releaseCategory`, `urgencyLevel`, `runProfile`).  Allowed values: properties.
+    /// </summary>
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
+
+    /// <summary>
     /// The filter to apply on the operation. Default value is None.
     /// </summary>
     [CliOption("--filter")]

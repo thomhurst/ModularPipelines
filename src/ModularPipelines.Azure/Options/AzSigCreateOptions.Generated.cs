@@ -56,7 +56,7 @@ public record AzSigCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -104,7 +104,7 @@ public record AzSigCreateOptions : AzOptions
     public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
-    /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Set the user managed identities. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? MiUserAssigned { get; set; }
@@ -126,6 +126,18 @@ public record AzSigCreateOptions : AzOptions
     /// </summary>
     [CliOption("--soft-delete", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? SoftDelete { get; set; }
+
+    /// <summary>
+    /// The grace period in days for a simulated hard-deleted resource. During this period the gallery image version is unusable but can still be recovered if required. After this period elapses, the gallery image version is permanently (hard) deleted.
+    /// </summary>
+    [CliOption("--soft-delete-grace")]
+    public string? SoftDeleteGrace { get; set; }
+
+    /// <summary>
+    /// The retention period in days for a soft-deleted resource. After this period elapses, the soft-deleted gallery image version transitions to a simulated hard-deleted state.
+    /// </summary>
+    [CliOption("--soft-delete-retention")]
+    public string? SoftDeleteRetention { get; set; }
 
     /// <summary>
     /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.

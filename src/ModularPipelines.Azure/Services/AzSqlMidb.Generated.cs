@@ -25,6 +25,7 @@ public class AzSqlMidb
     private AzSqlMidbLedgerDigestUploads? _ledgerDigestUploads;
     private AzSqlMidbLogReplay? _logReplay;
     private AzSqlMidbLtrBackup? _ltrBackup;
+    private AzSqlMidbLtrPolicy? _ltrPolicy;
     private AzSqlMidbMove? _move;
 
     /// <summary>
@@ -61,6 +62,11 @@ public class AzSqlMidb
     /// az ltr-backup sub-commands.
     /// </summary>
     public AzSqlMidbLtrBackup LtrBackup => _ltrBackup ??= new AzSqlMidbLtrBackup(_command);
+
+    /// <summary>
+    /// az ltr-policy sub-commands.
+    /// </summary>
+    public AzSqlMidbLtrPolicy LtrPolicy => _ltrPolicy ??= new AzSqlMidbLtrPolicy(_command);
 
     /// <summary>
     /// az move sub-commands.

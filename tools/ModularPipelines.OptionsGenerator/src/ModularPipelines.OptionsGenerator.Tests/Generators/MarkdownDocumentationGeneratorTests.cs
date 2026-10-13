@@ -522,6 +522,31 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
+    [Arguments("Store data in <dir>.", "Store data in &lt;dir&gt;.")]
+    [Arguments("Use {name} & <value> | fallback.", "Use &#123;name&#125; &amp; &lt;value&gt; \\| fallback.")]
+    public async Task GenerateAsync_Escapes_Global_Option_Prose_For_Mdx(string description, string expected)
+    {
+        var tool = ToolDefinition("fake") with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--cache-dir",
+                    PropertyName = "CacheDir",
+                    CSharpType = "string?",
+                    Description = description,
+                    Availability = description,
+                },
+            ],
+        };
+
+        var documentation = await GenerateDocumentation(tool);
+
+        await Assert.That(documentation).Contains($"| `--cache-dir` | `CacheDir` | {expected} | {expected} |");
+    }
+
+    [Test]
     public async Task GenerateAsync_DocumentsMachineReadableCoverageExclusions()
     {
         var tool = new CliToolDefinition

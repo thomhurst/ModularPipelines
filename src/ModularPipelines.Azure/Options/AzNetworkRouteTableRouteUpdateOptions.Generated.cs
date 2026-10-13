@@ -34,7 +34,7 @@ public record AzNetworkRouteTableRouteUpdateOptions : AzOptions
     public string? NextHopIpAddress { get; set; }
 
     /// <summary>
-    /// The type of Azure hop the packet should be sent to.  Allowed values: Internet, None, VirtualAppliance, VirtualNetworkGateway, VnetLocal.
+    /// The type of Azure hop the packet should be sent to.  Allowed values: Internet, None, VirtualAppliance, VirtualApplianceEcmp, VirtualNetworkGateway, VnetLocal.
     /// </summary>
     [CliOption("--next-hop-type")]
     public string? NextHopType { get; set; }
@@ -68,6 +68,12 @@ public record AzNetworkRouteTableRouteUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// The next hop definition containing ECMP next hop IP addresses. Only allowed when nextHopType is VirtualApplianceEcmp.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--next-hop", GroupValues = true)]
+    public IEnumerable<string>? NextHop { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

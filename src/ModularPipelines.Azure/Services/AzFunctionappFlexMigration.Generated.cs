@@ -47,7 +47,7 @@ public class AzFunctionappFlexMigration
     }
 
     /// <summary>
-    /// Create a Flex Consumption app with the same settings as
+    /// Migrate a Linux Consumption function app to Flex
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

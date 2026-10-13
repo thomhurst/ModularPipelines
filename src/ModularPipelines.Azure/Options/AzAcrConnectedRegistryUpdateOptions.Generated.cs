@@ -70,6 +70,12 @@ public record AzAcrConnectedRegistryUpdateOptions : AzOptions
     public IEnumerable<CliOptionValue>? AddNotifications { get; set; }
 
     /// <summary>
+    /// Target authentication type. Only one-way migration from SyncToken to ManagedIdentity is supported.  Allowed values: ManagedIdentity.
+    /// </summary>
+    [CliOption("--auth-type")]
+    public string? AuthType { get; set; }
+
+    /// <summary>
     /// Indicate whether garbage collection is enabled. It is enabled by default.  Allowed values: false, true.
     /// </summary>
     [CliOption("--gc-enabled", ValueArity = CliOptionValueArity.Optional)]
@@ -80,6 +86,12 @@ public record AzAcrConnectedRegistryUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--gc-schedule")]
     public string? GcSchedule { get; set; }
+
+    /// <summary>
+    /// Resource ID of a user-assigned managed identity. Requires --auth-type ManagedIdentity.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Set the log level for logging on the instance. Accepted log levels are Debug, Information, Warning, Error, and None.

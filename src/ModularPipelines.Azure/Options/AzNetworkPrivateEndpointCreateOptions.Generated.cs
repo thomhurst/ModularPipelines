@@ -155,6 +155,12 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     public IEnumerable<string>? AppGatewayIpConfigs { get; set; }
 
     /// <summary>
+    /// The billing sku of the private endpoint.  Allowed values: Fixed, PayAsYouGo.
+    /// </summary>
+    [CliOption("--billing-sku")]
+    public string? BillingSku { get; set; }
+
+    /// <summary>
     /// Set this property to false to disable default outbound connectivity for all VMs in the subnet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--default-outbound-access", ValueArity = CliOptionValueArity.Optional)]

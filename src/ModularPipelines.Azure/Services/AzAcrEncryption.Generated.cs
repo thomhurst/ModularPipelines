@@ -32,7 +32,7 @@ public class AzAcrEncryption
     #region Commands
 
     /// <summary>
-    /// Rotate (update) the container registry's encryption key.
+    /// Rotate the customer-managed encryption key for a container
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

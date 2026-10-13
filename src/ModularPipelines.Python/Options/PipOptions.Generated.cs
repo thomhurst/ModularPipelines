@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Python.Options;
 
@@ -22,4 +24,157 @@ namespace ModularPipelines.Python.Options;
 [CliGlobalOptions]
 public abstract record PipOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Store the cache data in &lt;dir&gt;.
+    /// </summary>
+    [CliOption("--cache-dir")]
+    public virtual string? CacheDir { get; set; }
+
+    /// <summary>
+    /// Path to PEM-encoded CA certificate bundle. If provided, overrides the default. See 'SSL Certificate Verification' in pip documentation for more information.
+    /// </summary>
+    [CliOption("--cert")]
+    public virtual string? Cert { get; set; }
+
+    /// <summary>
+    /// Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
+    /// </summary>
+    [CliOption("--client-cert")]
+    public virtual string? ClientCert { get; set; }
+
+    /// <summary>
+    /// Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
+    /// </summary>
+    [CliFlag("--debug")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// Don't periodically check PyPI to determine whether a new version of pip is available for download. Implied with --no-index.
+    /// </summary>
+    [CliFlag("--disable-pip-version-check")]
+    public virtual bool? DisablePipVersionCheck { get; set; }
+
+    /// <summary>
+    /// Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
+    /// </summary>
+    [CliOption("--exists-action")]
+    public virtual IEnumerable<string>? ExistsAction { get; set; }
+
+    /// <summary>
+    /// Run pip in an isolated mode, ignoring environment variables and user configuration.
+    /// </summary>
+    [CliFlag("--isolated")]
+    public virtual bool? Isolated { get; set; }
+
+    /// <summary>
+    /// Enable the credential lookup via the keyring library if user input is allowed. Specify which mechanism to use [auto, disabled, import, subprocess]. (default: auto)
+    /// </summary>
+    [CliOption("--keyring-provider")]
+    public virtual string? KeyringProvider { get; set; }
+
+    /// <summary>
+    /// Path to a verbose appending log.
+    /// </summary>
+    [CliOption("--log")]
+    public virtual string? Log { get; set; }
+
+    /// <summary>
+    /// Disable the cache.
+    /// </summary>
+    [CliFlag("--no-cache-dir")]
+    public virtual bool? NoCacheDir { get; set; }
+
+    /// <summary>
+    /// Suppress colored output.
+    /// </summary>
+    [CliFlag("--no-color")]
+    public virtual bool? NoColor { get; set; }
+
+    /// <summary>
+    /// Disable prompting for input.
+    /// </summary>
+    [CliFlag("--no-input")]
+    public virtual bool? NoInput { get; set; }
+
+    /// <summary>
+    /// Do not read proxy configuration from environment variables.
+    /// </summary>
+    [CliFlag("--no-proxy-env")]
+    public virtual bool? NoProxyEnv { get; set; }
+
+    /// <summary>
+    /// Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy")]
+    public virtual string? Proxy { get; set; }
+
+    /// <summary>
+    /// Run pip with the specified Python interpreter.
+    /// </summary>
+    [CliOption("--python")]
+    public virtual string? Python { get; set; }
+
+    /// <summary>
+    /// Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).
+    /// </summary>
+    [Range(0, 2147483647)]
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public virtual int? Quiet { get; set; }
+
+    /// <summary>
+    /// Allow pip to only run in a virtual environment; exit with an error otherwise.
+    /// </summary>
+    [CliFlag("--require-virtualenv")]
+    public virtual bool? RequireVirtualenv { get; set; }
+
+    /// <summary>
+    /// Maximum attempts to resume or restart an incomplete download. (default: 5)
+    /// </summary>
+    [CliOption("--resume-retries")]
+    public virtual string? ResumeRetries { get; set; }
+
+    /// <summary>
+    /// Maximum attempts to establish a new HTTP connection. (default: 5)
+    /// </summary>
+    [CliOption("--retries")]
+    public virtual string? Retries { get; set; }
+
+    /// <summary>
+    /// Set the socket timeout (default 15 seconds).
+    /// </summary>
+    [CliOption("--timeout")]
+    public virtual string? Timeout { get; set; }
+
+    /// <summary>
+    /// Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.
+    /// </summary>
+    [CliOption("--trusted-host")]
+    public virtual IEnumerable<string>? TrustedHost { get; set; }
+
+    /// <summary>
+    /// Enable deprecated functionality, that will be removed in the future.
+    /// </summary>
+    [CliOption("--use-deprecated")]
+    public virtual IEnumerable<string>? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// Enable new functionality, that may be backward incompatible.
+    /// </summary>
+    [CliOption("--use-feature")]
+    public virtual IEnumerable<string>? UseFeature { get; set; }
+
+    /// <summary>
+    /// Give more output. Option is additive, and can be used up to 3 times.
+    /// </summary>
+    [Range(0, 2147483647)]
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public virtual int? Verbose { get; set; }
+
+    /// <summary>
+    /// Show version and exit.
+    /// </summary>
+    [CliFlag("--version", ShortForm = "-V")]
+    public virtual bool? Version { get; set; }
+
 }

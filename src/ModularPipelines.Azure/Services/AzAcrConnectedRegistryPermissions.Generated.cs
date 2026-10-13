@@ -47,7 +47,7 @@ public class AzAcrConnectedRegistryPermissions
     }
 
     /// <summary>
-    /// Add and remove repository permissions accross all
+    /// Add and remove repository permissions across all
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

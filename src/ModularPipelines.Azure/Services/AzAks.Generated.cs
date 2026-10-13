@@ -252,6 +252,21 @@ public class AzAks : IAzAks
     }
 
     /// <summary>
+    /// Download and install AKS Desktop for the current platform.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> InstallDesktopAsync(
+        AzAksInstallDesktopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAksInstallDesktopOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List managed Kubernetes clusters.
     /// </summary>
     /// <param name="options">The command options.</param>

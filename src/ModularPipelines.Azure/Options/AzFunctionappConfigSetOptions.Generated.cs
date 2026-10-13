@@ -139,7 +139,7 @@ public record AzFunctionappConfigSetOptions : AzOptions
     /// Use 32 bits worker process or not.  Allowed values: false, true.
     /// </summary>
     [CliOption("--use-32bit-worker-process", ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Use_32bitWorkerProcess { get; set; }
+    public CliOptionValue? UseNumber32bitWorkerProcess { get; set; }
 
     /// <summary>
     /// Configure regional VNet integration to route all traffic to the VNet.  Allowed values: false, true.

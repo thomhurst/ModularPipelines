@@ -62,7 +62,7 @@ public class AzVmssExtensionImage
     }
 
     /// <summary>
-    /// List virtual machine extension image versions.
+    /// List the versions for available extensions.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AzVmssExtensionImage
     }
 
     /// <summary>
-    /// Get a virtual machine extension image.
+    /// Display information for an extension.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

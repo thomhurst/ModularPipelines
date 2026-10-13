@@ -14,7 +14,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Assign a managed service identity to an
+/// Assign the user or system managed identities.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkApplicationGatewayIdentityAssignOptions : AzOptions
 {
     /// <summary>
-    /// Assign a managed service identity to an
+    /// Assign the user or system managed identities.
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
     /// <param name="Identity">Name or ID of the ManagedIdentity Resource.</param>

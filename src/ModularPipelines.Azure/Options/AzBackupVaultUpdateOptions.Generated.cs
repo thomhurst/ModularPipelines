@@ -70,7 +70,13 @@ public record AzBackupVaultUpdateOptions : AzOptions
     public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Configure the Source Scan state used by Microsoft Defender for Cloud threat detection.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--source-scan-state")]
+    public string? SourceScanState { get; set; }
+
+    /// <summary>
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

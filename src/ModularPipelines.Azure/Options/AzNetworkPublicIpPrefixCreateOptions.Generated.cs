@@ -68,7 +68,13 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     public string? EdgeZone { get; set; }
 
     /// <summary>
-    /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// The resource ID of the first party service tag associated with the IP tag.
+    /// </summary>
+    [CliOption("--first-party-service-tag-id")]
+    public string? FirstPartyServiceTagId { get; set; }
+
+    /// <summary>
+    /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ip-tags", GroupValues = true)]
     public IEnumerable<string>? IpTags { get; set; }
@@ -86,13 +92,13 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -110,7 +116,7 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     public string? Version { get; set; }
 
     /// <summary>
-    /// Space-separated list of availability zones into which to provision the resource.  Allowed values: 1, 2, 3.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of availability zones into which to provision the resource.  Allowed values: 1, 2, 3. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--zone", ShortForm = "-z", GroupValues = true)]
     public IEnumerable<string>? Zone { get; set; }

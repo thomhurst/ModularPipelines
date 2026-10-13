@@ -56,13 +56,13 @@ public record AzBicepGenerateParamsOptions : AzOptions
     public bool? NoRestore { get; set; }
 
     /// <summary>
-    /// When set, saves the output at the specified directory.
+    /// When set, saves the output file at the specified directory. Only the given file is output; for bicepparam files, the referenced template is not included.
     /// </summary>
     [CliOption("--outdir")]
     public string? Outdir { get; set; }
 
     /// <summary>
-    /// When set, saves the output as the specified file path.
+    /// When set, saves the output as the specified file path. Only the given file is output; for bicepparam files, the referenced template is not included.
     /// </summary>
     [CliOption("--outfile")]
     public string? Outfile { get; set; }
@@ -74,7 +74,7 @@ public record AzBicepGenerateParamsOptions : AzOptions
     public string? OutputFormat { get; set; }
 
     /// <summary>
-    /// When set, prints all output to stdout instead of corresponding files.
+    /// When set, prints all output to stdout instead of corresponding files. For bicepparam files that reference a template, both the parameters and the referenced Bicep template are included in the output.
     /// </summary>
     [CliFlag("--stdout")]
     public bool? Stdout { get; set; }
