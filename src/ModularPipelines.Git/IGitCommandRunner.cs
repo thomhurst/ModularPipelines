@@ -58,12 +58,12 @@ public interface IGitCommandRunner
     }
 
     /// <summary>
-    /// Executes a Git command with shared root settings, returning null on command failure.
+    /// Executes a Git command with shared root settings and returns trimmed standard output, or null on command failure.
     /// </summary>
     /// <param name="options">The root settings, command parts, and command arguments.</param>
     /// <param name="commandEnvironmentOptions">Optional command environment configuration.</param>
     /// <param name="cancellationToken">The token used to cancel command execution.</param>
-    /// <returns>The command output, or null if the command failed.</returns>
+    /// <returns>The trimmed standard output, or null if the command failed.</returns>
     /// <remarks>
     /// The default implementation renders the shared settings before command parts and delegates
     /// to the configured low-level runner. Runners may override this method for typed execution.

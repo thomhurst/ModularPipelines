@@ -1,3 +1,4 @@
+using ModularPipelines.Context;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
@@ -10,13 +11,14 @@ internal static class GitCommandArguments
 {
     private static readonly CommandModelProvider ModelProvider = new();
     private static readonly CommandArgumentBuilder ArgumentBuilder = new();
+    private static readonly CommandPartsProvider PartsProvider = new();
 
     public static string[] Build(GitOptions options) =>
-    [
-        .. ArgumentBuilder.BuildArguments(ModelProvider.GetCommandModel(typeof(GitOptions)), options),
-        .. options.CommandParts ?? [],
-        .. options.Arguments ?? [],
-    ];
+        [.. CommandLineBuilder.BuildArguments(
+            options,
+            PartsProvider.GetRawCommandParts(options),
+            ModelProvider.GetCommandModel(options.GetType()),
+            ArgumentBuilder)];
 
     public static CommandExecutionOptions WithSecrets(
         GitOptions options, CommandExecutionOptions? executionOptions) =>

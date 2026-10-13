@@ -285,6 +285,11 @@ public class GitInformationTests : TestBase
             Configuration = [("custom.value", "first value"), ("custom.value", "second value")],
             GitDirectory = "repository directory",
             NoPager = true,
+            AdditionalArguments =
+            [
+                new("--literal-pathspecs", IsGlobalOption: true),
+                new("--first-parent"),
+            ],
         };
         var commits = (useHistoryCommands, specifyBranch) switch
         {
@@ -304,10 +309,11 @@ public class GitInformationTests : TestBase
         for (var page = 0; page < runner.Pages.Count; page++)
         {
             var (execution, token, arguments) = runner.Pages[page];
-            await Assert.That(arguments.Take(11).SequenceEqual([
+            await Assert.That(arguments.Take(13).SequenceEqual([
                 "-C", "parent directory", "-C", "child directory",
+                "--literal-pathspecs",
                 "-c", "custom.value=first value", "-c", "custom.value=second value",
-                "--no-pager", "--git-dir=repository directory", "log",
+                "--no-pager", "--git-dir=repository directory", "log", "--first-parent",
             ])).IsTrue();
             await Assert.That(arguments.Contains("main")).IsEqualTo(specifyBranch);
             await Assert.That(arguments).Contains($"--skip={page * 50}");

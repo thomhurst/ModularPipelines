@@ -107,7 +107,7 @@ public class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner
                     ThrowOnNonZeroExitCode = true,
                 },
                 cancellationToken).ConfigureAwait(false);
-            return result.StandardOutput;
+            return result.StandardOutput.Trim();
         }
         catch (Exception exception) when (exception is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {
