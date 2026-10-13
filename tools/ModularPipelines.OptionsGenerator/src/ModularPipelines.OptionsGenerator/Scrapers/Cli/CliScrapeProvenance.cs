@@ -21,17 +21,16 @@ internal sealed class CliScrapeProvenance
     /// <summary>
     /// Help paths whose latest invocation never produced a real response: it timed out after
     /// every retry, was rejected by the circuit breaker, or its process could not execute.
-    /// Required supplemental manuals also count as unavailable when empty or unsuccessful.
+    /// Required supplemental manuals and usage also count as unavailable when empty or unsuccessful.
     /// Those commands are unavailable in this scrape rather than absent from the tool, so
     /// coverage validation must not report them as removals.
     /// </summary>
     public IReadOnlyList<string> UnavailableHelpPaths =>
-        _helpInvocations.Values
+        [.. _helpInvocations.Values
             .Where(static invocation => invocation.Unavailable)
             .Select(static invocation => invocation.CommandPath)
             .Distinct(StringComparer.OrdinalIgnoreCase)
-            .Order(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .Order(StringComparer.OrdinalIgnoreCase)];
 
     public void Record(
         IReadOnlyList<string> commandPath,
@@ -53,7 +52,9 @@ internal sealed class CliScrapeProvenance
             RawHelp = result.CombinedOutput,
             PreserveRawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0,
             Unavailable = result.Unavailable || (helpKind == CliHelpKind.Manual
-                && (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput))),
+                && (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput)))
+                || (helpKind == CliHelpKind.Usage
+                    && (result.ExitCode is not (0 or 129) || string.IsNullOrWhiteSpace(result.CombinedOutput))),
         };
         if (helpKind == CliHelpKind.Manual)
         {
@@ -168,11 +169,10 @@ internal sealed class CliScrapeProvenance
 
     private static string GetSafeToolDirectoryName(string toolName)
     {
-        var safeName = new string(toolName
+        var safeName = new string([.. toolName
             .Select(character => char.IsAsciiLetterOrDigit(character) || character is '-' or '_'
                 ? character
-                : '_')
-            .ToArray());
+                : '_')]);
         return safeName.Length > 0 ? safeName : "unknown-tool";
     }
 
@@ -184,6 +184,7 @@ internal enum CliHelpKind
 {
     Help,
     Manual,
+    Usage,
 }
 
 internal sealed record CliHelpInvocation
