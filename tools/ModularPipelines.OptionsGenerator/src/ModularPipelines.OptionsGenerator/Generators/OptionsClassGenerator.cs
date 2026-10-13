@@ -778,9 +778,10 @@ public class OptionsClassGenerator : ICodeGenerator
     {
         var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
         var preserveValuePairs = option is not null && option.CollectionSeparator is null;
+        var snapshotDeclaredValues = option?.RejectBlankCollectionValues == true;
         var typedSnapshotPrefix = $"__{propertyName}Snapshot";
         var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
-            propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
+            propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity, snapshotDeclaredValues);
         if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
             && option.ValueSeparator != " ")
         {
@@ -798,14 +799,14 @@ public class OptionsClassGenerator : ICodeGenerator
         if (valueArity != CliOptionValueArity.Optional)
         {
             GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs,
-                snapshotDeclaredValues: option?.RejectBlankCollectionValues == true);
+                snapshotDeclaredValues);
         }
     }
 
     private static void GenerateTypedSnapshotAdapters(
         StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs, bool snapshotDeclaredValues)
     {
-        var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType);
+        var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType, snapshotDeclaredValues);
         if (collectionType is null or "HashSet")
         {
             return;
@@ -855,10 +856,16 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine($"        private readonly {declaredElement}[] _source = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<{declaredElement}>((global::System.Collections.IEnumerable)source));");
         }
 
-        sb.AppendLine($$"""
+        if (collectionType != "NonGenericIEnumerable")
+        {
+            sb.AppendLine($$"""
 
-                    global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
-                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => {{enumerableSource}}.GetEnumerator();
+                        global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
+                            global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => {{enumerableSource}}.GetEnumerator();
+                """);
+        }
+
+        sb.AppendLine($$"""
 
                     global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
                         ((global::System.Collections.IEnumerable){{retainedSource}}).GetEnumerator();

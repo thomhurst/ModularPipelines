@@ -33,7 +33,7 @@ public record CliOptionDefinition
     internal string? GlobalOptionPropertyType { get; init; }
 
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
-    private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
+    private static readonly ConcurrentDictionary<(string TypeName, bool SnapshotDeclaredValues), CollectionShapeResolution> CollectionShapes = new();
     private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);
 
     /// <summary>
@@ -111,9 +111,9 @@ public record CliOptionDefinition
 
     internal static string GetCollectionSnapshotExpression(
         string cSharpType, string valueExpression, bool retainUnsupportedCollections = false, string typedSnapshotPrefix = "__Snapshot", bool preserveValuePairs = true,
-        CliOptionValueArity valueArity = CliOptionValueArity.Required)
+        CliOptionValueArity valueArity = CliOptionValueArity.Required, bool snapshotDeclaredValues = false)
     {
-        var shape = GetCollectionShape(cSharpType);
+        var shape = GetCollectionShape(cSharpType, snapshotDeclaredValues);
         if (retainUnsupportedCollections)
         {
             if (!shape.IsResolved)
@@ -140,8 +140,8 @@ public record CliOptionDefinition
                 $"Required collection type '{cSharpType}' cannot safely retain a reusable snapshot. Use a supported collection contract.");
     }
 
-    internal static string? GetTypedSnapshotCollectionType(string cSharpType) =>
-        GetCollectionShape(cSharpType).TypedSnapshotCollectionType;
+    internal static string? GetTypedSnapshotCollectionType(string cSharpType, bool snapshotDeclaredValues = false) =>
+        GetCollectionShape(cSharpType, snapshotDeclaredValues).TypedSnapshotCollectionType;
 
     internal static string GetSnapshotElementTypeName(string cSharpType) =>
         GetCollectionShape(cSharpType).ElementTypeName
@@ -150,8 +150,9 @@ public record CliOptionDefinition
     internal static bool IsSnapshotElementType(string cSharpType, string elementName) =>
         MatchesRendererElementType(GetCollectionShape(cSharpType).ElementTypeIdentity, elementName);
 
-    private static CollectionShapeResolution GetCollectionShape(string cSharpType) =>
-        CollectionShapes.GetOrAdd(cSharpType.TrimEnd('?'), static typeName => ResolveCollectionShape(typeName));
+    private static CollectionShapeResolution GetCollectionShape(string cSharpType, bool snapshotDeclaredValues = false) =>
+        CollectionShapes.GetOrAdd((cSharpType.TrimEnd('?'), snapshotDeclaredValues),
+            static key => ResolveCollectionShape(key.TypeName, key.SnapshotDeclaredValues));
 
     internal static int FindIndexBySwitch(
         IReadOnlyList<CliOptionDefinition> options,
@@ -174,7 +175,7 @@ public record CliOptionDefinition
         }
     }
 
-    private static CollectionShapeResolution ResolveCollectionShape(string cSharpType)
+    private static CollectionShapeResolution ResolveCollectionShape(string cSharpType, bool snapshotDeclaredValues)
     {
         var source = $$"""
             #nullable enable
@@ -233,7 +234,7 @@ public record CliOptionDefinition
         var snapshotExpression = isCollection
             ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable)
             : null;
-        var typedSnapshotCollectionType = GetTypedSnapshotCollectionType(compilation, propertyType, elementType, isArrayAssignable);
+        var typedSnapshotCollectionType = GetTypedSnapshotCollectionType(compilation, propertyType, elementType, isArrayAssignable, snapshotDeclaredValues);
         return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection,
             IsReferenceType: propertyType.IsReferenceType,
             SnapshotExpression: snapshotExpression,
@@ -252,23 +253,32 @@ public record CliOptionDefinition
     }
 
     private static string? GetTypedSnapshotCollectionType(
-        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable)
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, bool snapshotDeclaredValues)
     {
+        if (snapshotDeclaredValues && propertyType.SpecialType == SpecialType.System_Collections_IEnumerable)
+        {
+            return "NonGenericIEnumerable";
+        }
+
         if (SymbolEqualityComparer.Default.Equals(propertyType.OriginalDefinition,
                 compilation.GetTypeByMetadataName("System.Collections.Generic.IReadOnlySet`1")))
         {
             return "IReadOnlySet";
         }
 
-        if (elementType.SpecialType != SpecialType.System_Object)
+        if (snapshotDeclaredValues || elementType.SpecialType != SpecialType.System_Object)
         {
-            return propertyType.OriginalDefinition.SpecialType switch
+            var readOnlyCollectionType = propertyType.OriginalDefinition.SpecialType switch
             {
                 SpecialType.System_Collections_Generic_IEnumerable_T => "IEnumerable",
                 SpecialType.System_Collections_Generic_IReadOnlyCollection_T => "IReadOnlyCollection",
                 SpecialType.System_Collections_Generic_IReadOnlyList_T => "IReadOnlyList",
                 _ => null,
             };
+            if (readOnlyCollectionType is not null || elementType.SpecialType != SpecialType.System_Object)
+            {
+                return readOnlyCollectionType;
+            }
         }
 
         if (IsMutableObjectCollection(compilation, propertyType, elementType))
@@ -378,7 +388,7 @@ public record CliOptionDefinition
         var snapshot = collectionType is not null
             ? $"new {{1}}{elementName}({values})"
             : $"({propertyName})(object)global::System.Linq.Enumerable.ToArray({values})";
-        if (collectionType is "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
+        if (collectionType is "NonGenericIEnumerable" or "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
         {
             snapshot = $"new {{1}}{elementName}({{0}}, {values})";
         }

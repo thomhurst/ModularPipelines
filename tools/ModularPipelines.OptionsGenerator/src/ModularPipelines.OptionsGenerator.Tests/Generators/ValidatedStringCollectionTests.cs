@@ -125,7 +125,8 @@ public partial class RequiredConstructorValidationTests
     [Test]
     [MatrixDataSource]
     public async Task Validated_Multiple_Views_Snapshot_SingleUse_String_Entries(
-        [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?")] string collectionType,
+        [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?",
+            "System.Collections.IEnumerable?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
         [Matrix(false, true)] bool joined,
         [Matrix(false, true)] bool inherited,
         [Matrix(" ", "valid")] string entry)
@@ -146,7 +147,7 @@ public partial class RequiredConstructorValidationTests
         {
             var errors = ((IValidatableObject) instance).Validate(new(instance)).ToArray();
             await Assert.That(errors.Length != 0).IsEqualTo(string.IsNullOrWhiteSpace(entry));
-            await Assert.That((IEnumerable<string>) retained!).IsEquivalentTo(["first", entry]);
+            await Assert.That(System.Linq.Enumerable.Cast<string>((System.Collections.IEnumerable) retained!)).IsEquivalentTo(["first", entry]);
             string[] expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
             await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
                 .IsEquivalentTo(expected);
