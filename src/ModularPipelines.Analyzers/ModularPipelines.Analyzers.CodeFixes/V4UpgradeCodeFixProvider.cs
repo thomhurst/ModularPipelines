@@ -194,7 +194,7 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
 
     private static IEnumerable<ExpressionSyntax> GetGitGroupReceivers(ITypeSymbol receiver, ExpressionSyntax expression)
     {
-        if (receiver.ToDisplayString() == "ModularPipelines.Git.IGit")
+        if (receiver.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString() == "ModularPipelines.Git.IGit")
         {
             var commands = receiver.GetMembers("Commands").OfType<IPropertySymbol>().FirstOrDefault();
             if (commands is null)
@@ -207,7 +207,7 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
                 expression, SyntaxFactory.IdentifierName(commands.Name));
         }
 
-        if (receiver.ToDisplayString() != "ModularPipelines.Git.IGitCommands")
+        if (receiver.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString() != "ModularPipelines.Git.IGitCommands")
         {
             yield break;
         }
@@ -250,7 +250,7 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
     };
 
     private static bool IsPipelineContext(ITypeSymbol type) =>
-        type.ToDisplayString() == "ModularPipelines.IPipelineContext"
+        type.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString() == "ModularPipelines.IPipelineContext"
         || type.AllInterfaces.Any(@interface => @interface.ToDisplayString() == "ModularPipelines.IPipelineContext");
 
     private static bool IsFrameworkSymbol(ISymbol symbol)

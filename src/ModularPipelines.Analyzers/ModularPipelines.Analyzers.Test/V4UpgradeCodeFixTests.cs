@@ -103,6 +103,26 @@ public class V4UpgradeCodeFixTests
     }
 
     [TestMethod]
+    [DataRow("IPipelineContext?", "context?.Service()", "context?.Tools.Service")]
+    [DataRow("IModuleContext?", "context?.Service()", "context?.Tools.Service")]
+    [DataRow("ModularPipelines.Events.IModuleHookContext?", "context?.Service()", "context?.Tools.Service")]
+    [DataRow("DerivedContext?", "context?.Service()", "context?.Tools.Service")]
+    [DataRow("ModularPipelines.Git.IGit?", "context?.Push(\"option\", token: default)", "context?.Commands.Remotes.PushAsync(\"option\", cancellationToken: default)")]
+    [DataRow("ModularPipelines.Git.IGitCommands?", "context?.Config(\"option\", token: default)", "context?.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    public async Task Upgrades_Nullable_Conditional_Receivers(string receiverType, string original, string expected)
+    {
+        var (root, changes, errors) = await ApplyFixesAsync("#nullable enable\n" + Api + $$"""
+            interface DerivedContext : IPipelineContext { }
+            class Example { object? Run({{receiverType}} context) => {{original}}; }
+            """);
+        Assert.AreEqual(1, changes);
+        Assert.IsEmpty(errors);
+        var expression = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+            .Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
+        Assert.AreEqual(expected, expression.ToString());
+    }
+
+    [TestMethod]
     [DataRow("NotYetStarted", "NotStarted")]
     [DataRow("Processing", "Running")]
     [DataRow("Successful", "Succeeded")]
