@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "git",
   "toolVersion": "git version 2.55.0",
-  "commandCount": 181,
-  "commandTreeSha256": "465b594e6088738dea79166e0ea6b752ce7d677ae2134a75a474199128856a85",
+  "commandCount": 182,
+  "commandTreeSha256": "b3dd2c42e4d7200c3fcaa16a5cdee8b9e4c2bf690bcf4f91e4169c6d6dfe983f",
   "commands": [
     "git add",
     "git am",
@@ -176,6 +176,7 @@
     "git update-server-info",
     "git url-parse",
     "git verify-pack",
+    "git version",
     "git worktree",
     "git worktree add",
     "git worktree list",
