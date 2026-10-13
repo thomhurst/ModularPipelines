@@ -747,8 +747,8 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
         run: |
           BUILD_ARGS=()
-          # Gcloud generates enough source for parallel MSBuild nodes to exhaust the hosted runner.
-          if [[ "${{ matrix.tool }}" == "gcloud" ]]; then
+          # Large generated packages need bounded MSBuild concurrency on hosted runners.
+          if [[ "${{ matrix.tool }}" == "gcloud" || "${{ matrix.tool }}" == "aws" ]]; then
             BUILD_ARGS+=(/m:1 -p:UseSharedCompilation=false)
           fi
           dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" \
