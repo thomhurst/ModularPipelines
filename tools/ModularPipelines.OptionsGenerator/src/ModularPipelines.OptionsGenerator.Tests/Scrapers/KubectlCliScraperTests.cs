@@ -145,6 +145,10 @@ public class KubectlCliScraperTests
             argument.PropertyName == "Annotations");
         await Assert.That(annotations.IsRequired).IsTrue();
         await Assert.That(annotations.IsValidationRequired).IsFalse();
+        await Assert.That(annotations.IsVariadic).IsTrue();
+        await Assert.That(annotations.CSharpType).IsEqualTo("IEnumerable<string>");
+        await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName))
+            .DoesNotContain("KeyNValN");
     }
 
     [Test]
@@ -288,15 +292,15 @@ public class KubectlCliScraperTests
             ["kubectl", "label"],
             helpText);
 
-        var labels = command!.PositionalArguments.Single(argument => argument.PropertyName == "Key_1Val_1");
-        var trailingLabel = command.PositionalArguments.Single(argument => argument.PropertyName == "KeyNValN");
+        var labels = command!.PositionalArguments.Single(argument => argument.PropertyName == "Labels");
         using (Assert.Multiple())
         {
             await Assert.That(labels.IsRequired).IsTrue();
             await Assert.That(labels.IsValidationRequired).IsFalse();
             await Assert.That(labels.IsVariadic).IsTrue();
             await Assert.That(labels.CSharpType).IsEqualTo("IEnumerable<string>");
-            await Assert.That(trailingLabel.IsValidationRequired).IsFalse();
+            await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName))
+                .DoesNotContain("KeyNValN");
             await Assert.That(command.PositionalArguments.Count(argument =>
                 argument.IsValidationRequired ?? argument.IsRequired))
                 .IsEqualTo(0);
@@ -323,6 +327,9 @@ public class KubectlCliScraperTests
             await Assert.That(name.IsValidationRequired).IsFalse();
             await Assert.That(taints.IsRequired).IsTrue();
             await Assert.That(taints.IsVariadic).IsTrue();
+            await Assert.That(taints.CSharpType).IsEqualTo("IEnumerable<string>");
+            await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName))
+                .DoesNotContain("KeyNValNTaintEffectN");
         }
     }
 

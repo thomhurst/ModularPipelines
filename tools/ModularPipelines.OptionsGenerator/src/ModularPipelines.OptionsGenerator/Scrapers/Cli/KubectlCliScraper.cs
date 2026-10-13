@@ -71,11 +71,7 @@ public class KubectlCliScraper : CobraCliScraper
         commandParts switch
         {
             ["annotate"] => AllowOmittedValue(
-                CollapseNumberedRepeat(
-                    positionalArguments,
-                    "Key_1Val_1",
-                    "KeyNValN",
-                    "Annotations"),
+                RenameArgument(positionalArguments, "KeyVal", "Annotations"),
                 "Annotations"),
             ["auth", "can-i"] => AllowOmittedValue(positionalArguments, "Verb"),
             ["cordon" or "drain" or "uncordon"] => AllowOmittedValue(positionalArguments, "Node"),
@@ -84,7 +80,7 @@ public class KubectlCliScraper : CobraCliScraper
                 "Pod"),
             ["events"] => RemoveArgument(positionalArguments, "O"),
             ["exec"] => AllowOmittedValue(positionalArguments, "Pod"),
-            ["label"] => NormalizeLabelArguments(positionalArguments),
+            ["label"] => AllowOmittedValue(RenameArgument(positionalArguments, "KeyVal", "Labels"), "Labels"),
             ["logs"] => AllowOmittedValue(positionalArguments, "Pod"),
             ["port-forward"] => CollapseNumberedRepeat(
                 positionalArguments,
@@ -127,34 +123,16 @@ public class KubectlCliScraper : CobraCliScraper
         ]);
     }
 
-    private static IReadOnlyList<CliPositionalArgument> NormalizeLabelArguments(
-        IReadOnlyList<CliPositionalArgument> arguments) =>
-        arguments
-            .Select(argument => argument.PropertyName switch
-            {
-                "Key_1Val_1" => argument with
-                {
-                    CSharpType = "IEnumerable<string>",
-                    IsRequired = true,
-                    IsVariadic = true,
-                    IsValidationRequired = false,
-                },
-                "KeyNValN" => argument with
-                {
-                    IsValidationRequired = false,
-                },
-                _ => argument,
-            })
-            .ToArray();
+    private static IReadOnlyList<CliPositionalArgument> RenameArgument(
+        IReadOnlyList<CliPositionalArgument> arguments, string sourceName, string targetName) =>
+        [.. arguments.Select(argument => argument.PropertyName == sourceName
+            ? argument with { PropertyName = targetName }
+            : argument)];
 
     private static IReadOnlyList<CliPositionalArgument> NormalizeTaintArguments(
         IReadOnlyList<CliPositionalArgument> arguments) =>
         AllowOmittedValue(
-            CollapseNumberedRepeat(
-                arguments,
-                "Key_1Val_1TaintEffect_1",
-                "KeyNValNTaintEffectN",
-                "Taints"),
+            RenameArgument(arguments, "KeyValTaintEffect", "Taints"),
             "Name");
 
     private static IReadOnlyList<CliPositionalArgument> AllowOmittedValue(

@@ -1,5 +1,14 @@
 # ModularPipelines V4 Release Notes
 
+## Numbered CLI operands
+
+Numbered usage ranges such as `KEY_1=VAL_1 ... KEY_N=VAL_N` now produce one
+ordered collection operand. `KubernetesLabelOptions` takes one `Labels` collection
+instead of `Key_1Val_1` and `KeyNValN`; pass every label in that collection.
+`KubernetesAnnotateOptions.Annotations` and `KubernetesTaintOptions.Taints` retain
+their collection APIs and use the shared numbered-range parser. Label and annotate
+listing forms can omit their values, as supported by kubectl.
+
 ## Eksctl inherited settings
 
 `EksctlOptions` now declares `Color`, `Dumplogs`, and `Verbose` for all command
