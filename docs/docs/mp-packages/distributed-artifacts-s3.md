@@ -108,6 +108,20 @@ permissions. If the provider does not support lifecycle configuration or access 
 artifacts simply do not expire automatically. Because every process runs this check at startup, prefer configuring
 the rule once in your infrastructure code and leaving `SetLifecycleRule` off.
 
+[Run data cleanup](../distributed/configuration.md#run-data-cleanup) runs on the master when a distributed run ends.
+It lists every object version under `{KeyPrefix}/artifacts/{RunId}/` and deletes each one, so the master's credentials
+need these permissions in addition to the ones used for uploads and downloads:
+
+| Permission | Used for |
+|------------|----------|
+| `s3:ListBucketVersions` | Listing the run's object versions and delete markers. |
+| `s3:DeleteObject` | Deleting objects in an unversioned bucket. |
+| `s3:DeleteObjectVersion` | Deleting specific versions and delete markers in a versioned bucket. |
+
+Providers without a versioning API fall back to listing objects, which needs `s3:ListBucket`. If a permission is
+missing, cleanup logs a warning and the run's artifacts stay until the lifecycle rule expires them. Set
+`DistributedOptions.RunCleanup` to `Never` to skip cleanup when the master's credentials cannot delete.
+
 A failed multipart upload is aborted on a best-effort basis. If the abort also fails, the uploaded parts stay in the
 bucket and are billed until a lifecycle rule with an `AbortIncompleteMultipartUpload` action removes them. Include that
 action in any rule you configure yourself, including one covering `{KeyPrefix}/module-cache/`.

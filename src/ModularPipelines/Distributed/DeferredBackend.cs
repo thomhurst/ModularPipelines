@@ -104,10 +104,9 @@ internal sealed class DeferredBackend<TBackend>(Func<CancellationToken, Task<TBa
         }
 
         _disposeSource.Cancel();
-        if (!creation.IsCompleted)
-        {
-            _ = DisposeWhenCreatedAsync(creation);
-        }
+
+        // The creation can still succeed after the check above, so always hand it to the continuation.
+        _ = DisposeWhenCreatedAsync(creation);
     }
 
     private async ValueTask EndCreationAsync(Task<TBackend> creation)
@@ -119,10 +118,9 @@ internal sealed class DeferredBackend<TBackend>(Func<CancellationToken, Task<TBa
         }
 
         await _disposeSource.CancelAsync().ConfigureAwait(false);
-        if (!creation.IsCompleted)
-        {
-            _ = DisposeWhenCreatedAsync(creation);
-        }
+
+        // The creation can still succeed after the check above, so always hand it to the continuation.
+        _ = DisposeWhenCreatedAsync(creation);
     }
 
     // Returns the creation to dispose, or null when already disposed or nothing was created.
