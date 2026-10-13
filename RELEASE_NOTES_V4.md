@@ -943,6 +943,21 @@ CompressionLevel.NoCompression })` to configure local artifact behavior without 
 distributed execution. `AddDistributedMode` enables distributed execution and accepts the
 same transform style. See the [distributed configuration guide](docs/docs/distributed/configuration.md).
 
+## Typed artifact paths
+
+`IArtifactContext` now accepts `FilePath` for file publishing and `FolderPath` for
+directory publishing. Both `DownloadAsync` producer forms accept typed destinations
+and return the supplied path, preserving its filesystem provider. Use
+`context.Files.GetFile(...)` and `GetFolder(...)` for pipeline-relative locations.
+Typed downloads validate the artifact kind before writing. String overloads remain
+available with their existing behavior.
+
+Custom filesystem providers use `IFileSystemProvider.DirectorySeparatorChar` to declare
+the separator in relative paths. Its default follows the host. Providers using Windows
+separators on Unix must override it so artifact extraction validates traversal with the
+same separator semantics as the backing store; slash-based providers retain literal
+backslashes in filenames.
+
 ## Kustomize edit operands
 
 When adopting regenerated Kustomize edit APIs that require an operand, supply

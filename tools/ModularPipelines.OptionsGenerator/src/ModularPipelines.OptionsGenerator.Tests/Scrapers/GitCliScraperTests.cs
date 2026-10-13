@@ -7,7 +7,7 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
-public class GitCliScraperTests
+public partial class GitCliScraperTests
 {
     [Test]
     public async Task ScrapeAsync_Preserves_Branch_With_Repeatable_Options()
@@ -480,6 +480,8 @@ public class GitCliScraperTests
         {
         }
 
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(
                 commandPath,
@@ -497,6 +499,7 @@ public class GitCliScraperTests
             string? workingDirectory = null) =>
             Task.FromResult(arguments switch
             {
+                "-h" => Result("usage: git [-C <path>] [-c <name>=<value>] <command>"),
                 "help -a" => Result("Main Porcelain Commands\n   branch                  List branches"),
                 "branch -h" => Result(File.ReadAllText(Path.Combine(
                     AppContext.BaseDirectory, "Fixtures", "Git", "2.56.0", "branch-help.txt")), exitCode: 129),
@@ -518,6 +521,7 @@ public class GitCliScraperTests
             string? workingDirectory = null) =>
             Task.FromResult(arguments switch
             {
+                "-h" => Result("usage: git [-C <path>] [-c <name>=<value>] <command>"),
                 "help -a" => Result(
                     "Main Porcelain Commands\n   switch                  Switch branches"),
                 "switch -h" => Result(
@@ -562,6 +566,7 @@ public class GitCliScraperTests
             return Task.FromResult(arguments switch
             {
                 "init --quiet" => Result(string.Empty),
+                "-h" => Result("usage: git [-C <path>] [-c <name>=<value>] <command>"),
                 "help -a" => Result(
                     "Main Porcelain Commands\n"
                     + "   stash                   Stash changes\n"
@@ -610,6 +615,7 @@ public class GitCliScraperTests
             cancellationToken.ThrowIfCancellationRequested();
             return arguments switch
             {
+                "-h" => Result("usage: git [-C <path>] [-c <name>=<value>] <command>"),
                 "help -a" => Result("Main Porcelain Commands\n   stash                   Stash changes"),
                 "stash -h" => Result("usage: git stash\n   or: git stash pop [--index]"),
                 "stash pop -h" => Result("usage: git stash pop [--index]"),

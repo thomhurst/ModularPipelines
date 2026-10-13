@@ -72,7 +72,8 @@ public class ArtifactContextApiTests
         var assembly = typeof(DistributedOptions).Assembly;
         var typedDownload = typeof(IArtifactContext)
             .GetMethods()
-            .Single(method => method.Name == nameof(IArtifactContext.DownloadAsync) && method.IsGenericMethod);
+            .Single(method => method.Name == nameof(IArtifactContext.DownloadAsync) && method.IsGenericMethod
+                && method.GetParameters()[1].ParameterType == typeof(string));
 
         using (Assert.Multiple())
         {
