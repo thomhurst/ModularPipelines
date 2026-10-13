@@ -32,10 +32,37 @@ builder.AddRedisMasterDiscovery(options =>
 });
 ```
 
-Discovery opens its own Redis connection on first use; use `ConfigureConnection` to adjust credentials or TLS.
-For REST-backed Redis services, configure both `RestUrl` and `RestToken`; they must be supplied together.
+Discovery has no default connection. Set `ConnectionString` explicitly, including `localhost:6379` for local Redis,
+or supply endpoints through `ConfigureConnection`. Missing connection configuration fails during pipeline construction.
+TCP options validation runs `ConfigureConnection` and requires at least one endpoint afterward.
+The resulting configuration is cached per options instance; finish configuring options before building the pipeline.
+Discovery opens its own Redis connection on first use. REST discovery does not invoke the TCP callback.
 `RestUrl` is an absolute HTTPS `Uri` (HTTP is allowed only on loopback), for example `options.RestUrl = new Uri("https://redis.example");`.
 It may include a path prefix, but query strings and fragments are rejected because Redis commands are appended to that path.
+For REST-backed Redis services, configure both `RestUrl` and `RestToken`; no TCP connection string is needed:
+
+```csharp
+builder.AddRedisMasterDiscovery(options =>
+{
+    options.RestUrl = new Uri(builder.Configuration["RedisRestUrl"]!);
+    options.RestToken = builder.Configuration["RedisRestToken"];
+});
+```
+
+For callback-only TCP configuration, supply endpoints explicitly:
+
+```csharp
+builder.AddRedisMasterDiscovery(options =>
+{
+    options.ConfigureConnection = connection =>
+    {
+        connection.EndPoints.Add("redis.internal", 6380);
+        connection.Ssl = true;
+        connection.Password = builder.Configuration["RedisPassword"];
+    };
+});
+```
+
 Because the stored endpoint includes the access token, only the run's processes should be able to read the
 discovery database. See [Configuration](../distributed/configuration#redis-master-discovery) for all options.
 

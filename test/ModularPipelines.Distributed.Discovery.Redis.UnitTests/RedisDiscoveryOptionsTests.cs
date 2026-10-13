@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -6,6 +7,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Discovery.Redis;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
+using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 
@@ -17,12 +19,222 @@ public class RedisDiscoveryOptionsTests
     {
         var options = new RedisDiscoveryOptions();
 
-        await Assert.That(options.ConnectionString).IsEqualTo("localhost:6379");
+        await Assert.That(options.ConnectionString).IsEqualTo(string.Empty);
         await Assert.That(options.KeyPrefix).IsEqualTo("modpipe");
         await Assert.That(options.ConfigureConnection).IsNull();
         await Assert.That(options.TimeToLive).IsEqualTo(TimeSpan.FromHours(1));
         await Assert.That(options.DiscoveryTimeout).IsEqualTo(TimeSpan.FromMinutes(2));
         await Assert.That(options.PollInterval).IsEqualTo(TimeSpan.FromMilliseconds(500));
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task HostBuildRejectsMissingConnection(bool useConfigurationSection)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        if (useConfigurationSection)
+        {
+            builder.AddRedisMasterDiscovery(new ConfigurationBuilder().Build().GetSection("Discovery"));
+        }
+        else
+        {
+            builder.AddRedisMasterDiscovery(_ => { });
+        }
+        builder.AddDistributedMode(options => options.RunId = "test-run");
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures.Any(failure => failure.Contains(nameof(RedisDiscoveryOptions.ConnectionString))))
+            .IsTrue();
+    }
+
+    [Test]
+    [Arguments("", false)]
+    [Arguments("", true)]
+    [Arguments("localhost:6379", true)]
+    public async Task HostBuildRejectsCallbackWithoutEndpoints(string connectionString, bool customizeTls)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisMasterDiscovery(options =>
+        {
+            options.ConnectionString = connectionString;
+            options.ConfigureConnection = configuration =>
+            {
+                if (customizeTls)
+                {
+                    configuration.Ssl = true;
+                    configuration.EndPoints.Clear();
+                }
+            };
+        });
+        builder.AddDistributedMode(options => options.RunId = "test-run");
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures).Contains("Redis discovery requires at least one TCP endpoint.");
+    }
+
+    [Test]
+    [Arguments("localhost:6379")]
+    [Arguments("redis.internal:6380")]
+    public async Task HostBuildAcceptsExplicitConnectionWithoutConnecting(string connectionString)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisMasterDiscovery(options => options.ConnectionString = connectionString);
+        builder.AddDistributedMode(options => options.RunId = "test-run");
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline.Services.GetRequiredService<IRedisDiscoveryStore>())
+            .IsTypeOf<StackExchangeRedisDiscoveryStore>();
+    }
+
+    [Test]
+    public async Task HostBuildAcceptsRestWithoutTcpConnection()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisMasterDiscovery(options =>
+        {
+            options.RestUrl = new Uri("https://redis.example");
+            options.RestToken = "test-token";
+            options.ConfigureConnection = _ => throw new InvalidOperationException("REST must not configure TCP");
+        });
+        builder.AddDistributedMode(options => options.RunId = "test-run");
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline.Services.GetRequiredService<IRedisDiscoveryStore>())
+            .IsTypeOf<RestRedisDiscoveryStore>();
+        await Assert.That(pipeline.Services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value.ConnectionString)
+            .IsEqualTo(string.Empty);
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments("redis.internal:6380")]
+    public async Task ConnectionCustomizationRunsDuringValidation(string connectionString)
+    {
+        StackExchange.Redis.ConfigurationOptions? capturedConfiguration = null;
+        var stopBeforeConnecting = new InvalidOperationException("Stop before network access");
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisMasterDiscovery(options =>
+        {
+            options.ConnectionString = connectionString;
+            options.ConfigureConnection = configuration =>
+            {
+                capturedConfiguration = configuration;
+                if (configuration.EndPoints.Count == 0)
+                {
+                    configuration.EndPoints.Add("redis.internal", 6380);
+                }
+
+                configuration.Ssl = true;
+                throw stopBeforeConnecting;
+            };
+        });
+        builder.AddDistributedMode(options => options.RunId = "test-run");
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception).IsSameReferenceAs(stopBeforeConnecting);
+        await Assert.That(capturedConfiguration).IsNotNull();
+        await Assert.That(capturedConfiguration!.EndPoints.Single())
+            .IsEqualTo(new System.Net.DnsEndPoint("redis.internal", 6380));
+        await Assert.That(capturedConfiguration.Ssl).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidationReusesCallbackConfiguration()
+    {
+        var calls = 0;
+        var options = new RedisDiscoveryOptions
+        {
+            ConfigureConnection = configuration =>
+            {
+                calls++;
+                configuration.EndPoints.Add("redis.internal", 6380);
+                configuration.Ssl = true;
+            },
+        };
+        var validator = new RedisDiscoveryOptionsValidator();
+
+        await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
+        await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
+        await Assert.That(options.GetConnectionConfiguration().Ssl).IsTrue();
+        await Assert.That(calls).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task ValidatedConfigurationIsIsolatedFromCallbackAndConnectionCopies()
+    {
+        ConfigurationOptions? retained = null;
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisMasterDiscovery(options => options.ConfigureConnection = configuration =>
+        {
+            retained = configuration;
+            configuration.EndPoints.Add("redis.internal", 6380);
+            configuration.Password = "key,with=special;characters";
+            configuration.Ssl = true;
+        });
+        builder.AddDistributedMode(options => options.RunId = "test-run");
+        await using var pipeline = await builder.BuildAsync();
+        var options = pipeline.Services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
+
+        retained!.EndPoints.Clear();
+        retained.Password = "changed";
+        retained.Ssl = false;
+        var first = options.GetConnectionConfiguration();
+        await Assert.That(first.EndPoints.Single()).IsEqualTo(new DnsEndPoint("redis.internal", 6380));
+        await Assert.That(first.Password).IsEqualTo("key,with=special;characters");
+        await Assert.That(first.Ssl).IsTrue();
+
+        first.EndPoints.Clear();
+        first.Password = "changed again";
+        first.Ssl = false;
+        var second = options.GetConnectionConfiguration();
+        await Assert.That(second.EndPoints.Single()).IsEqualTo(new DnsEndPoint("redis.internal", 6380));
+        await Assert.That(second.Password).IsEqualTo("key,with=special;characters");
+        await Assert.That(second.Ssl).IsTrue();
+    }
+
+    [Test]
+    [Arguments("127.0.0.1")]
+    [Arguments("fe80::1%12")]
+    public async Task ValidatedIpEndpointsAreIsolatedFromRetainedAndReturnedObjects(string address)
+    {
+        var retained = new IPEndPoint(IPAddress.Parse(address), 6380);
+        var options = new RedisDiscoveryOptions
+        {
+            ConfigureConnection = configuration => configuration.EndPoints.Add(retained),
+        };
+        var validator = new RedisDiscoveryOptionsValidator();
+        await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
+
+        retained.Port = 6381;
+        if (retained.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+        {
+            retained.Address.ScopeId = 13;
+        }
+
+        retained.Address = IPAddress.Loopback;
+        var first = (IPEndPoint) options.GetConnectionConfiguration().EndPoints.Single();
+        await Assert.That(first).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
+
+        first.Port = 6382;
+        if (first.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+        {
+            first.Address.ScopeId = 14;
+        }
+
+        first.Address = IPAddress.Loopback;
+        var second = options.GetConnectionConfiguration().EndPoints.Single();
+        await Assert.That(second).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
     }
 
     [Test]
@@ -96,7 +308,7 @@ public class RedisDiscoveryOptionsTests
             Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<NoOpModule>();
-            builder.AddRedisMasterDiscovery(_ => { });
+            builder.AddRedisMasterDiscovery(options => options.ConnectionString = "localhost:6379");
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.BuildAsync());
@@ -114,7 +326,7 @@ public class RedisDiscoveryOptionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisMasterDiscovery(_ => { });
+        builder.AddRedisMasterDiscovery(options => options.ConnectionString = "localhost:6379");
         builder.AddDistributedMode(options => options.RunId = "configured-after-discovery");
 
         await using var pipeline = await builder.BuildAsync();
@@ -129,6 +341,7 @@ public class RedisDiscoveryOptionsTests
         var builder = Pipeline.CreateBuilder();
         builder.AddRedisMasterDiscovery(options =>
         {
+            options.ConnectionString = "localhost:6379";
             options.TimeToLive = TimeSpan.Zero;
             options.PollInterval = TimeSpan.Zero;
         });

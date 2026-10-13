@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Sockets;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
@@ -7,15 +9,23 @@ namespace ModularPipelines.Distributed.Discovery.Redis;
 /// </summary>
 public class RedisDiscoveryOptions
 {
+    private readonly Lock _configurationLock = new();
+    private ConfigurationOptions? _connectionConfiguration;
+
     /// <summary>
-    /// Gets or sets the Redis connection string. Required unless <see cref="RestUrl"/> is set.
+    /// Gets or sets the Redis connection string. Defaults to empty; configure it explicitly unless
+    /// <see cref="ConfigureConnection"/> supplies endpoints or both <see cref="RestUrl"/> and <see cref="RestToken"/> are set.
     /// Discovery opens its own connection; it does not use or replace a connection registered by the application.
     /// </summary>
-    public string ConnectionString { get; set; } = "localhost:6379";
+    public string ConnectionString { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets an optional callback that adjusts the connection configuration parsed from
     /// <see cref="ConnectionString"/>, for example to set credentials or TLS options.
+    /// When the connection string is empty, the callback must supply the endpoints.
+    /// Runs during options validation for TCP discovery; a defensive snapshot is reused when connecting.
+    /// Later changes to the callback's argument do not affect the validated configuration.
+    /// REST discovery does not invoke this callback.
     /// </summary>
     public Action<ConfigurationOptions>? ConfigureConnection { get; set; }
 
@@ -55,4 +65,40 @@ public class RedisDiscoveryOptions
     /// Gets or sets how often workers check for the master endpoint. Default: 500 milliseconds.
     /// </summary>
     public TimeSpan PollInterval { get; set; } = TimeSpan.FromMilliseconds(500);
+
+    internal ConfigurationOptions GetConnectionConfiguration()
+    {
+        lock (_configurationLock)
+        {
+            if (_connectionConfiguration is null)
+            {
+                var configuration = string.IsNullOrWhiteSpace(ConnectionString)
+                    ? new ConfigurationOptions()
+                    : ConfigurationOptions.Parse(ConnectionString);
+                ConfigureConnection?.Invoke(configuration);
+                _connectionConfiguration = CloneConfiguration(configuration);
+            }
+
+            return CloneConfiguration(_connectionConfiguration);
+        }
+    }
+
+    private static ConfigurationOptions CloneConfiguration(ConfigurationOptions configuration)
+    {
+        var clone = configuration.Clone();
+        // StackExchange.Redis copies the collection but shares mutable IP endpoints and addresses.
+        for (var i = 0; i < clone.EndPoints.Count; i++)
+        {
+            if (clone.EndPoints[i] is IPEndPoint endpoint)
+            {
+                var address = endpoint.Address;
+                var addressCopy = address.AddressFamily == AddressFamily.InterNetworkV6
+                    ? new IPAddress(address.GetAddressBytes(), address.ScopeId)
+                    : new IPAddress(address.GetAddressBytes());
+                clone.EndPoints[i] = new IPEndPoint(addressCopy, endpoint.Port);
+            }
+        }
+
+        return clone;
+    }
 }
