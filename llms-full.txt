@@ -13120,6 +13120,10 @@ Update consumer calls using the regenerated contract and validate the resulting 
 
 For handwritten command options, see [Custom Commands](/ModularPipelines/docs/how-to/custom-commands.md) for the `CliTool` / `CliSubCommand` identity attributes and argument-ordering rules. For missing generated commands or incorrect models, fix or report the scraper/generator rather than working around it in the generated source.
 
+### Buildah inherited settings[​](#buildah-inherited-settings "Direct link to Buildah inherited settings")
+
+Buildah commands now share storage, logging, registry configuration, and default UID/GID mapping settings through `BuildahOptions`. `StorageOpt`, `UsernsUidMap`, and `UsernsGidMap` accept collections and repeat their switch for each value. When migrating a mapping string, wrap it in a collection, such as `["0:1000:1"]`. The `build` and `from` commands retain their local mapping definitions and share the effective value with the base options. Settings render after the selected subcommand. See the [Buildah package guide](/ModularPipelines/docs/mp-packages/buildah.md#shared-storage-settings-and-local-overrides).
+
 ### .NET test runner options[​](#net-test-runner-options "Direct link to .NET test runner options")
 
 `DotNetTestOptions` now follows the selected SDK's default VSTest help, independent of this repository's test-runner configuration. Use its `Filter`, `Logger`, `Collect`, `Settings`, and `Blame` properties for VSTest. The generated MTP-only `Project`, `Solution`, `TestModules`, `PlatformOptions`, and `ExtensionOptions` members are removed. For Microsoft.Testing.Platform, keep its `global.json` runner selection and pass runner-specific switches through the existing `Arguments` property:
@@ -14471,6 +14475,28 @@ public class UseBuildahModule : SyncModule<None>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Shared storage settings and local overrides[​](#shared-storage-settings-and-local-overrides "Direct link to Shared storage settings and local overrides")
+
+Every command inherits 11 public settings from `BuildahOptions`: `CgroupManager`, `LogLevel`, `RegistriesConf`, `RegistriesConfDir`, `Root`, `Runroot`, `ShortNameAliasConf`, `StorageDriver`, `StorageOpt`, `UsernsGidMap`, and `UsernsUidMap`. Hidden profiling/debug settings and root help/version controls are not exposed as shared options.
+
+```
+var options = new BuildahImagesOptions
+
+{
+
+    Root = "./container-storage",
+
+    Runroot = "./container-state",
+
+    StorageOpt = ["overlay.mount_program=/usr/bin/fuse-overlayfs"],
+
+};
+```
+
+Settings render after the command, for example `buildah images --root=./container-storage --runroot=./container-state --storage-opt=overlay.mount_program=/usr/bin/fuse-overlayfs` (one command line). Storage options and UID/GID maps accept collections and repeat their switch for each value.
+
+`build` and `from` retain their command-local UID/GID mapping definitions. Each local definition replaces the inherited default in the same CLI scope and renders once. Assignments through `BuildahOptions` and the command record share the effective value. When migrating `UsernsUidMap` or `UsernsGidMap` from a string, wrap the value in a collection, such as `["0:1000:1"]`. Other commands inherit the default mapping settings directly. Local flags such as image-list `All` (`-a`) remain local; existing credential annotations are preserved.
 
 
 ---
@@ -40068,6 +40094,8 @@ Resolve the service with `context.Tools.Buildah`. Projects using C# 13 or anothe
 ```
 using ModularPipelines;
 
+using ModularPipelines.Buildah.Enums;
+
 using ModularPipelines.Buildah.Options;
 
 
@@ -40094,6 +40122,24 @@ public class RunCommandModule : Module<CommandResult>
 
 }
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered after the selected subcommand.
+
+| CLI option                | Property             | Availability | Description                                                                                                      |
+| ------------------------- | -------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `--cgroup-manager`        | `CgroupManager`      | All editions | cgroup manager (default "cgroupfs")                                                                              |
+| `--log-level`             | `LogLevel`           | All editions | the log level to be used, one of "trace", "debug", "info", "warn", "error", "fatal", or "panic" (default "warn") |
+| `--registries-conf`       | `RegistriesConf`     | All editions | path to registries.conf file (not usually used)                                                                  |
+| `--registries-conf-dir`   | `RegistriesConfDir`  | All editions | path to registries.conf.d directory (not usually used)                                                           |
+| `--root`                  | `Root`               | All editions | storage root dir (default "/var/lib/containers/storage")                                                         |
+| `--runroot`               | `Runroot`            | All editions | storage state dir (default "/run/containers/storage")                                                            |
+| `--short-name-alias-conf` | `ShortNameAliasConf` | All editions | path to short name alias cache file (not usually used)                                                           |
+| `--storage-driver`        | `StorageDriver`      | All editions | storage-driver                                                                                                   |
+| `--storage-opt`           | `StorageOpt`         | All editions | storage driver option                                                                                            |
+| `--userns-gid-map`        | `UsernsGidMap`       | All editions | default ctrID:hostID<!-- -->:length<!-- --> GID mapping to use                                                   |
+| `--userns-uid-map`        | `UsernsUidMap`       | All editions | default ctrID:hostID<!-- -->:length<!-- --> UID mapping to use                                                   |
 
 ## Commands[​](#commands "Direct link to Commands")
 
@@ -40136,6 +40182,7 @@ public class RunCommandModule : Module<CommandResult>
 | `buildah tag`               | `BuildahTagOptions`              |
 | `buildah umount`            | `BuildahUmountOptions`           |
 | `buildah unshare`           | `BuildahUnshareOptions`          |
+| `buildah version`           | `BuildahVersionOptions`          |
 
 
 ---

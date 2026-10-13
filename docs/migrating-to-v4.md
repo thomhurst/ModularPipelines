@@ -882,6 +882,10 @@ Update consumer calls using the regenerated contract and validate the resulting 
 
 For handwritten command options, see [Custom Commands](/ModularPipelines/docs/how-to/custom-commands.md) for the `CliTool` / `CliSubCommand` identity attributes and argument-ordering rules. For missing generated commands or incorrect models, fix or report the scraper/generator rather than working around it in the generated source.
 
+### Buildah inherited settings[​](#buildah-inherited-settings "Direct link to Buildah inherited settings")
+
+Buildah commands now share storage, logging, registry configuration, and default UID/GID mapping settings through `BuildahOptions`. `StorageOpt`, `UsernsUidMap`, and `UsernsGidMap` accept collections and repeat their switch for each value. When migrating a mapping string, wrap it in a collection, such as `["0:1000:1"]`. The `build` and `from` commands retain their local mapping definitions and share the effective value with the base options. Settings render after the selected subcommand. See the [Buildah package guide](/ModularPipelines/docs/mp-packages/buildah.md#shared-storage-settings-and-local-overrides).
+
 ### .NET test runner options[​](#net-test-runner-options "Direct link to .NET test runner options")
 
 `DotNetTestOptions` now follows the selected SDK's default VSTest help, independent of this repository's test-runner configuration. Use its `Filter`, `Logger`, `Collect`, `Settings`, and `Blame` properties for VSTest. The generated MTP-only `Project`, `Solution`, `TestModules`, `PlatformOptions`, and `ExtensionOptions` members are removed. For Microsoft.Testing.Platform, keep its `global.json` runner selection and pass runner-specific switches through the existing `Arguments` property:
