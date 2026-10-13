@@ -101,9 +101,10 @@ coverage without replacing those APIs. After a successful Git scrape, the workfl
 `scripts/Remove-UnrecognizedCommandOptions.ps1` to remove legacy generated option records
 whose `CliSubCommand` is absent from the validated coverage manifest. This removes old
 Git documentation-page types without treating handwritten options as generated output.
-The scraper records `git -h` root usage separately from `git help -a` discovery. Root usage
-must be available, nonblank, and exit with code 0 or 129 before it can be combined or cached.
-Invalid usage remains unavailable in provenance; a later lookup can recover and populate
+The scraper records `git -h` root usage separately from `git help -a` discovery. Discovery
+must be available, nonblank, and successful; root usage must be available, nonblank, and exit
+with code 0 or 129 before they can be combined or cached. Invalid discovery or usage remains
+unavailable in provenance; a later lookup can recover and populate
 the cache. Advertised root execution settings retain case-sensitive `-C` and `-c`, ordered
 repetition, equals separators, and secret-bearing configuration. Reporting actions and
 internal `--super-prefix` are excluded; command-local switches keep their own shapes.
