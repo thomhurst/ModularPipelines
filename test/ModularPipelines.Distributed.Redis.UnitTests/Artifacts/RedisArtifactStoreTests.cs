@@ -46,7 +46,7 @@ public class RedisArtifactStoreTests
     }
 
     [Test]
-    public async Task Upload_Records_The_Module_For_Run_Cleanup()
+    public async Task Upload_Indexes_The_Artifact_Before_And_After_Writing_It()
     {
         using var stream = new MemoryStream([1]);
         await _store.UploadAsync(
@@ -61,7 +61,7 @@ public class RedisArtifactStoreTests
                                       && keys[1] == (RedisKey) _keys.ArtifactModules),
             It.Is<RedisValue[]>(values => values[1] == (RedisValue) "Test.Module"
                                           && values[2] == (RedisValue) (long) TimeSpan.FromHours(1).TotalMilliseconds),
-            It.IsAny<CommandFlags>()), Times.Once());
+            It.IsAny<CommandFlags>()), Times.Exactly(2));
     }
 
     [Test]

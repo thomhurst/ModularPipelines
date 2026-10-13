@@ -62,12 +62,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
         // Index before writing content, so run cleanup also finds an upload that fails part way. Listing skips
         // an indexed artifact until its metadata is written.
-        await _database.ScriptEvaluateAsync(
-                IndexArtifactScript,
-                [(RedisKey) _keys.ArtifactIndex(descriptor.ModuleId), (RedisKey) _keys.ArtifactModules],
-                [artifactId, descriptor.ModuleId.Value, (long) _timeToLive.TotalMilliseconds])
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
+        await IndexArtifactAsync(descriptor.ModuleId, artifactId, cancellationToken).ConfigureAwait(false);
 
         var buffer = new byte[_chunkSize];
         var bytesRead = await ReadFullBufferAsync(data, buffer, cancellationToken).ConfigureAwait(false);
@@ -121,8 +116,19 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
 
+        // Index again: reading a slow source can outlast the TTL of the index written before the content.
+        await IndexArtifactAsync(descriptor.ModuleId, artifactId, cancellationToken).ConfigureAwait(false);
+
         return reference;
     }
+
+    private async Task IndexArtifactAsync(ModuleId moduleId, string artifactId, CancellationToken cancellationToken) =>
+        await _database.ScriptEvaluateAsync(
+                IndexArtifactScript,
+                [(RedisKey) _keys.ArtifactIndex(moduleId), (RedisKey) _keys.ArtifactModules],
+                [artifactId, moduleId.Value, (long) _timeToLive.TotalMilliseconds])
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
 
     public async Task<Stream> DownloadAsync(ArtifactReference reference, CancellationToken cancellationToken)
     {
