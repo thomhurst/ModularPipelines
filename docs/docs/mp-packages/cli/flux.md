@@ -30,6 +30,36 @@ Resolve the service in a module, then select a command from the table below. A r
 var flux = context.Tools.Flux;
 ```
 
+## Global options
+
+Global options are rendered after the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--as` | `As` | All editions | Username to impersonate for the operation. User could be a regular user or a service account in a namespace. |
+| `--as-group` | `AsGroup` | All editions | Group to impersonate for the operation, this flag can be repeated to specify multiple groups. |
+| `--as-uid` | `AsUid` | All editions | UID to impersonate for the operation. |
+| `--as-user-extra` | `AsUserExtra` | All editions | User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key. |
+| `--cache-dir` | `CacheDir` | All editions | Default cache directory. |
+| `--certificate-authority` | `CertificateAuthority` | All editions | Path to a cert file for the certificate authority to authenticate the Kubernetes API server |
+| `--client-certificate` | `ClientCertificate` | All editions | Path to a client certificate file for TLS authentication to the Kubernetes API server |
+| `--client-key` | `ClientKey` | All editions | Path to a client key file for TLS authentication to the Kubernetes API server |
+| `--cluster` | `Cluster` | All editions | The name of the kubeconfig cluster to use |
+| `--context` | `Context` | All editions | The name of the kubeconfig context to use |
+| `--disable-compression` | `DisableCompression` | All editions | If true, opt-out of response compression for all requests to the server |
+| `--insecure-skip-tls-verify` | `InsecureSkipTlsVerify` | All editions | If true, the Kubernetes API server's certificate will not be checked for validity. This will make your HTTPS connections insecure |
+| `--kube-api-burst` | `KubeApiBurst` | All editions | The maximum burst queries-per-second of requests sent to the Kubernetes API. (default 300) |
+| `--kube-api-qps` | `KubeApiQps` | All editions | The maximum queries-per-second of requests sent to the Kubernetes API. (default 50) |
+| `--kubeconfig` | `KubeConfig` | All editions | Path to the kubeconfig file to use for CLI requests. |
+| `--namespace` | `Namespace` | All editions | If present, the namespace scope for this CLI request (default "flux-system") |
+| `--ns-follows-kube-context` | `NsFollowsKubeContext` | All editions | use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var |
+| `--server` | `Server` | All editions | The address and port of the Kubernetes API server |
+| `--timeout` | `Timeout` | All editions | timeout for this operation (default 5m0s) |
+| `--tls-server-name` | `TlsServerName` | All editions | Server name to use for server certificate validation. If it is not provided, the hostname used to contact the server is used |
+| `--token` | `Token` | All editions | Bearer token for authentication to the API server |
+| `--user` | `User` | All editions | The name of the kubeconfig user to use |
+| `--verbose` | `Verbose` | All editions | print generated objects |
+
 ## Commands
 
 | CLI command | Options record |

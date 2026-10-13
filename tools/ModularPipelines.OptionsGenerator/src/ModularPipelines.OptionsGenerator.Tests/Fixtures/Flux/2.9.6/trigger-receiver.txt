@@ -1,0 +1,113 @@
+The trigger receiver command sends a request to the incoming webhook of a Receiver.
+
+The command computes the webhook path from the Receiver name, namespace and token,
+appends it to the base URL and sends an HTTP POST request with the given payload.
+It does not require access to the Kubernetes cluster.
+
+Usage:
+  flux trigger receiver [name] [flags]
+
+Examples:
+  # Trigger a generic Receiver
+  flux trigger receiver my-receiver \
+    --token=my-token \
+    --url=https://flux-webhook.example.com
+
+  # Trigger a generic Receiver with a custom JSON payload
+  flux trigger receiver my-receiver \
+    --token=my-token \
+    --url=https://flux-webhook.example.com \
+    --payload='{"image":"ghcr.io/org/app:v1.0.0"}'
+
+  # Trigger a generic-hmac Receiver
+  flux trigger receiver my-receiver \
+    --type=generic-hmac \
+    --token=my-token \
+    --url=https://flux-webhook.example.com \
+    --payload='{"image":"ghcr.io/org/app:v1.0.0"}'
+
+  # Trigger a generic-oidc Receiver from a GitHub Actions workflow.
+  # The job needs 'permissions: id-token: write'. The OIDC token is fetched
+  # automatically and the receiver token is not used by this type.
+  flux trigger receiver my-receiver \
+    --type=generic-oidc \
+    --oidc-provider=github \
+    --url=https://flux-webhook.example.com
+
+  # Trigger a generic-oidc Receiver from a GitHub Actions workflow with a custom OIDC audience
+  flux trigger receiver my-receiver \
+    --type=generic-oidc \
+    --oidc-provider=github \
+    --oidc-audience=my-flux-instance \
+    --url=https://flux-webhook.example.com
+
+  # Trigger a generic-oidc Receiver from a Forgejo Actions workflow
+  flux trigger receiver my-receiver \
+    --type=generic-oidc \
+    --oidc-provider=forgejo \
+    --url=https://flux-webhook.example.com
+
+  # Trigger a generic-oidc Receiver from a GitLab CI/CD job, reading the OIDC
+  # token from an id_token environment variable defined in the job spec.
+  flux trigger receiver my-receiver \
+    --type=generic-oidc \
+    --oidc-token="${MY_ID_TOKEN}" \
+    --url=https://flux-webhook.example.com
+
+  # Trigger a generic-oidc Receiver from a GitLab CI/CD job, reading the OIDC
+  # token from the default FLUX_TRIGGER_RECEIVER_OIDC_TOKEN environment variable,
+  # e.g. defined as:
+  #   job:
+  #     id_tokens:
+  #       FLUX_TRIGGER_RECEIVER_OIDC_TOKEN:
+  #         aud: notification-controller
+  flux trigger receiver my-receiver \
+    --type=generic-oidc \
+    --url=https://flux-webhook.example.com
+
+  # Trigger a Receiver in a specific namespace
+  flux trigger receiver my-receiver -n apps \
+    --token=my-token \
+    --url=https://flux-webhook.example.com
+
+  # Trigger a Receiver in the namespace of the current kubeconfig context
+  flux trigger receiver my-receiver \
+    --ns-follows-kube-context \
+    --token=my-token \
+    --url=https://flux-webhook.example.com
+
+Flags:
+  -h, --help                   help for receiver
+      --oidc-audience string   the audience of the OIDC token to fetch (requires --oidc-provider); defaults to "notification-controller"
+      --oidc-provider string   the OIDC provider to fetch the token from, one of: github, forgejo (generic-oidc only, mutually exclusive with --oidc-token)
+      --oidc-token string      the OIDC token to authenticate the request (generic-oidc only, mutually exclusive with --oidc-provider); defaults to the FLUX_TRIGGER_RECEIVER_OIDC_TOKEN environment variable
+      --payload string         the JSON payload to send in the request body (default "{}")
+      --retries int            the number of times to retry on connection errors or retryable HTTP status codes (404, 408, 429, 5xx); set to 0 to disable (default 10)
+      --retry-delay duration   the delay between retries (default 10s)
+      --token string           the Receiver token, required for all types except generic-oidc where it must not be set
+      --type string            the Receiver type, one of: generic, generic-hmac, generic-oidc (default "generic")
+      --url string             the base URL of the notification-controller webhook receiver, may contain a base path
+
+Global Flags:
+      --as string                      Username to impersonate for the operation. User could be a regular user or a service account in a namespace.
+      --as-group stringArray           Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+      --as-uid string                  UID to impersonate for the operation.
+      --as-user-extra stringArray      User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
+      --cache-dir string               Default cache directory (default "C:\\Users\\fixture\\.kube\\cache")
+      --certificate-authority string   Path to a cert file for the certificate authority to authenticate the Kubernetes API server
+      --client-certificate string      Path to a client certificate file for TLS authentication to the Kubernetes API server
+      --client-key string              Path to a client key file for TLS authentication to the Kubernetes API server
+      --cluster string                 The name of the kubeconfig cluster to use
+      --context string                 The name of the kubeconfig context to use
+      --disable-compression            If true, opt-out of response compression for all requests to the server
+      --insecure-skip-tls-verify       If true, the Kubernetes API server's certificate will not be checked for validity. This will make your HTTPS connections insecure
+      --kube-api-burst int             The maximum burst queries-per-second of requests sent to the Kubernetes API. (default 300)
+      --kube-api-qps float32           The maximum queries-per-second of requests sent to the Kubernetes API. (default 50)
+      --kubeconfig string              Path to the kubeconfig file to use for CLI requests.
+  -n, --namespace string               If present, the namespace scope for this CLI request (default "flux-system")
+      --ns-follows-kube-context        use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX_NS_FOLLOWS_KUBE_CONTEXT env var
+      --server string                  The address and port of the Kubernetes API server
+      --timeout duration               timeout for this operation (default 5m0s)
+      --tls-server-name string         Server name to use for server certificate validation. If it is not provided, the hostname used to contact the server is used
+      --user string                    The name of the kubeconfig user to use
+      --verbose                        print generated objects
