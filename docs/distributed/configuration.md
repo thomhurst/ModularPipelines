@@ -36,34 +36,38 @@ The wire DTO changes are breaking: upgrade masters, workers, and custom coordina
 
 Passed to `AddDistributedMode()`. Controls the fundamental behavior of the master/worker system.
 
+All distributed and backend options are immutable records. Return updated options from configuration callbacks using `options => options with { ... }`. Update nested tunnel options with `options.Tunnel with { ... }`. Transforms and configuration-section bindings apply in registration order; startup validation runs after configuration and post-configuration. Named module-cache options remain separate from distributed backend options.
+
+Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.NoCompression })` to configure artifact behavior in local mode. This does not enable distributed execution. Redis `ConfigureConnection` callbacks still mutate the third-party `StackExchange.Redis.ConfigurationOptions` type.
+
 ```
-builder.AddDistributedMode(o =>
+builder.AddDistributedMode(o => o with
 
 {
 
-    o.InstanceIndex = 0;
+    InstanceIndex = 0,
 
-    o.TotalInstances = 4;
+    TotalInstances = 4,
 
-    o.MaxParallelism = 4;
+    MaxParallelism = 4,
 
-    o.Role = DistributedRole.Master;
+    Role = DistributedRole.Master,
 
-    o.Capabilities = [Capability.Docker, Capability.Gpu];
+    Capabilities = [Capability.Docker, Capability.Gpu],
 
-    o.RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!;
+    RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!,
 
-    o.WorkerRegistrationTimeout = TimeSpan.FromMinutes(5);
+    WorkerRegistrationTimeout = TimeSpan.FromMinutes(5),
 
-    o.WorkerHeartbeatInterval = TimeSpan.FromSeconds(5);
+    WorkerHeartbeatInterval = TimeSpan.FromSeconds(5),
 
-    o.WorkerTimeout = TimeSpan.FromSeconds(30);
+    WorkerTimeout = TimeSpan.FromSeconds(30),
 
-    o.MasterTimeout = TimeSpan.FromMinutes(1);
+    MasterTimeout = TimeSpan.FromMinutes(1),
 
-    o.MinimumWorkerCount = 0;
+    MinimumWorkerCount = 0,
 
-    o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
+    ModuleResultTimeout = TimeSpan.FromMinutes(45),
 
 });
 ```
@@ -128,7 +132,7 @@ Or call `builder.AddDistributedMode()` to bind the standard environment variable
 
 Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
 
-Every satellite package registers through one `Action<TOptions>` overload and one `IConfigurationSection` overload, validates its options at startup, and can be called before or after `AddDistributedMode`:
+Every satellite package registers through one `Func<TOptions, TOptions>` overload and one `IConfigurationSection` overload, validates its options at startup, and can be called before or after `AddDistributedMode`:
 
 ```
 builder.AddRedisDistributedCoordinator(builder.Configuration.GetSection("Redis"));
@@ -140,9 +144,9 @@ builder.AddRedisMasterDiscovery(builder.Configuration.GetSection("RedisDiscovery
 builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 ```
 
-`AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables `RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the `Distributed` section, assign `options.RunId`, or export `MODULARPIPELINES_RUN_ID` for each master and worker. See [Run Identifier Resolution](#run-identifier-resolution).
+`AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables `RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the `Distributed` section, return `options with { RunId = "shared-run-id" }` from the configuration callback, or export `MODULARPIPELINES_RUN_ID` for each master and worker. See [Run Identifier Resolution](#run-identifier-resolution).
 
-Each backend registration has exactly two overloads: one taking an `Action<TOptions>` and one taking an `IConfigurationSection`. Only one coordinator backend and one artifact store backend can be registered; registering a second, different backend throws `InvalidOperationException` instead of silently replacing the first. Registering the same backend again is a no-op apart from applying the extra configuration.
+Each backend registration has exactly two overloads: one taking a `Func<TOptions, TOptions>` and one taking an `IConfigurationSection`. Only one coordinator backend and one artifact store backend can be registered; registering a second, different backend throws `InvalidOperationException` instead of silently replacing the first. Registering the same backend again is a no-op apart from applying the extra configuration.
 
 The same conflict rule applies to `AddDistributedArtifactStore<TStore>()` and `AddDistributedArtifactStoreFactory<TFactory>()`: do not mix a direct store and a factory, regardless of registration order. Repeating the same typed registration is a no-op. Keyed services are independent, and pipelines without an explicit store retain the default filesystem store. In V4, direct store registration no longer silently removes an earlier factory; choose one backend at the registration call site instead.
 
@@ -151,9 +155,11 @@ The same conflict rule applies to `AddDistributedArtifactStore<TStore>()` and `A
 `DistributedOptions.ArtifactCompressionLevel` applies to every artifact store, including in local mode. Configure it with the options pattern, independently of the backend:
 
 ```
-builder.Services.Configure<DistributedOptions>(o => o.ArtifactCompressionLevel = CompressionLevel.Optimal);
+builder.ConfigureDistributedOptions(o => o with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 
-// Or set o.ArtifactCompressionLevel inside your existing AddDistributedMode configuration.
+// Or return updated options from your existing AddDistributedMode configuration:
+
+builder.AddDistributedMode(o => o with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
 | Property                   | Type               | Default   | Description                                         |
@@ -167,13 +173,13 @@ Storage-specific settings such as expiry, chunk size and multipart part size liv
 Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and `AddRedisModuleCache()`. Controls how the Redis features connect and manage keys. The coordinator and artifact store share one `RedisOptions` instance but open separate connections, so large artifact transfers do not queue ahead of coordinator heartbeats on the client. Both connections still share the network link and the Redis server, so size them for the combined load. The module cache has its own options and connection, so it can use a different Redis server.
 
 ```
-builder.AddRedisDistributed(o =>
+builder.AddRedisDistributed(o => o with
 
 {
 
-    o.ConnectionString = "redis-host:6379";
+    ConnectionString = "redis-host:6379",
 
-    o.ConfigureConnection = connection =>
+    ConfigureConnection = connection =>
 
     {
 
@@ -181,11 +187,11 @@ builder.AddRedisDistributed(o =>
 
         connection.Ssl = true;
 
-    };
+    },
 
-    o.KeyPrefix = "modpipe";
+    KeyPrefix = "modpipe",
 
-    o.TimeToLive = TimeSpan.FromHours(1);
+    TimeToLive = TimeSpan.FromHours(1),
 
 });
 ```
@@ -313,15 +319,15 @@ All storage keys have the configured TTL applied, so they are automatically clea
 `AddSignalRDistributedCoordinator` makes the master host a SignalR hub. Workers connect to it and pull leases, publish results and observe cancellation through hub invocations, so a worker that reconnects invokes again and never misses a broadcast.
 
 ```
-builder.AddSignalRDistributedCoordinator(options =>
+builder.AddSignalRDistributedCoordinator(options => options with
 
 {
 
-    options.ListenUrl = new Uri("http://0.0.0.0:5099");
+    ListenUrl = new Uri("http://0.0.0.0:5099"),
 
-    options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
+    AdvertisedUrl = new Uri("https://pipeline-master.example.com"),
 
-    options.AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN");
+    AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN"),
 
 });
 ```

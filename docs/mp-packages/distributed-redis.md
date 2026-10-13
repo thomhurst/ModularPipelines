@@ -25,13 +25,13 @@ var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode();
 
-builder.AddRedisDistributed(redis =>
+builder.AddRedisDistributed(redis => redis with
 
 {
 
-    redis.ConnectionString = "localhost:6379";
+    ConnectionString = "localhost:6379",
 
-    redis.TimeToLive = TimeSpan.FromHours(2);
+    TimeToLive = TimeSpan.FromHours(2),
 
 });
 ```
@@ -41,13 +41,13 @@ builder.AddRedisDistributed(redis =>
 Set credentials that a connection string cannot carry safely, such as a password containing commas, through `ConfigureConnection`:
 
 ```
-builder.AddRedisDistributed(redis =>
+builder.AddRedisDistributed(redis => redis with
 
 {
 
-    redis.ConnectionString = "redis.example.com:6380";
+    ConnectionString = "redis.example.com:6380",
 
-    redis.ConfigureConnection = connection =>
+    ConfigureConnection = connection =>
 
     {
 
@@ -57,7 +57,7 @@ builder.AddRedisDistributed(redis =>
 
         connection.AbortOnConnectFail = false;
 
-    };
+    },
 
 });
 ```
@@ -66,10 +66,10 @@ Each Redis feature owns its connection and connects asynchronously on first use.
 
 Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
-`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. Every Redis registration method has one `Action<RedisOptions>` overload and one `IConfigurationSection` overload. Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
+`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. Every Redis registration method has one `Func<RedisOptions, RedisOptions>` overload and one `IConfigurationSection` overload. Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```
-builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.Optimal);
+builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
 See [Configuration](/ModularPipelines/docs/distributed/configuration.md#redisoptions) for every `RedisOptions` property and the key schema.
@@ -79,13 +79,13 @@ See [Configuration](/ModularPipelines/docs/distributed/configuration.md#redisopt
 Redis can provide a shareable, cross-run module cache without enabling distributed execution:
 
 ```
-builder.AddRedisModuleCache(redis =>
+builder.AddRedisModuleCache(redis => redis with
 
 {
 
-    redis.ConnectionString = "localhost:6379";
+    ConnectionString = "localhost:6379",
 
-    redis.TimeToLive = TimeSpan.FromDays(1);
+    TimeToLive = TimeSpan.FromDays(1),
 
 });
 ```

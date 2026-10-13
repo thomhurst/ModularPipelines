@@ -23,15 +23,15 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.AddDistributedMode(options => options.TotalInstances = 2);
+builder.AddDistributedMode(options => options with { TotalInstances = 2 });
 
-builder.AddS3DistributedArtifactStore(options =>
+builder.AddS3DistributedArtifactStore(options => options with
 
 {
 
-    options.BucketName = "pipeline-artifacts";
+    BucketName = "pipeline-artifacts",
 
-    options.Region = "eu-west-2";
+    Region = "eu-west-2",
 
 });
 ```
@@ -48,7 +48,7 @@ await context.Artifacts.DownloadAsync<BuildModule>(
     Path.Combine(context.Environment.WorkingDirectory.Path, "package.zip"));
 ```
 
-Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` are both set. Configure the optional service URL when targeting an S3-compatible provider, for example `options.ServiceUrl = new Uri("http://localhost:9000");`. The URL must be absolute and use HTTP or HTTPS. Options are validated when the pipeline is built; a missing `BucketName` fails fast.
+Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` are both set. Configure the optional service URL when targeting an S3-compatible provider, for example `options => options with { ServiceUrl = new Uri("http://localhost:9000") }`. The URL must be absolute and use HTTP or HTTPS. Options are validated when the pipeline is built; a missing `BucketName` fails fast.
 
 ### S3StorageOptions[​](#s3storageoptions "Direct link to S3StorageOptions")
 
@@ -71,23 +71,23 @@ A failed multipart upload is aborted on a best-effort basis. If the abort also f
 Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```
-builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.Optimal);
+builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
-Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Action<S3StorageOptions>` overload and one `IConfigurationSection` overload.
+Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Func<S3StorageOptions, S3StorageOptions>` overload and one `IConfigurationSection` overload.
 
 ## Module caching[​](#module-caching "Direct link to Module caching")
 
 Use the same package as a shareable, cross-run module cache. The cache has its own `S3StorageOptions`, so it can use a different bucket from the artifact store:
 
 ```
-builder.AddS3ModuleCache(options =>
+builder.AddS3ModuleCache(options => options with
 
 {
 
-    options.BucketName = "pipeline-cache";
+    BucketName = "pipeline-cache",
 
-    options.Region = "eu-west-2";
+    Region = "eu-west-2",
 
 });
 ```

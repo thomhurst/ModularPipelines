@@ -21,17 +21,17 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.AddDistributedMode(options => options.TotalInstances = 2);
+builder.AddDistributedMode(options => options with { TotalInstances = 2 });
 
-builder.AddSignalRDistributedCoordinator(options =>
+builder.AddSignalRDistributedCoordinator(options => options with
 
 {
 
-    options.ListenUrl = new Uri("http://0.0.0.0:5099");
+    ListenUrl = new Uri("http://0.0.0.0:5099"),
 
-    options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
+    AdvertisedUrl = new Uri("https://pipeline-master.example.com"),
 
-    options.AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN");
+    AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN"),
 
 });
 ```

@@ -151,13 +151,13 @@ Relative produce and restore paths use `ModuleCacheOptions.WorkingDirectory`. St
 The S3 and Redis packages provide cross-run cache backends. Their cache namespaces do not use distributed pipeline run identifiers, so concurrent runs can safely share entries.
 
 ```
-builder.AddS3ModuleCache(options =>
+builder.AddS3ModuleCache(options => options with
 
 {
 
-    options.BucketName = "pipeline-artifacts";
+    BucketName = "pipeline-artifacts",
 
-    options.Region = "eu-west-2";
+    Region = "eu-west-2",
 
 });
 ```
@@ -165,13 +165,13 @@ builder.AddS3ModuleCache(options =>
 Or use Redis:
 
 ```
-builder.AddRedisModuleCache(redis =>
+builder.AddRedisModuleCache(redis => redis with
 
 {
 
-    redis.ConnectionString = "localhost:6379";
+    ConnectionString = "localhost:6379",
 
-    redis.TimeToLive = TimeSpan.FromDays(1);
+    TimeToLive = TimeSpan.FromDays(1),
 
 });
 ```
@@ -181,7 +181,7 @@ Each cache backend takes its own storage options (`S3StorageOptions` or `RedisOp
 ```
 builder.AddRedisModuleCache(
 
-    redis => redis.ConnectionString = "localhost:6379",
+    redis => redis with { ConnectionString = "localhost:6379" },
 
     cache => cache with { MaxCacheEntryBytes = 2L * 1024 * 1024 * 1024 });
 ```

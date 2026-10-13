@@ -47,13 +47,13 @@ builder.AddDistributedMode();
 
 // Register the Redis coordinator
 
-builder.AddRedisDistributedCoordinator(o =>
+builder.AddRedisDistributedCoordinator(o => o with
 
 {
 
-    o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
+    ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
 
-        ?? "localhost:6379";
+        ?? "localhost:6379",
 
 });
 
@@ -117,11 +117,11 @@ builder.AddDistributedMode();
 
 
 
-builder.AddRedisDistributedCoordinator(o =>
+builder.AddRedisDistributedCoordinator(o => o with
 
 {
 
-    o.ConnectionString = "your-redis-url";
+    ConnectionString = "your-redis-url",
 
 });
 ```
@@ -157,13 +157,13 @@ builder.AddDistributedMode();
 
 
 
-builder.AddRedisDistributedCoordinator(o =>
+builder.AddRedisDistributedCoordinator(o => o with
 
 {
 
-    o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
+    ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
 
-        ?? "localhost:6379";
+        ?? "localhost:6379",
 
 });
 

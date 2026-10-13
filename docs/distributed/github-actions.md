@@ -230,11 +230,11 @@ builder.AddDistributedMode();
 
 
 
-builder.AddRedisDistributedCoordinator(o =>
+builder.AddRedisDistributedCoordinator(o => o with
 
 {
 
-    o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")!;
+    ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")!,
 
 });
 
