@@ -3,5 +3,5 @@
   "toolName": "argocd",
   "toolVersion": "argocd: v3.5.5+a5038b0   BuildDate: 2026-10-12T10:37:42Z   GitCommit: a5038b0e2bbac1715754380ae0084df8e3d5b48c   GitTreeState: clean   GoVersion: go1.26.9   Compiler: gc   Platform: linux/amd64",
   "commandTreeSha256": "f12af4288e7a39a4ac683d429edf0cf75b10df027963bc60b408a2f2ea0df4b2",
-  "generatorSourceSha256": "e9473750c8a7414be53f551d7a2e554b1727cbfcf03bebd9e424df7dcc60e2a3"
+  "generatorSourceSha256": "4bbcf22c1625d7f81a5b31810bb640056154aadfec416e6e0f97336a48373cc9"
 }
