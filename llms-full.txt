@@ -51860,6 +51860,17 @@ Resolve the service in a module, then select a command from the table below. A r
 var syft = context.Tools.Syft;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option  | Property  | Availability | Description                                 |
+| ----------- | --------- | ------------ | ------------------------------------------- |
+| `--config`  | `Config`  | All editions | syft configuration file(s) to use           |
+| `--profile` | `Profile` | All editions | configuration profiles to use               |
+| `--quiet`   | `Quiet`   | All editions | suppress all logging output                 |
+| `--verbose` | `Verbose` | All editions | increase verbosity (-v = info, -vv = debug) |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command             | Options record               |
@@ -51872,6 +51883,7 @@ var syft = context.Tools.Syft;
 | `syft convert`          | `SyftConvertOptions`         |
 | `syft login`            | `SyftLoginOptions`           |
 | `syft scan`             | `SyftScanOptions`            |
+| `syft version`          | `SyftVersionOptions`         |
 
 
 ---
@@ -55549,6 +55561,43 @@ public class UseSyftModule : SyncModule<None>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Shared configuration and logging[​](#shared-configuration-and-logging "Direct link to Shared configuration and logging")
+
+All command options inherit these settings from `SyftOptions`:
+
+| Property  | CLI option        | Value                                          |
+| --------- | ----------------- | ---------------------------------------------- |
+| `Config`  | `--config`, `-c`  | Repeated configuration-file paths              |
+| `Profile` | `--profile`       | Repeated configuration-profile names           |
+| `Quiet`   | `--quiet`, `-q`   | Suppress logging when `true`                   |
+| `Verbose` | `--verbose`, `-v` | Integer verbosity count, such as `2` for debug |
+
+They render before the subcommand, including nested commands:
+
+```
+var options = new SyftConfigLocationsOptions
+
+{
+
+    Config = ["syft.yaml", "team.yaml"],
+
+    Profile = ["ci"],
+
+    Verbose = 2,
+
+    All = true,
+
+};
+```
+
+This renders `syft --config=syft.yaml --config=team.yaml --profile=ci --verbose=2 config locations --all`. Null settings are omitted; `Quiet = false` does not emit a flag. Verbosity retains its integer value, including an explicit `0`, so callers can request more than one level.
+
+Scan output, source selection, and cataloger settings stay on their commands. `SyftConfigOptions.Load` applies only to `config`, while `SyftConfigLocationsOptions.All` applies only to `config locations`. Login passwords stay local and retain secret masking.
+
+### Migration[​](#migration "Direct link to Migration")
+
+The four property names and types are unchanged. They now live on `SyftOptions` instead of being redeclared by each generated command. Object initializers keep working; reflection code using `DeclaredOnly` must include inherited properties. The root command's scan flags are not universally inherited. This audit uses Syft 1.54.1 and preserves all eight existing command paths. Complete generation from current main also includes `syft version`, discovered by the separately merged version-discovery change. Its `Output` option stays local to `SyftVersionOptions`; the wider command/version rollout remains in #5687.
 
 
 ---
