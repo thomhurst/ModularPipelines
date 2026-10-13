@@ -57,6 +57,12 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     public string Registry { get; private init; }
 
     /// <summary>
+    /// Authentication type used by the connected registry to sync with its parent. Defaults to SyncToken.  Allowed values: ManagedIdentity, SyncToken.
+    /// </summary>
+    [CliOption("--auth-type")]
+    public string? AuthType { get; set; }
+
+    /// <summary>
     /// Specify the client access to the repositories in the connected registry. It can be in the format [TOKEN_NAME01] [TOKEN_NAME02]...
     /// </summary>
     [SecretValue]
@@ -74,6 +80,12 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// </summary>
     [CliOption("--gc-schedule")]
     public string? GcSchedule { get; set; }
+
+    /// <summary>
+    /// Resource ID of a user-assigned managed identity to authenticate the connected registry with its parent. Required when --auth-type is ManagedIdentity.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Set the log level for logging on the instance. Accepted log levels are Debug, Information, Warning, Error, and None.  Default: Information.

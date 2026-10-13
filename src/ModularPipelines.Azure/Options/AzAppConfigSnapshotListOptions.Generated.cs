@@ -45,7 +45,7 @@ public record AzAppConfigSnapshotListOptions : AzOptions
     public string? Endpoint { get; set; }
 
     /// <summary>
-    /// Customize output fields for Snapshots.  Allowed values: composition_type, created, etag, expires, filters, items_count, name, retention_period, size, status, tags.
+    /// Customize output fields for Snapshots.  Allowed values: composition_type, created, description, etag, expires, filters, items_count, name, retention_period, size, status, tags.
     /// </summary>
     [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }

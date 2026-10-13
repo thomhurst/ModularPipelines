@@ -28,6 +28,12 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
+    /// Setting to Enable or Disable Confidential Compute.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--confidential-compute-mode")]
+    public string? ConfidentialComputeMode { get; set; }
+
+    /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]

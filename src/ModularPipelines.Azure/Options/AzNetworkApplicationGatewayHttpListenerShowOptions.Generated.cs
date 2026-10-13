@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewayHttpListenerShowOptions : AzOptions
     /// Get the details of an HTTP listener.
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
-    /// <param name="Name">Name of the HTTP listener.</param>
+    /// <param name="Name">Name of the HTTP listener that is unique within an Application Gateway.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzNetworkApplicationGatewayHttpListenerShowOptions(
         string GatewayName,
@@ -54,7 +54,7 @@ public record AzNetworkApplicationGatewayHttpListenerShowOptions : AzOptions
     public string GatewayName { get; private init; }
 
     /// <summary>
-    /// Name of the HTTP listener.
+    /// Name of the HTTP listener that is unique within an Application Gateway.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }

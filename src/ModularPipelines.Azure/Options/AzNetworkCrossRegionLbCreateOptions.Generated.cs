@@ -86,7 +86,7 @@ public record AzNetworkCrossRegionLbCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -104,7 +104,7 @@ public record AzNetworkCrossRegionLbCreateOptions : AzOptions
     public string? AddressAllocation { get; set; }
 
     /// <summary>
-    /// Name or ID of the public IP address, or "" for none. Uses existing resource if available or will create a new resource with defaults if omitted.
+    /// Name or ID of the public IP address, or '' for none. Uses existing resource if available or will create a new resource with defaults if omitted.
     /// </summary>
     [CliOption("--public-ip-address")]
     public string? PublicIpAddress { get; set; }

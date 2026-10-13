@@ -13,7 +13,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Rotate (update) the container registry's encryption key.
+/// Rotate the customer-managed encryption key for a container
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAcrEncryptionRotateKeyOptions : AzOptions
 {
     /// <summary>
-    /// Rotate (update) the container registry's encryption key.
+    /// Rotate the customer-managed encryption key for a container
     /// </summary>
     /// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
     public AzAcrEncryptionRotateKeyOptions(
@@ -50,7 +50,7 @@ public record AzAcrEncryptionRotateKeyOptions : AzOptions
     public string? Identity { get; set; }
 
     /// <summary>
-    /// Key vault key uri. To enable automated rotation, provide a version-less key uri. For manual rotation, provide a versioned key uri.
+    /// Azure Key Vault or Managed HSM key URI. To enable automated rotation, provide a versionless key URI. For manual rotation, provide a versioned key URI.
     /// </summary>
     [CliOption("--key-encryption-key")]
     public string? KeyEncryptionKey { get; set; }

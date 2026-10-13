@@ -315,10 +315,16 @@ public record AzVmCreateOptions : AzOptions
     public string? Ppg { get; set; }
 
     /// <summary>
-    /// Priority. Use 'Spot' to run short-lived workloads in a cost-effective way. 'Low' enum will be deprecated in the future. Please use 'Spot' to deploy Azure spot VM and/or VMSS. Default to Regular. Allowed values: Low, Regular, Spot.
+    /// Priority. Use 'Spot' or 'SpotPlus' to run short-lived workloads in a cost-effective way. 'Low' enum will be deprecated in the future. Please use 'Spot' or 'SpotPlus' to deploy Azure spot VM and/or VMSS. Default to Regular. Allowed values: Low, Regular, Spot, SpotPlus.
     /// </summary>
     [CliOption("--priority")]
     public string? Priority { get; set; }
+
+    /// <summary>
+    /// Specifies the processor mode for the virtual machine or virtual machine scale set. Optional; if omitted, the platform default applies (currently Deterministic). This property can be updated on a running VM or VMSS without deallocation or reboot.  Allowed values: Deterministic, Opportunistic.
+    /// </summary>
+    [CliOption("--processor-mode")]
+    public string? ProcessorMode { get; set; }
 
     /// <summary>
     /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit, Enforce. WARNING: Option '--proxy-agent-mode' has been deprecated and will be removed in a future release. Use '--wire-server-mode' instead.
@@ -358,7 +364,7 @@ public record AzVmCreateOptions : AzOptions
     public string? SshKeyName { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -392,6 +398,12 @@ public record AzVmCreateOptions : AzOptions
     /// </summary>
     [CliOption("--vmss")]
     public string? Vmss { get; set; }
+
+    /// <summary>
+    /// When set to true, instructs the GuestProxyAgent inside the VM to load additional access control rules defined in a local file on the VM.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--wire-local-rules", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? WireLocalRules { get; set; }
 
     /// <summary>
     /// Specify the access control profile version resource id of wire server.

@@ -139,6 +139,12 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     public bool? EnableFipsImage { get; set; }
 
     /// <summary>
+    /// Enable Managed DRANET on the node pool.
+    /// </summary>
+    [CliFlag("--enable-managed-dranet")]
+    public bool? EnableManagedDranet { get; set; }
+
+    /// <summary>
     /// Enable Secure Boot on an existing Trusted Launch enabled agent node pool. Must use VMSS or VMs agent pool type.
     /// </summary>
     [CliFlag("--enable-secure-boot")]
@@ -241,7 +247,7 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     public string? ScaleDownMode { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

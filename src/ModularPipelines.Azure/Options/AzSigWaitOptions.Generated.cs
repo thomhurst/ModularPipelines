@@ -21,18 +21,6 @@ namespace ModularPipelines.Azure.Options;
 public record AzSigWaitOptions : AzOptions
 {
     /// <summary>
-    /// The expand query option to apply on the operation.  Allowed values: SharingProfile/Groups.
-    /// </summary>
-    [CliOption("--expand")]
-    public string? Expand { get; set; }
-
-    /// <summary>
-    /// The select expression to apply on the operation.  Allowed values: Permissions.
-    /// </summary>
-    [CliOption("--select")]
-    public string? Select { get; set; }
-
-    /// <summary>
     /// The name of the Shared Image Gallery.
     /// </summary>
     [CliOption("--gallery-name", ShortForm = "-r")]

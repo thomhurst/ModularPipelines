@@ -32,6 +32,11 @@ public interface IAzKeyvault
     AzKeyvaultCertificate Certificate => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az ekm-connection sub-commands.
+    /// </summary>
+    AzKeyvaultEkmConnection EkmConnection => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az key sub-commands.
     /// </summary>
     AzKeyvaultKey Key => throw new System.NotSupportedException();

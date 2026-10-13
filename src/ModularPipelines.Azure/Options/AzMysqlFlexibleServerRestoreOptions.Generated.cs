@@ -45,7 +45,7 @@ public record AzMysqlFlexibleServerRestoreOptions : AzOptions
     public string SourceServer { get; private init; }
 
     /// <summary>
-    /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled, Enabled.
+    /// Enable or disable accelerated logs. Supported for General Purpose and Memory Optimized tiers. For server creation, defaults to Enabled for Memory Optimized and Disabled for General Purpose. Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--accelerated-logs")]
     public string? AcceleratedLogs { get; set; }
@@ -135,7 +135,7 @@ public record AzMysqlFlexibleServerRestoreOptions : AzOptions
     public string? SubnetPrefixes { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

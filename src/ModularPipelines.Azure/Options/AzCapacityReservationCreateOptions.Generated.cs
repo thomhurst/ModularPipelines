@@ -91,6 +91,24 @@ public record AzCapacityReservationCreateOptions : AzOptions
     public IEnumerable<string>? Zone { get; set; }
 
     /// <summary>
+    /// The required end date for Block capacity reservations. Must be after the start date, with a duration of either 1–14 whole days or 3–26 whole weeks. Example: 2025-06-28.
+    /// </summary>
+    [CliOption("--end")]
+    public string? End { get; set; }
+
+    /// <summary>
+    /// The minimum number of days after the start date before a committed Future capacity reservation can be updated or deleted. The service supplies a default when this value is omitted.
+    /// </summary>
+    [CliOption("--min-commitment-days")]
+    public string? MinCommitmentDays { get; set; }
+
+    /// <summary>
+    /// The start date and time of a Future capacity reservation. The value must be at least 7 days and at most 6 months in the future. Example: 2026-08-01T12:00:00Z.
+    /// </summary>
+    [CliOption("--schedule-profile-start")]
+    public string? ScheduleProfileStart { get; set; }
+
+    /// <summary>
     /// Specify the number of virtual machines in the scale set.
     /// </summary>
     [CliOption("--capacity")]

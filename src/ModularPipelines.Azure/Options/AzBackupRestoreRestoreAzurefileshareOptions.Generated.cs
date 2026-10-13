@@ -85,6 +85,12 @@ public record AzBackupRestoreRestoreAzurefileshareOptions : AzOptions
     public string? TenantId { get; set; }
 
     /// <summary>
+    /// Use this flag to restore from a recovery point in secondary region. Supports only Alternate Location Restore.
+    /// </summary>
+    [CliFlag("--use-secondary-region")]
+    public bool? UseSecondaryRegion { get; set; }
+
+    /// <summary>
     /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
     /// </summary>
     [CliOption("--container-name", ShortForm = "-c")]
