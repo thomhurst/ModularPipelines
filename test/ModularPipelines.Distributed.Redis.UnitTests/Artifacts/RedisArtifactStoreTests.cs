@@ -384,14 +384,16 @@ public class RedisArtifactStoreTests
 
         await _store.DeleteAsync(reference, CancellationToken.None);
 
-        // Verify meta key deleted
+        // Verify meta and data keys deleted together
         _mockDb.Verify(db => db.KeyDeleteAsync(
-            It.Is<RedisKey>(k => k.ToString().Contains("artifacts:meta:art1")),
+            It.Is<RedisKey[]>(keys => keys.Length == 2
+                                      && keys[0] == (RedisKey) _keys.ArtifactMeta("art1")
+                                      && keys[1] == (RedisKey) _keys.ArtifactData("art1")),
             It.IsAny<CommandFlags>()), Times.Once);
 
-        // Verify data key deleted
+        // Verify chunks deleted in one batch, which found no chunks
         _mockDb.Verify(db => db.KeyDeleteAsync(
-            It.Is<RedisKey>(k => k.ToString() == _keys.ArtifactData("art1")),
+            It.Is<RedisKey[]>(keys => keys.Length == 256 && keys[0] == (RedisKey) _keys.ArtifactChunk("art1", 0)),
             It.IsAny<CommandFlags>()), Times.Once);
 
         // Verify index updated

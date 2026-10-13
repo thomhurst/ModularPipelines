@@ -66,12 +66,15 @@ internal sealed class DistributedRunCleanupExecutor(
 
     private async Task<List<IDistributedRunCleanup>> ResolveBackendsAsync(TimeSpan timeout)
     {
-        // Resolve each source separately, so one service that fails to construct leaves the others.
-        var candidates = Resolve(static provider => provider.GetServices<IDistributedRunCleanup>(), nameof(IDistributedRunCleanup))
-            .Concat(Resolve(static provider => [provider.GetService<IDistributedMasterCoordinator>()], nameof(IDistributedMasterCoordinator)))
-            .Concat(Resolve(static provider => [provider.GetService<IDistributedArtifactStore>()], nameof(IDistributedArtifactStore)))
-            .Concat(Resolve(static provider => [provider.GetService<IMasterDiscovery>()], nameof(IMasterDiscovery)))
-            .ToArray();
+        // Resolve each source separately and in parallel, so one service that fails or blocks while it is
+        // constructed leaves the others.
+        var sources = await Task.WhenAll(
+                ResolveAsync(static provider => provider.GetServices<IDistributedRunCleanup>(), nameof(IDistributedRunCleanup), timeout),
+                ResolveAsync(static provider => [provider.GetService<IDistributedMasterCoordinator>()], nameof(IDistributedMasterCoordinator), timeout),
+                ResolveAsync(static provider => [provider.GetService<IDistributedArtifactStore>()], nameof(IDistributedArtifactStore), timeout),
+                ResolveAsync(static provider => [provider.GetService<IMasterDiscovery>()], nameof(IMasterDiscovery), timeout))
+            .ConfigureAwait(false);
+        var candidates = sources.SelectMany(static source => source).ToArray();
 
         var backends = new List<IDistributedRunCleanup>();
         foreach (var candidate in candidates)
@@ -90,11 +93,17 @@ internal sealed class DistributedRunCleanupExecutor(
         return backends;
     }
 
-    private IEnumerable<object?> Resolve(Func<IServiceProvider, IEnumerable<object?>> resolve, string serviceName)
+    private async Task<object?[]> ResolveAsync(
+        Func<IServiceProvider, IEnumerable<object?>> resolve,
+        string serviceName,
+        TimeSpan timeout)
     {
         try
         {
-            return [.. resolve(serviceProvider)];
+            // Service factories run synchronously; a thread-pool task lets a blocked one time out.
+            return await Task.Run(() => resolve(serviceProvider).ToArray())
+                .WaitAsync(timeout)
+                .ConfigureAwait(false);
         }
         catch (Exception exception)
         {

@@ -154,6 +154,29 @@ public class RunCleanupPipelineTests
     }
 
     [Test]
+    [Timeout(30_000)]
+    public async Task Cleanup_Service_That_Blocks_While_Constructed_Does_Not_Skip_Other_Backends(
+        CancellationToken cancellationToken)
+    {
+        using var release = new ManualResetEventSlim();
+        var builder = CreateDistributedBuilder(options => options with { RunCleanupTimeout = TimeSpan.FromMilliseconds(200) });
+        builder.AddDistributedCoordinator<CleanableCoordinator>();
+        builder.Services.AddSingleton<IDistributedRunCleanup>(_ =>
+        {
+            release.Wait(TimeSpan.FromSeconds(10));
+            return new RecordingCleanup();
+        });
+        builder.AddModule<SucceedingModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var summary = await pipeline.RunAsync(cancellationToken);
+        release.Set();
+
+        await Assert.That(summary.Succeeded).IsTrue();
+        await Assert.That(pipeline.Services.GetRequiredService<CleanableCoordinator>().CleanupCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Worker_Never_Cleans_Up()
     {
         var cleanup = new RecordingCleanup();

@@ -16,6 +16,8 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 {
     // Adds the artifact to its module's index and the module to the run's module set, each with the TTL, in one
     // step, so no index key can be left without an expiry or outside run cleanup's reach.
+    private const int ChunkDeleteBatchSize = 256;
+
     private const string IndexArtifactScript = """
         redis.call('SADD', KEYS[1], ARGV[1])
         redis.call('PEXPIRE', KEYS[1], ARGV[3])
@@ -249,25 +251,26 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
     private async Task DeleteArtifactKeysAsync(string artifactId, CancellationToken cancellationToken)
     {
-        await _database.KeyDeleteAsync(_keys.ArtifactMeta(artifactId))
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        await _database.KeyDeleteAsync(_keys.ArtifactData(artifactId))
+        await _database.KeyDeleteAsync([_keys.ArtifactMeta(artifactId), _keys.ArtifactData(artifactId)])
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        var chunkIndex = 0;
-        while (true)
+        // Chunks are written in order from zero and share the run's hash tag, so delete them in batches until a
+        // batch finds fewer keys than it names. One round trip per batch keeps large artifacts within the timeout.
+        for (var firstChunk = 0; ; firstChunk += ChunkDeleteBatchSize)
         {
-            var deleted = await _database.KeyDeleteAsync(_keys.ArtifactChunk(artifactId, chunkIndex))
+            RedisKey[] chunkKeys =
+            [
+                .. Enumerable.Range(firstChunk, ChunkDeleteBatchSize)
+                    .Select(chunkIndex => (RedisKey) _keys.ArtifactChunk(artifactId, chunkIndex)),
+            ];
+            var deleted = await _database.KeyDeleteAsync(chunkKeys)
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
-            if (!deleted)
+            if (deleted < ChunkDeleteBatchSize)
             {
                 break;
             }
-
-            chunkIndex++;
         }
     }
 
