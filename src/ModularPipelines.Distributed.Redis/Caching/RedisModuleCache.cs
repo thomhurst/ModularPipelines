@@ -13,6 +13,14 @@ namespace ModularPipelines.Distributed.Redis.Caching;
 internal sealed class RedisModuleCache : IModuleCacheStore
 {
     private static readonly TimeSpan MinimumProvisionalExpiration = TimeSpan.FromHours(1);
+
+    // Removes the metadata only while it still names the failed generation, so a newer entry survives.
+    private static readonly RespireScript DeleteMetadataIfUnchangedScript = RespireScript.Create("""
+        if redis.call('GET', KEYS[1]) == ARGV[1] then
+            return redis.call('UNLINK', KEYS[1])
+        end
+        return 0
+        """);
     private readonly RedisConnectionProvider _connections;
     private readonly string _keyPrefix;
     private readonly int _chunkSize;
@@ -139,6 +147,7 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         var generation = Guid.NewGuid().ToString("N");
         var totalLength = 0L;
         var chunkKeys = new List<RespireKey>();
+        string? publishedMetadata = null;
         try
         {
             // Each chunk has its own buffer, which Respire borrows until its write completes, so several writes
@@ -170,7 +179,11 @@ internal sealed class RedisModuleCache : IModuleCacheStore
                 (RespireValue) metadata,
                 _expiration);
             cancellationToken.ThrowIfCancellationRequested();
-            await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
+
+            // Once EXEC is sent Redis may commit it, so wait for the outcome instead of abandoning it on
+            // cancellation, and remember that the metadata may now name this generation.
+            publishedMetadata = metadata;
+            await transaction.CommitAsync(CancellationToken.None).ConfigureAwait(false);
 
             if (expirations.Any(expiration => !expiration.Result) || !metadataWrite.Result)
             {
@@ -180,12 +193,40 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         }
         catch
         {
+            await DiscardWriteAsync(redis, fingerprint, publishedMetadata, chunkKeys).ConfigureAwait(false);
+            throw;
+        }
+    }
+
+    // Best effort: the write's own failure is what the caller needs, so a failed cleanup is left to expiry.
+    private async Task DiscardWriteAsync(
+        IRespireClient redis,
+        string fingerprint,
+        string? publishedMetadata,
+        List<RespireKey> chunkKeys)
+    {
+        try
+        {
+            // Remove committed metadata before its chunks, so readers never see an entry with missing chunks. If
+            // that fails, the chunks stay: the metadata may still name them, and they expire with it.
+            if (publishedMetadata is not null)
+            {
+                await redis.Scripts.ExecuteIntegerAsync(
+                        DeleteMetadataIfUnchangedScript,
+                        [MetadataKey(fingerprint)],
+                        [publishedMetadata],
+                        CancellationToken.None)
+                    .ConfigureAwait(false);
+            }
+
             if (chunkKeys.Count > 0)
             {
                 await redis.Keys.UnlinkAsync([.. chunkKeys], CancellationToken.None).ConfigureAwait(false);
             }
-
-            throw;
+        }
+        catch (Exception)
+        {
+            // Provisional chunk expiry and the entry's TTL remove whatever is left.
         }
     }
 

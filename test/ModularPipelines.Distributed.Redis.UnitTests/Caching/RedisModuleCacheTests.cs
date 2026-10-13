@@ -57,6 +57,29 @@ public class RedisModuleCacheTests
     }
 
     [Test]
+    public async Task Cancellation_After_Publishing_Starts_Waits_For_The_Committed_Entry()
+    {
+        // EXEC runs, then its reply is held: the entry is committed but the writer has not heard yet.
+        var gate = new RespireFakeGate();
+        using var exec = _redis.Server.InjectFault("EXEC", RespireFakeFault.Pause(gate, afterExecution: true));
+        using var cancellation = new CancellationTokenSource();
+        var data = new byte[] { 1, 2, 3, 4, 5 };
+        await using var content = new MemoryStream(data);
+
+        var write = _cache.WriteAsync(Fingerprint, content, cancellation.Token);
+        await exec.Matched.WaitAsync(TimeSpan.FromSeconds(5));
+        await cancellation.CancelAsync();
+        gate.Release();
+        await write.WaitAsync(TimeSpan.FromSeconds(5));
+
+        // Abandoning the commit would have deleted chunks that the committed metadata names.
+        await using var result = await _cache.OpenReadAsync(Fingerprint, CancellationToken.None);
+        using var destination = new MemoryStream();
+        await result!.CopyToAsync(destination);
+        await Assert.That(destination.ToArray()).IsEquivalentTo(data);
+    }
+
+    [Test]
     public async Task OpenReadReassemblesChunks()
     {
         await StoreEntryAsync($"{Generation}:2:5", [1, 2, 3], [4, 5]);

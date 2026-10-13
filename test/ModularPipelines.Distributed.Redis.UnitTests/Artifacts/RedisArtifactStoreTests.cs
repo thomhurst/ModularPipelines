@@ -86,6 +86,21 @@ public class RedisArtifactStoreTests
         await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactModules)).IsEquivalentTo(["Test.Module"]);
     }
 
+    [Test]
+    public async Task Upload_Surfaces_A_Failed_Index_Command()
+    {
+        // EXEC succeeds while SADD fails on the wrong key type, so the store must read each queued result.
+        await _redis.Client.SetAsync(_keys.ArtifactModules, (RespireValue) "not-a-set");
+        using var stream = new MemoryStream([1]);
+
+        await Assert.That(async () => await _store.UploadAsync(
+                new ArtifactDescriptor { Name = "test-art", ModuleId = "Test.Module" },
+                stream,
+                CancellationToken.None))
+            .Throws<RespireServerException>()
+            .WithMessageContaining("WRONGTYPE");
+    }
+
     private sealed class FailingStream : MemoryStream
     {
         public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>

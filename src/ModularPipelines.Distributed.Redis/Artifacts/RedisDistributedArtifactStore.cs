@@ -106,11 +106,20 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         var indexKey = _keys.ArtifactIndex(moduleId);
         var transaction = _redis.CreateTransaction();
         await using var transactionLifetime = transaction.ConfigureAwait(false);
-        _ = transaction.Sets.Add(indexKey, [artifactId]);
-        _ = transaction.Expire(indexKey, _timeToLive);
-        _ = transaction.Sets.Add(_keys.ArtifactModules, [moduleId.Value]);
-        _ = transaction.Expire(_keys.ArtifactModules, _timeToLive);
+        var indexed = transaction.Sets.Add(indexKey, [artifactId]);
+        var indexExpiry = transaction.Expire(indexKey, _timeToLive);
+        var moduleIndexed = transaction.Sets.Add(_keys.ArtifactModules, [moduleId.Value]);
+        var moduleExpiry = transaction.Expire(_keys.ArtifactModules, _timeToLive);
         await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
+
+        // EXEC succeeds even when a queued command fails, for example on a wrong key type or an ACL denial.
+        // Reading each result rethrows that command's error, so an unindexed upload is never reported as stored.
+        _ = indexed.Result;
+        _ = moduleIndexed.Result;
+        if (!indexExpiry.Result || !moduleExpiry.Result)
+        {
+            throw new IOException($"Redis could not set the expiry of the artifact index for '{artifactId}'.");
+        }
     }
 
     public async Task<Stream> DownloadAsync(ArtifactReference reference, CancellationToken cancellationToken)
