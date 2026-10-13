@@ -48,6 +48,14 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property           | Availability | Description                                                                                                                                                                             |
+| ---------- | ------------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-C`       | `WorkingDirectory` | All editions | Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line. |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command       | Options record         |

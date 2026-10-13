@@ -39,7 +39,7 @@ public class UseGoModule : Module<CommandResult>
 
         return await context.Tools.Go.VetAsync(
 
-            new GoVetOptions(),
+            new GoVetOptions { WorkingDirectory = "./src" },
 
             cancellationToken: cancellationToken);
 
@@ -49,3 +49,15 @@ public class UseGoModule : Module<CommandResult>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Working directory and flag scope[​](#working-directory-and-flag-scope "Direct link to Working directory and flag scope")
+
+Every command inherits `WorkingDirectory` from `GoOptions`. It renders as the case-sensitive `-C` option before the command path, for example `go -C "source folder" mod graph -x`. Go changes directory before selecting the toolchain and interpreting relative file and package arguments. This is a Go CLI setting; it does not change the pipeline process's working directory.
+
+Go documents `-C` in `go help build` and requires it to be the first flag. Other shared build flags, such as `-race`, remain on the commands that support them. Command-local flags and operands follow the command path. In `GoTestOptions`, `LowerC` still means compile without running (`-c`), and `Args` stays after package operands so its values are passed to the test binary.
+
+## Migration[​](#migration "Direct link to Migration")
+
+Replace older command-specific `C` or `UpperC` directory properties with `WorkingDirectory`. Remove equivalent manual `-C` arguments when using the typed property. Reflection over command records must include inherited properties. The `VersionAsync` command also inherits the directory setting.
+
+See the [Go command reference](https://pkg.go.dev/cmd/go) and [generated Go CLI reference](/ModularPipelines/docs/mp-packages/cli/go.md) for supported commands and options.
