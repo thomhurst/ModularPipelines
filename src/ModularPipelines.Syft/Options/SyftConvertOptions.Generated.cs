@@ -39,30 +39,6 @@ public record SyftConvertOptions : SyftOptions
     public string? Template { get; set; }
 
     /// <summary>
-    /// syft configuration file(s) to use
-    /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Config { get; set; }
-
-    /// <summary>
-    /// configuration profiles to use
-    /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Profile { get; set; }
-
-    /// <summary>
-    /// suppress all logging output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// increase verbosity (-v = info, -vv = debug)
-    /// </summary>
-    [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbose { get; set; }
-
-    /// <summary>
     /// The SOURCE-SBOM operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
