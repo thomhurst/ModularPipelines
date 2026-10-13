@@ -222,8 +222,19 @@ V3 code that already called `builder.AddModule<T>()` or `builder.AddRequirement<
 Ordinary `AddSingleton`, `AddScoped`, `Configure<TOptions>`, and other application DI calls stay
 on `builder.Services`. Registration helpers that previously extended `IServiceCollection` to
 add pipeline modules should now accept and return `PipelineBuilder`.
-For the removed two-parameter `ConfigureServices((builder, services) => ...)` overload, configure
-`builder.Services` directly or capture the builder in the remaining one-parameter callback.
+Both `builder.ConfigureServices(services => ...)` and
+`builder.ConfigureServices((builder, services) => ...)` are removed. Move their registrations to
+`builder.Services` directly, using the builder variable where the old callback needed it:
+
+```csharp
+// V3: either callback form
+builder.ConfigureServices(services => services.AddSingleton<MyService>());
+builder.ConfigureServices((pipelineBuilder, services) => services.AddSingleton<MyService>());
+
+// V4: replace either form with direct registration
+builder.Services.AddSingleton<MyService>();
+```
+
 `BuildHostAsync()` becomes `BuildAsync()`, and `pipeline.RootServices` becomes `pipeline.Services`.
 
 The `AddPipelineFileWriter<T>()` shortcut is removed. To generate a supported provider's minimal
@@ -668,8 +679,9 @@ Fluent registration also accepts condition types and instances directly: `.WithR
 
 Repeated `WithSkipWhen` calls now combine with OR: the module skips when any condition is true.
 In V3, the last call replaced the earlier ones. Remove earlier calls that V3 silently ignored, and
-use `WithSkipWhenAll` when every condition must be true. Analyzer [`MP0020`](./analyzers/MP0020.md) (Info) flags the second
+use `WithSkipWhenAll` when every condition must be true. Analyzer [`MP0020`](./analyzers/MP0020.md) (Warning) flags the second
 and later `WithSkipWhen` calls on the same builder so you can review them.
+Projects that treat warnings as errors can fail their build on this diagnostic.
 Keep conditions free of external side effects because planning can evaluate them.
 See [Run conditions](./how-to/run-conditions.md) and [Skipping](./how-to/skipping.md).
 
@@ -739,6 +751,18 @@ if (context.Environment.BuildSystem.Is(BuildSystem.GitHubActions)) { ... }
 The same pattern applies to `IsAzurePipelines`, `IsTeamCity`, `IsJenkins`, `IsGitLab`,
 `IsBitbucket`, `IsTravisCI`, and `IsAppVeyor`. `BuildSystem` is in the root `ModularPipelines` namespace.
 The injectable `IBuildSystemDetector` is now internal; use `IBuildSystemContext` instead.
+
+The build-system context extensions are also removed:
+
+| V3 extension | V4 replacement |
+| --- | --- |
+| `context.IsRunningInCI()` | `context.Environment.BuildSystem.IsCI` |
+| `context.IsRunningLocally()` | `context.Environment.BuildSystem.IsLocal` |
+| `context.IsRunningIn(buildSystem)` | `context.Environment.BuildSystem.Is(buildSystem)` |
+
+V3's `IsRunningIn` handled only GitHub Actions, Azure Pipelines, TeamCity, and Jenkins, returning
+`false` for other enum values. V4's `Is` compares against `Current` for every enum value, including
+`BuildSystem.Unknown`; review callers that relied on the old fallback.
 
 Replace `context.Environment.BuildSystem.IsBuildServer` with `context.Environment.BuildSystem.IsCI`.
 Use `IsLocal` for the inverse check. `IsCI` is also `true` when the `CI` environment variable is set to a
@@ -1372,6 +1396,7 @@ public class BuildModule : Module<CommandResult>
 | V3 API | V4 API | Review needed |
 | --- | --- | --- |
 | `builder.Services.AddModule<T>()` | `builder.AddModule<T>()` | Preserve conditional registration and factories |
+| Both `builder.ConfigureServices(...)` overloads | Register directly on `builder.Services` | Use the builder variable for registrations that need it |
 | `builder.Build()` | `await builder.BuildAsync()` | Dispose the pipeline with `await using` |
 | `builder.ExecutePipelineAsync()` | `builder.RunAsync()` | Await completion |
 | `builder.Options.X = value` | `builder.ConfigureOptions(o => o with { X = value })` | Nested settings moved |
@@ -1399,6 +1424,9 @@ public class BuildModule : Module<CommandResult>
 | `MandatoryRunConditionAttribute` / `RunConditionAttribute.Condition` | `RunConditionAttribute(ConditionIntent.Run)` / `EvaluateAsync` | Use `GroupKey` for OR-ed alternatives |
 | `BuildSystem.IsGitHubActions`, etc. | `BuildSystem.Is(BuildSystem.GitHubActions)`, etc. | The enum is in `ModularPipelines` |
 | `context.Environment.BuildSystem.IsBuildServer` | `context.Environment.BuildSystem.IsCI` | Also honors a truthy `CI` variable; `IsLocal` is the inverse |
+| `context.IsRunningInCI()` | `context.Environment.BuildSystem.IsCI` | Also honors a truthy `CI` variable |
+| `context.IsRunningLocally()` | `context.Environment.BuildSystem.IsLocal` | Inverse of `IsCI` |
+| `context.IsRunningIn(buildSystem)` | `context.Environment.BuildSystem.Is(buildSystem)` | V4 compares all enum values, including `Unknown` |
 | `[CliArgument(Placement = ...)]` | `[CliArgument(Phase = ...)]` | `BeforeOptions` becomes `EarlyOperand`; the default is `Passthrough` |
 | `IPipelineValidator.Validate` | `ValidateAsync(services, cancellationToken)` | Return `Task<ValidationResult>` |
 | `[CliCommand("tool", ...)]` | `[CliTool("tool")]` + `[CliSubCommand(...)]` | Handwritten option types only |
@@ -1451,6 +1479,12 @@ transformations:
   - old: builder.Services.AddModule<T>()
     new: builder.AddModule<T>()
     scope: ModularPipelines registration extensions only
+  - old: builder.ConfigureServices(services => registrations)
+    new: Register directly on builder.Services
+    scope: ModularPipelines PipelineBuilder extensions only
+  - old: builder.ConfigureServices((pipelineBuilder, services) => registrations)
+    new: Register directly on builder.Services using the builder variable
+    scope: ModularPipelines PipelineBuilder extensions only
   - old: builder.Build()
     new: await builder.BuildAsync()
     follow_up: Own the returned pipeline with await using
@@ -1517,6 +1551,15 @@ transformations:
   - old: context.Environment.BuildSystem.IsBuildServer
     new: context.Environment.BuildSystem.IsCI
     follow_up: Also honors a truthy CI variable; use IsLocal for the inverse check
+  - old: context.IsRunningInCI()
+    new: context.Environment.BuildSystem.IsCI
+    follow_up: Also honors a truthy CI variable
+  - old: context.IsRunningLocally()
+    new: context.Environment.BuildSystem.IsLocal
+    follow_up: Inverse of IsCI
+  - old: context.IsRunningIn(buildSystem)
+    new: context.Environment.BuildSystem.Is(buildSystem)
+    review: V4 compares all enum values, including Unknown; V3 returned false outside its four supported systems
   - old: CliArgument Placement = ArgumentPlacement.BeforeOptions
     new: CliArgument Phase = CommandLinePhase.EarlyOperand
     scope: Handwritten option types only; AfterOptions becomes the default Passthrough
@@ -1583,7 +1626,7 @@ Run these searches in the consumer repository. Treat matches as review candidate
 fully qualified names and aliases; the patterns do not prove a symbol belongs to ModularPipelines.
 
 ```powershell
-rg -n 'PipelineBuilderOptions|ExecutePipelineAsync|\.Build\(\)|Services\.AddModule' --glob '*.cs'
+rg -n 'PipelineBuilderOptions|ExecutePipelineAsync|\.Build\(\)|Services\.AddModule|ConfigureServices' --glob '*.cs'
 rg -n 'ModuleConfiguration|DeclareDependencies|WithRetryCount|WithRetryPolicy|WithBeforeExecute|WithAfterExecute' --glob '*.cs'
 rg -n 'IPipelineGlobalHooks|IPipelineModuleHooks|IPipelineHookContext|MustAsync|ExecuteModuleAsync|ExecuteModule' --glob '*.cs'
 rg -n '\.SubModule\(|\.DotNet\(\)|\.Git\(\)|ExecuteCommandLineTool|LogSettings|token:' --glob '*.cs'
@@ -1592,6 +1635,7 @@ rg -n 'ModularPipelines\.FileSystem\.(File|Folder)|WorkingDirectory\s*=|SkipDeci
 rg -n 'Files\.ExistsAsync\(' --glob '*.cs'
 rg -n 'IEventHandlerPriority|PluginRegistry|PluginTestHelper|RequestRetry|SkipDependentModules|FailPipeline|ISecretObfuscator' --glob '*.cs'
 rg -n 'RunIfAll|MandatoryRunConditionAttribute|IConditionAttribute|BuildSystem\.Is[A-Z]|ArgumentPlacement|CliArgument\([^)]*Name' --glob '*.cs'
+rg -n '\b(IsRunningInCI|IsRunningLocally|IsRunningIn)\s*\(' --glob '*.cs'
 rg -n '\b(IZip|IXml|IYaml|IBase64|IHex|ICertificates|IDownloader|IEnvironmentVariables|IAptGet|AptGet\w*)\b' --glob '*.cs'
 rg -n 'ExecutionMode|PipelineCancelledException|HttpResponseException|ModuleReferencingSelfException|FailedRequirementsException|SubModuleFailedException' --glob '*.cs'
 rg -n 'ModuleRunType|ITaggedModule|IPipelineValidator|IModuleResultRepository|IModuleEstimatedTimeProvider|IFileSystemProvider|WithTimeout\(TimeSpan\.Zero' --glob '*.cs'
