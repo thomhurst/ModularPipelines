@@ -14,6 +14,9 @@ public record CliOptionDefinition
     /// <summary>Whether the installed parser verified the type and arity, which prose or legacy overrides must not replace.</summary>
     internal bool HasVerifiedValueShape { get; init; }
 
+    /// <summary>Whether every string collection entry must contain a non-whitespace value.</summary>
+    internal bool RejectBlankCollectionValues { get; init; }
+
     /// <summary>Option-local prose for value classification, excluding inherited group documentation.</summary>
     internal string? ValueShapeDescription { get; init; }
 
@@ -33,7 +36,7 @@ public record CliOptionDefinition
     internal IReadOnlyList<string> Aliases { get; init; } = [];
 
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
-    private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
+    private static readonly ConcurrentDictionary<(string TypeName, bool SnapshotDeclaredValues), CollectionShapeResolution> CollectionShapes = new();
     private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);
 
     /// <summary>
@@ -111,9 +114,9 @@ public record CliOptionDefinition
 
     internal static string GetCollectionSnapshotExpression(
         string cSharpType, string valueExpression, bool retainUnsupportedCollections = false, string typedSnapshotPrefix = "__Snapshot", bool preserveValuePairs = true,
-        CliOptionValueArity valueArity = CliOptionValueArity.Required)
+        CliOptionValueArity valueArity = CliOptionValueArity.Required, bool snapshotDeclaredValues = false)
     {
-        var shape = GetCollectionShape(cSharpType);
+        var shape = GetCollectionShape(cSharpType, snapshotDeclaredValues);
         if (retainUnsupportedCollections)
         {
             if (!shape.IsResolved)
@@ -140,8 +143,11 @@ public record CliOptionDefinition
                 $"Required collection type '{cSharpType}' cannot safely retain a reusable snapshot. Use a supported collection contract.");
     }
 
-    internal static string? GetTypedSnapshotCollectionType(string cSharpType) =>
-        GetCollectionShape(cSharpType).TypedSnapshotCollectionType;
+    internal static string? GetTypedSnapshotCollectionType(string cSharpType, bool snapshotDeclaredValues = false) =>
+        GetCollectionShape(cSharpType, snapshotDeclaredValues).TypedSnapshotCollectionType;
+
+    internal static string? GetCharacterSnapshotCollectionType(string cSharpType) =>
+        GetCollectionShape(cSharpType, snapshotDeclaredValues: true).CharacterSnapshotCollectionType;
 
     internal static string GetSnapshotElementTypeName(string cSharpType) =>
         GetCollectionShape(cSharpType).ElementTypeName
@@ -150,8 +156,9 @@ public record CliOptionDefinition
     internal static bool IsSnapshotElementType(string cSharpType, string elementName) =>
         MatchesRendererElementType(GetCollectionShape(cSharpType).ElementTypeIdentity, elementName);
 
-    private static CollectionShapeResolution GetCollectionShape(string cSharpType) =>
-        CollectionShapes.GetOrAdd(cSharpType.TrimEnd('?'), static typeName => ResolveCollectionShape(typeName));
+    private static CollectionShapeResolution GetCollectionShape(string cSharpType, bool snapshotDeclaredValues = false) =>
+        CollectionShapes.GetOrAdd((cSharpType.TrimEnd('?'), snapshotDeclaredValues),
+            static key => ResolveCollectionShape(key.TypeName, key.SnapshotDeclaredValues));
 
     internal static int FindIndexBySwitch(
         IReadOnlyList<CliOptionDefinition> options,
@@ -179,7 +186,7 @@ public record CliOptionDefinition
         }
     }
 
-    private static CollectionShapeResolution ResolveCollectionShape(string cSharpType)
+    private static CollectionShapeResolution ResolveCollectionShape(string cSharpType, bool snapshotDeclaredValues)
     {
         var source = $$"""
             #nullable enable
@@ -238,17 +245,21 @@ public record CliOptionDefinition
         var snapshotExpression = isCollection
             ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable)
             : null;
-        var typedSnapshotCollectionType = GetTypedSnapshotCollectionType(compilation, propertyType, elementType, isArrayAssignable);
+        var typedSnapshotCollectionType = GetTypedSnapshotCollectionType(compilation, propertyType, elementType, isArrayAssignable, snapshotDeclaredValues);
+        var characterSnapshotCollectionType = snapshotDeclaredValues
+            ? GetCharacterSnapshotCollectionType(compilation, propertyType, elementType, typedSnapshotCollectionType)
+            : null;
         return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection,
             IsReferenceType: propertyType.IsReferenceType,
             SnapshotExpression: snapshotExpression,
             OptionalSnapshotExpression: isCollection
-                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: false)
+                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, characterSnapshotCollectionType, preserveValuePairs: false, snapshotDeclaredValues)
                 : null,
             OptionalValuePairSnapshotExpression: isCollection
-                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: true)
+                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, characterSnapshotCollectionType, preserveValuePairs: true, snapshotDeclaredValues)
                 : null,
             TypedSnapshotCollectionType: typedSnapshotCollectionType,
+            CharacterSnapshotCollectionType: characterSnapshotCollectionType,
             ElementTypeName: elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             ElementTypeIdentity: GetElementTypeIdentity(elementType),
             OptionalDeclaredSnapshotExpression: isCollection
@@ -257,28 +268,43 @@ public record CliOptionDefinition
     }
 
     private static string? GetTypedSnapshotCollectionType(
-        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable)
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, bool snapshotDeclaredValues)
     {
+        if (snapshotDeclaredValues && propertyType.SpecialType == SpecialType.System_Collections_IEnumerable)
+        {
+            return "NonGenericIEnumerable";
+        }
+
         if (SymbolEqualityComparer.Default.Equals(propertyType.OriginalDefinition,
                 compilation.GetTypeByMetadataName("System.Collections.Generic.IReadOnlySet`1")))
         {
             return "IReadOnlySet";
         }
 
-        if (elementType.SpecialType != SpecialType.System_Object)
+        var readOnlyCollectionType = GetReadOnlySnapshotCollectionType(propertyType);
+        if (snapshotDeclaredValues && elementType.SpecialType == SpecialType.System_String
+            && IsMutableListCollection(compilation, propertyType, elementType))
         {
-            return propertyType.OriginalDefinition.SpecialType switch
-            {
-                SpecialType.System_Collections_Generic_IEnumerable_T => "IEnumerable",
-                SpecialType.System_Collections_Generic_IReadOnlyCollection_T => "IReadOnlyCollection",
-                SpecialType.System_Collections_Generic_IReadOnlyList_T => "IReadOnlyList",
-                _ => null,
-            };
+            return "ListWithDeclaredValues";
         }
 
-        if (IsMutableObjectCollection(compilation, propertyType, elementType))
+        if (elementType.SpecialType != SpecialType.System_Object
+            || (snapshotDeclaredValues && readOnlyCollectionType is not null))
         {
-            return "List";
+            return readOnlyCollectionType;
+        }
+
+        return GetObjectTypedSnapshotCollectionType(compilation, propertyType, elementType, isArrayAssignable, snapshotDeclaredValues);
+    }
+
+    private static string? GetObjectTypedSnapshotCollectionType(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, bool snapshotDeclaredValues)
+    {
+        if (IsMutableListCollection(compilation, propertyType, elementType)
+            || (snapshotDeclaredValues && SymbolEqualityComparer.Default.Equals(propertyType,
+                compilation.GetTypeByMetadataName("System.Collections.ICollection"))))
+        {
+            return snapshotDeclaredValues ? "ListWithDeclaredValues" : "List";
         }
 
         if (isArrayAssignable)
@@ -290,26 +316,54 @@ public record CliOptionDefinition
         return setType is not null && compilation.ClassifyConversion(setType, propertyType).IsImplicit ? "HashSet" : null;
     }
 
-    private static bool IsMutableObjectCollection(CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType)
-    {
-        if (elementType.SpecialType != SpecialType.System_Object)
+    private static string? GetReadOnlySnapshotCollectionType(ITypeSymbol propertyType) =>
+        propertyType.OriginalDefinition.SpecialType switch
         {
-            return false;
+            SpecialType.System_Collections_Generic_IEnumerable_T => "IEnumerable",
+            SpecialType.System_Collections_Generic_IReadOnlyCollection_T => "IReadOnlyCollection",
+            SpecialType.System_Collections_Generic_IReadOnlyList_T => "IReadOnlyList",
+            _ => null,
+        };
+
+    private static string? GetCharacterSnapshotCollectionType(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, string? typedSnapshotCollectionType)
+    {
+        if (elementType.SpecialType == SpecialType.System_Char)
+        {
+            return null;
         }
 
+        if (typedSnapshotCollectionType is not null and not "HashSet" and not "List")
+        {
+            return typedSnapshotCollectionType;
+        }
+
+        var listType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
+        return listType is not null && compilation.ClassifyConversion(listType, propertyType).IsImplicit
+            ? "ListWithDeclaredValues"
+            : null;
+    }
+
+    private static bool IsMutableListCollection(CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType)
+    {
         if (IsMutableCollectionInterface(compilation, propertyType))
         {
             return true;
         }
 
-        var objectListType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
-        return SymbolEqualityComparer.Default.Equals(propertyType, objectListType);
+        var listType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
+        return SymbolEqualityComparer.Default.Equals(propertyType, listType);
     }
 
     private static string GetOptionalSnapshotExpression(
-        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, string? typedSnapshotCollectionType, bool preserveValuePairs)
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, string? typedSnapshotCollectionType, string? characterSnapshotCollectionType, bool preserveValuePairs, bool snapshotDeclaredValues)
     {
         var snapshot = GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true) ?? "{0}";
+        if (typedSnapshotCollectionType == "IReadOnlySet" && snapshotDeclaredValues)
+        {
+            snapshot = "new {1}DeclaredValues({0})";
+        }
+
         var supportsTypedSnapshot = typedSnapshotCollectionType is not null || (isArrayAssignable && elementType.SpecialType == SpecialType.System_Object);
         snapshot = supportsTypedSnapshot
             ? GetTypedSnapshotExpression(propertyType, elementType, typedSnapshotCollectionType, "KeyValue", "keyValues", snapshot)
@@ -317,7 +371,9 @@ public record CliOptionDefinition
 
         // Scalar character rendering precedes ordinary collection rendering, while
         // option value pairs take precedence over both in CommandArgumentBuilder.
-        snapshot = $"(object){{0}} is global::System.Collections.Generic.IEnumerable<char> ? {{0}} : ({snapshot})";
+        snapshot = characterSnapshotCollectionType is not null
+            ? $"(object){{0}} is global::System.Collections.Generic.IEnumerable<char> characters ? new {{1}}Characters({{0}}, characters) : ({snapshot})"
+            : $"(object){{0}} is global::System.Collections.Generic.IEnumerable<char> ? {{0}} : ({snapshot})";
         if (!preserveValuePairs)
         {
             return snapshot;
@@ -383,7 +439,7 @@ public record CliOptionDefinition
         var snapshot = collectionType is not null
             ? $"new {{1}}{elementName}({values})"
             : $"({propertyName})(object)global::System.Linq.Enumerable.ToArray({values})";
-        if (collectionType is "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
+        if (collectionType is "NonGenericIEnumerable" or "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet" or "ListWithDeclaredValues")
         {
             snapshot = $"new {{1}}{elementName}({{0}}, {values})";
         }
@@ -519,7 +575,7 @@ public record CliOptionDefinition
         string? SnapshotExpression = null, string? OptionalSnapshotExpression = null,
         string? OptionalValuePairSnapshotExpression = null, string? TypedSnapshotCollectionType = null,
         string? ElementTypeName = null, string? ElementTypeIdentity = null,
-        string? OptionalDeclaredSnapshotExpression = null);
+        string? OptionalDeclaredSnapshotExpression = null, string? CharacterSnapshotCollectionType = null);
 
     /// <summary>
     /// Description for XML documentation.
