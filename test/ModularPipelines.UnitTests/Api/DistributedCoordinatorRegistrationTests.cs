@@ -52,11 +52,11 @@ public class DistributedCoordinatorRegistrationTests
     private static PipelineBuilder CreateDistributedBuilder() =>
         TestPipelineBuilder.Create()
             .AddModule<TestModule>()
-            .AddDistributedMode(options =>
+            .AddDistributedMode(options => options with
             {
-                options.TotalInstances = 2;
-                options.InstanceIndex = 0;
-                options.RunId = "coordinator-test-run";
+                TotalInstances = 2,
+                InstanceIndex = 0,
+                RunId = "coordinator-test-run",
             });
 
     public sealed class TestCoordinatorFactory : IDistributedCoordinatorFactory

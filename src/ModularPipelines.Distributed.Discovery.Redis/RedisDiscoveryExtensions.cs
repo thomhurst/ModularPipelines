@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
@@ -17,14 +18,14 @@ public static class RedisDiscoveryExtensions
     /// Registers Redis-based master endpoint discovery. Options are validated at startup.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configure">Configuration action for Redis discovery options.</param>
+    /// <param name="configure">Transforms the immutable Redis discovery options.</param>
     /// <returns>The pipeline builder for chaining.</returns>
     public static PipelineBuilder AddRedisMasterDiscovery(
         this PipelineBuilder builder,
-        Action<RedisDiscoveryOptions> configure)
+        Func<RedisDiscoveryOptions, RedisDiscoveryOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
-        builder.Services.Configure(configure);
+        TransformOptionsFactory<RedisDiscoveryOptions>.Configure(builder.Services, configure);
         return AddRedisMasterDiscoveryServices(builder);
     }
 
@@ -40,6 +41,7 @@ public static class RedisDiscoveryExtensions
         this PipelineBuilder builder,
         IConfigurationSection section)
     {
+        TransformOptionsFactory<RedisDiscoveryOptions>.Register(builder.Services);
         builder.Services.Configure<RedisDiscoveryOptions>(section);
         return AddRedisMasterDiscoveryServices(builder);
     }

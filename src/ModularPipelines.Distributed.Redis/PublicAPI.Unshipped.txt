@@ -20,22 +20,29 @@
 *REMOVED*ModularPipelines.Distributed.Redis.Caching.RedisModuleCache.WriteAsync(string! fingerprint, System.IO.Stream! content, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.Redis.RedisDistributedExtensions
 ModularPipelines.Distributed.Redis.RedisOptions
+ModularPipelines.Distributed.Redis.RedisOptions.<Clone>$() -> ModularPipelines.Distributed.Redis.RedisOptions!
+ModularPipelines.Distributed.Redis.RedisOptions.ChunkSizeBytes.init -> void
+ModularPipelines.Distributed.Redis.RedisOptions.ConfigureConnection.init -> void
+ModularPipelines.Distributed.Redis.RedisOptions.ConnectionString.init -> void
+ModularPipelines.Distributed.Redis.RedisOptions.Equals(ModularPipelines.Distributed.Redis.RedisOptions? other) -> bool
+ModularPipelines.Distributed.Redis.RedisOptions.KeyPrefix.init -> void
 ModularPipelines.Distributed.Redis.RedisOptions.RedisOptions() -> void
 ModularPipelines.Distributed.Redis.RedisOptions.ChunkSizeBytes.get -> int
-ModularPipelines.Distributed.Redis.RedisOptions.ChunkSizeBytes.set -> void
 ModularPipelines.Distributed.Redis.RedisOptions.ConfigureConnection.get -> System.Action<StackExchange.Redis.ConfigurationOptions!>?
-ModularPipelines.Distributed.Redis.RedisOptions.ConfigureConnection.set -> void
 ModularPipelines.Distributed.Redis.RedisOptions.ConnectionString.get -> string!
-ModularPipelines.Distributed.Redis.RedisOptions.ConnectionString.set -> void
 ModularPipelines.Distributed.Redis.RedisOptions.KeyPrefix.get -> string!
-ModularPipelines.Distributed.Redis.RedisOptions.KeyPrefix.set -> void
 ModularPipelines.Distributed.Redis.RedisOptions.TimeToLive.get -> System.TimeSpan
-ModularPipelines.Distributed.Redis.RedisOptions.TimeToLive.set -> void
+ModularPipelines.Distributed.Redis.RedisOptions.TimeToLive.init -> void
+override ModularPipelines.Distributed.Redis.RedisOptions.Equals(object? obj) -> bool
+override ModularPipelines.Distributed.Redis.RedisOptions.GetHashCode() -> int
+override ModularPipelines.Distributed.Redis.RedisOptions.ToString() -> string!
 static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributed(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributed(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Redis.RedisOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributed(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.Redis.RedisOptions!, ModularPipelines.Distributed.Redis.RedisOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Redis.RedisOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.Redis.RedisOptions!, ModularPipelines.Distributed.Redis.RedisOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Redis.RedisOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.Redis.RedisOptions!, ModularPipelines.Distributed.Redis.RedisOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisModuleCache(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section, System.Func<ModularPipelines.Caching.ModuleCacheOptions!, ModularPipelines.Caching.ModuleCacheOptions!>? configureCache = null) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisModuleCache(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Redis.RedisOptions!>! configure, System.Func<ModularPipelines.Caching.ModuleCacheOptions!, ModularPipelines.Caching.ModuleCacheOptions!>? configureCache = null) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisModuleCache(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.Redis.RedisOptions!, ModularPipelines.Distributed.Redis.RedisOptions!>! configure, System.Func<ModularPipelines.Caching.ModuleCacheOptions!, ModularPipelines.Caching.ModuleCacheOptions!>? configureCache = null) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Redis.RedisOptions.operator !=(ModularPipelines.Distributed.Redis.RedisOptions? left, ModularPipelines.Distributed.Redis.RedisOptions? right) -> bool
+static ModularPipelines.Distributed.Redis.RedisOptions.operator ==(ModularPipelines.Distributed.Redis.RedisOptions? left, ModularPipelines.Distributed.Redis.RedisOptions? right) -> bool

@@ -1504,7 +1504,7 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler(new ModuleState(module, typeof(GpuOnlyModule)));
         var resultRegistry = new ModuleResultRegistry();
         var options = LostWorkerFixture.CreateOptions(totalInstances: 2);
-        options.WorkerRegistrationTimeout = TimeSpan.Zero;
+        options = options with { WorkerRegistrationTimeout = TimeSpan.Zero };
         var clock = new FakeTimeProvider();
         var inner = new InMemoryDistributedCoordinator(Microsoft.Extensions.Options.Options.Create(options), clock);
         var replacement = WorkerId.FromInstanceIndex(3);

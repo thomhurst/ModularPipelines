@@ -129,12 +129,12 @@ public class RedisModuleCacheTests
         await _cache.DeleteAsync(Fingerprint, CancellationToken.None);
 
         var fingerprintPrefix = $"custom-prefix:module-cache:v2:{{{Fingerprint.ToLowerInvariant()}}}";
-        await Assert.That(deletedKeys).IsEquivalentTo(new[]
-        {
+        await Assert.That(deletedKeys).IsEquivalentTo(
+        [
             $"{fingerprintPrefix}:metadata",
             $"{fingerprintPrefix}:entry:{generation}:chunk:0",
             $"{fingerprintPrefix}:entry:{generation}:chunk:1",
-        });
+        ]);
         await Assert.That(deletedKeys[0]).IsEqualTo($"{fingerprintPrefix}:metadata");
     }
 
@@ -273,17 +273,17 @@ public class RedisModuleCacheTests
     public async Task CacheRegistrationDoesNotReplaceDistributedOptions()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisDistributed(options =>
+        builder.AddRedisDistributed(options => options with
         {
-            options.ConnectionString = "distributed:6379";
-            options.KeyPrefix = "distributed";
-            options.ChunkSizeBytes = 123;
+            ConnectionString = "distributed:6379",
+            KeyPrefix = "distributed",
+            ChunkSizeBytes = 123,
         });
-        builder.AddRedisModuleCache(options =>
+        builder.AddRedisModuleCache(options => options with
         {
-            options.ConnectionString = "cache:6379";
-            options.KeyPrefix = "cache";
-            options.ChunkSizeBytes = 456;
+            ConnectionString = "cache:6379",
+            KeyPrefix = "cache",
+            ChunkSizeBytes = 456,
         });
 
         using var serviceProvider = builder.Services.BuildServiceProvider();
@@ -305,7 +305,7 @@ public class RedisModuleCacheTests
     public async Task CacheRejectsMissingConnectionAtStartup()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisModuleCache(options => options.KeyPrefix = "cache");
+        builder.AddRedisModuleCache(options => options with { KeyPrefix = "cache" });
 
         await Assert.That(async () => await builder.BuildAsync())
             .Throws<Microsoft.Extensions.Options.OptionsValidationException>()

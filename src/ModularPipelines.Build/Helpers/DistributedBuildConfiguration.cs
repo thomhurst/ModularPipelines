@@ -35,7 +35,10 @@ internal static class DistributedBuildConfiguration
                     if (entry.Key is "used_memory" or "maxmemory" or "evicted_keys"
                         && long.TryParse(entry.Value, out var value))
                     {
-                        logger.LogInformation("Redis {Counter}: {Value}", entry.Key, value);
+                        if (logger.IsEnabled(LogLevel.Information))
+                        {
+                            logger.LogInformation("Redis {Counter}: {Value}", entry.Key, value);
+                        }
                     }
                 }
             }
@@ -91,26 +94,26 @@ internal static class DistributedBuildConfiguration
             runId = $"{githubRunId}-{githubRunAttempt}";
         }
 
-        builder.AddDistributedMode(options =>
+        builder.AddDistributedMode(options => options with
         {
-            options.InstanceIndex = index;
-            options.TotalInstances = count;
-            options.RunId = runId;
-            options.Capabilities = index == 0 ? [new Capability(MasterCapability)] : [];
-            options.MinimumWorkerCount = count - 1;
-            options.WorkerRegistrationTimeout = TimeSpan.FromMinutes(10);
+            InstanceIndex = index,
+            TotalInstances = count,
+            RunId = runId,
+            Capabilities = index == 0 ? [new Capability(MasterCapability)] : [],
+            MinimumWorkerCount = count - 1,
+            WorkerRegistrationTimeout = TimeSpan.FromMinutes(10),
             // Workers enforce each module's own timeout; the master's backstop adds this slack
             // after a worker claims the module. A lost runner is detected sooner: its lease expires,
             // and a module no live worker can claim fails after WorkerRegistrationTimeout.
-            options.ModuleResultTimeout = TimeSpan.FromMinutes(15);
-            options.MaxParallelism = 2;
+            ModuleResultTimeout = TimeSpan.FromMinutes(15),
+            MaxParallelism = 2,
         });
-        builder.AddRedisDistributed(options =>
+        builder.AddRedisDistributed(options => options with
         {
-            options.ConnectionString = endpoint;
+            ConnectionString = endpoint,
             // Keep credentials as typed options: connection-string serialization does not
             // escape commas in passwords.
-            options.ConfigureConnection = connection =>
+            ConfigureConnection = connection =>
             {
                 connection.Password = password;
                 connection.Ssl = true;
@@ -119,9 +122,9 @@ internal static class DistributedBuildConfiguration
                 // other exceeded the 5-second default while downloading. Stay well under the
                 // 30-second worker lease so a stalled heartbeat fails before its lease expires.
                 connection.AsyncTimeout = 15_000;
-            };
-            options.KeyPrefix = "modularpipelines-ci";
-            options.TimeToLive = TimeSpan.FromHours(2);
+            },
+            KeyPrefix = "modularpipelines-ci",
+            TimeToLive = TimeSpan.FromHours(2),
         });
         return true;
     }

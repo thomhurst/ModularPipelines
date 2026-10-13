@@ -22,11 +22,11 @@ using ModularPipelines.Distributed.Artifacts.S3;
 
 var builder = Pipeline.CreateBuilder(args);
 
-builder.AddDistributedMode(options => options.TotalInstances = 2);
-builder.AddS3DistributedArtifactStore(options =>
+builder.AddDistributedMode(options => options with { TotalInstances = 2 });
+builder.AddS3DistributedArtifactStore(options => options with
 {
-    options.BucketName = "pipeline-artifacts";
-    options.Region = "eu-west-2";
+    BucketName = "pipeline-artifacts",
+    Region = "eu-west-2",
 });
 ```
 
@@ -72,10 +72,10 @@ action in any rule you configure yourself, including one covering `{KeyPrefix}/m
 Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```csharp
-builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.Optimal);
+builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
-Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Action<S3StorageOptions>` overload and one
+Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Func<S3StorageOptions, S3StorageOptions>` overload and one
 `IConfigurationSection` overload.
 
 ## Module caching
@@ -84,10 +84,10 @@ Use the same package as a shareable, cross-run module cache. The cache has its o
 a different bucket from the artifact store:
 
 ```csharp
-builder.AddS3ModuleCache(options =>
+builder.AddS3ModuleCache(options => options with
 {
-    options.BucketName = "pipeline-cache";
-    options.Region = "eu-west-2";
+    BucketName = "pipeline-cache",
+    Region = "eu-west-2",
 });
 ```
 

@@ -923,3 +923,22 @@ property names. Use inherited `Identity` for the active remote connection; the
 local identity property on `PodmanSystemConnectionAddOptions` configures the new
 connection. Compose provider settings remain on `PodmanComposeOptions`. See the
 [Podman migration guidance](docs/docs/mp-packages/podman.md#v4-migration).
+
+## Immutable distributed configuration
+
+`DistributedOptions`, `RedisOptions`, `SignalRDistributedOptions`, `SignalRTunnelOptions`,
+`S3StorageOptions`, and `RedisDiscoveryOptions` are immutable records with init-only
+properties. Configuration callbacks now return `Func<TOptions, TOptions>` transforms.
+Replace assignments such as `options => options.RunId = "run"` with
+`options => options with { RunId = "run" }`. For nested tunnel settings, use
+`options => options with { Tunnel = options.Tunnel with { Enabled = true } }`.
+
+`AddRedisModuleCache` and `AddS3ModuleCache` use transforms for both backend and cache
+options. Configuration-section overloads, named cache isolation, registration order,
+validation, and runtime defaults are preserved. `ConfigureConnection` remains an
+`Action<StackExchange.Redis.ConfigurationOptions>` because that third-party type is mutable.
+
+Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel =
+CompressionLevel.NoCompression })` to configure local artifact behavior without enabling
+distributed execution. `AddDistributedMode` enables distributed execution and accepts the
+same transform style. See the [distributed configuration guide](docs/docs/distributed/configuration.md).

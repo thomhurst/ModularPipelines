@@ -40,9 +40,9 @@ public class RedisDiscoveryOptionsTests
         }
         else
         {
-            builder.AddRedisMasterDiscovery(_ => { });
+            builder.AddRedisMasterDiscovery(_ => _);
         }
-        builder.AddDistributedMode(options => options.RunId = "test-run");
+        builder.AddDistributedMode(options => options with { RunId = "test-run" });
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
 
@@ -58,19 +58,19 @@ public class RedisDiscoveryOptionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisMasterDiscovery(options =>
+        builder.AddRedisMasterDiscovery(options => options with
         {
-            options.ConnectionString = connectionString;
-            options.ConfigureConnection = configuration =>
+            ConnectionString = connectionString,
+            ConfigureConnection = configuration =>
             {
                 if (customizeTls)
                 {
                     configuration.Ssl = true;
                     configuration.EndPoints.Clear();
                 }
-            };
+            },
         });
-        builder.AddDistributedMode(options => options.RunId = "test-run");
+        builder.AddDistributedMode(options => options with { RunId = "test-run" });
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
 
@@ -84,8 +84,8 @@ public class RedisDiscoveryOptionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisMasterDiscovery(options => options.ConnectionString = connectionString);
-        builder.AddDistributedMode(options => options.RunId = "test-run");
+        builder.AddRedisMasterDiscovery(options => options with { ConnectionString = connectionString });
+        builder.AddDistributedMode(options => options with { RunId = "test-run" });
 
         await using var pipeline = await builder.BuildAsync();
 
@@ -98,13 +98,13 @@ public class RedisDiscoveryOptionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisMasterDiscovery(options =>
+        builder.AddRedisMasterDiscovery(options => options with
         {
-            options.RestUrl = new Uri("https://redis.example");
-            options.RestToken = "test-token";
-            options.ConfigureConnection = _ => throw new InvalidOperationException("REST must not configure TCP");
+            RestUrl = new Uri("https://redis.example"),
+            RestToken = "test-token",
+            ConfigureConnection = _ => throw new InvalidOperationException("REST must not configure TCP"),
         });
-        builder.AddDistributedMode(options => options.RunId = "test-run");
+        builder.AddDistributedMode(options => options with { RunId = "test-run" });
 
         await using var pipeline = await builder.BuildAsync();
 
@@ -123,10 +123,10 @@ public class RedisDiscoveryOptionsTests
         var stopBeforeConnecting = new InvalidOperationException("Stop before network access");
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisMasterDiscovery(options =>
+        builder.AddRedisMasterDiscovery(options => options with
         {
-            options.ConnectionString = connectionString;
-            options.ConfigureConnection = configuration =>
+            ConnectionString = connectionString,
+            ConfigureConnection = configuration =>
             {
                 capturedConfiguration = configuration;
                 if (configuration.EndPoints.Count == 0)
@@ -136,9 +136,9 @@ public class RedisDiscoveryOptionsTests
 
                 configuration.Ssl = true;
                 throw stopBeforeConnecting;
-            };
+            },
         });
-        builder.AddDistributedMode(options => options.RunId = "test-run");
+        builder.AddDistributedMode(options => options with { RunId = "test-run" });
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => builder.BuildAsync());
 
         await Assert.That(exception).IsSameReferenceAs(stopBeforeConnecting);
@@ -175,14 +175,17 @@ public class RedisDiscoveryOptionsTests
         ConfigurationOptions? retained = null;
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisMasterDiscovery(options => options.ConfigureConnection = configuration =>
+        builder.AddRedisMasterDiscovery(options => options with
+        {
+            ConfigureConnection = configuration =>
         {
             retained = configuration;
             configuration.EndPoints.Add("redis.internal", 6380);
             configuration.Password = "key,with=special;characters";
             configuration.Ssl = true;
+        }
         });
-        builder.AddDistributedMode(options => options.RunId = "test-run");
+        builder.AddDistributedMode(options => options with { RunId = "test-run" });
         await using var pipeline = await builder.BuildAsync();
         var options = pipeline.Services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
 
@@ -289,8 +292,8 @@ public class RedisDiscoveryOptionsTests
     public async Task HostBuildRejectsIncompleteRestConfiguration()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisMasterDiscovery(options => options.RestUrl = new Uri("https://redis.example"));
-        builder.Services.Configure<DistributedOptions>(options => options.RunId = "test-run");
+        builder.AddRedisMasterDiscovery(options => options with { RestUrl = new Uri("https://redis.example") });
+        builder.ConfigureDistributedOptions(options => options with { RunId = "test-run" });
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(
             () => builder.BuildAsync());
@@ -308,7 +311,7 @@ public class RedisDiscoveryOptionsTests
             Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<NoOpModule>();
-            builder.AddRedisMasterDiscovery(options => options.ConnectionString = "localhost:6379");
+            builder.AddRedisMasterDiscovery(options => options with { ConnectionString = "localhost:6379" });
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.BuildAsync());
@@ -326,8 +329,8 @@ public class RedisDiscoveryOptionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisMasterDiscovery(options => options.ConnectionString = "localhost:6379");
-        builder.AddDistributedMode(options => options.RunId = "configured-after-discovery");
+        builder.AddRedisMasterDiscovery(options => options with { ConnectionString = "localhost:6379" });
+        builder.AddDistributedMode(options => options with { RunId = "configured-after-discovery" });
 
         await using var pipeline = await builder.BuildAsync();
         var options = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
@@ -339,13 +342,13 @@ public class RedisDiscoveryOptionsTests
     public async Task HostBuildRejectsInvalidTimings()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisMasterDiscovery(options =>
+        builder.AddRedisMasterDiscovery(options => options with
         {
-            options.ConnectionString = "localhost:6379";
-            options.TimeToLive = TimeSpan.Zero;
-            options.PollInterval = TimeSpan.Zero;
+            ConnectionString = "localhost:6379",
+            TimeToLive = TimeSpan.Zero,
+            PollInterval = TimeSpan.Zero,
         });
-        builder.Services.Configure<DistributedOptions>(options => options.RunId = "test-run");
+        builder.ConfigureDistributedOptions(options => options with { RunId = "test-run" });
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
 
@@ -356,7 +359,7 @@ public class RedisDiscoveryOptionsTests
     public async Task Discovery_Does_Not_Register_An_Application_Connection()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisMasterDiscovery(options => options.ConfigureConnection = configuration => configuration.Ssl = true);
+        builder.AddRedisMasterDiscovery(options => options with { ConfigureConnection = configuration => configuration.Ssl = true });
 
         await Assert.That(builder.Services.Any(descriptor =>
                 descriptor.ServiceType == typeof(StackExchange.Redis.IConnectionMultiplexer)))

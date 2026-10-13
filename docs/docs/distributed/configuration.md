@@ -34,21 +34,32 @@ The wire DTO changes are breaking: upgrade masters, workers, and custom coordina
 
 Passed to `AddDistributedMode()`. Controls the fundamental behavior of the master/worker system.
 
+All distributed and backend options are immutable records. Return updated options from
+configuration callbacks using `options => options with { ... }`. Update nested tunnel
+options with `options.Tunnel with { ... }`. Transforms and configuration-section bindings
+apply in registration order; startup validation runs after configuration and post-configuration.
+Named module-cache options remain separate from distributed backend options.
+
+Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel =
+CompressionLevel.NoCompression })` to configure artifact behavior in local mode. This does
+not enable distributed execution. Redis `ConfigureConnection` callbacks still mutate the
+third-party `StackExchange.Redis.ConfigurationOptions` type.
+
 ```csharp
-builder.AddDistributedMode(o =>
+builder.AddDistributedMode(o => o with
 {
-    o.InstanceIndex = 0;
-    o.TotalInstances = 4;
-    o.MaxParallelism = 4;
-    o.Role = DistributedRole.Master;
-    o.Capabilities = [Capability.Docker, Capability.Gpu];
-    o.RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!;
-    o.WorkerRegistrationTimeout = TimeSpan.FromMinutes(5);
-    o.WorkerHeartbeatInterval = TimeSpan.FromSeconds(5);
-    o.WorkerTimeout = TimeSpan.FromSeconds(30);
-    o.MasterTimeout = TimeSpan.FromMinutes(1);
-    o.MinimumWorkerCount = 0;
-    o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
+    InstanceIndex = 0,
+    TotalInstances = 4,
+    MaxParallelism = 4,
+    Role = DistributedRole.Master,
+    Capabilities = [Capability.Docker, Capability.Gpu],
+    RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!,
+    WorkerRegistrationTimeout = TimeSpan.FromMinutes(5),
+    WorkerHeartbeatInterval = TimeSpan.FromSeconds(5),
+    WorkerTimeout = TimeSpan.FromSeconds(30),
+    MasterTimeout = TimeSpan.FromMinutes(1),
+    MinimumWorkerCount = 0,
+    ModuleResultTimeout = TimeSpan.FromMinutes(45),
 });
 ```
 
@@ -137,7 +148,7 @@ at the registration call site instead.
 options pattern, independently of the backend:
 
 ```csharp
-builder.Services.Configure<DistributedOptions>(o => o.ArtifactCompressionLevel = CompressionLevel.Optimal);
+builder.ConfigureDistributedOptions(o => o with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 // Or set o.ArtifactCompressionLevel inside your existing AddDistributedMode configuration.
 ```
 
@@ -157,16 +168,16 @@ ahead of coordinator heartbeats on the client. Both connections still share the 
 so size them for the combined load. The module cache has its own options and connection, so it can use a different Redis server.
 
 ```csharp
-builder.AddRedisDistributed(o =>
+builder.AddRedisDistributed(o => o with
 {
-    o.ConnectionString = "redis-host:6379";
-    o.ConfigureConnection = connection =>
+    ConnectionString = "redis-host:6379",
+    ConfigureConnection = connection =>
     {
         connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
         connection.Ssl = true;
-    };
-    o.KeyPrefix = "modpipe";
-    o.TimeToLive = TimeSpan.FromHours(1);
+    },
+    KeyPrefix = "modpipe",
+    TimeToLive = TimeSpan.FromHours(1),
 });
 ```
 
@@ -294,11 +305,11 @@ leases, publish results and observe cancellation through hub invocations, so a w
 invokes again and never misses a broadcast.
 
 ```csharp
-builder.AddSignalRDistributedCoordinator(options =>
+builder.AddSignalRDistributedCoordinator(options => options with
 {
-    options.ListenUrl = new Uri("http://0.0.0.0:5099");
-    options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
-    options.AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN");
+    ListenUrl = new Uri("http://0.0.0.0:5099"),
+    AdvertisedUrl = new Uri("https://pipeline-master.example.com"),
+    AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN"),
 });
 ```
 

@@ -1625,10 +1625,10 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             if (distributedMode)
             {
-                builder.AddDistributedMode(options =>
+                builder.AddDistributedMode(options => options with
                 {
-                    options.TotalInstances = 2;
-                    options.RunId = "in-process-artifact-test";
+                    TotalInstances = 2,
+                    RunId = "in-process-artifact-test",
                 });
             }
             if (customBackend)

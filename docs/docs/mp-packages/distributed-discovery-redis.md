@@ -24,11 +24,11 @@ using ModularPipelines.Distributed.SignalR;
 
 var builder = Pipeline.CreateBuilder(args);
 
-builder.AddDistributedMode(options => options.TotalInstances = 2);
-builder.AddSignalRDistributedCoordinator(options => options.Tunnel.Enabled = true);
-builder.AddRedisMasterDiscovery(options =>
+builder.AddDistributedMode(options => options with { TotalInstances = 2 });
+builder.AddSignalRDistributedCoordinator(options => options with { Tunnel = options.Tunnel with { Enabled = true } });
+builder.AddRedisMasterDiscovery(options => options with
 {
-    options.ConnectionString = "localhost:6379";
+    ConnectionString = "localhost:6379",
 });
 ```
 
@@ -42,24 +42,24 @@ It may include a path prefix, but query strings and fragments are rejected becau
 For REST-backed Redis services, configure both `RestUrl` and `RestToken`; no TCP connection string is needed:
 
 ```csharp
-builder.AddRedisMasterDiscovery(options =>
+builder.AddRedisMasterDiscovery(options => options with
 {
-    options.RestUrl = new Uri(builder.Configuration["RedisRestUrl"]!);
-    options.RestToken = builder.Configuration["RedisRestToken"];
+    RestUrl = new Uri(builder.Configuration["RedisRestUrl"]!),
+    RestToken = builder.Configuration["RedisRestToken"],
 });
 ```
 
 For callback-only TCP configuration, supply endpoints explicitly:
 
 ```csharp
-builder.AddRedisMasterDiscovery(options =>
+builder.AddRedisMasterDiscovery(options => options with
 {
-    options.ConfigureConnection = connection =>
+    ConfigureConnection = connection =>
     {
         connection.EndPoints.Add("redis.internal", 6380);
         connection.Ssl = true;
         connection.Password = builder.Configuration["RedisPassword"];
-    };
+    },
 });
 ```
 

@@ -21,15 +21,15 @@ public class SkippedDependencyPipelineTests
         PipelineBuilder CreateBuilder(int index)
         {
             var builder = TestPipelineBuilder.Create();
-            builder.AddDistributedMode(options =>
+            builder.AddDistributedMode(options => options with
             {
-                options.InstanceIndex = index;
-                options.RunId = runId;
-                options.TotalInstances = 2;
-                options.MinimumWorkerCount = 1;
-                options.WorkerRegistrationTimeout = TimeSpan.FromSeconds(10);
-                options.ModuleResultTimeout = TimeSpan.FromSeconds(10);
-                options.Capabilities = [index == 0 ? new Capability("test-master") : new Capability("test-worker")];
+                InstanceIndex = index,
+                RunId = runId,
+                TotalInstances = 2,
+                MinimumWorkerCount = 1,
+                WorkerRegistrationTimeout = TimeSpan.FromSeconds(10),
+                ModuleResultTimeout = TimeSpan.FromSeconds(10),
+                Capabilities = [index == 0 ? new Capability("test-master") : new Capability("test-worker")],
             });
             builder.Services.AddSingleton(coordinator);
             builder.Services.AddSingleton<IDistributedMasterCoordinator>(coordinator);
@@ -57,11 +57,11 @@ public class SkippedDependencyPipelineTests
     public async Task Skipped_Barrier_Completes_Downstream_Modules(bool includePublishing, CancellationToken cancellationToken)
     {
         var builder = TestPipelineBuilder.Create();
-        builder.AddDistributedMode(options =>
+        builder.AddDistributedMode(options => options with
         {
-            options.TotalInstances = 1;
-            options.MaxParallelism = 2;
-            options.ModuleResultTimeout = TimeSpan.FromSeconds(10);
+            TotalInstances = 1,
+            MaxParallelism = 2,
+            ModuleResultTimeout = TimeSpan.FromSeconds(10),
         });
         builder.AddModule<PrevalidatedTests>();
         builder.AddModule<TestBarrier>();

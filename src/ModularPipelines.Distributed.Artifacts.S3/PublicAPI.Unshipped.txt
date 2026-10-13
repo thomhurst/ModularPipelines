@@ -30,28 +30,35 @@
 *REMOVED*ModularPipelines.Distributed.Artifacts.S3.Caching.S3ModuleCache.WriteAsync(string! fingerprint, System.IO.Stream! content, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.Artifacts.S3.S3DistributedExtensions
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.<Clone>$() -> ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions!
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.AccessKey.init -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.BucketName.init -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.Equals(ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions? other) -> bool
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ForcePathStyle.init -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.KeyPrefix.init -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.MultipartPartSizeBytes.init -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.Region.init -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.S3StorageOptions() -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.AccessKey.get -> string?
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.AccessKey.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.BucketName.get -> string!
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.BucketName.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ForcePathStyle.get -> bool
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ForcePathStyle.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.KeyPrefix.get -> string!
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.KeyPrefix.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.MultipartPartSizeBytes.get -> int
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.MultipartPartSizeBytes.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.Region.get -> string!
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.Region.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SecretKey.get -> string?
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SecretKey.set -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SecretKey.init -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ServiceUrl.get -> System.Uri?
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ServiceUrl.set -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ServiceUrl.init -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SetLifecycleRule.get -> bool
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SetLifecycleRule.set -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SetLifecycleRule.init -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.TimeToLive.get -> System.TimeSpan
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.TimeToLive.set -> void
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.TimeToLive.init -> void
+override ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.Equals(object? obj) -> bool
+override ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.GetHashCode() -> int
+override ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ToString() -> string!
 static ModularPipelines.Distributed.Artifacts.S3.S3DistributedExtensions.AddS3DistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.Artifacts.S3.S3DistributedExtensions.AddS3DistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Artifacts.S3.S3DistributedExtensions.AddS3DistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions!, ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Artifacts.S3.S3DistributedExtensions.AddS3ModuleCache(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section, System.Func<ModularPipelines.Caching.ModuleCacheOptions!, ModularPipelines.Caching.ModuleCacheOptions!>? configureCache = null) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.Artifacts.S3.S3DistributedExtensions.AddS3ModuleCache(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions!>! configure, System.Func<ModularPipelines.Caching.ModuleCacheOptions!, ModularPipelines.Caching.ModuleCacheOptions!>? configureCache = null) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Artifacts.S3.S3DistributedExtensions.AddS3ModuleCache(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions!, ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions!>! configure, System.Func<ModularPipelines.Caching.ModuleCacheOptions!, ModularPipelines.Caching.ModuleCacheOptions!>? configureCache = null) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.operator !=(ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions? left, ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions? right) -> bool
+static ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.operator ==(ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions? left, ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions? right) -> bool

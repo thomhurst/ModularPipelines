@@ -23,10 +23,10 @@ using ModularPipelines.Distributed.Redis;
 var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode();
-builder.AddRedisDistributed(redis =>
+builder.AddRedisDistributed(redis => redis with
 {
-    redis.ConnectionString = "localhost:6379";
-    redis.TimeToLive = TimeSpan.FromHours(2);
+    ConnectionString = "localhost:6379",
+    TimeToLive = TimeSpan.FromHours(2),
 });
 ```
 
@@ -37,15 +37,15 @@ Set credentials that a connection string cannot carry safely, such as a password
 `ConfigureConnection`:
 
 ```csharp
-builder.AddRedisDistributed(redis =>
+builder.AddRedisDistributed(redis => redis with
 {
-    redis.ConnectionString = "redis.example.com:6380";
-    redis.ConfigureConnection = connection =>
+    ConnectionString = "redis.example.com:6380",
+    ConfigureConnection = connection =>
     {
         connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
         connection.Ssl = true;
         connection.AbortOnConnectFail = false;
-    };
+    },
 });
 ```
 
@@ -55,11 +55,11 @@ or reuse an `IConnectionMultiplexer` from the service collection.
 Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
 `AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required.
-Every Redis registration method has one `Action<RedisOptions>` overload and one `IConfigurationSection` overload.
+Every Redis registration method has one `Func<RedisOptions, RedisOptions>` overload and one `IConfigurationSection` overload.
 Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```csharp
-builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.Optimal);
+builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
 See [Configuration](../distributed/configuration.md#redisoptions) for every `RedisOptions` property and the key schema.
@@ -69,10 +69,10 @@ See [Configuration](../distributed/configuration.md#redisoptions) for every `Red
 Redis can provide a shareable, cross-run module cache without enabling distributed execution:
 
 ```csharp
-builder.AddRedisModuleCache(redis =>
+builder.AddRedisModuleCache(redis => redis with
 {
-    redis.ConnectionString = "localhost:6379";
-    redis.TimeToLive = TimeSpan.FromDays(1);
+    ConnectionString = "localhost:6379",
+    TimeToLive = TimeSpan.FromDays(1),
 });
 ```
 

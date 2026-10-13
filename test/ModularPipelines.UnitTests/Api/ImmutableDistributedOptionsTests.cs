@@ -1,0 +1,118 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using ModularPipelines.DependencyInjection;
+using ModularPipelines.Distributed;
+
+namespace ModularPipelines.UnitTests.Api;
+
+public class ImmutableDistributedOptionsTests
+{
+    [Test]
+    public async Task Binding_And_Transforms_Apply_In_Registration_Order()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.ConfigureDistributedOptions(options => options with { RunId = "first", MinimumWorkerCount = 1 });
+        var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            ["Distributed:RunId"] = "bound",
+            ["Distributed:TotalInstances"] = "3",
+        }).Build();
+        builder.AddDistributedMode(configuration.GetSection("Distributed"));
+        builder.ConfigureDistributedOptions(options => options with { RunId = options.RunId + "-last" });
+        using var provider = builder.Services.BuildServiceProvider();
+        var options = provider.GetRequiredService<IOptions<DistributedOptions>>().Value;
+
+        await Assert.That(options.RunId).IsEqualTo("bound-last");
+        await Assert.That(options.TotalInstances).IsEqualTo(3);
+        await Assert.That(options.MinimumWorkerCount).IsEqualTo(1);
+        await Assert.That(options.Enabled).IsTrue();
+    }
+
+    [Test]
+    public async Task Named_Options_Keep_Binding_Transforms_And_Validation()
+    {
+        var services = new ServiceCollection();
+        TransformOptionsFactory<DistributedOptions>.Configure(services, options => options with { RunId = "default" });
+        TransformOptionsFactory<DistributedOptions>.Configure(services, options => options with { RunId = "named" }, "worker");
+        services.AddOptions<DistributedOptions>("worker").Validate(options => options.RunId == "named", "wrong run");
+        using var provider = services.BuildServiceProvider();
+        await Assert.That(provider.GetRequiredService<IOptions<DistributedOptions>>().Value.RunId).IsEqualTo("default");
+        await Assert.That(provider.GetRequiredService<IOptionsSnapshot<DistributedOptions>>().Get("worker").RunId).IsEqualTo("named");
+        await Assert.That(provider.GetRequiredService<IOptionsMonitor<DistributedOptions>>().Get("worker").RunId).IsEqualTo("named");
+        await Assert.That(provider.GetRequiredService<IOptionsFactory<DistributedOptions>>().Create("worker").RunId).IsEqualTo("named");
+    }
+
+    [Test]
+    public async Task Configuration_Reload_Reapplies_Transforms_Without_Changing_Previous_Options()
+    {
+        var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            ["Distributed:RunId"] = "first",
+        }).Build();
+        var builder = Pipeline.CreateBuilder();
+        builder.AddDistributedMode(configuration.GetSection("Distributed"));
+        builder.ConfigureDistributedOptions(options => options with { RunId = options.RunId + "-transformed" });
+        using var provider = builder.Services.BuildServiceProvider();
+        var monitor = provider.GetRequiredService<IOptionsMonitor<DistributedOptions>>();
+        var original = monitor.CurrentValue;
+        configuration["Distributed:RunId"] = "second";
+        configuration.Reload();
+
+        await Assert.That(original.RunId).IsEqualTo("first-transformed");
+        await Assert.That(monitor.CurrentValue.RunId).IsEqualTo("second-transformed");
+        await Assert.That(monitor.CurrentValue.Enabled).IsTrue();
+    }
+
+    [Test]
+    public async Task Null_Transform_Result_Is_Rejected()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddDistributedMode(_ => null!);
+        using var provider = builder.Services.BuildServiceProvider();
+        await Assert.That(() => provider.GetRequiredService<IOptions<DistributedOptions>>().Value)
+            .Throws<InvalidOperationException>().WithMessageContaining("DistributedOptions configuration returned null");
+    }
+
+    [Test]
+    public async Task Validation_Sees_Final_Transform_Result()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.ConfigureDistributedOptions(options => options with { TotalInstances = 3 });
+        builder.ConfigureDistributedOptions(options => options with { TotalInstances = 0 });
+        builder.Services.AddOptions<DistributedOptions>().Validate(options => options.TotalInstances > 0, "positive count required");
+        using var provider = builder.Services.BuildServiceProvider();
+        await Assert.That(() => provider.GetRequiredService<IOptions<DistributedOptions>>().Value)
+            .Throws<OptionsValidationException>().WithMessageContaining("positive count required");
+    }
+
+    [Test]
+    public async Task Transform_Returns_New_Record_And_Preserves_Defaults()
+    {
+        DistributedOptions? original = null;
+        var builder = Pipeline.CreateBuilder();
+        builder.ConfigureDistributedOptions(options =>
+        {
+            original = options;
+            return options with { RunId = "transformed" };
+        });
+        using var provider = builder.Services.BuildServiceProvider();
+        var configured = provider.GetRequiredService<IOptions<DistributedOptions>>().Value;
+        await Assert.That(original!.RunId).IsEqualTo(string.Empty);
+        await Assert.That(configured.RunId).IsEqualTo("transformed");
+        await Assert.That(configured.TotalInstances).IsEqualTo(1);
+        await Assert.That(configured.WorkerTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
+        await Assert.That(configured.Enabled).IsFalse();
+    }
+    [Test]
+    public async Task Enabling_Distributed_Mode_Does_Not_Enable_Unrelated_Named_Options()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddDistributedMode(options => options with { RunId = "default" });
+        using var provider = builder.Services.BuildServiceProvider();
+        var monitor = provider.GetRequiredService<IOptionsMonitor<DistributedOptions>>();
+        await Assert.That(monitor.CurrentValue.Enabled).IsTrue();
+        await Assert.That(monitor.Get("other").Enabled).IsFalse();
+        await Assert.That(monitor.Get("other").RunId).IsEqualTo(string.Empty);
+    }
+}
