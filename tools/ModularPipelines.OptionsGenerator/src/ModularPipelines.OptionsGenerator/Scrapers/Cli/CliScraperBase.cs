@@ -1836,28 +1836,13 @@ public abstract partial class CliScraperBase : ICliScraper
 
         while (declarationIndex + 1 < lines.Count)
         {
-            var candidateIndex = declarationIndex + 1;
-            if (allowParagraphBreaks && descriptionColumn is not null)
-            {
-                while (candidateIndex < lines.Count && string.IsNullOrWhiteSpace(lines[candidateIndex]))
-                {
-                    candidateIndex++;
-                }
-            }
-
+            var candidateIndex = FindDescriptionContinuation(lines, declarationIndex, descriptionColumn, allowParagraphBreaks);
             if (candidateIndex == lines.Count)
             {
                 break;
             }
 
             var candidate = lines[candidateIndex];
-            if (candidateIndex > declarationIndex + 1
-                && descriptionColumn is { } paragraphColumn
-                && GetIndentation(candidate) < paragraphColumn)
-            {
-                break;
-            }
-
             if (!IsContinuationLine(
                     candidate,
                     declarationIndentation,
@@ -1872,19 +1857,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 break;
             }
 
-            var continuation = candidate.Trim();
-            // Help formatters can wrap a long option reference at an internal hyphen.
-            // Keep ordinary prose hyphens and standalone option terminators unchanged.
-            if (parts.Count > 0
-                && char.IsAsciiLetterOrDigit(continuation[0])
-                && WrappedLongOptionPrefixPattern().IsMatch(parts[^1]))
-            {
-                parts[^1] += continuation;
-            }
-            else
-            {
-                parts.Add(continuation);
-            }
+            AppendDescriptionContinuation(parts, candidate.Trim());
 
             declarationIndex = candidateIndex;
 
@@ -1894,6 +1867,49 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         return string.Join(' ', parts);
+    }
+
+    private static int FindDescriptionContinuation(
+        IReadOnlyList<string> lines,
+        int declarationIndex,
+        int? descriptionColumn,
+        bool allowParagraphBreaks)
+    {
+        var candidateIndex = declarationIndex + 1;
+        if (!allowParagraphBreaks || descriptionColumn is not { } paragraphColumn)
+        {
+            return candidateIndex;
+        }
+
+        while (candidateIndex < lines.Count && string.IsNullOrWhiteSpace(lines[candidateIndex]))
+        {
+            candidateIndex++;
+        }
+
+        if (candidateIndex < lines.Count
+            && candidateIndex > declarationIndex + 1
+            && GetIndentation(lines[candidateIndex]) < paragraphColumn)
+        {
+            return lines.Count;
+        }
+
+        return candidateIndex;
+    }
+
+    private static void AppendDescriptionContinuation(List<string> parts, string continuation)
+    {
+        // Help formatters can wrap a long option reference at an internal hyphen.
+        // Keep ordinary prose hyphens and standalone option terminators unchanged.
+        if (parts.Count > 0
+            && char.IsAsciiLetterOrDigit(continuation[0])
+            && WrappedLongOptionPrefixPattern().IsMatch(parts[^1]))
+        {
+            parts[^1] += continuation;
+        }
+        else
+        {
+            parts.Add(continuation);
+        }
     }
 
     [GeneratedRegex(@"(?<![\w/-])--[A-Za-z0-9][A-Za-z0-9_-]*-$")]

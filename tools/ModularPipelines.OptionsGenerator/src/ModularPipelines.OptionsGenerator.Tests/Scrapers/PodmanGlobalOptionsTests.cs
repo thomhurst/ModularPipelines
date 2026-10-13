@@ -28,16 +28,9 @@ public class PodmanGlobalOptionsTests
         await Assert.That(options.Select(option => option.SwitchName)).IsEquivalentTo(GlobalSwitches);
         foreach (var option in options)
         {
-            var boolean = option.SwitchName is "--remote" or "--syslog" or "--transient-store";
-            var repeated = option.SwitchName is "--cdi-spec-dir" or "--hooks-dir" or "--module"
-                or "--runtime-flag" or "--storage-opt";
-            var expectedType = (option.SwitchName, boolean, repeated) switch
-            {
-                (_, true, _) => "bool?",
-                (_, _, true) => "IEnumerable<string>?",
-                ("--log-level", _, _) => "PodmanLogLevel?",
-                _ => "string?",
-            };
+            var expectedType = ExpectedType(option.SwitchName);
+            var boolean = expectedType == "bool?";
+            var repeated = expectedType == "IEnumerable<string>?";
             await Assert.That(option.CSharpType).IsEqualTo(expectedType);
             await Assert.That(option.IsFlag).IsFalse();
             await Assert.That(option.IsSecret).IsFalse();
@@ -59,6 +52,14 @@ public class PodmanGlobalOptionsTests
         await Assert.That(options.Single(option => option.SwitchName == "--remote").ShortForm).IsEqualTo("-r");
         await Assert.That(options.Single(option => option.SwitchName == "--tmpdir").Description).Contains("TMPDIR");
     }
+
+    private static string ExpectedType(string switchName) => switchName switch
+    {
+        "--remote" or "--syslog" or "--transient-store" => "bool?",
+        "--cdi-spec-dir" or "--hooks-dir" or "--module" or "--runtime-flag" or "--storage-opt" => "IEnumerable<string>?",
+        "--log-level" => "PodmanLogLevel?",
+        _ => "string?",
+    };
 
     [Test]
     public async Task Full_Traversal_Preserves_Local_Identity_And_Compose_Provider_Scope()

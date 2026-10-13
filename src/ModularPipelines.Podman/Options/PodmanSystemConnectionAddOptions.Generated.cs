@@ -52,7 +52,7 @@ public record PodmanSystemConnectionAddOptions : PodmanOptions
     /// path to SSH identity file
     /// </summary>
     [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
-    public string? Identity { get; set; }
+    public string? ConnectionIdentity { get; set; }
 
     /// <summary>
     /// SSH port number for destination (default 22)
@@ -70,19 +70,19 @@ public record PodmanSystemConnectionAddOptions : PodmanOptions
     /// path to TLS certificate Authority PEM file
     /// </summary>
     [CliOption("--tls-ca", Format = OptionFormat.EqualsSeparated)]
-    public string? TlsCa { get; set; }
+    public string? ConnectionTlsCa { get; set; }
 
     /// <summary>
     /// path to TLS client certificate PEM file
     /// </summary>
     [CliOption("--tls-cert", Format = OptionFormat.EqualsSeparated)]
-    public string? TlsCert { get; set; }
+    public string? ConnectionTlsCert { get; set; }
 
     /// <summary>
     /// path to TLS client certificate private key PEM file
     /// </summary>
     [CliOption("--tls-key", Format = OptionFormat.EqualsSeparated)]
-    public string? TlsKey { get; set; }
+    public string? ConnectionTlsKey { get; set; }
 
     /// <summary>
     /// The NAME operand.

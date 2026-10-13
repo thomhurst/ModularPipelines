@@ -94,7 +94,7 @@ public record PodmanKubePlayOptions : PodmanOptions
     public string? Ip { get; set; }
 
     /// <summary>
-    /// Logging driver for the container (default "journald")
+    /// Logging driver for the container (default "k8s-file")
     /// </summary>
     [CliOption("--log-driver", Format = OptionFormat.EqualsSeparated)]
     public string? LogDriver { get; set; }

@@ -13,7 +13,7 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Print the public port for a port binding
+/// List port mappings or print the public port for a specific mapping for the service
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,25 +21,20 @@ namespace ModularPipelines.Podman.Options;
 public record PodmanComposePortOptions : PodmanOptions
 {
     /// <summary>
-    /// Print the public port for a port binding
+    /// List port mappings or print the public port for a specific mapping for the service
     /// </summary>
     /// <param name="Service">The SERVICE operand.</param>
-    /// <param name="PrivatePort">The PRIVATE_PORT operand.</param>
     public PodmanComposePortOptions(
-        string Service,
-        string PrivatePort
+        string Service
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Service);
         this.Service = Service;
-        global::System.ArgumentNullException.ThrowIfNull(PrivatePort);
-        this.PrivatePort = PrivatePort;
     }
 
-    public void Deconstruct(out string Service, out string PrivatePort)
+    public void Deconstruct(out string Service)
     {
         Service = this.Service;
-        PrivatePort = this.PrivatePort;
     }
 
     /// <summary>
@@ -69,7 +64,7 @@ public record PodmanComposePortOptions : PodmanOptions
     /// <summary>
     /// The PRIVATE_PORT operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
-    public string PrivatePort { get; private init; }
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public string? PrivatePort { get; set; }
 
 }

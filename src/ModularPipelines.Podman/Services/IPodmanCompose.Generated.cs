@@ -187,7 +187,7 @@ public interface IPodmanCompose
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Print the public port for a port binding
+    /// List port mappings or print the public port for a specific mapping for the service
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

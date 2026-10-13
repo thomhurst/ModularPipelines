@@ -46,13 +46,26 @@ public class PodmanGlobalOptionsTests : TestBase
         var options = new PodmanSystemConnectionAddOptions("dev", "ssh://builder")
         {
             Identity = "active.key",
+            ConnectionIdentity = "new.key",
         };
-        var localIdentity = typeof(PodmanSystemConnectionAddOptions)
-            .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-            .Single(property => property.GetCustomAttribute<CliOptionAttribute>()?.Name == "--identity");
-        localIdentity.SetValue(options, "new.key");
         await Assert.That(await RenderCommand(options)).IsEqualTo(
             "podman --identity=active.key system connection add --identity=new.key dev ssh://builder");
+    }
+
+    [Test]
+    public async Task Root_And_New_Connection_Tls_Have_Independent_Values()
+    {
+        var options = new PodmanSystemConnectionAddOptions("dev", "https://builder")
+        {
+            TlsCa = "active-ca.pem",
+            TlsCert = "active-cert.pem",
+            TlsKey = "active-key.pem",
+            ConnectionTlsCa = "new-ca.pem",
+            ConnectionTlsCert = "new-cert.pem",
+            ConnectionTlsKey = "new-key.pem",
+        };
+        await Assert.That(await RenderCommand(options)).IsEqualTo(
+            "podman --tls-ca=active-ca.pem --tls-cert=active-cert.pem --tls-key=active-key.pem system connection add --tls-ca=new-ca.pem --tls-cert=new-cert.pem --tls-key=new-key.pem dev https://builder");
     }
 
     [Test]

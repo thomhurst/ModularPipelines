@@ -36,7 +36,7 @@ public record PodmanSystemServiceOptions : PodmanOptions
     /// PEM file containing TLS serving certificate.
     /// </summary>
     [CliOption("--tls-cert", Format = OptionFormat.EqualsSeparated)]
-    public string? TlsCert { get; set; }
+    public string? SystemTlsCert { get; set; }
 
     /// <summary>
     /// Only trust client connections with certificates signed by this CA PEM file
@@ -48,7 +48,7 @@ public record PodmanSystemServiceOptions : PodmanOptions
     /// PEM file containing TLS serving certificate private key
     /// </summary>
     [CliOption("--tls-key", Format = OptionFormat.EqualsSeparated)]
-    public string? TlsKey { get; set; }
+    public string? SystemTlsKey { get; set; }
 
     /// <summary>
     /// The URI operand.
