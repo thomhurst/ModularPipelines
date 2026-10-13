@@ -860,7 +860,9 @@ Regenerated Kustomize edit methods now require options when the CLI requires an
 operand. For example, replace `Edit.Set.NamespaceAsync()` with
 `Edit.Set.NamespaceAsync(new KustomizeEditSetNamespaceOptions("production"))`, and
 replace `Edit.Add.BaseAsync()` with
-`Edit.Add.BaseAsync(new KustomizeEditAddBaseOptions("../base"))`. Other affected
-add, remove, and set methods similarly take their generated options type with the
-required operand. Empty calls no longer compile; generated compatibility overloads
-are not retained for commands that require input.
+`Edit.Add.BaseAsync(new KustomizeEditAddBaseOptions("../base"))`. Other add, remove,
+and set subcommands whose generated options require an operand similarly need their
+options type. Empty calls no longer compile for those subcommands; generated
+compatibility overloads are not retained for commands that require input.
+`Edit.Add.PatchAsync()` and `Edit.Remove.PatchAsync()` still compile because their
+options parameters default to `null`.
