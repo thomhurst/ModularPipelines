@@ -442,7 +442,11 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <inheritdoc />");
         sb.AppendLine("    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)");
         sb.AppendLine("    {");
-        foreach (var option in command.Options.Where(static option => option.RejectBlankCollectionValues))
+        // Match property emission: required options own names, and case-only duplicates are skipped.
+        foreach (var option in command.Options
+                     .OrderByDescending(static option => option.IsRequired)
+                     .DistinctBy(static option => option.PropertyName, StringComparer.OrdinalIgnoreCase)
+                     .Where(static option => option.RejectBlankCollectionValues))
         {
             sb.AppendLine($"        if ({option.PropertyName} is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<string>((global::System.Collections.IEnumerable){option.PropertyName}), static item => string.IsNullOrWhiteSpace(item)))");
             sb.AppendLine("        {");
@@ -824,6 +828,10 @@ public class OptionsClassGenerator : ICodeGenerator
             {
                 GenerateTypedSnapshotAdapter(sb, typePrefix, elementName);
             }
+            else if (collectionType == "ListWithDeclaredValues")
+            {
+                GenerateMutableDeclaredSnapshotAdapter(sb, typePrefix, elementName);
+            }
             else
             {
                 GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, elementName, collectionType, snapshotDeclaredValues);
@@ -900,6 +908,41 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         sb.AppendLine("    }");
+    }
+
+    private static void GenerateMutableDeclaredSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)
+    {
+        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        sb.AppendLine();
+        // Keep mutable ordinary values separate from the reusable renderer view.
+        sb.AppendLine($$"""
+                private sealed class {{typePrefix}}{{elementName}}(
+                    global::System.Collections.IEnumerable source,
+                    global::System.Collections.Generic.IEnumerable<{{elementType}}> values)
+                    : global::System.Collections.Generic.List<object>(EnumerateSource(source)),
+                        global::System.Collections.Generic.IEnumerable<object>,
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>
+                {
+                    private readonly {{elementType}}[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+                    private static global::System.Collections.Generic.IEnumerable<object> EnumerateSource(global::System.Collections.IEnumerable source)
+                    {
+                        foreach (var item in source)
+                        {
+                            yield return item;
+                        }
+                    }
+
+                    global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() => base.GetEnumerator();
+
+                    global::System.Collections.Generic.IEnumerator<object>
+                        global::System.Collections.Generic.IEnumerable<object>.GetEnumerator() => base.GetEnumerator();
+
+                    global::System.Collections.Generic.IEnumerator<{{elementType}}>
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator() =>
+                            ((global::System.Collections.Generic.IEnumerable<{{elementType}}>)_values).GetEnumerator();
+                }
+            """);
     }
 
     private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)

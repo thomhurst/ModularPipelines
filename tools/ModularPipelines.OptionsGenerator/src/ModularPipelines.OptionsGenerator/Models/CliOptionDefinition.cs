@@ -266,24 +266,16 @@ public record CliOptionDefinition
             return "IReadOnlySet";
         }
 
-        if (snapshotDeclaredValues || elementType.SpecialType != SpecialType.System_Object)
+        var readOnlyCollectionType = GetReadOnlySnapshotCollectionType(propertyType);
+        if (elementType.SpecialType != SpecialType.System_Object
+            || (snapshotDeclaredValues && readOnlyCollectionType is not null))
         {
-            var readOnlyCollectionType = propertyType.OriginalDefinition.SpecialType switch
-            {
-                SpecialType.System_Collections_Generic_IEnumerable_T => "IEnumerable",
-                SpecialType.System_Collections_Generic_IReadOnlyCollection_T => "IReadOnlyCollection",
-                SpecialType.System_Collections_Generic_IReadOnlyList_T => "IReadOnlyList",
-                _ => null,
-            };
-            if (readOnlyCollectionType is not null || elementType.SpecialType != SpecialType.System_Object)
-            {
-                return readOnlyCollectionType;
-            }
+            return readOnlyCollectionType;
         }
 
         if (IsMutableObjectCollection(compilation, propertyType, elementType))
         {
-            return "List";
+            return snapshotDeclaredValues ? "ListWithDeclaredValues" : "List";
         }
 
         if (isArrayAssignable)
@@ -294,6 +286,15 @@ public record CliOptionDefinition
         var setType = compilation.GetTypeByMetadataName("System.Collections.Generic.HashSet`1")?.Construct(elementType);
         return setType is not null && compilation.ClassifyConversion(setType, propertyType).IsImplicit ? "HashSet" : null;
     }
+
+    private static string? GetReadOnlySnapshotCollectionType(ITypeSymbol propertyType) =>
+        propertyType.OriginalDefinition.SpecialType switch
+        {
+            SpecialType.System_Collections_Generic_IEnumerable_T => "IEnumerable",
+            SpecialType.System_Collections_Generic_IReadOnlyCollection_T => "IReadOnlyCollection",
+            SpecialType.System_Collections_Generic_IReadOnlyList_T => "IReadOnlyList",
+            _ => null,
+        };
 
     private static bool IsMutableObjectCollection(CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType)
     {
@@ -388,7 +389,7 @@ public record CliOptionDefinition
         var snapshot = collectionType is not null
             ? $"new {{1}}{elementName}({values})"
             : $"({propertyName})(object)global::System.Linq.Enumerable.ToArray({values})";
-        if (collectionType is "NonGenericIEnumerable" or "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
+        if (collectionType is "NonGenericIEnumerable" or "IEnumerable" or "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet" or "ListWithDeclaredValues")
         {
             snapshot = $"new {{1}}{elementName}({{0}}, {values})";
         }
