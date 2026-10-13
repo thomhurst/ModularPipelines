@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewayRootCertShowOptions : AzOptions
     /// Get the details of a trusted root certificate.
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
-    /// <param name="Name">Name of the trusted root certificate.</param>
+    /// <param name="Name">Name of the trusted root certificate that is unique within an Application Gateway.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzNetworkApplicationGatewayRootCertShowOptions(
         string GatewayName,
@@ -54,7 +54,7 @@ public record AzNetworkApplicationGatewayRootCertShowOptions : AzOptions
     public string GatewayName { get; private init; }
 
     /// <summary>
-    /// Name of the trusted root certificate.
+    /// Name of the trusted root certificate that is unique within an Application Gateway.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }

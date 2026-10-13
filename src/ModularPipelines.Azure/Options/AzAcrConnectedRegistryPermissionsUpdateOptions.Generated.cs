@@ -14,7 +14,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Add and remove repository permissions accross all
+/// Add and remove repository permissions across all
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAcrConnectedRegistryPermissionsUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Add and remove repository permissions accross all
+    /// Add and remove repository permissions across all
     /// </summary>
     /// <param name="Name">Name for the connected registry. Name must be between 5 to 40 character long, start with a letter and contain only alphanumeric characters (including ‘_’ or ‘-’). Name must be unique under the Cloud ACR hierarchy.</param>
     /// <param name="Registry">The login server of the Cloud ACR registry. Must be the FQDN to support also Azure Stack.</param>

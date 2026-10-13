@@ -21,6 +21,8 @@ public class AzEventhubsCluster
 {
     private readonly ICommandContext _command;
     private AzEventhubsClusterNamespace? _namespace;
+    private AzEventhubsClusterQuotaConfiguration? _quotaConfiguration;
+    private AzEventhubsClusterUpgradePreference? _upgradePreference;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsCluster"/> class.
@@ -36,6 +38,16 @@ public class AzEventhubsCluster
     /// az namespace sub-commands.
     /// </summary>
     public AzEventhubsClusterNamespace Namespace => _namespace ??= new AzEventhubsClusterNamespace(_command);
+
+    /// <summary>
+    /// az quota-configuration sub-commands.
+    /// </summary>
+    public AzEventhubsClusterQuotaConfiguration QuotaConfiguration => _quotaConfiguration ??= new AzEventhubsClusterQuotaConfiguration(_command);
+
+    /// <summary>
+    /// az upgrade-preference sub-commands.
+    /// </summary>
+    public AzEventhubsClusterUpgradePreference UpgradePreference => _upgradePreference ??= new AzEventhubsClusterUpgradePreference(_command);
 
     #endregion
 

@@ -104,6 +104,12 @@ public record AzPostgresFlexibleServerRestoreOptions : AzOptions
     public string? RestoreTime { get; set; }
 
     /// <summary>
+    /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
+    /// </summary>
+    [CliOption("--sku-name")]
+    public string? SkuName { get; set; }
+
+    /// <summary>
     /// Storage type for the new server. Allowed value is PremiumV2_LRS. Default is for the new server to match storage type of the source server.  Allowed values: PremiumV2_LRS.
     /// </summary>
     [CliOption("--storage-type")]
@@ -114,6 +120,12 @@ public record AzPostgresFlexibleServerRestoreOptions : AzOptions
     /// </summary>
     [CliOption("--subnet")]
     public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
+    /// </summary>
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Name or identifier of an existing virtual network. If you want to use a vnet from a different resource group or subscription, please provide a resource identifier. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.

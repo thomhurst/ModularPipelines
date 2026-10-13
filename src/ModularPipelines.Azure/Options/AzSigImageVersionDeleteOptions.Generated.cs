@@ -22,6 +22,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzSigImageVersionDeleteOptions : AzOptions
 {
     /// <summary>
+    /// Specifies whether to bypass the gallery's soft-delete policy and permanently delete the gallery image version. If true, the version is not retained in the recycle bin and cannot be restored. If false or omitted, the version is soft-deleted when the gallery's soft-delete policy is enabled and permanently deleted when the policy is disabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--bypass-soft-delete", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BypassSoftDelete { get; set; }
+
+    /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]

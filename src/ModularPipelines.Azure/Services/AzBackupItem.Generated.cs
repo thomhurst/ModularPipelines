@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzBackupItem
 {
     private readonly ICommandContext _command;
+    private AzBackupItemSourceScanConfiguration? _sourceScanConfiguration;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBackupItem"/> class.
@@ -28,6 +29,15 @@ public class AzBackupItem
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az source-scan-configuration sub-commands.
+    /// </summary>
+    public AzBackupItemSourceScanConfiguration SourceScanConfiguration => _sourceScanConfiguration ??= new AzBackupItemSourceScanConfiguration(_command);
+
+    #endregion
 
     #region Commands
 

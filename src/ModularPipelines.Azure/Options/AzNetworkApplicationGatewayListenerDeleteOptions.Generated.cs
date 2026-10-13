@@ -25,7 +25,7 @@ public record AzNetworkApplicationGatewayListenerDeleteOptions : AzOptions
     /// Delete a listener.
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
-    /// <param name="Name">Name of the listener.</param>
+    /// <param name="Name">Name of the listener that is unique within an Application Gateway.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzNetworkApplicationGatewayListenerDeleteOptions(
         string GatewayName,
@@ -55,7 +55,7 @@ public record AzNetworkApplicationGatewayListenerDeleteOptions : AzOptions
     public string GatewayName { get; private init; }
 
     /// <summary>
-    /// Name of the listener.
+    /// Name of the listener that is unique within an Application Gateway.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }

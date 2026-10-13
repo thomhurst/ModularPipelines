@@ -67,7 +67,7 @@ public record AzAcrConnectedRegistryGetSettingsOptions : AzOptions
     public string Registry { get; private init; }
 
     /// <summary>
-    /// Select which password you want to generate, and it is required to retrieve the password from the sync token.  Allowed values: 1, 2.
+    /// Select which password you want to generate, and it is required to retrieve the password from the sync token. Not supported for a connected registry configured with ManagedIdentity authentication.  Allowed values: 1, 2.
     /// </summary>
     [SecretValue]
     [CliOption("--generate-password")]

@@ -68,6 +68,12 @@ public record AzAppConfigKvSetSnapshotReferenceOptions : AzOptions
     public string? ConnectionString { get; set; }
 
     /// <summary>
+    /// Description of the snapshot reference to be set.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
     [CliOption("--endpoint")]
@@ -86,7 +92,7 @@ public record AzAppConfigKvSetSnapshotReferenceOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

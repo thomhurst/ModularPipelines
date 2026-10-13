@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSigGalleryApplication
 {
     private readonly ICommandContext _command;
+    private AzSigGalleryApplicationVersion? _version;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSigGalleryApplication"/> class.
@@ -28,6 +29,15 @@ public class AzSigGalleryApplication
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az version sub-commands.
+    /// </summary>
+    public AzSigGalleryApplicationVersion Version => _version ??= new AzSigGalleryApplicationVersion(_command);
+
+    #endregion
 
     #region Commands
 

@@ -22,31 +22,31 @@ namespace ModularPipelines.Azure.Options;
 public record AzSigUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Community gallery publisher eula.
+    /// End-user license agreement for community gallery image.
     /// </summary>
     [CliOption("--eula")]
     public string? Eula { get; set; }
 
     /// <summary>
-    /// Community gallery public name prefix.
+    /// The prefix of the gallery name that will be displayed publicly. Visible to all users.
     /// </summary>
     [CliOption("--public-name-prefix")]
     public string? PublicNamePrefix { get; set; }
 
     /// <summary>
-    /// Community gallery publisher contact email.
+    /// Community gallery publisher support email. The email address of the publisher. Visible to all users.
     /// </summary>
     [CliOption("--publisher-contact")]
     public string? PublisherContact { get; set; }
 
     /// <summary>
-    /// Community gallery publisher uri.
+    /// The link to the publisher website. Visible to all users.
     /// </summary>
     [CliOption("--publisher-uri")]
     public string? PublisherUri { get; set; }
@@ -58,7 +58,7 @@ public record AzSigUpdateOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -76,19 +76,19 @@ public record AzSigUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The name of the Shared Image Gallery to be deleted.
+    /// The name of the Shared Image Gallery.
     /// </summary>
     [CliOption("--gallery-name", ShortForm = "-r")]
     public string? GalleryName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -106,15 +106,27 @@ public record AzSigUpdateOptions : AzOptions
     public string? Subscription { get; set; }
 
     /// <summary>
-    /// This property allows you to specify the permission of sharing gallery.  Allowed values: Community, Groups, Private.
+    /// This property allows you to specify the permission of sharing gallery. Possible values are: **Private,** **Groups,** **Community.**.  Allowed values: Community, Groups, Private.
     /// </summary>
     [CliOption("--permissions")]
     public string? Permissions { get; set; }
 
     /// <summary>
-    /// Enable soft-deletion for resources in this gallery, allowing them to be recovered within retention time. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Enables soft-deletion for resources in this gallery, allowing them to be recovered within retention time. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--soft-delete", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? SoftDelete { get; set; }
+
+    /// <summary>
+    /// The grace period in days for a simulated hard-deleted resource. During this period the gallery image version is unusable but can still be recovered if required. After this period elapses, the gallery image version is permanently (hard) deleted.
+    /// </summary>
+    [CliOption("--soft-delete-grace")]
+    public string? SoftDeleteGrace { get; set; }
+
+    /// <summary>
+    /// The retention period in days for a soft-deleted resource. After this period elapses, the soft-deleted gallery image version transitions to a simulated hard-deleted state.
+    /// </summary>
+    [CliOption("--soft-delete-retention")]
+    public string? SoftDeleteRetention { get; set; }
 
 }

@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewayUrlPathMapShowOptions : AzOptions
     /// Get the details of a URL path map.
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
-    /// <param name="Name">Name of the URL path map.</param>
+    /// <param name="Name">Name of the URL path map that is unique within an Application Gateway.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzNetworkApplicationGatewayUrlPathMapShowOptions(
         string GatewayName,
@@ -54,7 +54,7 @@ public record AzNetworkApplicationGatewayUrlPathMapShowOptions : AzOptions
     public string GatewayName { get; private init; }
 
     /// <summary>
-    /// Name of the URL path map.
+    /// Name of the URL path map that is unique within an Application Gateway.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }

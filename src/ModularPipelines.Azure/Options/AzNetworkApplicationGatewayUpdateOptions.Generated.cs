@@ -28,7 +28,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public string? Capacity { get; set; }
 
     /// <summary>
-    /// Space-separated list of custom error pages in `STATUS_CODE=URL` format. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of custom error pages in `STATUS_CODE=URL` format.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--custom-error-pages", GroupValues = true)]
     public IEnumerable<string>? CustomErrorPages { get; set; }
@@ -40,7 +40,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public CliOptionValue? EnableFips { get; set; }
 
     /// <summary>
-    /// Use HTTP2 for the application gateway.  Allowed values: Disabled, Enabled.
+    /// Use HTTP2 for the application gateway. Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--http2", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Http2 { get; set; }
@@ -70,25 +70,25 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Name of an application gateway SKU.  Allowed values: Basic, Standard_Large, Standard_Medium, Standard_Small, Standard_v2, WAF_Large, WAF_Medium, WAF_v2.
+    /// Name of an application gateway SKU. Allowed values: Basic, Standard_Large, Standard_Medium, Standard_Small, Standard_v2, WAF_Large, WAF_Medium, WAF_v2.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
 
     /// <summary>
-    /// SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://learn.microsoft.com/azure/azure-subscription-service- limits#application-gateway-limits).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://learn. microsoft.com/azure/azure-subscription- service-limits#application-gateway-limits). Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ssl-profiles", GroupValues = true)]
     public IEnumerable<string>? SslProfiles { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -106,10 +106,16 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Entra JWT validation configurations for the application gateway resource. For default limits, see [Application Gateway limits](ht tps://docs.microsoft.com/azure/azure- subscription-service-limits#application- gateway-limits).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--entra-jwt-configs", GroupValues = true)]
+    public IEnumerable<string>? EntraJwtConfigs { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -136,7 +142,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public string? Subscription { get; set; }
 
     /// <summary>
-    /// Family of an application gateway SKU.  Allowed values: Generation_1, Generation_2.
+    /// Family of an application gateway SKU. Allowed values: Generation_1, Generation_2.
     /// </summary>
     [CliOption("--family")]
     public string? Family { get; set; }

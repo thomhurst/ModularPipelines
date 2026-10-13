@@ -84,7 +84,7 @@ public record AzNetworkTrafficManagerProfileCreateOptions : AzOptions
     public int? MaxReturn { get; set; }
 
     /// <summary>
-    /// When record type is set, a traffic manager profile will allow only endpoints that match this type.  Allowed values: A, AAAA, CNAME.
+    /// When record type is set, a traffic manager profile will allow only endpoints that match this type. If it is not set, traffic manager profile will allow adding all types of endpoints. It is returned as null when this is not set.  Allowed values: A, AAAA, CNAME.
     /// </summary>
     [CliOption("--record-type")]
     public string? RecordType { get; set; }
@@ -96,7 +96,7 @@ public record AzNetworkTrafficManagerProfileCreateOptions : AzOptions
     public string? Status { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

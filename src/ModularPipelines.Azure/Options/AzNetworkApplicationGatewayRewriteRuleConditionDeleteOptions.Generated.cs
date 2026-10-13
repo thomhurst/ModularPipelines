@@ -26,9 +26,9 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions : AzO
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-    /// <param name="RuleName">Name of the rewrite rule.</param>
+    /// <param name="RuleName">Name of the rewrite rule that is unique within an Application Gateway.</param>
     /// <param name="RuleSetName">Name of the rewrite rule set.</param>
-    /// <param name="Variable">Variable whose value is being evaluated. Values from: `az network application-gateway rewrite-rule condition list-server- variables` (prefix headers needed).</param>
+    /// <param name="Variable">The condition parameter of the RewriteRuleCondition.</param>
     public AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions(
         string GatewayName,
         string ResourceGroup,
@@ -71,7 +71,7 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions : AzO
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Name of the rewrite rule.
+    /// Name of the rewrite rule that is unique within an Application Gateway.
     /// </summary>
     [CliOption("--rule-name")]
     public string RuleName { get; private init; }
@@ -83,7 +83,7 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions : AzO
     public string RuleSetName { get; private init; }
 
     /// <summary>
-    /// Variable whose value is being evaluated. Values from: `az network application-gateway rewrite-rule condition list-server- variables` (prefix headers needed).
+    /// The condition parameter of the RewriteRuleCondition.
     /// </summary>
     [CliOption("--variable")]
     public string Variable { get; private init; }

@@ -85,7 +85,7 @@ public record AzNetworkApplicationGatewayRuleUpdateOptions : AzOptions
     public string? RuleType { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -97,7 +97,7 @@ public record AzNetworkApplicationGatewayRuleUpdateOptions : AzOptions
     public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -113,6 +113,12 @@ public record AzNetworkApplicationGatewayRuleUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
+
+    /// <summary>
+    /// Entra JWT validation configuration resource of the application gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--entra-jwt-config", GroupValues = true)]
+    public IEnumerable<string>? EntraJwtConfig { get; set; }
 
     /// <summary>
     /// Name or ID of the HTTP listener. If only one exists, omit to use as default.

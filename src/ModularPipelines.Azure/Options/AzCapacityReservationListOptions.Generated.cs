@@ -56,6 +56,12 @@ public record AzCapacityReservationListOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
+    /// The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response.  Allowed values: virtualMachineScaleSetVMs/$ref, virtualMachines/$ref.
+    /// </summary>
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
+
+    /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
     [CliOption("--max-items")]

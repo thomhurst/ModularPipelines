@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewayRewriteRuleSetShowOptions : AzOptions
     /// Get the details of a rewrite rule set.
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
-    /// <param name="Name">Name of the rewrite rule set.</param>
+    /// <param name="Name">Name of the rewrite rule set that is unique within an Application Gateway.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzNetworkApplicationGatewayRewriteRuleSetShowOptions(
         string GatewayName,
@@ -54,7 +54,7 @@ public record AzNetworkApplicationGatewayRewriteRuleSetShowOptions : AzOptions
     public string GatewayName { get; private init; }
 
     /// <summary>
-    /// Name of the rewrite rule set.
+    /// Name of the rewrite rule set that is unique within an Application Gateway.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }

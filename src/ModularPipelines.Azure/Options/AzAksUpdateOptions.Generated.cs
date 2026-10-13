@@ -93,6 +93,12 @@ public record AzAksUpdateOptions : AzOptions
     public string? AksCustomHeaders { get; set; }
 
     /// <summary>
+    /// Resource ID of Azure Monitor Private Link scope for Monitoring Addon.
+    /// </summary>
+    [CliOption("--ampls-resource-id")]
+    public string? AmplsResourceId { get; set; }
+
+    /// <summary>
     /// Comma-separated list of authorized apiserver IP ranges. Set to "" to allow all traffic on a previously restricted cluster. Set to 0.0.0.0/32 to restrict apiserver traffic to node pools.
     /// </summary>
     [CliOption("--api-server-authorized-ip-ranges")]
@@ -147,7 +153,7 @@ public record AzAksUpdateOptions : AzOptions
     public string? AzureKeyvaultKmsKeyId { get; set; }
 
     /// <summary>
-    /// Network Access of Azure Key Vault. Allowed values: Private, Public. Allowed values are "Public", "Private". If not set, defaults to type "Public". Requires --azure-keyvault-kms-key-id to be used.
+    /// Network Access of Azure Key Vault.  Allowed values: Private, Public. Allowed values are "Public", "Private". If not set, defaults to type "Public". Requires --azure-keyvault-kms-key-id to be used.
     /// </summary>
     [CliOption("--azure-keyvault-kms-key-vault-network-access")]
     public string? AzureKeyvaultKmsKeyVaultNetworkAccess { get; set; }
@@ -165,7 +171,7 @@ public record AzAksUpdateOptions : AzOptions
     public string? AzureMonitorWorkspaceResourceId { get; set; }
 
     /// <summary>
-    /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct. The artifacts include the addon image. Use "Direct" to download artifacts from MCR, "Cache" to downalod artifacts from Azure Container Registry.
+    /// Configure artifact source when bootstraping the cluster. Allowed values: Cache, Direct. The artifacts include the addon image. Use "Direct" to download artifacts from MCR, "Cache" to downalod artifacts from Azure Container Registry.
     /// </summary>
     [CliOption("--bootstrap-artifact-source")]
     public string? BootstrapArtifactSource { get; set; }
@@ -189,10 +195,16 @@ public record AzAksUpdateOptions : AzOptions
     public IEnumerable<string>? CaProfile { get; set; }
 
     /// <summary>
-    /// Set azure container storage version, the latest version will be installed by default.  Allowed values: 1, 2.
+    /// Set azure container storage version, the latest version will be installed by default. Allowed values: 1, 2.
     /// </summary>
     [CliOption("--container-storage-version")]
     public string? ContainerStorageVersion { get; set; }
+
+    /// <summary>
+    /// Path to JSON file containing data collection settings for Monitoring addon.
+    /// </summary>
+    [CliOption("--data-collection-settings")]
+    public string? DataCollectionSettings { get; set; }
 
     /// <summary>
     /// Path to JSON file containing Microsoft Defender profile configurations.
@@ -255,13 +267,19 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableAzureKeyvaultKms { get; set; }
 
     /// <summary>
-    /// Disable Azure Monitor Application Monitoring auto-instrumentation for a Kubernetes cluster.
+    /// Disable Azure Monitor Application Monitoring auto- instrumentation for a Kubernetes cluster.
     /// </summary>
     [CliFlag("--disable-azure-monitor-app-monitoring")]
     public bool? DisableAzureMonitorAppMonitoring { get; set; }
 
     /// <summary>
-    /// Disable Azure Monitor Metrics Profile. This will delete all DCRA's associated with the cluster, any linked DCRs with the data stream = prometheus-stream and the recording rule groups created by the addon for this AKS cluster.
+    /// Disable Azure Monitor logs (Container Insights) for the cluster. Disables Container Insights, removes the data collection rule association, and resets the Container Insights settings (syslog port, Prometheus scraping and container network logs) back to their defaults. The workspace is left recorded on the profile but is unused while disabled, and is replaced on the next enable. If OpenTelemetry logs and traces are enabled they are disabled as well, and confirmation is requested first unless "--yes" is specified.
+    /// </summary>
+    [CliFlag("--disable-azure-monitor-logs")]
+    public bool? DisableAzureMonitorLogs { get; set; }
+
+    /// <summary>
+    /// Disable Azure Monitor Metrics Profile. This will delete all DCRA's associated with the cluster, any linked DCRs with the data stream = prometheus- stream and the recording rule groups created by the addon for this AKS cluster. If OpenTelemetry metrics are enabled, they are disabled as well, since they are collected through the managed Prometheus pipeline. Confirmation is requested first unless "--yes" is specified.
     /// </summary>
     [CliFlag("--disable-azure-monitor-metrics")]
     public bool? DisableAzureMonitorMetrics { get; set; }
@@ -345,7 +363,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableImageCleaner { get; set; }
 
     /// <summary>
-    /// Disable KEDA workload auto-scaler.
+    /// Disable KEDA workload auto- scaler.
     /// </summary>
     [CliFlag("--disable-keda")]
     public bool? DisableKeda { get; set; }
@@ -357,10 +375,28 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableLocalAccounts { get; set; }
 
     /// <summary>
+    /// Disable the OpenTelemetry (OTLP) logs and traces receiver.
+    /// </summary>
+    [CliFlag("--disable-opentelemetry-logs-traces")]
+    public bool? DisableOpentelemetryLogsTraces { get; set; }
+
+    /// <summary>
+    /// Disable the OpenTelemetry (OTLP) metrics receiver.
+    /// </summary>
+    [CliFlag("--disable-opentelemetry-metrics")]
+    public bool? DisableOpentelemetryMetrics { get; set; }
+
+    /// <summary>
     /// Disable private cluster for apiserver vnet integration cluster.
     /// </summary>
     [CliFlag("--disable-private-cluster")]
     public bool? DisablePrivateCluster { get; set; }
+
+    /// <summary>
+    /// Disable Prometheus metrics scraping by the Azure Monitor agent. Requires Azure Monitor logs to be enabled.
+    /// </summary>
+    [CliFlag("--disable-prometheus-metrics-scraping")]
+    public bool? DisablePrometheusMetricsScraping { get; set; }
 
     /// <summary>
     /// Disable public fqdn feature for private cluster.
@@ -375,7 +411,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableRunCommand { get; set; }
 
     /// <summary>
-    /// Disable secret rotation. Use with azure- keyvault-secrets-provider addon.
+    /// Disable secret rotation. Use with azure-keyvault-secrets- provider addon.
     /// </summary>
     [CliFlag("--disable-secret-rotation")]
     public bool? DisableSecretRotation { get; set; }
@@ -471,6 +507,12 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableAzureMonitorAppMonitoring { get; set; }
 
     /// <summary>
+    /// Enable Azure Monitor logs (Container Insights) for the cluster using managed identity authentication. Configures Container Insights through the cluster's Azure Monitor profile instead of the monitoring addon. Clusters still using legacy shared key authentication must first migrate to managed identity authentication. Requires the cluster to use a managed identity; clusters using service principal authentication are not supported. Fails if Azure Monitor logs is already enabled on the cluster. To change the configuration, run "az aks update --disable-azure-monitor-logs" first.
+    /// </summary>
+    [CliFlag("--enable-azure-monitor-logs")]
+    public bool? EnableAzureMonitorLogs { get; set; }
+
+    /// <summary>
     /// Enable a kubernetes cluster with the Azure Monitor managed service for Prometheus integration.
     /// </summary>
     [CliFlag("--enable-azure-monitor-metrics")]
@@ -501,13 +543,13 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableContainerNetworkLogs { get; set; }
 
     /// <summary>
-    /// Enable collection of Azure Monitor managed Prometheus control plane metrics for managed cluster components (controlplane-apiserver and controlplane- etcd targets by default). Requires Azure Monitor metrics to be enabled (already enabled or via --enable-azure-monitor-metrics).
+    /// Enable collection of Azure Monitor managed Prometheus control plane metrics for managed cluster components (controlplane-apiserver and controlplane-etcd targets by default). Requires Azure Monitor metrics to be enabled (already enabled or via --enable-azure-monitor-metrics).
     /// </summary>
     [CliFlag("--enable-control-plane-metrics")]
     public bool? EnableControlPlaneMetrics { get; set; }
 
     /// <summary>
-    /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost- analysis.
+    /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost-analysis.
     /// </summary>
     [CliFlag("--enable-cost-analysis")]
     public bool? EnableCostAnalysis { get; set; }
@@ -543,7 +585,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableGatewayApi { get; set; }
 
     /// <summary>
-    /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified. Allowed values: false, true.
+    /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified.  Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-high-log-scale-mode", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableHighLogScaleMode { get; set; }
@@ -561,7 +603,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableImageCleaner { get; set; }
 
     /// <summary>
-    /// Enable KEDA workload auto-scaler.
+    /// Enable KEDA workload auto- scaler.
     /// </summary>
     [CliFlag("--enable-keda")]
     public bool? EnableKeda { get; set; }
@@ -579,16 +621,40 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableManagedIdentity { get; set; }
 
     /// <summary>
+    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true. WARNING: Option '--enable-msi-auth-for-monitoring' has been deprecated and will be removed in a future release. Use '--enable-azure-monitor-logs' instead.
+    /// </summary>
+    [CliOption("--enable-msi-auth-for-monitoring", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableMsiAuthForMonitoring { get; set; }
+
+    /// <summary>
     /// Enable OIDC issuer.
     /// </summary>
     [CliFlag("--enable-oidc-issuer")]
     public bool? EnableOidcIssuer { get; set; }
 
     /// <summary>
+    /// Enable the OpenTelemetry (OTLP) logs and traces receiver. Requires Azure Monitor logs to be enabled.
+    /// </summary>
+    [CliFlag("--enable-opentelemetry-logs-traces")]
+    public bool? EnableOpentelemetryLogsTraces { get; set; }
+
+    /// <summary>
+    /// Enable the OpenTelemetry (OTLP) metrics receiver. Requires Azure Monitor metrics to be enabled.
+    /// </summary>
+    [CliFlag("--enable-opentelemetry-metrics")]
+    public bool? EnableOpentelemetryMetrics { get; set; }
+
+    /// <summary>
     /// Enable private cluster for apiserver vnet integration cluster.
     /// </summary>
     [CliFlag("--enable-private-cluster")]
     public bool? EnablePrivateCluster { get; set; }
+
+    /// <summary>
+    /// Enable Prometheus metrics scraping by the Azure Monitor agent. Requires Azure Monitor logs to be enabled.
+    /// </summary>
+    [CliFlag("--enable-prometheus-metrics-scraping")]
+    public bool? EnablePrometheusMetricsScraping { get; set; }
 
     /// <summary>
     /// Enable public fqdn feature for private cluster.
@@ -603,7 +669,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableRunCommand { get; set; }
 
     /// <summary>
-    /// Enable secret rotation. Use with azure- keyvault-secrets-provider addon.
+    /// Enable secret rotation. Use with azure-keyvault-secrets-provider addon.
     /// </summary>
     [CliFlag("--enable-secret-rotation")]
     public bool? EnableSecretRotation { get; set; }
@@ -619,6 +685,12 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--enable-static-egress-gateway")]
     public bool? EnableStaticEgressGateway { get; set; }
+
+    /// <summary>
+    /// Enable syslog data collection for Monitoring addon.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-syslog", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSyslog { get; set; }
 
     /// <summary>
     /// Enable user-defined scheduler configuration for kube-scheduler upstream on the cluster.
@@ -651,13 +723,13 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableWorkloadIdentity { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk volume type for azure container storage.  Allowed values: Basic, Premium, Standard.
+    /// Set ephemeral disk volume type for azure container storage. Allowed values: Basic, Premium, Standard.
     /// </summary>
     [CliOption("--ephemeral-disk-nvme-perf-tier")]
     public string? EphemeralDiskNvmePerfTier { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk volume type for azure container storage.  Allowed values: EphemeralVolumeOnly, PersistentVolumeWithAnnotation.
+    /// Set ephemeral disk volume type for azure container storage. Allowed values: EphemeralVolumeOnly, PersistentVolumeWithAnnotation.
     /// </summary>
     [CliOption("--ephemeral-disk-volume-type")]
     public string? EphemeralDiskVolumeType { get; set; }
@@ -711,25 +783,25 @@ public record AzAksUpdateOptions : AzOptions
     public string? IpFamilies { get; set; }
 
     /// <summary>
-    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values: AKSLongTermSupport, KubernetesOfficial.
+    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs. Allowed values: AKSLongTermSupport, KubernetesOfficial.
     /// </summary>
     [CliOption("--k8s-support-plan")]
     public string? K8sSupportPlan { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e. g.'=namespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=na mespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliOption("--ksm-metric-annotations-allow-list")]
     public string? KsmMetricAnnotationsAllowList { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=namespaces=[k8s-label-1,k8s- label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=n amespaces=[k8s-label-1,k8s- label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliOption("--ksm-metric-labels-allow-list")]
     public string? KsmMetricLabelsAllowList { get; set; }
 
     /// <summary>
-    /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration. Define the LoadBalancer backend pool type of managed inbound backend pool. The nodeIP means the VMs will be attached to the LoadBalancer by adding its private IP address to the backend pool. The nodeIPConfiguration means the VMs will be attached to the LoadBalancer by referencing the backend pool ID in the VM's NIC.
+    /// Load balancer backend pool type. Allowed values: nodeIP, nodeIPConfiguration. Define the LoadBalancer backend pool type of managed inbound backend pool. The nodeIP means the VMs will be attached to the LoadBalancer by adding its private IP address to the backend pool. The nodeIPConfiguration means the VMs will be attached to the LoadBalancer by referencing the backend pool ID in the VM's NIC.
     /// </summary>
     [CliOption("--load-balancer-backend-pool-type")]
     public string? LoadBalancerBackendPoolType { get; set; }
@@ -771,7 +843,7 @@ public record AzAksUpdateOptions : AzOptions
     public int? LoadBalancerOutboundPorts { get; set; }
 
     /// <summary>
-    /// Azure Load Balancer SKU selection for your cluster. only standard is accepted. Allowed values: standard. Upgrade to Standard Azure Load Balancer SKU for your AKS cluster.
+    /// Azure Load Balancer SKU selection for your cluster. only standard is accepted.  Allowed values: standard. Upgrade to Standard Azure Load Balancer SKU for your AKS cluster.
     /// </summary>
     [CliOption("--load-balancer-sku")]
     public string? LoadBalancerSku { get; set; }
@@ -807,13 +879,31 @@ public record AzAksUpdateOptions : AzOptions
     public int? NatGatewayManagedOutboundIpCount { get; set; }
 
     /// <summary>
-    /// The network dataplane to use.  Allowed values: azure, cilium. Network dataplane used in the Kubernetes cluster. Specify "azure" to use the Azure dataplane (default) or "cilium" to enable Cilium dataplane.
+    /// NAT gateway managed outbound IPv6 count. Only valid with --outbound-type managedNATGateway and --outbound-type-sku StandardV2.
+    /// </summary>
+    [CliOption("--nat-gateway-managed-outbound-ipv6-count")]
+    public int? NatGatewayManagedOutboundIpv6Count { get; set; }
+
+    /// <summary>
+    /// Comma-separated public IP prefix resource IDs for the cluster NAT gateway. Only valid with --outbound-type-sku StandardV2.
+    /// </summary>
+    [CliOption("--nat-gateway-outbound-ip-prefixes")]
+    public string? NatGatewayOutboundIpPrefixes { get; set; }
+
+    /// <summary>
+    /// Comma-separated public IP resource IDs for the cluster NAT gateway. Only valid with --outbound-type-sku StandardV2.
+    /// </summary>
+    [CliOption("--nat-gateway-outbound-ips")]
+    public string? NatGatewayOutboundIps { get; set; }
+
+    /// <summary>
+    /// The network dataplane to use. Allowed values: azure, cilium. Network dataplane used in the Kubernetes cluster. Specify "azure" to use the Azure dataplane (default) or "cilium" to enable Cilium dataplane.
     /// </summary>
     [CliOption("--network-dataplane")]
     public string? NetworkDataplane { get; set; }
 
     /// <summary>
-    /// The Kubernetes network plugin to use. Allowed values: azure, kubenet, none. Specify "azure" along with --network-plugin-mode=overlay to update a cluster to use Azure CNI Overlay. For more information see https://aka.ms/aks/azure-cni-overlay.
+    /// The Kubernetes network plugin to use.  Allowed values: azure, kubenet, none. Specify "azure" along with --network-plugin-mode=overlay to update a cluster to use Azure CNI Overlay. For more information see https://aka.ms/aks/azure-cni-overlay.
     /// </summary>
     [CliOption("--network-plugin")]
     public string? NetworkPlugin { get; set; }
@@ -825,7 +915,7 @@ public record AzAksUpdateOptions : AzOptions
     public string? NetworkPluginMode { get; set; }
 
     /// <summary>
-    /// Update Network Policy Engine.  Allowed values: azure, calico, cilium, none. Azure provides three Network Policy Engines for enforcing network policies. The following values can be specified: - "azure" for Azure Network Policy Manager, - "cilium" for Azure CNI Powered by Cilium, - "calico" for open-source network and network security solution founded by Tigera, - "none" to uninstall Network Policy Engine (Azure Network Policy Manager or Calico). Defaults to "none" (network policy disabled).
+    /// Update Network Policy Engine. Allowed values: azure, calico, cilium, none. Azure provides three Network Policy Engines for enforcing network policies. The following values can be specified: - "azure" for Azure Network Policy Manager, - "cilium" for Azure CNI Powered by Cilium, - "calico" for open-source network and network security solution founded by Tigera, - "none" to uninstall Network Policy Engine (Azure Network Policy Manager or Calico). Defaults to "none" (network policy disabled).
     /// </summary>
     [CliOption("--network-policy")]
     public string? NetworkPolicy { get; set; }
@@ -855,7 +945,7 @@ public record AzAksUpdateOptions : AzOptions
     public string? NodeProvisioningMode { get; set; }
 
     /// <summary>
-    /// The node labels for all node pool. See https://aka.ms/node-labels for syntax of labels.
+    /// The node labels for all node pool. See https://aka.ms/node- labels for syntax of labels.
     /// </summary>
     [CliOption("--nodepool-labels", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? NodepoolLabels { get; set; }
@@ -873,10 +963,40 @@ public record AzAksUpdateOptions : AzOptions
     public string? NrgLockdownRestrictionLevel { get; set; }
 
     /// <summary>
-    /// How outbound traffic will be configured for a cluster.  Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting. This option will change the way how the outbound connections are managed in the AKS cluster. Available options are loadbalancer, managedNATGateway, userAssignedNATGateway, userDefinedRouting and none. For custom vnet, loadbalancer, userAssignedNATGateway and userDefinedRouting are supported. For aks managed vnet, loadbalancer, managedNATGateway and userDefinedRouting are supported.
+    /// GRPC port for the OpenTelemetry logs and traces receiver.
+    /// </summary>
+    [CliOption("--opentelemetry-logs-traces-port-grpc")]
+    public int? OpentelemetryLogsTracesPortGrpc { get; set; }
+
+    /// <summary>
+    /// HTTP/protobuf port for the OpenTelemetry logs and traces receiver.
+    /// </summary>
+    [CliOption("--opentelemetry-logs-traces-port-http")]
+    public int? OpentelemetryLogsTracesPortHttp { get; set; }
+
+    /// <summary>
+    /// GRPC port for the OpenTelemetry metrics receiver.
+    /// </summary>
+    [CliOption("--opentelemetry-metrics-port-grpc")]
+    public int? OpentelemetryMetricsPortGrpc { get; set; }
+
+    /// <summary>
+    /// HTTP/protobuf port for the OpenTelemetry metrics receiver.
+    /// </summary>
+    [CliOption("--opentelemetry-metrics-port-http")]
+    public int? OpentelemetryMetricsPortHttp { get; set; }
+
+    /// <summary>
+    /// How outbound traffic will be configured for a cluster. Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting. This option will change the way how the outbound connections are managed in the AKS cluster. Available options are loadbalancer, managedNATGateway, userAssignedNATGateway, userDefinedRouting and none. For custom vnet, loadbalancer, userAssignedNATGateway and userDefinedRouting are supported. For aks managed vnet, loadbalancer, managedNATGateway and userDefinedRouting are supported.
     /// </summary>
     [CliOption("--outbound-type")]
     public string? OutboundType { get; set; }
+
+    /// <summary>
+    /// SKU of the managed NAT Gateway (Standard or StandardV2). Allowed values: Standard, StandardV2. Only valid with --outbound-type managedNATGateway. Migrate an existing Standard (V1) cluster to StandardV2 by passing StandardV2. StandardV2 adds zone resiliency, IPv6 support, and higher bandwidth. Downgrade from StandardV2 to Standard is not supported.
+    /// </summary>
+    [CliOption("--outbound-type-sku")]
+    public string? OutboundTypeSku { get; set; }
 
     /// <summary>
     /// Update the pod CIDR for a cluster. Used when updating a cluster from Azure CNI to Azure CNI Overlay.
@@ -891,13 +1011,13 @@ public record AzAksUpdateOptions : AzOptions
     public string? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// Set interval of rotation poll. Use with azure-keyvault-secrets-provider addon.
+    /// Set interval of rotation poll. Use with azure-keyvault-secrets- provider addon.
     /// </summary>
     [CliOption("--rotation-poll-interval")]
     public string? RotationPollInterval { get; set; }
 
     /// <summary>
-    /// Specify SKU name for managed clusters. Use '--sku base' enables a base managed cluster. Use '--sku automatic' enables an automatic managed cluster.  Allowed values: automatic, base.
+    /// Specify SKU name for managed clusters. Use '--sku base' enables a base managed cluster. Use '--sku automatic' enables an automatic managed cluster. Allowed values: automatic, base.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -921,10 +1041,16 @@ public record AzAksUpdateOptions : AzOptions
     public string? StoragePoolSize { get; set; }
 
     /// <summary>
-    /// Set azure disk type storage pool sku for azure container storage.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
+    /// Set azure disk type storage pool sku for azure container storage. Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
     [CliOption("--storage-pool-sku")]
     public string? StoragePoolSku { get; set; }
+
+    /// <summary>
+    /// TCP port that the Azure Monitor agent listens on for syslog data. Requires Azure Monitor logs to be enabled.
+    /// </summary>
+    [CliOption("--syslog-port")]
+    public int? SyslogPort { get; set; }
 
     /// <summary>
     /// The tags of the managed cluster. The managed cluster instance and all resources managed by the cloud provider will be tagged.
@@ -933,7 +1059,7 @@ public record AzAksUpdateOptions : AzOptions
     public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
-    /// Specify SKU tier for managed clusters. ' --tier standard' enables a standard managed cluster service with a financially backed SLA. '--tier free' changes a standard managed cluster to a free one.  Allowed values: free, premium, standard.
+    /// Specify SKU tier for managed clusters. '--tier standard' enables a standard managed cluster service with a financially backed SLA. '--tier free' changes a standard managed cluster to a free one.  Allowed values: free, premium, standard.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }
@@ -956,6 +1082,12 @@ public record AzAksUpdateOptions : AzOptions
     [SecretValue]
     [CliOption("--windows-admin-password")]
     public string? WindowsAdminPassword { get; set; }
+
+    /// <summary>
+    /// The resource ID of an existing Log Analytics Workspace to use for storing monitoring data. If not specified, uses the default Log Analytics Workspace if it exists, otherwise creates one.
+    /// </summary>
+    [CliOption("--workspace-resource-id")]
+    public string? WorkspaceResourceId { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

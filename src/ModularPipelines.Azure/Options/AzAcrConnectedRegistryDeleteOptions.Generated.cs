@@ -55,7 +55,7 @@ public record AzAcrConnectedRegistryDeleteOptions : AzOptions
     public string Registry { get; private init; }
 
     /// <summary>
-    /// It will aslo delete the sync token and the scope map resources.
+    /// Delete the associated sync token and scope map for a connected registry configured with SyncToken authentication. This option has no effect for a connected registry configured with ManagedIdentity authentication. The connected registry is still deleted, but the managed identity and role assignments are retained.
     /// </summary>
     [CliFlag("--cleanup")]
     public bool? Cleanup { get; set; }

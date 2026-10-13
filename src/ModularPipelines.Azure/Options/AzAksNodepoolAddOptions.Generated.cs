@@ -127,6 +127,12 @@ public record AzAksNodepoolAddOptions : AzOptions
     public bool? EnableFipsImage { get; set; }
 
     /// <summary>
+    /// Enable Managed DRANET on the node pool.
+    /// </summary>
+    [CliFlag("--enable-managed-dranet")]
+    public bool? EnableManagedDranet { get; set; }
+
+    /// <summary>
     /// Enable VMSS or VMs node public IP.
     /// </summary>
     [CliFlag("--enable-node-public-ip")]
@@ -373,7 +379,7 @@ public record AzAksNodepoolAddOptions : AzOptions
     public string? SpotMaxPrice { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

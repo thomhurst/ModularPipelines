@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzPolicySetDefinition
 {
     private readonly ICommandContext _command;
+    private AzPolicySetDefinitionVersion? _version;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPolicySetDefinition"/> class.
@@ -28,6 +29,15 @@ public class AzPolicySetDefinition
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az version sub-commands.
+    /// </summary>
+    public AzPolicySetDefinitionVersion Version => _version ??= new AzPolicySetDefinitionVersion(_command);
+
+    #endregion
 
     #region Commands
 

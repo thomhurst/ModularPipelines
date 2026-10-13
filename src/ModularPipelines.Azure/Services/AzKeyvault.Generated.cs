@@ -22,6 +22,7 @@ public class AzKeyvault : IAzKeyvault
     private readonly ICommandContext _command;
     private AzKeyvaultBackup? _backup;
     private AzKeyvaultCertificate? _certificate;
+    private AzKeyvaultEkmConnection? _ekmConnection;
     private AzKeyvaultKey? _key;
     private AzKeyvaultNetworkRule? _networkRule;
     private AzKeyvaultPrivateEndpointConnection? _privateEndpointConnection;
@@ -52,6 +53,11 @@ public class AzKeyvault : IAzKeyvault
     /// az certificate sub-commands.
     /// </summary>
     public AzKeyvaultCertificate Certificate => _certificate ??= new AzKeyvaultCertificate(_command);
+
+    /// <summary>
+    /// az ekm-connection sub-commands.
+    /// </summary>
+    public AzKeyvaultEkmConnection EkmConnection => _ekmConnection ??= new AzKeyvaultEkmConnection(_command);
 
     /// <summary>
     /// az key sub-commands.

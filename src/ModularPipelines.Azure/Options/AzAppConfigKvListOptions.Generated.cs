@@ -52,7 +52,7 @@ public record AzAppConfigKvListOptions : AzOptions
     public string? Endpoint { get; set; }
 
     /// <summary>
-    /// Space-separated customized output fields.  Allowed values: content_type, etag, key, label, last_modified, locked, tags, value.
+    /// Space-separated customized output fields.  Allowed values: content_type, description, etag, key, label, last_modified, locked, tags, value.
     /// </summary>
     [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
