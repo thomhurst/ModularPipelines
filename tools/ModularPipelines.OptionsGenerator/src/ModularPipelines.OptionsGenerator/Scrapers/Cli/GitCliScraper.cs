@@ -56,40 +56,65 @@ public partial class GitCliScraper(
             return cached;
         }
 
-        var arguments = commandPath.Length == 1
-            ? "help -a"
-            : $"{string.Join(' ', commandPath.Skip(1))} -h";
-        var usesHelpRepository = commandPath.Length > 2;
         await _helpCommandUsage.WaitAsync(cancellationToken);
-
-        CliCommandResult result;
         try
         {
             ThrowIfDisposed();
-            var workingDirectory = usesHelpRepository
-                ? await GetHelpRepositoryAsync()
-                : null;
-            result = await ExecuteAndRecordHelpCommandAsync(
-                commandPath,
-                ToolName,
-                arguments,
-                cancellationToken,
-                workingDirectory);
+            if (HelpCache.TryGet(cacheKey, out cached))
+            {
+                return cached;
+            }
+
+            var helpText = commandPath.Length == 1
+                ? await GetRootHelpTextAsync(commandPath, cancellationToken)
+                : await GetCommandHelpTextAsync(commandPath, cancellationToken);
+            if (helpText is not null)
+            {
+                HelpCache.Set(cacheKey, helpText);
+            }
+
+            return helpText;
         }
         finally
         {
             _helpCommandUsage.Release();
         }
+    }
 
-        // Git sends short help to either stream and commonly exits with its usage code.
-        var helpText = result.CombinedOutput;
-        if (string.IsNullOrWhiteSpace(helpText))
+    private async Task<string?> GetRootHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
+    {
+        var discovery = await ExecuteAndRecordHelpCommandAsync(
+            commandPath, ExecutablePath, "help -a", cancellationToken, helpKind: CliHelpKind.Discovery);
+        var usage = await ExecuteAndRecordHelpCommandAsync(
+            commandPath, ExecutablePath, "-h", cancellationToken, helpKind: CliHelpKind.Usage);
+        if (discovery.Unavailable || !discovery.Success || string.IsNullOrWhiteSpace(discovery.CombinedOutput))
         {
-            LogRejectedHelp(result, cacheKey);
+            LogRejectedHelp(discovery, ToolName, failedCommand: !discovery.Success);
             return null;
         }
 
-        HelpCache.Set(cacheKey, helpText);
+        // Git sends short help to either stream and commonly exits with its usage code.
+        if (usage.Unavailable || usage.ExitCode is not (0 or 129) || string.IsNullOrWhiteSpace(usage.CombinedOutput))
+        {
+            LogRejectedHelp(usage, ToolName, failedCommand: usage.ExitCode is not (0 or 129));
+            return null;
+        }
+
+        return usage.CombinedOutput + "\n" + discovery.CombinedOutput;
+    }
+
+    private async Task<string?> GetCommandHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
+    {
+        var workingDirectory = commandPath.Length > 2 ? await GetHelpRepositoryAsync() : null;
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath, ToolName, $"{string.Join(' ', commandPath.Skip(1))} -h", cancellationToken, workingDirectory);
+        var helpText = result.CombinedOutput;
+        if (string.IsNullOrWhiteSpace(helpText))
+        {
+            LogRejectedHelp(result, string.Join(' ', commandPath));
+            return null;
+        }
+
         return helpText;
     }
 
