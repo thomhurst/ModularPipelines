@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -6,6 +7,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Discovery.Redis;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
+using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 
@@ -165,6 +167,74 @@ public class RedisDiscoveryOptionsTests
         await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
         await Assert.That(options.GetConnectionConfiguration().Ssl).IsTrue();
         await Assert.That(calls).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task ValidatedConfigurationIsIsolatedFromCallbackAndConnectionCopies()
+    {
+        ConfigurationOptions? retained = null;
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisMasterDiscovery(options => options.ConfigureConnection = configuration =>
+        {
+            retained = configuration;
+            configuration.EndPoints.Add("redis.internal", 6380);
+            configuration.Password = "key,with=special;characters";
+            configuration.Ssl = true;
+        });
+        builder.AddDistributedMode(options => options.RunId = "test-run");
+        await using var pipeline = await builder.BuildAsync();
+        var options = pipeline.Services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
+
+        retained!.EndPoints.Clear();
+        retained.Password = "changed";
+        retained.Ssl = false;
+        var first = options.GetConnectionConfiguration();
+        await Assert.That(first.EndPoints.Single()).IsEqualTo(new DnsEndPoint("redis.internal", 6380));
+        await Assert.That(first.Password).IsEqualTo("key,with=special;characters");
+        await Assert.That(first.Ssl).IsTrue();
+
+        first.EndPoints.Clear();
+        first.Password = "changed again";
+        first.Ssl = false;
+        var second = options.GetConnectionConfiguration();
+        await Assert.That(second.EndPoints.Single()).IsEqualTo(new DnsEndPoint("redis.internal", 6380));
+        await Assert.That(second.Password).IsEqualTo("key,with=special;characters");
+        await Assert.That(second.Ssl).IsTrue();
+    }
+
+    [Test]
+    [Arguments("127.0.0.1")]
+    [Arguments("fe80::1%12")]
+    public async Task ValidatedIpEndpointsAreIsolatedFromRetainedAndReturnedObjects(string address)
+    {
+        var retained = new IPEndPoint(IPAddress.Parse(address), 6380);
+        var options = new RedisDiscoveryOptions
+        {
+            ConfigureConnection = configuration => configuration.EndPoints.Add(retained),
+        };
+        var validator = new RedisDiscoveryOptionsValidator();
+        await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
+
+        retained.Port = 6381;
+        if (retained.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+        {
+            retained.Address.ScopeId = 13;
+        }
+
+        retained.Address = IPAddress.Loopback;
+        var first = (IPEndPoint) options.GetConnectionConfiguration().EndPoints.Single();
+        await Assert.That(first).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
+
+        first.Port = 6382;
+        if (first.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+        {
+            first.Address.ScopeId = 14;
+        }
+
+        first.Address = IPAddress.Loopback;
+        var second = options.GetConnectionConfiguration().EndPoints.Single();
+        await Assert.That(second).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
     }
 
     [Test]

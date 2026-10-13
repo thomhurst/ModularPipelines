@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Sockets;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
@@ -21,7 +23,8 @@ public class RedisDiscoveryOptions
     /// Gets or sets an optional callback that adjusts the connection configuration parsed from
     /// <see cref="ConnectionString"/>, for example to set credentials or TLS options.
     /// When the connection string is empty, the callback must supply the endpoints.
-    /// Runs during options validation for TCP discovery; the resulting configuration is reused when connecting.
+    /// Runs during options validation for TCP discovery; a defensive snapshot is reused when connecting.
+    /// Later changes to the callback's argument do not affect the validated configuration.
     /// REST discovery does not invoke this callback.
     /// </summary>
     public Action<ConfigurationOptions>? ConfigureConnection { get; set; }
@@ -67,16 +70,35 @@ public class RedisDiscoveryOptions
     {
         lock (_configurationLock)
         {
-            if (_connectionConfiguration is not null)
+            if (_connectionConfiguration is null)
             {
-                return _connectionConfiguration;
+                var configuration = string.IsNullOrWhiteSpace(ConnectionString)
+                    ? new ConfigurationOptions()
+                    : ConfigurationOptions.Parse(ConnectionString);
+                ConfigureConnection?.Invoke(configuration);
+                _connectionConfiguration = CloneConfiguration(configuration);
             }
 
-            var configuration = string.IsNullOrWhiteSpace(ConnectionString)
-                ? new ConfigurationOptions()
-                : ConfigurationOptions.Parse(ConnectionString);
-            ConfigureConnection?.Invoke(configuration);
-            return _connectionConfiguration = configuration;
+            return CloneConfiguration(_connectionConfiguration);
         }
+    }
+
+    private static ConfigurationOptions CloneConfiguration(ConfigurationOptions configuration)
+    {
+        var clone = configuration.Clone();
+        // StackExchange.Redis copies the collection but shares mutable IP endpoints and addresses.
+        for (var i = 0; i < clone.EndPoints.Count; i++)
+        {
+            if (clone.EndPoints[i] is IPEndPoint endpoint)
+            {
+                var address = endpoint.Address;
+                var addressCopy = address.AddressFamily == AddressFamily.InterNetworkV6
+                    ? new IPAddress(address.GetAddressBytes(), address.ScopeId)
+                    : new IPAddress(address.GetAddressBytes());
+                clone.EndPoints[i] = new IPEndPoint(addressCopy, endpoint.Port);
+            }
+        }
+
+        return clone;
     }
 }
