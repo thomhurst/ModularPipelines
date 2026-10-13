@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Text;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
@@ -65,6 +66,18 @@ public sealed record RedisDiscoveryOptions
     /// Gets how often workers check for the master endpoint. Default: 500 milliseconds.
     /// </summary>
     public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(500);
+
+    private bool PrintMembers(StringBuilder builder)
+    {
+        builder.Append("ConnectionString = <redacted>");
+        builder.Append(", RestUrl = ").Append(RestUrl);
+        builder.Append(", RestToken = ").Append(RestToken is null ? "<none>" : "<redacted>");
+        builder.Append(", KeyPrefix = ").Append(KeyPrefix);
+        builder.Append(", TimeToLive = ").Append(TimeToLive);
+        builder.Append(", DiscoveryTimeout = ").Append(DiscoveryTimeout);
+        builder.Append(", PollInterval = ").Append(PollInterval);
+        return true;
+    }
 
     internal ConfigurationOptions GetConnectionConfiguration()
     {

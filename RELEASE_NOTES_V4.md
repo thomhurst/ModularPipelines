@@ -730,7 +730,7 @@ Use `[CliArgument]` only for positional values that follow the command chain.
   `RedisDiscoveryOptions.ConnectionString` now defaults to empty. Set it explicitly (including `localhost:6379`
   for local Redis), supply endpoints through `ConfigureConnection`, or configure both `RestUrl` and `RestToken`.
   Missing connection configuration fails during pipeline construction; REST discovery does not require a TCP connection.
-- `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Action<TOptions>` and one
+- `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Func<TOptions, TOptions>` and one
   `IConfigurationSection` registration overload; options are validated at startup.
 - `ArtifactOptions` is removed. Configure compression through `DistributedOptions.ArtifactCompressionLevel`;
   `AutoCleanup`, `ChunkSizeBytes`, `MaxSingleUploadBytes` and `TimeToLive` move to backend

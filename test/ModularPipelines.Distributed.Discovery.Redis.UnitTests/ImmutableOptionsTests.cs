@@ -7,6 +7,32 @@ namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 public class ImmutableOptionsTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task String_Output_Redacts_Credentials_Including_Record_Copies(bool copy)
+    {
+        var options = new RedisDiscoveryOptions
+        {
+            ConnectionString = "localhost:6379,user=private-user,password=private-password",
+            RestToken = "private-rest-token",
+            KeyPrefix = "diagnostic-prefix",
+        };
+        if (copy)
+        {
+            options = options with { PollInterval = TimeSpan.FromSeconds(1) };
+        }
+
+        var output = $"{options}";
+        await Assert.That(output).DoesNotContain(options.ConnectionString);
+        await Assert.That(output).DoesNotContain("private-user");
+        await Assert.That(output).DoesNotContain("private-password");
+        await Assert.That(output).DoesNotContain(options.RestToken!);
+        await Assert.That(output).Contains("ConnectionString = <redacted>");
+        await Assert.That(output).Contains("RestToken = <redacted>");
+        await Assert.That(output).Contains("KeyPrefix = diagnostic-prefix");
+    }
+
+    [Test]
     public async Task Binding_And_Transforms_Apply_In_Registration_Order()
     {
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>

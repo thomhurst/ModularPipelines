@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace ModularPipelines.Distributed.Artifacts.S3;
 
 /// <summary>
@@ -74,4 +76,19 @@ public sealed record S3StorageOptions
     /// S3 lifecycle expiration is day-granular, so this rounds up to whole days. Default: 1 day.
     /// </summary>
     public TimeSpan TimeToLive { get; init; } = TimeSpan.FromDays(1);
+
+    private bool PrintMembers(StringBuilder builder)
+    {
+        builder.Append("BucketName = ").Append(BucketName);
+        builder.Append(", ServiceUrl = ").Append(ServiceUrl);
+        builder.Append(", AccessKey = ").Append(AccessKey is null ? "<none>" : "<redacted>");
+        builder.Append(", SecretKey = ").Append(SecretKey is null ? "<none>" : "<redacted>");
+        builder.Append(", Region = ").Append(Region);
+        builder.Append(", ForcePathStyle = ").Append(ForcePathStyle);
+        builder.Append(", KeyPrefix = ").Append(KeyPrefix);
+        builder.Append(", MultipartPartSizeBytes = ").Append(MultipartPartSizeBytes);
+        builder.Append(", SetLifecycleRule = ").Append(SetLifecycleRule);
+        builder.Append(", TimeToLive = ").Append(TimeToLive);
+        return true;
+    }
 }

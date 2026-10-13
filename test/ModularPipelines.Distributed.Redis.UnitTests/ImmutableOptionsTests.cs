@@ -7,6 +7,29 @@ namespace ModularPipelines.Distributed.Redis.UnitTests;
 public class ImmutableOptionsTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task String_Output_Redacts_Credentials_Including_Record_Copies(bool copy)
+    {
+        var options = new RedisOptions
+        {
+            ConnectionString = "localhost:6379,user=private-user,password=private-password",
+            KeyPrefix = "diagnostic-prefix",
+        };
+        if (copy)
+        {
+            options = options with { ChunkSizeBytes = 12345 };
+        }
+
+        var output = $"{options}";
+        await Assert.That(output).DoesNotContain(options.ConnectionString);
+        await Assert.That(output).DoesNotContain("private-user");
+        await Assert.That(output).DoesNotContain("private-password");
+        await Assert.That(output).Contains("ConnectionString = <redacted>");
+        await Assert.That(output).Contains("KeyPrefix = diagnostic-prefix");
+    }
+
+    [Test]
     public async Task Binding_And_Transforms_Apply_In_Registration_Order()
     {
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>

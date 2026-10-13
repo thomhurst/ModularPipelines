@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace ModularPipelines.Distributed.SignalR;
 
 /// <summary>
@@ -69,6 +71,21 @@ public sealed record SignalRDistributedOptions
     /// Gets the options for exposing the master through a cloudflared quick tunnel.
     /// </summary>
     public SignalRTunnelOptions Tunnel { get; init; } = new();
+
+    private bool PrintMembers(StringBuilder builder)
+    {
+        builder.Append("ListenUrl = ").Append(ListenUrl);
+        builder.Append(", AdvertisedUrl = ").Append(AdvertisedUrl);
+        builder.Append(", HubPath = ").Append(HubPath);
+        builder.Append(", AccessToken = ").Append(AccessToken is null ? "<none>" : "<redacted>");
+        builder.Append(", ConnectionTimeout = ").Append(ConnectionTimeout);
+        builder.Append(", MaxReconnectAttempts = ").Append(MaxReconnectAttempts);
+        builder.Append(", KeepAliveInterval = ").Append(KeepAliveInterval);
+        builder.Append(", PeerTimeout = ").Append(PeerTimeout);
+        builder.Append(", MaxMessageSizeBytes = ").Append(MaxMessageSizeBytes);
+        builder.Append(", Tunnel = ").Append(Tunnel);
+        return true;
+    }
 }
 
 /// <summary>

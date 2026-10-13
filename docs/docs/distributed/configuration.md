@@ -115,7 +115,7 @@ Or call `builder.AddDistributedMode()` to bind the standard environment variable
 
 Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
 
-Every satellite package registers through one `Action<TOptions>` overload and one `IConfigurationSection`
+Every satellite package registers through one `Func<TOptions, TOptions>` overload and one `IConfigurationSection`
 overload, validates its options at startup, and can be called before or after `AddDistributedMode`:
 
 ```csharp
@@ -127,10 +127,10 @@ builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 
 `AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables
 `RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the
-`Distributed` section, assign `options.RunId`, or export `MODULARPIPELINES_RUN_ID` for each master and
+`Distributed` section, return `options with { RunId = "shared-run-id" }` from the configuration callback, or export `MODULARPIPELINES_RUN_ID` for each master and
 worker. See [Run Identifier Resolution](#run-identifier-resolution).
 
-Each backend registration has exactly two overloads: one taking an `Action<TOptions>` and one taking an
+Each backend registration has exactly two overloads: one taking a `Func<TOptions, TOptions>` and one taking an
 `IConfigurationSection`. Only one coordinator backend and one artifact store backend can be registered;
 registering a second, different backend throws `InvalidOperationException` instead of silently replacing
 the first. Registering the same backend again is a no-op apart from applying the extra configuration.
@@ -149,7 +149,8 @@ options pattern, independently of the backend:
 
 ```csharp
 builder.ConfigureDistributedOptions(o => o with { ArtifactCompressionLevel = CompressionLevel.Optimal });
-// Or set o.ArtifactCompressionLevel inside your existing AddDistributedMode configuration.
+// Or return updated options from your existing AddDistributedMode configuration:
+builder.AddDistributedMode(o => o with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
 | Property | Type | Default | Description |

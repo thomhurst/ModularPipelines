@@ -7,6 +7,30 @@ namespace ModularPipelines.Distributed.Artifacts.S3.UnitTests;
 public class ImmutableOptionsTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task String_Output_Redacts_Credentials_Including_Record_Copies(bool copy)
+    {
+        var options = new S3StorageOptions
+        {
+            AccessKey = "private-access-key",
+            SecretKey = "private-secret-key",
+            BucketName = "diagnostic-bucket",
+        };
+        if (copy)
+        {
+            options = options with { ForcePathStyle = true };
+        }
+
+        var output = $"{options}";
+        await Assert.That(output).DoesNotContain(options.AccessKey!);
+        await Assert.That(output).DoesNotContain(options.SecretKey!);
+        await Assert.That(output).Contains("AccessKey = <redacted>");
+        await Assert.That(output).Contains("SecretKey = <redacted>");
+        await Assert.That(output).Contains("BucketName = diagnostic-bucket");
+    }
+
+    [Test]
     public async Task Binding_And_Transforms_Apply_In_Registration_Order()
     {
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>

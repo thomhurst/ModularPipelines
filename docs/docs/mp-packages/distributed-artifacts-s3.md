@@ -42,7 +42,7 @@ await context.Artifacts.DownloadAsync<BuildModule>(
 ```
 
 Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` are both set. Configure the optional
-service URL when targeting an S3-compatible provider, for example `options.ServiceUrl = new Uri("http://localhost:9000");`. The URL must be absolute and use HTTP or HTTPS. Options are validated when the pipeline is built; a missing
+service URL when targeting an S3-compatible provider, for example `options => options with { ServiceUrl = new Uri("http://localhost:9000") }`. The URL must be absolute and use HTTP or HTTPS. Options are validated when the pipeline is built; a missing
 `BucketName` fails fast.
 
 ### S3StorageOptions

@@ -7,6 +7,27 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 public class ImmutableOptionsTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task String_Output_Redacts_Credentials_Including_Record_Copies(bool copy)
+    {
+        var options = new SignalRDistributedOptions
+        {
+            AccessToken = "private-access-token",
+            HubPath = "/diagnostic-hub",
+        };
+        if (copy)
+        {
+            options = options with { MaxReconnectAttempts = 2 };
+        }
+
+        var output = $"{options}";
+        await Assert.That(output).DoesNotContain(options.AccessToken!);
+        await Assert.That(output).Contains("AccessToken = <redacted>");
+        await Assert.That(output).Contains("HubPath = /diagnostic-hub");
+    }
+
+    [Test]
     public async Task Binding_And_Transforms_Apply_In_Registration_Order()
     {
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
@@ -53,5 +74,4 @@ public class ImmutableOptionsTests
         await Assert.That(options.Tunnel.StartupTimeout).IsEqualTo(TimeSpan.FromSeconds(45));
         await Assert.That(options.Tunnel.CloudflaredPath).IsEqualTo("custom-cloudflared");
     }
-
 }

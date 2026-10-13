@@ -1,3 +1,4 @@
+using System.Text;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis;
@@ -44,4 +45,13 @@ public sealed record RedisOptions
     /// several processes share the link. Default: 1 MB.
     /// </summary>
     public int ChunkSizeBytes { get; init; } = 1024 * 1024;
+
+    private bool PrintMembers(StringBuilder builder)
+    {
+        builder.Append("ConnectionString = <redacted>");
+        builder.Append(", KeyPrefix = ").Append(KeyPrefix);
+        builder.Append(", TimeToLive = ").Append(TimeToLive);
+        builder.Append(", ChunkSizeBytes = ").Append(ChunkSizeBytes);
+        return true;
+    }
 }
