@@ -48,7 +48,7 @@ The package exposes generated options records for its supported CLI commands.
 `FullyQualifyStackNames`, `Logflow`, `Logtostderr`, `Memprofilerate`,
 `NonInteractive`, `OtelTraces`, `Profiling`, `Tracing`, and `Verbose`.
 Generated command records inherit these properties, which render before the
-subcommand path. Existing initializers retain their property names and types;
+subcommand path. Initializers for inherited settings retain their property names and types;
 reflection over command records must include inherited properties.
 
 ```csharp
@@ -72,6 +72,12 @@ Zero integer values remain explicit, and each scalar string keeps its token boun
 
 Stack/project selectors and update arguments remain command-local. `Env` belongs
 only to the environment command group and renders after that command path.
+Commands that declare their own root-named switches retain separate local properties:
+`PulumiWhoamiOptions.CliVerbose` and `PulumiApiOptions.CliVerbose` are boolean
+`--verbose` flags, while `PulumiNeoOptions.CliCwd` and
+`PulumiNeoResumeOptions.NeoCwd` select the local tool directory without the root
+`-C` alias. Migrate these commands' former `Verbose`/`Cwd` initializers to the
+local property when that command-specific behavior is intended.
 `PulumiEnvRunOptions` keeps its command and arguments after `--`, so forwarded
 arguments cannot become Pulumi global settings. Help, root version controls, and
 hidden flags are not added to the public global surface.

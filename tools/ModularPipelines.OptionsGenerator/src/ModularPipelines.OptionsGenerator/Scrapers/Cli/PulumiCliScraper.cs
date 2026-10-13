@@ -44,14 +44,19 @@ public partial class PulumiCliScraper(ICliCommandExecutor executor, IHelpTextCac
         [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option =>
             option.SwitchName is not ("--help" or "--version"))];
 
-    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
-        string[] commandParts,
-        IReadOnlyList<CliOptionDefinition> options)
+    protected override IReadOnlyList<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
     {
         var globals = EffectiveGlobalOptions;
         var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
-        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
-        return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+        var inherited = ParseNamedOptionSection(helpText, "Global Flags", commandParts);
+        CliGlobalOptionMerger.Merge(globals, inherited.Where(option => globalSwitches.Contains(option.SwitchName)));
+
+        // Cobra omits shadowed root flags from Global Flags. Local declarations retain
+        // their own type, aliases and command scope even when they use a root switch.
+        var localSwitches = ParseNamedOptionSection(helpText, "Flags", commandParts)
+            .Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        return [.. base.ParseOptions(helpText, commandParts).Where(option =>
+            !globalSwitches.Contains(option.SwitchName) || localSwitches.Contains(option.SwitchName))];
     }
 
     // Emoji defaults to true on macOS and false elsewhere. Always retain explicit false.

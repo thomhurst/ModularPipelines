@@ -11,10 +11,12 @@ See the [Eksctl migration guidance](docs/docs/mp-packages/eksctl.md#inherited-se
 ## Pulumi inherited settings
 
 Pulumi command records inherit thirteen persistent settings from `PulumiOptions`.
-Initializers retain their names and types; reflection must include inherited
+Initializers for inherited settings retain their names and types; reflection must include inherited
 properties. Global settings now render before the command path. `Emoji = false`
 emits `--emoji=false`, preserving control over the macOS default. Environment,
-stack, and resource-operation settings retain their command/group scope. See the
+stack, and resource-operation settings retain their command/group scope. The local
+`--verbose` flags on `whoami`/`api` become `CliVerbose`; Neo's local `--cwd`
+becomes `CliCwd` or `NeoCwd` on its resume command. See the
 [Pulumi migration guidance](docs/docs/mp-packages/pulumi.md#inherited-settings-and-v4-migration).
 
 ## Grype persistent settings

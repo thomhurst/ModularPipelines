@@ -15,6 +15,10 @@ and `PULUMI_SKIP_UPDATE_CHECK=true`; no account login or resource operation runs
 | env.txt | `pulumi env --help` |
 | env-run.txt | `pulumi env run --help` |
 | version.txt | `pulumi version --help` |
+| whoami.txt | `pulumi whoami --help` |
+| api.txt | `pulumi api --help` |
+| neo.txt | `pulumi neo --help` |
+| neo-resume.txt | `pulumi neo resume --help` |
 
 Help content is unchanged apart from normalizing trailing blank lines.
 `pulumi version` reports `v3.267.0`.
@@ -27,6 +31,10 @@ emoji, fully-qualify-stack-names, logflow, logtostderr, memprofilerate,
 non-interactive, otel-traces, profiling, tracing, and verbose. They apply before
 subcommands, including the embedded environment commands. The same flags appear
 under `Global Flags` in all six captured command/group help pages.
+The additional shadowing fixtures distinguish command-local declarations: `whoami`
+and `api` declare a boolean `--verbose`, while `neo` and `neo resume` declare
+`--cwd` without the root `-C` alias. These switches are absent from their respective
+`Global Flags` sections and must retain their command scope.
 The [official root reference](https://www.pulumi.com/docs/iac/cli/commands/pulumi/)
 is generated for the same version.
 

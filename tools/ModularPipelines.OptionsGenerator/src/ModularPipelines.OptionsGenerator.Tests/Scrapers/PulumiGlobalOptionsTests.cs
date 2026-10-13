@@ -92,6 +92,27 @@ public class PulumiGlobalOptionsTests
     }
 
     [Test]
+    [Arguments("whoami", "--verbose", "bool?", "-v")]
+    [Arguments("api", "--verbose", "bool?", null)]
+    [Arguments("neo", "--cwd", "string?", null)]
+    [Arguments("neo-resume", "--cwd", "string?", null)]
+    public async Task Command_Local_Settings_With_Root_Switches_Are_Preserved(
+        string fixture, string switchName, string expectedType, string? shortForm)
+    {
+        var scraper = new TestScraper();
+        await scraper.ScrapeAsync().ToListAsync();
+        string[] path = fixture == "neo-resume" ? ["pulumi", "neo", "resume"] : ["pulumi", fixture];
+        var command = await scraper.Parse(path, Fixture(fixture));
+        await Assert.That(command).IsNotNull();
+        var local = command!.Options.Single(option => option.SwitchName == switchName);
+        await Assert.That(local.CSharpType).IsEqualTo(expectedType);
+        await Assert.That(local.ShortForm).IsEqualTo(shortForm);
+        await Assert.That(local.IsFlag).IsEqualTo(expectedType == "bool?");
+        await Assert.That(command.Options.Where(option => GlobalSwitches.Contains(option.SwitchName)))
+            .Count().IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Conflicting_Inherited_Arity_Is_Rejected_Before_Deduplication()
     {
         var scraper = new TestScraper();

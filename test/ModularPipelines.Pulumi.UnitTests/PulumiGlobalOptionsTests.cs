@@ -83,6 +83,19 @@ public class PulumiGlobalOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Command_Local_Settings_With_Root_Switches_Keep_Their_Scope()
+    {
+        await Assert.That(await RenderCommand(new PulumiWhoamiOptions { CliVerbose = true }))
+            .IsEqualTo("pulumi whoami --verbose");
+        await Assert.That(await RenderCommand(new PulumiApiOptions { CliVerbose = true }))
+            .IsEqualTo("pulumi api --verbose");
+        await Assert.That(await RenderCommand(new PulumiNeoOptions { CliCwd = "local project" }))
+            .IsEqualTo("pulumi neo --cwd=local project");
+        await Assert.That(await RenderCommand(new PulumiNeoResumeOptions("task-id") { NeoCwd = "local project" }))
+            .IsEqualTo("pulumi neo resume task-id --cwd=local project");
+    }
+
+    [Test]
     public async Task Overridden_Global_Is_Emitted_Once()
     {
         var command = await RenderCommand(new CustomListOptions { Emoji = false });
