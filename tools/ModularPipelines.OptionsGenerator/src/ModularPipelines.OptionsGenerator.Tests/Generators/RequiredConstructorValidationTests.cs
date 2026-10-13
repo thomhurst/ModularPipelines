@@ -193,7 +193,8 @@ public partial class RequiredConstructorValidationTests
 
     private sealed class SinglePassValues : System.Collections.IEnumerable
     {
-        private readonly System.Collections.IEnumerator _values = new[] { "first", "second" }.GetEnumerator();
+        private static readonly string[] Values = ["first", "second"];
+        private readonly System.Collections.IEnumerator _values = Values.GetEnumerator();
 
         public System.Collections.IEnumerator GetEnumerator() => _values;
     }
