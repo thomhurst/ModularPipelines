@@ -29,6 +29,8 @@ internal sealed class BoundedCommandOutputBuffer
         _head = new StringBuilder(Math.Min(_headCapacity, 256));
     }
 
+    public long TruncatedCharacters => _unbounded is null ? Math.Max(0, _totalLength - _maximumLength) : 0;
+
     public override string ToString()
     {
         if (_unbounded is not null)
@@ -39,11 +41,11 @@ internal sealed class BoundedCommandOutputBuffer
         var result = new StringBuilder(_head.Length + _tailCount);
         result.Append(_head);
 
-        if (_totalLength > _maximumLength)
+        if (TruncatedCharacters > 0)
         {
             result.AppendLine();
             result.Append("... [truncated ");
-            result.Append(_totalLength - _maximumLength);
+            result.Append(TruncatedCharacters);
             result.AppendLine(" characters] ...");
         }
 
