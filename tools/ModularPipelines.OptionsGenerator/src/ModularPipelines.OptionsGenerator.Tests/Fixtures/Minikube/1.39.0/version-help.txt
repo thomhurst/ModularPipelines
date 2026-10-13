@@ -1,0 +1,16 @@
+Print the version of minikube.
+
+Options:
+    --components=false:
+	list versions of all components included with minikube. (the cluster must be running)
+
+    -o, --output='':
+	One of 'yaml' or 'json'.
+
+    --short=false:
+	Print just the version number.
+
+Usage:
+  minikube version [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).
