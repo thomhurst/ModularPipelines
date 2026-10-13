@@ -82,6 +82,12 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Allow SNA LU 6.2 Transactions to managed instance DTC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--sna-lu-transactions", ValueArity = CliOptionValueArity.Optional)]

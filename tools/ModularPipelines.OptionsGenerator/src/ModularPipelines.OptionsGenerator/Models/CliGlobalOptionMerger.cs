@@ -99,6 +99,7 @@ public static class CliGlobalOptionMerger
     {
         return left.SwitchName.Equals(right.SwitchName, StringComparison.Ordinal)
                && StringEquals(left.ShortForm, right.ShortForm)
+               && left.Aliases.SequenceEqual(right.Aliases, StringComparer.Ordinal)
                && StringEquals(left.NegatedSwitchName, right.NegatedSwitchName)
                && left.PreferShortForm == right.PreferShortForm
                && left.PropertyName.Equals(right.PropertyName, StringComparison.Ordinal)

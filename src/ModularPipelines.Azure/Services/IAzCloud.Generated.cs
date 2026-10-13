@@ -22,6 +22,16 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzCloud
 {
     /// <summary>
+    /// List registered clouds.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListAsync(AzCloudListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// List the supported profiles for a cloud.
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -499,9 +499,10 @@ public class AzCliScraperTests
             ["az", "service", "create"],
             helpText);
 
-        var option = command!.Options.Single();
+        var option = command!.Options.Single(option => option.SwitchName == "--name");
         using (Assert.Multiple())
         {
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--debug").IsRequired).IsFalse();
             await Assert.That(option.PropertyName).IsEqualTo("Name");
             await Assert.That(option.IsRequired).IsTrue();
         }

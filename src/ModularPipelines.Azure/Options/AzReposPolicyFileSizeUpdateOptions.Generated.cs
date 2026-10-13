@@ -92,4 +92,10 @@ public record AzReposPolicyFileSizeUpdateOptions : AzOptions
     [CliOption("--use-uncompressed-size", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? UseUncompressedSize { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

@@ -164,4 +164,10 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     [CliOption("--non-compliance-messages", ShortForm = "-m", GroupValues = true)]
     public IEnumerable<string>? NonComplianceMessages { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

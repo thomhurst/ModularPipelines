@@ -61,4 +61,10 @@ public record AzEventgridPartnerConfigurationAuthorizeOptions : AzOptions
     [CliOption("--partner-registration-immutable-id")]
     public string? PartnerRegistrationImmutableId { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

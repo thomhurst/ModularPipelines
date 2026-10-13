@@ -1024,7 +1024,7 @@ public record AzAksCreateOptions : AzOptions
     public string? SnapshotId { get; set; }
 
     /// <summary>
-    /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'.  Default: ~/.ssh/id_rsa.pub. If omitted: - The CLI will use '~/.ssh/id_rsa.pub' when present - If that file is not present the CLI will default to server-side generated keys (equivalent to using --no-ssh-key).
+    /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'.  Default: ~\.ssh\id_rsa.pub. If omitted: - The CLI will use '~/.ssh/id_rsa.pub' when present - If that file is not present the CLI will default to server-side generated keys (equivalent to using --no-ssh-key).
     /// </summary>
     [CliOption("--ssh-key-value")]
     public string? SshKeyValue { get; set; }
@@ -1155,5 +1155,11 @@ public record AzAksCreateOptions : AzOptions
     /// </summary>
     [CliOption("--appgw-watch-namespace")]
     public string? AppgwWatchNamespace { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

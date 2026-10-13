@@ -34,7 +34,7 @@ public record AzResourceListOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// A single tag in 'key[=value]' format. Use '' to clear existing tags.
+    /// A single tag in 'key[=value]' format. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tag", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Tag { get; set; }
@@ -56,5 +56,11 @@ public record AzResourceListOptions : AzOptions
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

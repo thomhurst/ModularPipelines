@@ -32,6 +32,21 @@ public class AzCosmosdbLocations
     #region Commands
 
     /// <summary>
+    /// Retrieves the list of cosmosdb locations and their properties.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzCosmosdbLocationsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbLocationsListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Show the Azure Cosmos DB location properties in the given location.
     /// </summary>
     /// <param name="options">The command options.</param>

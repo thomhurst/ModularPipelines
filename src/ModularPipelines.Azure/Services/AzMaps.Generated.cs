@@ -21,6 +21,7 @@ public class AzMaps : IAzMaps
 {
     private readonly ICommandContext _command;
     private AzMapsAccount? _account;
+    private AzMapsMap? _map;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMaps"/> class.
@@ -36,6 +37,11 @@ public class AzMaps : IAzMaps
     /// az account sub-commands.
     /// </summary>
     public AzMapsAccount Account => _account ??= new AzMapsAccount(_command);
+
+    /// <summary>
+    /// az map sub-commands.
+    /// </summary>
+    public AzMapsMap Map => _map ??= new AzMapsMap(_command);
 
     #endregion
 }

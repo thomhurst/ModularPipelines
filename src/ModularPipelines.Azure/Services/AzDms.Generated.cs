@@ -117,6 +117,21 @@ public class AzDms : IAzDms
     }
 
     /// <summary>
+    /// List the SKUs that are supported by the Azure Database Migration Service
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSkusAsync(
+        AzDmsListSkusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDmsListSkusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Show the details for an instance of the Azure Database Migration Service
     /// </summary>
     /// <param name="options">The command options.</param>

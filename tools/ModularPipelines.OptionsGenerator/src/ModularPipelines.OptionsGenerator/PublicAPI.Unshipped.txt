@@ -114,6 +114,7 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.GetAdditio
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.ParseCommandAsync(string![]! commandPath, string! helpText, ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult! usage, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition?>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.UsageSynopsisHeadings.get -> System.Collections.Generic.IReadOnlyList<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.SupplementalGlobalOptions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.ChocolateyCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.ChocolateyCliScraper.MaxParallelism.get -> int

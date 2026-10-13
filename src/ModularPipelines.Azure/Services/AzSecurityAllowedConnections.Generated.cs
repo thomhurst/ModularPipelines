@@ -32,6 +32,21 @@ public class AzSecurityAllowedConnections
     #region Commands
 
     /// <summary>
+    /// List of all possible traffic between resources for the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSecurityAllowedConnectionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityAllowedConnectionsListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List all possible traffic between resources for the
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -142,7 +142,7 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     public int? Severity { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -158,5 +158,11 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// </summary>
     [CliOption("--window-size")]
     public string? WindowSize { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

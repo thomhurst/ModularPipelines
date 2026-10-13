@@ -67,7 +67,7 @@ public record AzAksGetCredentialsOptions : AzOptions
     public string? Context { get; set; }
 
     /// <summary>
-    /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~/.kube/config.
+    /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~\.kube\config.
     /// </summary>
     [CliOption("--file", ShortForm = "-f")]
     public string? File { get; set; }
@@ -89,5 +89,11 @@ public record AzAksGetCredentialsOptions : AzOptions
     /// </summary>
     [CliFlag("--public-fqdn")]
     public bool? PublicFqdn { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

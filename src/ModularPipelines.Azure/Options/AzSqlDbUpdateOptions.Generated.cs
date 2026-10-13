@@ -202,6 +202,12 @@ public record AzSqlDbUpdateOptions : AzOptions
     public string? Server { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled.
     /// </summary>
     [CliOption("--auto-pause-delay")]

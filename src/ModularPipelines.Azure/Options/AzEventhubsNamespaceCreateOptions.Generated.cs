@@ -134,7 +134,7 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     public int? MaximumThroughputUnits { get; set; }
 
     /// <summary>
-    /// The minimum TLS version for the cluster to support, e.g. 1.2.  Allowed values: 1.0, 1.1, 1.2.
+    /// The minimum TLS version for the cluster to support, e.g. 1.2.  Allowed values: 1.0, 1.1, 1.2, 1.3.
     /// </summary>
     [CliOption("--min-tls")]
     public string? MinTls { get; set; }
@@ -152,7 +152,7 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     public string? Sku { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -174,5 +174,11 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// </summary>
     [CliOption("--mi-user-assigned", GroupValues = true)]
     public IEnumerable<string>? MiUserAssigned { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

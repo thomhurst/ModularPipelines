@@ -32,6 +32,21 @@ public class AzSecurityExternalSecuritySolution
     #region Commands
 
     /// <summary>
+    /// List the external security solutions.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSecurityExternalSecuritySolutionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityExternalSecuritySolutionListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Shows an external security solution.
     /// </summary>
     /// <param name="options">The command options.</param>

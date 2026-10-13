@@ -26,13 +26,27 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
         parser = cli.invocation.parser
         command = ' '.join(sys.argv[1:-1])
         selected = parser.subparser_map.get(command, parser)
+        actions = list(selected._actions)
+        if sys.argv[1:] == ['--help']:
+            # Root help hides globals. Only root parser actions are universal;
+            # subscription is registered separately by commands that support it.
+            print('\nGlobal Arguments')
+            for action in actions:
+                long_options = [option for option in action.option_strings if option.startswith('--')]
+                if not long_options or '--help' in long_options or action.help == argparse.SUPPRESS:
+                    continue
+                aliases = long_options + [option for option in action.option_strings if not option.startswith('--')]
+                description = ' '.join(str(action.help or '').split())
+                if action.choices:
+                    description += '. Allowed values: ' + ', '.join(map(str, action.choices)) + '.'
+                print('    ' + ' '.join(aliases) + ' : ' + description)
         shapes = {
             option: {
                 'Nargs': str(action.nargs) if action.nargs is not None else '1',
                 'IsInteger': action.type is int,
                 'IsRepeated': isinstance(action, argparse._AppendAction)
             }
-            for action in selected._actions for option in action.option_strings
+            for action in actions for option in action.option_strings
         }
         print('\n__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:' + json.dumps(shapes, sort_keys=True))
         """;

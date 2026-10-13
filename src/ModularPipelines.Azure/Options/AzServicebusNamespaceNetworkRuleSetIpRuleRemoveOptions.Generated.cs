@@ -61,4 +61,10 @@ public record AzServicebusNamespaceNetworkRuleSetIpRuleRemoveOptions : AzOptions
     [CliOption("--ip-rule", GroupValues = true)]
     public IEnumerable<CliValueGroup>? IpRule { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

@@ -76,4 +76,10 @@ public record AzNetappfilesVolumeQuotaRuleListOptions : AzOptions
     [CliOption("--volume-name", ShortForm = "-v")]
     public string VolumeName { get; private init; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

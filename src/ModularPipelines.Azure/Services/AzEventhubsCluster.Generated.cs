@@ -42,6 +42,21 @@ public class AzEventhubsCluster
     #region Commands
 
     /// <summary>
+    /// List the quantity of available pre-provisioned Event
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AvailableRegionAsync(
+        AzEventhubsClusterAvailableRegionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsClusterAvailableRegionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Create an instance of an Event Hubs Cluster.
     /// </summary>
     /// <param name="options">The command options.</param>
