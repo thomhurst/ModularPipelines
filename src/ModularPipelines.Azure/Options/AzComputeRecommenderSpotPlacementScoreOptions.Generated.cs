@@ -90,6 +90,12 @@ public record AzComputeRecommenderSpotPlacementScoreOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Defines if the scope is zonal or regional.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--availability-zones", ValueArity = CliOptionValueArity.Optional)]

@@ -1,0 +1,19 @@
+List OCI artifacts
+
+Description:
+  List OCI artifacts in local store
+
+Usage:
+  podman artifact ls [options]
+
+Aliases:
+  ls, list
+
+Examples:
+  podman artifact ls
+
+Options:
+      --format string   Format volume output using JSON or a Go template (default "{{range .}}{{.Repository}}\t{{.Tag}}\t{{.Digest}}\t{{.Created}}\t{{.Size}}\n{{end -}}")
+      --no-trunc        Do not truncate output
+  -n, --noheading       Do not print column headings
+

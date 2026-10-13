@@ -53,7 +53,7 @@ public record PodmanCommitOptions : PodmanOptions
     /// file containing a container configuration to merge into the image
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
-    public string? Config { get; set; }
+    public string? CliConfig { get; set; }
 
     /// <summary>
     /// Format of the image manifest and metadata (default "oci")

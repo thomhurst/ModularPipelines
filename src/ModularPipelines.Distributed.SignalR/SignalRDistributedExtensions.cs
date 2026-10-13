@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed.SignalR.Coordination;
 
 namespace ModularPipelines.Distributed.SignalR;
@@ -17,14 +18,14 @@ public static class SignalRDistributedExtensions
     /// workers connect to it. Options are validated at startup.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configure">Configures the SignalR options.</param>
+    /// <param name="configure">Transforms the immutable SignalR options.</param>
     /// <returns>The pipeline builder for chaining.</returns>
     public static PipelineBuilder AddSignalRDistributedCoordinator(
         this PipelineBuilder builder,
-        Action<SignalRDistributedOptions> configure)
+        Func<SignalRDistributedOptions, SignalRDistributedOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
-        builder.Services.Configure(configure);
+        TransformOptionsFactory<SignalRDistributedOptions>.Configure(builder.Services, configure);
         return AddSignalRDistributedCoordinatorServices(builder);
     }
 
@@ -41,6 +42,7 @@ public static class SignalRDistributedExtensions
         this PipelineBuilder builder,
         IConfigurationSection section)
     {
+        TransformOptionsFactory<SignalRDistributedOptions>.Register(builder.Services);
         builder.Services.Configure<SignalRDistributedOptions>(section);
         return AddSignalRDistributedCoordinatorServices(builder);
     }

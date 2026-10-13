@@ -86,8 +86,7 @@ public partial class TrivyCliScraper(ICliCommandExecutor executor, IHelpTextCach
 
         if (commandParts is ["image"] && positionalArguments.Count > 0)
         {
-            return [.. positionalArguments
-                .Select(argument => argument with { CSharpType = "string?", IsRequired = false })];
+            return [.. positionalArguments.Select(argument => argument with { CSharpType = "string?", IsRequired = false })];
         }
 
         if (positionalArguments.Count > 0)

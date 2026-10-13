@@ -129,7 +129,7 @@ public record AzSqlDbCopyOptions : AzOptions
     public string? ReadScale { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -181,6 +181,12 @@ public record AzSqlDbCopyOptions : AzOptions
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
     public string? Server { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
     /// <summary>
     /// Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled.

@@ -1,0 +1,31 @@
+List containers
+
+Description:
+  Prints out information about the containers
+
+Usage:
+  podman ps [options]
+
+Examples:
+  podman ps -a
+  podman ps -a --format "{{.ID}}  {{.Image}}  {{.Labels}}  {{.Mounts}}"
+  podman ps --size --sort names
+
+Options:
+  -a, --all                  Show all the containers, default is only running containers
+      --external             Show containers in storage not controlled by Podman
+  -f, --filter stringArray   Filter output based on conditions given
+      --format string        Pretty-print containers to JSON or using a Go template
+  -n, --last int             Print the n last created containers (all states) (default -1)
+  -l, --latest               Act on the latest container podman is aware of
+                             Not supported with the "--remote" flag
+      --no-trunc             Display the extended information
+      --noheading            Do not print headers
+      --ns                   Display namespace information
+  -p, --pod                  Print the ID and name of the pod the containers are associated with
+  -q, --quiet                Print the numeric IDs of the containers only
+  -s, --size                 Display the total file sizes
+      --sort choice          Sort output by: command, created, id, image, names, runningfor, size, status
+      --sync                 Sync container state with OCI runtime
+  -w, --watch uint           Watch the ps output on an interval in seconds
+

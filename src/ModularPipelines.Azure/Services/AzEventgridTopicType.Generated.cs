@@ -47,6 +47,21 @@ public class AzEventgridTopicType
     }
 
     /// <summary>
+    /// List registered topic types.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzEventgridTopicTypeListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventgridTopicTypeListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Get the details for a topic type.
     /// </summary>
     /// <param name="options">The command options.</param>

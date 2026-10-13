@@ -101,4 +101,10 @@ public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
     [CliOption("--readwrite", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Readwrite { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

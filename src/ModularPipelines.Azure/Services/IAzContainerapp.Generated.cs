@@ -162,6 +162,16 @@ public interface IAzContainerapp
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Show the verification id for binding app or
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ShowCustomDomainVerificationIdAsync(AzContainerappShowCustomDomainVerificationIdOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Show details of a container app.
     /// </summary>
     /// <param name="options">The command options.</param>

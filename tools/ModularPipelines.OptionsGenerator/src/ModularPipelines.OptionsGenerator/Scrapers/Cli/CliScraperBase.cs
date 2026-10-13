@@ -24,6 +24,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private readonly CliScrapeProvenance _scrapeProvenance = new();
     private readonly HashSet<string> _knownCommandGroups = [with(StringComparer.OrdinalIgnoreCase)];
     private IReadOnlyList<CliOptionDefinition> _unfilteredGlobalOptions = [];
+    private bool _hasVersionSubcommand;
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -169,7 +170,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// The validated union of scraped and supplemental global options.
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> EffectiveGlobalOptions =>
-        CliGlobalOptionMerger.Merge(GlobalOptions, FilterIgnoredOptions(SupplementalGlobalOptions));
+        CliGlobalOptionMerger.Merge(GlobalOptions, FilterGlobalOptions(SupplementalGlobalOptions));
 
     /// <summary>
     /// Regex patterns to match against command descriptions for skipping.
@@ -282,6 +283,8 @@ public abstract partial class CliScraperBase : ICliScraper
     public virtual async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
+        _hasVersionSubcommand = false;
+
         if (Logger.IsEnabled(LogLevel.Information))
         {
             Logger.LogInformation("Discovering {Tool} commands via CLI (executable: {Path}, parallelism: {Parallelism})...",
@@ -344,14 +347,30 @@ public abstract partial class CliScraperBase : ICliScraper
 
         // Yield commands as they're discovered
         var commandCount = 0;
+        var generatedVersionSubcommand = false;
         await foreach (var command in commandChannel.Reader.ReadAllAsync(cancellationToken))
         {
+            if (command.CommandParts.Length == 1
+                && command.CommandParts[0].Equals("version", StringComparison.OrdinalIgnoreCase))
+            {
+                generatedVersionSubcommand = true;
+            }
+
             commandCount++;
             if (Logger.IsEnabled(LogLevel.Information))
             {
                 Logger.LogInformation("Yielding command {Count}: {Command}", commandCount, command.FullCommand);
             }
             yield return command;
+        }
+
+        // Root discovery filters the global version flag before child parsing. Fail the
+        // complete scrape if that child was lost, so regeneration cannot remove both APIs.
+        if (_hasVersionSubcommand && !generatedVersionSubcommand)
+        {
+            throw new InvalidOperationException(
+                $"{ToolName} version was discovered, but no valid command definition was produced. "
+                + "Refusing to generate partial output.");
         }
 
         if (Logger.IsEnabled(LogLevel.Information))
@@ -423,12 +442,6 @@ public abstract partial class CliScraperBase : ICliScraper
 
         helpText = NormalizeHelpText(helpText);
 
-        if (path.Length == 1)
-        {
-            _unfilteredGlobalOptions = ParseGlobalOptions(helpText);
-            GlobalOptions = FilterIgnoredOptions(_unfilteredGlobalOptions);
-        }
-
         if (ShouldSkipPath(path, helpText))
         {
             _scrapeProvenance.DiscardLeafHelp(path);
@@ -444,6 +457,13 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var subcommands = ExtractSubcommands(path, helpText).ToList();
+        if (path.Length == 1)
+        {
+            _hasVersionSubcommand = subcommands.Contains("version", StringComparer.OrdinalIgnoreCase);
+            _unfilteredGlobalOptions = ParseGlobalOptions(helpText);
+            GlobalOptions = FilterGlobalOptions(_unfilteredGlobalOptions);
+        }
+
         var declaresCommandGroup = HelpDeclaresCommandGroup(helpText);
         PreserveGroupHelp(path, subcommands, declaresCommandGroup);
         if (!TryValidateSubcommandDiscovery(path, helpText, subcommands))
@@ -582,15 +602,10 @@ public abstract partial class CliScraperBase : ICliScraper
         string[] path,
         string helpText,
         IReadOnlyCollection<string> subcommands,
-        UsageSynopsisParseResult usage)
-    {
-        // A discovered version command can be useful without flags or operands.
-        // Root commands remain subject to the ordinary filtering rules.
-        var isVersionSubcommand = path.Length > 1
-                                  && path[^1].Equals("version", StringComparison.OrdinalIgnoreCase);
-        return (!HasOptions(helpText) && !usage.HasOperandTokens && !isVersionSubcommand)
-               || (path.Length == 1 && subcommands.Count > 0);
-    }
+        UsageSynopsisParseResult usage) =>
+        (!HasOptions(helpText) && !usage.HasOperandTokens
+         && !(path.Length > 1 && path[^1].Equals("version", StringComparison.OrdinalIgnoreCase)))
+        || (path.Length == 1 && subcommands.Count > 0);
 
     private async Task<CliCommandDefinition?> TryParseCommandAsync(
         string[] path,
@@ -731,7 +746,7 @@ public abstract partial class CliScraperBase : ICliScraper
             GenerateCommandFacade = GenerateCommandFacade,
             Commands = [],
             GlobalOptions = GlobalOptions,
-            SupplementalGlobalOptions = FilterIgnoredOptions(SupplementalGlobalOptions),
+            SupplementalGlobalOptions = FilterGlobalOptions(SupplementalGlobalOptions),
             GlobalOptionsBeforeSubcommands = GlobalOptionsBeforeSubcommands,
             Errors = []
         };
@@ -750,6 +765,19 @@ public abstract partial class CliScraperBase : ICliScraper
 
     private IReadOnlyList<CliOptionDefinition> FilterIgnoredOptions(IReadOnlyList<CliOptionDefinition> options) =>
         options.Any(IsIgnoredOption) ? [.. options.Where(option => !IsIgnoredOption(option))] : options;
+
+    private IReadOnlyList<CliOptionDefinition> FilterGlobalOptions(IReadOnlyList<CliOptionDefinition> options)
+    {
+        options = FilterIgnoredOptions(options);
+        if (!_hasVersionSubcommand)
+        {
+            return options;
+        }
+
+        // Keep version selectors that take a value; only informational flags duplicate the command.
+        return [.. options.Where(option => !option.IsFlag
+            || !option.GetSwitchNames().Any(name => name is "--version" or "-version"))];
+    }
 
     private UsageSynopsisParseResult RemoveIgnoredOptionValues(
         UsageSynopsisParseResult usage, IReadOnlyList<CliOptionDefinition> options)
@@ -1820,12 +1848,14 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Returns the description group for a recognized declaration, including an empty group
     /// for a declaration without prose, or null when the caller grammar does not match.
     /// </param>
+    /// <param name="allowParagraphBreaks">Whether aligned prose may continue after blank lines.</param>
     internal static string AccumulateWrappedDescription(
         IReadOnlyList<string> lines,
         ref int declarationIndex,
         Group? inlineDescription,
         Func<string, bool> looksLikeOptionRow,
-        Func<string, Group?>? captureInlineDescription)
+        Func<string, Group?>? captureInlineDescription,
+        bool allowParagraphBreaks = false)
     {
         var declaration = lines[declarationIndex];
         var declarationIndentation = GetIndentation(declaration);
@@ -1840,13 +1870,19 @@ public abstract partial class CliScraperBase : ICliScraper
 
         while (declarationIndex + 1 < lines.Count)
         {
-            var candidate = lines[declarationIndex + 1];
+            var candidateIndex = FindDescriptionContinuation(lines, declarationIndex, descriptionColumn, allowParagraphBreaks);
+            if (candidateIndex == lines.Count)
+            {
+                break;
+            }
+
+            var candidate = lines[candidateIndex];
             if (!IsContinuationLine(
                     candidate,
                     declarationIndentation,
                     descriptionColumn,
                     looksLikeOptionRow(candidate),
-                    declarationIndex + 2 < lines.Count ? lines[declarationIndex + 2] : null,
+                    candidateIndex + 1 < lines.Count ? lines[candidateIndex + 1] : null,
                     lines[declarationIndex],
                     looksLikeOptionRow,
                     allowSameColumnDescription,
@@ -1855,21 +1891,9 @@ public abstract partial class CliScraperBase : ICliScraper
                 break;
             }
 
-            var continuation = candidate.Trim();
-            // Help formatters can wrap a long option reference at an internal hyphen.
-            // Keep ordinary prose hyphens and standalone option terminators unchanged.
-            if (parts.Count > 0
-                && char.IsAsciiLetterOrDigit(continuation[0])
-                && WrappedLongOptionPrefixPattern().IsMatch(parts[^1]))
-            {
-                parts[^1] += continuation;
-            }
-            else
-            {
-                parts.Add(continuation);
-            }
+            AppendDescriptionContinuation(parts, candidate.Trim());
 
-            declarationIndex++;
+            declarationIndex = candidateIndex;
 
             // A row whose prose only starts on the next line (picocli, argparse, git) reveals its
             // description column there, so later wrapped lines get the same column-aware rule.
@@ -1877,6 +1901,49 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         return string.Join(' ', parts);
+    }
+
+    private static int FindDescriptionContinuation(
+        IReadOnlyList<string> lines,
+        int declarationIndex,
+        int? descriptionColumn,
+        bool allowParagraphBreaks)
+    {
+        var candidateIndex = declarationIndex + 1;
+        if (!allowParagraphBreaks || descriptionColumn is not { } paragraphColumn)
+        {
+            return candidateIndex;
+        }
+
+        while (candidateIndex < lines.Count && string.IsNullOrWhiteSpace(lines[candidateIndex]))
+        {
+            candidateIndex++;
+        }
+
+        if (candidateIndex < lines.Count
+            && candidateIndex > declarationIndex + 1
+            && GetIndentation(lines[candidateIndex]) < paragraphColumn)
+        {
+            return lines.Count;
+        }
+
+        return candidateIndex;
+    }
+
+    private static void AppendDescriptionContinuation(List<string> parts, string continuation)
+    {
+        // Help formatters can wrap a long option reference at an internal hyphen.
+        // Keep ordinary prose hyphens and standalone option terminators unchanged.
+        if (parts.Count > 0
+            && char.IsAsciiLetterOrDigit(continuation[0])
+            && WrappedLongOptionPrefixPattern().IsMatch(parts[^1]))
+        {
+            parts[^1] += continuation;
+        }
+        else
+        {
+            parts.Add(continuation);
+        }
     }
 
     [GeneratedRegex(@"(?<![\w/-])--[A-Za-z0-9][A-Za-z0-9_-]*-$")]

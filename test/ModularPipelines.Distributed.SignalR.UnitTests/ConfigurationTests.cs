@@ -72,13 +72,13 @@ public class ConfigurationTests
     public async Task Invalid_Options_Fail_Validation()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddSignalRDistributedCoordinator(options =>
+        builder.AddSignalRDistributedCoordinator(options => options with
         {
-            options.ListenUrl = new Uri("not a url", UriKind.Relative);
-            options.HubPath = "hub";
-            options.KeepAliveInterval = TimeSpan.FromSeconds(10);
-            options.PeerTimeout = TimeSpan.FromSeconds(5);
-            options.MaxReconnectAttempts = -1;
+            ListenUrl = new Uri("not a url", UriKind.Relative),
+            HubPath = "hub",
+            KeepAliveInterval = TimeSpan.FromSeconds(10),
+            PeerTimeout = TimeSpan.FromSeconds(5),
+            MaxReconnectAttempts = -1,
         });
         using var services = builder.Services.BuildServiceProvider();
 
@@ -92,7 +92,7 @@ public class ConfigurationTests
     public async Task Registration_Requires_An_Explicit_Run_Id()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddSignalRDistributedCoordinator(_ => { });
+        builder.AddSignalRDistributedCoordinator(_ => _);
 
         await Assert.That(builder.Services.Any(descriptor =>
                 descriptor.ServiceType == typeof(ModularPipelines.Distributed.Configuration.ExplicitRunIdRequirement)))
@@ -116,7 +116,7 @@ public class ConfigurationTests
             new SignalRDistributedOptions { ListenUrl = new Uri("http://0.0.0.0:5099") },
             hasDiscovery: true);
         var second = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-            new SignalRDistributedOptions { ListenUrl = new Uri("http://localhost:5099"), Tunnel = { Enabled = true } },
+            new SignalRDistributedOptions { ListenUrl = new Uri("http://localhost:5099"), Tunnel = new SignalRTunnelOptions { Enabled = true } },
             hasDiscovery: true);
 
         await Assert.That(first!.Length).IsGreaterThanOrEqualTo(40);
@@ -159,8 +159,8 @@ public class ConfigurationTests
     public async Task Second_Coordinator_Backend_Is_Rejected()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddDistributedMode(options => options.RunId = "run");
-        builder.AddSignalRDistributedCoordinator(_ => { });
+        builder.AddDistributedMode(options => options with { RunId = "run" });
+        builder.AddSignalRDistributedCoordinator(_ => _);
         builder.AddDistributedCoordinator<ModularPipelines.Distributed.Coordination.InMemoryDistributedCoordinator>();
 
         await Assert.That(async () => await builder.BuildAsync()).Throws<InvalidOperationException>();

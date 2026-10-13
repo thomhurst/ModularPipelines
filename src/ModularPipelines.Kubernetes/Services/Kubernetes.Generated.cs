@@ -258,15 +258,6 @@ internal partial class Kubernetes : IKubernetes
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> VersionAsync(
-        KubernetesVersionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> WaitAsync(
         KubernetesWaitOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

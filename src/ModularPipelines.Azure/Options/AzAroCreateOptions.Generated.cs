@@ -189,7 +189,7 @@ public record AzAroCreateOptions : AzOptions
     public string? ServiceCidr { get; set; }
 
     /// <summary>
-    /// Tags to be assigned to the openShiftCluster resource. space- separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Tags to be assigned to the openShiftCluster resource. space- separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -253,5 +253,11 @@ public record AzAroCreateOptions : AzOptions
     /// </summary>
     [CliOption("--enable-managed-identity", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableManagedIdentity { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

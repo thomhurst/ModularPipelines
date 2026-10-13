@@ -25,9 +25,9 @@ public class S3ModuleCacheTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.Services.Configure<DistributedOptions>(options => options.RunId = "artifact-run");
-        builder.AddS3DistributedArtifactStore(options => options.BucketName = "artifact-bucket");
-        builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.NoCompression);
+        builder.ConfigureDistributedOptions(options => options with { RunId = "artifact-run" });
+        builder.AddS3DistributedArtifactStore(options => options with { BucketName = "artifact-bucket" });
+        builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.NoCompression });
         await using var pipeline = await builder.BuildAsync();
 
         var configuredOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
@@ -156,15 +156,15 @@ public class S3ModuleCacheTests
     public async Task CacheRegistrationDoesNotReplaceArtifactStoreOptions()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddS3DistributedArtifactStore(options =>
+        builder.AddS3DistributedArtifactStore(options => options with
         {
-            options.BucketName = "artifact-bucket";
-            options.KeyPrefix = "artifacts";
+            BucketName = "artifact-bucket",
+            KeyPrefix = "artifacts",
         });
-        builder.AddS3ModuleCache(options =>
+        builder.AddS3ModuleCache(options => options with
         {
-            options.BucketName = "cache-bucket";
-            options.KeyPrefix = "cache";
+            BucketName = "cache-bucket",
+            KeyPrefix = "cache",
         });
 
         using var serviceProvider = builder.Services.BuildServiceProvider();

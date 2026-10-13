@@ -24,27 +24,23 @@ public record KubernetesLabelOptions : KubernetesOptions
     /// <summary>
     /// Update the labels on a resource.
     /// </summary>
-    /// <param name="Key_1Val_1">The KEY_1=VAL_1 operand.</param>
-    /// <param name="KeyNValN">The KEY_N=VAL_N operand.</param>
+    /// <param name="Labels">The KEY=VAL operand.</param>
     public KubernetesLabelOptions(
-        IEnumerable<string>? Key_1Val_1,
-        string? KeyNValN
+        IEnumerable<string>? Labels
     )
     {
-        if (Key_1Val_1 is not null)
+        if (Labels is not null)
         {
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Key_1Val_1));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Labels));
 
-            Key_1Val_1 = materialized;
+            Labels = materialized;
         }
-        this.Key_1Val_1 = Key_1Val_1;
-        this.KeyNValN = KeyNValN;
+        this.Labels = Labels;
     }
 
-    public void Deconstruct(out IEnumerable<string>? Key_1Val_1, out string? KeyNValN)
+    public void Deconstruct(out IEnumerable<string>? Labels)
     {
-        Key_1Val_1 = this.Key_1Val_1;
-        KeyNValN = this.KeyNValN;
+        Labels = this.Labels;
     }
 
     /// <summary>
@@ -150,15 +146,9 @@ public record KubernetesLabelOptions : KubernetesOptions
     public string? Template { get; set; }
 
     /// <summary>
-    /// The KEY_1=VAL_1 operand.
+    /// The KEY=VAL operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Key_1Val_1 { get; private init; }
-
-    /// <summary>
-    /// The KEY_N=VAL_N operand.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
-    public string? KeyNValN { get; private init; }
+    public IEnumerable<string>? Labels { get; private init; }
 
 }

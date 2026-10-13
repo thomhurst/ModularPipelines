@@ -1,0 +1,18 @@
+
+Command
+    az extension list : List the installed extensions.
+
+Arguments
+
+Global Arguments
+    --debug            : Increase logging verbosity to show all debug logs.
+    --help -h          : Show this help message and exit.
+    --only-show-errors : Only show errors, suppressing warnings.
+    --output -o        : Output format.  Allowed values: json, jsonc, none, table, tsv, yaml, yamlc.
+                         Default: json.
+    --query            : JMESPath query string. See http://jmespath.org/ for more information and
+                         examples.
+    --verbose          : Increase logging verbosity. Use --debug for full debug logs.
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--___SUBSCRIPTION": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}

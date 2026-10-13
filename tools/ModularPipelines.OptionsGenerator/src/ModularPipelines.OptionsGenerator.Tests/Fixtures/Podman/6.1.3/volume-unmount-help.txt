@@ -1,0 +1,11 @@
+Unmount volume
+
+Description:
+  Unmount a volume
+
+Usage:
+  podman volume unmount NAME
+
+Examples:
+  podman volume unmount myvol
+

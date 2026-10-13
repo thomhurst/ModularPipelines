@@ -16,11 +16,11 @@ public class CoordinatorCancellationResultPipelineTests
         CancellationToken cancellationToken)
     {
         var builder = TestPipelineBuilder.Create();
-        builder.AddDistributedMode(options =>
+        builder.AddDistributedMode(options => options with
         {
-            options.TotalInstances = 1;
-            options.MaxParallelism = 2;
-            options.ModuleResultTimeout = TimeSpan.FromSeconds(20);
+            TotalInstances = 1,
+            MaxParallelism = 2,
+            ModuleResultTimeout = TimeSpan.FromSeconds(20),
         });
         builder.Services.AddSingleton<SlowModuleStarted>();
         builder.AddModule<SlowToStopModule>();

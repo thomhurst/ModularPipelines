@@ -117,7 +117,7 @@ public record AzSqlDbRestoreOptions : AzOptions
     public string? ReadScale { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -169,6 +169,12 @@ public record AzSqlDbRestoreOptions : AzOptions
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
     public string? Server { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
     /// <summary>
     /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database in the same server. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".

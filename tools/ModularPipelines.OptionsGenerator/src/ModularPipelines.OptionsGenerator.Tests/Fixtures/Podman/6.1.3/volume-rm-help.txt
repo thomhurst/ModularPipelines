@@ -1,0 +1,23 @@
+Remove one or more volumes
+
+Description:
+  Remove one or more existing volumes.
+
+  By default only volumes that are not being used by any containers will be removed. To remove the volumes anyways, use the --force flag.
+
+Usage:
+  podman volume rm [options] VOLUME [VOLUME...]
+
+Aliases:
+  rm, remove
+
+Examples:
+  podman volume rm myvol1 myvol2
+  podman volume rm --all
+  podman volume rm --force myvol
+
+Options:
+  -a, --all        Remove all volumes
+  -f, --force      Remove a volume by force, even if it is being used by a container
+  -t, --time int   Seconds to wait for running containers to stop before killing the container (default 10)
+

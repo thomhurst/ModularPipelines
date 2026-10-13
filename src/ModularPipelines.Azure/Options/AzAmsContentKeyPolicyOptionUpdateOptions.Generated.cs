@@ -125,6 +125,12 @@ public record AzAmsContentKeyPolicyOptionUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Creates an alternate token key with either a string (for symmetric key) or a filepath to a certificate (x509) or public key (rsa). Must be used in conjunction with --add-alt-token-key-type.
     /// </summary>
     [SecretValue]

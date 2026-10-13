@@ -1,0 +1,34 @@
+Push a manifest list or image index to a registry
+
+Description:
+  Pushes manifest lists and image indexes to registries.
+
+Usage:
+  podman manifest push [options] LIST DESTINATION
+
+Examples:
+  podman manifest push mylist:v1.11 docker://quay.io/myuser/image:v1.11
+
+Options:
+      --add-compression strings              add instances with selected compression while pushing
+      --all                                  also push the images in the list (default true)
+      --authfile string                      path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string                      use certificates at the specified path to access the registry
+      --compression-format string            compression format to use
+      --compression-level int                compression level to use
+      --creds [username[:password]]          use [username[:password]] for accessing the registry
+      --digestfile string                    after copying the image, write the digest of the resulting digest to the file
+      --force-compression                    Use the specified compression algorithm even if the destination contains a differently-compressed variant already
+  -f, --format string                        manifest type (oci or v2s2) to attempt to use when pushing the manifest list (default is manifest type of source)
+  -q, --quiet                                don't output progress information when pushing lists
+      --remove-signatures                    don't copy signatures when pushing images
+      --retry uint                           number of times to retry in case of failure when performing push (default 3)
+      --retry-delay string                   delay between retries in case of push failures
+      --rm                                   remove the manifest list if push succeeds
+      --sign-by string                       Add a signature at the destination using the specified key
+      --sign-by-sigstore PATH                Sign the image using a sigstore parameter file at PATH
+      --sign-by-sigstore-private-key PATH    Sign the image using a sigstore private key at PATH
+      --sign-by-sq-fingerprint FINGERPRINT   Sign the image using a Sequoia-PGP key with the specified FINGERPRINT
+      --sign-passphrase-file PATH            Read a passphrase for signing an image from PATH
+      --tls-verify                           require HTTPS and verify certificates when accessing the registry (default true)
+

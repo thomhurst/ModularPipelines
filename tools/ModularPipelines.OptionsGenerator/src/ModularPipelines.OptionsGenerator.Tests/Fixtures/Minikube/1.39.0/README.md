@@ -33,5 +33,6 @@ options to the base class.
 
 The verified executable accepted `--stderrthreshold=WARNING`,
 `--alsologtostderrthreshold=ERROR`, and `--logtostderr=false` before
-`version --short`, returning `v1.39.0`. Version help is now captured too; #5687 includes its command API and preserves
-the command-local components, output, and short options.
+`version --short`, returning `v1.39.0`. The version help capture also covers the
+command-local components, output, and short settings. Version API generation is
+enabled by the generator fix for #5604.

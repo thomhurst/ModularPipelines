@@ -21,7 +21,7 @@ namespace ModularPipelines.Podman.Options;
 public record PodmanMachineInitOptions : PodmanOptions
 {
     /// <summary>
-    /// Number of CPUs (default 2)
+    /// Number of CPUs
     /// </summary>
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
     public int? Cpus { get; set; }
@@ -123,7 +123,7 @@ public record PodmanMachineInitOptions : PodmanOptions
     public string? Username { get; set; }
 
     /// <summary>
-    /// Volumes to mount, source:target (default [$HOME:$HOME,~/.config/containers:/etc/containers])
+    /// Volumes to mount, source:target
     /// </summary>
     [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }

@@ -279,7 +279,7 @@ public record PodmanImageBuildOptions : PodmanOptions
     /// set the OCI hooks directory path (may be set multiple times)
     /// </summary>
     [CliOption("--hooks-dir", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HooksDir { get; set; }
+    public IEnumerable<string>? ImageHooksDir { get; set; }
 
     /// <summary>
     /// pass through HTTP Proxy environment variables (default true)
@@ -507,7 +507,7 @@ public record PodmanImageBuildOptions : PodmanOptions
     /// add global flags for the container runtime
     /// </summary>
     [CliOption("--runtime-flag", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RuntimeFlag { get; set; }
+    public IEnumerable<string>? ImageRuntimeFlag { get; set; }
 
     /// <summary>
     /// save intermediate stage images.
@@ -622,7 +622,7 @@ public record PodmanImageBuildOptions : PodmanOptions
     /// SSH agent socket or keys to expose to the build. (format: default|&lt;id&gt;[=&lt;socket&gt;|&lt;key&gt;[,&lt;key&gt;]])
     /// </summary>
     [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Ssh { get; set; }
+    public IEnumerable<string>? ImageSsh { get; set; }
 
     /// <summary>
     /// add metadata labels to intermediate stage images (requires --save-stages).

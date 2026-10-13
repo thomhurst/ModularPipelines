@@ -505,5 +505,14 @@ internal partial class Az : IAz
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzLogoutOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> SurveyAsync(
+        AzSurveyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSurveyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
     #endregion
 }

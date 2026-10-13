@@ -60,6 +60,21 @@ public class AzNetworkWatcher
     #region Commands
 
     /// <summary>
+    /// List Network Watchers.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzNetworkWatcherListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkWatcherListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Run a configuration diagnostic on a target
     /// </summary>
     /// <param name="options">The command options.</param>

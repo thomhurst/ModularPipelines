@@ -1,0 +1,13 @@
+Generate structured data based on containers, pods or volumes
+
+Description:
+  Generate structured data (e.g., Kubernetes YAML or systemd units) based on containers, pods or volumes.
+
+Usage:
+  podman generate [command]
+
+Available Commands:
+  kube        Generate Kubernetes YAML from containers, pods or volumes.
+  spec        Generate Specgen JSON based on containers or pods
+  systemd     [DEPRECATED] Generate systemd units
+

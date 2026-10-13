@@ -124,6 +124,12 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// The capacity reservation level for this workspace, when CapacityReservation sku is selected. The maximum value is 1000 and must be in multiples of 100. If you want to increase the limit, please contact LAIngestionRate@microsoft.com.  Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.
     /// </summary>
     [CliOption("--capacity-reservation-level")]

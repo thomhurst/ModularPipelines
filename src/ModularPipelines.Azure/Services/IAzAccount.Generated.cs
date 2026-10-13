@@ -32,6 +32,16 @@ public interface IAzAccount
     AzAccountManagementGroup ManagementGroup => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Clear all subscriptions from the CLI's local cache.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ClearAsync(AzAccountClearOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Get a token for utilities to access Azure.
     /// </summary>
     /// <param name="options">The command options.</param>

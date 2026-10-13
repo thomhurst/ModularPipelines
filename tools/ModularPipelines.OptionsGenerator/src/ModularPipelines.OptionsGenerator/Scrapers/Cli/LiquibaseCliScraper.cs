@@ -43,10 +43,7 @@ public partial class LiquibaseCliScraper(ICliCommandExecutor executor, IHelpText
     ];
 
     private static readonly HashSet<string> BooleanDefaultExceptions =
-    [
-        with(StringComparer.OrdinalIgnoreCase),
-        "--monitor-performance"
-    ];
+    [with(StringComparer.OrdinalIgnoreCase), "--monitor-performance"];
 
     private static readonly HashSet<string> BooleanOptions =
     [

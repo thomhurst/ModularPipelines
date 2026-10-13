@@ -105,5 +105,4 @@ public class RunCommandModule : Module<CommandResult>
 | `kubectl top node` | `KubernetesTopNodeOptions` |
 | `kubectl top pod` | `KubernetesTopPodOptions` |
 | `kubectl uncordon` | `KubernetesUncordonOptions` |
-| `kubectl version` | `KubernetesVersionOptions` |
 | `kubectl wait` | `KubernetesWaitOptions` |

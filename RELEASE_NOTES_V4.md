@@ -1,5 +1,42 @@
 # ModularPipelines V4 Release Notes
 
+## Filesystem provider primitives
+
+`IFileSystemProvider.DirectorySeparatorChar` defaults to the host separator,
+preserving existing provider implementations. Custom providers can override it
+to declare their relative-path separator. `InMemoryFileSystemProvider` now supports
+atomic overwrite moves that preserve source metadata and leave both files intact
+when either file is open. Providers without atomic overwrite support continue to
+throw `NotSupportedException` when replacing an existing destination.
+
+## Numbered CLI operands
+
+Numbered usage ranges such as `KEY_1=VAL_1 ... KEY_N=VAL_N` now produce one
+ordered collection operand. `KubernetesLabelOptions` takes one `Labels` collection
+instead of `Key_1Val_1` and `KeyNValN`; pass every label in that collection.
+`KubernetesAnnotateOptions.Annotations` and `KubernetesTaintOptions.Taints` retain
+their collection APIs and use the shared numbered-range parser. Label and annotate
+listing forms can omit their values, as supported by kubectl.
+
+## Eksctl inherited settings
+
+`EksctlOptions` now declares `Color`, `Dumplogs`, and `Verbose` for all command
+records. Existing initializers retain their property names and types. Reflection
+over command types must include inherited properties. These persistent settings
+render before the command path; Region, Profile, and resource options remain local.
+See the [Eksctl migration guidance](docs/docs/mp-packages/eksctl.md#inherited-settings-and-v4-migration).
+
+## Pulumi inherited settings
+
+Pulumi command records inherit thirteen persistent settings from `PulumiOptions`.
+Initializers for inherited settings retain their names and types; reflection must include inherited
+properties. Global settings now render before the command path. `Emoji = false`
+emits `--emoji=false`, preserving control over the macOS default. Environment,
+stack, and resource-operation settings retain their command/group scope. The local
+`--verbose` flags on `whoami`/`api` become `CliVerbose`; Neo's local `--cwd`
+becomes `CliCwd` or `NeoCwd` on its resume command. See the
+[Pulumi migration guidance](docs/docs/mp-packages/pulumi.md#inherited-settings-and-v4-migration).
+
 ## Grype persistent settings
 
 `GrypeOptions` now declares `Config`, `Profile`, `Quiet`, and `Verbose` for every
@@ -39,6 +76,13 @@ can set `ThrowOnNonSuccessStatusCode = false` and must dispose returned response
 Slack disposes responses internally. See the [Slack](docs/docs/mp-packages/slack.md)
 and [Teams](docs/docs/mp-packages/microsoft-teams.md) examples.
 
+## Flux inherited settings
+
+Flux command records now inherit 23 persistent settings from `FluxOptions`, preserving
+existing property names and post-command argument ordering. Receiver commands retain their
+local webhook `Token` replacement and secret masking; group-only flags remain local.
+Reflection code must include inherited properties. See the [Flux migration guide](docs/docs/mp-packages/flux.md#migration).
+
 ## Trivy inherited settings
 
 Trivy command records now inherit eight persistent settings from `TrivyOptions`:
@@ -66,6 +110,15 @@ Endpoints require absolute HTTP/HTTPS URLs. Redis REST requires HTTPS except on 
 Empty or whitespace optional S3/Redis endpoints are treated as omitted. Defaults, optional S3/Redis endpoints,
 and SignalR port-zero binding are preserved. See the
 [endpoint migration guidance](docs/docs/distributed/configuration.md#v4-endpoint-migration).
+
+## Upgrade code fixes
+
+The analyzer package now offers **Upgrade to ModularPipelines V4** quick actions
+for mechanical tool-access, async method, cancellation-token argument, Git command
+group, and `ModuleStatus` migrations. Fixes validate against installed APIs and
+leave ambiguous replacements unchanged. See the
+[upgrade code-fix guidance](docs/docs/how-to/analyzers.md#v3-to-v4-upgrade-code-fixes)
+for examples and staged Fix All behavior.
 
 ## Asynchronous file operations
 
@@ -674,7 +727,10 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - S3: `S3ArtifactOptions` is `S3StorageOptions`, `KeyPrefix` defaults to `modpipe`, `SetLifecycleRule`
   defaults to `false` and merges with existing rules, and large objects use multipart uploads.
 - Discovery: `Ttl` is `TimeToLive`, `KeyPrefix` defaults to `modpipe`, and the package owns its connection.
-- `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Action<TOptions>` and one
+  `RedisDiscoveryOptions.ConnectionString` now defaults to empty. Set it explicitly (including `localhost:6379`
+  for local Redis), supply endpoints through `ConfigureConnection`, or configure both `RestUrl` and `RestToken`.
+  Missing connection configuration fails during pipeline construction; REST discovery does not require a TCP connection.
+- `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Func<TOptions, TOptions>` and one
   `IConfigurationSection` registration overload; options are validated at startup.
 - `ArtifactOptions` is removed. Configure compression through `DistributedOptions.ArtifactCompressionLevel`;
   `AutoCleanup`, `ChunkSizeBytes`, `MaxSingleUploadBytes` and `TimeToLive` move to backend
@@ -853,6 +909,39 @@ package root namespaces. Update imports; the generated `gh` CLI namespaces are u
   (`BuildSystem` is in `ModularPipelines`).
 - Handwritten `Register*Context` methods remain public for generated registration and are
   hidden from IntelliSense.
+
+## Podman root execution settings
+
+`PodmanOptions` now exposes 30 public root settings, including remote connection,
+storage, runtime, and logging configuration. They render before subcommands.
+`Remote`, `Syslog`, and `TransientStore` accept `CliOptionValue` so callers can
+send explicit false values. Repeated directory, module, runtime, and storage
+options retain separate values.
+
+Command-local identity and TLS settings retain independent values under scoped
+property names. Use inherited `Identity` for the active remote connection; the
+local identity property on `PodmanSystemConnectionAddOptions` configures the new
+connection. Compose provider settings remain on `PodmanComposeOptions`. See the
+[Podman migration guidance](docs/docs/mp-packages/podman.md#v4-migration).
+
+## Immutable distributed configuration
+
+`DistributedOptions`, `RedisOptions`, `SignalRDistributedOptions`, `SignalRTunnelOptions`,
+`S3StorageOptions`, and `RedisDiscoveryOptions` are immutable records with init-only
+properties. Configuration callbacks now return `Func<TOptions, TOptions>` transforms.
+Replace assignments such as `options => options.RunId = "run"` with
+`options => options with { RunId = "run" }`. For nested tunnel settings, use
+`options => options with { Tunnel = options.Tunnel with { Enabled = true } }`.
+
+`AddRedisModuleCache` and `AddS3ModuleCache` use transforms for both backend and cache
+options. Configuration-section overloads, named cache isolation, registration order,
+validation, and runtime defaults are preserved. `ConfigureConnection` remains an
+`Action<StackExchange.Redis.ConfigurationOptions>` because that third-party type is mutable.
+
+Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel =
+CompressionLevel.NoCompression })` to configure local artifact behavior without enabling
+distributed execution. `AddDistributedMode` enables distributed execution and accepts the
+same transform style. See the [distributed configuration guide](docs/docs/distributed/configuration.md).
 
 ## Kustomize edit operands
 

@@ -89,7 +89,7 @@ public record AzAcrWebhookCreateOptions : AzOptions
     public string Uri { get; private init; }
 
     /// <summary>
-    /// Space-separated custom headers in 'key[=value]' format that will be added to the webhook notifications. Use '' to clear existing headers.
+    /// Space-separated custom headers in 'key[=value]' format that will be added to the webhook notifications. Use "" to clear existing headers.
     /// </summary>
     [CliOption("--headers", GroupValues = true)]
     public IEnumerable<string>? Headers { get; set; }
@@ -119,9 +119,15 @@ public record AzAcrWebhookCreateOptions : AzOptions
     public string? Status { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

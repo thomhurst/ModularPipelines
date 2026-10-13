@@ -1,0 +1,57 @@
+Generate a packaged-based Software Bill Of Materials (SBOM) from container images and filesystems
+
+Usage:
+  syft scan [SOURCE] [flags]
+
+Examples:
+  syft scan alpine:latest                                a summary of discovered packages
+  syft scan alpine:latest -o json                        show all possible cataloging details
+  syft scan alpine:latest -o cyclonedx                   show a CycloneDX formatted SBOM
+  syft scan alpine:latest -o cyclonedx-json              show a CycloneDX JSON formatted SBOM
+  syft scan alpine:latest -o spdx                        show a SPDX 2.3 Tag-Value formatted SBOM
+  syft scan alpine:latest -o spdx@2.2                    show a SPDX 2.2 Tag-Value formatted SBOM
+  syft scan alpine:latest -o spdx-json                   show a SPDX 2.3 JSON formatted SBOM
+  syft scan alpine:latest -o spdx-json@2.2               show a SPDX 2.2 JSON formatted SBOM
+  syft scan alpine:latest -vv                            show verbose debug information
+  syft scan alpine:latest -o template -t my_format.tmpl  show a SBOM formatted according to given template file
+
+  Supports the following image sources:
+    syft scan yourrepo/yourimage:tag     defaults to using images from a Docker daemon. If Docker is not present, the image is pulled directly from the registry.
+    syft scan path/to/a/file/or/dir      a Docker tar, OCI tar, OCI directory, SIF container, or generic filesystem directory
+
+  You can also explicitly specify the scheme to use:
+    syft scan docker:yourrepo/yourimage:tag            explicitly use the Docker daemon
+    syft scan podman:yourrepo/yourimage:tag            explicitly use the Podman daemon
+    syft scan registry:yourrepo/yourimage:tag          pull image directly from a registry (no container runtime required)
+    syft scan docker-archive:path/to/yourimage.tar     use a tarball from disk for archives created from "docker save"
+    syft scan oci-archive:path/to/yourimage.tar        use a tarball from disk for OCI archives (from Skopeo or otherwise)
+    syft scan oci-dir:path/to/yourimage                read directly from a path on disk for OCI layout directories (from Skopeo or otherwise)
+    syft scan singularity:path/to/yourimage.sif        read directly from a Singularity Image Format (SIF) container on disk
+    syft scan oci-model-registry:ai/llama3.2           scan an OCI model artifact from a registry (e.g. Docker Hub AI models)
+    syft scan dir:path/to/yourproject                  read directly from a path on disk (any directory)
+    syft scan file:path/to/yourproject/file            read directly from a path on disk (any single file)
+
+
+Flags:
+      --base-path string                          base directory for scanning, no links will be followed above this directory, and all paths will be reported relative to this directory
+      --enrich stringArray                        enable package data enrichment from local and online sources (options: all, golang, java, javascript, python, vcpkg)
+      --exclude stringArray                       exclude paths from being scanned using a glob expression
+      --file string                               file to write the default report output to (default is STDOUT) (DEPRECATED: use: --output FORMAT=PATH)
+      --from stringArray                          specify the source behavior to use (e.g. docker, registry, oci-dir, ...)
+  -h, --help                                      help for scan
+  -o, --output stringArray                        report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json purls spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
+      --override-default-catalogers stringArray   set the base set of catalogers to use (defaults to 'image' or 'directory' depending on the scan source)
+      --parallelism int                           number of cataloger workers to run in parallel
+      --platform string                           an optional platform specifier for container image sources (e.g. 'linux/arm64', 'linux/arm64/v8', 'arm64', 'linux')
+  -s, --scope string                              selection of layers to catalog, options=[squashed all-layers deep-squashed] (default "squashed")
+      --select-catalogers stringArray             add, remove, and filter the catalogers to be used
+      --source-name string                        set the name of the target being analyzed
+      --source-supplier string                    the organization that supplied the component, which often may be the manufacturer, distributor, or repackager
+      --source-version string                     set the version of the target being analyzed
+  -t, --template string                           specify the path to a Go template file
+
+Global Flags:
+  -c, --config stringArray    syft configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)

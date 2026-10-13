@@ -1,0 +1,8 @@
+Usage:  docker compose restart [OPTIONS] [SERVICE...]
+
+Restart service containers
+
+Options:
+      --dry-run       Execute command in dry run mode
+      --no-deps       Don't restart dependent services
+  -t, --timeout int   Specify a shutdown timeout in seconds

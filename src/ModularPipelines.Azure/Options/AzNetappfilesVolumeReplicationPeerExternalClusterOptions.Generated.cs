@@ -86,6 +86,12 @@ public record AzNetappfilesVolumeReplicationPeerExternalClusterOptions : AzOptio
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// The name of the volume.
     /// </summary>
     [CliOption("--volume-name", ShortForm = "-n")]

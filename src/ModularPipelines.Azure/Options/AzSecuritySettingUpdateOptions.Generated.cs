@@ -58,6 +58,12 @@ public record AzSecuritySettingUpdateOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--alert-sync-settings", GroupValues = true)]

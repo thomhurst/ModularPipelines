@@ -40,7 +40,9 @@ public partial class CosignCliScraperTests
         }
 
         var tool = scraper.CreateToolDefinition() with { Commands = commands };
-        await Assert.That(commands).Count().IsEqualTo(40);
+        await Assert.That(commands).Count().IsEqualTo(41);
+        var version = commands.Single(command => command.FullCommand == "cosign version");
+        await Assert.That(version.Options.Single(option => option.SwitchName == "--json").IsFlag).IsTrue();
         await Assert.That(tool.GetGlobalOptions().Select(option => option.SwitchName))
             .IsEquivalentTo(["--output-file", "--timeout", "--verbose"]);
         await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsTrue();
@@ -60,6 +62,11 @@ public partial class CosignCliScraperTests
         await Assert.That(baseOptions).DoesNotContain("IdentityToken");
         var generated = await new OptionsClassGenerator().GenerateAsync(tool);
         await Assert.That(generated.All(file => !file.Content.Contains("public string? Timeout"))).IsTrue();
+        await Assert.That(generated.Single(file => Path.GetFileName(file.RelativePath) == version.ClassName + ".Generated.cs").Content)
+            .Contains("[CliSubCommand(\"version\")]");
+        var services = await new ServiceInterfaceGenerator().GenerateAsync(tool);
+        await Assert.That(services.Select(file => file.Content))
+            .Contains(content => content.Contains($"VersionAsync({version.ClassName}"));
     }
 
     [Test]
@@ -88,7 +95,8 @@ public partial class CosignCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
             CancellationToken cancellationToken = default, string? workingDirectory = null)
         {
-            var fixture = arguments is "version" or "--version" ? "version"
+            var fixture = arguments is "version --help" ? "version-help"
+                : arguments is "version" or "--version" ? "version"
                 : arguments is "--help" or "-h" ? "root"
                 : string.Join(' ', arguments.Split(' ').SkipLast(1));
             return Task.FromResult(new CliCommandResult

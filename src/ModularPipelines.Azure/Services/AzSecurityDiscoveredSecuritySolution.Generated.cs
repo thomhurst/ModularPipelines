@@ -32,6 +32,21 @@ public class AzSecurityDiscoveredSecuritySolution
     #region Commands
 
     /// <summary>
+    /// List the discovered security solutions.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSecurityDiscoveredSecuritySolutionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityDiscoveredSecuritySolutionListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Shows a discovered security solution.
     /// </summary>
     /// <param name="options">The command options.</param>

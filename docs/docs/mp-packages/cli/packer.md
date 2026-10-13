@@ -52,4 +52,3 @@ Global options are rendered before the selected subcommand.
 | `packer plugins` | `PackerPluginsOptions` |
 | `packer validate` | `PackerValidateOptions` |
 | `packer verify-attestation` | `PackerVerifyAttestationOptions` |
-| `packer version` | `PackerVersionOptions` |

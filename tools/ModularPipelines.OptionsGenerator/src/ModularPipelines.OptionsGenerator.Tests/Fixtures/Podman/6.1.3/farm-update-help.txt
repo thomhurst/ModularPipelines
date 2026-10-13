@@ -1,0 +1,18 @@
+Update an existing farm
+
+Description:
+  Update an existing farm by adding a connection, removing a connection, or changing it to the default farm.
+
+Usage:
+  podman farm update [options] FARM
+
+Examples:
+  podman farm update --add con1 farm1
+  podman farm update --remove con2 farm2
+  podman farm update --default farm3
+
+Options:
+  -a, --add strings      add system connection(s) to farm
+  -d, --default          set the given farm as the default farm
+  -r, --remove strings   remove system connection(s) from farm
+

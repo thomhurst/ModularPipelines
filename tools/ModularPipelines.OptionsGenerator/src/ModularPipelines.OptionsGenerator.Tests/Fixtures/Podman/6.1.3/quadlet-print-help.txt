@@ -1,0 +1,16 @@
+Display the contents of a quadlet
+
+Description:
+  Print the contents of a Quadlet, displaying the file including all comments
+
+Usage:
+  podman quadlet print QUADLET
+
+Aliases:
+  print, cat
+
+Examples:
+  podman quadlet print myquadlet.container
+  podman quadlet print mypod.pod
+  podman quadlet print myimage.build
+

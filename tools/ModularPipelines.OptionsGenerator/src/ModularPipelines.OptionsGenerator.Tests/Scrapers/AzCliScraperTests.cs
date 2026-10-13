@@ -499,9 +499,10 @@ public class AzCliScraperTests
             ["az", "service", "create"],
             helpText);
 
-        var option = command!.Options.Single();
+        var option = command!.Options.Single(option => option.SwitchName == "--name");
         using (Assert.Multiple())
         {
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--debug").IsRequired).IsFalse();
             await Assert.That(option.PropertyName).IsEqualTo("Name");
             await Assert.That(option.IsRequired).IsTrue();
         }
@@ -1090,6 +1091,21 @@ public class AzCliScraperTests
             contentType.PropertyName,
             contentType.IsFlag,
             contentType.Description)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("version")]
+    [Arguments("VERSION")]
+    public async Task Version_Command_Is_Retained_Without_Options(string commandName)
+    {
+        var helpText = $"""
+            Command
+                az {commandName} : Display information.
+            """;
+        var command = await new TestAzCliScraper().Parse(["az", commandName], helpText);
+
+        await Assert.That(command).IsNotNull();
+        await Assert.That(command!.Options).IsEmpty();
     }
 
     private sealed class HelpFetchingAzCliScraper(ICliCommandExecutor executor)

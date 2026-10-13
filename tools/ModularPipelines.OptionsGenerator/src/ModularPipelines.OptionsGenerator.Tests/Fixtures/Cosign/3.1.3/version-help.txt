@@ -1,0 +1,16 @@
+Prints the version
+
+Usage:
+cosign version [flags]
+
+Flags:
+    -h, --help=false:
+	help for version
+
+    --json=false:
+	print JSON instead of text
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

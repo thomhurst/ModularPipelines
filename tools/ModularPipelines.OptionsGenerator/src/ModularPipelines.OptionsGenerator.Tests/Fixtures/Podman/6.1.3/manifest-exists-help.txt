@@ -1,0 +1,11 @@
+Check if a manifest list exists in local storage
+
+Description:
+  If the manifest list exists in local storage, podman manifest exists exits with 0, otherwise the exit code will be 1.
+
+Usage:
+  podman manifest exists MANIFEST
+
+Examples:
+  podman manifest exists mylist
+

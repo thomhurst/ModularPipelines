@@ -86,7 +86,7 @@ function DependencyMap(): JSX.Element {
           </code></pre>
           <h3>{module.dependencies.length === 0 ? 'Ready from the start.' : `After ${module.dependencies.join(' and ')}.`}</h3>
           <p>{module.description}</p>
-          <Link to="/docs/next/how-to/execution-and-dependencies">Read about dependencies</Link>
+          <Link to="/docs/how-to/execution-and-dependencies">Read about dependencies</Link>
         </div>
       </div>
     </section>
@@ -104,7 +104,7 @@ export default function Home(): JSX.Element {
             <div className={styles.introCopy}>
               <p>Build, test, and ship with focused C# modules. You declare the dependencies. ModularPipelines connects the work and runs it in parallel.</p>
               <div className={styles.actions}>
-                <Link className={styles.primaryButton} to="/docs/next/getting-started">Build your first pipeline</Link>
+                <Link className={styles.primaryButton} to="/docs/getting-started">Build your first pipeline</Link>
                 <Link className={styles.sourceLink} href="https://github.com/thomhurst/ModularPipelines">View source on GitHub</Link>
               </div>
             </div>
@@ -116,15 +116,15 @@ export default function Home(): JSX.Element {
               <p>Keep the tools you know.<br />Give delivery its own structure.</p>
             </div>
             <div className={styles.readingList}>
-              <Link className={styles.readingLink} to="/docs/next/how-to/defining-modules">
+              <Link className={styles.readingLink} to="/docs/how-to/defining-modules">
                 <span className={`${styles.readingSymbol} ${styles.csharpSymbol}`} aria-hidden="true">{'{ }'}</span>
                 <div><h3>C# all the way down</h3><p>Types, dependency injection, and your favourite .NET libraries. Each module is an ordinary C# class.</p><span>Write a module</span></div>
               </Link>
-              <Link className={styles.readingLink} to="/docs/next/how-to/parallelization">
+              <Link className={styles.readingLink} to="/docs/how-to/parallelization">
                 <span className={`${styles.readingSymbol} ${styles.parallelSymbol}`} aria-hidden="true">Ⅱ</span>
                 <div><h3>Let independent work overlap</h3><p>Dependencies set the order. The framework schedules modules as their prerequisites complete.</p><span>Understand parallel execution</span></div>
               </Link>
-              <Link className={styles.readingLink} to="/docs/next/getting-started">
+              <Link className={styles.readingLink} to="/docs/getting-started">
                 <span className={`${styles.readingSymbol} ${styles.runSymbol}`} aria-hidden="true">&gt;_</span>
                 <div><h3>From your laptop to CI</h3><p>Your pipeline is a .NET application. Run the same code locally and on your build server.</p><span>Set up your pipeline</span></div>
               </Link>
@@ -132,7 +132,7 @@ export default function Home(): JSX.Element {
           </section>
           <section className={styles.quickstart} aria-labelledby="start-title">
             <div><h2 id="start-title">Start with one module.</h2><p>The project template gives you the pieces for your first pipeline.</p></div>
-            <div className={styles.install}><span>Install the project template</span><code>dotnet new install ModularPipelines.Templates</code><Link to="/docs/next/getting-started">Continue with the quickstart</Link></div>
+            <div className={styles.install}><span>Install the project template</span><code>dotnet new install ModularPipelines.Templates</code><Link to="/docs/getting-started">Continue with the quickstart</Link></div>
           </section>
         </div>
       </main>

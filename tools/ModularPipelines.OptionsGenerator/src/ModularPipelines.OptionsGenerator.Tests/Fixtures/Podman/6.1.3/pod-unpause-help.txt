@@ -1,0 +1,19 @@
+Unpause one or more pods
+
+Description:
+  The podman unpause command will unpause all "paused" containers assigned to the pod.
+
+  The pod name or ID can be used.
+
+Usage:
+  podman pod unpause [options] POD [POD...]
+
+Examples:
+  podman pod unpause podID1 podID2
+  podman pod unpause --all
+
+Options:
+  -a, --all      Unpause all running pods
+  -l, --latest   Act on the latest container podman is aware of
+                 Not supported with the "--remote" flag
+

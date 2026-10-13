@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -37,6 +38,26 @@ public partial class SyftCliScraper(ICliCommandExecutor executor, IHelpTextCache
     public override string TargetNamespace => "ModularPipelines.Syft";
 
     public override string OutputDirectory => "src/ModularPipelines.Syft";
+
+    /// <inheritdoc />
+    protected override bool TreatParseErrorsAsFatal => true;
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", [])
+            .Where(option => option.SwitchName is "--config" or "--profile" or "--quiet" or "--verbose")];
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        // Validate inherited copies before removing them; a changed type or alias must not disappear silently.
+        _ = CliGlobalOptionMerger.Merge(globals, [.. options.Where(option => globalSwitches.Contains(option.SwitchName))]);
+        return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+    }
 
     /// <summary>
     /// Skip utility commands.

@@ -133,4 +133,10 @@ public record AzNetworkCustomIpPrefixCreateOptions : AzOptions
     [CliOption("--prefix-type")]
     public string? PrefixType { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

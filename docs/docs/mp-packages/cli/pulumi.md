@@ -30,6 +30,26 @@ Resolve the service in a module, then select a command from the table below. A r
 var pulumi = context.Tools.Pulumi;
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--color` | `Color` | All editions | Colorize output. Choices are: always, never, raw, auto (default "auto") |
+| `--cwd` | `Cwd` | All editions | Run pulumi as if it had been started in another directory |
+| `--disable-integrity-checking` | `DisableIntegrityChecking` | All editions | Disable integrity checking of checkpoint files |
+| `--emoji` | `Emoji` | All editions | Enable emojis in the output |
+| `--fully-qualify-stack-names` | `FullyQualifyStackNames` | All editions | Show fully-qualified stack names |
+| `--logflow` | `Logflow` | All editions | Flow log settings to child processes (like plugins) |
+| `--logtostderr` | `Logtostderr` | All editions | Log to stderr instead of to files |
+| `--memprofilerate` | `Memprofilerate` | All editions | Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate |
+| `--non-interactive` | `NonInteractive` | All editions | Disable interactive mode for all commands |
+| `--otel-traces` | `OtelTraces` | All editions | Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors |
+| `--profiling` | `Profiling` | All editions | Emit CPU and memory profiles and an execution trace to '[filename].[pid].&#123;cpu,mem,trace&#125;', respectively |
+| `--tracing` | `Tracing` | All editions | Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file |
+| `--verbose` | `Verbose` | All editions | Enable verbose logging (e.g., v=3); anything &gt;3 is very verbose |
+
 ## Commands
 
 | CLI command | Options record |
@@ -109,13 +129,6 @@ var pulumi = context.Tools.Pulumi;
 | `pulumi env tag list` | `PulumiEnvTagListOptions` |
 | `pulumi env tag move` | `PulumiEnvTagMoveOptions` |
 | `pulumi env tag remove` | `PulumiEnvTagRemoveOptions` |
-| `pulumi env version` | `PulumiEnvVersionOptions` |
-| `pulumi env version history` | `PulumiEnvVersionHistoryOptions` |
-| `pulumi env version retract` | `PulumiEnvVersionRetractOptions` |
-| `pulumi env version rollback` | `PulumiEnvVersionRollbackOptions` |
-| `pulumi env version tag` | `PulumiEnvVersionTagOptions` |
-| `pulumi env version tag list` | `PulumiEnvVersionTagListOptions` |
-| `pulumi env version tag remove` | `PulumiEnvVersionTagRemoveOptions` |
 | `pulumi env webhook` | `PulumiEnvWebhookOptions` |
 | `pulumi env webhook delivery` | `PulumiEnvWebhookDeliveryOptions` |
 | `pulumi env webhook delivery list` | `PulumiEnvWebhookDeliveryListOptions` |
@@ -272,6 +285,5 @@ var pulumi = context.Tools.Pulumi;
 | `pulumi template list` | `PulumiTemplateListOptions` |
 | `pulumi template publish` | `PulumiTemplatePublishOptions` |
 | `pulumi up` | `PulumiUpOptions` |
-| `pulumi version` | `PulumiVersionOptions` |
 | `pulumi watch` | `PulumiWatchOptions` |
 | `pulumi whoami` | `PulumiWhoamiOptions` |

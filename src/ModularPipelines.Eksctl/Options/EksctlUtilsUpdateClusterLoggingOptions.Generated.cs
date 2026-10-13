@@ -69,22 +69,4 @@ public record EksctlUtilsUpdateClusterLoggingOptions : EksctlOptions
     [CliOption("--profile", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Profile { get; set; }
 
-    /// <summary>
-    /// toggle colorized logs (valid options: true, false, fabulous) (default "true")
-    /// </summary>
-    [CliOption("--color", ShortForm = "-C", Format = OptionFormat.EqualsSeparated)]
-    public string? Color { get; set; }
-
-    /// <summary>
-    /// dump logs to disk on failure if set to true
-    /// </summary>
-    [CliFlag("--dumpLogs", ShortForm = "-d")]
-    public bool? Dumplogs { get; set; }
-
-    /// <summary>
-    /// set log level, use 0 to silence, 4 for debugging and 5 for debugging with AWS debug logging (default 3)
-    /// </summary>
-    [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbose { get; set; }
-
 }

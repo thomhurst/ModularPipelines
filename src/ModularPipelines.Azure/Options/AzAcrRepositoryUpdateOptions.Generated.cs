@@ -100,4 +100,10 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     [CliOption("--write-enabled", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? WriteEnabled { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

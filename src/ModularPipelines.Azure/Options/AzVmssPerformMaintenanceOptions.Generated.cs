@@ -46,6 +46,12 @@ public record AzVmssPerformMaintenanceOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]

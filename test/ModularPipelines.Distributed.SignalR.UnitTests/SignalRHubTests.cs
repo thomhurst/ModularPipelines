@@ -167,7 +167,7 @@ public class SignalRHubTests
     [Test]
     public async Task Master_With_Access_Token_Rejects_Workers_Without_It()
     {
-        await using var test = await SignalRTestMaster.StartAsync(options => options.AccessToken = "correct-token");
+        await using var test = await SignalRTestMaster.StartAsync(options => options with { AccessToken = "correct-token" });
         var endpoint = await test.Discovery.Endpoint;
 
         test.Discovery.Override = endpoint with { AccessToken = "wrong-token" };

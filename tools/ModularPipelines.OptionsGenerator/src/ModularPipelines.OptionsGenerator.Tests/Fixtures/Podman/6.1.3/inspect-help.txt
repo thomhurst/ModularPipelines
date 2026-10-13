@@ -1,0 +1,30 @@
+Display the configuration of object denoted by ID
+
+Description:
+  Displays the low-level information on an object identified by name or ID.
+  For more inspection options, see:
+
+      podman artifact inspect
+      podman container inspect
+      podman image inspect
+      podman network inspect
+      podman pod inspect
+      podman volume inspect
+
+Usage:
+  podman inspect [options] {ARTIFACT|CONTAINER|IMAGE|POD|NETWORK|VOLUME} [...]
+
+Examples:
+  podman inspect fedora
+  podman inspect --type image fedora
+  podman inspect --type artifact quay.io/myimage/myartifact:latest
+  podman inspect CtrID ImgID
+  podman inspect --format "imageId: {{.Id}} size: {{.Size}}" fedora
+
+Options:
+  -f, --format string   Format the output to a Go template or json (default "json")
+  -l, --latest          Act on the latest container podman is aware of
+                        Not supported with the "--remote" flag
+  -s, --size            Display total file size
+  -t, --type string     Specify inspect-object type (default "all")
+

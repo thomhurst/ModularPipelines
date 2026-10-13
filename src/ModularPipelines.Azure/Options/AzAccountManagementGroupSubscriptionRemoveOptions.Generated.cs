@@ -24,17 +24,22 @@ public record AzAccountManagementGroupSubscriptionRemoveOptions : AzOptions
     /// Remove an existing subscription from a
     /// </summary>
     /// <param name="Name">Name of the management group.</param>
+    /// <param name="Subscription">Subscription Id or Name.</param>
     public AzAccountManagementGroupSubscriptionRemoveOptions(
-        string Name
+        string Name,
+        string Subscription
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Subscription);
+        this.Subscription = Subscription;
     }
 
-    public void Deconstruct(out string Name)
+    public void Deconstruct(out string Name, out string Subscription)
     {
         Name = this.Name;
+        Subscription = this.Subscription;
     }
 
     /// <summary>
@@ -42,5 +47,11 @@ public record AzAccountManagementGroupSubscriptionRemoveOptions : AzOptions
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }
+
+    /// <summary>
+    /// Subscription Id or Name.
+    /// </summary>
+    [CliOption("--subscription", ShortForm = "-s")]
+    public string Subscription { get; private init; }
 
 }

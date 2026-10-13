@@ -124,6 +124,12 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// The capacity of the SKU. It can be decreased only after 31 days. Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.
     /// </summary>
     [CliOption("--sku-capacity")]

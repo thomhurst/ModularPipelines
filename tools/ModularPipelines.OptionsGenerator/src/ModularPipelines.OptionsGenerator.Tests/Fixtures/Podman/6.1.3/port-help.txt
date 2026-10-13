@@ -1,0 +1,18 @@
+List port mappings or a specific mapping for the container
+
+Description:
+  List port mappings for the CONTAINER, or look up the public-facing port that is NAT-ed to the PRIVATE_PORT
+
+
+Usage:
+  podman port [options] CONTAINER [PORT]
+
+Examples:
+  podman port --all
+  podman port ctrID 80/tcp
+
+Options:
+  -a, --all      Display port information for all containers
+  -l, --latest   Act on the latest container podman is aware of
+                 Not supported with the "--remote" flag
+

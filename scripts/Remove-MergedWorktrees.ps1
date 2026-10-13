@@ -82,6 +82,17 @@ function Test-HasMeaningfulFileNewerThan {
     return $false
 }
 
+function Test-StaleSetupLock {
+    param([Parameter(Mandatory)][string]$Path, [string]$Reason)
+
+    if ($Reason -notmatch '^(?i:(PR|Issue) checkout setup)$') { return $false }
+    $gitDirectory = git -C $Path rev-parse --absolute-git-dir 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not $gitDirectory) { return $false }
+    $lockFile = Get-Item -LiteralPath (Join-Path $gitDirectory.Trim() 'locked') -Force -ErrorAction SilentlyContinue
+    # Matches the AgentLocks.ps1 TTL: no live owner can still be setting up.
+    return $lockFile -and $lockFile.LastWriteTimeUtc -lt [DateTime]::UtcNow.AddHours(-2)
+}
+
 function Remove-OrphanedDirectory {
     param(
         [Parameter(Mandatory)][string]$RepoPath,
@@ -160,21 +171,30 @@ try {
     if ($LASTEXITCODE -ne 0) { $mainTip = $null }
 
     # Walk worktrees (porcelain: worktree / branch|detached / locked records).
-    $wts = @(); $cur = $null; $branch = $null; $detached = $false; $locked = $false
+    $wts = @(); $cur = $null; $branch = $null; $detached = $false; $locked = $false; $lockReason = $null
     foreach ($line in (git -C $mainRepo worktree list --porcelain)) {
-        if ($line -like 'worktree *') { $cur = $line.Substring(9); $branch = $null; $detached = $false; $locked = $false }
+        if ($line -like 'worktree *') { $cur = $line.Substring(9); $branch = $null; $detached = $false; $locked = $false; $lockReason = $null }
         elseif ($line -like 'branch *') { $branch = ($line.Substring(7) -replace '^refs/heads/', '') }
         elseif ($line -eq 'detached') { $detached = $true }
-        elseif ($line -eq 'locked' -or $line -like 'locked *') { $locked = $true }
-        elseif ($line -eq '') { if ($cur) { $wts += [pscustomobject]@{ Path = $cur; Branch = $branch; Detached = $detached; Locked = $locked } }; $cur = $null }
+        elseif ($line -eq 'locked' -or $line -like 'locked *') { $locked = $true; $lockReason = ($line -replace '^locked ?', '') }
+        elseif ($line -eq '') { if ($cur) { $wts += [pscustomobject]@{ Path = $cur; Branch = $branch; Detached = $detached; Locked = $locked; LockReason = $lockReason } }; $cur = $null }
     }
-    if ($cur) { $wts += [pscustomobject]@{ Path = $cur; Branch = $branch; Detached = $detached; Locked = $locked } }
+    if ($cur) { $wts += [pscustomobject]@{ Path = $cur; Branch = $branch; Detached = $detached; Locked = $locked; LockReason = $lockReason } }
 
     $removed = 0; $unmatched = @()
     $nowEpoch = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
     foreach ($w in $wts) {
         if ($w.Path -eq $mainRepo) { continue }
         if (Test-IsDescendantPath -Path $w.Path -Parent $mainRepo) { continue } # harness-managed
+        if ($w.Locked -and (Test-StaleSetupLock -Path $w.Path -Reason $w.LockReason)) {
+            # The setup lock only guards checkout until Redis ownership is registered. One
+            # older than the Redis TTL outlived its owner; Redis reservations below still apply.
+            if ($WhatIf) { Write-Host "sweep: WOULD unlock stale setup lock: $($w.Path)" }
+            else {
+                git -C $mainRepo worktree unlock $w.Path 2>$null
+                if ($LASTEXITCODE -eq 0) { $w.Locked = $false; Write-Host "sweep: unlocked stale setup lock: $($w.Path)" }
+            }
+        }
         if ($w.Locked) { Write-Host "sweep: skipping locked worktree (session may own it): $($w.Path)"; continue }
         if ($w.Branch -and $openNames.ContainsKey($w.Branch)) { continue }   # active open PR — keep
 
@@ -322,8 +342,11 @@ try {
         }
     }
 
+    # Removals that a busy directory interrupted, whatever started them.
+    $pendingRemoved = Complete-PendingWorktreeRemovals -Repo $mainRepo -WhatIf:$WhatIf
+
     if (-not $WhatIf) { git -C $mainRepo worktree prune }
-    Write-Host "sweep: removed $removed merged worktree(s), $orphansRemoved orphaned dir(s)."
+    Write-Host "sweep: removed $removed merged worktree(s), $orphansRemoved orphaned dir(s), $pendingRemoved pending removal(s)."
 }
 catch {
     Warn "unexpected sweep error (ignored, loop continues): $_"

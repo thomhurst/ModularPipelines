@@ -77,6 +77,16 @@ public interface IAzDms
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// List the SKUs that are supported by the Azure Database Migration Service
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListSkusAsync(AzDmsListSkusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Show the details for an instance of the Azure Database Migration Service
     /// </summary>
     /// <param name="options">The command options.</param>

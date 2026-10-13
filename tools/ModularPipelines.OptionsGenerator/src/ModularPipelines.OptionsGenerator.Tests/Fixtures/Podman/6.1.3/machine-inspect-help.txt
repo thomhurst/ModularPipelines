@@ -1,0 +1,14 @@
+Inspect an existing machine
+
+Description:
+  Provide details on a managed virtual machine
+
+Usage:
+  podman machine inspect [options] [MACHINE...]
+
+Examples:
+  podman machine inspect myvm
+
+Options:
+      --format string   Format volume output using JSON or a Go template
+

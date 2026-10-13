@@ -2,6 +2,6 @@
   "formatVersion": 1,
   "toolName": "flux",
   "toolVersion": "flux version 2.9.6",
-  "commandTreeSha256": "557c088b0257cbea56dcae78c03c0a09c4a59c8ec9173e3250ba17b97ba500d7",
-  "generatorSourceSha256": "fe748bd2c02a3dac67382ca394edf15cdf4e46cf2b9af748628a3ae5eb9c3b65"
+  "commandTreeSha256": "cce64ef09e13559016b9deee8b350b34916ce2e46c6e248c25ab24ae62a04c00",
+  "generatorSourceSha256": "bcefdedaae49b6d3fd2c9b840f37e3f1900ea71438f41442fd788a016ebb5077"
 }

@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed.Configuration;
 
 namespace ModularPipelines.Distributed;
@@ -27,23 +28,13 @@ public static class DistributedPipelineBuilderExtensions
         "Distributed type-erased result serialization is unsupported in Native AOT.")]
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder)
     {
-        return builder.AddDistributedMode(options =>
+        return builder.AddDistributedMode(options => options with
         {
-            options.InstanceIndex = GetEnvironmentInt32(
-                InstanceIndexEnvironmentVariable,
-                options.InstanceIndex,
-                minimum: 0);
-            options.TotalInstances = GetEnvironmentInt32(
-                TotalInstancesEnvironmentVariable,
-                options.TotalInstances,
-                minimum: 1);
-            options.MaxParallelism = GetOptionalEnvironmentInt32(
-                MaxParallelismEnvironmentVariable,
-                options.MaxParallelism,
-                minimum: 1);
-            options.RunId = Environment.GetEnvironmentVariable(RunIdResolver.EnvironmentVariable)
-                            ?? options.RunId;
-            options.Role = GetEnvironmentRole(options.Role);
+            InstanceIndex = GetEnvironmentInt32(InstanceIndexEnvironmentVariable, options.InstanceIndex, minimum: 0),
+            TotalInstances = GetEnvironmentInt32(TotalInstancesEnvironmentVariable, options.TotalInstances, minimum: 1),
+            MaxParallelism = GetOptionalEnvironmentInt32(MaxParallelismEnvironmentVariable, options.MaxParallelism, minimum: 1),
+            RunId = Environment.GetEnvironmentVariable(RunIdResolver.EnvironmentVariable) ?? options.RunId,
+            Role = GetEnvironmentRole(options.Role),
         });
     }
 
@@ -55,12 +46,13 @@ public static class DistributedPipelineBuilderExtensions
         "Distributed type-erased result serialization is unsupported in trimmed applications.")]
     [RequiresDynamicCode(
         "Distributed type-erased result serialization is unsupported in Native AOT.")]
-    public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Action<DistributedOptions> configure)
+    public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Func<DistributedOptions, DistributedOptions> configure)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(configure);
         builder.Services.TryAddSingleton<DistributedModeRegistration>();
-        builder.Services.Configure<DistributedOptions>(o =>
-            configure(o));
-        builder.Services.PostConfigure<DistributedOptions>(EnableDistributedMode);
+        TransformOptionsFactory<DistributedOptions>.Configure(builder.Services, configure);
+        TransformOptionsFactory<DistributedOptions>.PostConfigure(builder.Services, _ => options => options with { Enabled = true });
 
         return builder;
     }
@@ -74,10 +66,26 @@ public static class DistributedPipelineBuilderExtensions
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, IConfigurationSection section)
     {
         builder.Services.TryAddSingleton<DistributedModeRegistration>();
+        TransformOptionsFactory<DistributedOptions>.Register(builder.Services);
         builder.Services.Configure<DistributedOptions>(section);
 
         // Also ensure Enabled is set
-        builder.Services.PostConfigure<DistributedOptions>(EnableDistributedMode);
+        TransformOptionsFactory<DistributedOptions>.PostConfigure(builder.Services, _ => options => options with { Enabled = true });
+        return builder;
+    }
+
+    /// <summary>
+    /// Transforms distributed and artifact options without enabling distributed execution.
+    /// Transformations and configuration-section bindings apply in registration order.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="configure">Returns the updated distributed and artifact options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder ConfigureDistributedOptions(this PipelineBuilder builder, Func<DistributedOptions, DistributedOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(configure);
+        TransformOptionsFactory<DistributedOptions>.Configure(builder.Services, configure);
         return builder;
     }
 
@@ -277,15 +285,10 @@ public static class DistributedPipelineBuilderExtensions
     /// <returns>The pipeline builder.</returns>
     public static PipelineBuilder RequireExplicitRunId(this PipelineBuilder builder)
     {
-        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
+        TransformOptionsFactory<DistributedOptions>.Configure(builder.Services, options => options with { RequireExplicitRunId = true });
         builder.Services.AddSingleton(ExplicitRunIdRequirement.Instance);
         builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
         return builder;
-    }
-
-    private static void EnableDistributedMode(DistributedOptions options)
-    {
-        options.Enabled = true;
     }
 }
 

@@ -1,0 +1,21 @@
+Display a live stream of resource usage statistics for the containers in one or more pods
+
+Description:
+  Display the containers' resource-usage statistics of one or more running pod
+
+Usage:
+  podman pod stats [options] [POD...]
+
+Examples:
+  podman pod stats
+  podman pod stats a69b23034235 named-pod
+  podman pod stats --all
+
+Options:
+  -a, --all             Provide stats for all pods
+      --format string   Pretty-print container statistics to JSON or using a Go template
+  -l, --latest          Act on the latest container podman is aware of
+                        Not supported with the "--remote" flag
+      --no-reset        Disable resetting the screen when streaming
+      --no-stream       Disable streaming stats and only pull the first result
+

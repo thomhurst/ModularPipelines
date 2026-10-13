@@ -31,9 +31,9 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options => options.RunId = "test-run");
-        builder.AddRedisDistributed(options => options.ConnectionString = "unused");
-        builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.NoCompression);
+        builder.AddDistributedMode(options => options with { RunId = "test-run" });
+        builder.AddRedisDistributed(options => options with { ConnectionString = "unused" });
+        builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.NoCompression });
         await using var pipeline = await builder.BuildAsync();
 
         var configuredOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
@@ -52,10 +52,9 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.Services.Configure<DistributedOptions>(options => options.RunId = "artifact-run");
+        builder.ConfigureDistributedOptions(options => options with { RunId = "artifact-run" });
 
-        builder.AddRedisDistributedArtifactStore(options =>
-            options.ConnectionString = "artifact-only");
+        builder.AddRedisDistributedArtifactStore(options => options with { ConnectionString = "artifact-only" });
 
         await using var pipeline = await builder.BuildAsync();
         var redisOptions = pipeline.Services.GetRequiredService<IOptions<RedisOptions>>().Value;
@@ -90,8 +89,7 @@ public class RedisDistributedExtensionsTests
 
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<NoOpModule>();
-            builder.AddRedisDistributedArtifactStore(options =>
-                options.ConnectionString = "artifact-only");
+            builder.AddRedisDistributedArtifactStore(options => options with { ConnectionString = "artifact-only" });
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.BuildAsync());
@@ -112,10 +110,10 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options => options.RunId = "current-run");
-        builder.AddRedisDistributedCoordinator(options =>
+        builder.AddDistributedMode(options => options with { RunId = "current-run" });
+        builder.AddRedisDistributedCoordinator(options => options with
         {
-            options.ConnectionString = "unused";
+            ConnectionString = "unused",
         });
         await using var pipeline = await builder.BuildAsync();
 
@@ -131,9 +129,8 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisDistributedCoordinator(options =>
-            options.ConnectionString = "unused");
-        builder.AddDistributedMode(options => options.RunId = "configured-after-redis");
+        builder.AddRedisDistributedCoordinator(options => options with { ConnectionString = "unused" });
+        builder.AddDistributedMode(options => options with { RunId = "configured-after-redis" });
 
         await using var pipeline = await builder.BuildAsync();
         var options = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
@@ -157,10 +154,9 @@ public class RedisDistributedExtensionsTests
 
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<NoOpModule>();
-            builder.AddDistributedMode(_ => { });
+            builder.AddDistributedMode(_ => _);
 
-            builder.AddRedisDistributedCoordinator(options =>
-                options.ConnectionString = "unused");
+            builder.AddRedisDistributedCoordinator(options => options with { ConnectionString = "unused" });
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.BuildAsync());
@@ -195,9 +191,8 @@ public class RedisDistributedExtensionsTests
             }
 
             var builder = Pipeline.CreateBuilder();
-            builder.AddDistributedMode(options => options.TotalInstances = 2);
-            builder.AddRedisDistributedCoordinator(options =>
-                options.ConnectionString = "unused");
+            builder.AddDistributedMode(options => options with { TotalInstances = 2 });
+            builder.AddRedisDistributedCoordinator(options => options with { ConnectionString = "unused" });
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.BuildAsync());
@@ -249,9 +244,9 @@ public class RedisDistributedExtensionsTests
         var applicationConnection = new Mock<IConnectionMultiplexer>().Object;
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options => options.RunId = "own-connection");
+        builder.AddDistributedMode(options => options with { RunId = "own-connection" });
         builder.Services.AddSingleton(applicationConnection);
-        builder.AddRedisDistributed(options => options.ConnectionString = "unused");
+        builder.AddRedisDistributed(options => options with { ConnectionString = "unused" });
 
         await using var pipeline = await builder.BuildAsync();
 
@@ -270,8 +265,8 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options => options.RunId = "separate-connections");
-        builder.AddRedisDistributed(options => options.ConnectionString = "unused");
+        builder.AddDistributedMode(options => options with { RunId = "separate-connections" });
+        builder.AddRedisDistributed(options => options with { ConnectionString = "unused" });
 
         await using var pipeline = await builder.BuildAsync();
 
@@ -311,8 +306,8 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options => options.RunId = "validation-run");
-        builder.AddRedisDistributedArtifactStore(_ => { });
+        builder.AddDistributedMode(options => options with { RunId = "validation-run" });
+        builder.AddRedisDistributedArtifactStore(_ => _);
 
         await Assert.That(async () => await builder.BuildAsync())
             .Throws<OptionsValidationException>()
@@ -332,10 +327,10 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        void Configure(RedisOptions options)
+        RedisOptions Configure(RedisOptions options) => options with
         {
-            options.ConnectionString = mode == "remove" ? "localhost:6379" : string.Empty;
-            options.ConfigureConnection = mode switch
+            ConnectionString = mode == "remove" ? "localhost:6379" : string.Empty,
+            ConfigureConnection = mode switch
             {
                 "noop" => _ =>
                 {
@@ -344,8 +339,8 @@ public class RedisDistributedExtensionsTests
                 "tls" => connection => connection.Ssl = true,
                 "remove" => connection => connection.EndPoints.Clear(),
                 _ => null,
-            };
-        }
+            },
+        };
 
         if (moduleCache)
         {
@@ -353,7 +348,7 @@ public class RedisDistributedExtensionsTests
         }
         else
         {
-            builder.AddDistributedMode(options => options.RunId = "endpoint-validation");
+            builder.AddDistributedMode(options => options with { RunId = "endpoint-validation" });
             builder.AddRedisDistributed(Configure);
         }
 
@@ -370,17 +365,11 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisModuleCache(options =>
+        builder.AddRedisModuleCache(options => options with
         {
-            options.TimeToLive = TimeSpan.FromMinutes(1);
-            if (callbackOnly)
-            {
-                options.ConfigureConnection = connection => connection.EndPoints.Add("cache.invalid", 6381);
-            }
-            else
-            {
-                options.ConnectionString = "cache.invalid:6381";
-            }
+            TimeToLive = TimeSpan.FromMinutes(1),
+            ConfigureConnection = callbackOnly ? connection => connection.EndPoints.Add("cache.invalid", 6381) : null,
+            ConnectionString = callbackOnly ? string.Empty : "cache.invalid:6381",
         });
 
         await using var pipeline = await builder.BuildAsync();
@@ -469,14 +458,15 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options => options.RunId = "callback-endpoints");
-        builder.AddRedisDistributed(options => options.ConfigureConnection = _ => { });
+        builder.AddDistributedMode(options => options with { RunId = "callback-endpoints" });
+        builder.AddRedisDistributed(options => options with { ConfigureConnection = _ => { } });
         builder.Services.PostConfigure<RedisOptions>(options =>
-            options.ConfigureConnection = connection => connection.EndPoints.Add("coordinator.invalid", 6380));
-        builder.AddRedisModuleCache(options =>
+            typeof(RedisOptions).GetProperty(nameof(RedisOptions.ConfigureConnection))!.SetValue(
+                options, (Action<ConfigurationOptions>) (connection => connection.EndPoints.Add("coordinator.invalid", 6380))));
+        builder.AddRedisModuleCache(options => options with
         {
-            options.TimeToLive = TimeSpan.FromMinutes(1);
-            options.ConfigureConnection = connection => connection.EndPoints.Add("cache.invalid", 6381);
+            TimeToLive = TimeSpan.FromMinutes(1),
+            ConfigureConnection = connection => connection.EndPoints.Add("cache.invalid", 6381),
         });
 
         await using var pipeline = await builder.BuildAsync();
@@ -499,15 +489,15 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options =>
+        builder.AddDistributedMode(options => options with
         {
-            options.RunId = "ttl-run";
-            options.ModuleResultTimeout = TimeSpan.FromHours(2);
+            RunId = "ttl-run",
+            ModuleResultTimeout = TimeSpan.FromHours(2),
         });
-        builder.AddRedisDistributedCoordinator(options =>
+        builder.AddRedisDistributedCoordinator(options => options with
         {
-            options.ConnectionString = "unused";
-            options.TimeToLive = TimeSpan.FromHours(1);
+            ConnectionString = "unused",
+            TimeToLive = TimeSpan.FromHours(1),
         });
 
         await Assert.That(async () => await builder.BuildAsync())
@@ -520,16 +510,16 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options =>
+        builder.AddDistributedMode(options => options with
         {
-            options.RunId = "ttl-master-run";
-            options.ModuleResultTimeout = TimeSpan.FromMinutes(1);
-            options.MasterTimeout = TimeSpan.FromHours(2);
+            RunId = "ttl-master-run",
+            ModuleResultTimeout = TimeSpan.FromMinutes(1),
+            MasterTimeout = TimeSpan.FromHours(2),
         });
-        builder.AddRedisDistributedCoordinator(options =>
+        builder.AddRedisDistributedCoordinator(options => options with
         {
-            options.ConnectionString = "unused";
-            options.TimeToLive = TimeSpan.FromHours(1);
+            ConnectionString = "unused",
+            TimeToLive = TimeSpan.FromHours(1),
         });
 
         await Assert.That(async () => await builder.BuildAsync())
@@ -542,9 +532,9 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options => options.RunId = "twice");
-        builder.AddRedisDistributed(options => options.ConnectionString = "unused");
-        builder.AddRedisDistributedArtifactStore(options => options.KeyPrefix = "later");
+        builder.AddDistributedMode(options => options with { RunId = "twice" });
+        builder.AddRedisDistributed(options => options with { ConnectionString = "unused" });
+        builder.AddRedisDistributedArtifactStore(options => options with { KeyPrefix = "later" });
 
         await using var pipeline = await builder.BuildAsync();
 
@@ -565,7 +555,7 @@ public class RedisDistributedExtensionsTests
         var builder = Pipeline.CreateBuilder();
         builder.AddDistributedArtifactStoreFactory<OtherArtifactStoreFactory>();
 
-        await Assert.That(() => builder.AddRedisDistributedArtifactStore(options => options.ConnectionString = "unused"))
+        await Assert.That(() => builder.AddRedisDistributedArtifactStore(options => options with { ConnectionString = "unused" }))
             .Throws<InvalidOperationException>()
             .WithMessageContaining(nameof(OtherArtifactStoreFactory));
     }

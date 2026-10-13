@@ -1,0 +1,11 @@
+Rename an existing container
+
+Description:
+  The podman rename command allows you to rename an existing container
+
+Usage:
+  podman container rename CONTAINER NAME
+
+Examples:
+  podman container rename containerA newName
+

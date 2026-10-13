@@ -161,4 +161,10 @@ public record AzFunctionappConnectionCreateCosmosGremlinOptions : AzOptions
     [CliOption("--service-endpoint", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? ServiceEndpoint { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

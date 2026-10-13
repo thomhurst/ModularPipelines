@@ -309,7 +309,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// Parses options from Cobra-style help text.
     /// Handles both standard Cobra format (Docker, Helm) and kubectl's variant.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    protected virtual IReadOnlyList<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
     {
         // Find Flags, Options, and Global Flags sections
         var flagsSections = ExtractFlagsSections(helpText);
@@ -357,7 +357,8 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
                 // Consumes the description wrapped beneath the declaration so it is not re-read as a row.
                 var description = NormalizeOptionDescription(
-                    AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow, CaptureOptionDescription));
+                    AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow, CaptureOptionDescription,
+                        allowParagraphBreaks: true));
 
                 if (string.IsNullOrEmpty(longForm))
                 {

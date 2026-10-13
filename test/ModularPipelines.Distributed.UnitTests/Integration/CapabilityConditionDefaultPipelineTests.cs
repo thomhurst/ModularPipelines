@@ -21,14 +21,14 @@ public class CapabilityConditionDefaultPipelineTests
         PipelineBuilder CreateBuilder(int index)
         {
             var builder = TestPipelineBuilder.Create();
-            builder.AddDistributedMode(options =>
+            builder.AddDistributedMode(options => options with
             {
-                options.InstanceIndex = index;
-                options.RunId = runId;
-                options.TotalInstances = 2;
-                options.MinimumWorkerCount = 1;
-                options.WorkerRegistrationTimeout = TimeSpan.FromSeconds(10);
-                options.ModuleResultTimeout = TimeSpan.FromSeconds(10);
+                InstanceIndex = index,
+                RunId = runId,
+                TotalInstances = 2,
+                MinimumWorkerCount = 1,
+                WorkerRegistrationTimeout = TimeSpan.FromSeconds(10),
+                ModuleResultTimeout = TimeSpan.FromSeconds(10),
             });
             builder.Services.AddSingleton(coordinator);
             builder.Services.AddSingleton<IDistributedMasterCoordinator>(coordinator);

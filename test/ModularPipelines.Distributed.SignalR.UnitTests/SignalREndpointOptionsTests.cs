@@ -13,8 +13,7 @@ public class SignalREndpointOptionsTests
     public async Task Listener_Requires_An_Absolute_Http_Uri(string? endpoint)
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddSignalRDistributedCoordinator(options =>
-            options.ListenUrl = endpoint is null ? null! : new Uri(endpoint, UriKind.RelativeOrAbsolute));
+        builder.AddSignalRDistributedCoordinator(options => options with { ListenUrl = endpoint is null ? null! : new Uri(endpoint, UriKind.RelativeOrAbsolute) });
         using var services = builder.Services.BuildServiceProvider();
 
         await Assert.That(() => services.GetRequiredService<IOptions<SignalRDistributedOptions>>().Value)
@@ -27,7 +26,7 @@ public class SignalREndpointOptionsTests
     public async Task Listener_Accepts_Http_And_Https_Uris(string endpoint)
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddSignalRDistributedCoordinator(options => options.ListenUrl = new Uri(endpoint));
+        builder.AddSignalRDistributedCoordinator(options => options with { ListenUrl = new Uri(endpoint) });
         using var services = builder.Services.BuildServiceProvider();
 
         await Assert.That(services.GetRequiredService<IOptions<SignalRDistributedOptions>>().Value.ListenUrl)

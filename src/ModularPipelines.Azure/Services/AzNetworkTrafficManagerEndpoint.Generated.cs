@@ -77,6 +77,21 @@ public class AzNetworkTrafficManagerEndpoint
     }
 
     /// <summary>
+    /// Get the default geographic
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowGeographicHierarchyAsync(
+        AzNetworkTrafficManagerEndpointShowGeographicHierarchyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerEndpointShowGeographicHierarchyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Get the details of a traffic manager endpoint.
     /// </summary>
     /// <param name="options">The command options.</param>

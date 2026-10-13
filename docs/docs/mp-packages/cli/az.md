@@ -49,6 +49,11 @@ Global options are rendered after the selected subcommand.
 | --- | --- | --- | --- |
 | `--acquire-policy-token` | `AcquirePolicyToken` | All editions | Acquire an Azure Policy token automatically for this resource operation. |
 | `--change-reference` | `ChangeReference` | All editions | The related change reference ID for this resource operation. |
+| `--debug` | `Debug` | All editions | Increase logging verbosity to show all debug logs. |
+| `--only-show-errors` | `OnlyShowErrors` | All editions | Only show errors, suppressing warnings. |
+| `--output` | `Output` | All editions | Output format. Allowed values: json, jsonc, yaml, yamlc, table, tsv, none. |
+| `--query` | `Query` | All editions | JMESPath query string. See http://jmespath.org/ for more information and examples. |
+| `--verbose` | `Verbose` | All editions | Increase logging verbosity. Use --debug for full debug logs. |
 
 ## Intentionally excluded commands
 
@@ -60,6 +65,7 @@ Global options are rendered after the selected subcommand.
 
 | CLI command | Options record |
 | --- | --- |
+| `az account clear` | `AzAccountClearOptions` |
 | `az account get-access-token` | `AzAccountGetAccessTokenOptions` |
 | `az account list` | `AzAccountListOptions` |
 | `az account list-locations` | `AzAccountListLocationsOptions` |
@@ -71,6 +77,7 @@ Global options are rendered after the selected subcommand.
 | `az account management-group check-name-availability` | `AzAccountManagementGroupCheckNameAvailabilityOptions` |
 | `az account management-group create` | `AzAccountManagementGroupCreateOptions` |
 | `az account management-group delete` | `AzAccountManagementGroupDeleteOptions` |
+| `az account management-group entities list` | `AzAccountManagementGroupEntitiesListOptions` |
 | `az account management-group hierarchy-settings create` | `AzAccountManagementGroupHierarchySettingsCreateOptions` |
 | `az account management-group hierarchy-settings delete` | `AzAccountManagementGroupHierarchySettingsDeleteOptions` |
 | `az account management-group hierarchy-settings list` | `AzAccountManagementGroupHierarchySettingsListOptions` |
@@ -81,6 +88,8 @@ Global options are rendered after the selected subcommand.
 | `az account management-group subscription remove` | `AzAccountManagementGroupSubscriptionRemoveOptions` |
 | `az account management-group subscription show` | `AzAccountManagementGroupSubscriptionShowOptions` |
 | `az account management-group subscription show-sub-under-mg` | `AzAccountManagementGroupSubscriptionShowSubUnderMgOptions` |
+| `az account management-group tenant-backfill get` | `AzAccountManagementGroupTenantBackfillGetOptions` |
+| `az account management-group tenant-backfill start` | `AzAccountManagementGroupTenantBackfillStartOptions` |
 | `az account management-group update` | `AzAccountManagementGroupUpdateOptions` |
 | `az account set` | `AzAccountSetOptions` |
 | `az account show` | `AzAccountShowOptions` |
@@ -221,6 +230,7 @@ Global options are rendered after the selected subcommand.
 | `az ad group owner remove` | `AzAdGroupOwnerRemoveOptions` |
 | `az ad group show` | `AzAdGroupShowOptions` |
 | `az ad signed-in-user list-owned-objects` | `AzAdSignedInUserListOwnedObjectsOptions` |
+| `az ad signed-in-user show` | `AzAdSignedInUserShowOptions` |
 | `az ad sp create` | `AzAdSpCreateOptions` |
 | `az ad sp create-for-rbac` | `AzAdSpCreateForRbacOptions` |
 | `az ad sp credential delete` | `AzAdSpCredentialDeleteOptions` |
@@ -237,6 +247,7 @@ Global options are rendered after the selected subcommand.
 | `az ad user list` | `AzAdUserListOptions` |
 | `az ad user show` | `AzAdUserShowOptions` |
 | `az ad user update` | `AzAdUserUpdateOptions` |
+| `az advisor configuration list` | `AzAdvisorConfigurationListOptions` |
 | `az advisor configuration show` | `AzAdvisorConfigurationShowOptions` |
 | `az advisor configuration update` | `AzAdvisorConfigurationUpdateOptions` |
 | `az advisor recommendation disable` | `AzAdvisorRecommendationDisableOptions` |
@@ -479,6 +490,7 @@ Global options are rendered after the selected subcommand.
 | `az apim check-name` | `AzApimCheckNameOptions` |
 | `az apim create` | `AzApimCreateOptions` |
 | `az apim delete` | `AzApimDeleteOptions` |
+| `az apim deletedservice list` | `AzApimDeletedserviceListOptions` |
 | `az apim deletedservice purge` | `AzApimDeletedservicePurgeOptions` |
 | `az apim deletedservice show` | `AzApimDeletedserviceShowOptions` |
 | `az apim graphql resolver create` | `AzApimGraphqlResolverCreateOptions` |
@@ -543,6 +555,7 @@ Global options are rendered after the selected subcommand.
 | `az appconfig kv show` | `AzAppConfigKvShowOptions` |
 | `az appconfig kv unlock` | `AzAppConfigKvUnlockOptions` |
 | `az appconfig list` | `AzAppConfigListOptions` |
+| `az appconfig list-deleted` | `AzAppConfigListDeletedOptions` |
 | `az appconfig purge` | `AzAppConfigPurgeOptions` |
 | `az appconfig recover` | `AzAppConfigRecoverOptions` |
 | `az appconfig replica create` | `AzAppConfigReplicaCreateOptions` |
@@ -776,11 +789,14 @@ Global options are rendered after the selected subcommand.
 | `az bicep generate-params` | `AzBicepGenerateParamsOptions` |
 | `az bicep install` | `AzBicepInstallOptions` |
 | `az bicep lint` | `AzBicepLintOptions` |
+| `az bicep list-versions` | `AzBicepListVersionsOptions` |
 | `az bicep publish` | `AzBicepPublishOptions` |
 | `az bicep restore` | `AzBicepRestoreOptions` |
 | `az bicep run` | `AzBicepRunOptions` |
 | `az bicep snapshot` | `AzBicepSnapshotOptions` |
+| `az bicep uninstall` | `AzBicepUninstallOptions` |
 | `az billing enrollment-account billing-permission list` | `AzBillingEnrollmentAccountBillingPermissionListOptions` |
+| `az billing enrollment-account list` | `AzBillingEnrollmentAccountListOptions` |
 | `az billing enrollment-account show` | `AzBillingEnrollmentAccountShowOptions` |
 | `az billing invoice list` | `AzBillingInvoiceListOptions` |
 | `az billing invoice show` | `AzBillingInvoiceShowOptions` |
@@ -832,6 +848,8 @@ Global options are rendered after the selected subcommand.
 | `az bot update` | `AzBotUpdateOptions` |
 | `az bot webchat show` | `AzBotWebchatShowOptions` |
 | `az cache delete` | `AzCacheDeleteOptions` |
+| `az cache list` | `AzCacheListOptions` |
+| `az cache purge` | `AzCachePurgeOptions` |
 | `az cache show` | `AzCacheShowOptions` |
 | `az capacity reservation create` | `AzCapacityReservationCreateOptions` |
 | `az capacity reservation delete` | `AzCapacityReservationDeleteOptions` |
@@ -844,6 +862,7 @@ Global options are rendered after the selected subcommand.
 | `az capacity reservation show` | `AzCapacityReservationShowOptions` |
 | `az capacity reservation update` | `AzCapacityReservationUpdateOptions` |
 | `az capacity reservation wait` | `AzCapacityReservationWaitOptions` |
+| `az cloud list` | `AzCloudListOptions` |
 | `az cloud list-profiles` | `AzCloudListProfilesOptions` |
 | `az cloud register` | `AzCloudRegisterOptions` |
 | `az cloud set` | `AzCloudSetOptions` |
@@ -871,6 +890,8 @@ Global options are rendered after the selected subcommand.
 | `az cognitiveservices account keys list` | `AzCognitiveservicesAccountKeysListOptions` |
 | `az cognitiveservices account keys regenerate` | `AzCognitiveservicesAccountKeysRegenerateOptions` |
 | `az cognitiveservices account list` | `AzCognitiveservicesAccountListOptions` |
+| `az cognitiveservices account list-deleted` | `AzCognitiveservicesAccountListDeletedOptions` |
+| `az cognitiveservices account list-kinds` | `AzCognitiveservicesAccountListKindsOptions` |
 | `az cognitiveservices account list-models` | `AzCognitiveservicesAccountListModelsOptions` |
 | `az cognitiveservices account list-skus` | `AzCognitiveservicesAccountListSkusOptions` |
 | `az cognitiveservices account list-usage` | `AzCognitiveservicesAccountListUsageOptions` |
@@ -1178,6 +1199,7 @@ Global options are rendered after the selected subcommand.
 | `az containerapp secret set` | `AzContainerappSecretSetOptions` |
 | `az containerapp secret show` | `AzContainerappSecretShowOptions` |
 | `az containerapp show` | `AzContainerappShowOptions` |
+| `az containerapp show-custom-domain-verification-id` | `AzContainerappShowCustomDomainVerificationIdOptions` |
 | `az containerapp ssl upload` | `AzContainerappSslUploadOptions` |
 | `az containerapp up` | `AzContainerappUpOptions` |
 | `az containerapp update` | `AzContainerappUpdateOptions` |
@@ -1241,6 +1263,7 @@ Global options are rendered after the selected subcommand.
 | `az cosmosdb keys list` | `AzCosmosdbKeysListOptions` |
 | `az cosmosdb keys regenerate` | `AzCosmosdbKeysRegenerateOptions` |
 | `az cosmosdb list` | `AzCosmosdbListOptions` |
+| `az cosmosdb locations list` | `AzCosmosdbLocationsListOptions` |
 | `az cosmosdb locations show` | `AzCosmosdbLocationsShowOptions` |
 | `az cosmosdb mongodb collection create` | `AzCosmosdbMongodbCollectionCreateOptions` |
 | `az cosmosdb mongodb collection delete` | `AzCosmosdbMongodbCollectionDeleteOptions` |
@@ -1587,6 +1610,7 @@ Global options are rendered after the selected subcommand.
 | `az dms create` | `AzDmsCreateOptions` |
 | `az dms delete` | `AzDmsDeleteOptions` |
 | `az dms list` | `AzDmsListOptions` |
+| `az dms list-skus` | `AzDmsListSkusOptions` |
 | `az dms project check-name` | `AzDmsProjectCheckNameOptions` |
 | `az dms project create` | `AzDmsProjectCreateOptions` |
 | `az dms project delete` | `AzDmsProjectDeleteOptions` |
@@ -1692,8 +1716,10 @@ Global options are rendered after the selected subcommand.
 | `az eventgrid topic list` | `AzEventgridTopicListOptions` |
 | `az eventgrid topic show` | `AzEventgridTopicShowOptions` |
 | `az eventgrid topic update` | `AzEventgridTopicUpdateOptions` |
+| `az eventgrid topic-type list` | `AzEventgridTopicTypeListOptions` |
 | `az eventgrid topic-type list-event-types` | `AzEventgridTopicTypeListEventTypesOptions` |
 | `az eventgrid topic-type show` | `AzEventgridTopicTypeShowOptions` |
+| `az eventhubs cluster available-region` | `AzEventhubsClusterAvailableRegionOptions` |
 | `az eventhubs cluster create` | `AzEventhubsClusterCreateOptions` |
 | `az eventhubs cluster delete` | `AzEventhubsClusterDeleteOptions` |
 | `az eventhubs cluster list` | `AzEventhubsClusterListOptions` |
@@ -1782,6 +1808,7 @@ Global options are rendered after the selected subcommand.
 | `az eventhubs namespace update` | `AzEventhubsNamespaceUpdateOptions` |
 | `az eventhubs namespace wait` | `AzEventhubsNamespaceWaitOptions` |
 | `az extension add` | `AzExtensionAddOptions` |
+| `az extension list` | `AzExtensionListOptions` |
 | `az extension list-available` | `AzExtensionListAvailableOptions` |
 | `az extension list-versions` | `AzExtensionListVersionsOptions` |
 | `az extension remove` | `AzExtensionRemoveOptions` |
@@ -1904,6 +1931,8 @@ Global options are rendered after the selected subcommand.
 | `az functionapp deployment source sync` | `AzFunctionappDeploymentSourceSyncOptions` |
 | `az functionapp deployment source update-token` | `AzFunctionappDeploymentSourceUpdateTokenOptions` |
 | `az functionapp deployment user set` | `AzFunctionappDeploymentUserSetOptions` |
+| `az functionapp deployment user show` | `AzFunctionappDeploymentUserShowOptions` |
+| `az functionapp flex-migration list` | `AzFunctionappFlexMigrationListOptions` |
 | `az functionapp flex-migration start` | `AzFunctionappFlexMigrationStartOptions` |
 | `az functionapp function delete` | `AzFunctionappFunctionDeleteOptions` |
 | `az functionapp function keys delete` | `AzFunctionappFunctionKeysDeleteOptions` |
@@ -1921,6 +1950,7 @@ Global options are rendered after the selected subcommand.
 | `az functionapp keys list` | `AzFunctionappKeysListOptions` |
 | `az functionapp keys set` | `AzFunctionappKeysSetOptions` |
 | `az functionapp list` | `AzFunctionappListOptions` |
+| `az functionapp list-consumption-locations` | `AzFunctionappListConsumptionLocationsOptions` |
 | `az functionapp list-flexconsumption-locations` | `AzFunctionappListFlexconsumptionLocationsOptions` |
 | `az functionapp list-flexconsumption-runtimes` | `AzFunctionappListFlexconsumptionRuntimesOptions` |
 | `az functionapp list-runtimes` | `AzFunctionappListRuntimesOptions` |
@@ -1972,6 +2002,7 @@ Global options are rendered after the selected subcommand.
 | `az hdinsight autoscale condition wait` | `AzHdinsightAutoscaleConditionWaitOptions` |
 | `az hdinsight autoscale create` | `AzHdinsightAutoscaleCreateOptions` |
 | `az hdinsight autoscale delete` | `AzHdinsightAutoscaleDeleteOptions` |
+| `az hdinsight autoscale list-timezones` | `AzHdinsightAutoscaleListTimezonesOptions` |
 | `az hdinsight autoscale show` | `AzHdinsightAutoscaleShowOptions` |
 | `az hdinsight autoscale update` | `AzHdinsightAutoscaleUpdateOptions` |
 | `az hdinsight autoscale wait` | `AzHdinsightAutoscaleWaitOptions` |
@@ -2012,6 +2043,7 @@ Global options are rendered after the selected subcommand.
 | `az identity federated-credential show` | `AzIdentityFederatedCredentialShowOptions` |
 | `az identity federated-credential update` | `AzIdentityFederatedCredentialUpdateOptions` |
 | `az identity list` | `AzIdentityListOptions` |
+| `az identity list-operations` | `AzIdentityListOperationsOptions` |
 | `az identity list-resources` | `AzIdentityListResourcesOptions` |
 | `az identity show` | `AzIdentityShowOptions` |
 | `az identity update` | `AzIdentityUpdateOptions` |
@@ -2298,6 +2330,7 @@ Global options are rendered after the selected subcommand.
 | `az maps account list` | `AzMapsAccountListOptions` |
 | `az maps account show` | `AzMapsAccountShowOptions` |
 | `az maps account update` | `AzMapsAccountUpdateOptions` |
+| `az maps map list-operation` | `AzMapsMapListOperationOptions` |
 | `az mariadb db create` | `AzMariadbDbCreateOptions` |
 | `az mariadb db delete` | `AzMariadbDbDeleteOptions` |
 | `az mariadb db list` | `AzMariadbDbListOptions` |
@@ -2385,6 +2418,7 @@ Global options are rendered after the selected subcommand.
 | `az monitor activity-log alert show` | `AzMonitorActivityLogAlertShowOptions` |
 | `az monitor activity-log alert update` | `AzMonitorActivityLogAlertUpdateOptions` |
 | `az monitor activity-log list` | `AzMonitorActivityLogListOptions` |
+| `az monitor activity-log list-categories` | `AzMonitorActivityLogListCategoriesOptions` |
 | `az monitor autoscale create` | `AzMonitorAutoscaleCreateOptions` |
 | `az monitor autoscale delete` | `AzMonitorAutoscaleDeleteOptions` |
 | `az monitor autoscale list` | `AzMonitorAutoscaleListOptions` |
@@ -2413,6 +2447,7 @@ Global options are rendered after the selected subcommand.
 | `az monitor diagnostic-settings show` | `AzMonitorDiagnosticSettingsShowOptions` |
 | `az monitor diagnostic-settings subscription create` | `AzMonitorDiagnosticSettingsSubscriptionCreateOptions` |
 | `az monitor diagnostic-settings subscription delete` | `AzMonitorDiagnosticSettingsSubscriptionDeleteOptions` |
+| `az monitor diagnostic-settings subscription list` | `AzMonitorDiagnosticSettingsSubscriptionListOptions` |
 | `az monitor diagnostic-settings subscription show` | `AzMonitorDiagnosticSettingsSubscriptionShowOptions` |
 | `az monitor diagnostic-settings subscription update` | `AzMonitorDiagnosticSettingsSubscriptionUpdateOptions` |
 | `az monitor diagnostic-settings update` | `AzMonitorDiagnosticSettingsUpdateOptions` |
@@ -2456,6 +2491,7 @@ Global options are rendered after the selected subcommand.
 | `az monitor log-analytics workspace list` | `AzMonitorLogAnalyticsWorkspaceListOptions` |
 | `az monitor log-analytics workspace list-available-service-tier` | `AzMonitorLogAnalyticsWorkspaceListAvailableServiceTierOptions` |
 | `az monitor log-analytics workspace list-deleted-workspaces` | `AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions` |
+| `az monitor log-analytics workspace list-link-target` | `AzMonitorLogAnalyticsWorkspaceListLinkTargetOptions` |
 | `az monitor log-analytics workspace list-management-groups` | `AzMonitorLogAnalyticsWorkspaceListManagementGroupsOptions` |
 | `az monitor log-analytics workspace list-usages` | `AzMonitorLogAnalyticsWorkspaceListUsagesOptions` |
 | `az monitor log-analytics workspace pack disable` | `AzMonitorLogAnalyticsWorkspacePackDisableOptions` |
@@ -2482,6 +2518,7 @@ Global options are rendered after the selected subcommand.
 | `az monitor log-analytics workspace wait` | `AzMonitorLogAnalyticsWorkspaceWaitOptions` |
 | `az monitor log-profiles create` | `AzMonitorLogProfilesCreateOptions` |
 | `az monitor log-profiles delete` | `AzMonitorLogProfilesDeleteOptions` |
+| `az monitor log-profiles list` | `AzMonitorLogProfilesListOptions` |
 | `az monitor log-profiles show` | `AzMonitorLogProfilesShowOptions` |
 | `az monitor log-profiles update` | `AzMonitorLogProfilesUpdateOptions` |
 | `az monitor metrics alert create` | `AzMonitorMetricsAlertCreateOptions` |
@@ -2816,12 +2853,15 @@ Global options are rendered after the selected subcommand.
 | `az network application-gateway rewrite-rule condition create` | `AzNetworkApplicationGatewayRewriteRuleConditionCreateOptions` |
 | `az network application-gateway rewrite-rule condition delete` | `AzNetworkApplicationGatewayRewriteRuleConditionDeleteOptions` |
 | `az network application-gateway rewrite-rule condition list` | `AzNetworkApplicationGatewayRewriteRuleConditionListOptions` |
+| `az network application-gateway rewrite-rule condition list-server-variables` | `AzNetworkApplicationGatewayRewriteRuleConditionListServerVariablesOptions` |
 | `az network application-gateway rewrite-rule condition show` | `AzNetworkApplicationGatewayRewriteRuleConditionShowOptions` |
 | `az network application-gateway rewrite-rule condition update` | `AzNetworkApplicationGatewayRewriteRuleConditionUpdateOptions` |
 | `az network application-gateway rewrite-rule condition wait` | `AzNetworkApplicationGatewayRewriteRuleConditionWaitOptions` |
 | `az network application-gateway rewrite-rule create` | `AzNetworkApplicationGatewayRewriteRuleCreateOptions` |
 | `az network application-gateway rewrite-rule delete` | `AzNetworkApplicationGatewayRewriteRuleDeleteOptions` |
 | `az network application-gateway rewrite-rule list` | `AzNetworkApplicationGatewayRewriteRuleListOptions` |
+| `az network application-gateway rewrite-rule list-request-headers` | `AzNetworkApplicationGatewayRewriteRuleListRequestHeadersOptions` |
+| `az network application-gateway rewrite-rule list-response-headers` | `AzNetworkApplicationGatewayRewriteRuleListResponseHeadersOptions` |
 | `az network application-gateway rewrite-rule set create` | `AzNetworkApplicationGatewayRewriteRuleSetCreateOptions` |
 | `az network application-gateway rewrite-rule set delete` | `AzNetworkApplicationGatewayRewriteRuleSetDeleteOptions` |
 | `az network application-gateway rewrite-rule set list` | `AzNetworkApplicationGatewayRewriteRuleSetListOptions` |
@@ -2863,6 +2903,8 @@ Global options are rendered after the selected subcommand.
 | `az network application-gateway ssl-cert show` | `AzNetworkApplicationGatewaySslCertShowOptions` |
 | `az network application-gateway ssl-cert update` | `AzNetworkApplicationGatewaySslCertUpdateOptions` |
 | `az network application-gateway ssl-cert wait` | `AzNetworkApplicationGatewaySslCertWaitOptions` |
+| `az network application-gateway ssl-policy list-options` | `AzNetworkApplicationGatewaySslPolicyListOptionsOptions` |
+| `az network application-gateway ssl-policy predefined list` | `AzNetworkApplicationGatewaySslPolicyPredefinedListOptions` |
 | `az network application-gateway ssl-policy predefined show` | `AzNetworkApplicationGatewaySslPolicyPredefinedShowOptions` |
 | `az network application-gateway ssl-policy set` | `AzNetworkApplicationGatewaySslPolicySetOptions` |
 | `az network application-gateway ssl-policy show` | `AzNetworkApplicationGatewaySslPolicyShowOptions` |
@@ -3393,6 +3435,7 @@ Global options are rendered after the selected subcommand.
 | `az network traffic-manager endpoint delete` | `AzNetworkTrafficManagerEndpointDeleteOptions` |
 | `az network traffic-manager endpoint list` | `AzNetworkTrafficManagerEndpointListOptions` |
 | `az network traffic-manager endpoint show` | `AzNetworkTrafficManagerEndpointShowOptions` |
+| `az network traffic-manager endpoint show-geographic-hierarchy` | `AzNetworkTrafficManagerEndpointShowGeographicHierarchyOptions` |
 | `az network traffic-manager endpoint update` | `AzNetworkTrafficManagerEndpointUpdateOptions` |
 | `az network traffic-manager profile check-dns` | `AzNetworkTrafficManagerProfileCheckDnsOptions` |
 | `az network traffic-manager profile create` | `AzNetworkTrafficManagerProfileCreateOptions` |
@@ -3427,6 +3470,7 @@ Global options are rendered after the selected subcommand.
 | `az network virtual-appliance site show` | `AzNetworkVirtualApplianceSiteShowOptions` |
 | `az network virtual-appliance site update` | `AzNetworkVirtualApplianceSiteUpdateOptions` |
 | `az network virtual-appliance site wait` | `AzNetworkVirtualApplianceSiteWaitOptions` |
+| `az network virtual-appliance sku list` | `AzNetworkVirtualApplianceSkuListOptions` |
 | `az network virtual-appliance sku show` | `AzNetworkVirtualApplianceSkuShowOptions` |
 | `az network virtual-appliance update` | `AzNetworkVirtualApplianceUpdateOptions` |
 | `az network virtual-appliance wait` | `AzNetworkVirtualApplianceWaitOptions` |
@@ -3530,6 +3574,7 @@ Global options are rendered after the selected subcommand.
 | `az network watcher flow-log show` | `AzNetworkWatcherFlowLogShowOptions` |
 | `az network watcher flow-log update` | `AzNetworkWatcherFlowLogUpdateOptions` |
 | `az network watcher flow-log wait` | `AzNetworkWatcherFlowLogWaitOptions` |
+| `az network watcher list` | `AzNetworkWatcherListOptions` |
 | `az network watcher packet-capture create` | `AzNetworkWatcherPacketCaptureCreateOptions` |
 | `az network watcher packet-capture delete` | `AzNetworkWatcherPacketCaptureDeleteOptions` |
 | `az network watcher packet-capture list` | `AzNetworkWatcherPacketCaptureListOptions` |
@@ -3736,6 +3781,7 @@ Global options are rendered after the selected subcommand.
 | `az private-link association list` | `AzPrivateLinkAssociationListOptions` |
 | `az private-link association show` | `AzPrivateLinkAssociationShowOptions` |
 | `az provider list` | `AzProviderListOptions` |
+| `az provider operation list` | `AzProviderOperationListOptions` |
 | `az provider operation show` | `AzProviderOperationShowOptions` |
 | `az provider permission list` | `AzProviderPermissionListOptions` |
 | `az provider register` | `AzProviderRegisterOptions` |
@@ -3956,6 +4002,7 @@ Global options are rendered after the selected subcommand.
 | `az search shared-private-link-resource wait` | `AzSearchSharedPrivateLinkResourceWaitOptions` |
 | `az search usage list` | `AzSearchUsageListOptions` |
 | `az search usage show` | `AzSearchUsageShowOptions` |
+| `az security adaptive-application-controls list` | `AzSecurityAdaptiveApplicationControlsListOptions` |
 | `az security adaptive-application-controls show` | `AzSecurityAdaptiveApplicationControlsShowOptions` |
 | `az security adaptive_network_hardenings list` | `AzSecurityAdaptiveNetworkHardeningsListOptions` |
 | `az security adaptive_network_hardenings show` | `AzSecurityAdaptiveNetworkHardeningsShowOptions` |
@@ -3964,20 +4011,25 @@ Global options are rendered after the selected subcommand.
 | `az security alert update` | `AzSecurityAlertUpdateOptions` |
 | `az security alerts-suppression-rule delete` | `AzSecurityAlertsSuppressionRuleDeleteOptions` |
 | `az security alerts-suppression-rule delete_scope` | `AzSecurityAlertsSuppressionRuleDeleteScopeOptions` |
+| `az security alerts-suppression-rule list` | `AzSecurityAlertsSuppressionRuleListOptions` |
 | `az security alerts-suppression-rule show` | `AzSecurityAlertsSuppressionRuleShowOptions` |
 | `az security alerts-suppression-rule update` | `AzSecurityAlertsSuppressionRuleUpdateOptions` |
 | `az security alerts-suppression-rule upsert_scope` | `AzSecurityAlertsSuppressionRuleUpsertScopeOptions` |
+| `az security allowed_connections list` | `AzSecurityAllowedConnectionsListOptions` |
 | `az security allowed_connections show` | `AzSecurityAllowedConnectionsShowOptions` |
 | `az security assessment create` | `AzSecurityAssessmentCreateOptions` |
 | `az security assessment delete` | `AzSecurityAssessmentDeleteOptions` |
+| `az security assessment list` | `AzSecurityAssessmentListOptions` |
 | `az security assessment show` | `AzSecurityAssessmentShowOptions` |
 | `az security assessment-metadata create` | `AzSecurityAssessmentMetadataCreateOptions` |
 | `az security assessment-metadata delete` | `AzSecurityAssessmentMetadataDeleteOptions` |
+| `az security assessment-metadata list` | `AzSecurityAssessmentMetadataListOptions` |
 | `az security assessment-metadata show` | `AzSecurityAssessmentMetadataShowOptions` |
 | `az security atp cosmosdb show` | `AzSecurityAtpCosmosdbShowOptions` |
 | `az security atp cosmosdb update` | `AzSecurityAtpCosmosdbUpdateOptions` |
 | `az security atp storage show` | `AzSecurityAtpStorageShowOptions` |
 | `az security atp storage update` | `AzSecurityAtpStorageUpdateOptions` |
+| `az security auto-provisioning-setting list` | `AzSecurityAutoProvisioningSettingListOptions` |
 | `az security auto-provisioning-setting show` | `AzSecurityAutoProvisioningSettingShowOptions` |
 | `az security auto-provisioning-setting update` | `AzSecurityAutoProvisioningSettingUpdateOptions` |
 | `az security automation create_or_update` | `AzSecurityAutomationCreateOrUpdateOptions` |
@@ -3992,7 +4044,9 @@ Global options are rendered after the selected subcommand.
 | `az security automation-rule-set create` | `AzSecurityAutomationRuleSetCreateOptions` |
 | `az security automation-scope create` | `AzSecurityAutomationScopeCreateOptions` |
 | `az security automation-source create` | `AzSecurityAutomationSourceCreateOptions` |
+| `az security discovered-security-solution list` | `AzSecurityDiscoveredSecuritySolutionListOptions` |
 | `az security discovered-security-solution show` | `AzSecurityDiscoveredSecuritySolutionShowOptions` |
+| `az security external-security-solution list` | `AzSecurityExternalSecuritySolutionListOptions` |
 | `az security external-security-solution show` | `AzSecurityExternalSecuritySolutionShowOptions` |
 | `az security iot-alerts delete` | `AzSecurityIotAlertsDeleteOptions` |
 | `az security iot-alerts list` | `AzSecurityIotAlertsListOptions` |
@@ -4008,16 +4062,24 @@ Global options are rendered after the selected subcommand.
 | `az security iot-solution update` | `AzSecurityIotSolutionUpdateOptions` |
 | `az security jit-policy list` | `AzSecurityJitPolicyListOptions` |
 | `az security jit-policy show` | `AzSecurityJitPolicyShowOptions` |
+| `az security location list` | `AzSecurityLocationListOptions` |
 | `az security location show` | `AzSecurityLocationShowOptions` |
 | `az security pricing create` | `AzSecurityPricingCreateOptions` |
+| `az security pricing list` | `AzSecurityPricingListOptions` |
 | `az security pricing show` | `AzSecurityPricingShowOptions` |
 | `az security regulatory-compliance-assessments list` | `AzSecurityRegulatoryComplianceAssessmentsListOptions` |
 | `az security regulatory-compliance-assessments show` | `AzSecurityRegulatoryComplianceAssessmentsShowOptions` |
 | `az security regulatory-compliance-controls list` | `AzSecurityRegulatoryComplianceControlsListOptions` |
 | `az security regulatory-compliance-controls show` | `AzSecurityRegulatoryComplianceControlsShowOptions` |
+| `az security regulatory-compliance-standards list` | `AzSecurityRegulatoryComplianceStandardsListOptions` |
 | `az security regulatory-compliance-standards show` | `AzSecurityRegulatoryComplianceStandardsShowOptions` |
+| `az security secure-score-control-definitions list` | `AzSecuritySecureScoreControlDefinitionsListOptions` |
+| `az security secure-score-controls list` | `AzSecuritySecureScoreControlsListOptions` |
 | `az security secure-score-controls list_by_score` | `AzSecuritySecureScoreControlsListByScoreOptions` |
+| `az security secure-scores list` | `AzSecuritySecureScoresListOptions` |
 | `az security secure-scores show` | `AzSecuritySecureScoresShowOptions` |
+| `az security security-solutions list` | `AzSecuritySecuritySolutionsListOptions` |
+| `az security security-solutions-reference-data list` | `AzSecuritySecuritySolutionsReferenceDataListOptions` |
 | `az security setting create` | `AzSecuritySettingCreateOptions` |
 | `az security setting list` | `AzSecuritySettingListOptions` |
 | `az security setting show` | `AzSecuritySettingShowOptions` |
@@ -4026,9 +4088,11 @@ Global options are rendered after the selected subcommand.
 | `az security sub-assessment show` | `AzSecuritySubAssessmentShowOptions` |
 | `az security task list` | `AzSecurityTaskListOptions` |
 | `az security task show` | `AzSecurityTaskShowOptions` |
+| `az security topology list` | `AzSecurityTopologyListOptions` |
 | `az security topology show` | `AzSecurityTopologyShowOptions` |
 | `az security workspace-setting create` | `AzSecurityWorkspaceSettingCreateOptions` |
 | `az security workspace-setting delete` | `AzSecurityWorkspaceSettingDeleteOptions` |
+| `az security workspace-setting list` | `AzSecurityWorkspaceSettingListOptions` |
 | `az security workspace-setting show` | `AzSecurityWorkspaceSettingShowOptions` |
 | `az servicebus georecovery-alias authorization-rule keys list` | `AzServicebusGeorecoveryAliasAuthorizationRuleKeysListOptions` |
 | `az servicebus georecovery-alias authorization-rule list` | `AzServicebusGeorecoveryAliasAuthorizationRuleListOptions` |
@@ -4560,6 +4624,7 @@ Global options are rendered after the selected subcommand.
 | `az stack sub create` | `AzStackSubCreateOptions` |
 | `az stack sub delete` | `AzStackSubDeleteOptions` |
 | `az stack sub export` | `AzStackSubExportOptions` |
+| `az stack sub list` | `AzStackSubListOptions` |
 | `az stack sub show` | `AzStackSubShowOptions` |
 | `az stack sub validate` | `AzStackSubValidateOptions` |
 | `az stack-whatif group create` | `AzStackWhatifGroupCreateOptions` |
@@ -4572,6 +4637,7 @@ Global options are rendered after the selected subcommand.
 | `az stack-whatif mg show` | `AzStackWhatifMgShowOptions` |
 | `az stack-whatif sub create` | `AzStackWhatifSubCreateOptions` |
 | `az stack-whatif sub delete` | `AzStackWhatifSubDeleteOptions` |
+| `az stack-whatif sub list` | `AzStackWhatifSubListOptions` |
 | `az stack-whatif sub show` | `AzStackWhatifSubShowOptions` |
 | `az staticwebapp appsettings delete` | `AzStaticwebappAppSettingsDeleteOptions` |
 | `az staticwebapp appsettings list` | `AzStaticwebappAppSettingsListOptions` |
@@ -4817,6 +4883,7 @@ Global options are rendered after the selected subcommand.
 | `az storage share-rm show` | `AzStorageShareRmShowOptions` |
 | `az storage share-rm stats` | `AzStorageShareRmStatsOptions` |
 | `az storage share-rm update` | `AzStorageShareRmUpdateOptions` |
+| `az storage sku list` | `AzStorageSkuListOptions` |
 | `az storage table create` | `AzStorageTableCreateOptions` |
 | `az storage table delete` | `AzStorageTableDeleteOptions` |
 | `az storage table exists` | `AzStorageTableExistsOptions` |
@@ -4828,6 +4895,7 @@ Global options are rendered after the selected subcommand.
 | `az storage table policy show` | `AzStorageTablePolicyShowOptions` |
 | `az storage table policy update` | `AzStorageTablePolicyUpdateOptions` |
 | `az storage table stats` | `AzStorageTableStatsOptions` |
+| `az survey` | `AzSurveyOptions` |
 | `az synapse activity-run query-by-pipeline-run` | `AzSynapseActivityRunQueryByPipelineRunOptions` |
 | `az synapse ad-only-auth disable` | `AzSynapseAdOnlyAuthDisableOptions` |
 | `az synapse ad-only-auth enable` | `AzSynapseAdOnlyAuthEnableOptions` |
@@ -5340,6 +5408,7 @@ Global options are rendered after the selected subcommand.
 | `az webapp deployment source sync` | `AzWebappDeploymentSourceSyncOptions` |
 | `az webapp deployment source update-token` | `AzWebappDeploymentSourceUpdateTokenOptions` |
 | `az webapp deployment user set` | `AzWebappDeploymentUserSetOptions` |
+| `az webapp deployment user show` | `AzWebappDeploymentUserShowOptions` |
 | `az webapp hybrid-connection add` | `AzWebappHybridConnectionAddOptions` |
 | `az webapp hybrid-connection list` | `AzWebappHybridConnectionListOptions` |
 | `az webapp hybrid-connection remove` | `AzWebappHybridConnectionRemoveOptions` |

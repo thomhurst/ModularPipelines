@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Distributed.Redis.Coordination;
@@ -41,12 +42,12 @@ public static class RedisDistributedExtensions
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddRedisModuleCache(
         this PipelineBuilder builder,
-        Action<RedisOptions> configure,
+        Func<RedisOptions, RedisOptions> configure,
         Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
-        builder.Services.Configure(ModuleCacheOptionsName, configure);
+        TransformOptionsFactory<RedisOptions>.Configure(builder.Services, configure, ModuleCacheOptionsName);
         return AddRedisModuleCacheServices(builder, configureCache);
     }
 
@@ -66,6 +67,7 @@ public static class RedisDistributedExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(section);
+        TransformOptionsFactory<RedisOptions>.Register(builder.Services);
         builder.Services.Configure<RedisOptions>(ModuleCacheOptionsName, section);
         return AddRedisModuleCacheServices(builder, configureCache);
     }
@@ -78,7 +80,7 @@ public static class RedisDistributedExtensions
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddRedisDistributedCoordinator(
         this PipelineBuilder builder,
-        Action<RedisOptions> configure)
+        Func<RedisOptions, RedisOptions> configure)
     {
         ConfigureRedis(builder, configure);
         return AddRedisDistributedCoordinatorServices(builder);
@@ -108,7 +110,7 @@ public static class RedisDistributedExtensions
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddRedisDistributedArtifactStore(
         this PipelineBuilder builder,
-        Action<RedisOptions> configure)
+        Func<RedisOptions, RedisOptions> configure)
     {
         ConfigureRedis(builder, configure);
         return AddRedisDistributedArtifactStoreServices(builder);
@@ -139,7 +141,7 @@ public static class RedisDistributedExtensions
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddRedisDistributed(
         this PipelineBuilder builder,
-        Action<RedisOptions> configure)
+        Func<RedisOptions, RedisOptions> configure)
     {
         ConfigureRedis(builder, configure);
         AddRedisDistributedCoordinatorServices(builder);
@@ -165,11 +167,11 @@ public static class RedisDistributedExtensions
         return AddRedisDistributedArtifactStoreServices(builder);
     }
 
-    private static void ConfigureRedis(PipelineBuilder builder, Action<RedisOptions> configure)
+    private static void ConfigureRedis(PipelineBuilder builder, Func<RedisOptions, RedisOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
-        builder.Services.Configure(configure);
+        TransformOptionsFactory<RedisOptions>.Configure(builder.Services, configure);
         AddDistributedConnection(builder);
     }
 
@@ -179,6 +181,7 @@ public static class RedisDistributedExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(section);
+        TransformOptionsFactory<RedisOptions>.Register(builder.Services);
         builder.Services.Configure<RedisOptions>(section);
         AddDistributedConnection(builder);
     }

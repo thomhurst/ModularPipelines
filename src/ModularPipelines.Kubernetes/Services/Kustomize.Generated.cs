@@ -79,14 +79,5 @@ internal partial class Kustomize : IKustomize
         return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeLocalizeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> VersionAsync(
-        KustomizeVersionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
     #endregion
 }

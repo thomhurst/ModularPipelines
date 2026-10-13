@@ -1,0 +1,36 @@
+Restore one or more containers from a checkpoint
+
+Description:
+  
+   podman container restore
+
+   Restores a container from a checkpoint. The container name or ID can be used.
+
+
+Usage:
+  podman container restore [options] CONTAINER|IMAGE [CONTAINER|IMAGE...]
+
+Examples:
+  podman container restore ctrID
+  podman container restore imageID
+  podman container restore --all
+
+Options:
+  -a, --all                      Restore all checkpointed containers
+      --file-locks               Restore a container with file locks
+      --ignore-rootfs            Do not apply root file-system changes when importing from exported checkpoint
+      --ignore-static-ip         Ignore IP address set via --static-ip
+      --ignore-static-mac        Ignore MAC address set via --mac-address
+      --ignore-volumes           Do not export volumes associated with container
+  -i, --import string            Restore from exported checkpoint archive (tar.gz)
+      --import-previous string   Restore from exported pre-checkpoint archive (tar.gz)
+  -k, --keep                     Keep all temporary checkpoint files
+  -l, --latest                   Act on the latest container podman is aware of
+                                 Not supported with the "--remote" flag
+  -n, --name string              Specify new name for container restored from exported checkpoint (only works with image or --import)
+      --pod string               Restore container into existing Pod (only works with image or --import)
+      --print-stats              Display restore statistics
+  -p, --publish strings          Publish a container's port, or a range of ports, to the host (default [])
+      --tcp-close                Restore a container and close all TCP connections
+      --tcp-established          Restore a container with established TCP connections
+

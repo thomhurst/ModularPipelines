@@ -1,0 +1,18 @@
+Log out of a container registry
+
+Description:
+  Remove the cached username and password for the registry.
+
+Usage:
+  podman logout [options] [REGISTRY]
+
+Examples:
+  podman logout quay.io
+  podman logout --authfile dir/auth.json quay.io
+  podman logout --all
+
+Options:
+  -a, --all                       Remove the cached credentials for all registries in the auth file
+      --authfile string           path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --compat-auth-file string   path of a Docker-compatible config file to update instead
+

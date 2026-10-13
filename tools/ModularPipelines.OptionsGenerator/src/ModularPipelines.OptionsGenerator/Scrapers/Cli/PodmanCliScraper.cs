@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -32,6 +34,23 @@ public partial class PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCac
     public override string TargetNamespace => "ModularPipelines.Podman";
 
     public override string OutputDirectory => "src/ModularPipelines.Podman";
+
+    protected override bool TreatParseErrorsAsFatal => true;
+
+    // Podman's TraverseChildren root settings are omitted from leaf help. Keep
+    // them before subcommands so command-local flags retain their own scope.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Options", [])
+            .Where(option => option.SwitchName is not ("--help" or "--version"))
+            .Select(RemoveHostDefault)
+            .Select(option => option.CSharpType == "bool?"
+                ? option with
+                {
+                    IsFlag = false,
+                    ValueArity = CliOptionValueArity.Optional,
+                    ValueSeparator = "=",
+                }
+                : option)];
 
     protected virtual string? ComposeProviderPath =>
         Environment.GetEnvironmentVariable("PODMAN_COMPOSE_PROVIDER");
@@ -135,8 +154,7 @@ public partial class PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 index: 0,
                 scalarPropertyName: "Kubefile",
                 variadicPropertyName: "AdditionalKubefiles"),
-            "secret exists" or "secret inspect" or "secret rm" => [.. positionalArguments
-                .Select(argument => argument with { IsSecret = false })],
+            "secret exists" or "secret inspect" or "secret rm" => [.. positionalArguments.Select(argument => argument with { IsSecret = false })],
             _ => positionalArguments,
         };
     }
@@ -145,6 +163,7 @@ public partial class PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCac
         string[] commandParts,
         IReadOnlyList<CliOptionDefinition> options)
     {
+        options = [.. options.Select(RemoveHostDefault)];
         var command = string.Join(' ', commandParts);
         if (command is not ("build" or "farm build" or "image build"))
         {
@@ -158,6 +177,28 @@ public partial class PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 _ => option,
             })];
     }
+
+    private static CliOptionDefinition RemoveHostDefault(CliOptionDefinition option)
+    {
+        if (option.Description is null)
+        {
+            return option;
+        }
+
+        // These defaults come from containers.conf, the host's resources, or
+        // resolved user paths. Keep Boolean defaults for value-arity detection.
+        var hostSetting = option.SwitchName is "--cpus" or "--log-driver" or "--pids-limit"
+            or "--cgroup-manager" or "--events-backend" or "--runtime";
+        var description = DefaultDescriptionRegex().Replace(option.Description, match =>
+            hostSetting || HostPathRegex().IsMatch(match.Value) ? string.Empty : match.Value);
+        return option with { Description = description.Trim() };
+    }
+
+    [GeneratedRegex(@"\s*\(default (?:[^()]|\([^()]*\))*\)")]
+    private static partial Regex DefaultDescriptionRegex();
+
+    [GeneratedRegex(@"/home/|/Users/|/tmp/|/run/user/\d+|storage-run-\d+|\$HOME|~[/\\]|[A-Za-z]:\\Users\\", RegexOptions.IgnoreCase)]
+    private static partial Regex HostPathRegex();
 
     private static IReadOnlyList<CliPositionalArgument> RenamePositionalArgument(
         IReadOnlyList<CliPositionalArgument> positionalArguments,

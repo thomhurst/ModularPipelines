@@ -98,6 +98,12 @@ public record AzImageBuilderCustomizerAddOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Space-separated list of inline script lines to customize the image with.
     /// </summary>
     [CliOption("--inline-script", GroupValues = true)]

@@ -1,0 +1,34 @@
+Clone an existing container
+
+Description:
+  Creates a copy of an existing container.
+
+Usage:
+  podman container clone [options] CONTAINER NAME IMAGE
+
+Examples:
+  podman container clone container_name new_name image_name
+
+Options:
+      --blkio-weight string                      Block IO weight (relative weight) accepts a weight value between 10 and 1000.
+      --blkio-weight-device DEVICE_NAME:WEIGHT   Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)
+      --cpu-period uint                          Limit the CPU CFS (Completely Fair Scheduler) period
+      --cpu-quota int                            Limit the CPU CFS (Completely Fair Scheduler) quota
+      --cpu-rt-period uint                       Limit the CPU real-time period in microseconds
+      --cpu-rt-runtime int                       Limit the CPU real-time runtime in microseconds
+  -c, --cpu-shares uint                          CPU shares (relative weight)
+      --cpus float                               Number of CPUs. The default is 0.000 which means no limit
+      --cpuset-cpus string                       CPUs in which to allow execution (0-3, 0,1)
+      --cpuset-mems string                       Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
+      --destroy                                  destroy the original container
+      --device-read-bps stringArray              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
+      --device-write-bps stringArray             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
+  -f, --force                                    force the existing container to be destroyed
+  -m, --memory <number>[<unit>]                  Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --memory-reservation <number>[<unit>]      Memory soft limit (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --memory-swap string                       Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+      --memory-swappiness int                    Tune container memory swappiness (0 to 100, or -1 for system default) (default -1)
+      --name string                              Assign a name to the container
+      --pod string                               Run container in an existing pod
+      --run                                      run the new container
+

@@ -1,0 +1,18 @@
+Display the configuration of a container
+
+Description:
+  Displays the low-level information on a container identified by name or ID.
+
+Usage:
+  podman container inspect [options] CONTAINER [CONTAINER...]
+
+Examples:
+  podman container inspect myCtr
+  podman container inspect -l --format '{{.Id}} {{.Config.Labels}}'
+
+Options:
+  -f, --format string   Format the output to a Go template or json (default "json")
+  -l, --latest          Act on the latest container podman is aware of
+                        Not supported with the "--remote" flag
+  -s, --size            Display total file size
+

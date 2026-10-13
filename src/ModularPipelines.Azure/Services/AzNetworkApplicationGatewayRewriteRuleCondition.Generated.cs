@@ -77,6 +77,21 @@ public class AzNetworkApplicationGatewayRewriteRuleCondition
     }
 
     /// <summary>
+    /// List all available
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListServerVariablesAsync(
+        AzNetworkApplicationGatewayRewriteRuleConditionListServerVariablesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkApplicationGatewayRewriteRuleConditionListServerVariablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Get the details of a rewrite rule
     /// </summary>
     /// <param name="options">The command options.</param>

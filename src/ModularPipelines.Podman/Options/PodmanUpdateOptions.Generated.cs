@@ -248,7 +248,7 @@ public record PodmanUpdateOptions : PodmanOptions
     public bool? NoHealthcheck { get; set; }
 
     /// <summary>
-    /// Tune container pids limit (set -1 for unlimited) (default 2048)
+    /// Tune container pids limit (set -1 for unlimited)
     /// </summary>
     [CliOption("--pids-limit", Format = OptionFormat.EqualsSeparated)]
     public int? PidsLimit { get; set; }

@@ -9,6 +9,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Podman.Enums;
 
 namespace ModularPipelines.Podman.Options;
 
@@ -22,4 +24,184 @@ namespace ModularPipelines.Podman.Options;
 [CliGlobalOptions]
 public abstract record PodmanOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Set the CDI spec directory path (may be set multiple times) (default [/etc/cdi,/var/run/cdi])
+    /// </summary>
+    [CliOption("--cdi-spec-dir", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? CdiSpecDir { get; set; }
+
+    /// <summary>
+    /// Cgroup manager to use ("cgroupfs"|"systemd")
+    /// </summary>
+    [CliOption("--cgroup-manager", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CgroupManager { get; set; }
+
+    /// <summary>
+    /// Path to directory containing authentication config file
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Config { get; set; }
+
+    /// <summary>
+    /// Path of the conmon binary
+    /// </summary>
+    [CliOption("--conmon", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Conmon { get; set; }
+
+    /// <summary>
+    /// Connection to use for remote Podman service (CONTAINER_CONNECTION)
+    /// </summary>
+    [CliOption("--connection", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Connection { get; set; }
+
+    /// <summary>
+    /// Events backend to use ("file"|"journald"|"none")
+    /// </summary>
+    [CliOption("--events-backend", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? EventsBackend { get; set; }
+
+    /// <summary>
+    /// Set the OCI hooks directory path (may be set multiple times) (default [/usr/share/containers/oci/hooks.d])
+    /// </summary>
+    [CliOption("--hooks-dir", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? HooksDir { get; set; }
+
+    /// <summary>
+    /// path to SSH identity file, (CONTAINER_SSHKEY)
+    /// </summary>
+    [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Identity { get; set; }
+
+    /// <summary>
+    /// Path to the 'image store', different from 'graph root', use this to split storing the image into a separate 'image store', see 'man containers-storage.conf' for details
+    /// </summary>
+    [CliOption("--imagestore", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Imagestore { get; set; }
+
+    /// <summary>
+    /// Log messages above specified level (trace, debug, info, warn, warning, error, fatal, panic) (default "warn")
+    /// </summary>
+    [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
+    public virtual PodmanLogLevel? LogLevel { get; set; }
+
+    /// <summary>
+    /// Load the containers.conf(5) module
+    /// </summary>
+    [CliOption("--module", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? Module { get; set; }
+
+    /// <summary>
+    /// Path of the configuration directory for networks
+    /// </summary>
+    [CliOption("--network-config-dir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? NetworkConfigDir { get; set; }
+
+    /// <summary>
+    /// Send output (stdout) from podman to a file
+    /// </summary>
+    [CliOption("--out", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Out { get; set; }
+
+    /// <summary>
+    /// Access remote Podman service
+    /// </summary>
+    [CliOption("--remote", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Remote { get; set; }
+
+    /// <summary>
+    /// Path to the graph root directory where images, containers, etc. are stored
+    /// </summary>
+    [CliOption("--root", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Root { get; set; }
+
+    /// <summary>
+    /// Path to the 'run directory' where all state information is stored
+    /// </summary>
+    [CliOption("--runroot", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Runroot { get; set; }
+
+    /// <summary>
+    /// Path to the OCI-compatible binary used to run containers.
+    /// </summary>
+    [CliOption("--runtime", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Runtime { get; set; }
+
+    /// <summary>
+    /// add global flags for the container runtime
+    /// </summary>
+    [CliOption("--runtime-flag", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? RuntimeFlag { get; set; }
+
+    /// <summary>
+    /// define the ssh mode (default "golang")
+    /// </summary>
+    [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Ssh { get; set; }
+
+    /// <summary>
+    /// Select which storage driver is used to manage storage of images and containers
+    /// </summary>
+    [CliOption("--storage-driver", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? StorageDriver { get; set; }
+
+    /// <summary>
+    /// Used to pass an option to the storage driver
+    /// </summary>
+    [CliOption("--storage-opt", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? StorageOpt { get; set; }
+
+    /// <summary>
+    /// Output podman-internal logs to syslog as well as the console (default false)
+    /// </summary>
+    [CliOption("--syslog", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Syslog { get; set; }
+
+    /// <summary>
+    /// path to TLS certificate Authority PEM file for remote.
+    /// </summary>
+    [CliOption("--tls-ca", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? TlsCa { get; set; }
+
+    /// <summary>
+    /// path to TLS client certificate PEM file for remote.
+    /// </summary>
+    [CliOption("--tls-cert", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? TlsCert { get; set; }
+
+    /// <summary>
+    /// Path to a containers-tls-details.yaml(5) file
+    /// </summary>
+    [CliOption("--tls-details", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? TlsDetails { get; set; }
+
+    /// <summary>
+    /// path to TLS client certificate private key PEM file for remote.
+    /// </summary>
+    [CliOption("--tls-key", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? TlsKey { get; set; }
+
+    /// <summary>
+    /// Path to the tmp directory for libpod state content. Note: use the environment variable 'TMPDIR' to change the temporary storage location for container images, '/var/tmp'.
+    /// </summary>
+    [CliOption("--tmpdir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Tmpdir { get; set; }
+
+    /// <summary>
+    /// Enable transient container storage
+    /// </summary>
+    [CliOption("--transient-store", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? TransientStore { get; set; }
+
+    /// <summary>
+    /// URL to access Podman service (CONTAINER_HOST)
+    /// </summary>
+    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Url { get; set; }
+
+    /// <summary>
+    /// Path to the volume directory in which volume data is stored
+    /// </summary>
+    [CliOption("--volumepath", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Volumepath { get; set; }
+
 }

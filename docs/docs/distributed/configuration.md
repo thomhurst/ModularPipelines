@@ -34,21 +34,32 @@ The wire DTO changes are breaking: upgrade masters, workers, and custom coordina
 
 Passed to `AddDistributedMode()`. Controls the fundamental behavior of the master/worker system.
 
+All distributed and backend options are immutable records. Return updated options from
+configuration callbacks using `options => options with { ... }`. Update nested tunnel
+options with `options.Tunnel with { ... }`. Transforms and configuration-section bindings
+apply in registration order; startup validation runs after configuration and post-configuration.
+Named module-cache options remain separate from distributed backend options.
+
+Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel =
+CompressionLevel.NoCompression })` to configure artifact behavior in local mode. This does
+not enable distributed execution. Redis `ConfigureConnection` callbacks still mutate the
+third-party `StackExchange.Redis.ConfigurationOptions` type.
+
 ```csharp
-builder.AddDistributedMode(o =>
+builder.AddDistributedMode(o => o with
 {
-    o.InstanceIndex = 0;
-    o.TotalInstances = 4;
-    o.MaxParallelism = 4;
-    o.Role = DistributedRole.Master;
-    o.Capabilities = [Capability.Docker, Capability.Gpu];
-    o.RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!;
-    o.WorkerRegistrationTimeout = TimeSpan.FromMinutes(5);
-    o.WorkerHeartbeatInterval = TimeSpan.FromSeconds(5);
-    o.WorkerTimeout = TimeSpan.FromSeconds(30);
-    o.MasterTimeout = TimeSpan.FromMinutes(1);
-    o.MinimumWorkerCount = 0;
-    o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
+    InstanceIndex = 0,
+    TotalInstances = 4,
+    MaxParallelism = 4,
+    Role = DistributedRole.Master,
+    Capabilities = [Capability.Docker, Capability.Gpu],
+    RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!,
+    WorkerRegistrationTimeout = TimeSpan.FromMinutes(5),
+    WorkerHeartbeatInterval = TimeSpan.FromSeconds(5),
+    WorkerTimeout = TimeSpan.FromSeconds(30),
+    MasterTimeout = TimeSpan.FromMinutes(1),
+    MinimumWorkerCount = 0,
+    ModuleResultTimeout = TimeSpan.FromMinutes(45),
 });
 ```
 
@@ -104,7 +115,7 @@ Or call `builder.AddDistributedMode()` to bind the standard environment variable
 
 Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
 
-Every satellite package registers through one `Action<TOptions>` overload and one `IConfigurationSection`
+Every satellite package registers through one `Func<TOptions, TOptions>` overload and one `IConfigurationSection`
 overload, validates its options at startup, and can be called before or after `AddDistributedMode`:
 
 ```csharp
@@ -116,10 +127,10 @@ builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 
 `AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables
 `RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the
-`Distributed` section, assign `options.RunId`, or export `MODULARPIPELINES_RUN_ID` for each master and
+`Distributed` section, return `options with { RunId = "shared-run-id" }` from the configuration callback, or export `MODULARPIPELINES_RUN_ID` for each master and
 worker. See [Run Identifier Resolution](#run-identifier-resolution).
 
-Each backend registration has exactly two overloads: one taking an `Action<TOptions>` and one taking an
+Each backend registration has exactly two overloads: one taking a `Func<TOptions, TOptions>` and one taking an
 `IConfigurationSection`. Only one coordinator backend and one artifact store backend can be registered;
 registering a second, different backend throws `InvalidOperationException` instead of silently replacing
 the first. Registering the same backend again is a no-op apart from applying the extra configuration.
@@ -137,8 +148,9 @@ at the registration call site instead.
 options pattern, independently of the backend:
 
 ```csharp
-builder.Services.Configure<DistributedOptions>(o => o.ArtifactCompressionLevel = CompressionLevel.Optimal);
-// Or set o.ArtifactCompressionLevel inside your existing AddDistributedMode configuration.
+builder.ConfigureDistributedOptions(o => o with { ArtifactCompressionLevel = CompressionLevel.Optimal });
+// Or return updated options from your existing AddDistributedMode configuration:
+builder.AddDistributedMode(o => o with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
 | Property | Type | Default | Description |
@@ -157,16 +169,16 @@ ahead of coordinator heartbeats on the client. Both connections still share the 
 so size them for the combined load. The module cache has its own options and connection, so it can use a different Redis server.
 
 ```csharp
-builder.AddRedisDistributed(o =>
+builder.AddRedisDistributed(o => o with
 {
-    o.ConnectionString = "redis-host:6379";
-    o.ConfigureConnection = connection =>
+    ConnectionString = "redis-host:6379",
+    ConfigureConnection = connection =>
     {
         connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
         connection.Ssl = true;
-    };
-    o.KeyPrefix = "modpipe";
-    o.TimeToLive = TimeSpan.FromHours(1);
+    },
+    KeyPrefix = "modpipe",
+    TimeToLive = TimeSpan.FromHours(1),
 });
 ```
 
@@ -294,11 +306,11 @@ leases, publish results and observe cancellation through hub invocations, so a w
 invokes again and never misses a broadcast.
 
 ```csharp
-builder.AddSignalRDistributedCoordinator(options =>
+builder.AddSignalRDistributedCoordinator(options => options with
 {
-    options.ListenUrl = new Uri("http://0.0.0.0:5099");
-    options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
-    options.AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN");
+    ListenUrl = new Uri("http://0.0.0.0:5099"),
+    AdvertisedUrl = new Uri("https://pipeline-master.example.com"),
+    AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN"),
 });
 ```
 
@@ -329,8 +341,8 @@ replaces an `IConnectionMultiplexer` registered by the application.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ConnectionString` | `string` | `localhost:6379` | Redis connection string; required unless `RestUrl` is set. |
-| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts the parsed connection configuration, for example credentials or TLS. |
+| `ConnectionString` | `string` | Empty | Explicit Redis connection string; required unless `ConfigureConnection` supplies endpoints or both REST options are set. |
+| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts TCP configuration during validation, for example credentials or TLS; must leave at least one endpoint. The configuration is reused when connecting. Ignored for REST. |
 | `RestUrl` | `Uri?` | `null` | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`. |
 | `RestToken` | `string?` | `null` | Upstash REST token; configure together with `RestUrl`. |
 | `KeyPrefix` | `string` | `modpipe` | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`. |

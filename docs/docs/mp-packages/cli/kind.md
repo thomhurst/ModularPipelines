@@ -60,4 +60,3 @@ Global options are rendered before the selected subcommand.
 | `kind load` | `KindLoadOptions` |
 | `kind load docker-image` | `KindLoadDockerImageOptions` |
 | `kind load image-archive` | `KindLoadImageArchiveOptions` |
-| `kind version` | `KindVersionOptions` |

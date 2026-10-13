@@ -110,6 +110,12 @@ public record AzAmsTransformOutputAddOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// The type of insights to be extracted. If not set then the type will be selected based on the content type. If the content is audio only then only audio insights will be extracted and if it is video only video insights will be extracted.  Allowed values: AllInsights, AudioInsightsOnly, VideoInsightsOnly.
     /// </summary>
     [CliOption("--insights-to-extract")]

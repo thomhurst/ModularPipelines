@@ -1,0 +1,591 @@
+{
+  "formulae": [
+    {
+      "name": "podman",
+      "full_name": "podman",
+      "tap": "homebrew/core",
+      "oldnames": [],
+      "aliases": [],
+      "versioned_formulae": [],
+      "desc": "Tool for managing OCI containers and pods",
+      "license": "Apache-2.0 AND GPL-3.0-or-later",
+      "homepage": "https://podman.io/",
+      "versions": {
+        "stable": "6.1.3",
+        "head": "HEAD",
+        "bottle": true
+      },
+      "urls": {
+        "stable": {
+          "url": "https://github.com/podman-container-tools/podman/archive/refs/tags/v6.1.3.tar.gz",
+          "tag": null,
+          "revision": null,
+          "using": null,
+          "checksum": "6253aee14e573f747ca77e5a83a0df4ef9c2f609604f56715070ed06b6f9ddd8"
+        },
+        "head": {
+          "url": "https://github.com/podman-container-tools/podman.git",
+          "branch": "main",
+          "using": null
+        }
+      },
+      "patches": [
+        {
+          "strip": "p1",
+          "file": "Patches/podman/revert-libkrun-default.patch"
+        }
+      ],
+      "revision": 0,
+      "version_scheme": 0,
+      "compatibility_version": null,
+      "autobump": true,
+      "no_autobump_message": null,
+      "skip_livecheck": false,
+      "bottle": {
+        "stable": {
+          "rebuild": 0,
+          "root_url": "https://ghcr.io/v2/homebrew/core",
+          "files": {
+            "x86_64_linux": {
+              "cellar": "/home/linuxbrew/.linuxbrew/Cellar",
+              "url": "https://ghcr.io/v2/homebrew/core/podman/blobs/sha256:e0787bce7cfcf109ee4036a58618483b926db4c586f7fec520349b50fe9eae16",
+              "sha256": "e0787bce7cfcf109ee4036a58618483b926db4c586f7fec520349b50fe9eae16"
+            }
+          }
+        }
+      },
+      "pour_bottle_only_if": null,
+      "keg_only": false,
+      "keg_only_reason": null,
+      "options": [],
+      "build_dependencies": [
+        "go",
+        "go-md2man",
+        "autoconf",
+        "automake",
+        "libtool",
+        "pkgconf",
+        "protobuf",
+        "rust"
+      ],
+      "dependencies": [
+        "conmon",
+        "crun",
+        "fuse-overlayfs",
+        "gpgme",
+        "libseccomp",
+        "passt",
+        "sqlite",
+        "systemd"
+      ],
+      "test_dependencies": [],
+      "recommended_dependencies": [],
+      "optional_dependencies": [],
+      "uses_from_macos": [
+        {
+          "python": "build"
+        }
+      ],
+      "uses_from_macos_bounds": [
+        {}
+      ],
+      "requirements": [],
+      "conflicts_with": [],
+      "conflicts_with_reasons": [],
+      "link_overwrite": [],
+      "caveats": null,
+      "installed": [
+        {
+          "version": "6.1.3",
+          "used_options": [],
+          "built_as_bottle": true,
+          "poured_from_bottle": true,
+          "time": 1791217219,
+          "runtime_dependencies": [
+            {
+              "full_name": "linux-headers@6.8",
+              "version": "6.8.12",
+              "revision": 1,
+              "bottle_rebuild": 0,
+              "pkg_version": "6.8.12_1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "glibc",
+              "version": "2.39",
+              "revision": 1,
+              "bottle_rebuild": 2,
+              "pkg_version": "2.39_1",
+              "declared_directly": true
+            },
+            {
+              "full_name": "zlib-ng-compat",
+              "version": "2.3.3",
+              "revision": 1,
+              "bottle_rebuild": 1,
+              "pkg_version": "2.3.3_1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "gmp",
+              "version": "6.3.0",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "6.3.0",
+              "declared_directly": false
+            },
+            {
+              "full_name": "isl",
+              "version": "0.28",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "0.28",
+              "declared_directly": false
+            },
+            {
+              "full_name": "mpfr",
+              "version": "4.2.2",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "4.2.2",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libmpc",
+              "version": "1.4.1",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.4.1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "lz4",
+              "version": "1.10.0",
+              "revision": 0,
+              "bottle_rebuild": 3,
+              "pkg_version": "1.10.0",
+              "declared_directly": false
+            },
+            {
+              "full_name": "xz",
+              "version": "5.8.4",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "5.8.4",
+              "declared_directly": false
+            },
+            {
+              "full_name": "zstd",
+              "version": "1.5.7",
+              "revision": 1,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.5.7_1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "binutils",
+              "version": "2.47",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.47",
+              "declared_directly": false
+            },
+            {
+              "full_name": "gcc",
+              "version": "16.2.0",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "16.2.0",
+              "declared_directly": true
+            },
+            {
+              "full_name": "bzip2",
+              "version": "1.0.8",
+              "revision": 0,
+              "bottle_rebuild": 2,
+              "pkg_version": "1.0.8",
+              "declared_directly": false
+            },
+            {
+              "full_name": "pcre2",
+              "version": "10.49",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "10.49",
+              "declared_directly": false
+            },
+            {
+              "full_name": "expat",
+              "version": "2.8.5",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.8.5",
+              "declared_directly": false
+            },
+            {
+              "full_name": "dbus",
+              "version": "1.16.2",
+              "revision": 1,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.16.2_1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "ncurses",
+              "version": "6.6",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "6.6",
+              "declared_directly": false
+            },
+            {
+              "full_name": "readline",
+              "version": "8.3.6",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "8.3.6",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libxcrypt",
+              "version": "4.5.2",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "4.5.2",
+              "declared_directly": false
+            },
+            {
+              "full_name": "sqlite",
+              "version": "3.53.4",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "3.53.4",
+              "declared_directly": true
+            },
+            {
+              "full_name": "util-linux",
+              "version": "2.42.4",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.42.4",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libffi",
+              "version": "3.8.0",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "3.8.0",
+              "declared_directly": false
+            },
+            {
+              "full_name": "ca-certificates",
+              "version": "2026-09-25",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2026-09-25",
+              "declared_directly": false
+            },
+            {
+              "full_name": "mpdecimal",
+              "version": "4.0.1",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "4.0.1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "openssl@3",
+              "version": "3.6.5",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "3.6.5",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libedit",
+              "version": "20260512-3.1",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "20260512-3.1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "python@3.14",
+              "version": "3.14.8",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "3.14.8",
+              "declared_directly": false
+            },
+            {
+              "full_name": "glib",
+              "version": "2.90.0",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.90.0",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libseccomp",
+              "version": "2.6.1",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.6.1",
+              "declared_directly": true
+            },
+            {
+              "full_name": "systemd",
+              "version": "262",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "262",
+              "declared_directly": true
+            },
+            {
+              "full_name": "conmon",
+              "version": "2.2.1",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.2.1",
+              "declared_directly": true
+            },
+            {
+              "full_name": "json-c",
+              "version": "0.19",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "0.19",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libcap",
+              "version": "2.78",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "2.78",
+              "declared_directly": false
+            },
+            {
+              "full_name": "crun",
+              "version": "1.30.1",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.30.1",
+              "declared_directly": true
+            },
+            {
+              "full_name": "libfuse",
+              "version": "3.18.3",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "3.18.3",
+              "declared_directly": false
+            },
+            {
+              "full_name": "fuse-overlayfs",
+              "version": "1.18",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.18",
+              "declared_directly": true
+            },
+            {
+              "full_name": "libunistring",
+              "version": "1.4.2",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "1.4.2",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libidn2",
+              "version": "2.3.8",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.3.8",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libtasn1",
+              "version": "4.21.0",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "4.21.0",
+              "declared_directly": false
+            },
+            {
+              "full_name": "nettle",
+              "version": "4.0",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "4.0",
+              "declared_directly": false
+            },
+            {
+              "full_name": "p11-kit",
+              "version": "0.26.5",
+              "revision": 0,
+              "bottle_rebuild": 1,
+              "pkg_version": "0.26.5",
+              "declared_directly": false
+            },
+            {
+              "full_name": "gnutls",
+              "version": "3.8.13",
+              "revision": 2,
+              "bottle_rebuild": 1,
+              "pkg_version": "3.8.13_2",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libgpg-error",
+              "version": "1.61",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.61",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libassuan",
+              "version": "3.0.2",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "3.0.2",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libgcrypt",
+              "version": "1.12.4",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.12.4",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libksba",
+              "version": "1.8.1",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.8.1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libusb",
+              "version": "1.0.30",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.0.30",
+              "declared_directly": false
+            },
+            {
+              "full_name": "npth",
+              "version": "1.8",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.8",
+              "declared_directly": false
+            },
+            {
+              "full_name": "libsecret",
+              "version": "0.21.8.2",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "0.21.8.2",
+              "declared_directly": false
+            },
+            {
+              "full_name": "pinentry",
+              "version": "1.3.3",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.3.3",
+              "declared_directly": false
+            },
+            {
+              "full_name": "keyutils",
+              "version": "1.6.3",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.6.3",
+              "declared_directly": false
+            },
+            {
+              "full_name": "krb5",
+              "version": "1.22.2",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "1.22.2",
+              "declared_directly": false
+            },
+            {
+              "full_name": "cyrus-sasl",
+              "version": "2.1.28",
+              "revision": 2,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.1.28_2",
+              "declared_directly": false
+            },
+            {
+              "full_name": "openldap",
+              "version": "2.7.1",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.7.1",
+              "declared_directly": false
+            },
+            {
+              "full_name": "gnupg",
+              "version": "2.5.24",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.5.24",
+              "declared_directly": false
+            },
+            {
+              "full_name": "gpgme",
+              "version": "2.2.0",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2.2.0",
+              "declared_directly": true
+            },
+            {
+              "full_name": "passt",
+              "version": "2026_10_02.cba3570",
+              "revision": 0,
+              "bottle_rebuild": 0,
+              "pkg_version": "2026_10_02.cba3570",
+              "declared_directly": true
+            }
+          ],
+          "installed_on_request": true
+        }
+      ],
+      "linked_keg": "6.1.3",
+      "pinned": false,
+      "outdated": false,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
+      "deprecate_args": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "disable_args": null,
+      "post_install_steps": [],
+      "post_install_defined": false,
+      "service": {},
+      "tap_git_head": "2754192e0515628a771a7288b0a5932d35d4533a",
+      "ruby_source_path": "Formula/p/podman.rb",
+      "ruby_source_checksum": {
+        "sha256": "822d67e733a7e461687dc6eae5fbf825b158f0fa1f23791a58fd63bcdeb12177"
+      }
+    }
+  ],
+  "casks": []
+}

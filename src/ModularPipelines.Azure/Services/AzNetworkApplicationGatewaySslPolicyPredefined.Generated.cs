@@ -32,6 +32,21 @@ public class AzNetworkApplicationGatewaySslPolicyPredefined
     #region Commands
 
     /// <summary>
+    /// List all SSL predefined policies for
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzNetworkApplicationGatewaySslPolicyPredefinedListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkApplicationGatewaySslPolicyPredefinedListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Get SSL predefined policy with the
     /// </summary>
     /// <param name="options">The command options.</param>

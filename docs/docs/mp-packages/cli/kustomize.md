@@ -48,7 +48,6 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize edit add buildmetadata` | `KustomizeEditAddBuildmetadataOptions` |
 | `kustomize edit add component` | `KustomizeEditAddComponentOptions` |
 | `kustomize edit add configmap` | `KustomizeEditAddConfigmapOptions` |
-| `kustomize edit add configuration` | `KustomizeEditAddConfigurationOptions` |
 | `kustomize edit add generator` | `KustomizeEditAddGeneratorOptions` |
 | `kustomize edit add label` | `KustomizeEditAddLabelOptions` |
 | `kustomize edit add patch` | `KustomizeEditAddPatchOptions` |
@@ -60,7 +59,6 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize edit remove` | `KustomizeEditRemoveOptions` |
 | `kustomize edit remove annotation` | `KustomizeEditRemoveAnnotationOptions` |
 | `kustomize edit remove buildmetadata` | `KustomizeEditRemoveBuildmetadataOptions` |
-| `kustomize edit remove component` | `KustomizeEditRemoveComponentOptions` |
 | `kustomize edit remove configmap` | `KustomizeEditRemoveConfigmapOptions` |
 | `kustomize edit remove label` | `KustomizeEditRemoveLabelOptions` |
 | `kustomize edit remove patch` | `KustomizeEditRemovePatchOptions` |
@@ -81,4 +79,3 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize fn` | `KustomizeFnOptions` |
 | `kustomize fn run` | `KustomizeFnRunOptions` |
 | `kustomize localize` | `KustomizeLocalizeOptions` |
-| `kustomize version` | `KustomizeVersionOptions` |

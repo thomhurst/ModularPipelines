@@ -1,0 +1,16 @@
+Remove an existing machine
+
+Description:
+  Remove a managed virtual machine 
+
+Usage:
+  podman machine rm [options] [MACHINE]
+
+Examples:
+  podman machine rm podman-machine-default
+
+Options:
+  -f, --force           Stop and do not prompt before rming
+      --save-ignition   Do not delete ignition file
+      --save-image      Do not delete the image file
+

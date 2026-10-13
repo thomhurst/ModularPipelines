@@ -49,8 +49,11 @@ public class AzSecurity : IAzSecurity
     private AzSecurityRegulatoryComplianceAssessments? _regulatoryComplianceAssessments;
     private AzSecurityRegulatoryComplianceControls? _regulatoryComplianceControls;
     private AzSecurityRegulatoryComplianceStandards? _regulatoryComplianceStandards;
+    private AzSecuritySecureScoreControlDefinitions? _secureScoreControlDefinitions;
     private AzSecuritySecureScoreControls? _secureScoreControls;
     private AzSecuritySecureScores? _secureScores;
+    private AzSecuritySecuritySolutions? _securitySolutions;
+    private AzSecuritySecuritySolutionsReferenceData? _securitySolutionsReferenceData;
     private AzSecuritySetting? _setting;
     private AzSecuritySubAssessment? _subAssessment;
     private AzSecurityTask? _task;
@@ -213,6 +216,11 @@ public class AzSecurity : IAzSecurity
     public AzSecurityRegulatoryComplianceStandards RegulatoryComplianceStandards => _regulatoryComplianceStandards ??= new AzSecurityRegulatoryComplianceStandards(_command);
 
     /// <summary>
+    /// az secure-score-control-definitions sub-commands.
+    /// </summary>
+    public AzSecuritySecureScoreControlDefinitions SecureScoreControlDefinitions => _secureScoreControlDefinitions ??= new AzSecuritySecureScoreControlDefinitions(_command);
+
+    /// <summary>
     /// az secure-score-controls sub-commands.
     /// </summary>
     public AzSecuritySecureScoreControls SecureScoreControls => _secureScoreControls ??= new AzSecuritySecureScoreControls(_command);
@@ -221,6 +229,16 @@ public class AzSecurity : IAzSecurity
     /// az secure-scores sub-commands.
     /// </summary>
     public AzSecuritySecureScores SecureScores => _secureScores ??= new AzSecuritySecureScores(_command);
+
+    /// <summary>
+    /// az security-solutions sub-commands.
+    /// </summary>
+    public AzSecuritySecuritySolutions SecuritySolutions => _securitySolutions ??= new AzSecuritySecuritySolutions(_command);
+
+    /// <summary>
+    /// az security-solutions-reference-data sub-commands.
+    /// </summary>
+    public AzSecuritySecuritySolutionsReferenceData SecuritySolutionsReferenceData => _securitySolutionsReferenceData ??= new AzSecuritySecuritySolutionsReferenceData(_command);
 
     /// <summary>
     /// az setting sub-commands.

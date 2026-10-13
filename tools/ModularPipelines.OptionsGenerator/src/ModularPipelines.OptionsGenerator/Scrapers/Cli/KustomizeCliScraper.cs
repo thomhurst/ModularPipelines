@@ -51,6 +51,12 @@ public partial class KustomizeCliScraper(ICliCommandExecutor executor, IHelpText
 
     protected override string VersionArguments => "version";
 
+    // Audited against Kustomize 5.8.2: configcobra registers --stack-trace on
+    // root PersistentFlags. Build/plugin and edit flags remain local.
+    // Expanding this allowlist requires a fresh root/group/leaf and source audit.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option => option.SwitchName == "--stack-trace")];
+
     /// <summary>
     /// Kustomize renders the build directory as required in its Cobra usage line even
     /// though omitting it is documented to use the current directory.
@@ -82,6 +88,11 @@ public partial class KustomizeCliScraper(ICliCommandExecutor executor, IHelpText
         string[] commandParts,
         IReadOnlyList<CliOptionDefinition> options)
     {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
+        options = [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+
         if (commandParts is not ["create"])
         {
             return options;

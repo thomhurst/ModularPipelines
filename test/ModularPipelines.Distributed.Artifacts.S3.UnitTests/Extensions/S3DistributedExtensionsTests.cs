@@ -36,8 +36,7 @@ public class S3DistributedExtensionsTests
 
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<NoOpModule>();
-            builder.AddS3DistributedArtifactStore(options =>
-                options.BucketName = "artifact-only");
+            builder.AddS3DistributedArtifactStore(options => options with { BucketName = "artifact-only" });
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.BuildAsync());
@@ -58,8 +57,8 @@ public class S3DistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.Services.Configure<DistributedOptions>(options => options.RunId = "bucket-run");
-        builder.AddS3DistributedArtifactStore(_ => { });
+        builder.ConfigureDistributedOptions(options => options with { RunId = "bucket-run" });
+        builder.AddS3DistributedArtifactStore(_ => _);
 
         await Assert.That(async () => await builder.BuildAsync())
             .Throws<OptionsValidationException>()
@@ -71,10 +70,10 @@ public class S3DistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddS3ModuleCache(options =>
+        builder.AddS3ModuleCache(options => options with
         {
-            options.BucketName = "cache";
-            options.MultipartPartSizeBytes = 1024;
+            BucketName = "cache",
+            MultipartPartSizeBytes = 1024,
         });
 
         await Assert.That(async () => await builder.BuildAsync())
@@ -88,7 +87,7 @@ public class S3DistributedExtensionsTests
         var builder = Pipeline.CreateBuilder();
         builder.AddDistributedArtifactStoreFactory<OtherArtifactStoreFactory>();
 
-        await Assert.That(() => builder.AddS3DistributedArtifactStore(options => options.BucketName = "bucket"))
+        await Assert.That(() => builder.AddS3DistributedArtifactStore(options => options with { BucketName = "bucket" }))
             .Throws<InvalidOperationException>()
             .WithMessageContaining(nameof(OtherArtifactStoreFactory));
     }

@@ -148,15 +148,6 @@ internal partial class Trivy : ITrivy
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> VersionAsync(
-        TrivyVersionOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TrivyVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> VmAsync(
         TrivyVmOptions options,
         CommandExecutionOptions? executionOptions = null,

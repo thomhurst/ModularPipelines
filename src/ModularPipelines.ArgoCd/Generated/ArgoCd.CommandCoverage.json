@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "argocd",
-  "toolVersion": "argocd: v3.5.3\u002Bc9c369e   BuildDate: 2026-09-14T07:38:20Z   GitCommit: c9c369efcc5b2a0bd720803f8d14a1c3eaddf579   GitTreeState: clean   GoVersion: go1.26.4   Compiler: gc   Platform: linux/amd64",
-  "commandCount": 166,
-  "commandTreeSha256": "951ade3726a8bc9d9a626206b54853b4c1cd449a489fd7c056feffacaa82ed61",
+  "toolVersion": "argocd: v3.5.5\u002Ba5038b0   BuildDate: 2026-10-12T10:37:42Z   GitCommit: a5038b0e2bbac1715754380ae0084df8e3d5b48c   GitTreeState: clean   GoVersion: go1.26.9   Compiler: gc   Platform: linux/amd64",
+  "commandCount": 165,
+  "commandTreeSha256": "f12af4288e7a39a4ac683d429edf0cf75b10df027963bc60b408a2f2ea0df4b2",
   "commands": [
     "argocd account",
     "argocd account bcrypt",
@@ -169,8 +169,7 @@
     "argocd repocreds",
     "argocd repocreds add",
     "argocd repocreds list",
-    "argocd repocreds rm",
-    "argocd version"
+    "argocd repocreds rm"
   ],
   "commandGroups": [
     "argocd account",

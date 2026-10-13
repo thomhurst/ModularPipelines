@@ -38,6 +38,22 @@ public partial class EksctlCliScraper(ICliCommandExecutor executor, IHelpTextCac
             ? "Kubeconfig"
             : base.NormalizeCommandIdentifier(commandPart);
 
+    // The root's Common flags section is backed by PersistentFlags(), unlike
+    // command-local AWS client and resource flag groups with repeated names.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Common flags", [])
+            .Where(option => option.SwitchName != "--help")];
+
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
+        return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+    }
+
     protected override string? NormalizeOptionPropertyName(string switchName) => switchName switch
     {
         "--kubeconfig" => "Kubeconfig",

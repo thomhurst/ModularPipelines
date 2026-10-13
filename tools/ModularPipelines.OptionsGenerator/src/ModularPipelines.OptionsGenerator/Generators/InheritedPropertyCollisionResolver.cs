@@ -268,7 +268,7 @@ internal static class InheritedPropertyCollisionResolver
         [.. options.Select(option =>
         {
             var inherited = sameScopeGlobals?.FirstOrDefault(global =>
-                global.SwitchName.Equals(option.SwitchName, StringComparison.Ordinal));
+                option.GetSwitchNames().Contains(global.SwitchName, StringComparer.Ordinal));
             if (inherited is not null)
             {
                 // These switches occupy the same CLI scope. The local definition replaces

@@ -5,6 +5,47 @@ namespace ModularPipelines.UnitTests.FileSystem;
 public class FileSystemProviderMetadataTests
 {
     [Test]
+    public async Task ExistingProviderDefaultsToHostSeparator()
+    {
+        IFileSystemProvider provider = new FakeFileSystemProvider();
+
+        await Assert.That(provider.DirectorySeparatorChar).IsEqualTo(Path.DirectorySeparatorChar);
+    }
+
+    [Test]
+    public async Task DefaultOverwriteMoveRejectsExistingDestinationWithoutDeletingEitherFile()
+    {
+        var fake = new FakeFileSystemProvider();
+        IFileSystemProvider provider = fake;
+        var source = Path.Combine(FakeFileSystemProvider.Root, "source.txt");
+        var destination = Path.Combine(FakeFileSystemProvider.Root, "destination.txt");
+        fake.AddFile(source, "new"u8.ToArray());
+        fake.AddFile(destination, "old"u8.ToArray());
+
+        await Assert.That(() => provider.MoveFile(source, destination, overwrite: true)).Throws<NotSupportedException>();
+
+        await Assert.That(await provider.ReadAllTextAsync(source)).IsEqualTo("new");
+        await Assert.That(await provider.ReadAllTextAsync(destination)).IsEqualTo("old");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task DefaultMoveDelegatesToLegacyOverloadWhenDestinationDoesNotExist(bool overwrite)
+    {
+        var fake = new FakeFileSystemProvider();
+        IFileSystemProvider provider = fake;
+        var source = Path.Combine(FakeFileSystemProvider.Root, "source.txt");
+        var destination = Path.Combine(FakeFileSystemProvider.Root, "destination.txt");
+        fake.AddFile(source, "contents"u8.ToArray());
+
+        provider.MoveFile(source, destination, overwrite);
+
+        await Assert.That(provider.FileExists(source)).IsFalse();
+        await Assert.That(await provider.ReadAllTextAsync(destination)).IsEqualTo("contents");
+    }
+
+    [Test]
     [Arguments(DateTimeKind.Utc)]
     [Arguments(DateTimeKind.Unspecified)]
     public async Task Path_Timestamps_Interpret_Provider_Values_As_Utc(DateTimeKind kind)

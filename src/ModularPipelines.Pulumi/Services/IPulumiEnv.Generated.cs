@@ -52,11 +52,6 @@ public interface IPulumiEnv
     PulumiEnvTag Tag => throw new System.NotSupportedException();
 
     /// <summary>
-    /// pulumi version sub-commands.
-    /// </summary>
-    PulumiEnvVersion Version => throw new System.NotSupportedException();
-
-    /// <summary>
     /// pulumi webhook sub-commands.
     /// </summary>
     PulumiEnvWebhook Webhook => throw new System.NotSupportedException();

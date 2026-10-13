@@ -100,4 +100,10 @@ public record AzCosmosdbSqlRoleAssignmentCreateOptions : AzOptions
     [CliOption("--role-definition-name", ShortForm = "-n")]
     public string? RoleDefinitionName { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

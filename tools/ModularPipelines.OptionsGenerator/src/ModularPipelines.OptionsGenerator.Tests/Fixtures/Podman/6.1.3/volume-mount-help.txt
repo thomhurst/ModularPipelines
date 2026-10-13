@@ -1,0 +1,11 @@
+Mount volume
+
+Description:
+  Mount a volume and return the mountpoint
+
+Usage:
+  podman volume mount NAME
+
+Examples:
+  podman volume mount myvol
+
