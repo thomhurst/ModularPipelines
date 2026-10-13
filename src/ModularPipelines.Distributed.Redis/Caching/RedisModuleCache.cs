@@ -146,19 +146,19 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         var redis = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
         var generation = Guid.NewGuid().ToString("N");
         var totalLength = 0L;
-        var chunkKeys = new List<RespireKey>();
+        var startedChunks = 0;
         string? publishedMetadata = null;
         try
         {
             // Each chunk has its own buffer, which Respire borrows until its write completes, so several writes
             // can be in flight. The RespireValue conversion stores the raw bytes; the generic overload would
-            // serialize them as JSON. Writes start in order, so the key list is only appended to sequentially.
+            // serialize them as JSON. The count of started writes tells cleanup which chunk keys may exist.
             var chunkCount = await RedisChunkTransfer.WriteAsync(
                     RedisChunkTransfer.ReadChunksAsync(content, _chunkSize, first: null, cancellationToken),
                     async (chunkIndex, chunk, token) =>
                     {
                         var chunkKey = ChunkKey(fingerprint, generation, chunkIndex);
-                        chunkKeys.Add(chunkKey);
+                        Interlocked.Increment(ref startedChunks);
                         await redis.SetAsync(chunkKey, (RespireValue) chunk, _provisionalExpiration, cancellationToken: token)
                             .ConfigureAwait(false);
                         Interlocked.Add(ref totalLength, chunk.Length);
@@ -171,7 +171,7 @@ internal sealed class RedisModuleCache : IModuleCacheStore
                 $"{generation}:{chunkCount}:{totalLength}");
             var transaction = redis.CreateTransaction();
             await using var transactionLifetime = transaction.ConfigureAwait(false);
-            var expirations = chunkKeys
+            var expirations = ChunkKeys(fingerprint, generation, chunkCount)
                 .Select(chunkKey => transaction.Expire(chunkKey, _expiration))
                 .ToArray();
             var metadataWrite = transaction.Set(
@@ -193,7 +193,12 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         }
         catch
         {
-            await DiscardWriteAsync(redis, fingerprint, publishedMetadata, chunkKeys).ConfigureAwait(false);
+            await DiscardWriteAsync(
+                    redis,
+                    fingerprint,
+                    publishedMetadata,
+                    ChunkKeys(fingerprint, generation, Volatile.Read(ref startedChunks)))
+                .ConfigureAwait(false);
             throw;
         }
     }
@@ -203,7 +208,7 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         IRespireClient redis,
         string fingerprint,
         string? publishedMetadata,
-        List<RespireKey> chunkKeys)
+        RespireKey[] chunkKeys)
     {
         try
         {
@@ -219,9 +224,9 @@ internal sealed class RedisModuleCache : IModuleCacheStore
                     .ConfigureAwait(false);
             }
 
-            if (chunkKeys.Count > 0)
+            if (chunkKeys.Length > 0)
             {
-                await redis.Keys.UnlinkAsync([.. chunkKeys], CancellationToken.None).ConfigureAwait(false);
+                await redis.Keys.UnlinkAsync(chunkKeys, CancellationToken.None).ConfigureAwait(false);
             }
         }
         catch (Exception)
@@ -258,15 +263,13 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         var (generation, chunkCount, _) = ParseMetadata(metadata);
         if (chunkCount > 0)
         {
-            RespireKey[] chunkKeys =
-            [
-                .. Enumerable.Range(0, chunkCount)
-                    .Select(chunkIndex => (RespireKey) ChunkKey(fingerprint, generation, chunkIndex)),
-            ];
-            await redis.Keys.UnlinkAsync(chunkKeys, cancellationToken)
+            await redis.Keys.UnlinkAsync(ChunkKeys(fingerprint, generation, chunkCount), cancellationToken)
                 .ConfigureAwait(false);
         }
     }
+
+    private RespireKey[] ChunkKeys(string fingerprint, string generation, int chunkCount) =>
+        [.. Enumerable.Range(0, chunkCount).Select(chunkIndex => (RespireKey) ChunkKey(fingerprint, generation, chunkIndex))];
 
     private static (string Generation, int ChunkCount, long Length) ParseMetadata(string metadata)
     {

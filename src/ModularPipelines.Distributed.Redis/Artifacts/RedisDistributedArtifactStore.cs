@@ -185,13 +185,10 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         var references = new List<ArtifactReference>(members.Length);
         foreach (var metaJson in metadata)
         {
-            if (metaJson is not null)
+            // Skip unreadable metadata like missing metadata, so one bad entry cannot hide the rest.
+            if (TryParseReference(metaJson) is { } reference)
             {
-                var reference = JsonSerializer.Deserialize<ArtifactReference>(metaJson);
-                if (reference is not null)
-                {
-                    references.Add(reference);
-                }
+                references.Add(reference);
             }
         }
 
@@ -240,6 +237,11 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
     {
         var metaJson = await _redis.GetStringAsync(_keys.ArtifactMeta(artifactId), cancellationToken)
             .ConfigureAwait(false);
+        return TryParseReference(metaJson)?.SizeBytes;
+    }
+
+    private static ArtifactReference? TryParseReference(string? metaJson)
+    {
         if (string.IsNullOrEmpty(metaJson))
         {
             return null;
@@ -247,7 +249,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
         try
         {
-            return JsonSerializer.Deserialize<ArtifactReference>(metaJson)?.SizeBytes;
+            return JsonSerializer.Deserialize<ArtifactReference>(metaJson);
         }
         catch (JsonException)
         {

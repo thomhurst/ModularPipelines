@@ -303,6 +303,19 @@ public class RedisArtifactStoreTests
     }
 
     [Test]
+    public async Task ListArtifacts_Skips_Unreadable_Metadata()
+    {
+        using var stream = new MemoryStream([1, 2, 3]);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "good", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+        await _redis.Client.Sets.AddAsync(_keys.ArtifactIndex("Test.Module"), ["corrupt"]);
+        await _redis.Client.SetAsync(_keys.ArtifactMeta("corrupt"), (RespireValue) "{not json");
+
+        var results = await _store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+
+        await Assert.That(results.Select(result => result.ArtifactId)).IsEquivalentTo([reference.ArtifactId]);
+    }
+
+    [Test]
     [Arguments(3)]
     [Arguments(120)]
     public async Task Delete_Removes_Content_Metadata_And_Index_Entry(int length)
