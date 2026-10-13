@@ -14,9 +14,12 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// - Options via 'git <command> -h' with format: -short, --long   description
 /// - Mostly flat command structure, with usage-derived child commands
 /// </summary>
-public partial class GitCliScraper : CliScraperBase, IDisposable
+public partial class GitCliScraper(
+    ICliCommandExecutor executor,
+    IHelpTextCache helpCache,
+    ILogger<GitCliScraper> logger) : CliScraperBase(executor, helpCache, logger), IDisposable
 {
-    private readonly object _helpRepositoryLock = new();
+    private readonly Lock _helpRepositoryLock = new();
     private readonly SemaphoreSlim _helpCommandUsage = new(1, 1);
     private string? _helpRepositoryDirectory;
     private Task<string>? _helpRepositoryTask;
@@ -28,14 +31,6 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     public override string OutputDirectory => "src/ModularPipelines.Git";
 
     public override bool GenerateCommandFacade => false;
-
-    public GitCliScraper(
-        ICliCommandExecutor executor,
-        IHelpTextCache helpCache,
-        ILogger<GitCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
 
     public override CliToolDefinition CreateToolDefinition() =>
         base.CreateToolDefinition() with
@@ -199,7 +194,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         string helpText) =>
         commandPath.Length == 1
             ? ExtractTopLevelCommands(helpText)
-            : ExtractSubcommands(commandPath.Skip(1).ToArray(), helpText);
+            : ExtractSubcommands([.. commandPath.Skip(1)], helpText);
 
     protected override bool HelpMatchesCommandPath(string[] commandPath, string helpText)
     {
@@ -263,7 +258,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         IReadOnlyList<string> commandParts,
         string helpText)
     {
-        var expectedCommandParts = new[] { "git" }.Concat(commandParts).ToArray();
+        string[] expectedCommandParts = ["git", .. commandParts];
         var requiredSubcommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var optionalSubcommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -291,10 +286,9 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             }
         }
 
-        return requiredSubcommands
+        return [.. requiredSubcommands
             .Concat(requiredSubcommands.Count == 0 ? [] : optionalSubcommands)
-            .Order(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .Order(StringComparer.OrdinalIgnoreCase)];
     }
 
     private static IReadOnlyList<string> ExtractTopLevelCommands(string helpText)
@@ -328,7 +322,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             }
         }
 
-        return commands.Order(StringComparer.OrdinalIgnoreCase).ToArray();
+        return [.. commands.Order(StringComparer.OrdinalIgnoreCase)];
     }
 
     private static bool TryConsumeCommandPath(
@@ -463,7 +457,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     /// Format: -short, --long   description
     /// Or: --long   description
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -492,6 +486,8 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
                 option = AddDescription(option, description);
             }
 
+            option = ApplyRepeatability(option, helpText);
+
             options.Add(option);
             if (negatedLongFlag is not null && seenOptions.Add(negatedLongFlag))
             {
@@ -500,6 +496,22 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         }
 
         return options;
+    }
+
+    private static CliOptionDefinition ApplyRepeatability(CliOptionDefinition option, string helpText)
+    {
+        if (option.IsFlag
+            || option.AcceptsMultipleValues
+            || !HelpDeclaresRepeatableOption(helpText, option.SwitchName, option.Description ?? string.Empty))
+        {
+            return option;
+        }
+
+        return option with
+        {
+            CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
+            AcceptsMultipleValues = true,
+        };
     }
 
     private static bool IsOptionRow(string line) => OptionLineRegex().IsMatch(line);
@@ -622,6 +634,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             CSharpType = "bool?",
             Description = $"Negates {option.SwitchName}. {option.Description}",
             IsFlag = true,
+            AcceptsMultipleValues = false,
             ValueArity = CliOptionValueArity.Required,
             ValueSeparator = " ",
             IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),
