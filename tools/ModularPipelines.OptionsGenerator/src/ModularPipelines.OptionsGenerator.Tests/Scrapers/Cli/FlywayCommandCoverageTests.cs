@@ -181,6 +181,7 @@ public class FlywayCommandCoverageTests
             "flyway snapshot",
             "flyway undo",
             "flyway validate",
+            "flyway version",
         ]);
         await Assert.That(evaluation.Violations).IsEmpty();
     }

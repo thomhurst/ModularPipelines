@@ -312,7 +312,7 @@ public partial class ArgoCdCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version"
+        "--help", "-h", "--version", "help", "completion"
     };
 
     [GeneratedRegex(@"(?i)[A-Z]:[\\/]+Users[\\/]+[^\\/\s\""')]+(?=[\\/]\.config[\\/]argocd[\\/]config)")]

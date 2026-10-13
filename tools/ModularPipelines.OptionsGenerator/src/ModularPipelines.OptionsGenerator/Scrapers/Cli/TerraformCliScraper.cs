@@ -60,7 +60,7 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "version", "-version", "-help", "help"
+        "-version", "-help", "help"
     };
 
     /// <summary>

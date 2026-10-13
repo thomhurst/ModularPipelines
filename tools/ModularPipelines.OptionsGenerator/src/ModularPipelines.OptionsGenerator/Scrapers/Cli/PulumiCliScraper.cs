@@ -68,7 +68,7 @@ public partial class PulumiCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version", "about", "gen-completion", "schema"
+        "--help", "-h", "--version", "help", "completion", "about", "gen-completion", "schema"
     };
 
     /// <summary>

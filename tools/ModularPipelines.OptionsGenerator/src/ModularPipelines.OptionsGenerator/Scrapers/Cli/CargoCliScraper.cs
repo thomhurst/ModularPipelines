@@ -53,7 +53,7 @@ public partial class CargoCliScraper : CliScraperBase
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "help", "version", "--version", "-V"
+        "--help", "-h", "help", "--version", "-V"
     };
 
     /// <summary>

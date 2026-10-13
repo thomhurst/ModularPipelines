@@ -366,14 +366,6 @@ public partial class GoCliScraper : CliScraperBase
     }
 
     /// <summary>
-    /// Go exposes version as an ordinary root command even though the shared traversal
-    /// treats that name as a utility node by default.
-    /// </summary>
-    protected override bool IsSkippableSubcommand(string subcommand) =>
-        !subcommand.Equals("version", StringComparison.OrdinalIgnoreCase)
-        && base.IsSkippableSubcommand(subcommand);
-
-    /// <summary>
     /// Parses a go command from its help text.
     /// </summary>
     protected override Task<CliCommandDefinition?> ParseCommandAsync(

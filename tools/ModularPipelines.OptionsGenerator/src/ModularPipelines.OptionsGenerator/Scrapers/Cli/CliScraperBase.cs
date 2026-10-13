@@ -24,6 +24,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private readonly CliScrapeProvenance _scrapeProvenance = new();
     private readonly HashSet<string> _knownCommandGroups = [with(StringComparer.OrdinalIgnoreCase)];
     private IReadOnlyList<CliOptionDefinition> _unfilteredGlobalOptions = [];
+    private bool _hasVersionSubcommand;
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -169,7 +170,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// The validated union of scraped and supplemental global options.
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> EffectiveGlobalOptions =>
-        CliGlobalOptionMerger.Merge(GlobalOptions, FilterIgnoredOptions(SupplementalGlobalOptions));
+        CliGlobalOptionMerger.Merge(GlobalOptions, FilterGlobalOptions(SupplementalGlobalOptions));
 
     /// <summary>
     /// Regex patterns to match against command descriptions for skipping.
@@ -423,12 +424,6 @@ public abstract partial class CliScraperBase : ICliScraper
 
         helpText = NormalizeHelpText(helpText);
 
-        if (path.Length == 1)
-        {
-            _unfilteredGlobalOptions = ParseGlobalOptions(helpText);
-            GlobalOptions = FilterIgnoredOptions(_unfilteredGlobalOptions);
-        }
-
         if (ShouldSkipPath(path, helpText))
         {
             _scrapeProvenance.DiscardLeafHelp(path);
@@ -444,6 +439,13 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var subcommands = ExtractSubcommands(path, helpText).ToList();
+        if (path.Length == 1)
+        {
+            _hasVersionSubcommand = subcommands.Contains("version", StringComparer.OrdinalIgnoreCase);
+            _unfilteredGlobalOptions = ParseGlobalOptions(helpText);
+            GlobalOptions = FilterGlobalOptions(_unfilteredGlobalOptions);
+        }
+
         var declaresCommandGroup = HelpDeclaresCommandGroup(helpText);
         PreserveGroupHelp(path, subcommands, declaresCommandGroup);
         if (!TryValidateSubcommandDiscovery(path, helpText, subcommands))
@@ -583,7 +585,8 @@ public abstract partial class CliScraperBase : ICliScraper
         string helpText,
         IReadOnlyCollection<string> subcommands,
         UsageSynopsisParseResult usage) =>
-        (!HasOptions(helpText) && !usage.HasOperandTokens)
+        (!HasOptions(helpText) && !usage.HasOperandTokens
+         && !(path.Length > 1 && path[^1].Equals("version", StringComparison.OrdinalIgnoreCase)))
         || (path.Length == 1 && subcommands.Count > 0);
 
     private async Task<CliCommandDefinition?> TryParseCommandAsync(
@@ -725,7 +728,7 @@ public abstract partial class CliScraperBase : ICliScraper
             GenerateCommandFacade = GenerateCommandFacade,
             Commands = [],
             GlobalOptions = GlobalOptions,
-            SupplementalGlobalOptions = FilterIgnoredOptions(SupplementalGlobalOptions),
+            SupplementalGlobalOptions = FilterGlobalOptions(SupplementalGlobalOptions),
             GlobalOptionsBeforeSubcommands = GlobalOptionsBeforeSubcommands,
             Errors = []
         };
@@ -744,6 +747,19 @@ public abstract partial class CliScraperBase : ICliScraper
 
     private IReadOnlyList<CliOptionDefinition> FilterIgnoredOptions(IReadOnlyList<CliOptionDefinition> options) =>
         options.Any(IsIgnoredOption) ? [.. options.Where(option => !IsIgnoredOption(option))] : options;
+
+    private IReadOnlyList<CliOptionDefinition> FilterGlobalOptions(IReadOnlyList<CliOptionDefinition> options)
+    {
+        options = FilterIgnoredOptions(options);
+        if (!_hasVersionSubcommand)
+        {
+            return options;
+        }
+
+        // Keep version selectors that take a value; only informational flags duplicate the command.
+        return [.. options.Where(option => !option.IsFlag
+            || !option.GetSwitchNames().Any(name => name is "--version" or "-version"))];
+    }
 
     private UsageSynopsisParseResult RemoveIgnoredOptionValues(
         UsageSynopsisParseResult usage, IReadOnlyList<CliOptionDefinition> options)
@@ -1250,7 +1266,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Default subcommands to always skip.
     /// </summary>
     private static readonly HashSet<string> DefaultSkipSubcommands =
-    [with(StringComparer.OrdinalIgnoreCase), "help", "completion", "version", "__complete", "__completeNoDesc"];
+    [with(StringComparer.OrdinalIgnoreCase), "help", "completion", "__complete", "__completeNoDesc"];
 
     /// <summary>
     /// Checks if a subcommand should be skipped (e.g., "help", "completion").
