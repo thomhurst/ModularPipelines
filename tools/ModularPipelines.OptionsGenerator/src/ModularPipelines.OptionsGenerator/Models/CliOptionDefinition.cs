@@ -292,7 +292,9 @@ public record CliOptionDefinition
     private static string? GetObjectTypedSnapshotCollectionType(
         CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, bool snapshotDeclaredValues)
     {
-        if (IsMutableListCollection(compilation, propertyType, elementType))
+        if (IsMutableListCollection(compilation, propertyType, elementType)
+            || (snapshotDeclaredValues && SymbolEqualityComparer.Default.Equals(propertyType,
+                compilation.GetTypeByMetadataName("System.Collections.ICollection"))))
         {
             return snapshotDeclaredValues ? "ListWithDeclaredValues" : "List";
         }

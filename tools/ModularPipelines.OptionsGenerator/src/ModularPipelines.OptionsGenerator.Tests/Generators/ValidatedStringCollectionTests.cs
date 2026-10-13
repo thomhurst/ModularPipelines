@@ -119,7 +119,7 @@ public partial class RequiredConstructorValidationTests
     [MatrixDataSource]
     public async Task Validated_Multiple_Views_Snapshot_SingleUse_String_Entries(
         [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?",
-            "System.Collections.IEnumerable?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
+            "System.Collections.IEnumerable?", "System.Collections.ICollection?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
         [Matrix(false, true)] bool joined,
         [Matrix(false, true)] bool inherited,
         [Matrix(" ", "valid")] string entry)
@@ -209,7 +209,7 @@ public partial class RequiredConstructorValidationTests
     [MatrixDataSource]
     public async Task Validated_Base_Assignments_Snapshot_All_Renderer_Views(
         [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?",
-            "System.Collections.IEnumerable?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
+            "System.Collections.IEnumerable?", "System.Collections.ICollection?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
         [Matrix(false, true)] bool joined,
         [Matrix(" ", "valid")] string entry)
     {
@@ -293,7 +293,7 @@ public partial class RequiredConstructorValidationTests
     [MatrixDataSource]
     public async Task Validated_Required_Alternate_Input_Base_Assignments_Snapshot_Values(
         [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?",
-            "System.Collections.IEnumerable?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
+            "System.Collections.IEnumerable?", "System.Collections.ICollection?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
         [Matrix(false, true)] bool joined,
         [Matrix(" ", "valid")] string entry,
         [Matrix(false, true)] bool factory)
@@ -562,7 +562,7 @@ public partial class RequiredConstructorValidationTests
             ((IEnumerable<ModularPipelines.Models.KeyValue>) values).GetEnumerator();
     }
 
-    private sealed class SingleUseStringRendererViews(string entry) : IReadOnlyList<string>, IReadOnlySet<string>,
+    private sealed class SingleUseStringRendererViews(string entry) : IReadOnlyList<string>, IReadOnlySet<string>, System.Collections.ICollection,
         IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
     {
         private readonly HashSet<string> _members = new(["first", entry], StringComparer.OrdinalIgnoreCase);
@@ -572,6 +572,9 @@ public partial class RequiredConstructorValidationTests
         public int KeyValueEnumerationCount { get; private set; }
         public int Count => 2;
         public string this[int index] => index == 0 ? "first" : entry;
+        public bool IsSynchronized => false;
+        public object SyncRoot => this;
+        public void CopyTo(Array array, int index) => new[] { "first", entry }.CopyTo(array, index);
         public bool Contains(string item) => _members.Contains(item);
         public bool IsProperSubsetOf(IEnumerable<string> other) => _members.IsProperSubsetOf(other);
         public bool IsProperSupersetOf(IEnumerable<string> other) => _members.IsProperSupersetOf(other);
@@ -617,7 +620,7 @@ public partial class RequiredConstructorValidationTests
     [Test]
     [MatrixDataSource]
     public async Task Validated_Mutable_Collections_Preserve_Ordinary_And_Renderer_Views(
-        [Matrix("IList<object>?", "ICollection<object>?", "List<object>?", "System.Collections.IList?",
+        [Matrix("IList<object>?", "ICollection<object>?", "List<object>?", "System.Collections.IList?", "System.Collections.ICollection?",
             "IList<string>?", "ICollection<string>?", "List<string>?")] string collectionType,
         [Matrix(false, true)] bool joined,
         [Matrix(0, 1, 2)] int assignment,
@@ -642,6 +645,9 @@ public partial class RequiredConstructorValidationTests
             await Assert.That(retained.Count).IsEqualTo(2);
             await Assert.That(retained[1]).IsEqualTo(entry);
             await Assert.That(System.Linq.Enumerable.Cast<string>(retained)).IsEquivalentTo(["first", entry]);
+            var copied = new string?[retained.Count + 1];
+            retained.CopyTo(copied, 1);
+            await Assert.That(copied).IsEquivalentTo([null, "first", entry]);
             string[] expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
             await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
                 .IsEquivalentTo(expected);
@@ -767,7 +773,7 @@ public partial class RequiredConstructorValidationTests
     public async Task Validated_Object_Collections_Report_Non_String_Entries(
         [Matrix("IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?",
             "List<object>?", "IList<object>?", "ICollection<object>?", "System.Collections.IEnumerable?",
-            "System.Collections.IList?")] string collectionType,
+            "System.Collections.IList?", "System.Collections.ICollection?")] string collectionType,
         [Matrix(0, 1, 2)] int assignment)
     {
         var options = Compile(await GenerateValidatedStringCollection(collectionType: collectionType,
@@ -903,7 +909,7 @@ public partial class RequiredConstructorValidationTests
     [MatrixDataSource]
     public async Task Validated_Character_Views_Snapshot_Ordinary_Values(
         [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?",
-            "System.Collections.IEnumerable?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?",
+            "System.Collections.IEnumerable?", "System.Collections.ICollection?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?",
             "List<string>?", "IList<string>?", "ICollection<string>?", "List<object>?", "IList<object>?",
             "ICollection<object>?", "System.Collections.IList?")] string collectionType,
         [Matrix(null, "", " ", "valid")] string? entry,
@@ -919,7 +925,7 @@ public partial class RequiredConstructorValidationTests
         object input = collectionType switch
         {
             "IReadOnlySet<string>?" => new CharacterSet(entry, views),
-            "List<object>?" or "IList<object>?" or "ICollection<object>?" or "System.Collections.IList?" =>
+            "List<object>?" or "IList<object>?" or "ICollection<object>?" or "System.Collections.IList?" or "System.Collections.ICollection?" =>
                 new CharacterObjectList(entry, views),
             "List<string>?" or "IList<string>?" or "ICollection<string>?" => new CharacterStringList(entry, views),
             _ => new CharacterReadOnlyList(entry, views),
