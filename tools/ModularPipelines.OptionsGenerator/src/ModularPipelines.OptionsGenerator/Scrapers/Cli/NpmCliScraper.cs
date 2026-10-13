@@ -260,7 +260,7 @@ public partial class NpmCliScraper(
         string description,
         string normalizedHelp,
         string synopsis,
-        ICollection<string> switches)
+        Dictionary<string, (Match Match, string Description)>.KeyCollection switches)
     {
         var takesValue = Regex.IsMatch(
             normalizedHelp,

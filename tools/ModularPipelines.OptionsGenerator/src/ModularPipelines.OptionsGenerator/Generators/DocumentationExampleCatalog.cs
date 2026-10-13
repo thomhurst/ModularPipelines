@@ -10,9 +10,9 @@ internal static class DocumentationExampleCatalog
 {
     // These tools intentionally receive the non-runnable service-resolution example
     // until a command and all required sample values have been explicitly reviewed.
-    private static readonly IReadOnlySet<string> ToolsWithoutCuratedExamples =
-        new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
+    private static readonly HashSet<string> ToolsWithoutCuratedExamples =
+        [
+            with(StringComparer.OrdinalIgnoreCase),
             "argocd",
             "aws",
             "brew",
@@ -41,10 +41,10 @@ internal static class DocumentationExampleCatalog
             "winget",
             "yarn",
             "yq",
-        };
+        ];
 
-    private static readonly IReadOnlyDictionary<string, ToolMetadata> Tools =
-        new Dictionary<string, ToolMetadata>(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, ToolMetadata> Tools =
+        new(StringComparer.OrdinalIgnoreCase)
         {
             ["ansible"] = new(
                 "ansible",
