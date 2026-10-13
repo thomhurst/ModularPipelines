@@ -22,6 +22,11 @@ public partial class GcloudCliScraper : CliScraperBase
         "Removed upstream in Google Cloud SDK 587.0.0: \"(Distributed Cloud Edge) Removed deprecated "
         + "gcloud edge-cloud container vpn-connections command group.\"";
 
+    private const string Sdk589RemovalReason =
+        "Verified absent in Google Cloud SDK 589.0.0: direct --help for this exact path exits 2 with Invalid choice. "
+        + "Confirmed against the official SDK archive; see issue #6000 and "
+        + "Fixtures/Gcloud/589.0.0/command-removal-help.json for provenance and captured responses.";
+
     private static readonly CliCommandCoverageExclusion[] UpstreamRemovedCommands =
     [
         .. new[]
@@ -42,6 +47,29 @@ public partial class GcloudCliScraper : CliScraperBase
             Reason = "Removed upstream in Google Cloud SDK 587.0.0: \"(Cloud Storage) Removed "
                      + "gcloud storage buckets anywhere-caches pause command.\"",
         },
+        .. new[]
+        {
+            "gcloud assured v2",
+            "gcloud assured v2 workloads",
+            "gcloud assured v2 workloads create",
+            "gcloud assured v2 workloads delete",
+            "gcloud assured v2 workloads describe",
+            "gcloud assured v2 workloads list",
+            "gcloud assured v2 workloads update",
+            "gcloud telco-automation",
+            "gcloud telco-automation operations",
+            "gcloud telco-automation operations describe",
+            "gcloud telco-automation operations wait",
+            "gcloud telco-automation orchestration-cluster",
+            "gcloud telco-automation orchestration-cluster create",
+            "gcloud telco-automation orchestration-cluster delete",
+            "gcloud telco-automation orchestration-cluster describe",
+            "gcloud telco-automation orchestration-cluster list",
+        }.Select(command => new CliCommandCoverageExclusion
+        {
+            Command = command,
+            Reason = Sdk589RemovalReason,
+        }),
     ];
 
     #region Required Abstract Properties
