@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -22,13 +23,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   app         Manage applications
 ///   ...
 /// </summary>
-public partial class ArgoCdCliScraper : CobraCliScraper
+public partial class ArgoCdCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ArgoCdCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public ArgoCdCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ArgoCdCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "argocd";
 
     public override string NamespacePrefix => "ArgoCd";
@@ -38,6 +34,78 @@ public partial class ArgoCdCliScraper : CobraCliScraper
     public override string OutputDirectory => "src/ModularPipelines.ArgoCd";
 
     protected override string VersionArguments => "version --client";
+
+    // Cobra parses persistent and local flags in the selected command's scope.
+    // Keeping that scope lets admin's Kubernetes --server replace the root API server.
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    protected override bool TreatParseErrorsAsFatal => true;
+
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", [])
+            .Where(option => option.SwitchName != "--help")
+            .Select(NormalizePersistentOption)];
+
+    protected override bool IsSecretOption(string propertyName, bool isFlag, string description) =>
+        propertyName == "Header" || base.IsSecretOption(propertyName, isFlag, description);
+
+    protected override async Task<CliCommandDefinition?> ParseCommandAsync(
+        string[] commandPath, string helpText, UsageSynopsisParseResult usage,
+        CancellationToken cancellationToken)
+    {
+        var command = await base.ParseCommandAsync(commandPath, helpText, usage, cancellationToken).ConfigureAwait(false);
+        if (command is null)
+        {
+            return null;
+        }
+
+        var globals = EffectiveGlobalOptions.ToDictionary(option => option.SwitchName, StringComparer.Ordinal);
+        var inheritedSwitches = ParseNamedOptionSection(helpText, "Global Flags", command.CommandParts)
+            .Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        var options = new List<CliOptionDefinition>();
+        foreach (var option in command.Options)
+        {
+            if (!globals.TryGetValue(option.SwitchName, out var global))
+            {
+                options.Add(option);
+                continue;
+            }
+
+            var normalized = NormalizePersistentOption(option);
+            // Equivalent enum choices share the base type, including command-local shadows.
+            // A changed set remains distinct and fails validation if it claims inheritance.
+            if (normalized.EnumDefinition is { } localEnum && global.EnumDefinition is { } globalEnum
+                && localEnum.Values.Select(value => value.CliValue).Order(StringComparer.Ordinal)
+                    .SequenceEqual(globalEnum.Values.Select(value => value.CliValue).Order(StringComparer.Ordinal)))
+            {
+                normalized = normalized with { CSharpType = global.CSharpType, EnumDefinition = globalEnum };
+            }
+
+            // A group's persistent flag can shadow the root flag with the same spelling.
+            // Keep its own description and declaration rather than promoting its semantics.
+            if (inheritedSwitches.Contains(option.SwitchName)
+                && normalized.Description == global.Description)
+            {
+                // Validate inherited metadata before omitting the duplicate command declaration.
+                CliGlobalOptionMerger.Merge([global], [normalized]);
+            }
+            else
+            {
+                options.Add(normalized);
+            }
+        }
+
+        return command with
+        {
+            Options = options,
+            Enums = [.. options.Where(option => option.EnumDefinition is not null).Select(option => option.EnumDefinition!)],
+        };
+    }
+
+    private static CliOptionDefinition NormalizePersistentOption(CliOptionDefinition option) =>
+        option.CSharpType == "bool?"
+            ? option with { IsFlag = false, ValueSeparator = "=", ValueArity = CliOptionValueArity.Optional }
+            : option;
 
     /// <summary>
     /// Argo CD calls the ApplicationSet command "appset". Expanding the compound name
@@ -56,9 +124,7 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
-        positionalArguments = positionalArguments
-            .Where(argument => !UsageSynopsisParser.IsCommandGroupPlaceholder(argument))
-            .ToArray();
+        positionalArguments = [.. positionalArguments.Where(argument => !UsageSynopsisParser.IsCommandGroupPlaceholder(argument))];
         var commandSpecificArguments = GetCommandSpecificArguments(commandParts, positionalArguments);
         if (commandSpecificArguments is not null)
         {
@@ -86,12 +152,11 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             }
         }
 
-        return positionalArguments
+        return [.. positionalArguments
             .Select(argument => argument with
             {
                 PropertyName = NormalizePositionalArgumentName(argument.PropertyName),
-            })
-            .ToList();
+            })];
     }
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
@@ -103,16 +168,13 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) => commandParts switch
         {
-            ["context"] => positionalArguments
-                .Select(argument => argument with { PropertyName = "ContextName" })
-                .ToList(),
-            ["admin", "cluster", "kubeconfig"] => positionalArguments
+            ["context"] => [.. positionalArguments.Select(argument => argument with { PropertyName = "ContextName" })],
+            ["admin", "cluster", "kubeconfig"] => [.. positionalArguments
                 .Select(argument => argument with
                 {
                     CSharpType = "string?",
                     IsRequired = false,
-                })
-                .ToList(),
+                })],
             ["app", "delete"] or ["app", "sync"] or ["app", "wait"] => [ApplicationNamesArgument()],
             ["app", "unset"] =>
             [
@@ -128,22 +190,20 @@ public partial class ArgoCdCliScraper : CobraCliScraper
                     "IEnumerable<string>",
                     "One or more repository URLs."),
             ],
-            ["cluster", "set"] => positionalArguments
+            ["cluster", "set"] => [.. positionalArguments
                 .Select(argument => argument with
                 {
                     PropertyName = argument.PropertyName == "Name"
                         ? "ClusterName"
                         : NormalizePositionalArgumentName(argument.PropertyName),
-                })
-                .ToList(),
-            ["cert", "add-tls"] => positionalArguments
+                })],
+            ["cert", "add-tls"] => [.. positionalArguments
                 .Select(argument => argument with
                 {
                     PropertyName = argument.PropertyName == "Servername"
                         ? "RepositoryServerName"
                         : NormalizePositionalArgumentName(argument.PropertyName),
-                })
-                .ToList(),
+                })],
             ["cluster", "get"] or ["cluster", "rm"] or ["cluster", "rotate-auth"] =>
             [
                 RequiredArgument(
@@ -153,14 +213,13 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             ],
             ["proj", "remove-destination"]
                 or ["proj", "add-destination-service-account"]
-                or ["proj", "remove-destination-service-account"] => positionalArguments
+                or ["proj", "remove-destination-service-account"] => [.. positionalArguments
                     .Select(argument => argument with
                     {
                         PropertyName = argument.PropertyName == "Server"
                             ? "DestinationServer"
                             : NormalizePositionalArgumentName(argument.PropertyName),
-                    })
-                    .ToList(),
+                    })],
             ["proj", "add-destination"] => ProjectDestinationArguments(),
             ["admin", "settings", "rbac", "can"] => RbacCanArguments(),
             _ => null,
