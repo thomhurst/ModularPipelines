@@ -1,0 +1,60 @@
+Container "IMAGE-NAME" uses a "transport":"details" format.
+
+Supported transports:
+containers-storage, dir, docker, docker-archive, docker-daemon, oci, oci-archive, ostree, sif, tarball
+
+See skopeo(1) section "IMAGE NAMES" for the expected format
+
+Usage:
+skopeo copy [command options] SOURCE-IMAGE DESTINATION-IMAGE
+
+Examples:
+skopeo copy docker://quay.io/skopeo/stable:latest docker://registry.example.com/skopeo:latest
+
+Flags:
+      --additional-tag strings                additional tags (supports docker-archive)
+  -a, --all                                   Copy all images if SOURCE-IMAGE is a list
+      --authfile string                       path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
+      --decryption-key strings                *Experimental* key needed to decrypt the image
+      --dest-authfile string                  path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
+      --dest-cert-dir PATH                    use certificates at PATH (*.crt, *.cert, *.key) to connect to the registry or daemon
+      --dest-compress                         Compress tarball image layers when saving to directory using the 'dir' transport. (default is same compression type as source)
+      --dest-compress-format FORMAT           FORMAT to use for the compression
+      --dest-compress-level LEVEL             LEVEL to use for the compression
+      --dest-creds USERNAME[:PASSWORD]        Use USERNAME[:PASSWORD] for accessing the registry
+      --dest-daemon-host HOST                 use docker daemon host at HOST (docker-daemon: only)
+      --dest-decompress                       Decompress tarball image layers when saving to directory using the 'dir' transport. (default is same compression type as source)
+      --dest-no-creds                         Access the registry anonymously
+      --dest-oci-accept-uncompressed-layers   Allow uncompressed image layers when saving to an OCI image using the 'oci' transport. (default is to compress things that aren't compressed)
+      --dest-password string                  Password for accessing the registry
+      --dest-precompute-digests               Precompute digests to prevent uploading layers already on the registry using the 'docker' transport.
+      --dest-registry-token string            Provide a Bearer token for accessing the registry
+      --dest-shared-blob-dir DIRECTORY        DIRECTORY to use to share blobs across OCI repositories
+      --dest-tls-verify                       require HTTPS and verify certificates when talking to the container registry or daemon
+      --dest-username string                  Username for accessing the registry
+      --digestfile string                     Write the digest of the pushed image to the specified file
+      --encrypt-layer ints                    *Experimental* the 0-indexed layer indices, with support for negative indexing (e.g. 0 is the first layer, -1 is the last layer)
+      --encryption-key strings                *Experimental* key with the encryption protocol to use needed to encrypt the image (e.g. jwe:/path/to/key.pem)
+  -f, --format string                         MANIFEST TYPE (oci, v2s1, or v2s2) to use in the destination (default is manifest type of source, with fallbacks)
+  -h, --help                                  help for copy
+      --multi-arch string                     How to handle multi-architecture images (system, all, or index-only)
+      --preserve-digests                      Preserve digests of images and lists
+  -q, --quiet                                 Suppress output information when copying images
+      --remove-signatures                     Do not copy signatures from SOURCE-IMAGE
+      --retry-times int                       the number of times to possibly retry
+      --sign-by FINGERPRINT                   Sign the image using a GPG key with the specified FINGERPRINT
+      --sign-by-sigstore PATH                 Sign the image using a sigstore parameter file at PATH
+      --sign-by-sigstore-private-key PATH     Sign the image using a sigstore private key at PATH
+      --sign-identity string                  Identity of signed image, must be a fully specified docker reference. Defaults to the target docker reference.
+      --sign-passphrase-file PATH             Read a passphrase for signing an image from PATH
+      --src-authfile string                   path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
+      --src-cert-dir PATH                     use certificates at PATH (*.crt, *.cert, *.key) to connect to the registry or daemon
+      --src-creds USERNAME[:PASSWORD]         Use USERNAME[:PASSWORD] for accessing the registry
+      --src-daemon-host HOST                  use docker daemon host at HOST (docker-daemon: only)
+      --src-no-creds                          Access the registry anonymously
+      --src-password string                   Password for accessing the registry
+      --src-registry-token string             Provide a Bearer token for accessing the registry
+      --src-shared-blob-dir DIRECTORY         DIRECTORY to use to share blobs across OCI repositories
+      --src-tls-verify                        require HTTPS and verify certificates when talking to the container registry or daemon
+      --src-username string                   Username for accessing the registry
+

@@ -1,0 +1,20 @@
+Login to a container registry on a specified server.
+
+Usage:
+skopeo login [command options] REGISTRY
+
+Examples:
+skopeo login quay.io
+
+Flags:
+      --authfile string           path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string           use certificates at the specified path to access the registry
+      --compat-auth-file string   path of a Docker-compatible config file to update instead
+      --get-login                 Return the current login user for the registry
+  -h, --help                      help for login
+  -p, --password string           Password for registry
+      --password-stdin            Take the password from stdin
+      --tls-verify                require HTTPS and verify certificates when accessing the registry
+  -u, --username string           Username for registry
+  -v, --verbose                   Write more detailed information to stdout
+

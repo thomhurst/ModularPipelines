@@ -1,0 +1,15 @@
+Logout of a container registry on a specified server.
+
+Usage:
+skopeo logout [command options] REGISTRY
+
+Examples:
+skopeo logout quay.io
+
+Flags:
+  -a, --all                       Remove the cached credentials for all registries in the auth file
+      --authfile string           path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --compat-auth-file string   path of a Docker-compatible config file to update instead
+  -h, --help                      help for logout
+      --tls-verify                require HTTPS and verify certificates when accessing the registry
+
