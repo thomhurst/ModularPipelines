@@ -1,0 +1,39 @@
+name: Go validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/ModularPipelines.Go/**'
+      - 'test/ModularPipelines.Go.UnitTests/**'
+      - '.github/workflows/go-validation.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Go build, tests and formatting
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Build Go solution
+        run: dotnet build src/ModularPipelines.Go/ModularPipelines.Go.slnx -c Release
+      - name: Run Go tests
+        run: dotnet run --project test/ModularPipelines.Go.UnitTests/ModularPipelines.Go.UnitTests.csproj -c Release --framework net11.0 --no-build
+      - name: Verify Go formatting
+        run: >-
+          dotnet format src/ModularPipelines.Go/ModularPipelines.Go.slnx
+          --no-restore --verify-no-changes --severity info
+          --include src/ModularPipelines.Go test/ModularPipelines.Go.UnitTests
