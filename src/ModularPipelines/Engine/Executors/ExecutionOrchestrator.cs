@@ -107,16 +107,23 @@ internal class ExecutionOrchestrator(
         IReadOnlyList<IModule> allModules = [];
         PipelineSummary? summary = null;
         Exception? caughtException = null;
+        var reportCancellationToken = _engineCancellationToken.NonFailureCancellationToken;
         try
         {
             allModules = _pipelineInitializer.RegisteredModules ?? [];
-            if (_executionBackend is WorkerModuleExecutor worker
-                && await worker.RegisterAsync(_engineCancellationToken.Token).ConfigureAwait(false) is null)
+            if (_executionBackend is WorkerModuleExecutor worker)
             {
-                // A rejected session owns no shared data. Skip handlers and final metrics publication.
-                var completedSummary = new PipelineSummary([], [], stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
-                _outputCoordinator.PrintResults(completedSummary);
-                return completedSummary;
+                if (await worker.RegisterAsync(_engineCancellationToken.Token).ConfigureAwait(false) is null)
+                {
+                    // A rejected session owns no shared data. Skip handlers and final metrics publication.
+                    var completedSummary = new PipelineSummary([], [], stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
+                    _outputCoordinator.PrintResults(completedSummary);
+                    return completedSummary;
+                }
+
+                // Accepted workers must publish their final status even after caller cancellation.
+                // RunReportService bounds that publication with its independent worker metrics timeout.
+                reportCancellationToken = CancellationToken.None;
             }
 
             using var initializationCts = CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
@@ -169,7 +176,7 @@ internal class ExecutionOrchestrator(
                 start,
                 summary,
                 caughtException,
-                _engineCancellationToken.NonFailureCancellationToken)
+                reportCancellationToken)
             .ConfigureAwait(false);
 
         // The run report has waited for workers' final statuses, so they no longer use the run's data.

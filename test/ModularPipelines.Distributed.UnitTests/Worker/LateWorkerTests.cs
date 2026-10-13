@@ -92,6 +92,77 @@ public class LateWorkerTests
         await Assert.That(statuses[0].IsFinal).IsTrue();
     }
 
+    [Test]
+    [Timeout(30_000)]
+    public async Task Cancellation_During_Start_Handlers_Publishes_Final_Status_And_Allows_Cleanup(CancellationToken cancellationToken)
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        using var callerCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options with
+        {
+            Role = DistributedRole.Worker,
+            InstanceIndex = 1,
+            TotalInstances = 2,
+            RunId = "canceled-start-run",
+        });
+        builder.Services.AddSingleton<IDistributedWorkerCoordinator>(coordinator);
+        builder.Services.AddSingleton<IPipelineEventHandler>(new CancelingStartHandler(coordinator, callerCancellation));
+        builder.AddModule<UnexpectedModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(async () =>
+        {
+            await pipeline.RunAsync(callerCancellation.Token);
+        }).Throws<OperationCanceledException>();
+
+        var statuses = await coordinator.GetWorkerStatusesAsync(cancellationToken);
+        await Assert.That(statuses).HasSingleItem();
+        await Assert.That(statuses[0].IsFinal).IsTrue();
+        await Assert.That(statuses[0].InFlightModules).IsEmpty();
+
+        var cleanup = new RecordingCleanup();
+        var masterBuilder = TestPipelineBuilder.Create();
+        masterBuilder.AddDistributedMode(options => options with
+        {
+            TotalInstances = 2,
+            RunId = "canceled-start-run",
+            RunCleanupTimeout = TimeSpan.FromSeconds(1),
+        });
+        masterBuilder.Services.AddSingleton<IDistributedMasterCoordinator>(coordinator);
+        masterBuilder.Services.AddSingleton<IDistributedWorkerCoordinator>(coordinator);
+        masterBuilder.Services.AddSingleton<IDistributedRunCleanup>(cleanup);
+        masterBuilder.AddModule<SucceedingModule>();
+        await using var masterPipeline = await masterBuilder.BuildAsync();
+
+        await masterPipeline.RunAsync(cancellationToken);
+
+        await Assert.That(cleanup.Called).IsTrue();
+    }
+
+    private sealed class CancelingStartHandler(
+        InMemoryDistributedCoordinator coordinator,
+        CancellationTokenSource callerCancellation) : IPipelineEventHandler
+    {
+        public async Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            await Assert.That(await coordinator.GetRegisteredWorkersAsync(cancellationToken)).HasSingleItem();
+            await callerCancellation.CancelAsync();
+            cancellationToken.ThrowIfCancellationRequested();
+        }
+    }
+
+    private sealed class RecordingCleanup : IDistributedRunCleanup
+    {
+        public bool Called { get; private set; }
+
+        public Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+        {
+            Called = true;
+            return Task.CompletedTask;
+        }
+    }
+
     private sealed class RegisteringCleanup(InMemoryDistributedCoordinator coordinator) : IDistributedRunCleanup
     {
         public bool RegistrationRejected { get; private set; }
