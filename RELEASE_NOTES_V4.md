@@ -4,7 +4,9 @@
 
 `ModularPipelines.Distributed.Redis` and `ModularPipelines.Distributed.Discovery.Redis` now use the
 [Respire](https://thomhurst.github.io/Respire/) client instead of StackExchange.Redis for the coordinator,
-artifact store, module cache, and master discovery. Keys, Lua scripts, and stored data are unchanged.
+artifact store, module cache, and master discovery. Coordinator keys, Lua scripts, and the stored queue layout
+have changed. Run-scoped coordinator data is incompatible with earlier versions. Finish existing runs before
+upgrading, then start new runs with all workers on the upgraded version.
 
 - `RedisOptions.ConfigureConnection` and `RedisDiscoveryOptions.ConfigureConnection` are now
   `Func<RespireOptions, RespireOptions>?`. Replace
