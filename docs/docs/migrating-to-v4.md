@@ -1077,6 +1077,13 @@ behavior; do not change the shared process directory to make concurrent pipeline
 V4's default directory can derive from the content root or calling source project's directory;
 make it explicit if V3 depended on the directory from which the process was launched.
 
+Replace `await context.Files.ExistsAsync(path, cancellationToken)` with
+`context.Files.Exists(path)`. Remove the `await` and cancellation-token argument for this call:
+the existence check is synchronous and accepts only the path. It returns true for either a file
+or a directory, and relative paths now resolve against the pipeline working directory.
+Use `context.Files.GetFile(path).Exists` or `context.Files.GetFolder(path).Exists` when the
+entry kind matters.
+
 ### Utility replacements
 
 | V3 API | V4 API |
@@ -1084,6 +1091,7 @@ make it explicit if V3 depended on the directory from which the process was laun
 | `Environment.Variables.GetEnvironmentVariable(...)` | `Environment.Variables.Get(...)` |
 | `Environment.Variables.GetEnvironmentVariables(...)` (`IDictionary<string, string>`) | `Environment.Variables.GetAll(...)` (`IReadOnlyDictionary<string, string?>`; copy it before modifying) |
 | `Environment.Variables.SetEnvironmentVariable(...)` | `Environment.Variables.Set(...)` |
+| `await context.Files.ExistsAsync(path, cancellationToken)` | `context.Files.Exists(path)` |
 | `context.Files.Checksum.Md5(path)` | `context.Security.Hash.Md5File(path)` |
 | `context.Security.Hasher.Sha256(text)` | `context.Security.Hash.Sha256(text)` |
 | `HashType` | `HashEncoding` |
@@ -1383,6 +1391,7 @@ public class BuildModule : Module<CommandResult>
 | `token:` | `cancellationToken:` | Only changed framework parameters |
 | `LogSettings` | `Logging` | Command and HTTP execution options |
 | Framework `File` / `Folder` | `FilePath` / `FolderPath` | Keep `System.IO` symbols intact |
+| `await context.Files.ExistsAsync(path, cancellationToken)` | `context.Files.Exists(path)` | Remove this call's await and token; relative paths use the pipeline working directory |
 | `PipelineCancelledException` | `PipelineCanceledException` | Derives from `OperationCanceledException`; V4 spells "canceled" with one L throughout |
 | `IEventHandlerPriority.Priority` | `IEventHandler.Order` | Ascending order; add the trailing `CancellationToken` to handler methods |
 | `PluginRegistry.Register(plugin)` | `builder.AddPlugin(plugin)` | Merge `ConfigureServices` and `ConfigurePipeline` into `Configure(PipelineBuilder)` |
@@ -1484,6 +1493,10 @@ transformations:
     new: ModularPipelines.FileSystem.FilePath
   - old: ModularPipelines.FileSystem.Folder
     new: ModularPipelines.FileSystem.FolderPath
+  - old: await context.Files.ExistsAsync(path, cancellationToken)
+    new: context.Files.Exists(path)
+    scope: IFilesContext existence checks only; also covers calls without an explicit token
+    follow_up: Remove this call's await and token; review relative paths and use GetFile/GetFolder for kind-specific checks
   - old: summary.GetModuleResultsAsync()
     new: summary.Results
     follow_up: Remove the await for this access only
@@ -1576,6 +1589,7 @@ rg -n 'IPipelineGlobalHooks|IPipelineModuleHooks|IPipelineHookContext|MustAsync|
 rg -n '\.SubModule\(|\.DotNet\(\)|\.Git\(\)|ExecuteCommandLineTool|LogSettings|token:' --glob '*.cs'
 rg -n 'ModuleResultType|IsSuccess|IsFailure|IsSkipped|GetModuleResultsAsync|GetFailedModuleResults|PipelineTerminated' --glob '*.cs'
 rg -n 'ModularPipelines\.FileSystem\.(File|Folder)|WorkingDirectory\s*=|SkipDecision\.Of' --glob '*.cs'
+rg -n 'Files\.ExistsAsync\(' --glob '*.cs'
 rg -n 'IEventHandlerPriority|PluginRegistry|PluginTestHelper|RequestRetry|SkipDependentModules|FailPipeline|ISecretObfuscator' --glob '*.cs'
 rg -n 'RunIfAll|MandatoryRunConditionAttribute|IConditionAttribute|BuildSystem\.Is[A-Z]|ArgumentPlacement|CliArgument\([^)]*Name' --glob '*.cs'
 rg -n '\b(IZip|IXml|IYaml|IBase64|IHex|ICertificates|IDownloader|IEnvironmentVariables|IAptGet|AptGet\w*)\b' --glob '*.cs'
