@@ -109,11 +109,28 @@ the cache. Advertised root execution settings retain case-sensitive `-C` and `-c
 repetition, equals separators, and secret-bearing configuration. Reporting actions and
 internal `--super-prefix` are excluded; command-local switches keep their own shapes.
 These models do not change Git's handwritten ownership or enable code generation.
+
 Pass `-Tool` using the target package's tool from `--list-tools --json`; the script rejects
 coverage for a different tool before collecting deletion candidates. Single and nested
 `CliSubCommand` arguments are matched against complete command paths. The script also
 accepts `-WhatIf` and can reconcile an existing committed coverage manifest.
 Deleted paths are added to the generation change manifest before provenance is recorded.
+
+The root-option audit in #5731 covers captured installed
+[Git 2.39.0 help](src/ModularPipelines.OptionsGenerator.Tests/Fixtures/Git/2.39.0/README.md)
+and [Git 2.56.0 help](src/ModularPipelines.OptionsGenerator.Tests/Fixtures/Git/2.56.0/README.md).
+`GitCliScraperTests` verifies version-specific discovery and the separate integer
+`git apply -C` operand. Runtime inheritance, argument ordering, repeated values,
+equals-separated values, control actions, and secret registration are covered by
+`GitGlobalOptionsTests` in the Git test project. Root settings belong to handwritten
+`GitOptions`; control actions remain on `GitBaseOptions`, and command-local options
+retain their scope. No additional generated API is needed after the generator and
+runtime changes in #5972 and #6003. The complete Linux generation recorded in
+[run 38426118680](https://github.com/thomhurst/ModularPipelines/actions/runs/38426118680)
+retained 182 commands without a generated-output diff. See the
+[Git package guide](../../docs/docs/mp-packages/git.md#shared-execution-options)
+and [migration notes](../../RELEASE_NOTES_V4.md) for caller changes and the limits
+of configuration secret masking.
 
 ## Add a scraper
 

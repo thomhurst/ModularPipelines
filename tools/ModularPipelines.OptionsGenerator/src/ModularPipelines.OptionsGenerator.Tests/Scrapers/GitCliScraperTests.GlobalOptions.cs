@@ -358,6 +358,19 @@ public partial class GitCliScraperTests
     }
 
     [Test]
+    public async Task Installed_Git_239_Root_Settings_Exclude_Control_Actions_And_Host_Arguments()
+    {
+        using var scraper = new TestGitCliScraper();
+        var options = scraper.ParseGlobals(File.ReadAllText(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Git", "2.39.0", "root-help.txt")));
+
+        await Assert.That(options.Select(option => option.SwitchName)).IsEquivalentTo([
+            "-C", "-c", "--exec-path", "--paginate", "--no-pager", "--no-replace-objects",
+            "--bare", "--git-dir", "--work-tree", "--namespace", "--config-env",
+        ]);
+    }
+
+    [Test]
     public async Task Root_Values_Retain_Arity_Repetition_Ordering_And_Secrets()
     {
         using var scraper = new TestGitCliScraper();
@@ -376,12 +389,15 @@ public partial class GitCliScraperTests
     }
 
     [Test]
-    public async Task Root_Parsing_Does_Not_Consume_Command_Local_Short_Options()
+    [Arguments("2.39.0")]
+    [Arguments("2.56.0")]
+    public async Task Root_Parsing_Does_Not_Consume_Command_Local_Short_Options(string version)
     {
         using var scraper = new TestGitCliScraper();
-        scraper.ParseGlobals("usage: git [-C <path>] [-c <name>=<value>] <command>");
+        scraper.ParseGlobals(File.ReadAllText(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Git", version, "root-help.txt")));
         var command = await scraper.Parse(["git", "apply"], File.ReadAllText(Path.Combine(
-            AppContext.BaseDirectory, "Fixtures", "Git", "2.56.0", "apply-help.txt")));
+            AppContext.BaseDirectory, "Fixtures", "Git", version, "apply-help.txt")));
         var context = command!.Options.Single(option => option.SwitchName == "-C");
         await Assert.That(context.CSharpType).IsEqualTo("int?");
         await Assert.That(context.PropertyName).IsNotEqualTo("ChangeDirectories");
