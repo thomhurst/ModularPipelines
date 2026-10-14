@@ -171,11 +171,14 @@ function Ensure-AgentRedis {
 
     # Locks and deferral records must survive a Docker restart, or a restart strips every
     # running unit of its lock. A stopped container holds no data in memory, so replacing
-    # one created without the append-only file loses nothing. `docker rm` without -f
-    # refuses a container that another caller has just started.
-    if ($found -and $state -notlike '*--appendonly yes*') {
+    # one created without the append-only file loses nothing. Only a plain `redis-server`
+    # command is replaced; `docker rm` without -f refuses a container that another caller
+    # has just started.
+    if ($found -and ([string]$state -split ' ')[1] -eq 'redis-server' -and $state -notlike '*--appendonly yes*') {
         docker rm $redisContainer 2>$null | Out-Null
-        $found = $LASTEXITCODE -ne 0
+        # Another caller may have removed or replaced it first; act on what exists now.
+        $state = docker inspect -f '{{.State.Running}} {{join .Args " "}}' $redisContainer 2>$null
+        $found = $LASTEXITCODE -eq 0
     }
     if (-not $found) {
         docker run -d --name $redisContainer --restart unless-stopped -v "${redisContainer}-data:/data" redis:7-alpine `
