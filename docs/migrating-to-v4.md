@@ -886,6 +886,14 @@ For handwritten command options, see [Custom Commands](/ModularPipelines/docs/ho
 
 Buildah commands now share storage, logging, registry configuration, and default UID/GID mapping settings through `BuildahOptions`. `StorageOpt`, `UsernsUidMap`, and `UsernsGidMap` accept collections and repeat their switch for each value. When migrating a mapping string, wrap it in a collection, such as `["0:1000:1"]`. The `build` and `from` commands retain their local mapping definitions and share the effective value with the base options. Settings render after the selected subcommand. See the [Buildah package guide](/ModularPipelines/docs/mp-packages/buildah.md#shared-storage-settings-and-local-overrides).
 
+### Helm and kubectl global settings[​](#helm-and-kubectl-global-settings "Direct link to Helm and kubectl global settings")
+
+Helm persistent settings now live on `HelmOptions`, including `Namespace`, `KubeContext`, `KubeConfig`, and `KubeToken`. Command initializers can still set these inherited properties. Rebuild consumers after upgrading: these properties are no longer declared separately on each Helm command record. Reflection code using `BindingFlags.DeclaredOnly` must also inspect the base record.
+
+kubectl's inherited settings now live on `KubernetesOptions`. Set `Namespace`, `Context`, and `KubeConfig` directly on the chosen command options instead of adding manual arguments. Both packages render inherited settings after the subcommand. Local replacements, such as `KubernetesConfigSetContextOptions.Namespace`, retain their command-specific metadata and render only once, including when initialized through the base type.
+
+`HelmVersionOptions` and `KubernetesVersionOptions` remain available through `VersionAsync`. See the generated [Helm reference](/ModularPipelines/docs/mp-packages/cli/helm.md) and [kubectl reference](/ModularPipelines/docs/mp-packages/cli/kubectl.md) for the complete global option lists.
+
 ### .NET test runner options[​](#net-test-runner-options "Direct link to .NET test runner options")
 
 `DotNetTestOptions` now follows the selected SDK's default VSTest help, independent of this repository's test-runner configuration. Use its `Filter`, `Logger`, `Collect`, `Settings`, and `Blame` properties for VSTest. The generated MTP-only `Project`, `Solution`, `TestModules`, `PlatformOptions`, and `ExtensionOptions` members are removed. For Microsoft.Testing.Platform, keep its `global.json` runner selection and pass runner-specific switches through the existing `Arguments` property:
