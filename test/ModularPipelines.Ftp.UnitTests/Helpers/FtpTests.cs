@@ -1,10 +1,14 @@
+using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using FluentFTP;
 using FluentFTP.Exceptions;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
 using ModularPipelines.Ftp;
-using ModularPipelines.Ftp.Options;
 using ModularPipelines.FileSystem;
+using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Ftp.UnitTests.Helpers;
@@ -162,6 +166,37 @@ public class FtpTests : TestBase
         await cancellation.CancelAsync();
         await Assert.ThrowsAsync<OperationCanceledException>(() => connection.WaitAsync(TimeSpan.FromSeconds(10)));
         await Assert.That(captured!.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task Registration_Remains_Public_Discoverable_And_Hidden_From_IntelliSense()
+    {
+        var method = typeof(FtpExtensions).GetMethod(nameof(FtpExtensions.RegisterFtpContext))!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(method.IsPublic).IsTrue();
+            await Assert.That(method.GetCustomAttribute<ModularPipelinesIntegrationAttribute>()).IsNotNull();
+            await Assert.That(method.GetCustomAttribute<EditorBrowsableAttribute>()?.State)
+                .IsEqualTo(EditorBrowsableState.Never);
+        }
+
+        await Assert.That(await GetService<IFtp>()).IsNotNull();
+    }
+
+    [Test]
+    public async Task Generated_Tools_Ftp_Remains_Available()
+    {
+        var result = await await RunModule<FtpAccessModule>();
+        await Assert.That(result.ValueOrDefault).IsNotNull();
+    }
+
+    private class FtpAccessModule : Module<IFtp>
+    {
+        protected override Task<IFtp> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(context.Tools.Ftp);
+        }
     }
 
     private static FtpOptions CreateOptions(int port)

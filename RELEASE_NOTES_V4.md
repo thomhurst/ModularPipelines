@@ -1050,6 +1050,17 @@ distinguish repository selection from command-local reporting or clone options. 
 properties retain their names through inheritance. Version and path-reporting actions remain
 on `GitBaseOptions`, and the grouped command facade remains unchanged.
 
+## FTP namespaces and registration
+
+`FtpOptions` and `FtpExtensions` move from `ModularPipelines.Ftp.Options` and
+`ModularPipelines.Ftp.Extensions` into `ModularPipelines.Ftp`. Replace the old
+imports with `using ModularPipelines.Ftp;` and update fully qualified type names.
+
+`RegisterFtpContext` remains public and marked with `ModularPipelinesIntegration`
+for source-generator discovery, but is hidden from IntelliSense with
+`EditorBrowsable(Never)`. Generated registration and `context.Tools.Ftp` remain
+available; modules do not need to register FTP manually.
+
 ## FTP connection cancellation and encryption
 
 `IFtp.GetFtpClientAsync(FtpOptions, CancellationToken = default)` now accepts cancellation
