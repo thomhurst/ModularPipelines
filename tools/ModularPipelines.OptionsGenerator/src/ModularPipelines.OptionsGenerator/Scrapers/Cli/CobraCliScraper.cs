@@ -323,6 +323,27 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     }
 
     /// <summary>
+    /// Omits root persistent flags from inherited sections while retaining local replacements
+    /// and flags inherited from intermediate commands. Tools opt in after auditing their root.
+    /// </summary>
+    protected IReadOnlyList<CliOptionDefinition> ParseOptionsWithoutRootGlobals(string helpText, string[] commandParts)
+    {
+        var sections = ExtractFlagsSections(helpText, excludeGlobalFlags: true);
+        sections.AddRange(ExtractOptionsSections(helpText));
+        var localOptions = ParseOptionSections(helpText, commandParts, sections);
+        var inheritedOptions = ParseNamedOptionSection(helpText, "Global Flags", commandParts);
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        CliGlobalOptionMerger.Merge(globals,
+            inheritedOptions.Where(option => globalSwitches.Contains(option.SwitchName)));
+        var occupiedSwitches = localOptions.Select(option => option.SwitchName)
+            .Concat(globalSwitches)
+            .ToHashSet(StringComparer.Ordinal);
+        return [.. localOptions, .. inheritedOptions
+            .Where(option => !occupiedSwitches.Contains(option.SwitchName))];
+    }
+
+    /// <summary>
     /// Parses one explicitly identified option section without treating ordinary root flags as inherited.
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> ParseNamedOptionSection(string helpText, string sectionName, string[] commandParts)
@@ -557,13 +578,19 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// <summary>
     /// Extracts the Flags and Global Flags sections from help text.
     /// </summary>
-    private static List<string> ExtractFlagsSections(string helpText)
+    private static List<string> ExtractFlagsSections(string helpText, bool excludeGlobalFlags = false)
     {
         var sections = new List<string>();
 
         var flagMatches = FlagsSectionPattern().Matches(helpText);
         foreach (Match match in flagMatches)
         {
+            if (excludeGlobalFlags && match.Value.Trim().TrimEnd(':')
+                    .Equals("Global Flags", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
             var sectionStart = match.Index + match.Length;
 
             // Find where this section ends

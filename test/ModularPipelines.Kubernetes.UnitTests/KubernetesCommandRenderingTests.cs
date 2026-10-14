@@ -9,6 +9,40 @@ namespace ModularPipelines.Kubernetes.UnitTests;
 public class KubernetesCommandRenderingTests : TestBase
 {
     [Test]
+    public async Task Version_Renders_Global_Settings_And_Explicit_False_After_Subcommand()
+    {
+        var result = await GetResult(new KubernetesVersionOptions
+        {
+            Client = true,
+            Context = "ci",
+            KubeConfig = "config.yaml",
+            Namespace = "build",
+            DisableCompression = false,
+            AsGroup = ["developers", "operators"],
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "kubectl version --client --as-group=developers --as-group=operators --context=ci --disable-compression=false --kubeconfig=config.yaml --namespace=build");
+    }
+
+    [Test]
+    public async Task Config_Command_Replacements_Render_Once_With_Base_Initializer()
+    {
+        KubernetesOptions options = new KubernetesConfigSetContextOptions
+        {
+            Name = "build",
+            Namespace = "team",
+            Cluster = "ci",
+            User = "agent",
+            KubeConfig = "config.yaml"
+        };
+        var result = await GetResult(options);
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "kubectl config set-context build --cluster=ci --namespace=team --user=agent --kubeconfig=config.yaml");
+    }
+
+    [Test]
     [Arguments(true, " --windows-line-endings")]
     [Arguments(false, " --windows-line-endings=false")]
     [Arguments(null, "")]

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -19,7 +20,104 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("helm")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record HelmOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// client-side default throttling limit (default 100)
+    /// </summary>
+    [CliOption("--burst-limit", Format = OptionFormat.EqualsSeparated)]
+    public virtual int? BurstLimit { get; set; }
+
+    /// <summary>
+    /// enable verbose output
+    /// </summary>
+    [CliFlag("--debug")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// the address and the port for the Kubernetes API server
+    /// </summary>
+    [CliOption("--kube-apiserver", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeApiServer { get; set; }
+
+    /// <summary>
+    /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+    /// </summary>
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? KubeAsGroup { get; set; }
+
+    /// <summary>
+    /// username to impersonate for the operation
+    /// </summary>
+    [CliOption("--kube-as-user", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeAsUser { get; set; }
+
+    /// <summary>
+    /// the certificate authority file for the Kubernetes API server connection
+    /// </summary>
+    [CliOption("--kube-ca-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeCaFile { get; set; }
+
+    /// <summary>
+    /// path to the kubeconfig file
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// name of the kubeconfig context to use
+    /// </summary>
+    [CliOption("--kube-context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeContext { get; set; }
+
+    /// <summary>
+    /// if true, the Kubernetes API server's certificate will not be checked for validity. This will make your HTTPS connections insecure
+    /// </summary>
+    [CliFlag("--kube-insecure-skip-tls-verify")]
+    public virtual bool? KubeInsecureSkipTlsVerify { get; set; }
+
+    /// <summary>
+    /// server name to use for Kubernetes API server certificate validation. If it is not provided, the hostname used to contact the server is used
+    /// </summary>
+    [CliOption("--kube-tls-server-name", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeTlsServerName { get; set; }
+
+    /// <summary>
+    /// bearer token used for authentication
+    /// </summary>
+    [SecretValue]
+    [CliOption("--kube-token", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeToken { get; set; }
+
+    /// <summary>
+    /// namespace scope for this request
+    /// </summary>
+    [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Namespace { get; set; }
+
+    /// <summary>
+    /// queries per second used when communicating with the Kubernetes API, not including bursting
+    /// </summary>
+    [CliOption("--qps", Format = OptionFormat.EqualsSeparated)]
+    public virtual double? Qps { get; set; }
+
+    /// <summary>
+    /// path to the registry config file
+    /// </summary>
+    [CliOption("--registry-config", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RegistryConfig { get; set; }
+
+    /// <summary>
+    /// path to the directory containing cached repository indexes
+    /// </summary>
+    [CliOption("--repository-cache", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RepositoryCache { get; set; }
+
+    /// <summary>
+    /// path to the file containing repository names and URLs
+    /// </summary>
+    [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RepositoryConfig { get; set; }
+
 }

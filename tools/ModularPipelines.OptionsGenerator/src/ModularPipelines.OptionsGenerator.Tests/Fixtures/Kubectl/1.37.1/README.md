@@ -1,5 +1,12 @@
 # kubectl Boolean fixtures
 
+Global option fixtures use the same verified binary: `root.txt` is `kubectl --help`,
+`options.txt` is `kubectl options`, and `version.txt` is `kubectl version --help`.
+`annotate.txt` is a copy of the captured `annotate-windows.txt` command help.
+The `options` heading explicitly identifies settings accepted by every command.
+Command `Options` sections contain local settings and replacements; they must not
+be removed merely because the same switch exists globally.
+
 Captured on Windows from the official kubectl v1.37.1 Windows amd64 binary:
 https://dl.k8s.io/release/v1.37.1/bin/windows/amd64/kubectl.exe
 
@@ -20,7 +27,10 @@ Help-only probes accepted `--recursive`, `-R`, `--recursive=true`,
 The short filename description and selector operator list in the annotate help
 are the binary's actual output, not truncated scraper descriptions.
 
-Only trailing whitespace was removed from the captured output.
+Trailing whitespace was removed from the captured output. In `options.txt`, the
+Windows user-specific `--cache-dir` default is sanitized to `~/.kube/cache`.
+The captured description remains unchanged; the scraper already removes this
+platform-specific default from generated option documentation.
 
 Additional help-only probes accepted `--recursive=` with each of `1`, `0`, `t`,
 `f`, `T`, `F`, `true`, `false`, `True`, `False`, `TRUE`, and `FALSE` (exit 0).

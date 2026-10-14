@@ -190,8 +190,15 @@ public static partial class GeneratorUtils
             }
         }
 
-        return text;
+        return HomeRelativePathPattern().Replace(text, static match =>
+            WindowsPathSeparatorPattern().Replace(match.Value, "/"));
     }
+
+    [GeneratedRegex(@"(?<![\w~])~[\\/]+[^\s\""'<>),;]*")]
+    private static partial Regex HomeRelativePathPattern();
+
+    [GeneratedRegex(@"\\+")]
+    private static partial Regex WindowsPathSeparatorPattern();
 
     private static string RemoveCurrentDirectoryDefault(string text)
     {

@@ -300,3 +300,14 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.CreateTool
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ExtractSubcommands(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.MaxParallelism.get -> int
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.GetHelpArguments(string![]! commandPath) -> string!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.ShouldAcceptHelpResult(System.Collections.Generic.IReadOnlyList<string!>! commandPath, ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.GetHelpTextAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string?>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.NormalizeOptionDescription(string! description) -> string!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.HelmCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.HelmCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.HelmCliScraper.ParseOptions(string! helpText, string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.HelmCliScraper.NormalizeOptionDescription(string! description) -> string!
+ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.ParseOptionsWithoutRootGlobals(string! helpText, string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!

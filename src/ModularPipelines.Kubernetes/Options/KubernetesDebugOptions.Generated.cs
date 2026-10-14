@@ -117,7 +117,11 @@ public record KubernetesDebugOptions(
     /// Options are "general", "baseline", "restricted", "netadmin" or "sysadmin". Defaults to "general"
     /// </summary>
     [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
-    public string? Profile { get; set; }
+    public new string? Profile
+    {
+        get => base.Profile;
+        set => base.Profile = value;
+    }
 
     /// <summary>
     /// If true, suppress informational messages.

@@ -54,13 +54,21 @@ public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
     /// Path to client-certificate file for the user entry in kubeconfig
     /// </summary>
     [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
-    public string? ClientCertificate { get; set; }
+    public new string? ClientCertificate
+    {
+        get => base.ClientCertificate;
+        set => base.ClientCertificate = value;
+    }
 
     /// <summary>
     /// Path to client-key file for the user entry in kubeconfig
     /// </summary>
     [CliOption("--client-key", Format = OptionFormat.EqualsSeparated)]
-    public string? ClientKey { get; set; }
+    public new string? ClientKey
+    {
+        get => base.ClientKey;
+        set => base.ClientKey = value;
+    }
 
     /// <summary>
     /// Embed client cert/key for the user entry in kubeconfig
@@ -109,20 +117,32 @@ public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
     /// </summary>
     [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
-    public string? Password { get; set; }
+    public new string? Password
+    {
+        get => base.Password;
+        set => base.Password = value;
+    }
 
     /// <summary>
     /// token for the user entry in kubeconfig
     /// </summary>
     [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
-    public string? Token { get; set; }
+    public new string? Token
+    {
+        get => base.Token;
+        set => base.Token = value;
+    }
 
     /// <summary>
     /// username for the user entry in kubeconfig
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
-    public string? Username { get; set; }
+    public new string? Username
+    {
+        get => base.Username;
+        set => base.Username = value;
+    }
 
     /// <summary>
     /// The NAME operand.

@@ -1432,7 +1432,7 @@ public class GeneratorHardeningTests
 
         var result = GeneratorUtils.EscapeXmlComment($"default {path}");
 
-        await Assert.That(result).Contains(escaped ? @"~\\.config\\tool" : @"~\.config\tool");
+        await Assert.That(result).Contains("~/.config/tool");
         await Assert.That(result).DoesNotContain("runneradmin");
     }
 
@@ -1446,6 +1446,28 @@ public class GeneratorHardeningTests
 
         await Assert.That(result).StartsWith("default ~");
         await Assert.That(result).DoesNotContain(homeDirectory);
+    }
+
+    [Test]
+    [Arguments(@"~\.gnupg\pubring.gpg")]
+    [Arguments(@"~\\.gnupg\\pubring.gpg")]
+    [Arguments("~/.gnupg/pubring.gpg")]
+    public async Task EscapeXmlComment_Normalizes_Home_Path_Separators(string path)
+    {
+        var result = GeneratorUtils.EscapeXmlComment($"keyring (default \"{path}\") and C:\\shared\\keys");
+
+        await Assert.That(result).IsEqualTo("keyring (default \"~/.gnupg/pubring.gpg\") and C:\\shared\\keys");
+    }
+
+    [Test]
+    public async Task EscapeXmlComment_Normalizes_Escaped_Current_User_Home_Path()
+    {
+        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".gnupg", "pubring.gpg")
+            .Replace("\\", "\\\\", StringComparison.Ordinal);
+
+        var result = GeneratorUtils.EscapeXmlComment($"keyring (default \"{path}\")");
+
+        await Assert.That(result).IsEqualTo("keyring (default \"~/.gnupg/pubring.gpg\")");
     }
 
     [Test]
