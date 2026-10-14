@@ -24,13 +24,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   -v, --verbose         verbose mode (-vvv for more)
 ///   ...
 /// </summary>
-public partial class AnsibleCliScraper : CliScraperBase
+public partial class AnsibleCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AnsibleCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public AnsibleCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AnsibleCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "ansible";
 
     public override string NamespacePrefix => "Ansible";
@@ -106,7 +101,7 @@ public partial class AnsibleCliScraper : CliScraperBase
     ///         -v, --verbose         verbose mode
     ///         -i INVENTORY, --inventory INVENTORY
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -137,7 +132,7 @@ public partial class AnsibleCliScraper : CliScraperBase
         return match.Success ? helpText[(match.Index + match.Length)..] : helpText;
     }
 
-    private CliOptionDefinition? ParseOption(string specification, string description)
+    private static CliOptionDefinition? ParseOption(string specification, string description)
     {
         var optionParts = specification.Split(
             ',',

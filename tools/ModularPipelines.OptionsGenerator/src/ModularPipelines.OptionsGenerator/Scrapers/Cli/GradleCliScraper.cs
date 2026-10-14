@@ -19,10 +19,11 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// -b, --build-file                   Specify the build file. [deprecated]
 /// ...
 /// </summary>
-public partial class GradleCliScraper : CliScraperBase
+public partial class GradleCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GradleCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    private static readonly HashSet<string> ValueOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> ValueOptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--configuration-cache-problems",
         "--console",
         "--console-unicode",
@@ -42,27 +43,24 @@ public partial class GradleCliScraper : CliScraperBase
         "--update-locks",
         "--warning-mode",
         "--write-verification-metadata"
-    };
+    ];
 
-    private static readonly HashSet<string> RepeatableOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> RepeatableOptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--exclude-task",
         "--include-build",
         "--init-script",
         "--project-prop",
         "--system-prop"
-    };
+    ];
 
-    private static readonly HashSet<string> KeyValueOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> KeyValueOptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--project-prop",
         "--system-prop"
-    };
-
-    public GradleCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GradleCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+    ];
 
     public override string ToolName => "gradle";
 
@@ -140,7 +138,7 @@ public partial class GradleCliScraper : CliScraperBase
     /// Format: -a, --no-rebuild                   Do not rebuild project dependencies.
     ///         --build-cache                      Enables the Gradle build cache.
     /// </summary>
-    protected List<CliOptionDefinition> ParseOptions(string helpText)
+    protected virtual List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -276,11 +274,11 @@ public partial class GradleCliScraper : CliScraperBase
         {
             EnumName = $"Gradle{propertyName}",
             Description = $"Allowed values for {longForm}.",
-            Values = values.Select(value => new CliEnumValue
+            Values = [.. values.Select(value => new CliEnumValue
             {
                 MemberName = ToPascalCase(value),
                 CliValue = value
-            }).ToList()
+            })]
         };
     }
 
