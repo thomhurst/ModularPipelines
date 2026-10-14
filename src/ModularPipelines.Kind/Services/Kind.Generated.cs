@@ -65,4 +65,16 @@ internal partial class Kind : IKind
 
     #endregion
 
+    #region Commands
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        KindVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KindVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    #endregion
 }

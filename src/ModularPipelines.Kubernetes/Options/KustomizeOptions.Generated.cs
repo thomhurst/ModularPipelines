@@ -22,4 +22,10 @@ namespace ModularPipelines.Kubernetes.Options;
 [CliGlobalOptions]
 public abstract record KustomizeOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// print a stack-trace on error
+    /// </summary>
+    [CliFlag("--stack-trace")]
+    public virtual bool? StackTrace { get; set; }
+
 }

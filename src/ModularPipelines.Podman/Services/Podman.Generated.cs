@@ -505,6 +505,15 @@ internal partial class Podman : IPodman
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        PodmanVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> WaitAsync(
         PodmanWaitOptions options,
         CommandExecutionOptions? executionOptions = null,

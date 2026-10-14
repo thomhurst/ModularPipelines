@@ -21,6 +21,34 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditAddLabelOptions : KustomizeOptions
 {
     /// <summary>
+    /// Adds one or more commonLabels to kustomization.yaml
+    /// </summary>
+    /// <param name="Label">The &lt;label&gt; operand.</param>
+    public KustomizeEditAddLabelOptions(
+        IEnumerable<string> Label
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Label);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Label));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Label));
+            }
+
+            Label = materialized;
+        }
+        this.Label = Label;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Label)
+    {
+        Label = this.Label;
+    }
+
+    /// <summary>
     /// overwrite commonLabel if it already exists
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
@@ -39,9 +67,9 @@ public record KustomizeEditAddLabelOptions : KustomizeOptions
     public bool? WithoutSelector { get; set; }
 
     /// <summary>
-    /// print a stack-trace on error
+    /// The &lt;label&gt; operand.
     /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Label { get; private init; }
 
 }

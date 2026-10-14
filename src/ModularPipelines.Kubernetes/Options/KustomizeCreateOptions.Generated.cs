@@ -68,10 +68,4 @@ public record KustomizeCreateOptions : KustomizeOptions
     [CliOption("--resources", Format = OptionFormat.EqualsSeparated)]
     public string? Resources { get; set; }
 
-    /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
 }

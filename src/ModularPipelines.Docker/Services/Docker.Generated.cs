@@ -440,6 +440,15 @@ internal partial class Docker : IDocker
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        DockerVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> WaitAsync(
         DockerWaitOptions options,
         CommandExecutionOptions? executionOptions = null,

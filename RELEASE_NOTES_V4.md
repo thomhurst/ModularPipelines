@@ -37,6 +37,9 @@ Generated identifiers beginning with a digit now use a `Number` prefix. For exam
 `--use-32bit-worker-process` is unchanged. Azure static-website options remain available
 in the current generated storage service commands.
 
+Minikube's `--9p-version` and `--mount-9p-version` switches now use `Number9pVersion`
+and `MountNumber9pVersion`, replacing `_9pVersion` and `Mount_9pVersion`.
+
 ## Filesystem provider primitives
 
 `IFileSystemProvider.DirectorySeparatorChar` defaults to the host separator,
@@ -1036,6 +1039,12 @@ property names. Use inherited `Identity` for the active remote connection; the
 local identity property on `PodmanSystemConnectionAddOptions` configures the new
 connection. Compose provider settings remain on `PodmanComposeOptions`. See the
 [Podman migration guidance](docs/docs/mp-packages/podman.md#v4-migration).
+
+Regenerated Compose options follow the selected Compose provider's current help.
+`PodmanComposePortOptions` now requires both service and private port; replace
+`new PodmanComposePortOptions("web") { PrivatePort = "8080" }` with
+`new PodmanComposePortOptions("web", "8080")`. Provider switches absent from that
+help are no longer generated, including build provenance/SBOM and start wait options.
 
 ## Immutable distributed configuration
 

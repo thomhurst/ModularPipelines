@@ -21,9 +21,26 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetNamespaceOptions : KustomizeOptions
 {
     /// <summary>
-    /// print a stack-trace on error
+    /// Sets the value of the namespace field in the kustomization file
     /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
+    /// <param name="Namespace">The &lt;namespace&gt; operand.</param>
+    public KustomizeEditSetNamespaceOptions(
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Namespace)
+    {
+        Namespace = this.Namespace;
+    }
+
+    /// <summary>
+    /// The &lt;namespace&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
 
 }

@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "kind",
   "toolVersion": "kind version 0.33.0",
-  "commandCount": 17,
-  "commandTreeSha256": "a31e4891e1c87ea5e6da505fb24f5fd2529e7fd0762e6ecd515001187472577b",
+  "commandCount": 18,
+  "commandTreeSha256": "2d8287440a818849c0320ebf63058969ac59093adf5f321efdb210114cd73b18",
   "commands": [
     "kind build",
     "kind build node-image",
@@ -21,7 +21,8 @@
     "kind get nodes",
     "kind load",
     "kind load docker-image",
-    "kind load image-archive"
+    "kind load image-archive",
+    "kind version"
   ],
   "commandGroups": [
     "kind build",

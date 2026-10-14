@@ -104,12 +104,6 @@ public record KustomizeCfgCatOptions : KustomizeOptions
     public string? WrapVersion { get; set; }
 
     /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
-    /// <summary>
     /// The DIR operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]

@@ -33,12 +33,6 @@ public record KustomizeLocalizeOptions : KustomizeOptions
     public string? Scope { get; set; }
 
     /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
-    /// <summary>
     /// The target operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]

@@ -258,7 +258,7 @@ public record BuildahFromOptions : BuildahOptions
     public bool? TlsVerify { get; set; }
 
     /// <summary>
-    /// ulimit options (default [nproc=4194304:4194304])
+    /// ulimit options
     /// </summary>
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ulimit { get; set; }

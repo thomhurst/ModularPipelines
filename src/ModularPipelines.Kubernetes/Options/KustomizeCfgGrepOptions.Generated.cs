@@ -56,12 +56,6 @@ public record KustomizeCfgGrepOptions : KustomizeOptions
     public bool? RecurseSubpackages { get; set; }
 
     /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
-    /// <summary>
     /// The QUERY operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]

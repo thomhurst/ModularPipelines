@@ -26,6 +26,7 @@ public class PulumiEnv : IPulumiEnv
     private PulumiEnvSettings? _settings;
     private PulumiEnvSetup? _setup;
     private PulumiEnvTag? _tag;
+    private PulumiEnvVersion? _version;
     private PulumiEnvWebhook? _webhook;
 
     /// <summary>
@@ -67,6 +68,11 @@ public class PulumiEnv : IPulumiEnv
     /// pulumi tag sub-commands.
     /// </summary>
     public PulumiEnvTag Tag => _tag ??= new PulumiEnvTag(_command);
+
+    /// <summary>
+    /// pulumi version sub-commands.
+    /// </summary>
+    public PulumiEnvVersion Version => _version ??= new PulumiEnvVersion(_command);
 
     /// <summary>
     /// pulumi webhook sub-commands.

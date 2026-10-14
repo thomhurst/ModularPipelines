@@ -104,16 +104,16 @@ public record PodmanComposeRunOptions : PodmanOptions
     public string? Name { get; set; }
 
     /// <summary>
+    /// Disable pseudo-TTY allocation (default: auto-detected) (default true)
+    /// </summary>
+    [CliOption("--no-TTY", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
+    public bool? NoTty { get; set; }
+
+    /// <summary>
     /// Don't start linked services
     /// </summary>
     [CliFlag("--no-deps")]
     public bool? NoDeps { get; set; }
-
-    /// <summary>
-    /// Disable pseudo-TTY allocation (default: auto-detected) (default true)
-    /// </summary>
-    [CliOption("--no-tty", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
-    public bool? NoTty { get; set; }
 
     /// <summary>
     /// Publish a container's port(s) to the host

@@ -129,3 +129,4 @@ Global options are rendered before the selected subcommand.
 | `eksctl utils update-legacy-subnet-settings` | `EksctlUtilsUpdateLegacySubnetSettingsOptions` |
 | `eksctl utils update-zonal-shift-config` | `EksctlUtilsUpdateZonalShiftConfigOptions` |
 | `eksctl utils write-kubeconfig` | `EksctlUtilsWriteKubeconfigOptions` |
+| `eksctl version` | `EksctlVersionOptions` |
