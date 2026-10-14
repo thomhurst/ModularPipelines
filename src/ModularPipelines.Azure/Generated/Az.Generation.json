@@ -3,5 +3,5 @@
   "toolName": "az",
   "toolVersion": "azure-cli 2.91.0; azure-devops 1.0.9",
   "commandTreeSha256": "3ee509b392eb167500ab78066743dde9aed868a0d39f3e0ea083a4a129c35b48",
-  "generatorSourceSha256": "7029f7f6726deb0ee3a0050ffba2761f45642a6aaa2593988112a7b561a52ae6"
+  "generatorSourceSha256": "fdea4b4f7eefd433d73f27871cda66806e2bd5d3fa6f7481b7172c3e2fb707ca"
 }
