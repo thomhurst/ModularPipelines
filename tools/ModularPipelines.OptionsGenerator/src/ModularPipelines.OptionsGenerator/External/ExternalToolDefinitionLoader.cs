@@ -471,7 +471,7 @@ public static class ExternalToolDefinitionLoader
     private static void RegisterSwitch(
         string switchName,
         string propertyName,
-        IDictionary<string, string> propertiesBySwitch,
+        Dictionary<string, string> propertiesBySwitch,
         CliCommandDefinition command)
     {
         if (propertiesBySwitch.TryGetValue(switchName, out var existingProperty))

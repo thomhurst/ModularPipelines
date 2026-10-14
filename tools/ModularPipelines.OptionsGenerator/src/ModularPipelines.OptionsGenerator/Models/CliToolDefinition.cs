@@ -110,12 +110,11 @@ public record CliToolDefinition
     /// <summary>
     /// Sub-domain groups for organizing commands (e.g., "Container", "Image" for Docker).
     /// </summary>
-    public IReadOnlyList<string> SubDomainGroups => Commands
+    public IReadOnlyList<string> SubDomainGroups => (List<string>) [.. Commands
         .Where(c => c.SubDomainGroup is not null)
         .Select(c => c.SubDomainGroup!)
         .Distinct()
-        .OrderBy(g => g)
-        .ToList();
+        .OrderBy(g => g)];
 
     /// <summary>
     /// All enums that need to be generated for this tool.
@@ -125,7 +124,7 @@ public record CliToolDefinition
     /// through to the generated file paths, where the orchestrator's duplicate-path
     /// check fails the tool loudly instead.
     /// </summary>
-    public IReadOnlyList<CliEnumDefinition> AllEnums => Commands
+    public IReadOnlyList<CliEnumDefinition> AllEnums => (List<CliEnumDefinition>) [.. Commands
         .SelectMany(command => command.Enums.Concat(
             command.Options
                 .Where(option => option.EnumDefinition is not null)
@@ -133,8 +132,7 @@ public record CliToolDefinition
         .Concat(GetGlobalOptions()
             .Where(option => option.EnumDefinition is not null)
             .Select(option => option.EnumDefinition!))
-        .DistinctBy(e => e.EnumName)
-        .ToList();
+        .DistinctBy(e => e.EnumName)];
 
     /// <summary>
     /// Any scraping errors encountered.

@@ -13,6 +13,8 @@ internal static class ToolCatalog
         Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
     };
 
+    private static readonly string[] TextHeaderLines = ["Tool\tPackage\tNamespace prefix\tPlatform\tAutomation\tCommand facade"];
+
     public static IReadOnlyList<ToolCatalogEntry> Create(IEnumerable<ICliScraper> scrapers)
     {
         ArgumentNullException.ThrowIfNull(scrapers);
@@ -36,8 +38,7 @@ internal static class ToolCatalog
 
     public static string ToText(IReadOnlyList<ToolCatalogEntry> entries)
     {
-        var lines = new[] { "Tool\tPackage\tNamespace prefix\tPlatform\tAutomation\tCommand facade" }
-            .Concat(entries.Select(entry =>
+        var lines = TextHeaderLines.Concat(entries.Select(entry =>
                 $"{entry.ToolName}\t{entry.PackageName}\t{entry.NamespacePrefix}\t"
                 + $"{entry.GenerationPlatform}\t{entry.IncludeInGenerationMatrix}\t"
                 + $"{entry.GenerateCommandFacade}"));

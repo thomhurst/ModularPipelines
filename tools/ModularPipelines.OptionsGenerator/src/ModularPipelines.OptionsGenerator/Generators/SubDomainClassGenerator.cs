@@ -13,10 +13,11 @@ public class SubDomainClassGenerator : ICodeGenerator
     /// <summary>
     /// Reserved field names that cannot be used for backing fields.
     /// </summary>
-    private static readonly HashSet<string> ReservedFieldNames = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> ReservedFieldNames =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "_command" // Used for ICommandContext dependency injection
-    };
+    ];
 
     /// <summary>
     /// Generates a safe backing field name for a child sub-command group.
@@ -289,7 +290,7 @@ public class SubDomainClassGenerator : ICodeGenerator
     {
         var commands = excludedCommands is null
             ? node.Commands
-            : node.Commands.Where(command => !excludedCommands.Contains(command)).ToList();
+            : [.. node.Commands.Where(command => !excludedCommands.Contains(command))];
         EnsureUniquePublicMemberNames(tool, node, commands, parentCommand);
 
         if (commands.Count == 0 && parentCommand is null)
