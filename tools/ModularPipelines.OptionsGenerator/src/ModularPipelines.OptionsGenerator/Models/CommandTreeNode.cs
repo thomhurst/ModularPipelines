@@ -25,7 +25,7 @@ public class CommandTreeNode
     /// <summary>
     /// Child nodes (sub-commands at the next level).
     /// </summary>
-    public Dictionary<string, CommandTreeNode> Children { get; } = new(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, CommandTreeNode> Children { get; } = [with(StringComparer.OrdinalIgnoreCase)];
 
     /// <summary>
     /// Commands that are direct children of this node (leaf commands).
@@ -80,7 +80,7 @@ public class CommandTreeNode
     {
         var movedCommands = GetChildParentCommands().Values
             .ToHashSet();
-        return Commands.Where(command => !movedCommands.Contains(command)).ToList();
+        return (List<CliCommandDefinition>) [.. Commands.Where(command => !movedCommands.Contains(command))];
     }
 
     /// <summary>

@@ -61,7 +61,7 @@ internal static class CommandCoverageGuard
             && (addedCommands.Length > 0 || unapprovedRemovedCommands.Length > 0);
         var violations = GetViolations(
             tool.CommandCoverage,
-            commands.Count,
+            commands.Length,
             missingSentinels,
             addedCommands,
             removedCommands,
@@ -96,7 +96,7 @@ internal static class CommandCoverageGuard
     private static (IReadOnlyList<CliCommandCoverageExclusion> Exclusions, HashSet<string> AllowedMissingCommands)
         ValidateCoveragePolicy(
             CliCommandCoveragePolicy policy,
-            IReadOnlyList<string> commands,
+            string[] commands,
             CommandCoverageManifest? previous)
     {
         var exclusions = ValidateExclusions(policy.Exclusions);
@@ -144,13 +144,13 @@ internal static class CommandCoverageGuard
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Order(StringComparer.OrdinalIgnoreCase)];
 
-    private static bool IsUnavailable(string command, IReadOnlyList<string> unavailableCommands) =>
+    private static bool IsUnavailable(string command, string[] unavailableCommands) =>
         unavailableCommands.Any(unavailable => IsSameOrChildOf(unavailable, command));
 
     private static (string[] Added, string[] Removed) GetCommandDiff(
         CommandCoverageManifest? previous,
-        IReadOnlyList<string> commands,
-        IReadOnlyList<string> unavailableCommands)
+        string[] commands,
+        string[] unavailableCommands)
     {
         if (previous is null)
         {
@@ -204,11 +204,11 @@ internal static class CommandCoverageGuard
     /// either excluded by policy or unavailable (its help, or an ancestor's, could not be
     /// scraped), in which case the unavailable-help violation already explains the gap.
     /// </summary>
-    private static IReadOnlyList<string> GetKnownGroupsWithoutChildren(
+    private static string[] GetKnownGroupsWithoutChildren(
         CommandCoverageManifest? previous,
-        IReadOnlyList<string> commands,
-        IReadOnlySet<string> excludedCommands,
-        IReadOnlyList<string> unavailableCommands) =>
+        string[] commands,
+        HashSet<string> excludedCommands,
+        string[] unavailableCommands) =>
         previous?.CommandGroups
             .Where(group => HasChildren(group, previous.Commands) && !HasChildren(group, commands))
             .Where(group => !previous.Commands
@@ -217,31 +217,30 @@ internal static class CommandCoverageGuard
             .ToArray()
         ?? [];
 
-    private static IReadOnlyList<string> GetMissingSentinels(
+    private static string[] GetMissingSentinels(
         CliCommandCoveragePolicy policy,
-        IReadOnlyList<string> commands,
-        IReadOnlySet<string> excludedCommands) =>
-        policy.SentinelCommands
+        string[] commands,
+        HashSet<string> excludedCommands) =>
+        [.. policy.SentinelCommands
             .Select(NormalizeCommand)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Where(sentinel => !commands.Contains(sentinel, StringComparer.OrdinalIgnoreCase))
-            .Where(sentinel => !excludedCommands.Contains(sentinel))
-            .ToArray();
+            .Where(sentinel => !excludedCommands.Contains(sentinel))];
 
-    private static IReadOnlyList<string> GetViolations(
+    private static List<string> GetViolations(
         CliCommandCoveragePolicy policy,
         int commandCount,
-        IReadOnlyList<string> missingSentinels,
-        IReadOnlyList<string> addedCommands,
-        IReadOnlyList<string> removedCommands,
-        IReadOnlyList<string> unapprovedRemovedCommands,
-        IReadOnlyList<string> groupsWithoutChildren,
+        string[] missingSentinels,
+        string[] addedCommands,
+        string[] removedCommands,
+        string[] unapprovedRemovedCommands,
+        string[] groupsWithoutChildren,
         bool hasSameVersionCommandSetDrift,
         string? toolVersion,
         bool approveShrinkage,
         string? previousToolVersion,
         string? currentToolVersion,
-        IReadOnlyList<string> unavailableCommands)
+        string[] unavailableCommands)
     {
         var violations = new List<string>();
 
@@ -256,7 +255,7 @@ internal static class CommandCoverageGuard
             "Help was unavailable after all retries (timed out, rejected by the circuit breaker, or the process could not run); rerun the generation instead of approving these as removals",
             unavailableCommands);
 
-        if (unavailableCommands.Count > 0)
+        if (unavailableCommands.Length > 0)
         {
             return violations;
         }
@@ -288,15 +287,15 @@ internal static class CommandCoverageGuard
 
             AddViolation(violations, "Known command groups lost all children", groupsWithoutChildren);
         }
-        else if (unapprovedRemovedCommands.Count > MaximumBlanketApprovedRemovals)
+        else if (unapprovedRemovedCommands.Length > MaximumBlanketApprovedRemovals)
         {
             var previousVersion = previousToolVersion ?? "unknown version";
             var currentVersion = currentToolVersion ?? "unknown version";
             var representativeRemovals = unapprovedRemovedCommands.Take(RepresentativeRemovalLimit);
-            var remainingCount = unapprovedRemovedCommands.Count - RepresentativeRemovalLimit;
+            var remainingCount = unapprovedRemovedCommands.Length - RepresentativeRemovalLimit;
             var suffix = remainingCount > 0 ? $" (+{remainingCount} more)" : string.Empty;
             violations.Add(
-                $"Blanket approval cannot authorize {unapprovedRemovedCommands.Count} command removals "
+                $"Blanket approval cannot authorize {unapprovedRemovedCommands.Length} command removals "
                 + $"from baseline {previousVersion} to current {currentVersion}; the maximum is "
                 + $"{MaximumBlanketApprovedRemovals}. Add explicit command coverage exclusions with "
                 + $"reviewed reasons for every additional removal. Representative removals: "
@@ -311,17 +310,17 @@ internal static class CommandCoverageGuard
         && !string.IsNullOrWhiteSpace(currentVersion)
         && string.Equals(previousVersion, currentVersion, StringComparison.OrdinalIgnoreCase);
 
-    private static string FormatCommandDiff(string label, IReadOnlyCollection<string> commands) =>
-        commands.Count == 0
+    private static string FormatCommandDiff(string label, string[] commands) =>
+        commands.Length == 0
             ? $"{label}: none."
             : $"{label}: {string.Join(", ", commands)}.";
 
     private static void AddViolation(
-        ICollection<string> violations,
+        List<string> violations,
         string message,
-        IReadOnlyCollection<string> values)
+        string[] values)
     {
-        if (values.Count > 0)
+        if (values.Length > 0)
         {
             violations.Add($"{message}: {string.Join(", ", values)}.");
         }
@@ -404,7 +403,7 @@ internal static class CommandCoverageGuard
 
         var commands = NormalizeCommands(manifest.Commands);
         var commandGroups = GetCommandGroups(commands);
-        if (manifest.CommandCount != commands.Count
+        if (manifest.CommandCount != commands.Length
             || !string.Equals(manifest.CommandTreeSha256, Fingerprint(commands), StringComparison.OrdinalIgnoreCase)
             || !NormalizeCommands(manifest.CommandGroups).SequenceEqual(commandGroups, StringComparer.OrdinalIgnoreCase))
         {
@@ -437,21 +436,21 @@ internal static class CommandCoverageGuard
     private static CommandCoverageManifest CreateManifest(
         string toolName,
         string? toolVersion,
-        IReadOnlyList<string> commands,
+        string[] commands,
         IReadOnlyList<CliCommandCoverageExclusion> exclusions) =>
         new()
         {
             FormatVersion = ManifestFormatVersion,
             ToolName = toolName,
             ToolVersion = toolVersion,
-            CommandCount = commands.Count,
+            CommandCount = commands.Length,
             CommandTreeSha256 = Fingerprint(commands),
             Commands = commands,
             CommandGroups = GetCommandGroups(commands),
             Exclusions = exclusions,
         };
 
-    private static IReadOnlyList<CliCommandCoverageExclusion> ValidateExclusions(
+    private static CliCommandCoverageExclusion[] ValidateExclusions(
         IReadOnlyList<CliCommandCoverageExclusion> exclusions)
     {
         foreach (var exclusion in exclusions)
@@ -471,13 +470,12 @@ internal static class CommandCoverageGuard
             throw new InvalidOperationException($"Duplicate command coverage exclusion: {duplicate.Key}");
         }
 
-        return exclusions
+        return [.. exclusions
             .Select(exclusion => exclusion with { Command = NormalizeCommand(exclusion.Command) })
-            .OrderBy(exclusion => exclusion.Command, StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .OrderBy(exclusion => exclusion.Command, StringComparer.OrdinalIgnoreCase)];
     }
 
-    private static IReadOnlyList<CliConditionallyAvailableCommand> ValidateConditionallyAvailableCommands(
+    private static CliConditionallyAvailableCommand[] ValidateConditionallyAvailableCommands(
         IReadOnlyList<CliConditionallyAvailableCommand> commands)
     {
         foreach (var command in commands)
@@ -497,21 +495,19 @@ internal static class CommandCoverageGuard
             throw new InvalidOperationException($"Duplicate conditionally available command: {duplicate.Key}");
         }
 
-        return commands
+        return [.. commands
             .Select(command => command with { Command = NormalizeCommand(command.Command) })
-            .OrderBy(command => command.Command, StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .OrderBy(command => command.Command, StringComparer.OrdinalIgnoreCase)];
     }
 
-    private static IReadOnlyList<string> NormalizeCommands(IEnumerable<string> commands) =>
-        commands
+    private static string[] NormalizeCommands(IEnumerable<string> commands) =>
+        [.. commands
             .Select(NormalizeCommand)
             .Where(command => command.Length > 0)
             .Distinct(StringComparer.OrdinalIgnoreCase)
-            .OrderBy(command => command, StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .OrderBy(command => command, StringComparer.OrdinalIgnoreCase)];
 
-    private static IReadOnlyList<string> GetCoverageCommands(CliToolDefinition tool)
+    private static string[] GetCoverageCommands(CliToolDefinition tool)
         => NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
 
     private static bool IsSameOrChildOf(string ancestor, string command) =>
@@ -521,8 +517,8 @@ internal static class CommandCoverageGuard
     private static string NormalizeCommand(string command) =>
         string.Join(' ', command.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));
 
-    private static IReadOnlyList<string> GetCommandGroups(IReadOnlyList<string> commands) =>
-        commands
+    private static string[] GetCommandGroups(string[] commands) =>
+        [.. commands
             .SelectMany(command =>
             {
                 var parts = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -530,8 +526,7 @@ internal static class CommandCoverageGuard
                     .Select(length => string.Join(' ', parts.Take(length)));
             })
             .Distinct(StringComparer.OrdinalIgnoreCase)
-            .OrderBy(group => group, StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .OrderBy(group => group, StringComparer.OrdinalIgnoreCase)];
 
     private static bool HasChildren(string group, IReadOnlyList<string> commands) =>
         commands.Any(command => IsChildOf(group, command));
@@ -541,7 +536,7 @@ internal static class CommandCoverageGuard
         && command.StartsWith(group, StringComparison.OrdinalIgnoreCase)
         && command[group.Length] == ' ';
 
-    private static string Fingerprint(IReadOnlyList<string> commands) =>
+    private static string Fingerprint(string[] commands) =>
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(string.Join('\n', commands))))
             .ToLowerInvariant();
 
