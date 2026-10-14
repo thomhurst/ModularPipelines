@@ -7,8 +7,13 @@
 #   1. Checks that the lock Redis answers. When it does not (for example Docker is
 #      down), it backs off without starting an agent.
 #   2. Runs the merged-worktree sweep and surveys open PRs and issues with `gh`.
-#   3. Skips drafts, `needs-human` PRs, PRs whose checks are still running, and items
-#      whose GitHub state is unchanged since an agent last deferred them.
+#   3. Skips drafts, `needs-human` and `on-hold` items, PRs whose checks are still
+#      running, and items whose GitHub state is unchanged since an agent last deferred
+#      them. Also skips issues that cannot be worked yet: issues with open native
+#      sub-issues or open `blocked_by` dependencies, issues that already have an open
+#      closing PR, and bot-owned tracking issues. Ranks local `issue-*` branches with
+#      unpublished commits and no open PR above new issues, then parents whose
+#      sub-issues are all closed, then issues that block the most other issues.
 #   4. Acquires the item's Redis lock, moving on to the next candidate when another
 #      worker holds it.
 #   5. Starts the agent on that one item, with lower reasoning effort for PRs that
@@ -16,7 +21,10 @@
 # After the agent ends, the script releases the lock if the agent left it held. On a
 # deferred, failed, or missing result it records the item's current fingerprint with
 # `AgentLocks.ps1 defer`, so later units skip it until its head, checks, mergeability,
-# comments, or labels change, or until -DeferSeconds pass.
+# comments, or labels change, or until the deferral expires. Comments marked with
+# `<!-- issue-pr-loop -->` are the loop's own and do not count as a change. Each repeat
+# deferral of an unchanged item doubles its expiry, starting at -DeferSeconds and capped
+# at -MaxDeferSeconds.
 #
 # AGENT SELECTION (-Agent auto):
 #   - CLAUDECODE=1        -> launched from Claude Code, so run `claude -p`.
@@ -36,7 +44,7 @@
 #
 # Stop:   create the stop file printed at startup (checked between units), or Ctrl+C.
 # Usage:  pwsh scripts/Start-IssuePrLoop.ps1 [-Agent auto|claude|codex] [-IdleSeconds n] [-MaxUnits n]
-#           [-DeferSeconds n] [-LightEffort level] [-HeavyEffort level] [-DryRun]
+#           [-DeferSeconds n] [-MaxDeferSeconds n] [-LightEffort level] [-HeavyEffort level] [-DryRun]
 
 [CmdletBinding()]
 param(
@@ -50,6 +58,9 @@ param(
     # How long a deferral suppresses an item whose GitHub state has not changed.
     [ValidateRange(60, 604800)]
     [int]$DeferSeconds = 21600,
+    # Upper bound for a repeatedly deferred item's backoff.
+    [ValidateRange(60, 604800)]
+    [int]$MaxDeferSeconds = 259200,
     # Reasoning effort for PRs that look ready to merge, and for all other units.
     # An empty value keeps the agent's configured default.
     [string]$LightEffort = 'medium',
@@ -155,20 +166,39 @@ function Get-CheckState($Check) {
     return [string]$Check.status
 }
 
+# Agents mark every comment they post with this, so the loop's own blocker comments do
+# not make a deferred item look changed.
+$loopMarker = '<!-- issue-pr-loop -->'
+
+# Returns the newest creation time among comments the loop did not write.
+function Get-LatestOutsideComment($Comments) {
+    @($Comments | Where-Object { $_ -and -not ([string]$_.body).Contains($loopMarker) } |
+        ForEach-Object { [string]$_.createdAt } | Sort-Object) | Select-Object -Last 1
+}
+
 # The fingerprint covers everything that can make a deferred item worth another look.
 # Survey and post-unit fingerprints use the same fields, so they compare directly.
+# They leave out updatedAt, which every loop comment and cross-reference changes.
 function Get-PrFingerprint($Pr) {
     $checks = @($Pr.statusCheckRollup | ForEach-Object {
             $name = if ($_.PSObject.Properties['name'] -and $_.name) { $_.name } else { $_.context }
             '{0}={1}' -f $name, (Get-CheckState $_)
         } | Sort-Object)
-    Get-Hash ((@($Pr.headRefOid, $Pr.updatedAt, $Pr.mergeable) + $checks) -join '|')
+    $labels = @($Pr.labels | ForEach-Object { $_.name } | Sort-Object)
+    # The loop replies to review threads as the PR author, which GitHub records as reviews.
+    $review = @($Pr.reviews | Where-Object { $_.author.login -ne $Pr.author.login } |
+        ForEach-Object { [string]$_.submittedAt } | Sort-Object) | Select-Object -Last 1
+    $comment = Get-LatestOutsideComment $Pr.comments
+    Get-Hash ((@($Pr.headRefOid, $Pr.mergeable, ($labels -join ','), $review, $comment) + $checks) -join '|')
 }
 
 function Get-IssueFingerprint($Issue) {
-    $labels = @($Issue.labels | ForEach-Object { $_.name } | Sort-Object)
-    $assignees = @($Issue.assignees | ForEach-Object { $_.login } | Sort-Object)
-    Get-Hash ((@($Issue.updatedAt, ($labels -join ','), ($assignees -join ','))) -join '|')
+    $labels = @($Issue.labels.nodes | ForEach-Object { $_.name } | Sort-Object)
+    $assignees = @($Issue.assignees.nodes | ForEach-Object { $_.login } | Sort-Object)
+    $prs = @($Issue.closedByPullRequestsReferences.nodes | ForEach-Object { '{0}:{1}' -f $_.number, $_.state } | Sort-Object)
+    $children = '{0}/{1}' -f $Issue.subIssuesSummary.completed, $Issue.subIssuesSummary.total
+    Get-Hash ((@($Issue.lastEditedAt, ($labels -join ','), ($assignees -join ','), (Get-LatestOutsideComment $Issue.comments.nodes),
+                $children, $Issue.issueDependenciesSummary.blockedBy, ($prs -join ','))) -join '|')
 }
 
 # Returns number -> state (OPEN, CLOSED, MERGED, MISSING) for issues and PRs, in one query.
@@ -203,22 +233,113 @@ function Format-References([int[]]$Numbers, [hashtable]$States) {
     ($Numbers | ForEach-Object { '{0}:{1}' -f $_, $States[$_] }) -join ','
 }
 
-$prFields = 'number,title,headRefOid,updatedAt,mergeable,mergeStateStatus,statusCheckRollup,isDraft,labels'
-$issueFields = 'number,title,updatedAt,labels,assignees'
+$prFields = 'number,title,author,headRefOid,mergeable,mergeStateStatus,statusCheckRollup,isDraft,labels,comments,reviews'
+$issueNodeFields = 'number title lastEditedAt author { login __typename } labels(first: 50) { nodes { name } } ' +
+    'assignees(first: 10) { nodes { login } } comments(last: 20) { totalCount nodes { createdAt body } } ' +
+    'subIssuesSummary { total completed } issueDependenciesSummary { blockedBy blocking } ' +
+    'closedByPullRequestsReferences(first: 10, includeClosedPrs: false) { nodes { number state } }'
+
+# Labels that take an issue out of the queue. `in-progress` is handled separately.
+$excludedIssueLabels = @('wontfix', 'duplicate', 'question', 'needs-human', 'on-hold')
+# Labels that take a PR out of the queue until a human removes them.
+$excludedPrLabels = @('needs-human', 'on-hold')
 
 # Counts why the last survey skipped items, so an idle survey can say why nothing was actionable.
 $surveyStats = [ordered]@{}
 
 function Reset-SurveyStats {
-    foreach ($key in 'issues', 'issue-deferred', 'issue-locked', 'prs', 'pr-deferred', 'pr-locked', 'pr-pending', 'pr-needs-human', 'pr-draft') {
+    foreach ($key in 'issues', 'issue-deferred', 'issue-locked', 'issue-excluded', 'issue-parent', 'issue-blocked', 'issue-has-pr', 'issue-claimed',
+        'prs', 'pr-deferred', 'pr-locked', 'pr-pending', 'pr-excluded', 'pr-draft') {
         $surveyStats[$key] = 0
     }
 }
 
 function Format-SurveyStats {
     $s = $surveyStats
-    'issues: {0} surveyed, {1} deferred, {2} locked; PRs: {3} open, {4} deferred, {5} locked, {6} pending checks, {7} needs-human, {8} draft' -f `
-        $s['issues'], $s['issue-deferred'], $s['issue-locked'], $s['prs'], $s['pr-deferred'], $s['pr-locked'], $s['pr-pending'], $s['pr-needs-human'], $s['pr-draft']
+    ('issues: {0} open, {1} deferred, {2} locked, {3} excluded by label/assignee/bot, {4} with open sub-issues, {5} blocked, {6} with open PR, {7} claimed; ' +
+        'PRs: {8} open, {9} deferred, {10} locked, {11} pending checks, {12} needs-human/on-hold, {13} draft') -f `
+        $s['issues'], $s['issue-deferred'], $s['issue-locked'], $s['issue-excluded'], $s['issue-parent'], $s['issue-blocked'], $s['issue-has-pr'], $s['issue-claimed'],
+        $s['prs'], $s['pr-deferred'], $s['pr-locked'], $s['pr-pending'], $s['pr-excluded'], $s['pr-draft']
+}
+
+function Invoke-GraphQl([string]$Query, [string[]]$Variables) {
+    $owner, $name = $repoSlug -split '/', 2
+    $json = gh api graphql -f "query=$Query" -f "owner=$owner" -f "name=$name" @Variables
+    if ($LASTEXITCODE -ne 0) { throw 'gh api graphql failed.' }
+    return ($json | ConvertFrom-Json).data.repository
+}
+
+function Get-OpenIssues {
+    $query = 'query($owner: String!, $name: String!, $cursor: String) { repository(owner: $owner, name: $name) { ' +
+        'issues(states: OPEN, first: 50, after: $cursor) { pageInfo { hasNextPage endCursor } nodes { ' + $issueNodeFields + ' } } } }'
+    $issues = [Collections.Generic.List[object]]::new()
+    $cursor = $null
+    do {
+        $variables = if ($cursor) { @('-f', "cursor=$cursor") } else { @() }
+        $page = (Invoke-GraphQl $query $variables).issues
+        foreach ($node in @($page.nodes)) { $issues.Add($node) }
+        $cursor = $page.pageInfo.endCursor
+    } while ($page.pageInfo.hasNextPage)
+    return $issues
+}
+
+function Get-Issue([int]$Number) {
+    $query = 'query($owner: String!, $name: String!, $number: Int!) { repository(owner: $owner, name: $name) { issue(number: $number) { ' +
+        $issueNodeFields + ' } } }'
+    return (Invoke-GraphQl $query @('-F', "number=$Number")).issue
+}
+
+function Test-HasLabel($Issue, [string[]]$Names) {
+    @($Issue.labels.nodes | Where-Object { $_.name -in $Names }).Count -gt 0
+}
+
+function Test-HasOpenPr($Issue) {
+    @($Issue.closedByPullRequestsReferences.nodes | Where-Object { $_.state -eq 'OPEN' }).Count -gt 0
+}
+
+# Local issue branches with commits that are not on origin/main, for open issues that have
+# no open PR. A unit that could not push (for example because the lock service hung)
+# leaves finished work here, and nothing else would publish it. A branch that ever had a
+# PR is skipped: it was merged, split, or closed on purpose.
+function Get-StrandedBranches([hashtable]$OpenIssues) {
+    $byIssue = @{}
+    foreach ($line in @(git -C $repo for-each-ref --format='%(refname:short) %(objectname)' 'refs/heads/issue-*' 2>$null)) {
+        $branch, $sha = ([string]$line).Trim() -split ' ', 2
+        if ($branch -notmatch '^issue-(\d+)-') { continue }
+        $number = [int]$Matches[1]
+        $issue = $OpenIssues[$number]
+        if (-not $issue -or $byIssue.ContainsKey($number) -or (Test-HasOpenPr $issue)) { continue }
+        # `git cherry` prefixes commits whose patch is already upstream with '-'.
+        $unpublished = @(git -C $repo cherry origin/main $branch 2>$null | Where-Object { $_ -like '+*' }).Count
+        if ($unpublished -eq 0) { continue }
+        $prs = gh pr list --repo $repoSlug --state all --head $branch --json number --jq 'length'
+        if ($LASTEXITCODE -ne 0 -or [int]$prs -gt 0) { continue }
+        $byIssue[$number] = [pscustomobject]@{ Branch = $branch; Commits = $unpublished; Issue = $issue }
+    }
+    return $byIssue
+}
+
+function Get-StrandedFingerprint([string]$Branch, $Issue) {
+    $sha = git -C $repo rev-parse --verify --quiet "refs/heads/$Branch"
+    Get-Hash ('{0}|{1}' -f $sha, (Get-IssueFingerprint $Issue))
+}
+
+function New-Candidate([string]$Kind, [int]$Number, [int]$Rank, [string]$Fingerprint, [bool]$Light, [string]$Hint = '', [string]$Branch = '') {
+    $lockKind = if ($Kind -eq 'pr') { 'pr' } else { 'issue' }
+    $label = if ($Kind -eq 'pr') { "PR #$Number" } elseif ($Kind -eq 'stranded') { "stranded branch $Branch" } else { "issue #$Number" }
+    [pscustomobject]@{
+        Kind        = $Kind
+        Number      = $Number
+        LockName    = "$lockKind-$Number"
+        Label       = $label
+        Rank        = $Rank
+        Fingerprint = $Fingerprint
+        Light       = $Light
+        Hint        = $Hint
+        Branch      = $Branch
+        Blocking    = 0
+        Comments    = 0
+    }
 }
 
 function Get-Candidates {
@@ -229,7 +350,7 @@ function Get-Candidates {
     $surveyStats['prs'] = @($prs).Count
     $ranked = foreach ($pr in $prs) {
         if ($pr.isDraft) { $surveyStats['pr-draft']++; continue }
-        if (@($pr.labels | Where-Object name -eq 'needs-human').Count -gt 0) { $surveyStats['pr-needs-human']++; continue }
+        if (@($pr.labels | Where-Object { $_.name -in $excludedPrLabels }).Count -gt 0) { $surveyStats['pr-excluded']++; continue }
         $checks = @($pr.statusCheckRollup)
         $pending = @($checks | Where-Object { (Get-CheckState $_) -in 'PENDING', 'EXPECTED', 'QUEUED', 'IN_PROGRESS', 'WAITING', 'REQUESTED', '' })
         $failed = @($checks | Where-Object { (Get-CheckState $_) -in 'FAILURE', 'ERROR', 'TIMED_OUT', 'CANCELLED', 'ACTION_REQUIRED', 'STARTUP_FAILURE' })
@@ -240,50 +361,74 @@ function Get-Candidates {
         elseif ($conflicting) { 1 }
         elseif ($failed.Count -gt 0) { 2 }
         else { 3 }
-        [pscustomobject]@{
-            Kind        = 'pr'
-            Number      = [int]$pr.number
-            LockName    = "pr-$($pr.number)"
-            Label       = "PR #$($pr.number)"
-            Rank        = $rank
-            Fingerprint = Get-PrFingerprint $pr
-            # A green, clean PR usually needs only the merge gate or a disposition reply.
-            Light       = $rank -eq 0
-        }
+        # A green, clean PR usually needs only the merge gate or a disposition reply.
+        New-Candidate 'pr' ([int]$pr.number) $rank (Get-PrFingerprint $pr) ($rank -eq 0)
     }
     foreach ($c in @($ranked | Sort-Object Rank, Number)) { $candidates.Add($c) }
 
-    # Pass each qualifier as its own argument; gh quotes a single argument with spaces as a
-    # phrase, which silently drops every label exclusion.
-    $excluded = @('in-progress', 'wontfix', 'duplicate', 'question', 'needs-human') | ForEach-Object { "-label:$_" }
-    $issues = gh search issues --repo $repoSlug --state open --no-assignee --limit 200 --json "commentsCount,$issueFields" `
-        -- @excluded | ConvertFrom-Json
-    if ($LASTEXITCODE -ne 0) { throw 'gh search issues failed.' }
-    $surveyStats['issues'] = @($issues).Count
-    # Prefer issues with less discussion; they are usually smaller and clearer.
-    foreach ($issue in @($issues | Sort-Object commentsCount, number)) {
-        $candidates.Add([pscustomobject]@{
-                Kind        = 'issue'
-                Number      = [int]$issue.number
-                LockName    = "issue-$($issue.number)"
-                Label       = "issue #$($issue.number)"
-                Rank        = 4
-                Fingerprint = Get-IssueFingerprint $issue
-                Light       = $false
-            })
+    $issues = @(Get-OpenIssues)
+    $surveyStats['issues'] = $issues.Count
+    $openIssues = @{}
+    foreach ($issue in $issues) { $openIssues[[int]$issue.number] = $issue }
+    $stranded = Get-StrandedBranches $openIssues
+    foreach ($number in @($stranded.Keys | Sort-Object)) {
+        $s = $stranded[$number]
+        $hint = "Local branch $($s.Branch) holds $($s.Commits) commit(s) for issue #$number that are not on origin/main, and no PR exists for it. " +
+            'Follow the stranded-branch procedure in the recovery guidance: publish the finished work as a PR, or record why it cannot ship.'
+        $candidates.Add((New-Candidate 'stranded' $number 4 (Get-StrandedFingerprint $s.Branch $s.Issue) $false $hint $s.Branch))
     }
+
+    $ranked = foreach ($issue in $issues) {
+        $number = [int]$issue.number
+        if ($stranded.ContainsKey($number)) { continue }
+        $tracking = $issue.author.__typename -eq 'Bot' -or $issue.title -eq 'Dependency Dashboard'
+        if ($tracking -or @($issue.assignees.nodes).Count -gt 0 -or (Test-HasLabel $issue $excludedIssueLabels)) { $surveyStats['issue-excluded']++; continue }
+        # Work on an issue with an open closing PR happens on the PR.
+        if (Test-HasOpenPr $issue) { $surveyStats['issue-has-pr']++; continue }
+        # A blocked issue returns to the queue on its own when its blockers close.
+        if ($issue.issueDependenciesSummary.blockedBy -gt 0) { $surveyStats['issue-blocked']++; continue }
+        $children = $issue.subIssuesSummary
+        if ($children.total -gt $children.completed) { $surveyStats['issue-parent']++; continue }
+        $fingerprint = Get-IssueFingerprint $issue
+        if (Test-HasLabel $issue @('in-progress')) {
+            # A claim with no open PR is stale unless a worker holds its lock; the acquire
+            # in Select-Item skips it while one does.
+            $surveyStats['issue-claimed']++
+            $hint = "Issue #$number carries an in-progress claim, but it has no open PR and no lock holder. Look for its branch or worktree and publish that work; " +
+                'otherwise remove the stale claim and implement the issue.'
+            New-Candidate 'issue' $number 7 $fingerprint $false $hint
+            continue
+        }
+        if ($children.total -gt 0) {
+            $hint = "All $($children.total) native sub-issues of #$number are closed. Check the parent's remaining acceptance criteria against origin/main, " +
+                'then close it with evidence or implement what is left.'
+            New-Candidate 'issue' $number 5 $fingerprint $true $hint
+            continue
+        }
+        $candidate = New-Candidate 'issue' $number 6 $fingerprint $false
+        $candidate.Blocking = [int]$issue.issueDependenciesSummary.blocking
+        $candidate.Comments = [int]$issue.comments.totalCount
+        $candidate
+    }
+    # Unblock the most other issues first, then prefer less discussion: such issues are
+    # usually smaller and clearer.
+    foreach ($c in @($ranked | Sort-Object Rank, @{ Expression = 'Blocking'; Descending = $true }, Comments, Number)) { $candidates.Add($c) }
     return $candidates
 }
 
 function Get-CurrentFingerprint($Item) {
-    if ($Item.Kind -eq 'pr') {
-        $pr = gh pr view $Item.Number --repo $repoSlug --json $prFields | ConvertFrom-Json
-        if ($LASTEXITCODE -ne 0) { return $null }
-        return Get-PrFingerprint $pr
+    try {
+        switch ($Item.Kind) {
+            'pr' {
+                $pr = gh pr view $Item.Number --repo $repoSlug --json $prFields | ConvertFrom-Json
+                if ($LASTEXITCODE -ne 0) { return $null }
+                return Get-PrFingerprint $pr
+            }
+            'stranded' { return Get-StrandedFingerprint $Item.Branch (Get-Issue $Item.Number) }
+            default { return Get-IssueFingerprint (Get-Issue $Item.Number) }
+        }
     }
-    $issue = gh issue view $Item.Number --repo $repoSlug --json $issueFields | ConvertFrom-Json
-    if ($LASTEXITCODE -ne 0) { return $null }
-    return Get-IssueFingerprint $issue
+    catch { return $null }
 }
 
 # Returns lock name -> fingerprint for every recorded deferral among the given items.
@@ -299,17 +444,33 @@ function Get-Deferrals([object[]]$Items) {
     return $deferrals
 }
 
-# A recorded deferral is `<fingerprint>` or `<fingerprint>|refs=<n>:<state>,...`.
+# A recorded deferral is `<fingerprint>` followed by optional `|key=value` fields:
+# `until=<unix seconds>` ends the deferral, `n=<count>` counts consecutive deferrals of
+# the same fingerprint, and `refs=<n>:<state>,...` records blocker states. The Redis
+# record outlives `until`, so a repeat deferral can still read the count.
 function Split-Deferral([string]$Recorded) {
-    $fingerprint, $refs = $Recorded -split '\|refs=', 2
+    $fingerprint, $fields = $Recorded -split '\|'
+    $values = @{}
+    foreach ($field in @($fields)) {
+        $key, $value = $field -split '=', 2
+        if ($key) { $values[$key] = $value }
+    }
+    $refs = $values['refs']
     $numbers = @(if ($refs) { $refs -split ',' | ForEach-Object { [int]($_ -split ':', 2)[0] } })
-    [pscustomobject]@{ Fingerprint = $fingerprint; Refs = $refs; Numbers = $numbers }
+    [pscustomobject]@{
+        Fingerprint = $fingerprint
+        Refs        = $refs
+        Numbers     = $numbers
+        Until       = if ($values['until']) { [long]$values['until'] } else { [long]::MaxValue }
+        Count       = if ($values['n']) { [int]$values['n'] } else { 1 }
+    }
 }
 
 function Test-Deferred($Item, [hashtable]$Deferrals, $States) {
     if (-not $Item.Fingerprint -or -not $Deferrals[$Item.LockName]) { return $false }
     $deferral = Split-Deferral $Deferrals[$Item.LockName]
     if ($deferral.Fingerprint -ne $Item.Fingerprint) { return $false }
+    if ([DateTimeOffset]::UtcNow.ToUnixTimeSeconds() -ge $deferral.Until) { return $false }
     # Without fresh blocker states, fall back to the item's own fingerprint.
     if (-not $deferral.Refs -or $null -eq $States) { return $true }
     return (Format-References $deferral.Numbers $States) -eq $deferral.Refs
@@ -357,7 +518,11 @@ function Get-Prompt($Item) {
             return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock pr-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire. Work only PR #$($Item.Number), release the lock, and print the RESULT line."
         }
         'issue' {
-            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock issue-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire. Re-check and claim issue #$($Item.Number), implement it, release the lock, and print the RESULT line."
+            $hint = if ($Item.Hint) { " $($Item.Hint)" } else { '' }
+            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock issue-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire.$hint Re-check and claim issue #$($Item.Number), implement it, release the lock, and print the RESULT line."
+        }
+        'stranded' {
+            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock issue-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire. $($Item.Hint) Release the lock and print the RESULT line."
         }
         default {
             $list = $Item.Lines -join '; '
@@ -461,15 +626,26 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     # Remember an unchanged blocker so later units do not re-examine it.
     if (-not $result -or $result -match '^(deferred|failed)\b' -or ($item.Kind -eq 'recovery' -and $result -eq 'queue-empty')) {
         $fingerprint = if ($item.Kind -eq 'recovery') { $item.Fingerprint } else { Get-CurrentFingerprint $item }
-        $refs = if ($fingerprint -and $item.Kind -ne 'recovery') { Get-ReasonReferences $result $item.Number } else { @() }
-        if ($refs.Count -gt 0) {
-            $refStates = Get-ReferenceStates $refs
-            if ($refStates) { $fingerprint += '|refs=' + (Format-References $refs $refStates) }
-        }
-        # A crash says nothing about the item, so retry it sooner.
-        $ttl = if ($result) { $DeferSeconds } else { [Math]::Min($DeferSeconds, 3600) }
         if ($fingerprint) {
-            $null = Invoke-Locks @('defer', '-LockName', $item.LockName, '-Fingerprint', $fingerprint, '-DeferSeconds', $ttl)
+            # Each repeat deferral of an unchanged item doubles its expiry. A crash says
+            # nothing about the item, so it neither counts nor waits long.
+            $previous = try { (Get-Deferrals @($item))[$item.LockName] } catch { $null }
+            $previous = if ($previous) { Split-Deferral $previous } else { $null }
+            $count = if ($previous -and $previous.Fingerprint -eq $fingerprint) { $previous.Count } else { 0 }
+            if ($result) { $count++ }
+            $seconds = if ($result) { [Math]::Min($MaxDeferSeconds, $DeferSeconds * [Math]::Pow(2, [Math]::Min($count - 1, 20))) }
+            else { [Math]::Min($DeferSeconds, 3600) }
+            $until = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds() + [long]$seconds
+            $record = '{0}|until={1}|n={2}' -f $fingerprint, $until, [Math]::Max($count, 1)
+            $refs = if ($item.Kind -ne 'recovery') { Get-ReasonReferences $result $item.Number } else { @() }
+            if ($refs.Count -gt 0) {
+                $refStates = Get-ReferenceStates $refs
+                if ($refStates) { $record += '|refs=' + (Format-References $refs $refStates) }
+            }
+            # The record outlives `until` so the next deferral can read the count.
+            $ttl = [Math]::Min(604800, [long]$seconds + $MaxDeferSeconds)
+            $null = Invoke-Locks @('defer', '-LockName', $item.LockName, '-Fingerprint', $record, '-DeferSeconds', $ttl)
+            if ($result) { Write-Host ('issue-pr-loop: {0} deferred {1} time(s) unchanged; next look in {2:N1} h' -f $item.Label, $count, ($seconds / 3600)) }
         }
     }
 

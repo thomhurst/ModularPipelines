@@ -13,14 +13,33 @@ Run unattended. At each iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1`
 
 1. Merge an eligible PR.
 2. Fix conflicts, failed CI, or review findings on an open PR and push.
-3. Recover valuable changes from a preserved merged-PR worktree, following [recovery guidance](references/recovery.md).
-4. Claim an available issue, implement its full scope, and open a PR.
+3. Publish finished work stranded on a local `issue-<N>-*` branch that has no PR, or recover valuable changes from a preserved merged-PR worktree, following [recovery guidance](references/recovery.md).
+4. Tidy the issue queue: close a parent whose native sub-issues are all closed, and close an issue that `origin/main` already implements or that another issue supersedes.
+5. Claim an available issue, implement its full scope, and open a PR. Prefer issues that block other issues.
 
 Apply repository-specific PR maintenance rules before choosing repair work; some PR categories require closure and a linked issue instead.
 
 After pushing or deferring, survey again. Pending CI/review means work another item; do not watch, sleep, poll one item, or schedule monitors while work is queueable. When only CI/review remains, periodically survey the whole queue and stay responsive.
 
-Stop on the user's stop/pause, or when a fresh survey finds no queueable issue, recovery candidate, or actionable PR and remaining work requires an external decision/dependency. Pending CI alone is not completion. Defer unsafe/blocked items, record the blocker once when authorized, release ownership, and continue without blocking questions. Revisit only when evidence changes.
+Stop on the user's stop/pause, or when a fresh survey finds no queueable issue, recovery candidate, or actionable PR and remaining work requires an external decision/dependency. Pending CI alone is not completion. Continue without blocking questions.
+
+### Resolve, do not defer
+
+Every unit costs a full agent run, so a deferral that changes nothing is wasted work. Before you defer, try to finish the item another way:
+
+- **Blocker first.** When the blocker is an open issue or PR in this repository that you can work, release this item's lock, acquire the blocker's lock, and work the blocker in this unit. Report the result for the blocker. Defer only when the blocker is itself locked, or it needs a human decision or an external dependency.
+- **Already implemented.** When `origin/main` already delivers an issue, close it with a comment that names the commit or PR. When an open PR delivers it, make sure the PR body links the issue with `Closes #<N>`, then work the PR instead.
+- **Finished parent.** When every native sub-issue of a parent is closed, check the parent's own acceptance criteria against `origin/main`. Close it with evidence, or implement what is left.
+- **Stale issue.** When an issue's body no longer matches the code, for example because part of it shipped, update the body so that it describes only the remaining work, then implement that work.
+- **Pushed and waiting.** A pushed fix that waits for CI, hosted generation, or review is `pushed fixes to #N` or `opened #N closing #M`, not `deferred`.
+
+Defer only for a reason that no agent can remove: a human decision, an upstream release or dependency, missing credentials or infrastructure access, or a lock held by another worker. Record the blocker once. Make it visible to the driver, so that later units do not re-examine an unchanged item:
+
+- For a prerequisite, add a native `blocked_by` dependency. The driver skips the item until the prerequisite closes.
+- For a human decision, add `needs-human` and state the decision and its options.
+- For an external gate, such as a release date or an upstream fix, add `on-hold` (create the label if needed) and name the condition that removes it.
+
+Do not post another blocker comment on an item whose blocker is unchanged. Edit your existing comment instead. Start every comment you post with `<!-- issue-pr-loop -->`, so the driver can tell your comments from new information.
 
 Use commentary while active. Preserve item IDs, worktree, lock identity/script, owned services, and unresolved validation across compaction.
 
@@ -83,7 +102,7 @@ Immediately after checkout, run `pwsh $agentLocks renew -LockName $lockName -Wor
 
 ## Maintain PRs
 
-Survey with `gh pr list --author @me --state open --json number,title,headRefName,headRefOid,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup,isDraft`. Include other authors only when the user's queue scope includes them. Paginate or increase limits so an incomplete first page cannot make the queue appear empty. Skip PRs labeled `needs-human` (see [Rework budget](#rework-budget)).
+Survey with `gh pr list --author @me --state open --json number,title,headRefName,headRefOid,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup,isDraft`. Include other authors only when the user's queue scope includes them. Paginate or increase limits so an incomplete first page cannot make the queue appear empty. Skip PRs labeled `needs-human` (see [Rework budget](#rework-budget)) or `on-hold`.
 
 Inspect all review surfaces, including pagination and replies: REST `pulls/<N>/reviews`, `pulls/<N>/comments`, `issues/<N>/comments` under `repos/{owner}/{repo}`, and GraphQL `reviewThreads` with IDs, resolution state, bodies, authors, and timestamps.
 
@@ -139,9 +158,9 @@ Never bypass with direct `gh pr merge` or `--auto`. Nonzero exit means inspect/d
 
 ## Pick an issue
 
-Ensure `in-progress` exists, then list open, unassigned candidates without that label. Skip `wontfix`, `duplicate`, `question`, claimed items, and external blockers. Prefer clear, smaller tasks with fewer discussion comments; size alone is not a reason to stop when larger coherent work remains.
+Ensure `in-progress` exists, then list open, unassigned candidates without that label. Skip `wontfix`, `duplicate`, `question`, `needs-human`, `on-hold`, claimed items, issues with open native sub-issues or open `blocked_by` dependencies, and issues with an open closing PR. Prefer issues that block other issues, then clear, smaller tasks with fewer discussion comments; size alone is not a reason to stop when larger coherent work remains.
 
-Under the issue lock, re-fetch state, assignees, labels, native dependencies, and linked PRs. Skip closed, assigned, already claimed, blocked, or already implemented items. Add `in-progress` and verify the claim before branching. Keep it while the PR is open. Remove only your own claim if abandoning before PR creation; after lost ownership, leave shared claim state untouched and report the loss.
+Under the issue lock, re-fetch state, assignees, labels, native dependencies, and linked PRs. Skip closed, assigned, or actively claimed items. Work an open blocker instead of a blocked item, and close an already implemented item with evidence, as described in [Resolve, do not defer](#resolve-do-not-defer). An `in-progress` claim with no open PR and no lock holder is stale: look for its branch or worktree and publish that work, or remove the claim and implement the issue. Add `in-progress` and verify the claim before branching. Keep it while the PR is open. Remove only your own claim if abandoning before PR creation; after lost ownership, leave shared claim state untouched and report the loss.
 
 Establish full scope from source, tests, and docs; a missing API may be the requested work. Deliver coherent issues in one PR.
 
@@ -158,6 +177,6 @@ Review the full diff for correctness, reuse, and efficiency (`/simplify` when av
 - Use non-interactive commit messages (`-m`, `--file`, or `--amend --no-edit`) and disable editors for rebases and continuation: `git -c core.editor=true -c sequence.editor=true rebase ...`.
 - Reference the issue in commits. Create normal ready-for-review PRs unless the user explicitly requests a draft. Follow the repository PR template and use `--body-file` for multiline descriptions. Put `Closes #<N>` on its own line only when the full issue is delivered.
 - Use ordinary pushes for new commits and `git push --force-with-lease` when rewriting an owned PR branch. Never use bare `--force` or rewrite main. Confirm ownership and the remote PR head before reporting completion.
-- Completion requires commit, successful push, PR creation/update, and `gh pr view <N> --json headRefOid` matching local `git rev-parse HEAD`. Push/ownership failure means preserve work, report failure, release ownership, and continue. Release locks in every outcome and stop owned services when no longer needed.
+- Completion requires commit, successful push, PR creation/update, and `gh pr view <N> --json headRefOid` matching local `git rev-parse HEAD`. Push/ownership failure means preserve work, report failure, release ownership, and continue. Keep committed work on its `issue-<N>-*` branch: the driver finds unpublished branches and assigns them for publishing. Release locks in every outcome and stop owned services when no longer needed.
 
 Record unrelated bugs as linked issues only within authorization; finish the original scope.
