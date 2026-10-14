@@ -66,22 +66,34 @@ public class ScrapingOrchestrator
     {
         ArgumentNullException.ThrowIfNull(scraper);
 
-        _logger.LogInformation("Starting scrape for {Tool}", scraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Starting scrape for {Tool}", scraper.ToolName);
+        }
 
         // Step 1: Scrape the documentation
         var toolDefinition = await scraper.ScrapeAsync(cancellationToken);
 
-        _logger.LogInformation(
-            "Scraped {CommandCount} commands for {Tool}",
-            toolDefinition.Commands.Count,
-            scraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Scraped {CommandCount} commands for {Tool}",
+                toolDefinition.Commands.Count,
+                scraper.ToolName);
+        }
 
         // Step 2: Apply type enhancement if available
         if (_enhancer is not null)
         {
-            _logger.LogInformation("Applying type enhancement for {Tool}", scraper.ToolName);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Applying type enhancement for {Tool}", scraper.ToolName);
+            }
             toolDefinition = await _enhancer.EnhanceAsync(toolDefinition, cancellationToken);
-            _logger.LogInformation("Type enhancement complete for {Tool}", scraper.ToolName);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Type enhancement complete for {Tool}", scraper.ToolName);
+            }
         }
         else
         {
@@ -120,7 +132,10 @@ public class ScrapingOrchestrator
         ArgumentNullException.ThrowIfNull(scrapers);
 
         var scraperList = scrapers.ToList();
-        _logger.LogInformation("Starting parallel scrape of {Count} tools", scraperList.Count);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Starting parallel scrape of {Count} tools", scraperList.Count);
+        }
 
         var semaphore = new SemaphoreSlim(maxParallelism);
         var tasks = scraperList.Select(async scraper =>
@@ -138,10 +153,13 @@ public class ScrapingOrchestrator
 
         var results = await Task.WhenAll(tasks);
 
-        _logger.LogInformation(
-            "Completed scraping {Count} tools with {TotalCommands} total commands",
-            results.Length,
-            results.Sum(r => r.Commands.Count));
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Completed scraping {Count} tools with {TotalCommands} total commands",
+                results.Length,
+                results.Sum(r => r.Commands.Count));
+        }
 
         return results;
     }
@@ -159,7 +177,10 @@ public class ScrapingOrchestrator
     {
         ArgumentNullException.ThrowIfNull(scraper);
 
-        _logger.LogInformation("Starting CLI-first scrape for {Tool}", scraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Starting CLI-first scrape for {Tool}", scraper.ToolName);
+        }
 
         // Check if tool is available
         if (!await scraper.IsAvailableAsync(cancellationToken))
@@ -194,17 +215,26 @@ public class ScrapingOrchestrator
             Errors = [],
         };
 
-        _logger.LogInformation(
-            "Scraped {CommandCount} commands for {Tool} via CLI",
-            toolDefinition.Commands.Count,
-            scraper.ToolName);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Scraped {CommandCount} commands for {Tool} via CLI",
+                toolDefinition.Commands.Count,
+                scraper.ToolName);
+        }
 
         // Step 2: Apply type enhancement if available
         if (_enhancer is not null)
         {
-            _logger.LogInformation("Applying type enhancement for {Tool}", scraper.ToolName);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Applying type enhancement for {Tool}", scraper.ToolName);
+            }
             toolDefinition = await _enhancer.EnhanceAsync(toolDefinition, cancellationToken);
-            _logger.LogInformation("Type enhancement complete for {Tool}", scraper.ToolName);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Type enhancement complete for {Tool}", scraper.ToolName);
+            }
         }
         else
         {
@@ -243,7 +273,10 @@ public class ScrapingOrchestrator
         ArgumentNullException.ThrowIfNull(scrapers);
 
         var scraperList = scrapers.ToList();
-        _logger.LogInformation("Starting parallel CLI-first scrape of {Count} tools", scraperList.Count);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Starting parallel CLI-first scrape of {Count} tools", scraperList.Count);
+        }
 
         var semaphore = new SemaphoreSlim(maxParallelism);
         var tasks = scraperList.Select(async scraper =>
@@ -261,10 +294,13 @@ public class ScrapingOrchestrator
 
         var results = await Task.WhenAll(tasks);
 
-        _logger.LogInformation(
-            "Completed CLI-first scraping {Count} tools with {TotalCommands} total commands",
-            results.Length,
-            results.Sum(r => r.Commands.Count));
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Completed CLI-first scraping {Count} tools with {TotalCommands} total commands",
+                results.Length,
+                results.Sum(r => r.Commands.Count));
+        }
 
         return results;
     }

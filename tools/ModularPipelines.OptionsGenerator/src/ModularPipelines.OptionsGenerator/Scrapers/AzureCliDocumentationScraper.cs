@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 /// Scrapes Azure CLI documentation from learn.microsoft.com.
 /// Azure CLI docs use URLs like /cli/azure/[command-group]?view=azure-cli-latest.
 /// </summary>
-public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
+public partial class AzureCliDocumentationScraper(HttpClient httpClient, ILogger<AzureCliDocumentationScraper> logger) : CliDocumentationScraperBase(httpClient, logger)
 {
     private const string BaseUrl = "https://learn.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest";
     private const string CommandBaseUrl = "https://learn.microsoft.com/en-us/cli/azure/";
@@ -33,17 +33,15 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
     // Maximum subcommands to fetch per group to avoid timeout
     private const int MaxSubCommandsPerGroup = 5;
 
-    public AzureCliDocumentationScraper(HttpClient httpClient, ILogger<AzureCliDocumentationScraper> logger)
-        : base(httpClient, logger)
-    {
-    }
-
     public override async Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default)
     {
         var commands = new List<CliCommandDefinition>();
         var errors = new List<ScrapingError>();
 
-        Logger.LogInformation("Fetching Azure CLI reference index from {Url}", BaseUrl);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Fetching Azure CLI reference index from {Url}", BaseUrl);
+        }
 
         try
         {
@@ -51,14 +49,20 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
 
             // Extract command groups from the index
             var commandGroups = ExtractCommandGroups(indexDoc);
-            Logger.LogInformation("Found {Count} command groups", commandGroups.Count);
+            if (Logger.IsEnabled(LogLevel.Information))
+            {
+                Logger.LogInformation("Found {Count} command groups", commandGroups.Count);
+            }
 
             // Only process priority groups to avoid excessive scraping
             var priorityGroupsToProcess = commandGroups
                 .Where(g => PriorityGroups.Contains(g.Name, StringComparer.OrdinalIgnoreCase))
                 .ToList();
 
-            Logger.LogInformation("Processing {Count} priority groups", priorityGroupsToProcess.Count);
+            if (Logger.IsEnabled(LogLevel.Information))
+            {
+                Logger.LogInformation("Processing {Count} priority groups", priorityGroupsToProcess.Count);
+            }
 
             foreach (var group in priorityGroupsToProcess)
             {
@@ -66,7 +70,10 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
                 {
                     var groupCommands = await ScrapeCommandGroupAsync(group, cancellationToken);
                     commands.AddRange(groupCommands);
-                    Logger.LogInformation("Scraped {Count} commands from {Group}", groupCommands.Count, group.Name);
+                    if (Logger.IsEnabled(LogLevel.Information))
+                    {
+                        Logger.LogInformation("Scraped {Count} commands from {Group}", groupCommands.Count, group.Name);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -102,7 +109,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         };
     }
 
-    private List<CommandGroup> ExtractCommandGroups(IDocument doc)
+    private static List<CommandGroup> ExtractCommandGroups(IDocument doc)
     {
         var groups = new List<CommandGroup>();
 
@@ -116,16 +123,22 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             {
                 var cells = row.QuerySelectorAll("td").ToArray();
                 if (cells.Length < 2)
+                {
                     continue;
+                }
 
                 var nameCell = cells[0];
                 var link = nameCell.QuerySelector("a");
                 if (link is null)
+                {
                     continue;
+                }
 
                 var href = link.GetAttribute("href");
                 if (string.IsNullOrEmpty(href))
+                {
                     continue;
+                }
 
                 var name = link.TextContent.Trim().Replace("az ", "");
                 var description = cells.Length > 1 ? cells[1].TextContent.Trim() : null;
@@ -137,7 +150,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
                 // Ensure view parameter
                 if (!fullUrl.Contains("view="))
                 {
-                    fullUrl += fullUrl.Contains("?") ? "&view=azure-cli-latest" : "?view=azure-cli-latest";
+                    fullUrl += fullUrl.Contains('?') ? "&view=azure-cli-latest" : "?view=azure-cli-latest";
                 }
 
                 if (!groups.Any(g => g.Name == name))
@@ -166,8 +179,11 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             var doc = await FetchHtmlAsync(group.Url, cancellationToken);
 
             // Extract subcommands from the page (limit to avoid timeout)
-            var subCommands = ExtractSubCommands(doc, group).Take(MaxSubCommandsPerGroup).ToList();
-            Logger.LogDebug("Processing {Count} subcommands for {Group}", subCommands.Count, group.Name);
+            var subCommands = ExtractSubCommands(doc).Take(MaxSubCommandsPerGroup).ToList();
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug("Processing {Count} subcommands for {Group}", subCommands.Count, group.Name);
+            }
 
             foreach (var subCommand in subCommands)
             {
@@ -200,7 +216,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         return commands;
     }
 
-    private List<SubCommand> ExtractSubCommands(IDocument doc, CommandGroup group)
+    private static List<SubCommand> ExtractSubCommands(IDocument doc)
     {
         var subCommands = new List<SubCommand>();
 
@@ -213,21 +229,29 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             {
                 var cells = row.QuerySelectorAll("td").ToArray();
                 if (cells.Length < 1)
+                {
                     continue;
+                }
 
                 var link = cells[0].QuerySelector("a");
                 if (link is null)
+                {
                     continue;
+                }
 
                 var href = link.GetAttribute("href");
                 if (string.IsNullOrEmpty(href))
+                {
                     continue;
+                }
 
                 var commandText = link.TextContent.Trim();
                 var commandParts = ParseCommandParts(commandText);
 
                 if (commandParts.Length == 0)
+                {
                     continue;
+                }
 
                 var fullUrl = href.StartsWith("http")
                     ? href
@@ -235,7 +259,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
 
                 if (!fullUrl.Contains("view="))
                 {
-                    fullUrl += fullUrl.Contains("?") ? "&view=azure-cli-latest" : "?view=azure-cli-latest";
+                    fullUrl += fullUrl.Contains('?') ? "&view=azure-cli-latest" : "?view=azure-cli-latest";
                 }
 
                 subCommands.Add(new SubCommand
@@ -279,7 +303,9 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
     {
         var commandParts = ParseCommandParts(group.Name);
         if (commandParts.Length == 0)
+        {
             return null;
+        }
 
         // Get description
         var description = ExtractDescription(doc);
@@ -288,7 +314,9 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         var options = ExtractOptions(doc, commandParts);
 
         if (options.Count == 0)
+        {
             return null;
+        }
 
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
         var className = GenerateClassName(commandParts);
@@ -305,7 +333,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             Options = options,
             PositionalArguments = [],
             SubDomainGroup = subDomain,
-            Enums = options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!).ToList(),
+            Enums = [.. options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!)],
         };
     }
 
@@ -316,7 +344,9 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         {
             var content = meta.GetAttribute("content");
             if (!string.IsNullOrEmpty(content))
+            {
                 return content;
+            }
         }
 
         var firstPara = doc.QuerySelector("article p, .content p");
@@ -335,7 +365,9 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         {
             var sectionText = section.TextContent.ToLowerInvariant();
             if (!sectionText.Contains("parameter") && !sectionText.Contains("argument"))
+            {
                 continue;
+            }
 
             // Get content until next heading
             var sibling = section.NextElementSibling;
@@ -345,7 +377,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
                 var dts = sibling.QuerySelectorAll("dt");
                 var dds = sibling.QuerySelectorAll("dd");
 
-                for (int i = 0; i < dts.Length; i++)
+                for (var i = 0; i < dts.Length; i++)
                 {
                     var dt = dts[i];
                     var dd = i < dds.Length ? dds[i] : null;
@@ -358,7 +390,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
                 }
 
                 // Parse tables
-                if (sibling.TagName.ToUpperInvariant() == "TABLE")
+                if (sibling.TagName.Equals("TABLE", StringComparison.OrdinalIgnoreCase))
                 {
                     var tableOptions = ParseParameterTable(sibling, className);
                     foreach (var opt in tableOptions)
@@ -383,12 +415,16 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             {
                 var longForm = match.Groups["long"].Value.Trim();
                 if (string.IsNullOrEmpty(longForm) || options.Any(o => o.SwitchName == longForm))
+                {
                     continue;
+                }
 
                 var shortForm = match.Groups["short"].Value.Trim();
                 var propertyName = NormalizePropertyName(longForm);
                 if (propertyName is null)
+                {
                     continue;
+                }
 
                 options.Add(new CliOptionDefinition
                 {
@@ -412,7 +448,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         return options;
     }
 
-    private CliOptionDefinition? ParseDefinitionListItem(IElement dt, IElement? dd, string className)
+    private static CliOptionDefinition? ParseDefinitionListItem(IElement dt, IElement? dd, string className)
     {
         var text = dt.TextContent.Trim();
         var description = dd?.TextContent.Trim();
@@ -426,17 +462,25 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         {
             var cleaned = part.Trim();
             if (cleaned.StartsWith("--"))
+            {
                 longForm = cleaned;
-            else if (cleaned.StartsWith("-") && cleaned.Length == 2)
+            }
+            else if (cleaned.StartsWith('-') && cleaned.Length == 2)
+            {
                 shortForm = cleaned;
+            }
         }
 
         if (string.IsNullOrEmpty(longForm))
+        {
             return null;
+        }
 
         var propertyName = NormalizePropertyName(longForm);
         if (propertyName is null)
+        {
             return null;
+        }
 
         // Extract accepted values from description (Azure CLI shows: "Accepted values: 0, 1, f, false, n, no, t, true, y, yes")
         var acceptedValues = ExtractAcceptedValues(description);
@@ -472,18 +516,17 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
     private static string? ExtractAcceptedValues(string? text)
     {
         if (string.IsNullOrEmpty(text))
+        {
             return null;
+        }
 
         // Look for "Accepted values:" pattern
-        var match = System.Text.RegularExpressions.Regex.Match(
-            text,
-            @"Accepted values?:\s*([^.]+)",
-            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        var match = AcceptedValuesPattern().Match(text);
 
         return match.Success ? match.Groups[1].Value.Trim() : null;
     }
 
-    private List<CliOptionDefinition> ParseParameterTable(IElement table, string className)
+    private static List<CliOptionDefinition> ParseParameterTable(IElement table, string className)
     {
         var options = new List<CliOptionDefinition>();
 
@@ -492,13 +535,17 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         {
             var cells = row.QuerySelectorAll("td").ToArray();
             if (cells.Length < 2)
+            {
                 continue;
+            }
 
             var nameCell = cells[0].TextContent.Trim();
             var description = cells.Length > 1 ? cells[1].TextContent.Trim() : null;
 
-            if (!nameCell.StartsWith("-"))
+            if (!nameCell.StartsWith('-'))
+            {
                 continue;
+            }
 
             var parts = nameCell.Split([' ', ',', '/'], StringSplitOptions.RemoveEmptyEntries);
             string? longForm = null;
@@ -507,22 +554,31 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             foreach (var part in parts)
             {
                 if (part.StartsWith("--"))
+                {
                     longForm = part;
-                else if (part.StartsWith("-") && part.Length == 2)
+                }
+                else if (part.StartsWith('-') && part.Length == 2)
+                {
                     shortForm = part;
+                }
             }
 
             if (string.IsNullOrEmpty(longForm))
             {
                 if (string.IsNullOrEmpty(shortForm))
+                {
                     continue;
+                }
+
                 longForm = shortForm;
                 shortForm = null;
             }
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
+            {
                 continue;
+            }
 
             // Extract accepted values from description (Azure CLI shows: "Accepted values: 0, 1, f, false, n, no, t, true, y, yes")
             var acceptedValues = ExtractAcceptedValues(description);
@@ -569,4 +625,7 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
 
     [GeneratedRegex(@"(?:(?<short>-\w),?\s*)?(?<long>--[\w-]+)", RegexOptions.Multiline)]
     private static partial Regex OptionPattern();
+
+    [GeneratedRegex(@"Accepted values?:\s*([^.]+)", RegexOptions.IgnoreCase)]
+    private static partial Regex AcceptedValuesPattern();
 }

@@ -5,13 +5,13 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 internal static class DotNetCliNormalizer
 {
     private static readonly HashSet<string> NoLogoCommands =
-        new(StringComparer.OrdinalIgnoreCase)
-        {
+        [
+            with(StringComparer.OrdinalIgnoreCase),
             "build",
             "clean",
             "pack",
             "publish",
-        };
+        ];
 
     public static void NormalizeOptions(IReadOnlyList<string> commandParts, List<CliOptionDefinition> options)
     {

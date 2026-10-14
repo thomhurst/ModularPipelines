@@ -52,7 +52,10 @@ public partial class DotNetCliDocumentationScraper(HttpClient httpClient, ILogge
         var commands = new List<CliCommandDefinition>();
         var errors = new List<ScrapingError>();
 
-        Logger.LogInformation("Fetching .NET CLI reference from {Url}", IndexUrl);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Fetching .NET CLI reference from {Url}", IndexUrl);
+        }
 
         // Scrape core commands
         foreach (var cmd in CoreCommands)
@@ -64,12 +67,18 @@ public partial class DotNetCliDocumentationScraper(HttpClient httpClient, ILogge
                 if (command is not null)
                 {
                     commands.Add(command);
-                    Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                    if (Logger.IsEnabled(LogLevel.Debug))
+                    {
+                        Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                    }
                 }
             }
             catch (HttpRequestException)
             {
-                Logger.LogDebug("No dedicated page for dotnet {Cmd}", cmd);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("No dedicated page for dotnet {Cmd}", cmd);
+                }
             }
             catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
             {
@@ -99,12 +108,18 @@ public partial class DotNetCliDocumentationScraper(HttpClient httpClient, ILogge
                     if (command is not null)
                     {
                         commands.Add(command);
-                        Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                        if (Logger.IsEnabled(LogLevel.Debug))
+                        {
+                            Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                        }
                     }
                 }
                 catch (HttpRequestException)
                 {
-                    Logger.LogDebug("No dedicated page for dotnet {Parent} {Sub}", parent, sub);
+                    if (Logger.IsEnabled(LogLevel.Debug))
+                    {
+                        Logger.LogDebug("No dedicated page for dotnet {Parent} {Sub}", parent, sub);
+                    }
                 }
                 catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
                 {
@@ -167,7 +182,7 @@ public partial class DotNetCliDocumentationScraper(HttpClient httpClient, ILogge
             Options = options,
             PositionalArguments = positionalArgs,
             SubDomainGroup = subDomain,
-            Enums = options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!).ToList(),
+            Enums = [.. options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!)],
         };
     }
 
@@ -462,7 +477,7 @@ public partial class DotNetCliDocumentationScraper(HttpClient httpClient, ILogge
                 // Check if this is preceded by a flag (meaning it's an option value, not positional)
                 var matchIndex = match.Index;
                 var precedingText = usageLine[..matchIndex];
-                if (precedingText.EndsWith("--") || precedingText.TrimEnd().EndsWith("-"))
+                if (precedingText.EndsWith("--") || precedingText.TrimEnd().EndsWith('-'))
                 {
                     continue;
                 }
