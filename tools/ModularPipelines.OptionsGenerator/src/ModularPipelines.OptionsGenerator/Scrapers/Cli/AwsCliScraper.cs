@@ -336,10 +336,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
             if (subcommands.Count > 0 && Logger.IsEnabled(LogLevel.Debug))
             {
-                if (Logger.IsEnabled(LogLevel.Debug))
-                {
-                    Logger.LogDebug("[aws] Used fallback pattern to extract {Count} commands", subcommands.Count);
-                }
+                Logger.LogDebug("[aws] Used fallback pattern to extract {Count} commands", subcommands.Count);
             }
         }
 
@@ -928,15 +925,9 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     private static partial Regex AvailableCommandsHeaderPattern();
     [GeneratedRegex(@"^[A-Z][A-Z\s]+$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
-    [GeneratedRegex(@"^DESCRIPTION\s*\n\s+(.+?)(?=\n\n[A-Z]|\nSYNOPSIS|\nOPTIONS|\nAVAILABLE)", RegexOptions.Multiline | RegexOptions.Singleline)]
-    private static partial Regex DescriptionSectionPattern();
 
     [GeneratedRegex(@"^GLOBAL OPTIONS\s*$", RegexOptions.Multiline)]
     private static partial Regex GlobalOptionsSectionPattern();
-    [GeneratedRegex("""^\s{8,}(.+?)(?=\n\s{7}"?--|\n\n\s{7}"?--|\z)""", RegexOptions.Singleline)]
-    private static partial Regex OptionDescriptionPattern();
-    [GeneratedRegex(@"^SYNOPSIS\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
-    private static partial Regex SynopsisSectionPattern();
 
     [GeneratedRegex(@"^DESCRIPTION\s*\n\s+(.+?)(?=\n\n[A-Z]|\nSYNOPSIS|\nOPTIONS|\nAVAILABLE)", RegexOptions.Multiline | RegexOptions.Singleline)]
     private static partial Regex DescriptionSectionPattern();
