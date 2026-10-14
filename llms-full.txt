@@ -3517,8 +3517,6 @@ using EnumerableAsyncProcessor.Extensions;
 
 using ModularPipelines;
 
-using ModularPipelines.Attributes;
-
 using ModularPipelines.Context;
 
 using ModularPipelines.DotNet.Options;
@@ -3526,8 +3524,6 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 
 using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
 
 
 
@@ -3806,26 +3802,16 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
    #r "nuget: ModularPipelines, 4.0.0"
    ```
 
-3. **Write your F# code:** Below the package reference, you can write your F# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
+3. **Write your F# code:** Below the package reference, you can write your F# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to update .NET workloads and check the installed SDKs:
 
    ```
    #r "nuget: ModularPipelines.DotNet, 4.*"
-
-   open ModularPipelines.DotNet
-
-   open ModularPipelines.Attributes
-
-   open ModularPipelines.Context
 
    open ModularPipelines.DotNet.Extensions
 
    open ModularPipelines.DotNet.Services
 
    open ModularPipelines.Extensions
-
-   open ModularPipelines.Models
-
-   open ModularPipelines.Modules
 
    open ModularPipelines
 
@@ -3837,9 +3823,9 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
        inherit Module<CommandResult>()
 
-       override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
+       override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): System.Threading.Tasks.Task<CommandResult> =
 
-               context.Tools.Get<IDotNet>().Workload.Update(cancellationToken = cancellationToken)
+               context.Tools.Get<IDotNet>().Workload.UpdateAsync(cancellationToken = cancellationToken)
 
 
 
@@ -3851,9 +3837,9 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
        inherit Module<CommandResult>()
 
-       override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
+       override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): System.Threading.Tasks.Task<CommandResult> =
 
-               context.Tools.Get<IDotNet>().Sdk.Check(cancellationToken = cancellationToken);
+               context.Tools.Get<IDotNet>().Sdk.CheckAsync(cancellationToken = cancellationToken)
 
 
 
@@ -3861,7 +3847,7 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
    let builder = Pipeline.CreateBuilder(args)
 
-   builder.Services.RegisterDotNetContext()
+   builder.Services.RegisterDotNetContext() |> ignore
 
 
 
@@ -3871,13 +3857,17 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
        .AddModule<CheckDotnetSdkModule>()
 
+   |> ignore
 
 
-   builder.ExecutePipelineAsync()
+
+   builder.RunAsync()
 
    |> Async.AwaitTask
 
    |> Async.RunSynchronously
+
+   |> ignore
    ```
 
 4. **Run your F# script:** You can run your F# script using the F# Interactive environment. If you are using Visual Studio, you can simply open the `example.fsx` file and execute it. Alternatively, you can run it from the command line using:
@@ -4128,22 +4118,20 @@ public class MyModule : Module<IDictionary<string, object>>
 }
 ```
 
-When a module has no meaningful result, use `None`:
+When a module has no meaningful result, use the non-generic `Module`:
 
 ```
-public class PublishModule : Module<None>
+public class PublishModule : Module
 
 {
 
-    protected override async Task<None> ExecuteAsync(
+    protected override async Task ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
         await PublishAsync(cancellationToken);
-
-        return None.Value;
 
     }
 
@@ -4230,7 +4218,7 @@ return myModule switch
 };
 ```
 
-Or use the safe accessors for simpler checks:
+Or use the safe accessors for simpler checks in a non-generic `Module`:
 
 ```
 var myModule = await context.GetModule<MyOptionalModule>();
@@ -4241,7 +4229,7 @@ if (myModule.SkipDecisionOrDefault is not null)
 
 {
 
-    return None.Value;
+    return;
 
 }
 
@@ -4257,7 +4245,7 @@ if (myModule.ExceptionOrDefault is not null)
 
     {
 
-        return None.Value;
+        return;
 
     }
 
@@ -4269,7 +4257,7 @@ if (myModule.ExceptionOrDefault is not null)
 
 // Success case
 
-return await DoSomethingAsync(myModule.Value);
+await DoSomethingAsync(myModule.Value);
 ```
 
 You can also use the `Match` helper for exhaustive handling:
@@ -5093,7 +5081,7 @@ Mark a shared options base with `[CliGlobalOptions]` when its declared settings 
 
 ## Defining Modules[​](#defining-modules "Direct link to Defining Modules")
 
-Modules are defined by creating a class that inherits from the `Module<T>` base class.
+Modules inherit from `Module<T>` when they return a value, or `Module` when they do not. For synchronous work, use `SyncModule<T>` or `SyncModule` respectively.
 
 `T` is the type of object that your Module will return, and that object can be seen by other Modules (if they depend on it).
 
@@ -5145,14 +5133,14 @@ public class CleanupModule : Module
 }
 ```
 
-For synchronous operations, `SyncModule<None>` remains available:
+For synchronous operations without a return value, use `SyncModule`:
 
 ```
-public class LoggingModule : SyncModule<None>
+public class LoggingModule : SyncModule
 
 {
 
-    protected override None Execute(
+    protected override void Execute(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -5160,14 +5148,12 @@ public class LoggingModule : SyncModule<None>
 
         context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
 
-        return None.Value;
-
     }
 
 }
 ```
 
-The pipeline represents a non-generic module's successful result internally with `None.Value`. You only need to return that sentinel yourself when using `SyncModule<None>`.
+Neither non-generic base class requires you to return a result sentinel.
 
 ## Configuring Module Behavior[​](#configuring-module-behavior "Direct link to Configuring Module Behavior")
 
@@ -8268,7 +8254,7 @@ Apply the condition with an attribute that states its intent:
 ```
 [RunIf<ServiceIsAvailable>]
 
-public class DeployModule : Module<None>
+public class DeployModule : Module
 ```
 
 * `[RunIf<T1, ..., T4>]` runs only when all of its one to four conditions are `true`.
@@ -8330,7 +8316,7 @@ public sealed class RunIfRegionAttribute(string region)
 
 [RunIfRegion("eu-west-2")]
 
-public class RegionalDeployModule : Module<None>
+public class RegionalDeployModule : Module
 ```
 
 Each run attribute is a requirement of its own. To make several run attributes alternatives, give them the same `GroupKey`: the module runs when any attribute in the group is satisfied, and every group must still hold.
@@ -8364,7 +8350,7 @@ public sealed class RunOnBranchAttribute(string branch) : RunConditionAttribute(
 
 [RunOnBranch("release")]
 
-public class ReleaseModule : Module<None>
+public class ReleaseModule : Module
 ```
 
 The group key is ignored for skip attributes, because any satisfied skip attribute already skips the module.
@@ -8386,7 +8372,7 @@ Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`
 ```
 [RunIf<OnLinux>]
 
-public class LinuxModule : Module<None>
+public class LinuxModule : Module
 ```
 
 Parameterized built-ins cover environment variables. Combine platform conditions when a module can run on alternative operating systems:
@@ -8398,7 +8384,7 @@ Parameterized built-ins cover environment variables. Combine platform conditions
 
 [RunIfAny<OnLinux, OnMacOS>]
 
-public class PublishModule : Module<None>
+public class PublishModule : Module
 ```
 
 Use `RunIfEnvironmentVariableUnset` or `SkipIfEnvironmentVariableUnset` for the inverse environment-variable check. The `ModularPipelines.Git` package also provides `RunIfBranch`, `RunIfBranchStartsWith`, `RunIfChanged`, and `SkipIfBranch`; these stateful attributes derive from `RunConditionAttribute`, and `RunIfBranch` and `RunIfBranchStartsWith` share a group key.
@@ -9358,6 +9344,8 @@ In the example below, the `.csproj` filename identifies each sub-module.
 ## Example[​](#example "Direct link to Example")
 
 ```
+[DependsOn<NugetVersionGeneratorModule>]
+
 public class PackProjectsModule : Module<CommandResult[]>
 
 {
@@ -9400,21 +9388,21 @@ public class PackProjectsModule : Module<CommandResult[]>
 
             {
 
-                TargetPath = project,
+                ProjectSolution = project.Path,
 
-                Configuration = Configuration.Release,
+                Configuration = "Release",
 
-                Properties = new List<string>
+                Properties =
 
-                {
+                [
 
-                    $"PackageVersion={packageVersion}",
+                    new KeyValue("PackageVersion", packageVersion),
 
-                    $"Version={packageVersion}",
+                    new KeyValue("Version", packageVersion),
 
-                },
+                ],
 
-            }, token), cancellationToken);
+            }, cancellationToken: token), cancellationToken);
 
         }
 

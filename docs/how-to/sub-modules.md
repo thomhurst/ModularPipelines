@@ -17,6 +17,8 @@ In the example below, the `.csproj` filename identifies each sub-module.
 ## Example[​](#example "Direct link to Example")
 
 ```
+[DependsOn<NugetVersionGeneratorModule>]
+
 public class PackProjectsModule : Module<CommandResult[]>
 
 {
@@ -59,21 +61,21 @@ public class PackProjectsModule : Module<CommandResult[]>
 
             {
 
-                TargetPath = project,
+                ProjectSolution = project.Path,
 
-                Configuration = Configuration.Release,
+                Configuration = "Release",
 
-                Properties = new List<string>
+                Properties =
 
-                {
+                [
 
-                    $"PackageVersion={packageVersion}",
+                    new KeyValue("PackageVersion", packageVersion),
 
-                    $"Version={packageVersion}",
+                    new KeyValue("Version", packageVersion),
 
-                },
+                ],
 
-            }, token), cancellationToken);
+            }, cancellationToken: token), cancellationToken);
 
         }
 

@@ -128,22 +128,20 @@ public class MyModule : Module<IDictionary<string, object>>
 }
 ```
 
-When a module has no meaningful result, use `None`:
+When a module has no meaningful result, use the non-generic `Module`:
 
 ```
-public class PublishModule : Module<None>
+public class PublishModule : Module
 
 {
 
-    protected override async Task<None> ExecuteAsync(
+    protected override async Task ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
         await PublishAsync(cancellationToken);
-
-        return None.Value;
 
     }
 
@@ -230,7 +228,7 @@ return myModule switch
 };
 ```
 
-Or use the safe accessors for simpler checks:
+Or use the safe accessors for simpler checks in a non-generic `Module`:
 
 ```
 var myModule = await context.GetModule<MyOptionalModule>();
@@ -241,7 +239,7 @@ if (myModule.SkipDecisionOrDefault is not null)
 
 {
 
-    return None.Value;
+    return;
 
 }
 
@@ -257,7 +255,7 @@ if (myModule.ExceptionOrDefault is not null)
 
     {
 
-        return None.Value;
+        return;
 
     }
 
@@ -269,7 +267,7 @@ if (myModule.ExceptionOrDefault is not null)
 
 // Success case
 
-return await DoSomethingAsync(myModule.Value);
+await DoSomethingAsync(myModule.Value);
 ```
 
 You can also use the `Match` helper for exhaustive handling:

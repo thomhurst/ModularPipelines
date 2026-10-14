@@ -35,7 +35,7 @@ Apply the condition with an attribute that states its intent:
 ```
 [RunIf<ServiceIsAvailable>]
 
-public class DeployModule : Module<None>
+public class DeployModule : Module
 ```
 
 * `[RunIf<T1, ..., T4>]` runs only when all of its one to four conditions are `true`.
@@ -97,7 +97,7 @@ public sealed class RunIfRegionAttribute(string region)
 
 [RunIfRegion("eu-west-2")]
 
-public class RegionalDeployModule : Module<None>
+public class RegionalDeployModule : Module
 ```
 
 Each run attribute is a requirement of its own. To make several run attributes alternatives, give them the same `GroupKey`: the module runs when any attribute in the group is satisfied, and every group must still hold.
@@ -131,7 +131,7 @@ public sealed class RunOnBranchAttribute(string branch) : RunConditionAttribute(
 
 [RunOnBranch("release")]
 
-public class ReleaseModule : Module<None>
+public class ReleaseModule : Module
 ```
 
 The group key is ignored for skip attributes, because any satisfied skip attribute already skips the module.
@@ -153,7 +153,7 @@ Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`
 ```
 [RunIf<OnLinux>]
 
-public class LinuxModule : Module<None>
+public class LinuxModule : Module
 ```
 
 Parameterized built-ins cover environment variables. Combine platform conditions when a module can run on alternative operating systems:
@@ -165,7 +165,7 @@ Parameterized built-ins cover environment variables. Combine platform conditions
 
 [RunIfAny<OnLinux, OnMacOS>]
 
-public class PublishModule : Module<None>
+public class PublishModule : Module
 ```
 
 Use `RunIfEnvironmentVariableUnset` or `SkipIfEnvironmentVariableUnset` for the inverse environment-variable check. The `ModularPipelines.Git` package also provides `RunIfBranch`, `RunIfBranchStartsWith`, `RunIfChanged`, and `SkipIfBranch`; these stateful attributes derive from `RunConditionAttribute`, and `RunIfBranch` and `RunIfBranchStartsWith` share a group key.
