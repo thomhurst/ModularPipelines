@@ -347,21 +347,16 @@ public class WinGetCliScraperTests
         }
     }
 
-    private sealed class TestWinGetCliScraper : WinGetCliScraper
+    private sealed class TestWinGetCliScraper(ICliCommandExecutor? executor = null) : WinGetCliScraper(
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<WinGetCliScraper>.Instance)
     {
-        public TestWinGetCliScraper(ICliCommandExecutor? executor = null)
-            : base(
-                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<WinGetCliScraper>.Instance)
-        {
-        }
-
         public override Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
 
-        public IReadOnlyList<string> Extract(string helpText) =>
-            ExtractSubcommands(helpText).ToList();
+        public List<string> Extract(string helpText) =>
+            [.. ExtractSubcommands(helpText)];
 
         public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {

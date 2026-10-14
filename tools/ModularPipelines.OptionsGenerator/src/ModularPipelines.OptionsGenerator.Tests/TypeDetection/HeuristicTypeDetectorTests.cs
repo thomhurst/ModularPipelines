@@ -489,7 +489,7 @@ public class HeuristicTypeDetectorTests
         var result = await _detector.DetectTypeAsync(context);
 
         await Assert.That(result.Type).IsEqualTo(CliOptionType.Enum);
-        await Assert.That(result.EnumValues).IsEquivalentTo(new[] { "table", "json", "yaml" });
+        await Assert.That(result.EnumValues).IsEquivalentTo(["table", "json", "yaml"]);
     }
 
     [Test]
@@ -500,7 +500,7 @@ public class HeuristicTypeDetectorTests
         var result = await _detector.DetectTypeAsync(context);
 
         await Assert.That(result.Type).IsEqualTo(CliOptionType.Enum);
-        await Assert.That(result.EnumValues).IsEquivalentTo(new[] { "none", "falsehood" });
+        await Assert.That(result.EnumValues).IsEquivalentTo(["none", "falsehood"]);
     }
 
     [Test]

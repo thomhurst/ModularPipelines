@@ -216,7 +216,7 @@ public class CommandCoverageGuardTests
         try
         {
             var baseline = CommandCoverageGuard.Evaluate(
-                Tool(baselineCommands.Select(Command).ToArray()) with { ToolVersion = "aws-cli/2.36.29" },
+                Tool([.. baselineCommands.Select(Command)]) with { ToolVersion = "aws-cli/2.36.29" },
                 outputDirectory,
                 approveShrinkage: false);
             await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
@@ -379,8 +379,9 @@ public class CommandCoverageGuardTests
                 await Assert.That(current.RemovedCommands).IsEmpty();
                 await Assert.That(current.Violations).HasSingleItem();
                 await Assert.That(current.Violations[0]).Contains("Help was unavailable after all retries");
+                string?[] expectedUnavailableHelpPaths = ["aws fsx describe-backups", "aws s3api create-bucket"];
                 await Assert.That(unavailableHelpPaths)
-                    .IsEquivalentTo(new string?[] { "aws fsx describe-backups", "aws s3api create-bucket" });
+                    .IsEquivalentTo(expectedUnavailableHelpPaths);
                 await Assert.That(invocationPaths).Contains("aws fsx describe-backups");
                 await Assert.That(invocationPaths).Contains("aws fsx");
                 await Assert.That(diagnostics.RootElement.GetRawText()).Contains("RAW FSX HELP");
@@ -619,13 +620,12 @@ public class CommandCoverageGuardTests
                 {
                     CommandCoverage = new CliCommandCoveragePolicy
                     {
-                        Exclusions = removedCommands
+                        Exclusions = [.. removedCommands
                             .Select(command => new CliCommandCoverageExclusion
                             {
                                 Command = command,
                                 Reason = "Removed upstream and reviewed in issue #4465.",
-                            })
-                            .ToArray(),
+                            })],
                     },
                 },
                 outputDirectory,
@@ -950,7 +950,7 @@ public class CommandCoverageGuardTests
     private static CliCommandDefinition Command(string fullCommand) => new()
     {
         FullCommand = fullCommand,
-        CommandParts = fullCommand.Split(' ').Skip(1).ToArray(),
+        CommandParts = [.. fullCommand.Split(' ').Skip(1)],
         ClassName = fullCommand.Replace(" ", string.Empty, StringComparison.Ordinal) + "Options",
         ParentClassName = "FakeOptions",
         ToolNamespacePrefix = "Fake",

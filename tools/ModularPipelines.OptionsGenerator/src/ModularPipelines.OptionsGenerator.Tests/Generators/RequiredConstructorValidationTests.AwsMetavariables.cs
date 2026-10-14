@@ -47,7 +47,7 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
-    private static readonly string[] value = new[] { "prefix" };
+    private static readonly string[] value = ["prefix"];
 
     // Synopsis and option type excerpts from AWS logs tail/start-live-tail help.
     // Their generic <value> notation is shared by AWS CLI 2.32.28 and 2.36.46.

@@ -207,19 +207,14 @@ public partial class CosignCliScraperTests
         PositionIndex = position,
     };
 
-    private sealed class TestCosignCliScraper : CosignCliScraper
+    private sealed class TestCosignCliScraper(ICliCommandExecutor? executor = null) : CosignCliScraper(
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<CosignCliScraper>.Instance)
     {
-        public TestCosignCliScraper(ICliCommandExecutor? executor = null)
-            : base(
-                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<CosignCliScraper>.Instance)
-        {
-        }
-
         public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
 
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public List<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
 
         public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
