@@ -54,4 +54,16 @@ public class SynopsisIdentifierRegressionTests
         var usage = UsageSynopsisParser.Parse("Usage: tool run --x_1 ... --x_N", ["tool", "run"]);
         await Assert.That(usage.RequiredOptionSwitches.ToArray()).IsEquivalentTo(["--x_1", "--x_N"]);
     }
+    [Test]
+    [Arguments("-f FILENAME")]
+    [Arguments("--filename FILENAME")]
+    [Arguments("--filename=FILENAME")]
+    public async Task File_Option_Alternative_Preserves_Resource_Operands(string fileAlternative)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool run ({fileAlternative} | TYPE NAME) VALUE", ["tool", "run"]);
+        await Assert.That(usage.PositionalArguments.Select(argument => argument.PropertyName).ToArray())
+            .IsEquivalentTo(["Type", "Name", "Value"]);
+        await Assert.That(usage.PositionalArguments[0].IsRequired).IsFalse();
+        await Assert.That(usage.PositionalArguments[1].IsRequired).IsFalse();
+    }
 }

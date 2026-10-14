@@ -1160,3 +1160,20 @@ and uses FluentFTP auto-detection, which can send credentials without encryption
 `context.Tools.Email` entry point and `SendAsync` behavior are unchanged.
 `RegisterEmailContext` remains public for generated registration and is hidden from
 IntelliSense.
+
+## Kubernetes resource operands
+
+Label and annotate options expose `Type` and `Name` for resource
+selection, alongside the existing file and selector options. Combined references such
+as `Type = "pod/example"` (or `TypeArgument` for patch) do not require a separate
+`Name`. For label and annotate, a bare `Type` requires `Name`, `All = true`, or a
+nonblank `Selector`/`FieldSelector`. `Kustomize = "overlay"` is also accepted as a
+resource source. Kubectl validates the resource identity itself. Patch and scale recover
+their resource operands from the same generic alternative parser. `IKubernetes.PatchAsync` and `IKubernetes.ScaleAsync`
+now require a non-null `options` argument instead of defaulting it to null. Pass
+`KubernetesPatchOptions` or `KubernetesScaleOptions` with a resource source; calls
+that omit options must be updated.
+
+Supply the resource source through `Filename`, `Kustomize`, or `Type` (`TypeArgument`
+for patch), including when adding manual `Arguments`; typed validation does not infer
+required values from those manual tokens.

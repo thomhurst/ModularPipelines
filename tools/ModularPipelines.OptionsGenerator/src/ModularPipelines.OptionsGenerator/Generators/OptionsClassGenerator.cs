@@ -584,9 +584,24 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetCompleteUsageExpression(CliRequiredAlternativeGroup group, Func<string, string> presence)
     {
-        var expressions = group.Members.Select(member => presence(member.PropertyName))
+        var expressions = group.Members.Select(member => GetCompleteUsageMemberExpression(member, presence))
             .Concat(group.Groups.Select(nested => GetCompleteUsageExpression(nested, presence)));
         return $"({string.Join(group.IsChoice ? " || " : " && ", expressions)})";
+    }
+
+    private static string GetCompleteUsageMemberExpression(CliRequiredAlternativeMember member, Func<string, string> presence)
+    {
+        if (member.RequiredFlagValue is { } flagValue)
+        {
+            return $"{member.PropertyName} == {(flagValue ? "true" : "false")}";
+        }
+
+        if (member.ValuePattern is { } pattern)
+        {
+            return $"({presence(member.PropertyName)} && global::System.Text.RegularExpressions.Regex.IsMatch({member.PropertyName}!, {GeneratorUtils.FormatStringLiteral(pattern)}, global::System.Text.RegularExpressions.RegexOptions.CultureInvariant, global::System.TimeSpan.FromSeconds(1)))";
+        }
+
+        return presence(member.PropertyName);
     }
 
     private static void GenerateGroupPresenceValidation(

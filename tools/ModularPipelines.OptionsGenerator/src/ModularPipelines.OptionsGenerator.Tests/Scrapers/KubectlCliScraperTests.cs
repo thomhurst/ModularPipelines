@@ -143,6 +143,8 @@ public class KubectlCliScraperTests
 
         var annotations = command!.PositionalArguments.Single(argument =>
             argument.PropertyName == "Annotations");
+        await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName).ToArray())
+            .IsEquivalentTo(["Type", "Name", "Annotations"]);
         await Assert.That(annotations.IsRequired).IsTrue();
         await Assert.That(annotations.IsValidationRequired).IsFalse();
         await Assert.That(annotations.IsVariadic).IsTrue();
@@ -296,6 +298,8 @@ public class KubectlCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(labels.IsRequired).IsTrue();
+            await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName).ToArray())
+                .IsEquivalentTo(["Type", "Name", "Labels"]);
             await Assert.That(labels.IsValidationRequired).IsFalse();
             await Assert.That(labels.IsVariadic).IsTrue();
             await Assert.That(labels.CSharpType).IsEqualTo("IEnumerable<string>");
