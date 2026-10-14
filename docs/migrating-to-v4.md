@@ -1025,7 +1025,7 @@ using var response = await context.Network.Http.SendAsync(
 
 Download helpers continue to require a successful response. Use `SendAsync` with the explicit opt-out when you need to inspect a failure response body.
 
-If a custom client is needed, inject one through your application DI and pass it in `HttpOptions.HttpClient`. The pipeline's resilience (retry) handler applies only to the default client, so configure retries on a custom client yourself. Replace old logging flags with `LogRequest`, `LogResponse`, `LogStatusCode`, `LogDuration`, and the header/body switches. Use `HttpLoggingOptions.None` to disable HTTP logging for a request. HTTP responses stream their bodies; dispose responses and pass cancellation tokens to body-reading operations too.
+If a custom client is needed, inject one through your application DI and pass it in `HttpOptions.HttpClient`. The pipeline's resilience (retry) handler applies only to the default client, so configure retries on a custom client yourself. Replace old logging flags with the `Show*` switches described in [HTTP logging](/ModularPipelines/docs/how-to/logging.md#http-logging). Use `HttpLoggingOptions.Silent` to disable HTTP logging for a request. HTTP responses stream their bodies; dispose responses and pass cancellation tokens to body-reading operations too.
 
 ## Files, Working Directories, and Utility APIs[​](#files-working-directories-and-utility-apis "Direct link to Files, Working Directories, and Utility APIs")
 
