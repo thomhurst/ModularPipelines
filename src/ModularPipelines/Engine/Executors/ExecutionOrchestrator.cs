@@ -165,9 +165,9 @@ internal class ExecutionOrchestrator(
         }
 
         // Step 2: Always print summary (exactly once)
-        // An attempted registration may be committed even if cancellation interrupts its acknowledgment.
+        // Only an acknowledged registration owns a worker status that can be finalized.
         // RunReportService bounds final publication with its independent worker metrics timeout.
-        var reportCancellationToken = _executionBackend is WorkerModuleExecutor { RegistrationAttempted: true }
+        var reportCancellationToken = _executionBackend is WorkerModuleExecutor { RegistrationConfirmed: true }
             ? CancellationToken.None
             : _engineCancellationToken.NonFailureCancellationToken;
         summary = await PrintSummary(
@@ -238,13 +238,16 @@ internal class ExecutionOrchestrator(
 
         await FlushConsoleBestEffortAsync().ConfigureAwait(false);
 
-        summary = summary with
-        {
-            RunReport = await _runReportService.CompleteAsync(
+        var runReport = _executionBackend is WorkerModuleExecutor { RegistrationConfirmed: false }
+            ? null
+            : await _runReportService.CompleteAsync(
                     summary,
                     GetPipelineReportException(summary, pipelineException),
                     cancellationToken)
-                .ConfigureAwait(false),
+                .ConfigureAwait(false);
+        summary = summary with
+        {
+            RunReport = runReport,
             StatusOverride = pipelineException is null ? summary.StatusOverride : ModuleStatus.Failed,
         };
 

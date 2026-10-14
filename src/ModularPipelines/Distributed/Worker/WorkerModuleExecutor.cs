@@ -59,8 +59,7 @@ internal class WorkerModuleExecutor(
 
     private WorkerRegistration? _registration;
 
-    // A canceled acknowledgment does not prove that the master rejected the registration.
-    internal bool RegistrationAttempted { get; private set; }
+    internal bool RegistrationConfirmed => _registration is not null;
 
     /// <summary>
     /// Gets or sets how long a worker waits for canceled modules to stop after its master completed
@@ -93,14 +92,17 @@ internal class WorkerModuleExecutor(
             PipelineSchemaVersion = _typeRegistry.GetPipelineSchemaVersion(),
         };
         cancellationToken.ThrowIfCancellationRequested();
-        RegistrationAttempted = true;
         try
         {
-            await _coordinator.RegisterWorkerAsync(registration, cancellationToken).ConfigureAwait(false);
+            // Complete the handshake even if the caller cancels after the master commits it.
+            // A timed-out acknowledgment remains unconfirmed and must not publish worker status.
+            using var registrationTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(30), _timeProvider);
+            await _coordinator.RegisterWorkerAsync(registration, registrationTimeout.Token)
+                .WaitAsync(registrationTimeout.Token)
+                .ConfigureAwait(false);
         }
         catch (DistributedRunCompletedException)
         {
-            RegistrationAttempted = false;
             if (_logger.IsEnabled(LogLevel.Information))
             {
                 _logger.LogInformation("The distributed run has completed; worker {WorkerId} will not participate", registration.WorkerId);
@@ -109,6 +111,7 @@ internal class WorkerModuleExecutor(
         }
 
         _registration = registration;
+        cancellationToken.ThrowIfCancellationRequested();
         if (_logger.IsEnabled(LogLevel.Information))
         {
             _logger.LogInformation(

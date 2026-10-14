@@ -94,11 +94,13 @@ public class LateWorkerTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
     [Timeout(30_000)]
     public async Task Cancellation_During_Worker_Startup_Publishes_Final_Status_And_Allows_Cleanup(
         bool cancelRegistrationAcknowledgment,
+        bool cancelBeforeCommit,
         CancellationToken cancellationToken)
     {
         var coordinator = new InMemoryDistributedCoordinator();
@@ -117,6 +119,10 @@ public class LateWorkerTests
             transport.Setup(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()))
                 .Returns<WorkerRegistration, CancellationToken>(async (registration, token) =>
                 {
+                    if (cancelBeforeCommit)
+                    {
+                        await callerCancellation.CancelAsync();
+                    }
                     // The master commits the participant before the transport loses its acknowledgment.
                     await coordinator.RegisterWorkerAsync(registration, token);
                     await callerCancellation.CancelAsync();
@@ -183,6 +189,96 @@ public class LateWorkerTests
             await pipeline.RunAsync(callerCancellation.Token);
         }).Throws<OperationCanceledException>();
 
+        coordinator.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(30_000)]
+    public async Task Unconfirmed_Registration_Does_Not_Overwrite_A_Live_Worker_Status(
+        bool cancelBeforeCommit,
+        CancellationToken cancellationToken)
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var registration = DistributedTestData.Registration(WorkerId.FromInstanceIndex(1)) with
+        {
+            RunId = "duplicate-run",
+            RegisteredAt = DateTimeOffset.UtcNow.AddMinutes(-1),
+        };
+        await coordinator.RegisterWorkerAsync(registration, cancellationToken);
+        var liveStatus = new WorkerStatus
+        {
+            WorkerId = registration.WorkerId,
+            RunId = registration.RunId,
+            InFlightModules = [ModuleId.FromType(typeof(UnexpectedModule))],
+            UnattributedCommandCount = 7,
+        };
+        await coordinator.SendHeartbeatAsync(liveStatus, cancellationToken);
+        using var callerCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var transport = new Mock<IDistributedWorkerCoordinator>(MockBehavior.Strict);
+        transport.Setup(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()))
+            .Returns<WorkerRegistration, CancellationToken>(async (attempt, token) =>
+            {
+                if (cancelBeforeCommit)
+                {
+                    await callerCancellation.CancelAsync();
+                    // The transport fails before the master accepts this session.
+                    throw new OperationCanceledException(callerCancellation.Token);
+                }
+                await coordinator.RegisterWorkerAsync(attempt, token);
+            });
+        transport.Setup(instance => instance.SendHeartbeatAsync(It.IsAny<WorkerStatus>(), It.IsAny<CancellationToken>()))
+            .Returns<WorkerStatus, CancellationToken>(coordinator.SendHeartbeatAsync);
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options with
+        {
+            Role = DistributedRole.Worker,
+            InstanceIndex = 1,
+            TotalInstances = 2,
+            RunId = registration.RunId,
+        });
+        builder.Services.AddSingleton(transport.Object);
+        builder.AddModule<UnexpectedModule>();
+        builder.AddPipelineEventHandler<UnexpectedHandler>();
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(async () => await pipeline.RunAsync(callerCancellation.Token)).ThrowsException();
+
+        var statuses = await coordinator.GetWorkerStatusesAsync(cancellationToken);
+        await Assert.That(statuses).HasSingleItem();
+        await Assert.That(statuses[0]).IsEqualTo(liveStatus);
+        var workers = await coordinator.GetRegisteredWorkersAsync(cancellationToken);
+        await Assert.That(workers).HasSingleItem();
+        await Assert.That(workers[0]).IsEqualTo(registration);
+        transport.Verify(instance => instance.SendHeartbeatAsync(It.IsAny<WorkerStatus>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Unresponsive_Registration_Is_Bounded_Without_Publishing_Final_Status(CancellationToken cancellationToken)
+    {
+        var clock = new FakeTimeProvider();
+        var pendingRegistration = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var coordinator = new Mock<IDistributedWorkerCoordinator>(MockBehavior.Strict);
+        coordinator.Setup(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()))
+            .Returns<WorkerRegistration, CancellationToken>((_, _) =>
+            {
+                clock.Advance(TimeSpan.FromSeconds(31));
+                // A coordinator that ignores cancellation must not keep startup alive indefinitely.
+                return pendingRegistration.Task;
+            });
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options with { Role = DistributedRole.Worker });
+        builder.Services.AddSingleton<TimeProvider>(clock);
+        builder.Services.AddSingleton(coordinator.Object);
+        builder.AddModule<UnexpectedModule>();
+        builder.AddPipelineEventHandler<UnexpectedHandler>();
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(async () => await pipeline.RunAsync(cancellationToken)).Throws<OperationCanceledException>();
+
+        coordinator.Verify(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()), Times.Once);
         coordinator.VerifyNoOtherCalls();
     }
 
