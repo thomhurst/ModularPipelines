@@ -66,6 +66,9 @@ public record CliArgumentDefinition
     /// </summary>
     public required string SwitchName { get; init; }
 
+    /// <summary>Additional switch spellings retained when creating option definitions.</summary>
+    internal IReadOnlyList<string> Aliases { get; init; } = [];
+
     /// <summary>
     /// Whether this declaration is a positional operand rather than a named option.
     /// </summary>

@@ -913,6 +913,21 @@ For handwritten command options, see [Custom Commands](./how-to/custom-commands.
 commands or incorrect models, fix or report the scraper/generator rather than working around it
 in the generated source.
 
+### Gcloud wide flags
+
+Gcloud commands now inherit wide flags from `GcloudOptions`, including `Project`,
+`Account`, `BillingProject`, `Configuration`, `Format`, and `Quiet`. Set these
+properties directly on any command's options. Wide flags render after the
+selected command path. Command-specific definitions that overlap a wide flag
+retain their own types, required inputs, and validation.
+
+`Flatten` and `ImpersonateServiceAccount` accept collections joined with commas.
+`FlagsFile` accepts a collection and repeats `--flags-file` for each file.
+`UserOutputEnabled` is nullable: `true` emits `--user-output-enabled`, `false`
+emits `--no-user-output-enabled`, and `null` emits neither. Replace separate
+negative properties or manually supplied wide flags with the inherited
+properties. See the [Gcloud CLI reference](./mp-packages/cli/gcloud.md#global-options).
+
 ### Buildah inherited settings
 
 Buildah commands now share storage, logging, registry configuration, and default UID/GID

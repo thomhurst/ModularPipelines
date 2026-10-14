@@ -90,6 +90,25 @@ public partial class GcloudCliScraper : CliScraperBase
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => GcloudUsageSynopsisHeadings;
 
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText)
+    {
+        var options = new List<CliOptionDefinition>();
+        foreach (var (name, content) in ExtractSections(helpText, "GLOBAL FLAGS", "OTHER FLAGS", "GCLOUD WIDE FLAGS"))
+        {
+            var group = ParseSectionArgumentGroup(name, content, []);
+            foreach (var argument in group.FlattenArguments().Where(argument => !argument.IsPositional))
+            {
+                options.AddRange(CreateOptions(argument, [], helpText)
+                    .Select(option => NormalizeRepeatability(option, helpText, [], argument.Description)));
+            }
+        }
+
+        CoalesceNegatedFlags(options);
+        return [.. options.DistinctBy(option => option.SwitchName, StringComparer.Ordinal)];
+    }
+
     // ParseUsageSynopsis distinguishes documented operands from dispatch selectors,
     // including SDK command groups that currently expose no child commands.
     protected override bool PreserveCommandGroupPlaceholders => true;
@@ -326,7 +345,8 @@ public partial class GcloudCliScraper : CliScraperBase
         IReadOnlyList<string> commandParts,
         string switchName) =>
         switchName.Equals("--external-ipv6-prefix-length", StringComparison.OrdinalIgnoreCase)
-        || switchName.Contains("service-account", StringComparison.OrdinalIgnoreCase);
+        || (switchName.Contains("service-account", StringComparison.OrdinalIgnoreCase)
+            && !switchName.Equals("--impersonate-service-account", StringComparison.OrdinalIgnoreCase));
 
     #endregion
 
@@ -436,9 +456,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         // Help can list a negated flag separately as well as name it on the positive
         // flag. Coalesce after parsing all sections so declaration order is irrelevant.
-        var negatedSwitches = options.Where(option => option.IsFlag)
-            .Select(option => option.NegatedSwitchName).OfType<string>().ToHashSet(StringComparer.Ordinal);
-        options.RemoveAll(option => option.IsFlag && negatedSwitches.Contains(option.SwitchName));
+        CoalesceNegatedFlags(options);
 
         usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(options));
         var positionalArguments = ParsePositionalArguments(usage, commandPath, argumentGroups, options);
@@ -452,6 +470,13 @@ public partial class GcloudCliScraper : CliScraperBase
         ApplyNamedConditionalRequirements(options, requiredAlternativeGroups);
 
         return (options, argumentGroups, requiredAlternativeGroups, positionalArguments, usage);
+    }
+
+    private static void CoalesceNegatedFlags(List<CliOptionDefinition> options)
+    {
+        var negatedSwitches = options.Where(option => option.IsFlag)
+            .Select(option => option.NegatedSwitchName).OfType<string>().ToHashSet(StringComparer.Ordinal);
+        options.RemoveAll(option => option.IsFlag && negatedSwitches.Contains(option.SwitchName));
     }
 
     private static void ReconcileRequiredSynopsisChoices(string? synopsis, IReadOnlyList<CliOptionDefinition> options,
@@ -918,6 +943,8 @@ public partial class GcloudCliScraper : CliScraperBase
         return new CliOptionDefinition
         {
             SwitchName = longForm,
+            Aliases = argument.Aliases,
+            ShortForm = argument.Aliases.FirstOrDefault(),
             PropertyName = propertyName,
             CSharpType = DetermineCSharpType(
                 isFlag,
@@ -1044,6 +1071,8 @@ public partial class GcloudCliScraper : CliScraperBase
         return option with
         {
             SwitchName = negativeSwitch,
+            Aliases = [],
+            ShortForm = null,
             PropertyName = propertyName,
             CSharpType = "bool?",
             Description = $"Negates {option.SwitchName}. {description}",
@@ -1087,6 +1116,7 @@ public partial class GcloudCliScraper : CliScraperBase
         return new CliArgumentDefinition
         {
             SwitchName = name,
+            Aliases = match.Groups["alias"].Success ? [match.Groups["alias"].Value] : [],
             ValueHint = match.Groups["value"].Value,
             IsNegatable = negatable,
             // Same tab-aware units as the CliArgumentGroupParser comparisons.
@@ -1324,7 +1354,8 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"(?:the\s+)?(?<switch>--?[\w-]+)\s+(?:(?:flag|argument|option)\s+)?"
         + @"(?:multiple\s+times|more\s+than\s+once)"
         + @"|(?:the\s+)?(?<switch>--?[\w-]+)\s+(?:(?:flag|argument|option)\s+)?"
-        + RepeatableSwitchRegex + @")\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+        + RepeatableSwitchRegex
+        + @"|each\s+(?<switch>--?[\w-]+)\s+(?:arg|argument|flag|option)\b)\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex NamedRepeatedSwitchDescriptionPattern();
 
     [GeneratedRegex(@"(?:^|[.!?]\s+)" + StatusPrefixPattern
@@ -1344,6 +1375,8 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"\k<subject>\s+are\s+sep[ae]rated\s+by\s+commas\b"
         + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"(?:provide|supply|pass|specify|use)\s+"
         + @"(?:[a-z][\w-]*\s+)+as\s+(?:a\s+)?comma[- ](?:sep[ae]rated|delimited)\s+(?:list|string)\b"
+        + @"|(?:^|[.!?]\s+)(?:you\s+can\s+)?specify\s+(?:a\s+)?list\s+of\s+[^.!?]+,\s*"
+        + @"sep[ae]rated\s+(?:by|with)\s+commas\b"
         + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"use\s+commas\s+to\s+(?:separate|delimit)\s+"
         + @"(?:(?:the|individual|multiple)\s+)?[a-z][\w-]*(?=\s*(?:[.!?]|$))", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
@@ -1359,7 +1392,7 @@ public partial class GcloudCliScraper : CliScraperBase
     /// Default annotations are display text and may contain spaces, such as Python enum representations.
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>\w[\w-]*)|(?<long>--\w[\w-]*))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=[^\r\n]+)?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>\w[\w-]*)|(?<long>--\w[\w-]*))(?:=(?<value>[^\r\n;]+?))?(?:,\s*(?<alias>-[\w-]+)(?:[ =]\S+)?)?(?:;\s*default=[^\r\n]+)?$")]
     private static partial Regex GcloudFlagPattern();
 
     [GeneratedRegex("(?<option>--[\\w-]+=VALUE)\\s*;\\s*default=(?:\"(?:\\\\.|[^\"\\\\])*\"|'(?:\\\\.|[^'\\\\])*'|<[^>\\r\\n]+>|[^\\s\\]\\)]+)")]
