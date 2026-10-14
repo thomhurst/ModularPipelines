@@ -74,6 +74,7 @@ jobs:
         id: catalog
         env:
           TOOLS_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.tools || '' }}
+          CREATE_PR: ${{ github.event_name != 'workflow_dispatch' || inputs['create-pr'] }}
         run: |
           dotnet run --no-build \
             --project tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj \
@@ -86,10 +87,16 @@ jobs:
           )"
 
           create_matrix() {
-            jq -c --arg platform "$1" --argjson selected "$SELECTED_TOOLS" \
+            # npm/npx remain artifact-only until the Node API migration lands.
+            # Explicit selection with create-pr=false permits full migration generation.
+            jq -c --arg platform "$1" --argjson selected "$SELECTED_TOOLS" --arg createPr "$CREATE_PR" \
               '{include: [.[] | .toolName as $tool | select(
                 .generationPlatform == $platform
-                and .includeInGenerationMatrix
+                and (.includeInGenerationMatrix or (
+                  ($tool == "npm" or $tool == "npx")
+                  and $createPr == "false"
+                  and ($selected | index($tool)) != null
+                ))
                 and (($selected | length) == 0 or ($selected | index($tool)) != null)
               ) | {
                 tool: .toolName,
@@ -361,6 +368,22 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: 9.8.1
+
+      - name: Install Node.js for npm and npx
+        if: steps.should-run.outputs.run == 'true' && (matrix.tool == 'npm' || matrix.tool == 'npx')
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.14.1
+
+      - name: Install pinned npm and npx
+        if: steps.should-run.outputs.run == 'true' && (matrix.tool == 'npm' || matrix.tool == 'npx')
+        run: |
+          npm_tarball="$RUNNER_TEMP/npm-11.11.0.tgz"
+          curl --fail --location --retry 3 https://registry.npmjs.org/npm/-/npm-11.11.0.tgz --output "$npm_tarball"
+          test "$(openssl dgst -sha512 -binary "$npm_tarball" | openssl base64 -A)" = "82gRxKrh/eY5UnNorkTFcdBQAGpgjWehkfGVqAGlJjejEtJZGGJUqjo3mbBTNbc5BTnPKGVtGPBZGhElujX5cw=="
+          npm install -g --ignore-scripts "$npm_tarball"
+          npm --version
+          npx --version
 
       - name: Install pnpm
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pnpm'
@@ -752,7 +775,8 @@ jobs:
           sudo swapon /mnt/swapfile
 
       - name: Build solution to verify changes
-        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
+        # npm/npx patches are migration inputs; their consuming API changes land separately.
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && matrix.tool != 'npm' && matrix.tool != 'npx'
         run: |
           BUILD_ARGS=()
           # Large generated packages need bounded MSBuild concurrency on hosted runners.

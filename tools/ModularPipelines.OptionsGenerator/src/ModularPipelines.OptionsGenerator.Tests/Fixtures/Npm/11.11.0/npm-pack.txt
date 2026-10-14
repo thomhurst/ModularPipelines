@@ -1,0 +1,33 @@
+Create a tarball from a package
+
+Usage:
+npm pack <package-spec>
+
+Options:
+[--dry-run] [--json] [--pack-destination <pack-destination>]
+[-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+[--workspaces] [--include-workspace-root] [--ignore-scripts]
+
+  --dry-run
+    Indicates that you don't want npm to make any changes and that it should
+
+  --json
+    Whether or not to output JSON data, rather than the normal output.
+
+  --pack-destination
+    Directory in which `npm pack` will save tarballs.
+
+  -w|--workspace
+    Enable running a command in the context of the configured workspaces of the
+
+  --workspaces
+    Set to true to run the command in the context of **all** configured
+
+  --include-workspace-root
+    Include the workspace root when workspaces are enabled for a command.
+
+  --ignore-scripts
+    If true, npm does not run scripts specified in package.json files.
+
+
+Run "npm help pack" for more info

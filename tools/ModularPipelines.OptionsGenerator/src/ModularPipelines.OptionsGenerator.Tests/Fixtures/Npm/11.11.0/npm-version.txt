@@ -1,0 +1,53 @@
+Bump a package version
+
+Usage:
+npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease | from-git]
+
+Options:
+[--allow-same-version] [--no-commit-hooks] [--no-git-tag-version] [--json]
+[--preid prerelease-id] [--sign-git-tag]
+[-S|--save|--no-save|--save-prod|--save-dev|--save-optional|--save-peer|--save-bundle]
+[-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+[--workspaces] [--no-workspaces-update] [--include-workspace-root]
+[--ignore-scripts]
+
+  --allow-same-version
+    Prevents throwing an error when `npm version` is used to set the new
+
+  --commit-hooks
+    Run git commit hooks when using the `npm version` command.
+
+  --git-tag-version
+    Tag the commit when using the `npm version` command.  Setting this to
+
+  --json
+    Whether or not to output JSON data, rather than the normal output.
+
+  --preid
+    The "prerelease identifier" to use as a prefix for the "prerelease" part
+
+  --sign-git-tag
+    If set to true, then the `npm version` command will tag the version
+
+  -S|--save
+    Save installed packages to a `package.json` file as dependencies.
+
+  -w|--workspace
+    Enable running a command in the context of the configured workspaces of the
+
+  --workspaces
+    Set to true to run the command in the context of **all** configured
+
+  --workspaces-update
+    If set to true, the npm cli will run an update after operations that may
+
+  --include-workspace-root
+    Include the workspace root when workspaces are enabled for a command.
+
+  --ignore-scripts
+    If true, npm does not run scripts specified in package.json files.
+
+
+alias: verison
+
+Run "npm help version" for more info

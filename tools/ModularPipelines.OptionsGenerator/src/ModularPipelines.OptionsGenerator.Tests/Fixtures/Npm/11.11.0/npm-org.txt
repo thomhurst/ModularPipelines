@@ -1,0 +1,26 @@
+Manage orgs
+
+Usage:
+npm org set orgname username [developer | admin | owner]
+npm org rm orgname username
+npm org ls orgname [<username>]
+
+Options:
+[--registry <registry>] [--otp <otp>] [--json] [-p|--parseable]
+
+  --registry
+    The base URL of the npm registry.
+
+  --otp
+    This is a one-time password from a two-factor authenticator.  It's needed
+
+  --json
+    Whether or not to output JSON data, rather than the normal output.
+
+  -p|--parseable
+    Output parseable results from commands that write to standard output. For
+
+
+alias: ogr
+
+Run "npm help org" for more info
