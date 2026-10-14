@@ -1,0 +1,13 @@
+Get a value from the npm configuration
+
+Usage:
+npm get [<key> ...] (See `npm config`)
+
+Options:
+[-l|--long]
+
+  -l|--long
+    Show extended information in `ls`, `search`, and `help-search`.
+
+
+Run "npm help get" for more info

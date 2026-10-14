@@ -19,6 +19,8 @@ public class ToolCatalogTests
             .IsEquivalentTo(["choco", "winget"]);
         await Assert.That(entries.Single(entry => entry.ToolName == "npm").IncludeInGenerationMatrix)
             .IsFalse();
+        await Assert.That(entries.Single(entry => entry.ToolName == "npx").IncludeInGenerationMatrix)
+            .IsFalse();
         await Assert.That(entries.Single(entry => entry.ToolName == "git").GenerateCommandFacade)
             .IsFalse();
         await Assert.That(entries
@@ -26,7 +28,7 @@ public class ToolCatalogTests
                 .All(entry => entry.GenerateCommandFacade))
             .IsTrue();
         await Assert.That(entries
-                .Where(entry => entry.ToolName != "npm")
+                .Where(entry => entry.ToolName is not ("npm" or "npx"))
                 .All(entry => entry.IncludeInGenerationMatrix))
             .IsTrue();
         await Assert.That(entries.All(

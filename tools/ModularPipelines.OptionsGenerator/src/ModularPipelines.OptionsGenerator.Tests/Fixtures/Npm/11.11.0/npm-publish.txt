@@ -1,0 +1,36 @@
+Publish a package
+
+Usage:
+npm publish <package-spec>
+
+Options:
+[--tag <tag>] [--access <restricted|public>] [--dry-run] [--otp <otp>]
+[-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+[--workspaces] [--include-workspace-root] [--provenance|--provenance-file <file>]
+
+  --tag
+    If you ask npm to install a package and don't tell it a specific version,
+
+  --access
+    If you do not want your scoped package to be publicly viewable (and
+
+  --dry-run
+    Indicates that you don't want npm to make any changes and that it should
+
+  --otp
+    This is a one-time password from a two-factor authenticator.  It's needed
+
+  -w|--workspace
+    Enable running a command in the context of the configured workspaces of the
+
+  --workspaces
+    Set to true to run the command in the context of **all** configured
+
+  --include-workspace-root
+    Include the workspace root when workspaces are enabled for a command.
+
+  --provenance
+    When publishing from a supported cloud CI/CD system, the package will be
+
+
+Run "npm help publish" for more info

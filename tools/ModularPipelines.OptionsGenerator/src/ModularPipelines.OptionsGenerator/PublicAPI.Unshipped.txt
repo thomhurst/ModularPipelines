@@ -294,3 +294,7 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.JqCliScraper.ParseOptions
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.LiquibaseCliScraper.ParseOptions(string! helpText) -> System.Collections.Generic.List<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 *REMOVED*ModularPipelines.OptionsGenerator.Scrapers.Cli.MavenCliScraper.ParseOptions(string! helpText) -> System.Collections.Generic.List<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.MavenCliScraper.ParseOptions(string! helpText) -> System.Collections.Generic.List<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ExtractSubcommands(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.MaxParallelism.get -> int
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
