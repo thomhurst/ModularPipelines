@@ -54,9 +54,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
     {
         var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
         if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent
-            && !effectiveOptions.IncludesCommandArguments
-            && !effectiveOptions.IncludesWorkingDirectory
-            && !effectiveOptions.IncludesTimestamps)
+            && !effectiveOptions.IncludesCommandArguments)
         {
             return;
         }

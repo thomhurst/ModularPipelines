@@ -201,17 +201,60 @@ public class CommandLoggerOutputFormattingTests
     }
 
     [Test]
+    [Arguments(true, false, false)]
+    [Arguments(false, true, false)]
+    [Arguments(true, true, false)]
+    [Arguments(true, false, true)]
+    [Arguments(false, true, true)]
+    [Arguments(true, true, true)]
+    public async Task SilentDecoratorsDoNotCreateCommandEvents(bool showTimestamps, bool showWorkingDirectory, bool dryRun)
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        commandLogger.Log(null, new CommandExecutionOptions
+        {
+            InternalDryRun = dryRun,
+            Logging = CommandLoggingOptions.Silent with
+            {
+                ShowTimestamps = showTimestamps,
+                ShowWorkingDirectory = showWorkingDirectory,
+            },
+        }, "hidden-input", 0, null, "hidden-output", "hidden-error", "/repo");
+
+        await Assert.That(logger.Messages).IsEmpty();
+    }
+
+    [Test]
+    public async Task SilentTimestampsDecorateExplicitOutputWithoutCreatingCommandStart()
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        var execution = new CommandExecutionOptions
+        {
+            Logging = CommandLoggingOptions.Silent with { ShowTimestamps = true, ShowStandardOutput = true },
+        };
+        commandLogger.Log(null, execution, "hidden-input", 0, null, "captured-output", "hidden-error", "/repo");
+        ((ICommandOutputLogger) commandLogger).LogStandardOutputLine(new CommandLineToolOptions("tool"), execution, "streamed-output");
+
+        await Assert.That(logger.Messages.Count).IsEqualTo(2);
+        await Assert.That(logger.Messages[0].Text).EndsWith("  ↳ captured-output");
+        await Assert.That(logger.Messages[1].Text).EndsWith("  ↳ streamed-output");
+        foreach (var message in logger.Messages)
+        {
+            await Assert.That(System.Text.RegularExpressions.Regex.IsMatch(message.Text, @"^\[\d{4}-\d{2}-\d{2}T")).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task DryRunHonorsDirectoryAndTimestampOverrides()
     {
         var (commandLogger, logger) = CreateCommandLogger();
         commandLogger.Log(null, new CommandExecutionOptions
         {
             InternalDryRun = true,
-            Logging = CommandLoggingOptions.Silent with { ShowWorkingDirectory = true, ShowTimestamps = true },
-        }, "hidden-input", 0, null, "hidden-output", "hidden-error", "/repo");
+            Logging = CommandLoggingOptions.Silent with { ShowCommandArguments = true, ShowWorkingDirectory = true, ShowTimestamps = true },
+        }, "tool run", 0, null, "hidden-output", "hidden-error", "/repo");
 
         var message = logger.Messages.Single().Text;
-        await Assert.That(message).Contains("/repo> ******** [DRY-RUN]");
+        await Assert.That(message).Contains("/repo> tool run [DRY-RUN]");
         await Assert.That(message).DoesNotContain("hidden-");
         await Assert.That(System.Text.RegularExpressions.Regex.IsMatch(message, @"^\[\d{4}-\d{2}-\d{2}T")).IsTrue();
     }
