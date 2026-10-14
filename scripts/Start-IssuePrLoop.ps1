@@ -6,7 +6,8 @@
 # The script, not the agent, does the cheap deterministic work of each unit:
 #   1. Checks that the lock Redis answers. When it does not (for example Docker is
 #      down), it backs off without starting an agent.
-#   2. Runs the merged-worktree sweep and surveys open PRs and issues with `gh`.
+#   2. Runs the merged-worktree sweep and surveys open PRs and issues with `gh`. When
+#      the latest push CI run of any workflow on main failed, fixing main comes first.
 #   3. Skips drafts, `needs-human` and `on-hold` items, PRs whose checks are still
 #      running, and items whose GitHub state is unchanged since an agent last deferred
 #      them. Also skips issues that cannot be worked yet: issues with open native
@@ -342,8 +343,47 @@ function New-Candidate([string]$Kind, [int]$Number, [int]$Rank, [string]$Fingerp
     }
 }
 
+# Returns the latest completed push run of each workflow on main that failed. A newer
+# run still in progress hides an older failure, because it may already carry the fix.
+function Get-MainFailures {
+    $runs = gh run list --repo $repoSlug --branch main --event push --limit 50 `
+        --json databaseId,workflowName,status,conclusion,headSha,url,createdAt | ConvertFrom-Json
+    if ($LASTEXITCODE -ne 0) { throw 'gh run list failed.' }
+    @($runs | Group-Object workflowName | ForEach-Object { $_.Group | Sort-Object createdAt | Select-Object -Last 1 } |
+        Where-Object { $_.status -eq 'completed' -and $_.conclusion -in 'failure', 'timed_out', 'startup_failure' } |
+        Sort-Object workflowName)
+}
+
+function Get-MainFingerprint([object[]]$Failures) {
+    if ($Failures.Count -eq 0) { return $null }
+    Get-Hash (($Failures | ForEach-Object { '{0}={1}' -f $_.workflowName, $_.databaseId }) -join '|')
+}
+
+# A red main fails every PR for the same reason, so fixing it comes before PR repairs.
+function Get-MainCandidate {
+    $failures = @(Get-MainFailures)
+    if ($failures.Count -eq 0) { return $null }
+    $list = ($failures | ForEach-Object { "$($_.workflowName) run $($_.databaseId) at $($_.headSha.Substring(0, 10)) ($($_.url))" }) -join '; '
+    [pscustomobject]@{
+        Kind        = 'main'
+        Number      = 0
+        LockName    = 'main-ci'
+        Label       = 'red main'
+        Rank        = -1
+        Fingerprint = Get-MainFingerprint $failures
+        Light       = $false
+        Hint        = "The latest push CI on main failed: $list."
+        Branch      = ''
+        Blocking    = 0
+        Comments    = 0
+    }
+}
+
 function Get-Candidates {
     $candidates = [Collections.Generic.List[object]]::new()
+
+    $main = Get-MainCandidate
+    if ($main) { $candidates.Add($main) }
 
     $prs = gh pr list --repo $repoSlug --author '@me' --state open --limit 500 --json $prFields | ConvertFrom-Json
     if ($LASTEXITCODE -ne 0) { throw 'gh pr list failed.' }
@@ -425,6 +465,8 @@ function Get-CurrentFingerprint($Item) {
                 return Get-PrFingerprint $pr
             }
             'stranded' { return Get-StrandedFingerprint $Item.Branch (Get-Issue $Item.Number) }
+            # A main that turned green needs no deferral record.
+            'main' { return Get-MainFingerprint @(Get-MainFailures) }
             default { return Get-IssueFingerprint (Get-Issue $Item.Number) }
         }
     }
@@ -523,6 +565,9 @@ function Get-Prompt($Item) {
         }
         'stranded' {
             return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock issue-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire. $($Item.Hint) Release the lock and print the RESULT line."
+        }
+        'main' {
+            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock main-ci for you through `$env:$ownerVariable. Skip the sweep and the survey. $($Item.Hint) Follow the red-main procedure in the skill, release every lock, and print the RESULT line."
         }
         default {
             $list = $Item.Lines -join '; '

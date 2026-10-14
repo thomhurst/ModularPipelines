@@ -11,11 +11,12 @@ Read the root agent instructions and [repository guidance](references/repository
 
 Run unattended. At each iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1` from the shared checkout, survey the queue, then complete one unit in priority order:
 
-1. Merge an eligible PR.
-2. Fix conflicts, failed CI, or review findings on an open PR and push.
-3. Publish finished work stranded on a local `issue-<N>-*` branch that has no PR, or recover valuable changes from a preserved merged-PR worktree, following [recovery guidance](references/recovery.md).
-4. Tidy the issue queue: close a parent whose native sub-issues are all closed, and close an issue that `origin/main` already implements or that another issue supersedes.
-5. Claim an available issue, implement its full scope, and open a PR. Prefer issues that block other issues.
+1. Fix a red `main`, following [Red main](#red-main).
+2. Merge an eligible PR.
+3. Fix conflicts, failed CI, or review findings on an open PR and push.
+4. Publish finished work stranded on a local `issue-<N>-*` branch that has no PR, or recover valuable changes from a preserved merged-PR worktree, following [recovery guidance](references/recovery.md).
+5. Tidy the issue queue: close a parent whose native sub-issues are all closed, and close an issue that `origin/main` already implements or that another issue supersedes.
+6. Claim an available issue, implement its full scope, and open a PR. Prefer issues that block other issues.
 
 Apply repository-specific PR maintenance rules before choosing repair work; some PR categories require closure and a linked issue instead.
 
@@ -41,6 +42,16 @@ Defer only for a reason that no agent can remove: a human decision, an upstream 
 
 Do not post another blocker comment on an item whose blocker is unchanged. Edit your existing comment instead. Start every comment you post with `<!-- issue-pr-loop -->`, so the driver can tell your comments from new information.
 
+### Red main
+
+`main` is red when the latest completed push run of any workflow on `main` failed. A red `main` fails every PR for the same reason, so it comes before PR work. Work it under the `main-ci` lock.
+
+1. Read the failed jobs' logs. Send them to a file and read only the failing lines.
+2. Search open issues and PRs for this failure. When an open PR fixes it, release `main-ci` and work that PR. When an open issue tracks it, work that issue.
+3. When the failure is infrastructure, such as a lost runner, a network error, or a rate limit, rerun the whole run once with `gh run rerun <id>` and report `reran main run <id>`. Do not rerun a run that was already rerun; treat a repeat failure as real.
+4. Otherwise file an issue with the failing run, the failing step, and the error, labelled `bug`. Claim it, fix it in an `issue-<N>-*` worktree, and open a PR that closes it. Never push to `main` directly.
+5. When no agent can fix the cause, file the issue with `needs-human` and report `deferred main: reason` that names the issue. The driver re-checks `main` when that issue closes or a new run finishes.
+
 Use commentary while active. Preserve item IDs, worktree, lock identity/script, owned services, and unresolved validation across compaction.
 
 ### Single-unit mode
@@ -48,7 +59,7 @@ Use commentary while active. Preserve item IDs, worktree, lock identity/script, 
 When the invocation asks for single-unit mode (for example "run once" or "single unit"), it overrides the loop above. Run the cleanup script, survey, and complete exactly one unit in priority order. Release every lock you hold and stop owned services. Then print one final line and stop:
 
 ```text
-RESULT: merged #N | pushed fixes to #N | opened #N closing #M | deferred #N: reason | failed #N: reason | queue-empty
+RESULT: merged #N | pushed fixes to #N | opened #N closing #M | reran main run <id> | deferred #N: reason | deferred main: reason | failed #N: reason | queue-empty
 ```
 
 Do not survey again, start a second item, or wait for CI or reviews. Print `RESULT: queue-empty` when the survey finds nothing actionable now, including when only pending CI or reviews remain. Record anything a later run needs, such as a defer reason, on the issue or PR, not in agent memory. `scripts/Start-IssuePrLoop.ps1` runs this mode repeatedly, with a fresh agent process and context for each unit.
@@ -61,7 +72,7 @@ When the invocation assigns an item and says the loop driver holds its lock, ski
 
 Model latency grows with context size, and it dominates loop time: tools account for a small fraction of wall time. Keep each unit's context small.
 
-- When the runtime can start subagents or fresh threads, invoking this loop authorizes one per unit. Detect the runtime from the environment: `CLAUDECODE=1` means Claude Code, so use the Agent tool with a `general-purpose` subagent. `CODEX_THREAD_ID` set means Codex, so use its subagent or thread tool. The coordinator surveys, chooses one item, and hands over the item ID, this skill in single-unit mode for that item, the shared checkout, and the canonical lock script. The subagent acquires the lock and does the unit. Require a confirmed `merged #N`, `pushed fixes to #N`, `deferred #N: reason`, `opened #N closing #M`, or `failed #N: reason`; then continue surveying. Keep only queue state in the coordinator, never diffs, logs, or review bodies.
+- When the runtime can start subagents or fresh threads, invoking this loop authorizes one per unit. Detect the runtime from the environment: `CLAUDECODE=1` means Claude Code, so use the Agent tool with a `general-purpose` subagent. `CODEX_THREAD_ID` set means Codex, so use its subagent or thread tool. The coordinator surveys, chooses one item, and hands over the item ID, this skill in single-unit mode for that item, the shared checkout, and the canonical lock script. The subagent acquires the lock and does the unit. Require a confirmed `merged #N`, `pushed fixes to #N`, `reran main run <id>`, `deferred main: reason`, `deferred #N: reason`, `opened #N closing #M`, or `failed #N: reason`; then continue surveying. Keep only queue state in the coordinator, never diffs, logs, or review bodies.
 - When a runtime lets you pick reasoning effort, use a lower effort for mechanical units: merges, surveys, conflict-free rebases, and disposition replies. Keep high effort for implementation, conflict resolution in shared code, and CI failure diagnosis.
 - Without subagents, drop the previous item's details once it is pushed or deferred. In both modes, send long command output (builds, tests, `gh api` dumps, logs) to a file and read only the lines you need. Use `--jq` to select fields.
 
