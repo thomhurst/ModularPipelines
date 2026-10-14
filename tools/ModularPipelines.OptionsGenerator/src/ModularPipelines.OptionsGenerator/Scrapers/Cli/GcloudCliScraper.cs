@@ -100,6 +100,11 @@ public partial class GcloudCliScraper : CliScraperBase
             var group = ParseSectionArgumentGroup(name, content, []);
             foreach (var argument in group.FlattenArguments().Where(argument => !argument.IsPositional))
             {
+                if (argument.Documentation?.Contains("only available at the global level", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    continue;
+                }
+
                 options.AddRange(CreateOptions(argument, [], helpText)
                     .Select(option => NormalizeRepeatability(option, helpText, [], argument.Description)));
             }
@@ -944,7 +949,7 @@ public partial class GcloudCliScraper : CliScraperBase
         {
             SwitchName = longForm,
             Aliases = [.. argument.Aliases.Skip(1)],
-            ShortForm = argument.Aliases.FirstOrDefault(),
+            ShortForm = argument.Aliases.Count > 0 ? argument.Aliases[0] : null,
             PropertyName = propertyName,
             CSharpType = DetermineCSharpType(
                 isFlag,

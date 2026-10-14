@@ -26,6 +26,11 @@ public class GcloudGlobalOptionsTests
                  --flags-file=YAML_FILE
                     This flag may be repeated.
             OTHER FLAGS
+                 --version, -v
+                    Print version information and exit. This flag is only available at the
+                    global level.
+                 --root-status
+                    This flag is only available at the global level.
                  --[no-]user-output-enabled
                     Print output.
                  --no-user-output-enabled
@@ -93,6 +98,8 @@ public class GcloudGlobalOptionsTests
         await Assert.That(baseClass).Contains("public virtual string? Project { get; set; }");
         await Assert.That(baseClass).DoesNotContain("[CliGlobalOptions]");
         await Assert.That(baseClass).Contains("[CliFlag(\"--quiet\", ShortForm = \"-q\")]");
+        await Assert.That(baseClass).DoesNotContain("--version");
+        await Assert.That(baseClass).DoesNotContain("--root-status");
         var classes = await new OptionsClassGenerator().GenerateAsync(tool);
         await Assert.That(classes.Single(file => file.RelativePath.Contains("GcloudListOptions")).Content)
             .DoesNotContain("public override string? Project");
@@ -121,7 +128,7 @@ public class GcloudGlobalOptionsTests
         [
             "--account", "--billing-project", "--configuration", "--flags-file", "--flatten", "--format",
             "--project", "--quiet", "--verbosity", "--access-token-file", "--impersonate-service-account",
-            "--log-http", "--trace-token", "--user-output-enabled", "--version",
+            "--log-http", "--trace-token", "--user-output-enabled",
         ]);
         await Assert.That(globals.Single(option => option.SwitchName == "--project").PropertyType).IsEqualTo("string?");
         await Assert.That(globals.Single(option => option.SwitchName == "--user-output-enabled").NegatedSwitchName)

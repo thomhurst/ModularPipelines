@@ -1,4 +1,6 @@
 #nullable enable
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 ModularPipelines.Attributes.CommandLinePhase.LateOperand = 5 -> ModularPipelines.Attributes.CommandLinePhase
 *REMOVED*ModularPipelines.Attributes.CommandLinePhase.EndOfOptions = 2 -> ModularPipelines.Attributes.CommandLinePhase
