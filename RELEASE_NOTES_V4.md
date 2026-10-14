@@ -1009,6 +1009,20 @@ help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
 
+## Kustomize inherited error diagnostics
+
+`StackTrace` now lives on `KustomizeOptions` and renders before the command path.
+Existing initializers remain valid; reflection consumers should include inherited
+properties. Build/plugin settings and edit options remain local. The separate
+kubectl hierarchy is unchanged. See the [Kubernetes package guide](docs/docs/mp-packages/kubernetes.md).
+
+Kustomize v5.8.3 regeneration includes `edit add configuration`,
+`edit remove component`, and `version` and applies the existing required-operand model to edit
+commands. Supply required operands through generated constructors, such as
+`new KustomizeEditAddAnnotationOptions(["team:platform"])`; incomplete parameterless
+edit invocations are no longer supported. Pass these options to the command wrapper;
+calls such as `AnnotationAsync()` without an options argument no longer compile.
+
 ## Handwritten build-system integration APIs
 
 Handwritten GitHub types, including workflow models and condition attributes, now use
