@@ -12,8 +12,8 @@ internal static class ExecutablePrerequisiteCatalog
     internal const string GenericInstallationNotes =
         "Follow the executable's official documentation for installation instructions.";
 
-    private static readonly IReadOnlyDictionary<string, CliExecutablePrerequisite> Prerequisites =
-        new Dictionary<string, CliExecutablePrerequisite>(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, CliExecutablePrerequisite> Prerequisites =
+        new(StringComparer.OrdinalIgnoreCase)
         {
             ["ansible"] = Declared("ansible"),
             ["argocd"] = Declared("argocd"),

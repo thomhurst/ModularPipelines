@@ -29,7 +29,7 @@ public static class RedisDistributedExtensions
 
     /// <summary>
     /// Keys the artifact store's connection. Artifact chunks are large, so they get their own
-    /// multiplexer and do not queue ahead of the coordinator's heartbeats and lease renewals on the client.
+    /// client and do not queue ahead of the coordinator's heartbeats and lease renewals.
     /// </summary>
     internal const string ArtifactConnectionKey = "ModularPipelines.Distributed.Redis.Artifacts";
 

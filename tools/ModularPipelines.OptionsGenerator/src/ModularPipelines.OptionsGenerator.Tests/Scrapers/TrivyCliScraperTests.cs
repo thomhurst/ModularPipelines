@@ -247,7 +247,7 @@ public class TrivyCliScraperTests
         {
         }
 
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public List<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
 
         public bool Skips(string subcommand) => IsSkippableSubcommand(subcommand);
 

@@ -126,16 +126,11 @@ public class AnsibleCliScraperTests
     private static CliOptionDefinition GetOption(CliCommandDefinition command, string switchName) =>
         command.Options.Single(option => option.SwitchName == switchName);
 
-    private sealed class TestAnsibleCliScraper : AnsibleCliScraper
+    private sealed class TestAnsibleCliScraper(ICliCommandExecutor? executor = null) : AnsibleCliScraper(
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AnsibleCliScraper>.Instance)
     {
-        public TestAnsibleCliScraper(ICliCommandExecutor? executor = null)
-            : base(
-                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<AnsibleCliScraper>.Instance)
-        {
-        }
-
         public Task<CliCommandDefinition?> Parse(string helpText) =>
             ParseCommandAsync(["ansible"], helpText, CancellationToken.None);
     }

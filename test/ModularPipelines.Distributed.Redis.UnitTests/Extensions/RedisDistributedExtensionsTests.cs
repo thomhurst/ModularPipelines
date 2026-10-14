@@ -1,5 +1,4 @@
 using System.IO.Compression;
-using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -10,7 +9,7 @@ using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Moq;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Extensions;
 
@@ -67,7 +66,7 @@ public class RedisDistributedExtensionsTests
             await Assert.That(builder.Services.Any(descriptor =>
                 descriptor.ServiceType == typeof(RedisConnectionProvider))).IsTrue();
             await Assert.That(builder.Services.Any(descriptor =>
-                descriptor.ServiceType == typeof(IConnectionMultiplexer))).IsFalse();
+                descriptor.ServiceType == typeof(IRespireClient))).IsFalse();
             await Assert.That(builder.Services.Any(descriptor =>
                 descriptor.ServiceType == typeof(IDistributedArtifactStoreFactory))).IsTrue();
         }
@@ -239,9 +238,9 @@ public class RedisDistributedExtensionsTests
     }
 
     [Test]
-    public async Task Redis_Features_Do_Not_Adopt_An_Application_Multiplexer()
+    public async Task Redis_Features_Do_Not_Adopt_An_Application_Client()
     {
-        var applicationConnection = new Mock<IConnectionMultiplexer>().Object;
+        var applicationConnection = new Mock<IRespireClient>().Object;
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
         builder.AddDistributedMode(options => options with { RunId = "own-connection" });
@@ -252,11 +251,11 @@ public class RedisDistributedExtensionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(pipeline.Services.GetRequiredService<IConnectionMultiplexer>())
+            await Assert.That(pipeline.Services.GetRequiredService<IRespireClient>())
                 .IsSameReferenceAs(applicationConnection);
             await Assert.That(pipeline.Services.GetRequiredService<RedisConnectionProvider>()).IsNotNull();
             await Assert.That(builder.Services.Count(descriptor =>
-                descriptor.ServiceType == typeof(IConnectionMultiplexer))).IsEqualTo(1);
+                descriptor.ServiceType == typeof(IRespireClient))).IsEqualTo(1);
         }
     }
 
@@ -284,10 +283,10 @@ public class RedisDistributedExtensionsTests
         var options = new RedisOptions
         {
             ConnectionString = "redis.example:6380",
-            ConfigureConnection = connection =>
+            ConfigureConnection = connection => connection with
             {
-                connection.Password = "key,with=special;characters";
-                connection.Ssl = true;
+                Password = "key,with=special;characters",
+                UseTls = true,
             },
         };
 
@@ -295,10 +294,25 @@ public class RedisDistributedExtensionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(configuration.EndPoints.Count).IsEqualTo(1);
+            await Assert.That(configuration.Endpoints).IsEquivalentTo([new RespireEndpoint("redis.example", 6380)]);
             await Assert.That(configuration.Password).IsEqualTo("key,with=special;characters");
-            await Assert.That(configuration.Ssl).IsTrue();
+            await Assert.That(configuration.UseTls).IsTrue();
         }
+    }
+
+    [Test]
+    [Arguments("localhost:6379,abortConnect=false")]
+    [Arguments("localhost:6379,connectTimeout=soon")]
+    public async Task Invalid_Connection_String_Fails_Validation_At_Startup(string connectionString)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddDistributedMode(options => options with { RunId = "invalid-connection-string" });
+        builder.AddRedisDistributed(options => options with { ConnectionString = connectionString });
+
+        await Assert.That(async () => await builder.BuildAsync())
+            .Throws<OptionsValidationException>()
+            .WithMessageContaining($"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} is invalid");
     }
 
     [Test]
@@ -332,12 +346,9 @@ public class RedisDistributedExtensionsTests
             ConnectionString = mode == "remove" ? "localhost:6379" : string.Empty,
             ConfigureConnection = mode switch
             {
-                "noop" => _ =>
-                {
-                }
-                ,
-                "tls" => connection => connection.Ssl = true,
-                "remove" => connection => connection.EndPoints.Clear(),
+                "noop" => connection => connection,
+                "tls" => connection => connection with { UseTls = true },
+                "remove" => connection => connection with { Endpoints = [] },
                 _ => null,
             },
         };
@@ -368,14 +379,16 @@ public class RedisDistributedExtensionsTests
         builder.AddRedisModuleCache(options => options with
         {
             TimeToLive = TimeSpan.FromMinutes(1),
-            ConfigureConnection = callbackOnly ? connection => connection.EndPoints.Add("cache.invalid", 6381) : null,
+            ConfigureConnection = callbackOnly
+                ? connection => connection with { Endpoints = [new RespireEndpoint("cache.invalid", 6381)] }
+                : null,
             ConnectionString = callbackOnly ? string.Empty : "cache.invalid:6381",
         });
 
         await using var pipeline = await builder.BuildAsync();
         var cache = pipeline.Services.GetRequiredService<IOptionsMonitor<RedisOptions>>()
             .Get("ModularPipelines.RedisModuleCache");
-        await Assert.That(RedisConnectionProvider.CreateConfiguration(cache).EndPoints.Count).IsEqualTo(1);
+        await Assert.That(RedisConnectionProvider.CreateConfiguration(cache).Endpoints.Count).IsEqualTo(1);
         await Assert.That(cache.TimeToLive).IsEqualTo(TimeSpan.FromMinutes(1));
     }
 
@@ -383,16 +396,19 @@ public class RedisDistributedExtensionsTests
     public async Task Validated_Configuration_Is_Reused_Without_Reinvoking_Callback()
     {
         var calls = 0;
-        ConfigurationOptions? callbackConfiguration = null;
+        RespireOptions? callbackConfiguration = null;
         var options = new RedisOptions
         {
             ConnectionString = "localhost:6379",
             ConfigureConnection = connection =>
             {
                 Interlocked.Increment(ref calls);
-                callbackConfiguration = connection;
-                connection.Password = "key,with=special;characters";
-                connection.Ssl = true;
+                callbackConfiguration = connection with
+                {
+                    Password = "key,with=special;characters",
+                    UseTls = true,
+                };
+                return callbackConfiguration;
             },
         };
         var validator = new RedisOptionsValidator(
@@ -403,54 +419,36 @@ public class RedisDistributedExtensionsTests
         await Assert.That(result.Succeeded).IsTrue();
         await Assert.That(calls).IsEqualTo(1);
 
-        callbackConfiguration!.EndPoints.Clear();
+        // Neither the options the callback retained nor a returned copy can change the validated snapshot.
+        callbackConfiguration!.Endpoints.Clear();
         var first = RedisConnectionProvider.CreateConfiguration(options);
-        first.EndPoints.Clear();
-        first.Password = "changed";
+        first.Endpoints.Clear();
+        first.ReplicaEndpoints.Add(new RespireEndpoint("replica.invalid", 6379));
         await using var provider = new RedisConnectionProvider(options);
         var second = RedisConnectionProvider.CreateConfiguration(options);
 
         using (Assert.Multiple())
         {
             await Assert.That(calls).IsEqualTo(1);
-            await Assert.That(second.EndPoints.Count).IsEqualTo(1);
+            await Assert.That(second.Endpoints).IsEquivalentTo([new RespireEndpoint("localhost", 6379)]);
+            await Assert.That(second.ReplicaEndpoints).IsEmpty();
             await Assert.That(second.Password).IsEqualTo("key,with=special;characters");
-            await Assert.That(second.Ssl).IsTrue();
+            await Assert.That(second.UseTls).IsTrue();
         }
     }
 
     [Test]
-    [Arguments("127.0.0.1")]
-    [Arguments("fe80::1%12")]
-    public async Task Validated_IP_Endpoints_Are_Isolated_From_Retained_And_Returned_Objects(string address)
+    public async Task Callback_Returning_Null_Fails_Validation()
     {
-        var retained = new IPEndPoint(IPAddress.Parse(address), 6380);
         var options = new RedisOptions
         {
-            ConfigureConnection = connection => connection.EndPoints.Add(retained),
+            ConnectionString = "localhost:6379",
+            ConfigureConnection = _ => null!,
         };
-        var validator = new RedisOptionsValidator(Microsoft.Extensions.Options.Options.DefaultName, Microsoft.Extensions.Options.Options.Create(new DistributedOptions()));
-        await Assert.That(validator.Validate(Microsoft.Extensions.Options.Options.DefaultName, options).Succeeded).IsTrue();
 
-        retained.Port = 6381;
-        if (retained.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-        {
-            retained.Address.ScopeId = 13;
-        }
-
-        retained.Address = IPAddress.Loopback;
-        var first = (IPEndPoint) RedisConnectionProvider.CreateConfiguration(options).EndPoints.Single();
-        await Assert.That(first).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
-
-        first.Port = 6382;
-        if (first.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-        {
-            first.Address.ScopeId = 14;
-        }
-
-        first.Address = IPAddress.Loopback;
-        var second = RedisConnectionProvider.CreateConfiguration(options).EndPoints.Single();
-        await Assert.That(second).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
+        await Assert.That(() => RedisConnectionProvider.CreateConfiguration(options))
+            .Throws<InvalidOperationException>()
+            .WithMessageContaining(nameof(RedisOptions.ConfigureConnection));
     }
 
     [Test]
@@ -459,14 +457,18 @@ public class RedisDistributedExtensionsTests
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
         builder.AddDistributedMode(options => options with { RunId = "callback-endpoints" });
-        builder.AddRedisDistributed(options => options with { ConfigureConnection = _ => { } });
+        builder.AddRedisDistributed(options => options with { ConfigureConnection = connection => connection });
         builder.Services.PostConfigure<RedisOptions>(options =>
             typeof(RedisOptions).GetProperty(nameof(RedisOptions.ConfigureConnection))!.SetValue(
-                options, (Action<ConfigurationOptions>) (connection => connection.EndPoints.Add("coordinator.invalid", 6380))));
+                options,
+                (Func<RespireOptions, RespireOptions>) (connection => connection with
+                {
+                    Endpoints = [new RespireEndpoint("coordinator.invalid", 6380)],
+                })));
         builder.AddRedisModuleCache(options => options with
         {
             TimeToLive = TimeSpan.FromMinutes(1),
-            ConfigureConnection = connection => connection.EndPoints.Add("cache.invalid", 6381),
+            ConfigureConnection = connection => connection with { Endpoints = [new RespireEndpoint("cache.invalid", 6381)] },
         });
 
         await using var pipeline = await builder.BuildAsync();
@@ -476,10 +478,10 @@ public class RedisDistributedExtensionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(RedisConnectionProvider.CreateConfiguration(distributed).EndPoints.Single().ToString())
-                .IsEqualTo("Unspecified/coordinator.invalid:6380");
-            await Assert.That(RedisConnectionProvider.CreateConfiguration(cache).EndPoints.Single().ToString())
-                .IsEqualTo("Unspecified/cache.invalid:6381");
+            await Assert.That(RedisConnectionProvider.CreateConfiguration(distributed).Endpoints.Single())
+                .IsEqualTo(new RespireEndpoint("coordinator.invalid", 6380));
+            await Assert.That(RedisConnectionProvider.CreateConfiguration(cache).Endpoints.Single())
+                .IsEqualTo(new RespireEndpoint("cache.invalid", 6381));
             await Assert.That(cache.TimeToLive).IsEqualTo(TimeSpan.FromMinutes(1));
         }
     }

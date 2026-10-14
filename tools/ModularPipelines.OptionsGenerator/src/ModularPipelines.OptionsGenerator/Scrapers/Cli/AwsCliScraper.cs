@@ -85,7 +85,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
     {
         var lines = GetSynopsisLines(helpText);
-        if (lines.Count == 0)
+        if (lines.Length == 0)
         {
             return base.ParseUsageSynopsis(commandPath, helpText);
         }
@@ -104,7 +104,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         string helpText)
     {
         var synopsisLines = GetSynopsisLines(helpText);
-        if (synopsisLines.Count > 0)
+        if (synopsisLines.Length > 0)
         {
             yield return string.Join(' ', synopsisLines);
         }
@@ -174,12 +174,18 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         // Extract from AVAILABLE SERVICES section (root level)
         var services = ExtractFromSection(normalizedText, "AVAILABLE SERVICES", seenCommands);
         subcommands.AddRange(services);
-        Logger.LogDebug("[aws] Extracted {Count} services from AVAILABLE SERVICES section", services.Count);
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("[aws] Extracted {Count} services from AVAILABLE SERVICES section", services.Count);
+        }
 
         // Extract from AVAILABLE COMMANDS section (service level)
         var commands = ExtractFromSection(normalizedText, "AVAILABLE COMMANDS", seenCommands);
         subcommands.AddRange(commands);
-        Logger.LogDebug("[aws] Extracted {Count} commands from AVAILABLE COMMANDS section", commands.Count);
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("[aws] Extracted {Count} commands from AVAILABLE COMMANDS section", commands.Count);
+        }
 
         // If no subcommands found, log diagnostic info
         if (subcommands.Count == 0)
@@ -284,7 +290,10 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var sectionMatch = Regex.Match(helpText, $@"^{sectionName}\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
         if (!sectionMatch.Success)
         {
-            Logger.LogDebug("[aws] Section '{SectionName}' not found in help text", sectionName);
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug("[aws] Section '{SectionName}' not found in help text", sectionName);
+            }
             return subcommands;
         }
 
@@ -295,7 +304,10 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
-        Logger.LogDebug("[aws] Found section '{SectionName}' with {Length} chars", sectionName, section.Length);
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("[aws] Found section '{SectionName}' with {Length} chars", sectionName, section.Length);
+        }
 
         // AWS format: "       o command-name"
         var matches = AwsCommandPattern().Matches(section);
@@ -324,7 +336,10 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
             if (subcommands.Count > 0)
             {
-                Logger.LogDebug("[aws] Used fallback pattern to extract {Count} commands", subcommands.Count);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("[aws] Used fallback pattern to extract {Count} commands", subcommands.Count);
+                }
             }
         }
 
@@ -335,12 +350,12 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     {
         // NAME section: "command-name -"
         // DESCRIPTION section follows
-        var descMatch = Regex.Match(helpText, @"^DESCRIPTION\s*\n\s+(.+?)(?=\n\n[A-Z]|\nSYNOPSIS|\nOPTIONS|\nAVAILABLE)", RegexOptions.Singleline | RegexOptions.Multiline);
+        var descMatch = DescriptionSectionPattern().Match(helpText);
         if (descMatch.Success)
         {
             var desc = descMatch.Groups[1].Value.Trim();
             // Clean up whitespace
-            desc = Regex.Replace(desc, @"\s+", " ");
+            desc = WhitespacePattern().Replace(desc, " ");
             // Truncate if too long
             if (desc.Length > 500)
             {
@@ -358,7 +373,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find OPTIONS section
-        var optionsMatch = Regex.Match(helpText, @"^OPTIONS\s*$", RegexOptions.Multiline);
+        var optionsMatch = OptionsSectionPattern().Match(helpText);
         if (!optionsMatch.Success)
         {
             return options;
@@ -424,13 +439,10 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
             // Get description (lines following the option with more indentation)
             var optionEnd = match.Index + match.Length;
-            var descMatch = Regex.Match(
-                optionsSection[optionEnd..],
-                """^\s{8,}(.+?)(?=\n\s{7}"?--|\n\n\s{7}"?--|\z)""",
-                RegexOptions.Singleline);
+            var descMatch = OptionDescriptionPattern().Match(optionsSection[optionEnd..]);
             var rawDescription = descMatch.Success ? descMatch.Value : null;
             var description = descMatch.Success
-                ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
+                ? WhitespacePattern().Replace(descMatch.Groups[1].Value.Trim(), " ")
                 : null;
 
             var isBooleanValue = !string.IsNullOrEmpty(typeHint) && IsAwsBooleanType(typeHint);
@@ -536,7 +548,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             : null;
     }
 
-    private static HashSet<string> GetRequiredSynopsisOptions(string helpText, IReadOnlySet<string> booleanSwitches)
+    private static HashSet<string> GetRequiredSynopsisOptions(string helpText, HashSet<string> booleanSwitches)
     {
         var requiredOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var candidate in GetLogicalSynopsisLines(GetSynopsisLines(helpText)))
@@ -576,17 +588,17 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         return requiredOptions;
     }
 
-    private static IEnumerable<string> GetLogicalSynopsisLines(IReadOnlyList<string> lines)
+    private static IEnumerable<string> GetLogicalSynopsisLines(string[] lines)
     {
         var logicalLine = new StringBuilder();
         var optionalDepth = 0;
 
-        for (var index = 0; index < lines.Count; index++)
+        for (var index = 0; index < lines.Length; index++)
         {
             var line = lines[index];
             // AWS can wrap inside a hyphenated switch name. Rejoin the token before
             // interpreting alternatives, without joining the following option declaration.
-            while (index + 1 < lines.Count
+            while (index + 1 < lines.Length
                    && AwsWrappedSynopsisSwitchPattern().IsMatch(line)
                    && lines[index + 1].Length > 0
                    && (char.IsLetterOrDigit(lines[index + 1][0]) || lines[index + 1][0] == '_'))
@@ -615,7 +627,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             // Wrapped alternatives belong to one declaration. Preserve optional brackets
             // and pipes on either side of a line break before assigning requiredness.
             if (optionalDepth != 0 || line.EndsWith('|')
-                || (index + 1 < lines.Count && lines[index + 1].StartsWith('|')))
+                || (index + 1 < lines.Length && lines[index + 1].StartsWith('|')))
             {
                 continue;
             }
@@ -666,7 +678,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             return null;
         }
 
-        var choices = EnumWhitespacePattern().Replace(match.Groups["values"].Value, " ").Trim();
+        var choices = WhitespacePattern().Replace(match.Groups["values"].Value, " ").Trim();
         if (NumericConstraintValuesPattern().IsMatch(choices) || choices.Contains("- ", StringComparison.Ordinal))
         {
             // An ASCII wrap hyphen may be either inserted by the renderer or part of
@@ -763,12 +775,9 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         CliPositionalArgument.MergeDuplicates(
             GetPositionalArguments(usage, options));
 
-    private static IReadOnlyList<string> GetSynopsisLines(string helpText)
+    private static string[] GetSynopsisLines(string helpText)
     {
-        var synopsisMatch = Regex.Match(
-            helpText,
-            @"^SYNOPSIS\s*$",
-            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        var synopsisMatch = SynopsisSectionPattern().Match(helpText);
         if (!synopsisMatch.Success)
         {
             return [];
@@ -867,7 +876,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     private static partial Regex EnumValuePattern();
 
     [GeneratedRegex(@"\s+")]
-    private static partial Regex EnumWhitespacePattern();
+    private static partial Regex WhitespacePattern();
 
     [GeneratedRegex(@"^(?:and|or)\s+", RegexOptions.IgnoreCase)]
     private static partial Regex LeadingEnumConjunctionPattern();
@@ -901,6 +910,15 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     private static partial Regex AvailableCommandsHeaderPattern();
     [GeneratedRegex(@"^[A-Z][A-Z\s]+$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
+
+    [GeneratedRegex(@"^DESCRIPTION\s*\n\s+(.+?)(?=\n\n[A-Z]|\nSYNOPSIS|\nOPTIONS|\nAVAILABLE)", RegexOptions.Multiline | RegexOptions.Singleline)]
+    private static partial Regex DescriptionSectionPattern();
+
+    [GeneratedRegex("""^\s{8,}(.+?)(?=\n\s{7}"?--|\n\n\s{7}"?--|\z)""", RegexOptions.Singleline)]
+    private static partial Regex OptionDescriptionPattern();
+
+    [GeneratedRegex(@"^SYNOPSIS\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    private static partial Regex SynopsisSectionPattern();
 
     #endregion
 }

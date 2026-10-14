@@ -25,7 +25,10 @@ public partial class KubectlDocumentationScraper(HttpClient httpClient, ILogger<
         var commands = new List<CliCommandDefinition>();
         var errors = new List<ScrapingError>();
 
-        Logger.LogInformation("Fetching kubectl command reference from {Url}", BaseUrl);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Fetching kubectl command reference from {Url}", BaseUrl);
+        }
 
         try
         {
@@ -33,7 +36,10 @@ public partial class KubectlDocumentationScraper(HttpClient httpClient, ILogger<
 
             // Find all command sections (they have specific heading patterns)
             var commandSections = ExtractCommandSections(doc);
-            Logger.LogInformation("Found {Count} command sections", commandSections.Count);
+            if (Logger.IsEnabled(LogLevel.Information))
+            {
+                Logger.LogInformation("Found {Count} command sections", commandSections.Count);
+            }
 
             foreach (var section in commandSections)
             {
@@ -43,7 +49,10 @@ public partial class KubectlDocumentationScraper(HttpClient httpClient, ILogger<
                     if (command is not null)
                     {
                         commands.Add(command);
-                        Logger.LogDebug("Parsed command: {Command}", command.FullCommand);
+                        if (Logger.IsEnabled(LogLevel.Debug))
+                        {
+                            Logger.LogDebug("Parsed command: {Command}", command.FullCommand);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -172,7 +181,7 @@ public partial class KubectlDocumentationScraper(HttpClient httpClient, ILogger<
             Options = options,
             PositionalArguments = [],
             SubDomainGroup = subDomain,
-            Enums = options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!).ToList()
+            Enums = [.. options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!)]
         };
     }
 
@@ -201,7 +210,7 @@ public partial class KubectlDocumentationScraper(HttpClient httpClient, ILogger<
         // Look for tables containing flags
         foreach (var element in elements)
         {
-            var tables = element.TagName.Equals("TABLE", StringComparison.InvariantCultureIgnoreCase)
+            var tables = element.TagName.Equals("TABLE", StringComparison.InvariantCultureIgnoreCase)
                 ? [element]
                 : element.QuerySelectorAll("table").ToArray();
 
@@ -315,7 +324,7 @@ public partial class KubectlDocumentationScraper(HttpClient httpClient, ILogger<
         return new CliOptionDefinition
         {
             SwitchName = switchName,
-            ShortForm = string.IsNullOrEmpty(shorthand) || shorthand == "-" ? null : (shorthand.StartsWith("-") ? shorthand : $"-{shorthand}"),
+            ShortForm = string.IsNullOrEmpty(shorthand) || shorthand == "-" ? null : (shorthand.StartsWith('-') ? shorthand : $"-{shorthand}"),
             PropertyName = propertyName,
             CSharpType = csharpType,
             Description = OptionEnumFactory.PreserveValueHint(enumDef, usage, defaultValue),

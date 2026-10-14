@@ -1,5 +1,33 @@
 # ModularPipelines V4 Release Notes
 
+## Redis packages use Respire
+
+`ModularPipelines.Distributed.Redis` and `ModularPipelines.Distributed.Discovery.Redis` now use the
+[Respire](https://thomhurst.github.io/Respire/) client instead of StackExchange.Redis for the coordinator,
+artifact store, module cache, and master discovery. Coordinator keys, Lua scripts, and the stored queue layout
+have changed. Run-scoped coordinator data is incompatible with earlier versions. Finish existing runs before
+upgrading, then start new runs only after upgrading the master and all workers.
+
+- `RedisOptions.ConfigureConnection` and `RedisDiscoveryOptions.ConfigureConnection` are now
+  `Func<RespireOptions, RespireOptions>?`. Replace
+  `connection => { connection.Password = password; connection.Ssl = true; }` with
+  `connection => connection with { Password = password, UseTls = true }`. `AsyncTimeout` becomes
+  `CommandTimeout`; `AbortOnConnectFail` has no equivalent because connections are always opened on first use.
+- Respire parses StackExchange.Redis-style connection strings but rejects options it does not support, such as
+  `abortConnect`, and requires `cluster=true` or `serviceName` when a string lists several endpoints. Invalid
+  connection strings fail with `OptionsValidationException` when the pipeline is built.
+- Unless configured otherwise, connections use Respire's default `RespireRetryPolicy`, which resends commands
+  that were never written, and reads, after a dropped connection.
+- The coordinator now requires **Redis 7.4 or later, or Valkey 9.0 or later**. Worker heartbeats use hash field
+  expiry (`HPEXPIRE`) and notifications use sharded pub/sub. An older server fails with `NotSupportedException`
+  when the coordinator is created.
+- Claims no longer scan the whole queue: queued work is grouped by capability class, and a claim reads one entry
+  per class. Withdrawal uses an index instead of a queue scan. Enqueueing, heartbeats, result publication and
+  lease requeueing each take one round trip. Run data from earlier versions is not compatible; start new runs
+  after upgrading.
+- Artifact and module cache transfers keep up to four chunk commands in flight, read chunks into pooled memory,
+  list artifact metadata with one `MGET`, and delete with `UNLINK`.
+
 ## Generated CLI numeric names
 
 Generated identifiers beginning with a digit now use a `Number` prefix. For example,
@@ -337,6 +365,18 @@ switch for each value. Script files can serve as the complete input source for
 install, download, wheel, and lock commands. The generated
 [pip reference](docs/docs/mp-packages/cli/pip.md) lists the current options.
 
+## Newman value-taking options
+
+The Newman 6.2.2 integration now preserves optional values for `Reporters`, `Bail`,
+`DelayRequest`, `Timeout`, `TimeoutRequest`, and `TimeoutScript`. These properties
+change from `bool?` to `CliOptionValue?`: assign a string value, use
+`CliOptionValue.Bare` instead of `true`, or use `null` instead of `false` to omit
+the option. For example, `Reporters = "cli,json"` and `TimeoutRequest = "3000"`
+now render their values correctly. `IterationCount` changes from `string?` to
+`int?`, and `SuppressExitCode` exposes the previously missed `-x` flag.
+
+See the [Newman package guide](docs/docs/mp-packages/newman.md) for a complete example.
+
 ## Logging surface
 
 - `context.Logger` now exposes the standard Microsoft.Extensions.Logging `ILogger`
@@ -347,6 +387,19 @@ install, download, wheel, and lock commands. The generated
 - Summary read methods moved from `ISummaryLogger` to `ISummaryLogReader`.
 
 ## Logging options
+
+Command `Show*` flags are now nullable overrides: `null` follows `Verbosity`, `true`
+enables the item, and `false` disables it, even at `Silent` or `Diagnostic`. Explicit
+`ShowStandardError = true` also includes captured stderr from successful commands.
+`ShowWorkingDirectory` now controls the start-line directory, and `ShowTimestamps`
+adds UTC timestamps to command log events. Both default to enabled only at `Diagnostic`.
+Presets set verbosity without overriding individual flags.
+
+HTTP logging now shares the `Show*` prefix and the `Silent`, `Default`, and `Diagnostic`
+preset names with command logging. Replace HTTP `LogRequest`, `LogResponse`, header/body
+`Log*` flags, `LogStatusCode`, and `LogDuration` with their `Show*` equivalents.
+`HttpLoggingOptions.None` is now `Silent`; `Full` is now `Diagnostic`. HTTP-specific
+`Minimal` and `Headers` presets remain available, and HTTP flags remain non-nullable.
 
 Per-call command and HTTP options now use `Logging`, matching the global
 `Commands.Logging` and `Http.Logging` properties. `IncludeTimestamps` is now
@@ -776,8 +829,9 @@ Use `[CliArgument]` only for positional values that follow the command chain.
   removed. The hub requires an `AccessToken` whenever it is reachable beyond the machine; one is generated and
   shared through discovery when unset. Workers pull leases instead of receiving pushed work.
 - Redis: `RedisDistributedOptions` is `RedisOptions`, `KeyExpiration` is `TimeToLive`, and
-  `ConfigureConnection` adjusts the parsed connection. The package neither registers nor uses an application
-  `IConnectionMultiplexer`. Module cache keys move to `v2` with a cluster hash tag.
+  `ConfigureConnection` transforms the parsed Respire connection options. The package uses the Respire client
+  and neither registers nor uses an application Redis client. Module cache keys move to `v2` with a cluster
+  hash tag.
 - S3: `S3ArtifactOptions` is `S3StorageOptions`, `KeyPrefix` defaults to `modpipe`, `SetLifecycleRule`
   defaults to `false` and merges with existing rules, and large objects use multipart uploads.
 - Discovery: `Ttl` is `TimeToLive`, `KeyPrefix` defaults to `modpipe`, and the package owns its connection.
@@ -994,8 +1048,8 @@ Replace assignments such as `options => options.RunId = "run"` with
 
 `AddRedisModuleCache` and `AddS3ModuleCache` use transforms for both backend and cache
 options. Configuration-section overloads, named cache isolation, registration order,
-validation, and runtime defaults are preserved. `ConfigureConnection` remains an
-`Action<StackExchange.Redis.ConfigurationOptions>` because that third-party type is mutable.
+validation, and runtime defaults are preserved. `RedisOptions.ConfigureConnection` and
+`RedisDiscoveryOptions.ConfigureConnection` are `Func<RespireOptions, RespireOptions>` transforms.
 
 Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel =
 CompressionLevel.NoCompression })` to configure local artifact behavior without enabling
@@ -1054,3 +1108,36 @@ On `GitBaseOptions`, rename `GitDir` to `GitDirectory` and `Bare` to `BareReposi
 distinguish repository selection from command-local reporting or clone options. Other shared
 properties retain their names through inheritance. Version and path-reporting actions remain
 on `GitBaseOptions`, and the grouped command facade remains unchanged.
+
+## FTP namespaces and registration
+
+`FtpOptions` and `FtpExtensions` move from `ModularPipelines.Ftp.Options` and
+`ModularPipelines.Ftp.Extensions` into `ModularPipelines.Ftp`. Replace the old
+imports with `using ModularPipelines.Ftp;` and update fully qualified type names.
+
+`RegisterFtpContext` remains public and marked with `ModularPipelinesIntegration`
+for source-generator discovery, but is hidden from IntelliSense with
+`EditorBrowsable(Never)`. Generated registration and `context.Tools.Ftp` remain
+available; modules do not need to register FTP manually.
+
+## FTP connection cancellation and encryption
+
+`IFtp.GetFtpClientAsync(FtpOptions, CancellationToken = default)` now accepts cancellation
+for connection establishment. Failed or canceled client setup disposes the client;
+successfully connected clients remain owned by the FTP context. Custom `IFtp`
+implementations must accept the new parameter. Existing calls without a token remain valid.
+
+Set `FtpOptions.RequireEncryption = true` to require explicit FTPS without plaintext
+fallback; an explicitly configured implicit FTPS mode is also supported. Control and
+data connections stay encrypted. This policy overrides configurator settings that would
+disable encryption. The default remains `false` for compatibility with plaintext servers
+and uses FluentFTP auto-detection, which can send credentials without encryption.
+
+## Email package namespaces
+
+`EmailSendOptions` and `EmailExtensions` now live in `ModularPipelines.Email` alongside
+`IEmail`. Replace imports of `ModularPipelines.Email.Options` and
+`ModularPipelines.Email.Extensions` with the root namespace. The generated
+`context.Tools.Email` entry point and `SendAsync` behavior are unchanged.
+`RegisterEmailContext` remains public for generated registration and is hidden from
+IntelliSense.

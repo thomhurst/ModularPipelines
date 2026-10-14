@@ -264,7 +264,7 @@ public class YarnCliScraperTests
         {
         }
 
-        public List<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public List<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(

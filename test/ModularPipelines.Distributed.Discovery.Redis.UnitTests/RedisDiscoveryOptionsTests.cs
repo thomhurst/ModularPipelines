@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -7,7 +6,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Discovery.Redis;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 
@@ -61,20 +60,32 @@ public class RedisDiscoveryOptionsTests
         builder.AddRedisMasterDiscovery(options => options with
         {
             ConnectionString = connectionString,
-            ConfigureConnection = configuration =>
-            {
-                if (customizeTls)
-                {
-                    configuration.Ssl = true;
-                    configuration.EndPoints.Clear();
-                }
-            },
+            ConfigureConnection = configuration => customizeTls
+                ? configuration with { UseTls = true, Endpoints = [] }
+                : configuration,
         });
         builder.AddDistributedMode(options => options with { RunId = "test-run" });
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
 
         await Assert.That(exception!.Failures).Contains("Redis discovery requires at least one TCP endpoint.");
+    }
+
+    [Test]
+    [Arguments("localhost:6379,abortConnect=false")]
+    [Arguments("localhost:6379,connectTimeout=soon")]
+    public async Task HostBuildRejectsInvalidConnectionString(string connectionString)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisMasterDiscovery(options => options with { ConnectionString = connectionString });
+        builder.AddDistributedMode(options => options with { RunId = "test-run" });
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures.Any(failure =>
+                failure.StartsWith($"{nameof(RedisDiscoveryOptions.ConnectionString)} is invalid", StringComparison.Ordinal)))
+            .IsTrue();
     }
 
     [Test]
@@ -90,7 +101,7 @@ public class RedisDiscoveryOptionsTests
         await using var pipeline = await builder.BuildAsync();
 
         await Assert.That(pipeline.Services.GetRequiredService<IRedisDiscoveryStore>())
-            .IsTypeOf<StackExchangeRedisDiscoveryStore>();
+            .IsTypeOf<RespireDiscoveryStore>();
     }
 
     [Test]
@@ -119,7 +130,7 @@ public class RedisDiscoveryOptionsTests
     [Arguments("redis.internal:6380")]
     public async Task ConnectionCustomizationRunsDuringValidation(string connectionString)
     {
-        StackExchange.Redis.ConfigurationOptions? capturedConfiguration = null;
+        RespireOptions? capturedConfiguration = null;
         var stopBeforeConnecting = new InvalidOperationException("Stop before network access");
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
@@ -128,13 +139,9 @@ public class RedisDiscoveryOptionsTests
             ConnectionString = connectionString,
             ConfigureConnection = configuration =>
             {
-                capturedConfiguration = configuration;
-                if (configuration.EndPoints.Count == 0)
-                {
-                    configuration.EndPoints.Add("redis.internal", 6380);
-                }
-
-                configuration.Ssl = true;
+                capturedConfiguration = configuration.Endpoints.Count == 0
+                    ? configuration with { Endpoints = [new RespireEndpoint("redis.internal", 6380)], UseTls = true }
+                    : configuration with { UseTls = true };
                 throw stopBeforeConnecting;
             },
         });
@@ -143,9 +150,9 @@ public class RedisDiscoveryOptionsTests
 
         await Assert.That(exception).IsSameReferenceAs(stopBeforeConnecting);
         await Assert.That(capturedConfiguration).IsNotNull();
-        await Assert.That(capturedConfiguration!.EndPoints.Single())
-            .IsEqualTo(new System.Net.DnsEndPoint("redis.internal", 6380));
-        await Assert.That(capturedConfiguration.Ssl).IsTrue();
+        await Assert.That(capturedConfiguration!.Endpoints.Single())
+            .IsEqualTo(new RespireEndpoint("redis.internal", 6380));
+        await Assert.That(capturedConfiguration.UseTls).IsTrue();
     }
 
     [Test]
@@ -157,87 +164,57 @@ public class RedisDiscoveryOptionsTests
             ConfigureConnection = configuration =>
             {
                 calls++;
-                configuration.EndPoints.Add("redis.internal", 6380);
-                configuration.Ssl = true;
+                return configuration with { Endpoints = [new RespireEndpoint("redis.internal", 6380)], UseTls = true };
             },
         };
         var validator = new RedisDiscoveryOptionsValidator();
 
         await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
         await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
-        await Assert.That(options.GetConnectionConfiguration().Ssl).IsTrue();
+        await Assert.That(options.GetConnectionConfiguration().UseTls).IsTrue();
         await Assert.That(calls).IsEqualTo(1);
     }
 
     [Test]
     public async Task ValidatedConfigurationIsIsolatedFromCallbackAndConnectionCopies()
     {
-        ConfigurationOptions? retained = null;
+        RespireOptions? retained = null;
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
         builder.AddRedisMasterDiscovery(options => options with
         {
-            ConfigureConnection = configuration =>
-        {
-            retained = configuration;
-            configuration.EndPoints.Add("redis.internal", 6380);
-            configuration.Password = "key,with=special;characters";
-            configuration.Ssl = true;
-        }
+            ConfigureConnection = configuration => retained = configuration with
+            {
+                Endpoints = [new RespireEndpoint("redis.internal", 6380)],
+                Password = "key,with=special;characters",
+                UseTls = true,
+            },
         });
         builder.AddDistributedMode(options => options with { RunId = "test-run" });
         await using var pipeline = await builder.BuildAsync();
         var options = pipeline.Services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
 
-        retained!.EndPoints.Clear();
-        retained.Password = "changed";
-        retained.Ssl = false;
+        retained!.Endpoints.Clear();
         var first = options.GetConnectionConfiguration();
-        await Assert.That(first.EndPoints.Single()).IsEqualTo(new DnsEndPoint("redis.internal", 6380));
+        await Assert.That(first.Endpoints.Single()).IsEqualTo(new RespireEndpoint("redis.internal", 6380));
         await Assert.That(first.Password).IsEqualTo("key,with=special;characters");
-        await Assert.That(first.Ssl).IsTrue();
+        await Assert.That(first.UseTls).IsTrue();
 
-        first.EndPoints.Clear();
-        first.Password = "changed again";
-        first.Ssl = false;
+        first.Endpoints.Clear();
+        first.ReplicaEndpoints.Add(new RespireEndpoint("replica.internal", 6380));
         var second = options.GetConnectionConfiguration();
-        await Assert.That(second.EndPoints.Single()).IsEqualTo(new DnsEndPoint("redis.internal", 6380));
-        await Assert.That(second.Password).IsEqualTo("key,with=special;characters");
-        await Assert.That(second.Ssl).IsTrue();
+        await Assert.That(second.Endpoints.Single()).IsEqualTo(new RespireEndpoint("redis.internal", 6380));
+        await Assert.That(second.ReplicaEndpoints).IsEmpty();
     }
 
     [Test]
-    [Arguments("127.0.0.1")]
-    [Arguments("fe80::1%12")]
-    public async Task ValidatedIpEndpointsAreIsolatedFromRetainedAndReturnedObjects(string address)
+    public async Task ConnectionDefaultsToRetryingUnsentCommandsUnlessConfigured()
     {
-        var retained = new IPEndPoint(IPAddress.Parse(address), 6380);
-        var options = new RedisDiscoveryOptions
-        {
-            ConfigureConnection = configuration => configuration.EndPoints.Add(retained),
-        };
-        var validator = new RedisDiscoveryOptionsValidator();
-        await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
+        var defaults = new RedisDiscoveryOptions { ConnectionString = "localhost:6379" };
+        var disabled = defaults with { ConfigureConnection = configuration => configuration with { RetryPolicy = null } };
 
-        retained.Port = 6381;
-        if (retained.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-        {
-            retained.Address.ScopeId = 13;
-        }
-
-        retained.Address = IPAddress.Loopback;
-        var first = (IPEndPoint) options.GetConnectionConfiguration().EndPoints.Single();
-        await Assert.That(first).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
-
-        first.Port = 6382;
-        if (first.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-        {
-            first.Address.ScopeId = 14;
-        }
-
-        first.Address = IPAddress.Loopback;
-        var second = options.GetConnectionConfiguration().EndPoints.Single();
-        await Assert.That(second).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
+        await Assert.That(defaults.GetConnectionConfiguration().RetryPolicy).IsEqualTo(new RespireRetryPolicy());
+        await Assert.That(disabled.GetConnectionConfiguration().RetryPolicy).IsNull();
     }
 
     [Test]
@@ -359,10 +336,10 @@ public class RedisDiscoveryOptionsTests
     public async Task Discovery_Does_Not_Register_An_Application_Connection()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisMasterDiscovery(options => options with { ConfigureConnection = configuration => configuration.Ssl = true });
+        builder.AddRedisMasterDiscovery(options => options with { ConfigureConnection = configuration => configuration with { UseTls = true } });
 
         await Assert.That(builder.Services.Any(descriptor =>
-                descriptor.ServiceType == typeof(StackExchange.Redis.IConnectionMultiplexer)))
+                descriptor.ServiceType == typeof(IRespireClient) || descriptor.ServiceType == typeof(RespireClient)))
             .IsFalse();
     }
 

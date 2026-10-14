@@ -14,7 +14,8 @@ dotnet add package ModularPipelines.Email
 
 ## Context entry points
 
-Use the discoverable `context.Tools` surface from a module:
+Import `ModularPipelines.Email` for `EmailSendOptions` and use the discoverable
+`context.Tools` surface from a module:
 
 - `context.Tools.Email`
 
@@ -36,3 +37,13 @@ public class UseEmailModule : SyncModule<None>
     }
 }
 ```
+
+## V4 migration
+
+Replace `using ModularPipelines.Email.Options` and `using ModularPipelines.Email.Extensions`
+with `using ModularPipelines.Email`. `EmailSendOptions`, `EmailExtensions`, and `IEmail`
+now share the package root namespace. `SendAsync` retains its cancellation token and
+SMTP behavior.
+
+`RegisterEmailContext` remains public for generated registration but is hidden from
+IntelliSense. Module code uses `context.Tools.Email` without calling registration plumbing.

@@ -454,8 +454,8 @@ public class ArgoCdCliScraperTests
 
         public string NormalizeIdentifier(string commandPart) => NormalizeCommandIdentifier(commandPart);
 
-        public IReadOnlyList<string> ExtractCommands(string helpText) =>
-            ExtractSubcommands(helpText).ToList();
+        public List<string> ExtractCommands(string helpText) =>
+            [.. ExtractSubcommands(helpText)];
 
         public IReadOnlyList<CliPositionalArgument> ParseArguments(
             string[] commandPath,

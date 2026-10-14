@@ -57,6 +57,10 @@ internal class WorkerModuleExecutor(
         executionLocationContext,
         logger);
 
+    private WorkerRegistration? _registration;
+
+    internal bool RegistrationConfirmed => _registration is not null;
+
     /// <summary>
     /// Gets or sets how long a worker waits for canceled modules to stop after its master completed
     /// or was lost, before it abandons them.
@@ -64,6 +68,69 @@ internal class WorkerModuleExecutor(
     internal TimeSpan CanceledWorkGracePeriod { get; set; } = TimeSpan.FromSeconds(30);
 
     public bool OwnsEntirePlan => false;
+
+    // Register before pipeline handlers can access shared run data. Direct backend callers use the
+    // same path, and execution reuses the accepted session instead of registering a new timestamp.
+    internal async Task<WorkerRegistration?> RegisterAsync(CancellationToken cancellationToken)
+    {
+        if (_registration is not null)
+        {
+            return _registration;
+        }
+
+        BuildModuleLookup(_registeredModules);
+        var options = _options.Value;
+        var capabilities = await LocalCapabilities.GetAsync(localCapabilities, options, cancellationToken)
+            .ConfigureAwait(false);
+        var registration = new WorkerRegistration
+        {
+            WorkerId = options.LocalWorkerId,
+            Capabilities = [.. capabilities],
+            RegisteredAt = _timeProvider.GetUtcNow(),
+            MaxParallelism = DistributedWorkerPool.GetMaxConcurrency(_parallelLimitProvider, options),
+            RunId = options.RunId,
+            PipelineSchemaVersion = _typeRegistry.GetPipelineSchemaVersion(),
+        };
+        cancellationToken.ThrowIfCancellationRequested();
+        try
+        {
+            // Complete the handshake even if the caller cancels after the master commits it.
+            // A timed-out acknowledgment remains unconfirmed and must not publish worker status.
+            using var registrationTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(30), _timeProvider);
+            await _coordinator.RegisterWorkerAsync(registration, registrationTimeout.Token)
+                .WaitAsync(registrationTimeout.Token)
+                .ConfigureAwait(false);
+        }
+        catch (DistributedRunCompletedException)
+        {
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("The distributed run has completed; worker {WorkerId} will not participate", registration.WorkerId);
+            }
+            return null;
+        }
+
+        _registration = registration;
+        cancellationToken.ThrowIfCancellationRequested();
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Worker {WorkerId} registered with capabilities: {Capabilities}",
+                registration.WorkerId,
+                string.Join(", ", capabilities));
+        }
+        return registration;
+    }
+
+    // Initialization may run user handlers for longer than WorkerTimeout. Stop this heartbeat before
+    // execution starts so its empty in-flight list cannot overwrite the execution pool's leases.
+    internal Task SendInitializationHeartbeatsAsync(CancellationToken cancellationToken) =>
+        SendHeartbeatsAsync(
+            _options.Value.LocalWorkerId,
+            _options.Value.RunId,
+            _options.Value.WorkerHeartbeatInterval,
+            new InFlightLeases(),
+            cancellationToken);
 
     // Workers execute whatever the master assigns, so the plan's duration estimates only
     // influence the master's scheduling and are not consulted here.
@@ -85,12 +152,14 @@ internal class WorkerModuleExecutor(
         var workerToken = workerCts.Token;
         var moduleLookup = BuildModuleLookup(request.Modules);
         var dependencyResultCache = new DependencyResultCache(_coordinator, workerToken);
-        var capabilities = await LocalCapabilities.GetAsync(localCapabilities, options, workerToken)
-            .ConfigureAwait(false);
-        var maxConcurrency = DistributedWorkerPool.GetMaxConcurrency(
-            _parallelLimitProvider,
-            options);
-        await RegisterWorkerAsync(workerId, capabilities, maxConcurrency, workerToken).ConfigureAwait(false);
+        var registration = await RegisterAsync(workerToken).ConfigureAwait(false);
+        if (registration is null)
+        {
+            return [];
+        }
+
+        var capabilities = registration.Capabilities.ToHashSet();
+        var maxConcurrency = registration.MaxParallelism;
 
         var inFlightLeases = new InFlightLeases();
         var heartbeatTask = SendHeartbeatsAsync(
@@ -109,10 +178,13 @@ internal class WorkerModuleExecutor(
         var masterState = DistributedMasterState.Running;
         try
         {
-            _logger.LogDebug(
-                "Worker {WorkerId} starting {MaxConcurrency} concurrent execution slot(s)",
-                workerId,
-                maxConcurrency);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug(
+                    "Worker {WorkerId} starting {MaxConcurrency} concurrent execution slot(s)",
+                    workerId,
+                    maxConcurrency);
+            }
             var poolTask = DistributedWorkerPool.RunAsync(
                 token => _coordinator.DequeueModuleAsync(workerId, capabilities, token),
                 async (lease, claimedAt, _) =>
@@ -468,27 +540,5 @@ internal class WorkerModuleExecutor(
         catch (OperationCanceledException)
         {
         }
-    }
-
-    private async Task RegisterWorkerAsync(
-        WorkerId workerId,
-        IReadOnlySet<Capability> capabilities,
-        int maxConcurrency,
-        CancellationToken cancellationToken)
-    {
-        var registration = new WorkerRegistration
-        {
-            WorkerId = workerId,
-            Capabilities = [.. capabilities],
-            RegisteredAt = DateTimeOffset.UtcNow,
-            MaxParallelism = maxConcurrency,
-            RunId = _options.Value.RunId,
-            PipelineSchemaVersion = _typeRegistry.GetPipelineSchemaVersion(),
-        };
-        await _coordinator.RegisterWorkerAsync(registration, cancellationToken).ConfigureAwait(false);
-        _logger.LogInformation(
-            "Worker {WorkerId} registered with capabilities: {Capabilities}",
-            workerId,
-            string.Join(", ", capabilities));
     }
 }

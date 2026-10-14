@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Respire" />
   </ItemGroup>
 
   <ItemGroup>

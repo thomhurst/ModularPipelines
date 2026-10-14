@@ -42,14 +42,13 @@ public record CliPositionalArgument
             .ToList();
 
         var nextPositions = new Dictionary<CommandLinePhase, int>();
-        return merged
+        return (List<CliPositionalArgument>) [.. merged
             .Select(argument =>
             {
                 var position = nextPositions.GetValueOrDefault(argument.Phase);
                 nextPositions[argument.Phase] = position + 1;
                 return argument with { PositionIndex = position };
-            })
-            .ToList();
+            })];
     }
 
     /// <summary>

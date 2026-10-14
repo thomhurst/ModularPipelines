@@ -212,8 +212,8 @@ public class VaultCliScraperTests
 
     private sealed class VaultHelpExecutor(string? leafHelp = null) : ICliCommandExecutor
     {
-        private static readonly IReadOnlyDictionary<string, string> Responses =
-            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<string, string> Responses =
+            new(StringComparer.OrdinalIgnoreCase)
             {
                 ["--help"] = """
                     Usage: vault <command> [args]

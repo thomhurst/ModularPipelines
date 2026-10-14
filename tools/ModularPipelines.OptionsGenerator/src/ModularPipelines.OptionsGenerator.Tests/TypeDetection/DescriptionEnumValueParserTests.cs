@@ -43,7 +43,7 @@ public class DescriptionEnumValueParserTests
         var result = DescriptionEnumValueParser.TryParse("Valid values: json, yaml, xml.");
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.Values).IsEquivalentTo(new[] { "json", "yaml", "xml" });
+        await Assert.That(result!.Values).IsEquivalentTo(["json", "yaml", "xml"]);
     }
 
     [Test]
@@ -62,7 +62,7 @@ public class DescriptionEnumValueParserTests
         var result = DescriptionEnumValueParser.TryParse("Must be one of: table|json|yaml");
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.Values).IsEquivalentTo(new[] { "table", "json", "yaml" });
+        await Assert.That(result!.Values).IsEquivalentTo(["table", "json", "yaml"]);
         await Assert.That(result.MatchKind).IsEqualTo(DescriptionEnumMatchKind.Explicit);
     }
 

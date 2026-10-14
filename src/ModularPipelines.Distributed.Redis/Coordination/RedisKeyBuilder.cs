@@ -12,7 +12,17 @@ internal class RedisKeyBuilder(string prefix, string runId)
 {
     private readonly string _runPrefix = $"{prefix}:{{{runId}}}";
 
+    /// <summary>
+    /// Gets the sorted set of queued assignments. Every member has score zero and sorts by
+    /// <c>{class}|{order}|{assignment}</c>, so each capability class is a contiguous lexicographic range.
+    /// </summary>
     public string WorkQueue => $"{_runPrefix}:work:queue";
+
+    /// <summary>Gets the hash of capability classes with queued work, keyed by class identifier.</summary>
+    public string QueueClasses => $"{_runPrefix}:work:classes";
+
+    /// <summary>Gets the hash of queue members, keyed by module identifier, so withdrawal needs no queue scan.</summary>
+    public string QueueIndex => $"{_runPrefix}:work:index";
 
     /// <summary>Gets the hash of active leases, keyed by module identifier.</summary>
     public string Leases => $"{_runPrefix}:work:leases";
@@ -23,9 +33,13 @@ internal class RedisKeyBuilder(string prefix, string runId)
 
     public string Workers => $"{_runPrefix}:workers";
 
-    public string WorkerStatuses => $"{_runPrefix}:workers:status";
+    /// <summary>
+    /// Gets the hash of worker heartbeats. Each field expires after the worker timeout, so the hash
+    /// holds exactly the live workers.
+    /// </summary>
+    public string WorkerHeartbeats => $"{_runPrefix}:workers:heartbeat";
 
-    public string WorkerHeartbeatField(WorkerId workerId) => $"heartbeat:{workerId}";
+    public string WorkerStatuses => $"{_runPrefix}:workers:status";
 
     public string WorkAvailableChannel => $"{_runPrefix}:work:available";
 
@@ -62,14 +76,18 @@ internal class RedisKeyBuilder(string prefix, string runId)
     public string ArtifactModules => $"{_runPrefix}:artifacts:modules";
 
     /// <summary>
-    /// Returns the coordination keys whose expiry is refreshed while the run is active.
+    /// Returns the coordination keys whose expiry is refreshed while the run is active, in the order
+    /// <see cref="RedisCoordinationScripts"/> expects them as <c>KEYS[1]</c> to <c>KEYS[11]</c>.
     /// </summary>
     public IReadOnlyList<string> CoordinationKeys =>
     [
         WorkQueue,
+        QueueClasses,
+        QueueIndex,
         Leases,
         Results,
         Workers,
+        WorkerHeartbeats,
         WorkerStatuses,
         CompletionFlag,
         CancellationFlag,
@@ -77,18 +95,18 @@ internal class RedisKeyBuilder(string prefix, string runId)
     ];
 
     /// <summary>
+    /// Returns every key a coordination script may touch: <see cref="CoordinationKeys"/> followed by
+    /// <see cref="MasterHeartbeat"/> as <c>KEYS[12]</c>. Declaring every key keeps scripts Redis Cluster safe.
+    /// </summary>
+    public IReadOnlyList<string> ScriptKeys => [.. CoordinationKeys, MasterHeartbeat];
+
+    /// <summary>
     /// Gets the coordination keys deleted when the run ends. The completion flag is kept so workers that
     /// start late see a completed master.
     /// </summary>
     public IReadOnlyList<string> RunCleanupKeys =>
     [
-        WorkQueue,
-        Leases,
-        Results,
-        Workers,
-        WorkerStatuses,
-        CancellationFlag,
-        MasterStarted,
+        .. CoordinationKeys.Where(key => key != CompletionFlag),
         MasterHeartbeat,
     ];
 }

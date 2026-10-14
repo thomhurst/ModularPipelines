@@ -339,22 +339,22 @@ public class ProcessCliCommandExecutorTests
         int? childPid = null;
         try
         {
-            var command = await CreateLongRunningChildCommandAsync(
+            var (command, arguments, createdScriptPath) = await CreateLongRunningChildCommandAsync(
                 childPidPath,
                 parentExits: false,
                 delayChildStartup: true);
-            scriptPath = command.ScriptPath;
-            var execution = await ExecuteAfterChildStartsAsync(
-                command.Command,
-                command.Arguments,
+            scriptPath = createdScriptPath;
+            var (result, publishedChildPid) = await ExecuteAfterChildStartsAsync(
+                command,
+                arguments,
                 childPidPath);
-            childPid = execution.ChildPid;
+            childPid = publishedChildPid;
 
             using (Assert.Multiple())
             {
-                await Assert.That(execution.Result.ExitCode).IsEqualTo(-1);
-                await Assert.That(execution.Result.StandardError).Contains("timed out");
-                await Assert.That(await WaitForProcessExitAsync(execution.ChildPid)).IsTrue();
+                await Assert.That(result.ExitCode).IsEqualTo(-1);
+                await Assert.That(result.StandardError).Contains("timed out");
+                await Assert.That(await WaitForProcessExitAsync(publishedChildPid)).IsTrue();
             }
         }
         finally
@@ -379,21 +379,21 @@ public class ProcessCliCommandExecutorTests
         int? childPid = null;
         try
         {
-            var command = await CreateLongRunningChildCommandAsync(
+            var (command, arguments, createdScriptPath) = await CreateLongRunningChildCommandAsync(
                 childPidPath,
                 parentExits: true);
-            scriptPath = command.ScriptPath;
-            var execution = await ExecuteAfterChildStartsAsync(
-                command.Command,
-                command.Arguments,
+            scriptPath = createdScriptPath;
+            var (result, publishedChildPid) = await ExecuteAfterChildStartsAsync(
+                command,
+                arguments,
                 childPidPath);
-            childPid = execution.ChildPid;
+            childPid = publishedChildPid;
 
             using (Assert.Multiple())
             {
-                await Assert.That(execution.Result.ExitCode).IsEqualTo(-1);
-                await Assert.That(execution.Result.StandardError).Contains("timed out");
-                await Assert.That(await WaitForProcessExitAsync(execution.ChildPid)).IsTrue();
+                await Assert.That(result.ExitCode).IsEqualTo(-1);
+                await Assert.That(result.StandardError).Contains("timed out");
+                await Assert.That(await WaitForProcessExitAsync(publishedChildPid)).IsTrue();
             }
         }
         finally
@@ -422,10 +422,10 @@ public class ProcessCliCommandExecutorTests
 
         try
         {
-            var command = await CreateLongRunningChildCommandAsync(
+            var (command, arguments, createdScriptPath) = await CreateLongRunningChildCommandAsync(
                 childPidPath,
                 parentExits: false);
-            scriptPath = command.ScriptPath;
+            scriptPath = createdScriptPath;
             var executor = new ProcessCliCommandExecutor(
                 NullLogger<ProcessCliCommandExecutor>.Instance,
                 TimeSpan.FromSeconds(10),
@@ -442,7 +442,7 @@ public class ProcessCliCommandExecutorTests
                     throw new InvalidOperationException("readiness failed");
                 });
 
-            var execution = executor.ExecuteAsync(command.Command, command.Arguments, cancellationSource.Token);
+            var execution = executor.ExecuteAsync(command, arguments, cancellationSource.Token);
             if (cancel)
             {
                 await Assert.That(async () => await execution).Throws<OperationCanceledException>();

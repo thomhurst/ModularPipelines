@@ -27,7 +27,13 @@ public interface IDistributedWorkerCoordinator
     /// <see cref="WorkerRegistration.RegisteredAt"/> again is a reconnect and succeeds. Registering a
     /// worker identifier that is live under a different <see cref="WorkerRegistration.RegisteredAt"/>
     /// throws <see cref="InvalidOperationException"/> instead of replacing the live worker.
+    /// Once <see cref="IDistributedMasterCoordinator.SignalCompletionAsync"/> completes, only a reconnect
+    /// of the same worker identifier and registration timestamp succeeds. All other registrations throw
+    /// <see cref="DistributedRunCompletedException"/> without changing registrations or statuses.
+    /// Registration and completion must be atomic with respect to each other, so the master can wait
+    /// for a final set of participants before deleting shared run data.
     /// </remarks>
+    /// <exception cref="DistributedRunCompletedException">The run completed before this worker session registered.</exception>
     Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken);
 
     /// <summary>

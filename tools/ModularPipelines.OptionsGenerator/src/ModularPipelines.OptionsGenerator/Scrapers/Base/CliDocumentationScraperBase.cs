@@ -44,7 +44,10 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     /// </summary>
     protected async Task<IDocument> FetchHtmlAsync(string url, CancellationToken cancellationToken)
     {
-        Logger.LogDebug("Fetching {Url}", url);
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("Fetching {Url}", url);
+        }
         var html = await HttpClient.GetStringAsync(url, cancellationToken);
         return await HtmlParser.ParseDocumentAsync(html, cancellationToken);
     }
@@ -154,6 +157,9 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     /// </summary>
     protected static bool DetectBooleanFlag(string? description, string? defaultValue, string? acceptedValues = null, string? explicitType = null)
     {
+        // Retain the description parameter for derived scrapers; only explicit metadata determines flags.
+        _ = description;
+
         // 1. Explicit type annotation (most reliable)
         if (!string.IsNullOrEmpty(explicitType))
         {
@@ -234,6 +240,9 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     /// </summary>
     protected static CliEnumDefinition? DetectEnumValues(string propertyName, string commandClassName, string? valueType, string? description)
     {
+        // Retain the description parameter for derived scrapers; enum values come from valueType.
+        _ = description;
+
         if (string.IsNullOrEmpty(valueType))
         {
             return null;

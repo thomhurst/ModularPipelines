@@ -6,7 +6,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
 public partial class NestedArgumentGroupParsingTests
 {
-    private static readonly string[] value = new[] { "value" };
+    private static readonly string[] value = ["value"];
 
     [Test]
     public async Task Captured_Metadata_Job_Validates_Operation_Branches_At_Runtime()

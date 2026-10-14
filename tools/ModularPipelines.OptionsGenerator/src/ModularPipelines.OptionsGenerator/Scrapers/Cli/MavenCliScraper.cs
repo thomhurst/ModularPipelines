@@ -23,13 +23,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///  -B,--batch-mode                        Run in non-interactive (batch) mode
 ///  ...
 /// </summary>
-public partial class MavenCliScraper : CliScraperBase
+public partial class MavenCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<MavenCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public MavenCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<MavenCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "mvn";
 
     public override string NamespacePrefix => "Maven";
@@ -145,7 +140,7 @@ public partial class MavenCliScraper : CliScraperBase
     ///         -B,--batch-mode                        Description
     ///         -D,--define &lt;arg&gt;                     Description
     /// </summary>
-    protected List<CliOptionDefinition> ParseOptions(string helpText)
+    protected virtual List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -158,7 +153,7 @@ public partial class MavenCliScraper : CliScraperBase
         }
 
         var sectionStart = optionsMatch.Index + optionsMatch.Length;
-        var section = helpText.Substring(sectionStart);
+        var section = helpText[sectionStart..];
         var lines = section.Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
@@ -253,11 +248,11 @@ public partial class MavenCliScraper : CliScraperBase
         {
             EnumName = enumName,
             Description = $"Allowed values for {enumName}.",
-            Values = values.Select(value => new CliEnumValue
+            Values = [.. values.Select(value => new CliEnumValue
             {
                 MemberName = ToPascalCase(value),
                 CliValue = value
-            }).ToList()
+            })]
         };
     }
 

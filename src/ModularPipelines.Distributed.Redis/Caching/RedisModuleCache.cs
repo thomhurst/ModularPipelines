@@ -1,6 +1,6 @@
 using System.Globalization;
 using ModularPipelines.Caching;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Redis.Caching;
 
@@ -13,6 +13,14 @@ namespace ModularPipelines.Distributed.Redis.Caching;
 internal sealed class RedisModuleCache : IModuleCacheStore
 {
     private static readonly TimeSpan MinimumProvisionalExpiration = TimeSpan.FromHours(1);
+
+    // Removes the metadata only while it still names the failed generation, so a newer entry survives.
+    private static readonly RespireScript DeleteMetadataIfUnchangedScript = RespireScript.Create("""
+        if redis.call('GET', KEYS[1]) == ARGV[1] then
+            return redis.call('UNLINK', KEYS[1])
+        end
+        return 0
+        """);
     private readonly RedisConnectionProvider _connections;
     private readonly string _keyPrefix;
     private readonly int _chunkSize;
@@ -67,16 +75,15 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         ModuleCacheFingerprint.Validate(fingerprint);
         cancellationToken.ThrowIfCancellationRequested();
 
-        var database = await GetDatabaseAsync(cancellationToken).ConfigureAwait(false);
-        var metadata = await database.StringGetAsync(MetadataKey(fingerprint))
-            .WaitAsync(cancellationToken)
+        var redis = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
+        var metadata = await redis.GetStringAsync(MetadataKey(fingerprint), cancellationToken)
             .ConfigureAwait(false);
-        if (metadata.IsNull)
+        if (metadata is null)
         {
             return null;
         }
 
-        var (generation, chunkCount, expectedLength) = ParseMetadata(metadata.ToString());
+        var (generation, chunkCount, expectedLength) = ParseMetadata(metadata);
         if (expectedLength > _maximumCacheEntryBytes)
         {
             throw CreateEntryLimitException();
@@ -99,25 +106,19 @@ internal sealed class RedisModuleCache : IModuleCacheStore
             FileOptions.Asynchronous | FileOptions.DeleteOnClose);
         try
         {
-            for (var chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
+            var restored = await RedisChunkTransfer.ReadAsync(
+                    async (chunkIndex, token) => await redis.Strings
+                        .GetLeaseAsync(ChunkKey(fingerprint, generation, chunkIndex), token)
+                        .ConfigureAwait(false),
+                    stream,
+                    chunkCount,
+                    chunkLength => stream.Length > _maximumCacheEntryBytes - chunkLength ? CreateEntryLimitException() : null,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            if (restored < chunkCount)
             {
-                cancellationToken.ThrowIfCancellationRequested();
-                var chunk = await database.StringGetAsync(ChunkKey(fingerprint, generation, chunkIndex))
-                    .WaitAsync(cancellationToken)
-                    .ConfigureAwait(false);
-                if (chunk.IsNull)
-                {
-                    throw new InvalidDataException(
-                        $"Redis module cache entry '{fingerprint}' is missing chunk {chunkIndex}.");
-                }
-
-                var chunkBytes = (byte[]) chunk!;
-                if (stream.Length > _maximumCacheEntryBytes - chunkBytes.Length)
-                {
-                    throw CreateEntryLimitException();
-                }
-
-                await stream.WriteAsync(chunkBytes, cancellationToken).ConfigureAwait(false);
+                throw new InvalidDataException(
+                    $"Redis module cache entry '{fingerprint}' is missing chunk {restored}.");
             }
 
             if (stream.Length != expectedLength)
@@ -142,57 +143,49 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         ModuleCacheFingerprint.Validate(fingerprint);
         ArgumentNullException.ThrowIfNull(content);
 
-        var database = await GetDatabaseAsync(cancellationToken).ConfigureAwait(false);
-        var buffer = new byte[_chunkSize];
+        var redis = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
         var generation = Guid.NewGuid().ToString("N");
-        var chunkCount = 0;
         var totalLength = 0L;
-        var chunkKeys = new List<RedisKey>();
+        var startedChunks = 0;
+        string? publishedMetadata = null;
         try
         {
-            while (true)
-            {
-                var length = await ReadFullBufferAsync(content, buffer, cancellationToken).ConfigureAwait(false);
-                if (length == 0)
-                {
-                    break;
-                }
-
-                cancellationToken.ThrowIfCancellationRequested();
-                var chunkKey = ChunkKey(fingerprint, generation, chunkCount);
-                await database.StringSetAsync(
-                        chunkKey,
-                        new ReadOnlyMemory<byte>(buffer, 0, length),
-                        _provisionalExpiration)
-                    .WaitAsync(cancellationToken)
-                    .ConfigureAwait(false);
-                chunkKeys.Add(chunkKey);
-                chunkCount++;
-                totalLength += length;
-            }
+            // Each chunk has its own buffer, which Respire borrows until its write completes, so several writes
+            // can be in flight. The RespireValue conversion stores the raw bytes; the generic overload would
+            // serialize them as JSON. The count of started writes tells cleanup which chunk keys may exist.
+            var chunkCount = await RedisChunkTransfer.WriteAsync(
+                    RedisChunkTransfer.ReadChunksAsync(content, _chunkSize, first: null, cancellationToken),
+                    async (chunkIndex, chunk, token) =>
+                    {
+                        var chunkKey = ChunkKey(fingerprint, generation, chunkIndex);
+                        Interlocked.Increment(ref startedChunks);
+                        await redis.SetAsync(chunkKey, (RespireValue) chunk, _provisionalExpiration, cancellationToken: token)
+                            .ConfigureAwait(false);
+                        Interlocked.Add(ref totalLength, chunk.Length);
+                    },
+                    cancellationToken)
+                .ConfigureAwait(false);
 
             var metadata = string.Create(
                 CultureInfo.InvariantCulture,
                 $"{generation}:{chunkCount}:{totalLength}");
-            var transaction = database.CreateTransaction();
-            var expirationTasks = chunkKeys
-                .Select(chunkKey => transaction.KeyExpireAsync(chunkKey, _expiration))
+            var transaction = redis.CreateTransaction();
+            await using var transactionLifetime = transaction.ConfigureAwait(false);
+            var expirations = ChunkKeys(fingerprint, generation, chunkCount)
+                .Select(chunkKey => transaction.Expire(chunkKey, _expiration))
                 .ToArray();
-            var metadataTask = transaction.StringSetAsync(
+            var metadataWrite = transaction.Set(
                 MetadataKey(fingerprint),
-                metadata,
+                (RespireValue) metadata,
                 _expiration);
             cancellationToken.ThrowIfCancellationRequested();
-            var transactionCommitted = await transaction.ExecuteAsync().ConfigureAwait(false);
-            if (!transactionCommitted)
-            {
-                throw new IOException(
-                    $"Redis could not publish module cache entry '{fingerprint}'.");
-            }
 
-            var expirationResults = await Task.WhenAll(expirationTasks).ConfigureAwait(false);
-            var metadataWritten = await metadataTask.ConfigureAwait(false);
-            if (expirationResults.Any(success => !success) || !metadataWritten)
+            // Once EXEC is sent Redis may commit it, so wait for the outcome instead of abandoning it on
+            // cancellation, and remember that the metadata may now name this generation.
+            publishedMetadata = metadata;
+            await transaction.CommitAsync(CancellationToken.None).ConfigureAwait(false);
+
+            if (expirations.Any(expiration => !expiration.Result) || !metadataWrite.Result)
             {
                 throw new IOException(
                     $"Redis could not expire module cache entry '{fingerprint}'.");
@@ -200,12 +193,45 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         }
         catch
         {
-            if (chunkKeys.Count > 0)
+            await DiscardWriteAsync(
+                    redis,
+                    fingerprint,
+                    publishedMetadata,
+                    ChunkKeys(fingerprint, generation, Volatile.Read(ref startedChunks)))
+                .ConfigureAwait(false);
+            throw;
+        }
+    }
+
+    // Best effort: the write's own failure is what the caller needs, so a failed cleanup is left to expiry.
+    private async Task DiscardWriteAsync(
+        IRespireClient redis,
+        string fingerprint,
+        string? publishedMetadata,
+        RespireKey[] chunkKeys)
+    {
+        try
+        {
+            // Remove committed metadata before its chunks, so readers never see an entry with missing chunks. If
+            // that fails, the chunks stay: the metadata may still name them, and they expire with it.
+            if (publishedMetadata is not null)
             {
-                await database.KeyDeleteAsync([.. chunkKeys]).ConfigureAwait(false);
+                await redis.Scripts.ExecuteIntegerAsync(
+                        DeleteMetadataIfUnchangedScript,
+                        [MetadataKey(fingerprint)],
+                        [publishedMetadata],
+                        CancellationToken.None)
+                    .ConfigureAwait(false);
             }
 
-            throw;
+            if (chunkKeys.Length > 0)
+            {
+                await redis.Keys.UnlinkAsync(chunkKeys, CancellationToken.None).ConfigureAwait(false);
+            }
+        }
+        catch (Exception)
+        {
+            // Provisional chunk expiry and the entry's TTL remove whatever is left.
         }
     }
 
@@ -213,9 +239,8 @@ internal sealed class RedisModuleCache : IModuleCacheStore
     public async Task<bool> ExistsAsync(string fingerprint, CancellationToken cancellationToken)
     {
         ModuleCacheFingerprint.Validate(fingerprint);
-        var database = await GetDatabaseAsync(cancellationToken).ConfigureAwait(false);
-        return await database.KeyExistsAsync(MetadataKey(fingerprint))
-            .WaitAsync(cancellationToken)
+        var redis = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
+        return await redis.ExistsAsync(MetadataKey(fingerprint), cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -223,55 +248,28 @@ internal sealed class RedisModuleCache : IModuleCacheStore
     public async Task DeleteAsync(string fingerprint, CancellationToken cancellationToken)
     {
         ModuleCacheFingerprint.Validate(fingerprint);
-        var database = await GetDatabaseAsync(cancellationToken).ConfigureAwait(false);
+        var redis = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
 
         var metadataKey = MetadataKey(fingerprint);
-        var metadata = await database.StringGetAsync(metadataKey)
-            .WaitAsync(cancellationToken)
+        var metadata = await redis.GetStringAsync(metadataKey, cancellationToken)
             .ConfigureAwait(false);
-        if (metadata.IsNull)
+        if (metadata is null)
         {
             return;
         }
 
         // Delete the metadata first so readers never observe an entry with missing chunks.
-        await database.KeyDeleteAsync(metadataKey).WaitAsync(cancellationToken).ConfigureAwait(false);
-        var (generation, chunkCount, _) = ParseMetadata(metadata.ToString());
+        await redis.Keys.UnlinkAsync([metadataKey], cancellationToken).ConfigureAwait(false);
+        var (generation, chunkCount, _) = ParseMetadata(metadata);
         if (chunkCount > 0)
         {
-            await database.KeyDeleteAsync(
-                    [.. Enumerable.Range(0, chunkCount)
-                        .Select(chunkIndex => (RedisKey) ChunkKey(fingerprint, generation, chunkIndex))])
-                .WaitAsync(cancellationToken)
+            await redis.Keys.UnlinkAsync(ChunkKeys(fingerprint, generation, chunkCount), cancellationToken)
                 .ConfigureAwait(false);
         }
     }
 
-    private async Task<IDatabase> GetDatabaseAsync(CancellationToken cancellationToken)
-    {
-        var connection = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
-        return connection.GetDatabase();
-    }
-
-    private static async Task<int> ReadFullBufferAsync(
-        Stream stream,
-        byte[] buffer,
-        CancellationToken cancellationToken)
-    {
-        var totalRead = 0;
-        while (totalRead < buffer.Length)
-        {
-            var read = await stream.ReadAsync(buffer.AsMemory(totalRead), cancellationToken).ConfigureAwait(false);
-            if (read == 0)
-            {
-                break;
-            }
-
-            totalRead += read;
-        }
-
-        return totalRead;
-    }
+    private RespireKey[] ChunkKeys(string fingerprint, string generation, int chunkCount) =>
+        [.. Enumerable.Range(0, chunkCount).Select(chunkIndex => (RespireKey) ChunkKey(fingerprint, generation, chunkIndex))];
 
     private static (string Generation, int ChunkCount, long Length) ParseMetadata(string metadata)
     {
