@@ -20,8 +20,8 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
     /// <summary>
     /// Gets logging options controlling what parts of requests and responses are logged.
     /// This controls the verbosity of the logging, including headers, body content, and truncation limits.
-    /// Use <see cref="HttpLoggingOptions.None"/> to disable all logging, <see cref="HttpLoggingOptions.Minimal"/> for URL/status only,
-    /// <see cref="HttpLoggingOptions.Headers"/> for headers without body, or <see cref="HttpLoggingOptions.Full"/> for complete logging.
+    /// Use <see cref="HttpLoggingOptions.Silent"/> to disable all logging, <see cref="HttpLoggingOptions.Minimal"/> for URL/status only,
+    /// <see cref="HttpLoggingOptions.Headers"/> for headers without body, or <see cref="HttpLoggingOptions.Diagnostic"/> for complete logging.
     /// </summary>
     public HttpLoggingOptions? Logging { get; init; }
 

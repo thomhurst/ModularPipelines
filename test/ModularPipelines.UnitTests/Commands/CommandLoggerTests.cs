@@ -218,6 +218,7 @@ public class CommandLoggerTests : TestBase
             ShowStandardError = logError,
             ShowExitCode = logExitCode,
             ShowExecutionTime = logDuration,
+            ShowWorkingDirectory = verbosity != CommandLogVerbosity.Silent,
         };
 
         await result.T.ExecuteCommandLineToolAsync(
@@ -257,8 +258,9 @@ public class CommandLoggerTests : TestBase
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.InputOnly });
 
         var logFile = await File.ReadAllTextAsync(file);
-        // New compact format: command line includes working directory and command
-        await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
+        // Input is shown without the diagnostic working-directory prefix.
+        await Assert.That(logFile).Contains("pwsh -Command");
+        await Assert.That(logFile).DoesNotContain($"{Environment.CurrentDirectory}>");
         // InputOnly doesn't show output, exit code, or duration
         await Assert.That(logFile).DoesNotContain("↳");
         await Assert.That(logFile).DoesNotContain("exit ");
@@ -273,8 +275,9 @@ public class CommandLoggerTests : TestBase
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal });
 
         var logFile = await File.ReadAllTextAsync(file);
-        // New compact format: command line includes working directory and command
-        await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
+        // Input is shown without the diagnostic working-directory prefix.
+        await Assert.That(logFile).Contains("pwsh -Command");
+        await Assert.That(logFile).DoesNotContain($"{Environment.CurrentDirectory}>");
         // Fast commands inline output; slower commands may begin streaming under load.
         await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
         // Normal doesn't show exit code or duration
@@ -291,7 +294,8 @@ public class CommandLoggerTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
-        await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
+        await Assert.That(logFile).Contains("pwsh -Command");
+        await Assert.That(logFile).DoesNotContain($"{Environment.CurrentDirectory}>");
         // Output is logged exactly once, inline or streamed if startup exceeds the deferral.
         await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
         // Exit code and duration shown inline
@@ -406,7 +410,7 @@ public class CommandLoggerTests : TestBase
         var logFile = string.Join(Environment.NewLine, messages);
 
         var headerIndex = logFile.IndexOf(
-            $"{Environment.CurrentDirectory}> pwsh",
+            "pwsh -Command",
             StringComparison.Ordinal);
         var outputIndex = logFile.IndexOf($"↳ {marker}", StringComparison.Ordinal);
         var secondOutputIndex = logFile.IndexOf($"↳ {secondMarker}", StringComparison.Ordinal);
@@ -419,7 +423,7 @@ public class CommandLoggerTests : TestBase
 
         var lines = logFile.Split(Environment.NewLine);
         var headerLine = lines.Single(line =>
-            line.Contains($"{Environment.CurrentDirectory}> pwsh", StringComparison.Ordinal));
+            line.StartsWith("pwsh -Command", StringComparison.Ordinal));
         var completionLine = lines.Last(line =>
             line.Contains("✓ [", StringComparison.Ordinal));
         await Assert.That(headerLine).DoesNotContain("✓");
@@ -436,7 +440,7 @@ public class CommandLoggerTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         var headerIndex = logFile.IndexOf(
-            $"{Environment.CurrentDirectory}> pwsh",
+            "pwsh -Command",
             StringComparison.Ordinal);
         var errorIndex = logFile.IndexOf($"↳ {marker}", StringComparison.Ordinal);
         var completionIndex = logFile.LastIndexOf("✗ [", StringComparison.Ordinal);
@@ -514,7 +518,7 @@ public class CommandLoggerTests : TestBase
             TestContext.WorkingDirectory,
             Guid.NewGuid().ToString("N") + ".txt");
         using var loggingProvider =
-            new SelectiveThrowingLoggerProvider($"{Environment.CurrentDirectory}> {marker}");
+            new SelectiveThrowingLoggerProvider(marker);
         var (commandContext, _) = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(
