@@ -23,12 +23,10 @@ Select that runner in your repository's `global.json` (`test.runner` set to
 ```csharp
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines;
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 
 var builder = Pipeline.CreateBuilder(args);
 

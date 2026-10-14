@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Redis-based distributed coordinator for ModularPipelines. Enables multi-process and multi-machine pipeline execution using Redis for coordination.</Description>
+    <Description>Redis-based distributed coordinator for ModularPipelines, built on the Respire client. Enables multi-process and multi-machine pipeline execution using Redis for coordination.</Description>
     <VersionSuffix>beta</VersionSuffix>
   </PropertyGroup>
 
@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Kevlar" />
-    <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Respire" />
   </ItemGroup>
 
   <ItemGroup>

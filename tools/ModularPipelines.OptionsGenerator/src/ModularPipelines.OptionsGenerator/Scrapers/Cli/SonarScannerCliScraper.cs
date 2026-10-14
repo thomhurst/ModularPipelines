@@ -24,7 +24,9 @@ public partial class SonarScannerCliScraper : CliScraperBase
     public SonarScannerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SonarScannerCliScraper> logger)
         : base(executor, helpCache, logger)
     {
-        ExecutablePath = ResolveExecutablePath();
+        // Resolve only after the base constructor validates dependencies.
+        var executablePath = ResolveExecutablePath();
+        ExecutablePath = executablePath;
     }
 
     public override string ToolName => "sonar-scanner";
@@ -127,7 +129,7 @@ public partial class SonarScannerCliScraper : CliScraperBase
     /// <summary>
     /// Parses options from SonarScanner help text.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

@@ -167,7 +167,7 @@ public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCach
     /// Format: -address=<string>    Address of the Vault server
     ///         -format=<string>     Print output in the given format
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string[] commandParts, string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string[] commandParts, string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -209,7 +209,7 @@ public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCach
         return options;
     }
 
-    private CliOptionDefinition CreateOptionDefinition(
+    private static CliOptionDefinition CreateOptionDefinition(
         string[] commandParts,
         string flagName,
         string valueHint,

@@ -1,0 +1,91 @@
+---
+title: Global options in developer and infrastructure CLIs
+---
+
+# Global options in developer and infrastructure CLIs
+
+This audit covers Git, Terraform, the .NET SDK, Go, the .NET `nbgv` tool, Cargo,
+Packer, and Vault from [issue #5709](https://github.com/thomhurst/ModularPipelines/issues/5709).
+It consolidates the completed tool-specific changes and no-change dispositions as
+of 13 October 2026. AWS, Azure, Gcloud, Helm, kubectl, Docker, and other Cobra tools
+are tracked separately. See also the [specialist CLI audit](./cli-global-options.md).
+
+Versions below identify captured help used by the audit, not minimum supported
+versions or a promise that every installed release accepts every property.
+Command help, root execution settings, root information actions, and runtime-host
+arguments have different scopes. A switch repeated in several commands is not
+sufficient evidence of universal inheritance.
+
+## Tool dispositions and primary evidence
+
+| Tool and audited help version | Result and argument placement | Authoritative reference and captured evidence |
+| --- | --- | --- |
+| Git 2.39.0.windows.1 and 2.56.0 | Handwritten `GitOptions` shares execution settings before commands. Repeated directory `-C` and configuration `-c` retain order and distinct types; command-local `git apply -C` remains an integer context requirement. Root help/version and path-reporting actions stay separate. | [Git reference](https://git-scm.com/docs/git); [2.39.0 fixtures](https://github.com/thomhurst/ModularPipelines/tree/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/Git/2.39.0), [2.56.0 fixtures](https://github.com/thomhurst/ModularPipelines/tree/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/Git/2.56.0). |
+| Terraform 1.16.5 | `TerraformOptions.Chdir` renders scalar `-chdir=DIR` before the entire command path, including nested commands. Root help/version actions are excluded; `-json` and `-no-color` retain command scope. | [Terraform directory selection](https://developer.hashicorp.com/terraform/cli/commands#switching-working-directory-with-chdir); [root help](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/terraform-1.16.5-root-help.txt). |
+| .NET SDK 10.0.401 | `DotNetOptions.Diagnostics` inherits the `-d`/`--diagnostics` flag before SDK commands. Command verbosity is not universal. Runtime-host arguments and root information actions are excluded. | [dotnet reference](https://learn.microsoft.com/dotnet/core/tools/dotnet); captured [root help](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/dotnet-10.0.401-root-help.txt), [build help](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/dotnet-10.0.401-build-help.txt), and [tool-list help](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/dotnet-10.0.401-tool-list-help.txt). |
+| Go 1.27.2 | `GoOptions.WorkingDirectory` renders case-sensitive `-C` before commands as the first flag. Shared build settings remain command-specific. Lowercase test `-c`, package operands, and terminal `-args` payloads retain their meanings and placement. | [Go reference](https://pkg.go.dev/cmd/go); captured [version, root, build, test, nested, and version-command help](https://github.com/thomhurst/ModularPipelines/tree/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/Go/1.27.2). |
+| .NET nbgv 3.10.94 | No inherited execution-setting change. Root help/version are actions. `Project` remains after each supported command; `NbgvCloudOptions.Version` remains a build-number value. This disposition does not cover the Rust distribution. | [nbgv guide](https://dotnet.github.io/Nerdbank.GitVersioning/docs/nbgv-cli.html); captured [root](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/nbgv-3.10.94-root-help.txt), [get-version](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/nbgv-3.10.94-get-version-help.txt), and [cloud](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/nbgv-3.10.94-cloud-help.txt) help. |
+| Cargo 1.99.0 | Seven stable root settings precede commands: `Verbose`, `Quiet`, `Color`, `Config`, `Locked`, `Offline`, and `Frozen`. `Verbose` is a count; `Config` repeats its switch. Manifest/build settings and nightly `-Z` remain local. Nightly-only `-C` and rustup `+toolchain` are not unconditional globals. | [Cargo reference](https://doc.rust-lang.org/cargo/commands/cargo.html); captured [root help](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/cargo-1.99.0-root-help.txt), [search help](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/cargo-1.99.0-search-help.txt), and [search manual](https://github.com/thomhurst/ModularPipelines/blob/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/cargo-1.99.0-search-manual.txt). |
+| Packer 1.16.1 | `PackerOptions.MachineReadable` emits exact `-machine-readable` before commands; false/null omit it. Root help omits this setting, so the documented mode and tagged parser establish it. Color, timestamps, and debug stay command-specific. Explicit Boolean values such as `-color=false` remain values. | [Packer machine-readable mode](https://developer.hashicorp.com/packer/docs/commands#machine-readable-output), [tagged root parser](https://github.com/hashicorp/packer/blob/v1.16.1/main.go); [captured help and probe results](https://github.com/thomhurst/ModularPipelines/tree/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/Packer/1.16.1). |
+| Vault 2.1.1 | No universal HTTP inheritance. `VaultOptions` stays empty because commands such as `print token` lack HTTP settings and output scope varies. The multiline parser fix restores advertised per-command options after the command path, preserving repeated header/MFA values and namespace aliases. | [Vault CLI reference](https://developer.hashicorp.com/vault/docs/commands), [tagged option parser](https://github.com/hashicorp/vault/blob/v2.1.1/command/base.go); [captured version and command help](https://github.com/thomhurst/ModularPipelines/tree/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/Vault/2.1.1). |
+
+## Delivery and regression coverage
+
+All seven native child issues are complete. The linked pull requests record
+complete affected-package generation, command coverage, provenance, builds,
+parser/generator tests, package rendering tests, formatting, and documentation
+validation. These are the delivery records from those changes; this index does
+not claim a new regeneration or a new execution of their tests.
+
+| Tool | Completed implementation and audit | Checked-in regression suites |
+| --- | --- | --- |
+| Git | [#5731](https://github.com/thomhurst/ModularPipelines/issues/5731): [#5972](https://github.com/thomhurst/ModularPipelines/pull/5972), [#6003](https://github.com/thomhurst/ModularPipelines/pull/6003), [#6022](https://github.com/thomhurst/ModularPipelines/pull/6022). Git retains handwritten APIs; complete Linux scraping validates coverage without replacing them. The final audit's [generation run](https://github.com/thomhurst/ModularPipelines/actions/runs/38475747255) retained 182 commands and changed only provenance. | Generator `GitCliScraperTests`; Git package `GitGlobalOptionsTests`. |
+| Terraform | [#5730](https://github.com/thomhurst/ModularPipelines/issues/5730), [#5743](https://github.com/thomhurst/ModularPipelines/pull/5743). | Generator `TerraformCliScraperTests`; Terraform package `GlobalOptionsTests`. |
+| .NET SDK and nbgv | [#5732](https://github.com/thomhurst/ModularPipelines/issues/5732), [#5751](https://github.com/thomhurst/ModularPipelines/pull/5751). Both complete packages were regenerated, including the nbgv no-global-change result. | Generator `DotNetCliScraperTests`, `NbgvCliScraperTests`; packages `DotNetGlobalOptionsTests`, `NbgvGlobalScopeTests`. |
+| Go | [#5733](https://github.com/thomhurst/ModularPipelines/issues/5733): [#5977](https://github.com/thomhurst/ModularPipelines/pull/5977), [#5990](https://github.com/thomhurst/ModularPipelines/pull/5990). | Generator `GoCliScraperTests`; Go package `GoGlobalOptionsTests`. |
+| Cargo | [#5734](https://github.com/thomhurst/ModularPipelines/issues/5734), [#5746](https://github.com/thomhurst/ModularPipelines/pull/5746). | Generator `CargoCliScraperTests`; Rust package `CargoGlobalOptionsTests`. |
+| Packer | [#5735](https://github.com/thomhurst/ModularPipelines/issues/5735), [#5747](https://github.com/thomhurst/ModularPipelines/pull/5747). | Generator `PackerCliScraperTests`; Packer package `PackerGlobalOptionsTests`. |
+| Vault | [#5736](https://github.com/thomhurst/ModularPipelines/issues/5736), [#5772](https://github.com/thomhurst/ModularPipelines/pull/5772). Complete generation preserves per-command scope rather than adding universal globals. | Generator `VaultCliScraperTests`; Vault package `VaultOptionScopeTests`. |
+
+Shared `CliGlobalOptionMergerTests`, `GlobalOptionsBaseGeneratorTests`, and
+`GeneratorHardeningTests` cover inheritance, duplicate removal, and local/global
+shape compatibility. Reuse these
+model/generator helpers after tool-specific parsing; the tools do not share one
+root-help grammar. Generated options and CLI references remain generator-owned.
+Git's handwritten ownership is the documented exception, not a generated API shim.
+
+## Caller migration and contract details
+
+Use each package guide for its full API and generated CLI reference:
+
+- [Git](./git.md#shared-execution-options): use `ChangeDirectories` for repeated
+  root directories and `Configuration` for ordered `KeyValue` entries. Root
+  `GitDirectory` and `BareRepository` remain distinct from command-local reporting
+  and clone flags. Migrate `GitBaseOptions.GitDir` and `.Bare` to those root names.
+- [Terraform](./terraform.md#working-directory): set `Chdir`; remove equivalent
+  manual `-chdir` arguments. Paths with spaces remain one value without shell quotes.
+- [.NET SDK](./dotnet.md#sdk-diagnostics): set inherited `Diagnostics`; keep
+  command verbosity and runtime-host options in their documented scope.
+- [Go](./go.md#migration): replace command-local `C`/`UpperC` directory properties
+  with `WorkingDirectory`. Keep test `LowerC` and terminal `Args` unchanged.
+- [nbgv](./nerdbank-gitversioning.md): no global migration is required. Keep
+  command-local `Project` and the cloud build-number `Version` value.
+- [Cargo](./rust.md#common-cargo-settings): replace command-specific color enums
+  with `CargoColor`; preserve counted verbosity and repeated configuration entries.
+- [Packer](./packer.md#v4-migration): existing `MachineReadable` initializers now
+  use inheritance. Explicit `Color`/`Write` false values render instead of being
+  omitted; `ConfigType` takes a string and `OnError` takes the CLI policy value.
+- [Vault](./vault.md#connection-options-and-command-scope): restored multiline
+  options remain on applicable commands, retaining aliases, operands, and repetition.
+
+Reflection that uses `DeclaredOnly` must include inherited properties where
+settings moved to base records. Command and version entry points remain available;
+help/version actions must not become configuration on every invocation. Check
+the installed CLI version before selecting newer execution settings.
+
+Secret metadata masks Git configuration values, Cargo configuration overrides,
+and Vault credential values and authentication operands in command logs. Vault
+certificate/key file paths remain visible. Git `ConfigEnv` names environment
+variables without placing their secret contents in arguments. Log masking does
+not remove values from the operating system's process arguments; see the package
+guides for the supported credential-handling patterns.

@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Kevlar;
 using ModularPipelines.Distributed.Redis.Coordination;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Redis.Artifacts;
 
@@ -14,26 +14,16 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 /// </summary>
 internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup
 {
-    // Adds the artifact to its module's index and the module to the run's module set, each with the TTL, in one
-    // step, so no index key can be left without an expiry or outside run cleanup's reach.
     private const int ChunkDeleteBatchSize = 256;
 
-    private const string IndexArtifactScript = """
-        redis.call('SADD', KEYS[1], ARGV[1])
-        redis.call('PEXPIRE', KEYS[1], ARGV[3])
-        redis.call('SADD', KEYS[2], ARGV[2])
-        redis.call('PEXPIRE', KEYS[2], ARGV[3])
-        return 1
-        """;
-
-    private readonly IDatabase _database;
+    private readonly IRespireClient _redis;
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _timeToLive;
     private readonly int _chunkSize;
     private readonly Shield _transientRetry;
 
     public RedisDistributedArtifactStore(
-        IDatabase database,
+        IRespireClient redis,
         RedisKeyBuilder keys,
         RedisOptions options,
         TimeSpan? retryBaseDelay = null)
@@ -46,7 +36,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
                 $"{nameof(RedisOptions)}.{nameof(RedisOptions.ChunkSizeBytes)} must be positive.");
         }
 
-        _database = database;
+        _redis = redis;
         _keys = keys;
         _timeToLive = options.TimeToLive;
         _chunkSize = options.ChunkSizeBytes;
@@ -64,41 +54,28 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         // an indexed artifact until its metadata is written.
         await IndexArtifactAsync(descriptor.ModuleId, artifactId, cancellationToken).ConfigureAwait(false);
 
-        var buffer = new byte[_chunkSize];
-        var bytesRead = await ReadFullBufferAsync(data, buffer, cancellationToken).ConfigureAwait(false);
+        var first = await RedisChunkTransfer.ReadChunkAsync(data, _chunkSize, cancellationToken).ConfigureAwait(false);
         var totalBytes = 0L;
 
-        if (bytesRead < buffer.Length)
+        if (first.Length < _chunkSize)
         {
             // Fits in one value, including empty artifacts: always write the key so an empty
             // artifact round-trips instead of looking missing.
-            await SetValueAsync(
-                    _keys.ArtifactData(artifactId),
-                    new ReadOnlyMemory<byte>(buffer, 0, bytesRead),
-                    cancellationToken)
-                .ConfigureAwait(false);
-            totalBytes = bytesRead;
+            await SetValueAsync(_keys.ArtifactData(artifactId), first, cancellationToken).ConfigureAwait(false);
+            totalBytes = first.Length;
         }
         else
         {
-            var chunkIndex = 0;
-            while (bytesRead > 0)
-            {
-                await SetValueAsync(
-                        _keys.ArtifactChunk(artifactId, chunkIndex),
-                        new ReadOnlyMemory<byte>(buffer, 0, bytesRead),
-                        cancellationToken)
-                    .ConfigureAwait(false);
-                totalBytes += bytesRead;
-                chunkIndex++;
-
-                if (bytesRead < buffer.Length)
-                {
-                    break;
-                }
-
-                bytesRead = await ReadFullBufferAsync(data, buffer, cancellationToken).ConfigureAwait(false);
-            }
+            // Each chunk gets its own buffer, so several writes can be in flight while the next chunk is read.
+            await RedisChunkTransfer.WriteAsync(
+                    RedisChunkTransfer.ReadChunksAsync(data, _chunkSize, first, cancellationToken),
+                    async (chunkIndex, chunk, token) =>
+                    {
+                        await SetValueAsync(_keys.ArtifactChunk(artifactId, chunkIndex), chunk, token).ConfigureAwait(false);
+                        Interlocked.Add(ref totalBytes, chunk.Length);
+                    },
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
 
         var reference = new ArtifactReference
@@ -112,8 +89,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         };
 
         var metaJson = JsonSerializer.Serialize(reference);
-        await _database.StringSetAsync(_keys.ArtifactMeta(artifactId), metaJson, _timeToLive)
-            .WaitAsync(cancellationToken)
+        await _redis.SetAsync(_keys.ArtifactMeta(artifactId), (RespireValue) metaJson, _timeToLive, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         // Index again: reading a slow source can outlast the TTL of the index written before the content.
@@ -122,13 +98,29 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         return reference;
     }
 
-    private async Task IndexArtifactAsync(ModuleId moduleId, string artifactId, CancellationToken cancellationToken) =>
-        await _database.ScriptEvaluateAsync(
-                IndexArtifactScript,
-                [(RedisKey) _keys.ArtifactIndex(moduleId), (RedisKey) _keys.ArtifactModules],
-                [artifactId, moduleId.Value, (long) _timeToLive.TotalMilliseconds])
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
+    // Adds the artifact to its module's index and the module to the run's module set, each with the TTL, in one
+    // transaction, so no index key can be left without an expiry or outside run cleanup's reach. Both keys share
+    // the run's hash tag, so the transaction stays in one Redis Cluster slot.
+    private async Task IndexArtifactAsync(ModuleId moduleId, string artifactId, CancellationToken cancellationToken)
+    {
+        var indexKey = _keys.ArtifactIndex(moduleId);
+        var transaction = _redis.CreateTransaction();
+        await using var transactionLifetime = transaction.ConfigureAwait(false);
+        var indexed = transaction.Sets.Add(indexKey, [artifactId]);
+        var indexExpiry = transaction.Expire(indexKey, _timeToLive);
+        var moduleIndexed = transaction.Sets.Add(_keys.ArtifactModules, [moduleId.Value]);
+        var moduleExpiry = transaction.Expire(_keys.ArtifactModules, _timeToLive);
+        await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
+
+        // EXEC succeeds even when a queued command fails, for example on a wrong key type or an ACL denial.
+        // Reading each result rethrows that command's error, so an unindexed upload is never reported as stored.
+        _ = indexed.Result;
+        _ = moduleIndexed.Result;
+        if (!indexExpiry.Result || !moduleExpiry.Result)
+        {
+            throw new IOException($"Redis could not set the expiry of the artifact index for '{artifactId}'.");
+        }
+    }
 
     public async Task<Stream> DownloadAsync(ArtifactReference reference, CancellationToken cancellationToken)
     {
@@ -138,11 +130,10 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         var data = await GetValueAsync(_keys.ArtifactData(reference.ArtifactId), cancellationToken)
             .ConfigureAwait(false);
 
-        if (!data.IsNull)
+        if (data is not null)
         {
-            var bytes = (byte[]?) data ?? [];
-            ThrowIfSizeMismatch(reference, bytes.Length);
-            return new MemoryStream(bytes, writable: false);
+            ThrowIfSizeMismatch(reference, data.Length);
+            return new MemoryStream(data, writable: false);
         }
 
         // ZIP consumers require seeking. Disk backing bounds memory and supports
@@ -152,23 +143,17 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
             64 * 1024, FileOptions.Asynchronous | FileOptions.DeleteOnClose);
         try
         {
-            var chunkIndex = 0;
-            while (true)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var chunk = await GetValueAsync(_keys.ArtifactChunk(reference.ArtifactId, chunkIndex), cancellationToken)
-                    .ConfigureAwait(false);
-                if (chunk.IsNull)
-                {
-                    break;
-                }
+            // Chunks are written from zero, so the first missing chunk ends the artifact; the size check below
+            // catches chunks that expired or were evicted.
+            var chunkCount = await RedisChunkTransfer.ReadAsync(
+                    (chunkIndex, token) => GetLeaseAsync(_keys.ArtifactChunk(reference.ArtifactId, chunkIndex), token),
+                    stream,
+                    int.MaxValue,
+                    reject: null,
+                    cancellationToken)
+                .ConfigureAwait(false);
 
-                var bytes = (byte[]) chunk!;
-                await stream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
-                chunkIndex++;
-            }
-
-            if (chunkIndex == 0)
+            if (chunkCount == 0)
             {
                 throw new InvalidOperationException($"Artifact '{reference.ArtifactId}' not found in Redis.");
             }
@@ -186,8 +171,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
     public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
-        var members = await _database.SetMembersAsync(_keys.ArtifactIndex(moduleId))
-            .WaitAsync(cancellationToken)
+        var members = await _redis.Sets.MembersAsync(_keys.ArtifactIndex(moduleId), cancellationToken)
             .ConfigureAwait(false);
 
         if (members.Length == 0)
@@ -195,19 +179,16 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
             return [];
         }
 
+        // Every metadata key shares the run's hash tag, so one MGET reads them all, even on Redis Cluster.
+        RespireKey[] metadataKeys = [.. members.Select(member => (RespireKey) _keys.ArtifactMeta(member))];
+        var metadata = await _redis.Strings.GetManyAsync(metadataKeys, cancellationToken).ConfigureAwait(false);
         var references = new List<ArtifactReference>(members.Length);
-        foreach (var member in members)
+        foreach (var metaJson in metadata)
         {
-            var metaJson = await _database.StringGetAsync(_keys.ArtifactMeta(member.ToString()))
-                .WaitAsync(cancellationToken)
-                .ConfigureAwait(false);
-            if (!metaJson.IsNull)
+            // Skip unreadable metadata like missing metadata, so one bad entry cannot hide the rest.
+            if (TryParseReference(metaJson) is { } reference)
             {
-                var reference = JsonSerializer.Deserialize<ArtifactReference>(metaJson.ToString());
-                if (reference is not null)
-                {
-                    references.Add(reference);
-                }
+                references.Add(reference);
             }
         }
 
@@ -219,8 +200,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         ArgumentNullException.ThrowIfNull(reference);
 
         await DeleteArtifactKeysAsync(reference.ArtifactId, reference.SizeBytes, cancellationToken).ConfigureAwait(false);
-        await _database.SetRemoveAsync(_keys.ArtifactIndex(reference.ModuleId), reference.ArtifactId)
-            .WaitAsync(cancellationToken)
+        await _redis.Sets.RemoveAsync(_keys.ArtifactIndex(reference.ModuleId), [reference.ArtifactId], cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -231,46 +211,45 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        var moduleIds = await _database.SetMembersAsync(_keys.ArtifactModules)
-            .WaitAsync(cancellationToken)
+        var moduleIds = await _redis.Sets.MembersAsync(_keys.ArtifactModules, cancellationToken)
             .ConfigureAwait(false);
         foreach (var moduleId in moduleIds)
         {
-            var indexKey = _keys.ArtifactIndex(new ModuleId(moduleId.ToString()));
-            var artifactIds = await _database.SetMembersAsync(indexKey)
-                .WaitAsync(cancellationToken)
+            var indexKey = _keys.ArtifactIndex(new ModuleId(moduleId));
+            var artifactIds = await _redis.Sets.MembersAsync(indexKey, cancellationToken)
                 .ConfigureAwait(false);
             foreach (var artifactId in artifactIds)
             {
-                var id = artifactId.ToString();
-                var sizeBytes = await GetRecordedSizeAsync(id, cancellationToken).ConfigureAwait(false);
-                await DeleteArtifactKeysAsync(id, sizeBytes, cancellationToken).ConfigureAwait(false);
+                var sizeBytes = await GetRecordedSizeAsync(artifactId, cancellationToken).ConfigureAwait(false);
+                await DeleteArtifactKeysAsync(artifactId, sizeBytes, cancellationToken).ConfigureAwait(false);
             }
 
-            await _database.KeyDeleteAsync(indexKey)
-                .WaitAsync(cancellationToken)
+            await _redis.Keys.UnlinkAsync([indexKey], cancellationToken)
                 .ConfigureAwait(false);
         }
 
-        await _database.KeyDeleteAsync(_keys.ArtifactModules)
-            .WaitAsync(cancellationToken)
+        await _redis.Keys.UnlinkAsync([_keys.ArtifactModules], cancellationToken)
             .ConfigureAwait(false);
     }
 
     // A partial upload has no metadata yet, so its size is unknown.
     private async Task<long?> GetRecordedSizeAsync(string artifactId, CancellationToken cancellationToken)
     {
-        var metaJson = await _database.StringGetAsync(_keys.ArtifactMeta(artifactId))
-            .WaitAsync(cancellationToken)
+        var metaJson = await _redis.GetStringAsync(_keys.ArtifactMeta(artifactId), cancellationToken)
             .ConfigureAwait(false);
-        if (metaJson.IsNullOrEmpty)
+        return TryParseReference(metaJson)?.SizeBytes;
+    }
+
+    private static ArtifactReference? TryParseReference(string? metaJson)
+    {
+        if (string.IsNullOrEmpty(metaJson))
         {
             return null;
         }
 
         try
         {
-            return JsonSerializer.Deserialize<ArtifactReference>(metaJson.ToString())?.SizeBytes;
+            return JsonSerializer.Deserialize<ArtifactReference>(metaJson);
         }
         catch (JsonException)
         {
@@ -280,23 +259,22 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
     private async Task DeleteArtifactKeysAsync(string artifactId, long? sizeBytes, CancellationToken cancellationToken)
     {
-        await _database.KeyDeleteAsync([_keys.ArtifactMeta(artifactId), _keys.ArtifactData(artifactId)])
-            .WaitAsync(cancellationToken)
+        // UNLINK frees large values on a background thread instead of blocking the server.
+        await _redis.Keys.UnlinkAsync([_keys.ArtifactMeta(artifactId), _keys.ArtifactData(artifactId)], cancellationToken)
             .ConfigureAwait(false);
 
-        // Chunks share the run's hash tag, so delete them in batches: one round trip per batch keeps large
+        // Chunks share the run's hash tag, so unlink them in batches: one round trip per batch keeps large
         // artifacts within the timeout. A recorded size gives the chunk count, so evicted early chunks cannot end
         // the loop before later ones; without one, chunks written in order from zero end at the first short batch.
         var recordedChunks = sizeBytes is { } size ? (size + _chunkSize - 1) / _chunkSize : 0;
         for (var firstChunk = 0; ; firstChunk += ChunkDeleteBatchSize)
         {
-            RedisKey[] chunkKeys =
+            RespireKey[] chunkKeys =
             [
                 .. Enumerable.Range(firstChunk, ChunkDeleteBatchSize)
-                    .Select(chunkIndex => (RedisKey) _keys.ArtifactChunk(artifactId, chunkIndex)),
+                    .Select(chunkIndex => (RespireKey) _keys.ArtifactChunk(artifactId, chunkIndex)),
             ];
-            var deleted = await _database.KeyDeleteAsync(chunkKeys)
-                .WaitAsync(cancellationToken)
+            var deleted = await _redis.Keys.UnlinkAsync(chunkKeys, cancellationToken)
                 .ConfigureAwait(false);
             if (deleted < ChunkDeleteBatchSize && firstChunk + ChunkDeleteBatchSize >= recordedChunks)
             {
@@ -305,20 +283,24 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         }
     }
 
-    private ValueTask<RedisValue> GetValueAsync(RedisKey key, CancellationToken cancellationToken) =>
+    private ValueTask<byte[]?> GetValueAsync(string key, CancellationToken cancellationToken) =>
         _transientRetry.ExecuteAsync(
-            async token => await _database.StringGetAsync(key).WaitAsync(token).ConfigureAwait(false),
+            async token => await _redis.GetBytesAsync(key, token).ConfigureAwait(false),
             cancellationToken);
 
-    private ValueTask<bool> SetValueAsync(RedisKey key, ReadOnlyMemory<byte> value, CancellationToken cancellationToken)
-    {
-        // StackExchange.Redis keeps a reference to the memory, and a timed-out attempt can still be
-        // sent after the upload reuses its buffer for the next chunk. Every attempt writes this copy.
-        var stableValue = value.ToArray();
-        return _transientRetry.ExecuteAsync(
-            async token => await _database.StringSetAsync(key, stableValue, _timeToLive).WaitAsync(token).ConfigureAwait(false),
+    // Large chunks are read into pooled memory instead of a new array per chunk.
+    private async Task<RespireLease> GetLeaseAsync(string key, CancellationToken cancellationToken) =>
+        await _transientRetry.ExecuteAsync(
+                async token => await _redis.Strings.GetLeaseAsync(key, token).ConfigureAwait(false),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+    // Respire borrows binary values until the command completes, so the caller hands over a buffer that is
+    // never reused; every retry writes the same bytes.
+    private ValueTask<bool> SetValueAsync(string key, byte[] value, CancellationToken cancellationToken) =>
+        _transientRetry.ExecuteAsync(
+            async token => await _redis.SetAsync(key, (RespireValue) value, _timeToLive, cancellationToken: token).ConfigureAwait(false),
             cancellationToken);
-    }
 
     private static void ThrowIfSizeMismatch(ArtifactReference reference, long actualBytes)
     {
@@ -328,22 +310,5 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
                 $"Artifact '{reference.ArtifactId}' size mismatch: expected {reference.SizeBytes} bytes but got {actualBytes} bytes. " +
                 "One or more chunks may have expired or been evicted.");
         }
-    }
-
-    private static async Task<int> ReadFullBufferAsync(Stream stream, byte[] buffer, CancellationToken cancellationToken)
-    {
-        var totalRead = 0;
-        while (totalRead < buffer.Length)
-        {
-            var read = await stream.ReadAsync(buffer.AsMemory(totalRead), cancellationToken).ConfigureAwait(false);
-            if (read == 0)
-            {
-                break;
-            }
-
-            totalRead += read;
-        }
-
-        return totalRead;
     }
 }

@@ -5,7 +5,8 @@ sidebar_position: 2
 
 ## Defining Modules
 
-Modules are defined by creating a class that inherits from the `Module<T>` base class.
+Modules inherit from `Module<T>` when they return a value, or `Module` when they do not.
+For synchronous work, use `SyncModule<T>` or `SyncModule` respectively.
 
 `T` is the type of object that your Module will return, and that object can be seen by other Modules (if they depend on it).
 
@@ -39,22 +40,20 @@ public class CleanupModule : Module
 }
 ```
 
-For synchronous operations, `SyncModule<None>` remains available:
+For synchronous operations without a return value, use `SyncModule`:
 
 ```csharp
-public class LoggingModule : SyncModule<None>
+public class LoggingModule : SyncModule
 {
-    protected override None Execute(
+    protected override void Execute(
         IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
-        return None.Value;
     }
 }
 ```
 
-The pipeline represents a non-generic module's successful result internally with `None.Value`.
-You only need to return that sentinel yourself when using `SyncModule<None>`.
+Neither non-generic base class requires you to return a result sentinel.
 
 ## Configuring Module Behavior
 

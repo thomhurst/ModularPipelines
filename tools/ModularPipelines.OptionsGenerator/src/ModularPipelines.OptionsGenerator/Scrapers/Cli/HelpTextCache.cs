@@ -66,24 +66,33 @@ public sealed class HelpTextCache : IHelpTextCache, IDisposable
 
         _entryOptions.RegisterPostEvictionCallback(OnEviction);
 
-        _logger.LogDebug("HelpTextCache initialized with TTL={Ttl}, MaxEntries={MaxEntries}", ttl, maxEntries);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("HelpTextCache initialized with TTL={Ttl}, MaxEntries={MaxEntries}", ttl, maxEntries);
+        }
     }
 
     public bool TryGet(string cacheKey, out string? helpText)
     {
         ArgumentNullException.ThrowIfNull(cacheKey);
 
-        if (_cache.TryGetValue(cacheKey, out object? cached) && cached is string text)
+        if (_cache.TryGetValue(cacheKey, out var cached) && cached is string text)
         {
             Interlocked.Increment(ref _hits);
             helpText = text;
-            _logger.LogDebug("Cache HIT for: {CacheKey}", cacheKey);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Cache HIT for: {CacheKey}", cacheKey);
+            }
             return true;
         }
 
         Interlocked.Increment(ref _misses);
         helpText = null;
-        _logger.LogDebug("Cache MISS for: {CacheKey}", cacheKey);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Cache MISS for: {CacheKey}", cacheKey);
+        }
         return false;
     }
 
@@ -95,7 +104,10 @@ public sealed class HelpTextCache : IHelpTextCache, IDisposable
         _cache.Set(cacheKey, helpText, _entryOptions);
         Interlocked.Increment(ref _entryCount);
 
-        _logger.LogDebug("Cached help text for: {CacheKey} (Length={Length})", cacheKey, helpText.Length);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Cached help text for: {CacheKey} (Length={Length})", cacheKey, helpText.Length);
+        }
     }
 
     public void Clear()
@@ -124,7 +136,10 @@ public sealed class HelpTextCache : IHelpTextCache, IDisposable
     private void OnEviction(object key, object? value, EvictionReason reason, object? state)
     {
         Interlocked.Decrement(ref _entryCount);
-        _logger.LogDebug("Cache entry evicted: {Key}, Reason={Reason}", key, reason);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Cache entry evicted: {Key}, Reason={Reason}", key, reason);
+        }
     }
 
     public void Dispose()

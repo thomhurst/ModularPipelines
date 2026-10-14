@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 /// Scrapes Homebrew CLI documentation from docs.brew.sh/Manpage.
 /// The manpage lists all commands with their options in a structured format.
 /// </summary>
-public partial class BrewDocumentationScraper : CliDocumentationScraperBase
+public partial class BrewDocumentationScraper(HttpClient httpClient, ILogger<BrewDocumentationScraper> logger) : CliDocumentationScraperBase(httpClient, logger)
 {
     private const string ManpageUrl = "https://docs.brew.sh/Manpage";
 
@@ -21,22 +21,21 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
     public override string OutputDirectory => "src/ModularPipelines.Homebrew";
 
     // Commands to skip (meta commands that don't make sense as pipeline operations)
-    private static readonly HashSet<string> SkipCommands = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> SkipCommands =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "help", "commands", "shellenv", "analytics", "completions"
-    };
-
-    public BrewDocumentationScraper(HttpClient httpClient, ILogger<BrewDocumentationScraper> logger)
-        : base(httpClient, logger)
-    {
-    }
+    ];
 
     public override async Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default)
     {
         var commands = new List<CliCommandDefinition>();
         var errors = new List<ScrapingError>();
 
-        Logger.LogInformation("Fetching Homebrew manpage from {Url}", ManpageUrl);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Fetching Homebrew manpage from {Url}", ManpageUrl);
+        }
 
         try
         {
@@ -49,11 +48,14 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
             {
                 try
                 {
-                    var command = ParseCommandFromHeader(header, doc);
+                    var command = ParseCommandFromHeader(header);
                     if (command is not null)
                     {
                         commands.Add(command);
-                        Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                        if (Logger.IsEnabled(LogLevel.Debug))
+                        {
+                            Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -69,7 +71,10 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
                 }
             }
 
-            Logger.LogInformation("Scraped {Count} commands from Homebrew manpage", commands.Count);
+            if (Logger.IsEnabled(LogLevel.Information))
+            {
+                Logger.LogInformation("Scraped {Count} commands from Homebrew manpage", commands.Count);
+            }
         }
         catch (Exception ex)
         {
@@ -93,7 +98,7 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
         };
     }
 
-    private CliCommandDefinition? ParseCommandFromHeader(IElement header, IDocument doc)
+    private CliCommandDefinition? ParseCommandFromHeader(IElement header)
     {
         var headerText = header.TextContent.Trim();
 
@@ -116,7 +121,7 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
         var commandParts = commandName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
         // Get the description and options from content following the header
-        var (description, options) = ParseCommandContent(header, commandParts);
+        var (description, options) = ParseCommandContent(header);
 
         var className = GenerateClassName(commandParts);
 
@@ -132,16 +137,15 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
             Options = options,
             PositionalArguments = [],
             SubDomainGroup = null,
-            Enums = options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!).ToList()
+            Enums = [.. options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!)]
         };
     }
 
-    private (string? Description, List<CliOptionDefinition> Options) ParseCommandContent(IElement header, string[] commandParts)
+    private static (string? Description, List<CliOptionDefinition> Options) ParseCommandContent(IElement header)
     {
         var options = new List<CliOptionDefinition>();
         string? description = null;
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var className = GenerateClassName(commandParts);
 
         // Get all sibling elements until the next h3 or h2
         var current = header.NextElementSibling;
@@ -155,7 +159,7 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
 
             if (tagName == "P")
             {
-                if (inDescription && !text.StartsWith("-") && !text.StartsWith("`-"))
+                if (inDescription && !text.StartsWith('-') && !text.StartsWith("`-"))
                 {
                     descriptionParts.Add(text);
                 }
@@ -166,7 +170,7 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
                     var optionMatch = OptionInParagraphPattern().Match(text);
                     if (optionMatch.Success)
                     {
-                        var option = ParseOptionFromText(text, className, seenOptions);
+                        var option = ParseOptionFromText(text, seenOptions);
                         if (option is not null)
                         {
                             options.Add(option);
@@ -182,9 +186,9 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
                 foreach (var item in items)
                 {
                     var itemText = item.TextContent.Trim();
-                    if (itemText.StartsWith("-") || itemText.StartsWith("`-"))
+                    if (itemText.StartsWith('-') || itemText.StartsWith("`-"))
                     {
-                        var option = ParseOptionFromText(itemText, className, seenOptions);
+                        var option = ParseOptionFromText(itemText, seenOptions);
                         if (option is not null)
                         {
                             options.Add(option);
@@ -199,9 +203,9 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
                 var lines = text.Split('\n');
                 foreach (var line in lines)
                 {
-                    if (line.TrimStart().StartsWith("-"))
+                    if (line.TrimStart().StartsWith('-'))
                     {
-                        var option = ParseOptionFromText(line.Trim(), className, seenOptions);
+                        var option = ParseOptionFromText(line.Trim(), seenOptions);
                         if (option is not null)
                         {
                             options.Add(option);
@@ -226,7 +230,7 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
         return (description, options);
     }
 
-    private CliOptionDefinition? ParseOptionFromText(string text, string className, HashSet<string> seenOptions)
+    private static CliOptionDefinition? ParseOptionFromText(string text, HashSet<string> seenOptions)
     {
         // Clean up the text (remove backticks, leading/trailing whitespace)
         text = text.Replace("`", "").Trim();
@@ -264,7 +268,7 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
             {
                 longForm ??= cleanFlag;
             }
-            else if (cleanFlag.StartsWith("-") && cleanFlag.Length == 2)
+            else if (cleanFlag.StartsWith('-') && cleanFlag.Length == 2)
             {
                 shortForm = cleanFlag;
             }
@@ -299,7 +303,7 @@ public partial class BrewDocumentationScraper : CliDocumentationScraperBase
 
         // Determine if it's a flag or takes a value
         var isFlag = !flagsPart.Contains('=') &&
-                     !descriptionPart.Contains("=") &&
+                     !descriptionPart.Contains('=') &&
                      !ValueIndicatorPattern().IsMatch(descriptionPart);
 
         var csharpType = isFlag ? "bool?" : "string?";

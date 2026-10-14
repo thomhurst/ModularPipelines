@@ -41,7 +41,10 @@ public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<D
         var commands = new List<CliCommandDefinition>();
         var errors = new List<ScrapingError>();
 
-        Logger.LogInformation("Fetching Docker CLI reference from {Url}", BaseUrl);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Fetching Docker CLI reference from {Url}", BaseUrl);
+        }
 
         // Scrape top-level commands first
         foreach (var cmd in TopLevelCommands)
@@ -53,13 +56,19 @@ public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<D
                 if (command is not null)
                 {
                     commands.Add(command);
-                    Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                    if (Logger.IsEnabled(LogLevel.Debug))
+                    {
+                        Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                    }
                 }
             }
             catch (HttpRequestException)
             {
                 // Command might not have its own page - that's okay
-                Logger.LogDebug("No dedicated page for docker {Cmd}", cmd);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("No dedicated page for docker {Cmd}", cmd);
+                }
             }
             catch (Exception ex)
             {
@@ -142,7 +151,7 @@ public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<D
 
                 try
                 {
-                    var commandParts = ExtractCommandParts(fullUrl, category);
+                    var commandParts = ExtractCommandParts(fullUrl);
                     if (commandParts.Length == 0)
                     {
                         continue;
@@ -152,7 +161,10 @@ public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<D
                     if (command is not null)
                     {
                         commands.Add(command);
-                        Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                        if (Logger.IsEnabled(LogLevel.Debug))
+                        {
+                            Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -169,7 +181,7 @@ public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<D
         return commands;
     }
 
-    private static string[] ExtractCommandParts(string url, string category)
+    private static string[] ExtractCommandParts(string url)
     {
         // /reference/cli/docker/container/run/ -> ["container", "run"]
         var match = CommandUrlPattern().Match(url);
@@ -210,9 +222,9 @@ public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<D
             Description = description,
             DocumentationUrl = url,
             Options = options,
-            PositionalArguments = ExtractPositionalArguments(doc),
+            PositionalArguments = ExtractPositionalArguments(),
             SubDomainGroup = subDomain,
-            Enums = options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!).ToList()
+            Enums = [.. options.Where(o => o.EnumDefinition is not null).Select(o => o.EnumDefinition!)]
         };
     }
 
@@ -345,7 +357,7 @@ public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<D
             {
                 longForm = cleaned;
             }
-            else if (cleaned.StartsWith("-"))
+            else if (cleaned.StartsWith('-'))
             {
                 shortForm = cleaned;
             }
@@ -394,7 +406,7 @@ public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<D
         };
     }
 
-    private static List<CliPositionalArgument> ExtractPositionalArguments(IDocument doc)
+    private static List<CliPositionalArgument> ExtractPositionalArguments()
     {
         // Docker commands often have positional args like IMAGE, CONTAINER
         // For now, return empty - can be enhanced later

@@ -122,7 +122,10 @@ public partial class SnykCliScraper(ICliCommandExecutor executor, IHelpTextCache
             }
         }
 
-        Logger.LogInformation("[snyk] Extracted {Count} subcommands", subcommands.Count);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("[snyk] Extracted {Count} subcommands", subcommands.Count);
+        }
         return subcommands;
 
         void AddMatches(IEnumerable<Match> matches)
@@ -203,7 +206,7 @@ public partial class SnykCliScraper(ICliCommandExecutor executor, IHelpTextCache
         return Task.FromResult<CliCommandDefinition?>(command);
     }
 
-    private static IReadOnlyList<CliRequiredAlternativeGroup> GetDocumentedRequiredAlternatives(
+    private static List<CliRequiredAlternativeGroup> GetDocumentedRequiredAlternatives(
         IReadOnlyList<CliOptionDefinition> options)
     {
         var groups = new List<CliRequiredAlternativeGroup>();
@@ -325,7 +328,7 @@ public partial class SnykCliScraper(ICliCommandExecutor executor, IHelpTextCache
     ///         --json
     ///         --sarif
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(
+    private static List<CliOptionDefinition> ParseOptions(
         string helpText,
         string[] commandParts)
     {
@@ -362,7 +365,7 @@ public partial class SnykCliScraper(ICliCommandExecutor executor, IHelpTextCache
         return options;
     }
 
-    private void ParseOptionLines(
+    private static void ParseOptionLines(
         string[] lines,
         string[] commandParts,
         List<CliOptionDefinition> options,

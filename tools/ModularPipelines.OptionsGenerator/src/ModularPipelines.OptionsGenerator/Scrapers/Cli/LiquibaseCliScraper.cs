@@ -52,8 +52,8 @@ public partial class LiquibaseCliScraper(ICliCommandExecutor executor, IHelpText
         "--prompt-for-non-local-database"
     ];
 
-    private static readonly IReadOnlyDictionary<string, string[]> EnumValues =
-        new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, string[]> EnumValues =
+        new(StringComparer.OrdinalIgnoreCase)
         {
             ["--changelog-parse-mode"] = ["strict", "lax"],
             ["--duplicate-file-mode"] = ["silent", "debug", "info", "warn", "error"],
@@ -282,7 +282,7 @@ public partial class LiquibaseCliScraper(ICliCommandExecutor executor, IHelpText
     /// Format: --changeLogFile=PARAM          The root changelog file
     ///         --url=PARAM                    The database URL
     /// </summary>
-    protected List<CliOptionDefinition> ParseOptions(string helpText)
+    protected virtual List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -394,10 +394,10 @@ public partial class LiquibaseCliScraper(ICliCommandExecutor executor, IHelpText
     }
 
     private static void AddDocumentedCommandOptions(
-        IReadOnlyList<string> commandParts,
+        string[] commandParts,
         List<CliOptionDefinition> options)
     {
-        if (commandParts.Count != 1
+        if (commandParts.Length != 1
             || !commandParts[0].Equals("diff", StringComparison.OrdinalIgnoreCase))
         {
             return;

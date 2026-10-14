@@ -311,6 +311,106 @@ public class RunCleanupPipelineTests
         await Assert.That(pipeline.Services.GetRequiredService<CleanableCoordinator>().CleanupCount).IsEqualTo(1);
     }
 
+    [Test]
+    [Timeout(30_000)]
+    public async Task Hanging_Deferred_Factories_Share_One_Cleanup_Timeout(CancellationToken cancellationToken)
+    {
+        var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var secondStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource<IDistributedRunCleanup>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var cleanup = new RecordingCleanup();
+        using var services = new ServiceCollection()
+            .AddSingleton<IDistributedRunCleanup>(new DeferredCleanup(_ =>
+            {
+                firstStarted.SetResult();
+                return release.Task;
+            }))
+            .AddSingleton<IDistributedRunCleanup>(new DeferredCleanup(_ =>
+            {
+                secondStarted.SetResult();
+                return release.Task;
+            }))
+            .AddSingleton<IDistributedRunCleanup>(cleanup)
+            .BuildServiceProvider();
+        var executor = CreateDeferredCleanupExecutor(services, TimeSpan.FromSeconds(2));
+        var cleanupTask = executor.CleanupAsync(pipelineSucceeded: true);
+
+        try
+        {
+            await firstStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+            var cleanupDeadline = cleanupTask.WaitAsync(TimeSpan.FromSeconds(3), cancellationToken);
+            // Both factories must start before either unwrap times out.
+            await secondStarted.Task.WaitAsync(TimeSpan.FromSeconds(1), cancellationToken);
+            // Two sequential two-second waits would miss this deadline.
+            await cleanupDeadline;
+
+            await Assert.That(cleanup.Calls).HasSingleItem();
+        }
+        finally
+        {
+            release.TrySetResult(new RecordingCleanup());
+            await cleanupTask.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+        }
+    }
+
+    [Test]
+    public async Task Failing_Deferred_Factory_Skips_Only_Its_Backend()
+    {
+        var cleanup = new RecordingCleanup();
+        using var services = new ServiceCollection()
+            .AddSingleton<IDistributedRunCleanup>(new DeferredCleanup(_ =>
+                throw new InvalidOperationException("Simulated deferred factory failure")))
+            .AddSingleton<IDistributedRunCleanup>(new DeferredCleanup(_ =>
+                Task.FromResult<IDistributedRunCleanup>(cleanup)))
+            .BuildServiceProvider();
+        var executor = CreateDeferredCleanupExecutor(services, TimeSpan.FromSeconds(5));
+
+        await executor.CleanupAsync(pipelineSucceeded: true);
+
+        await Assert.That(cleanup.Calls).HasSingleItem();
+    }
+
+    [Test]
+    public async Task Deferred_Factories_Sharing_A_Direct_Backend_Clean_It_Up_Once()
+    {
+        var cleanup = new RecordingCleanup();
+        using var services = new ServiceCollection()
+            .AddSingleton<IDistributedRunCleanup>(cleanup)
+            .AddSingleton<IDistributedRunCleanup>(new DeferredCleanup(_ =>
+                Task.FromResult<IDistributedRunCleanup>(cleanup)))
+            .AddSingleton<IDistributedRunCleanup>(new DeferredCleanup(_ =>
+                Task.FromResult<IDistributedRunCleanup>(cleanup)))
+            .BuildServiceProvider();
+        var executor = CreateDeferredCleanupExecutor(services, TimeSpan.FromSeconds(5));
+
+        await executor.CleanupAsync(pipelineSucceeded: true);
+
+        await Assert.That(cleanup.Calls).HasSingleItem();
+    }
+
+    private static DistributedRunCleanupExecutor CreateDeferredCleanupExecutor(IServiceProvider services, TimeSpan timeout) =>
+        new(
+            services,
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions
+            {
+                RunId = "run",
+                RunCleanupTimeout = timeout,
+            }.EnableForTest()),
+            new Mock<IExecutionLocationContext>().Object,
+            NullLogger<DistributedRunCleanupExecutor>.Instance);
+
+    private sealed class DeferredCleanup(Func<CancellationToken, Task<IDistributedRunCleanup>> create)
+        : IDistributedRunCleanup, IDeferredDistributedBackend
+    {
+        private readonly DeferredBackend<IDistributedRunCleanup> _backend = new(create);
+
+        public async ValueTask<object> GetBackendAsync(CancellationToken cancellationToken) =>
+            await _backend.GetAsync(cancellationToken);
+
+        public Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Cleanup must use the backend, not its deferred wrapper");
+    }
+
     private static PipelineBuilder CreateDistributedBuilder(Func<DistributedOptions, DistributedOptions> configure)
     {
         var builder = TestPipelineBuilder.Create();

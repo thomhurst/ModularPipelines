@@ -12,7 +12,7 @@ namespace ModularPipelines.Testing.Distributed;
 /// </summary>
 public static class DistributedCoordinatorContract
 {
-    /// <summary>The lease timeout backends must be configured with for the lease tests.</summary>
+    /// <summary>The worker timeout backends must be configured with for the lease and registration tests.</summary>
     public static readonly TimeSpan LeaseTimeout = TimeSpan.FromMilliseconds(500);
 
     private static readonly WorkerId Worker = new("contract-worker");
@@ -102,6 +102,35 @@ public static class DistributedCoordinatorContract
 
         Check(result is null);
         Check(later is null);
+    }
+
+    /// <summary>Verifies that completion closes registration while preserving reconnects and final status.</summary>
+    /// <param name="coordinator">A fresh coordinator dedicated to this check.</param>
+    /// <returns>The asynchronous contract check.</returns>
+    public static async Task CompletionClosesRegistrationAsync(IDistributedMasterCoordinator coordinator)
+    {
+        var registration = CreateRegistration(Worker, [new Capability("dotnet")]);
+        await coordinator.RegisterWorkerAsync(registration, CancellationToken.None).ConfigureAwait(false);
+        await coordinator.SendHeartbeatAsync(new WorkerStatus { WorkerId = Worker, RunId = registration.RunId, IsFinal = true }, CancellationToken.None)
+            .ConfigureAwait(false);
+        await coordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
+
+        await ExpectThrowsAsync<DistributedRunCompletedException>(() => coordinator.RegisterWorkerAsync(
+            CreateRegistration(OtherWorker, []), CancellationToken.None)).ConfigureAwait(false);
+        await ExpectThrowsAsync<DistributedRunCompletedException>(() => coordinator.RegisterWorkerAsync(
+            registration with { RegisteredAt = registration.RegisteredAt.AddMinutes(1) }, CancellationToken.None))
+            .ConfigureAwait(false);
+        // Completion must also reject replacement of a session whose heartbeat has expired.
+        await Task.Delay(LeaseTimeout * 3).ConfigureAwait(false);
+        await ExpectThrowsAsync<DistributedRunCompletedException>(() => coordinator.RegisterWorkerAsync(
+            registration with { RegisteredAt = registration.RegisteredAt.AddMinutes(1) }, CancellationToken.None))
+            .ConfigureAwait(false);
+        await coordinator.RegisterWorkerAsync(registration, CancellationToken.None).ConfigureAwait(false);
+
+        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None).ConfigureAwait(false);
+        var statuses = await coordinator.GetWorkerStatusesAsync(CancellationToken.None).ConfigureAwait(false);
+        Check(workers.Count == 1 && workers[0].RegisteredAt == registration.RegisteredAt);
+        Check(statuses.Count == 1 && statuses[0].WorkerId == Worker && statuses[0].IsFinal);
     }
 
     /// <summary>Verifies that canceled dequeue throws.</summary>
@@ -243,7 +272,7 @@ public static class DistributedCoordinatorContract
 
         var requeued = await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None).ConfigureAwait(false);
 
-        Check(!requeued.Any());
+        Check(requeued.Count == 0);
         var activeLeases = await coordinator.GetActiveLeasesAsync(CancellationToken.None).ConfigureAwait(false);
         Check(activeLeases.Any(active => active.LeaseId == lease.LeaseId));
     }
@@ -262,8 +291,8 @@ public static class DistributedCoordinatorContract
         await Task.Delay(LeaseTimeout * 3).ConfigureAwait(false);
         var requeued = await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None).ConfigureAwait(false);
 
-        Check(!(await coordinator.GetActiveLeasesAsync(CancellationToken.None).ConfigureAwait(false)).Any());
-        Check(!requeued.Any());
+        Check((await coordinator.GetActiveLeasesAsync(CancellationToken.None).ConfigureAwait(false)).Count == 0);
+        Check(requeued.Count == 0);
     }
 
     /// <summary>Verifies that worker heartbeat keeps registration live.</summary>

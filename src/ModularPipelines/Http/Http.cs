@@ -120,8 +120,8 @@ internal class Http : IHttpContext
 
         try
         {
-            LogStatusCode(response.StatusCode, logger, loggingOptions);
-            LogDuration(stopWatch.Elapsed, logger, loggingOptions);
+            ShowStatusCode(response.StatusCode, logger, loggingOptions);
+            ShowDuration(stopWatch.Elapsed, logger, loggingOptions);
 
             await _httpLogger
                 .PrintResponse(response, logger, loggingOptions, cancellationToken)
@@ -158,23 +158,23 @@ internal class Http : IHttpContext
             : httpClient.Timeout;
     }
 
-    private void LogDuration(
+    private void ShowDuration(
         TimeSpan duration,
         ILogger logger,
         HttpLoggingOptions loggingOptions)
     {
-        if (loggingOptions.LogDuration)
+        if (loggingOptions.ShowDuration)
         {
             _httpLogger.PrintDuration(duration, logger);
         }
     }
 
-    private void LogStatusCode(
+    private void ShowStatusCode(
         HttpStatusCode? httpStatusCode,
         ILogger logger,
         HttpLoggingOptions loggingOptions)
     {
-        if (loggingOptions.LogStatusCode)
+        if (loggingOptions.ShowStatusCode)
         {
             _httpLogger.PrintStatusCode(httpStatusCode, logger);
         }

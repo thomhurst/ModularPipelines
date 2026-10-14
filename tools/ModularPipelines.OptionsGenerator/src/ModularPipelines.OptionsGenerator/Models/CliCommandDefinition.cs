@@ -79,7 +79,7 @@ public record CliCommandDefinition
     /// Required options that should be constructor parameters.
     /// </summary>
     public IReadOnlyList<CliOptionDefinition> RequiredOptions =>
-        Options.Where(o => o.IsRequired).ToList();
+        (List<CliOptionDefinition>) [.. Options.Where(o => o.IsRequired)];
 
     /// <summary>
     /// The sub-domain group this command belongs to (e.g., "Container", "Image" for Docker).

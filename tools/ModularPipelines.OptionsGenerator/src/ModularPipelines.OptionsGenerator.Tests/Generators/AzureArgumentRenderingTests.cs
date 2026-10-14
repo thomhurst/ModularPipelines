@@ -47,9 +47,13 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(attribute.NamedArguments.Any(argument => argument.MemberName == nameof(CliOptionAttribute.GroupValues)
             && Equals(argument.TypedValue.Value, true))).IsTrue();
         var part = new OptionPart(property.Name, property.GetValue, new CliOptionAttribute(definition.SwitchName) { GroupValues = true });
+        string[] expectedArguments =
+        [
+            definition.SwitchName, "operator-one", "/subscriptions/example/identity one",
+            definition.SwitchName, "operator-two", "/subscriptions/example/identity two",
+        ];
         await Assert.That(new CommandArgumentBuilder().BuildArguments([part], instance)).IsEquivalentTo(
-            new[] { definition.SwitchName, "operator-one", "/subscriptions/example/identity one", definition.SwitchName,
-                "operator-two", "/subscriptions/example/identity two" }, TUnit.Assertions.Enums.CollectionOrdering.Matching);
+            expectedArguments, TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]

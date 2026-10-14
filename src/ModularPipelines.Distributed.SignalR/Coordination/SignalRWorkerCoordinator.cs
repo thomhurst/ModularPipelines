@@ -43,7 +43,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         _connection.Reconnected += OnReconnectedAsync;
         _connection.Closed += OnClosedAsync;
         _masterCompletedSubscription = _connection.On(HubMethodNames.MasterCompleted, OnMasterCompletedAsync);
-        RegisterAgainAsync = registration => _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration);
+        RegisterAgainAsync = registration => RegisterOnConnectionAsync(registration, CancellationToken.None);
     }
 
     /// <summary>
@@ -60,10 +60,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
         Volatile.Write(ref _registration, registration);
-        await InvokeAsync(
-                token => _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration, token),
-                cancellationToken)
-            .ConfigureAwait(false);
+        await InvokeAsync(token => RegisterOnConnectionAsync(registration, token), cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ModuleLease?> DequeueModuleAsync(
@@ -133,6 +130,18 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         }
     }
 
+    private async Task RegisterOnConnectionAsync(WorkerRegistration registration, CancellationToken cancellationToken)
+    {
+        var accepted = await _connection.InvokeAsync<bool>(HubMethodNames.RegisterWorker, registration, cancellationToken)
+            .ConfigureAwait(false);
+        if (!accepted)
+        {
+            Volatile.Write(ref _registration, null);
+            Volatile.Write(ref _masterCompleted, true);
+            throw new DistributedRunCompletedException();
+        }
+    }
+
     private async Task InvokeAsync(Func<CancellationToken, Task> invoke, CancellationToken cancellationToken) =>
         await InvokeAsync(
                 async token =>
@@ -152,7 +161,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             {
                 return await invoke(cancellationToken).ConfigureAwait(false);
             }
-            catch (Exception exception) when (exception is not HubException && !cancellationToken.IsCancellationRequested)
+            catch (Exception exception) when (exception is not (HubException or DistributedRunCompletedException) && !cancellationToken.IsCancellationRequested)
             {
                 if (!await ConnectionChangesAsync(generation, exception, cancellationToken).ConfigureAwait(false))
                 {
@@ -310,7 +319,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             }
             catch (Exception exception)
             {
-                if (exception is not HubException
+                if (exception is not (HubException or DistributedRunCompletedException)
                     && await ConnectionChangesSinceAsync(generation, exception, CancellationToken.None).ConfigureAwait(false))
                 {
                     // The connection dropped again while registering. The next Reconnected or Closed

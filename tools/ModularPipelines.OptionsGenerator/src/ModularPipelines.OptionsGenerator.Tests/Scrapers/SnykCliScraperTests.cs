@@ -719,7 +719,7 @@ public class SnykCliScraperTests
         {
         }
 
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public List<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
 
         public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 

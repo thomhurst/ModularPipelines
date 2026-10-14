@@ -16,7 +16,7 @@ internal sealed class DistributedPipelineHub(
     SignalRMasterState masterState,
     ILogger<DistributedPipelineHub> logger) : Microsoft.AspNetCore.SignalR.Hub
 {
-    public async Task RegisterWorker(WorkerRegistration registration)
+    public async Task<bool> RegisterWorker(WorkerRegistration registration)
     {
         ArgumentNullException.ThrowIfNull(registration);
         if (!string.Equals(registration.RunId, masterState.RunId, StringComparison.Ordinal))
@@ -29,6 +29,11 @@ internal sealed class DistributedPipelineHub(
         {
             await masterState.Coordinator.RegisterWorkerAsync(registration, Context.ConnectionAborted)
                 .ConfigureAwait(false);
+        }
+        catch (DistributedRunCompletedException)
+        {
+            // Return a typed outcome rather than relying on SignalR's serialized exception text.
+            return false;
         }
         catch (InvalidOperationException exception)
         {
@@ -50,6 +55,7 @@ internal sealed class DistributedPipelineHub(
                 registration.WorkerId,
                 string.Join(", ", registration.Capabilities));
         }
+        return true;
     }
 
     public Task Heartbeat(WorkerStatus status)

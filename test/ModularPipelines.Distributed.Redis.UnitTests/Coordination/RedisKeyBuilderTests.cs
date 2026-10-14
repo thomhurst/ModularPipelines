@@ -62,11 +62,39 @@ public class RedisKeyBuilderTests
     }
 
     [Test]
-    public async Task WorkerHeartbeatField_ReturnsExpectedFormat()
+    public async Task Queue_And_Heartbeat_Keys_Share_The_Run_Hash_Tag()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.WorkerHeartbeatField(new WorkerId("instance-7"))).IsEqualTo("heartbeat:instance-7");
+        using (Assert.Multiple())
+        {
+            await Assert.That(builder.QueueClasses).IsEqualTo("modpipe:{abc123}:work:classes");
+            await Assert.That(builder.QueueIndex).IsEqualTo("modpipe:{abc123}:work:index");
+            await Assert.That(builder.WorkerHeartbeats).IsEqualTo("modpipe:{abc123}:workers:heartbeat");
+        }
+    }
+
+    [Test]
+    public async Task ScriptKeys_Follow_The_Order_The_Lua_Scripts_Expect()
+    {
+        var builder = new RedisKeyBuilder("modpipe", "abc123");
+
+        await Assert.That(builder.ScriptKeys).IsEquivalentTo(
+            [
+                builder.WorkQueue,
+                builder.QueueClasses,
+                builder.QueueIndex,
+                builder.Leases,
+                builder.Results,
+                builder.Workers,
+                builder.WorkerHeartbeats,
+                builder.WorkerStatuses,
+                builder.CompletionFlag,
+                builder.CancellationFlag,
+                builder.MasterStarted,
+                builder.MasterHeartbeat,
+            ],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -120,6 +148,9 @@ public class RedisKeyBuilderTests
         var allKeys = builder.CoordinationKeys.ToList();
 
         await Assert.That(allKeys).Contains(builder.WorkQueue);
+        await Assert.That(allKeys).Contains(builder.QueueClasses);
+        await Assert.That(allKeys).Contains(builder.QueueIndex);
+        await Assert.That(allKeys).Contains(builder.WorkerHeartbeats);
         await Assert.That(allKeys).Contains(builder.Leases);
         await Assert.That(allKeys).Contains(builder.Results);
         await Assert.That(allKeys).Contains(builder.Workers);
@@ -136,6 +167,6 @@ public class RedisKeyBuilderTests
 
         var allKeys = builder.CoordinationKeys.ToList();
 
-        await Assert.That(allKeys).Count().IsEqualTo(8);
+        await Assert.That(allKeys).Count().IsEqualTo(11);
     }
 }

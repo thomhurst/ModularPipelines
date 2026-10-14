@@ -86,8 +86,8 @@ public class ImmutableOptionsTests
         var original = new RedisDiscoveryOptions { ConnectionString = "localhost:6379" };
         var first = original.GetConnectionConfiguration();
         var updated = original with { ConnectionString = "localhost:6380" };
-        await Assert.That(first.EndPoints.Single().ToString()).Contains("6379");
-        await Assert.That(updated.GetConnectionConfiguration().EndPoints.Single().ToString()).Contains("6380");
-        await Assert.That(original.GetConnectionConfiguration().EndPoints.Single().ToString()).Contains("6379");
+        await Assert.That(first.Endpoints.Single().Port).IsEqualTo(6379);
+        await Assert.That(updated.GetConnectionConfiguration().Endpoints.Single().Port).IsEqualTo(6380);
+        await Assert.That(original.GetConnectionConfiguration().Endpoints.Single().Port).IsEqualTo(6379);
     }
 }

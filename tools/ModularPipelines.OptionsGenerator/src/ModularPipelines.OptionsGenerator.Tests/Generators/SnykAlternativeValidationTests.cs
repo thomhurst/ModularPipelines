@@ -19,7 +19,7 @@ public partial class RequiredConstructorValidationTests
     public async Task Snyk_Ignore_Requires_An_Id_Or_File_Path(string? id, string? filePath, bool valid)
     {
         var command = await new SnykAlternativeScraper().Parse();
-        var generated = await Generate(command.Options.ToList(), alternativeGroups: command.RequiredAlternativeGroups);
+        var generated = await Generate([.. command.Options], alternativeGroups: command.RequiredAlternativeGroups);
         var options = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
         options.GetProperty("Id")!.SetValue(instance, id);

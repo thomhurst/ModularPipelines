@@ -109,7 +109,13 @@ internal class InMemoryDistributedCoordinator(
         lock (_lock)
         {
             var now = _timeProvider.GetUtcNow();
-            if (_workers.TryGetValue(registration.WorkerId, out var existing)
+            _workers.TryGetValue(registration.WorkerId, out var existing);
+            if (_completed && existing?.RegisteredAt != registration.RegisteredAt)
+            {
+                throw new DistributedRunCompletedException();
+            }
+
+            if (existing is not null
                 && existing.RegisteredAt != registration.RegisteredAt
                 && _heartbeats.TryGetValue(registration.WorkerId, out var heartbeat)
                 && heartbeat >= now - _workerTimeout)
@@ -451,10 +457,10 @@ internal class InMemoryDistributedCoordinator(
     {
         public static AssignmentQueuePriority Create(
             ModuleAssignment assignment,
-            IReadOnlyCollection<WorkerRegistration> workers,
+            WorkerRegistration[] workers,
             long sequence)
         {
-            var eligibleWorkerCount = workers.Count == 0
+            var eligibleWorkerCount = workers.Length == 0
                 ? int.MaxValue
                 : workers.Count(worker => assignment.RequiredCapabilities.IsSatisfiedBy(worker.Capabilities));
 

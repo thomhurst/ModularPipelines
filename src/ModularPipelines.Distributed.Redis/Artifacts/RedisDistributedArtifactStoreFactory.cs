@@ -29,6 +29,6 @@ internal sealed class RedisDistributedArtifactStoreFactory(
             .ConfigureAwait(false);
         var options = redisOptions.Value;
         var keys = new RedisKeyBuilder(options.KeyPrefix, distributedOptions.Value.RunId);
-        return new RedisDistributedArtifactStore(connection.GetDatabase(), keys, options);
+        return new RedisDistributedArtifactStore(connection, keys, options);
     }
 }

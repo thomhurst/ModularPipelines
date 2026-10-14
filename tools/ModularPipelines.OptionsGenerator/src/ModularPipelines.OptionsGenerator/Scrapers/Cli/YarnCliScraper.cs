@@ -40,14 +40,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   --json                     Format output as NDJSON
 ///   -F,--fixed                 Store the exact version
 /// </summary>
-public partial class YarnCliScraper : CliScraperBase
+public partial class YarnCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<YarnCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
     private string? _yarnProjectDir;
-
-    public YarnCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<YarnCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
 
     /// <summary>
     /// Yarn Berry requires a project context (package.json) to function properly.
@@ -118,7 +113,10 @@ public partial class YarnCliScraper : CliScraperBase
             $"{{\"name\":\"yarn-scraper-temp\"{packageManager}}}",
             cancellationToken);
 
-        Logger.LogDebug("[yarn] Created temporary project context at {Dir}", _yarnProjectDir);
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("[yarn] Created temporary project context at {Dir}", _yarnProjectDir);
+        }
     }
 
     public override string ToolName => "yarn";
@@ -186,7 +184,7 @@ public partial class YarnCliScraper : CliScraperBase
                     sectionEnd = doubleNewline;
                 }
 
-                var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+                var section = helpText[sectionStart..sectionEnd];
 
                 // Parse command list: "  - add, bin, cache, ..." or separate lines
                 var lines = section.Split('\n');
@@ -230,7 +228,7 @@ public partial class YarnCliScraper : CliScraperBase
                     sectionEnd = nextSection.Index;
                 }
 
-                var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+                var section = helpText[sectionStart..sectionEnd];
                 var lines = section.Split('\n');
 
                 foreach (var line in lines)
@@ -362,10 +360,10 @@ public partial class YarnCliScraper : CliScraperBase
     }
 
     private static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
-        IReadOnlyList<string> commandParts,
+        string[] commandParts,
         IReadOnlyList<CliPositionalArgument> arguments)
     {
-        if (commandParts.Count != 1
+        if (commandParts.Length != 1
             || !commandParts[0].Equals("dlx", StringComparison.OrdinalIgnoreCase))
         {
             return arguments;
@@ -396,7 +394,7 @@ public partial class YarnCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart).Trim();
+            var section = helpText[sectionStart..sectionEnd].Trim();
             var lines = section.Split('\n');
 
             // Get first non-empty line as description
@@ -424,7 +422,7 @@ public partial class YarnCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart).Trim();
+            var section = helpText[sectionStart..sectionEnd].Trim();
             var lines = section.Split('\n');
 
             // Get first non-empty line as description
@@ -448,7 +446,7 @@ public partial class YarnCliScraper : CliScraperBase
 
         if (usageMatch.Success)
         {
-            var afterUsage = helpText.Substring(usageMatch.Index + usageMatch.Length);
+            var afterUsage = helpText[(usageMatch.Index + usageMatch.Length)..];
             var lines = afterUsage.Split('\n');
 
             foreach (var line in lines)
@@ -456,13 +454,13 @@ public partial class YarnCliScraper : CliScraperBase
                 var trimmed = line.Trim();
 
                 // Skip empty lines and command examples
-                if (string.IsNullOrEmpty(trimmed) || trimmed.StartsWith("$") || trimmed.StartsWith("yarn"))
+                if (string.IsNullOrEmpty(trimmed) || trimmed.StartsWith('$') || trimmed.StartsWith("yarn"))
                 {
                     continue;
                 }
 
                 // Skip section headers (both classic and Clipanion style)
-                if (trimmed.EndsWith(":") || trimmed.StartsWith("Where") || trimmed.Contains("━━━"))
+                if (trimmed.EndsWith(':') || trimmed.StartsWith("Where") || trimmed.Contains("━━━"))
                 {
                     continue;
                 }
@@ -521,7 +519,7 @@ public partial class YarnCliScraper : CliScraperBase
             sectionEnd = nextSection.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
@@ -610,7 +608,7 @@ public partial class YarnCliScraper : CliScraperBase
     }
 
     private static bool IsOptionalValueOption(
-        IReadOnlyList<string> commandParts,
+        string[] commandParts,
         string longForm)
     {
         if (longForm.Equals("--since", StringComparison.OrdinalIgnoreCase))

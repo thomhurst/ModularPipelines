@@ -38,12 +38,10 @@ internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinat
     private async Task<RedisDistributedCoordinator> CreateCoordinatorAsync(CancellationToken cancellationToken)
     {
         var connection = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
-        var database = connection.GetDatabase();
-        var subscriber = connection.GetSubscriber();
         var keys = new RedisKeyBuilder(_options.KeyPrefix, _distributedOptions.RunId);
+        await RedisDistributedCoordinator.EnsureServerSupportAsync(connection, keys, cancellationToken).ConfigureAwait(false);
         return new RedisDistributedCoordinator(
-            database,
-            subscriber,
+            connection,
             keys,
             _options,
             distributedOptions: _distributedOptions,
