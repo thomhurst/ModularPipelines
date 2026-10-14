@@ -17,6 +17,7 @@ Run unattended. At each iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1`
 4. Publish finished work stranded on a local `issue-<N>-*` branch that has no PR, or recover valuable changes from a preserved merged-PR worktree, following [recovery guidance](references/recovery.md).
 5. Tidy the issue queue: close a parent whose native sub-issues are all closed, and close an issue that `origin/main` already implements or that another issue supersedes.
 6. Claim an available issue, implement its full scope, and open a PR. Prefer issues that block other issues.
+7. When nothing above is actionable, run a [triage unit](#triage) instead of waiting.
 
 Apply repository-specific PR maintenance rules before choosing repair work; some PR categories require closure and a linked issue instead.
 
@@ -33,14 +34,38 @@ Every unit costs a full agent run, so a deferral that changes nothing is wasted 
 - **Finished parent.** When every native sub-issue of a parent is closed, check the parent's own acceptance criteria against `origin/main`. Close it with evidence, or implement what is left.
 - **Stale issue.** When an issue's body no longer matches the code, for example because part of it shipped, update the body so that it describes only the remaining work, then implement that work.
 - **Pushed and waiting.** A pushed fix that waits for CI, hosted generation, or review is `pushed fixes to #N` or `opened #N closing #M`, not `deferred`.
+- **Waiting on a run.** When the item waits only for a workflow run that you or an earlier unit started, such as a hosted generation, report `waiting #N: run <id>`. The driver returns the item when that run completes. Do not add `on-hold` for a wait that ends by itself.
+- **Superseded PR.** Close a PR that another open or merged PR replaces, or an automated PR that is defective or conflicting, and link the replacement. Closed PRs keep their history; an open PR is not a place to keep evidence. Follow the repository rules for closed-PR CI cancellation.
+- **Earlier deferral.** When the prompt quotes an earlier deferral reason, start from that blocker. Check whether it still holds and try each route above before you defer the item again for the same reason.
 
-Defer only for a reason that no agent can remove: a human decision, an upstream release or dependency, missing credentials or infrastructure access, or a lock held by another worker. Record the blocker once. Make it visible to the driver, so that later units do not re-examine an unchanged item:
+Defer only for a reason that no agent can remove, and name its category in the result: `[human]` for a human decision, `[upstream]` for an upstream release, fix, or date, `[credentials]` for missing credentials or infrastructure access, and `[locked]` for a lock held by another worker. A prerequisite that an agent can work is not a reason to defer: work it, as described in **Blocker first**. The driver gives a deferral without one of these categories a short expiry, so the item comes back soon. Record the blocker once. Make it visible to the driver, so that later units do not re-examine an unchanged item:
 
 - For a prerequisite, add a native `blocked_by` dependency. The driver skips the item until the prerequisite closes.
 - For a human decision, add `needs-human` and state the decision and its options.
-- For an external gate, such as a release date or an upstream fix, add `on-hold` (create the label if needed) and name the condition that removes it.
+- For an external gate, such as a release date or an upstream fix, add `on-hold` (create the label if needed) and name the condition that removes it. Remove `on-hold` yourself as soon as that condition is met.
+
+Name every blocker as `#N` in the result. The driver works an open blocker next, and while a blocker carries `needs-human` or `on-hold` it skips the items that wait on it.
 
 Do not post another blocker comment on an item whose blocker is unchanged. Edit your existing comment instead. Start every comment you post with `<!-- issue-pr-loop -->`, so the driver can tell your comments from new information.
+
+### Triage
+
+A triage unit keeps the queue accurate, so other units spend their time on real work. The driver runs one when nothing is actionable, and also every few units. It names a batch of items that no unit audited recently: parked and blocked items first. Without the driver, pick the oldest open issues that carry `needs-human`, `on-hold`, or open `blocked_by` dependencies, then the rest.
+
+For each item, acquire its lock (`issue-<N>` or `pr-<N>`), and skip it when `acquire` exits 3. Then check it against fresh `origin/main` and its linked issues and PRs:
+
+- Close an issue that `origin/main` already implements, or that another issue or PR supersedes. Name the commit, PR, or issue in the closing comment.
+- Rewrite the body of an issue that no longer matches the code, so that it describes only the remaining work and has acceptance criteria.
+- Add missing native sub-issue and `blocked_by` links, and remove links to closed or unrelated items.
+- Remove `on-hold` when its condition is met, for example the release shipped or the run completed. Remove `in-progress` when no open PR, lock holder, or branch backs it.
+- For `needs-human`, check whether a comment since the label was added answers the question. When it does, apply the answer, remove the label, and say so.
+- Close a superseded, defective, or conflicting automated PR and link its replacement.
+
+Make only changes that the evidence supports, and keep a comment short. Do not implement an issue in a triage unit.
+
+When the prompt says that fewer than five issues can be claimed now, also file up to three new issues for concrete defects you find in the repository: failing or flaky tests in recent CI runs, analyzer or build warnings, `TODO` or `FIXME` comments that describe a defect, documentation that contradicts the code, or missing tests for public behavior. Search open and closed issues first so that you do not file a duplicate. Give each issue the evidence (file and line, run, or log line) and acceptance criteria. Do not file issues for style preferences or speculative features.
+
+Report `RESULT: triaged: <summary>`, for example `triaged: closed #12 #15, updated #18, filed #40`. Report `triaged: no changes` when every item was current.
 
 ### Red main
 
@@ -50,7 +75,7 @@ Do not post another blocker comment on an item whose blocker is unchanged. Edit 
 2. Search open issues and PRs for this failure. When an open PR fixes it, release `main-ci` and work that PR. When an open issue tracks it, work that issue.
 3. When the failure is infrastructure, such as a lost runner, a network error, or a rate limit, rerun the whole run once with `gh run rerun <id>` and report `reran main run <id>`. Do not rerun a run that was already rerun; treat a repeat failure as real.
 4. Otherwise file an issue with the failing run, the failing step, and the error, labelled `bug`. Claim it, fix it in an `issue-<N>-*` worktree, and open a PR that closes it. Never push to `main` directly.
-5. When no agent can fix the cause, file the issue with `needs-human` and report `deferred main: reason` that names the issue. The driver re-checks `main` when that issue closes or a new run finishes.
+5. When no agent can fix the cause, file the issue with `needs-human` and report `deferred main [human]: reason` that names the issue. The driver re-checks `main` when that issue closes or a new run finishes.
 
 Use commentary while active. Preserve item IDs, worktree, lock identity/script, owned services, and unresolved validation across compaction.
 
@@ -59,10 +84,10 @@ Use commentary while active. Preserve item IDs, worktree, lock identity/script, 
 When the invocation asks for single-unit mode (for example "run once" or "single unit"), it overrides the loop above. Run the cleanup script, survey, and complete exactly one unit in priority order. Release every lock you hold and stop owned services. Then print one final line and stop:
 
 ```text
-RESULT: merged #N | pushed fixes to #N | opened #N closing #M | reran main run <id> | deferred #N: reason | deferred main: reason | failed #N: reason | queue-empty
+RESULT: merged #N | pushed fixes to #N | opened #N closing #M | reran main run <id> | waiting #N: run <id> | deferred #N [category]: reason | deferred main [category]: reason | failed #N: reason | triaged: summary | queue-empty
 ```
 
-Do not survey again, start a second item, or wait for CI or reviews. Print `RESULT: queue-empty` when the survey finds nothing actionable now, including when only pending CI or reviews remain. Record anything a later run needs, such as a defer reason, on the issue or PR, not in agent memory. `scripts/Start-IssuePrLoop.ps1` runs this mode repeatedly, with a fresh agent process and context for each unit.
+Do not survey again, start a second item, or wait for CI or reviews. When the survey finds nothing actionable now, including when only pending CI or reviews remain, run a [triage unit](#triage) instead. Print `RESULT: queue-empty` only when triage finds every item current and audited. Record anything a later run needs, such as a defer reason, on the issue or PR, not in agent memory. `scripts/Start-IssuePrLoop.ps1` runs this mode repeatedly, with a fresh agent process and context for each unit.
 
 A lock held by another owner is not a unit. When `acquire` exits 3, skip that item and try the next candidate in priority order. Report `deferred` only for an item you acquired and examined.
 
@@ -72,7 +97,7 @@ When the invocation assigns an item and says the loop driver holds its lock, ski
 
 Model latency grows with context size, and it dominates loop time: tools account for a small fraction of wall time. Keep each unit's context small.
 
-- When the runtime can start subagents or fresh threads, invoking this loop authorizes one per unit. Detect the runtime from the environment: `CLAUDECODE=1` means Claude Code, so use the Agent tool with a `general-purpose` subagent. `CODEX_THREAD_ID` set means Codex, so use its subagent or thread tool. The coordinator surveys, chooses one item, and hands over the item ID, this skill in single-unit mode for that item, the shared checkout, and the canonical lock script. The subagent acquires the lock and does the unit. Require a confirmed `merged #N`, `pushed fixes to #N`, `reran main run <id>`, `deferred main: reason`, `deferred #N: reason`, `opened #N closing #M`, or `failed #N: reason`; then continue surveying. Keep only queue state in the coordinator, never diffs, logs, or review bodies.
+- When the runtime can start subagents or fresh threads, invoking this loop authorizes one per unit. Detect the runtime from the environment: `CLAUDECODE=1` means Claude Code, so use the Agent tool with a `general-purpose` subagent. `CODEX_THREAD_ID` set means Codex, so use its subagent or thread tool. The coordinator surveys, chooses one item, and hands over the item ID, this skill in single-unit mode for that item, the shared checkout, and the canonical lock script. The subagent acquires the lock and does the unit. Require a confirmed `merged #N`, `pushed fixes to #N`, `reran main run <id>`, `waiting #N: run <id>`, `deferred main [category]: reason`, `deferred #N [category]: reason`, `opened #N closing #M`, `failed #N: reason`, or `triaged: summary`; then continue surveying. Keep only queue state in the coordinator, never diffs, logs, or review bodies.
 - When a runtime lets you pick reasoning effort, use a lower effort for mechanical units: merges, surveys, conflict-free rebases, and disposition replies. Keep high effort for implementation, conflict resolution in shared code, and CI failure diagnosis.
 - Without subagents, drop the previous item's details once it is pushed or deferred. In both modes, send long command output (builds, tests, `gh api` dumps, logs) to a file and read only the lines you need. Use `--jq` to select fields.
 
@@ -95,8 +120,8 @@ Acquire the Redis lock before acting on an item: `pr-<N>` for PR work or recover
 | Command | Result |
 | --- | --- |
 | `pwsh $agentLocks acquire -LockName $lockName` | Exit 0 grants ownership; 3 means held, skip; other failures mean defer, never bypass Redis. |
-| `pwsh $agentLocks renew -LockName $lockName` | Renew work approaching the two-hour TTL; exit 4 means ownership lost, stop this item and do not push. |
-| `pwsh $agentLocks status -LockName $lockName` | Read-only `FREE` / `HELD` / `HELD-BY-ME`; verify ownership before pushing or merging. |
+| `pwsh $agentLocks renew -LockName $lockName` | Renew work approaching the two-hour TTL. A `FREE` lock is taken back, for example after a Redis restart; re-fetch the item's state before you push. Exit 4 means another owner holds it: stop this item and do not push. |
+| `pwsh $agentLocks status -LockName $lockName` | Read-only `FREE` / `HELD` / `HELD-BY-ME`; verify ownership before pushing or merging. On `FREE`, run `renew` to take the lock back. |
 | `pwsh $agentLocks release -LockName $lockName` | Release in cleanup/finally; exit 0 confirms release, 5 means stale ownership, leave the key alone. |
 
 Redis is authoritative: never steal locks based on PIDs/files/inactivity or add another backend. Do not print/manage cached tokens. Codex supplies `CODEX_THREAD_ID`, and `scripts/Start-IssuePrLoop.ps1` sets the lock script's owner variable for each run. In an interactive Claude Code session, pass `-OwnerId $env:CLAUDE_CODE_SESSION_ID` on every verb. Other automation needs the same stable unique `-OwnerId` on every verb. Renew when needed, without periodic heartbeats. Required `renew -Worktree $worktree` after checkout records the path for release cleanup; keep explicit lock names. The issue's `in-progress` label persists independently.

@@ -183,6 +183,15 @@ try {
     Assert-Result (Invoke-AgentLocks $repo @('release', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerB) 0 '' 'owner B release'
     Assert-Result (Invoke-AgentLocks $repo @('status', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerB) 0 'FREE' 'owner B status after release'
 
+    # A lock that Redis lost while no one else took it is renewed back to its owner.
+    Assert-ExitZero (Invoke-AgentLocks $repo @('acquire', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerA) 'owner A acquire before key loss'
+    Expire-TestLock $ownershipLock
+    Assert-Result (Invoke-AgentLocks $repo @('status', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerA) 0 'FREE' 'owner A status after key loss'
+    Assert-Result (Invoke-AgentLocks $repo @('renew', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerA) 0 '' 'owner A renew retakes a free lock'
+    Assert-Result (Invoke-AgentLocks $repo @('status', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerA) 0 'HELD-BY-ME' 'owner A status after retake'
+    Assert-Result (Invoke-AgentLocks $repo @('acquire', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerB) 3 'HELD' 'owner B acquire after retake'
+    Assert-Result (Invoke-AgentLocks $repo @('release', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerA) 0 '' 'owner A release after retake'
+
     # CODEX_THREAD_ID must support short-lived pwsh calls and implicit issue-branch lock names.
     Assert-ExitZero (Invoke-AgentLocks $issueWorktree @('acquire') -CodexThreadId $issueOwner) 'implicit issue acquire'
     Assert-Result (Invoke-AgentLocks $issueWorktree @('status') -CodexThreadId $issueOwner) 0 'HELD-BY-ME' 'implicit issue status'

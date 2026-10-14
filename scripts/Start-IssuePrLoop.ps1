@@ -12,20 +12,29 @@
 #      running, and items whose GitHub state is unchanged since an agent last deferred
 #      them. Also skips issues that cannot be worked yet: issues with open native
 #      sub-issues or open `blocked_by` dependencies, issues that already have an open
-#      closing PR, and bot-owned tracking issues. Ranks local `issue-*` branches with
-#      unpublished commits and no open PR above new issues, then parents whose
-#      sub-issues are all closed, then issues that block the most other issues.
+#      closing PR, and bot-owned tracking issues. Stranded branches follow the same
+#      rules. Ranks local `issue-*` branches with unpublished commits and no open PR
+#      above new issues, then parents whose sub-issues are all closed, then issues that
+#      block the most other issues. An item that a deferral named as its blocker goes
+#      first, so the next unit works the blocker instead of the blocked item.
 #   4. Acquires the item's Redis lock, moving on to the next candidate when another
 #      worker holds it.
 #   5. Starts the agent on that one item, with lower reasoning effort for PRs that
-#      look ready to merge.
+#      look ready to merge. When nothing is actionable, or every -TriageEvery units,
+#      it starts a triage unit instead: the agent audits a batch of open issues and
+#      parked PRs that no unit audited in the last -AuditDays days.
 # After the agent ends, the script releases the lock if the agent left it held. On a
-# deferred, failed, or missing result it records the item's current fingerprint with
-# `AgentLocks.ps1 defer`, so later units skip it until its head, checks, mergeability,
-# comments, or labels change, or until the deferral expires. Comments marked with
-# `<!-- issue-pr-loop -->` are the loop's own and do not count as a change. Each repeat
-# deferral of an unchanged item doubles its expiry, starting at -DeferSeconds and capped
-# at -MaxDeferSeconds.
+# deferred, waiting, failed, or missing result it records the item's current fingerprint
+# with `AgentLocks.ps1 defer`, so later units skip it until its head, checks,
+# mergeability, comments, or labels change, or until the deferral expires. Comments
+# marked with `<!-- issue-pr-loop -->` are the loop's own and do not count as a change.
+# Each repeat deferral of an unchanged item doubles its expiry, starting at -DeferSeconds
+# and capped at -MaxDeferSeconds. A deferral whose blocker is parked (`needs-human` or
+# `on-hold`) does not expire while that blocker stays parked. A `waiting` result names a
+# workflow run, and the item returns when that run completes. A deferral without a
+# category gets a short expiry. The next unit on a deferred item receives the earlier
+# reason, so it can start from that blocker. Every unit appends one JSON line to
+# units.jsonl in the log directory; -Report summarizes it.
 #
 # AGENT SELECTION (-Agent auto):
 #   - CLAUDECODE=1        -> launched from Claude Code, so run `claude -p`.
@@ -45,7 +54,9 @@
 #
 # Stop:   create the stop file printed at startup (checked between units), or Ctrl+C.
 # Usage:  pwsh scripts/Start-IssuePrLoop.ps1 [-Agent auto|claude|codex] [-IdleSeconds n] [-MaxUnits n]
-#           [-DeferSeconds n] [-MaxDeferSeconds n] [-LightEffort level] [-HeavyEffort level] [-DryRun]
+#           [-DeferSeconds n] [-MaxDeferSeconds n] [-LightEffort level] [-HeavyEffort level]
+#           [-TriageEvery n] [-TriageBatch n] [-AuditDays n] [-DryRun]
+#         pwsh scripts/Start-IssuePrLoop.ps1 -Report [-ReportHours n]
 
 [CmdletBinding()]
 param(
@@ -67,8 +78,21 @@ param(
     [string]$LightEffort = 'medium',
     [string]$HeavyEffort = '',
     [string]$LogDirectory = (Join-Path ([IO.Path]::GetTempPath()) 'issue-pr-loop'),
+    # Run a triage unit after this many work units even when work is queued. 0 disables it.
+    [ValidateRange(0, 1000)]
+    [int]$TriageEvery = 10,
+    # Most issues and PRs that one triage unit audits.
+    [ValidateRange(1, 50)]
+    [int]$TriageBatch = 8,
+    # Days before triage audits an item again.
+    [ValidateRange(1, 90)]
+    [int]$AuditDays = 3,
     # Survey and claim once, print the chosen item and its prompt, release, and exit.
-    [switch]$DryRun
+    [switch]$DryRun,
+    # Summarize units.jsonl for this repository over the last -ReportHours, and exit.
+    [switch]$Report,
+    [ValidateRange(1, 8760)]
+    [int]$ReportHours = 24
 )
 
 $ErrorActionPreference = 'Stop'
@@ -111,6 +135,30 @@ function Write-ClaudeEvent([string]$Line, [string]$Log) {
 $repo = git -C $PSScriptRoot rev-parse --show-toplevel
 if ($LASTEXITCODE -ne 0 -or -not $repo) { throw 'Start-IssuePrLoop.ps1 must run from a Git checkout.' }
 $repo = $repo.Trim()
+$unitsFile = Join-Path $LogDirectory 'units.jsonl'
+
+if ($Report) {
+    Push-Location $repo
+    try { $reportSlug = gh repo view --json nameWithOwner --jq .nameWithOwner }
+    finally { Pop-Location }
+    if (-not (Test-Path -LiteralPath $unitsFile)) { Write-Host "issue-pr-loop: no unit records in $unitsFile"; exit 0 }
+    $since = (Get-Date).ToUniversalTime().AddHours(-$ReportHours)
+    $records = @(Get-Content -LiteralPath $unitsFile | ForEach-Object { try { $_ | ConvertFrom-Json } catch { } } |
+            Where-Object { $_ -and $_.repo -eq ([string]$reportSlug).Trim() -and [DateTime]$_.endedAt -ge $since })
+    $total = [Math]::Max(1, ($records | Measure-Object seconds -Sum).Sum)
+    Write-Host "issue-pr-loop: $($records.Count) unit(s) for $reportSlug in the last $ReportHours h"
+    $records | Group-Object outcome | Sort-Object Count -Descending | ForEach-Object {
+        $sum = ($_.Group | Measure-Object seconds -Sum).Sum
+        Write-Host ('  {0,-10} {1,5} units  {2,6:N1} min avg  {3,5:N1} h  {4,3:N0}% of agent time' -f $_.Name, $_.Count, ($sum / $_.Count / 60), ($sum / 3600), (100 * $sum / $total))
+    }
+    $repeats = @($records | Where-Object outcome -eq 'deferred' | Group-Object { "$($_.kind) #$($_.number)" } | Where-Object Count -gt 1 | Sort-Object Count -Descending | Select-Object -First 10)
+    if ($repeats.Count -gt 0) {
+        Write-Host '  repeat deferrals:'
+        foreach ($g in $repeats) { Write-Host ('    {0,-14} {1,3}x  {2}' -f $g.Name, $g.Count, ($g.Group | Select-Object -Last 1).result) }
+    }
+    exit 0
+}
+
 $stopFile = Join-Path (Resolve-Path (git -C $repo rev-parse --git-common-dir)) 'issue-pr-loop.stop'
 $selected = Resolve-Agent $Agent
 $agentLocks = Join-Path $repo 'scripts/AgentLocks.ps1'
@@ -202,14 +250,17 @@ function Get-IssueFingerprint($Issue) {
                 $children, $Issue.issueDependenciesSummary.blockedBy, ($prs -join ','))) -join '|')
 }
 
-# Returns number -> state (OPEN, CLOSED, MERGED, MISSING) for issues and PRs, in one query.
-# Returns $null when the lookup fails, so callers can fall back to the item's own fingerprint.
+# Returns number -> state (OPEN, PARKED, CLOSED, MERGED, MISSING) for issues and PRs, in
+# one query. PARKED is an open item labelled `needs-human` or `on-hold`: no unit works it,
+# so an item blocked on it waits for a person or for the label to go. Returns $null when
+# the lookup fails, so callers can fall back to the item's own fingerprint.
 function Get-ReferenceStates([int[]]$Numbers) {
     $Numbers = @($Numbers | Sort-Object -Unique)
     $states = @{}
     if ($Numbers.Count -eq 0) { return $states }
     $owner, $name = $repoSlug -split '/', 2
-    $fields = ($Numbers | ForEach-Object { "n${_}: issueOrPullRequest(number: $_) { ... on Issue { state } ... on PullRequest { state } }" }) -join ' '
+    $item = 'state labels(first: 30) { nodes { name } }'
+    $fields = ($Numbers | ForEach-Object { "n${_}: issueOrPullRequest(number: $_) { ... on Issue { $item } ... on PullRequest { $item } }" }) -join ' '
     $query = 'query($owner: String!, $name: String!) { repository(owner: $owner, name: $name) { ' + $fields + ' } }'
     # A missing number makes gh exit 1, but stdout still carries the data for the rest.
     $json = gh api graphql -f "query=$query" -f "owner=$owner" -f "name=$name" 2>$null
@@ -218,7 +269,9 @@ function Get-ReferenceStates([int[]]$Numbers) {
     if (-not $repository) { return $null }
     foreach ($n in $Numbers) {
         $node = $repository."n$n"
-        $states[$n] = if ($node) { [string]$node.state } else { 'MISSING' }
+        $states[$n] = if (-not $node) { 'MISSING' }
+        elseif ($node.state -eq 'OPEN' -and @($node.labels.nodes | Where-Object { $_.name -in $parkedLabels }).Count -gt 0) { 'PARKED' }
+        else { [string]$node.state }
     }
     return $states
 }
@@ -244,6 +297,10 @@ $issueNodeFields = 'number title lastEditedAt author { login __typename } labels
 $excludedIssueLabels = @('wontfix', 'duplicate', 'question', 'needs-human', 'on-hold')
 # Labels that take a PR out of the queue until a human removes them.
 $excludedPrLabels = @('needs-human', 'on-hold')
+# Labels that park an item: an item blocked on a parked item waits until the label goes.
+$parkedLabels = @('needs-human', 'on-hold')
+# Deferral categories the skill allows. A deferral without one gets a short expiry.
+$deferCategories = @('human', 'upstream', 'credentials', 'locked')
 
 # Counts why the last survey skipped items, so an idle survey can say why nothing was actionable.
 $surveyStats = [ordered]@{}
@@ -410,9 +467,14 @@ function Get-Candidates {
     $surveyStats['issues'] = $issues.Count
     $openIssues = @{}
     foreach ($issue in $issues) { $openIssues[[int]$issue.number] = $issue }
+    $script:lastIssues = $issues
     $stranded = Get-StrandedBranches $openIssues
     foreach ($number in @($stranded.Keys | Sort-Object)) {
         $s = $stranded[$number]
+        # A stranded branch waits under the same rules as its issue. The branch stays on
+        # disk, and the issue's own candidate is skipped below while the branch exists.
+        if (Test-HasLabel $s.Issue $excludedIssueLabels) { $surveyStats['issue-excluded']++; continue }
+        if ($s.Issue.issueDependenciesSummary.blockedBy -gt 0) { $surveyStats['issue-blocked']++; continue }
         $hint = "Local branch $($s.Branch) holds $($s.Commits) commit(s) for issue #$number that are not on origin/main, and no PR exists for it. " +
             'Follow the stranded-branch procedure in the recovery guidance: publish the finished work as a PR, or record why it cannot ship.'
         $candidates.Add((New-Candidate 'stranded' $number 4 (Get-StrandedFingerprint $s.Branch $s.Issue) $false $hint $s.Branch))
@@ -453,7 +515,15 @@ function Get-Candidates {
     # Unblock the most other issues first, then prefer less discussion: such issues are
     # usually smaller and clearer.
     foreach ($c in @($ranked | Sort-Object Rank, @{ Expression = 'Blocking'; Descending = $true }, Comments, Number)) { $candidates.Add($c) }
-    return $candidates
+
+    # A deferral that named an open blocker promotes it: working the blocker is the only
+    # way the blocked item moves. Red main still comes first.
+    $promotedFirst = @($candidates | Where-Object { $_.Kind -ne 'main' -and $script:promoted.Contains($_.Number) })
+    if ($promotedFirst.Count -eq 0) { return $candidates }
+    foreach ($c in $promotedFirst) { $c.Hint = (("A previous unit deferred another item because #$($c.Number) blocks it. " +
+                'Resolve this item so the blocked work can move.') + $(if ($c.Hint) { " $($c.Hint)" } else { '' })) }
+    return @(@($candidates | Where-Object Kind -eq 'main') + $promotedFirst +
+        @($candidates | Where-Object { $_.Kind -ne 'main' -and -not $script:promoted.Contains($_.Number) }))
 }
 
 function Get-CurrentFingerprint($Item) {
@@ -488,8 +558,9 @@ function Get-Deferrals([object[]]$Items) {
 
 # A recorded deferral is `<fingerprint>` followed by optional `|key=value` fields:
 # `until=<unix seconds>` ends the deferral, `n=<count>` counts consecutive deferrals of
-# the same fingerprint, and `refs=<n>:<state>,...` records blocker states. The Redis
-# record outlives `until`, so a repeat deferral can still read the count.
+# the same fingerprint, `refs=<n>:<state>,...` records blocker states, and `run=<id>`
+# names the workflow run a `waiting` item waits for. The Redis record outlives `until`,
+# so a repeat deferral can still read the count.
 function Split-Deferral([string]$Recorded) {
     $fingerprint, $fields = $Recorded -split '\|'
     $values = @{}
@@ -505,23 +576,42 @@ function Split-Deferral([string]$Recorded) {
         Numbers     = $numbers
         Until       = if ($values['until']) { [long]$values['until'] } else { [long]::MaxValue }
         Count       = if ($values['n']) { [int]$values['n'] } else { 1 }
+        Run         = $values['run']
     }
+}
+
+# Caches run id -> completed for one survey, so several items waiting on one run cost one call.
+$runCompleted = @{}
+
+function Test-RunCompleted([string]$RunId) {
+    if (-not $runCompleted.ContainsKey($RunId)) {
+        $status = gh run view $RunId --repo $repoSlug --json status --jq .status 2>$null
+        # A run that cannot be read cannot be waited on; let the item return.
+        $runCompleted[$RunId] = $LASTEXITCODE -ne 0 -or ([string]$status).Trim() -eq 'completed'
+    }
+    return $runCompleted[$RunId]
 }
 
 function Test-Deferred($Item, [hashtable]$Deferrals, $States) {
     if (-not $Item.Fingerprint -or -not $Deferrals[$Item.LockName]) { return $false }
     $deferral = Split-Deferral $Deferrals[$Item.LockName]
     if ($deferral.Fingerprint -ne $Item.Fingerprint) { return $false }
-    if ([DateTimeOffset]::UtcNow.ToUnixTimeSeconds() -ge $deferral.Until) { return $false }
+    # A waiting item returns when its run completes, or when the deferral expires.
+    if ($deferral.Run -and (Test-RunCompleted $deferral.Run)) { return $false }
     # Without fresh blocker states, fall back to the item's own fingerprint.
-    if (-not $deferral.Refs -or $null -eq $States) { return $true }
-    return (Format-References $deferral.Numbers $States) -eq $deferral.Refs
+    $refsKnown = $deferral.Refs -and $null -ne $States
+    if ($refsKnown -and (Format-References $deferral.Numbers $States) -ne $deferral.Refs) { return $false }
+    # A parked blocker is not worked by any unit, so the expiry would only buy a repeat
+    # deferral. The item returns when the blocker closes or loses its parking label.
+    if ($refsKnown -and $deferral.Refs -match ':PARKED(,|$)') { return $true }
+    return [DateTimeOffset]::UtcNow.ToUnixTimeSeconds() -lt $deferral.Until
 }
 
 # Returns the claimed item, $null when nothing is actionable, or throws when the lock
 # service fails mid-survey.
 function Select-Item {
     Reset-SurveyStats
+    $runCompleted.Clear()
     $candidates = @(Get-Candidates)
     $deferrals = Get-Deferrals $candidates
     $states = Get-ReferenceStates @($deferrals.Values | ForEach-Object { (Split-Deferral $_).Numbers })
@@ -530,9 +620,71 @@ function Select-Item {
         $r = Invoke-Locks @('acquire', '-LockName', $item.LockName)
         if ($r.ExitCode -eq 3) { $surveyStats["$($item.Kind)-locked"]++; continue }
         if ($r.ExitCode -ne 0) { throw "lock acquire for $($item.LockName) failed (exit $($r.ExitCode)): $($r.Output)" }
+        $null = $script:promoted.Remove($item.Number)
+        $item | Add-Member -NotePropertyName PreviousReason -NotePropertyValue (Get-DeferralNote $item.LockName) -Force
         return $item
     }
     return $null
+}
+
+# The last deferral reason for an item, stored next to its deferral record, so the next
+# unit can start from that blocker instead of rediscovering it.
+function Get-DeferralNote([string]$LockName) {
+    try {
+        $r = Invoke-Locks @('deferred', '-LockName', "note-$LockName")
+        if ($r.ExitCode -ne 0 -or -not $r.Output) { return '' }
+        return (($r.Output -split "`n")[0] -split '=', 2)[1]
+    }
+    catch { return '' }
+}
+
+function Set-DeferralNote([string]$LockName, [string]$Reason, [long]$Seconds) {
+    # The note is plain text in a Redis value; keep it on one line and bounded.
+    $text = ($Reason -replace '\s+', ' ' -replace '"', "'").Trim()
+    if ($text.Length -gt 400) { $text = $text.Substring(0, 397) + '...' }
+    $null = Invoke-Locks @('defer', '-LockName', "note-$LockName", '-Fingerprint', $text, '-DeferSeconds', [Math]::Min(604800, [Math]::Max(60, $Seconds)))
+}
+
+# Builds a triage unit: open issues and parked PRs that no unit audited in -AuditDays,
+# parked and blocked items first because nothing else looks at them.
+function Get-TriageItem {
+    if (-not $script:lastIssues) { return $null }
+    $prs = @(gh pr list --repo $repoSlug --author '@me' --state open --limit 500 --json number,labels | ConvertFrom-Json |
+            Where-Object { @($_.labels | Where-Object { $_.name -in $parkedLabels }).Count -gt 0 })
+    $pool = @(
+        foreach ($issue in $script:lastIssues) {
+            if ($issue.author.__typename -eq 'Bot' -or $issue.title -eq 'Dependency Dashboard') { continue }
+            $order = if (Test-HasLabel $issue $parkedLabels) { 0 }
+            elseif ($issue.issueDependenciesSummary.blockedBy -gt 0 -or $issue.subIssuesSummary.total -gt $issue.subIssuesSummary.completed) { 1 }
+            elseif (Test-HasLabel $issue @('in-progress')) { 2 }
+            else { 3 }
+            [pscustomobject]@{ Number = [int]$issue.number; Kind = 'issue'; Order = $order }
+        }
+        foreach ($pr in $prs) { [pscustomobject]@{ Number = [int]$pr.number; Kind = 'pr'; Order = 0 } }
+    )
+    if ($pool.Count -eq 0) { return $null }
+    $audited = @{}
+    $r = Invoke-Locks @('deferred', '-LockName', (($pool | ForEach-Object { "audit-$($_.Number)" }) -join ','))
+    if ($r.ExitCode -ne 0) { return $null }
+    foreach ($line in ($r.Output -split "`n")) { if ($line.Trim()) { $audited[($line.Trim() -split '=', 2)[0]] = $true } }
+    $due = @($pool | Where-Object { -not $audited["audit-$($_.Number)"] } | Sort-Object Order, Number | Select-Object -First $TriageBatch)
+    if ($due.Count -eq 0) { return $null }
+    $r = Invoke-Locks @('acquire', '-LockName', 'triage')
+    if ($r.ExitCode -ne 0) { return $null }
+    $openCount = @($script:lastIssues | Where-Object {
+            -not (Test-HasLabel $_ ($excludedIssueLabels + 'in-progress')) -and $_.issueDependenciesSummary.blockedBy -eq 0 -and -not (Test-HasOpenPr $_)
+        }).Count
+    [pscustomobject]@{
+        Kind        = 'triage'
+        Number      = 0
+        LockName    = 'triage'
+        Label       = "triage of $($due.Count) item(s)"
+        Rank        = 8
+        Fingerprint = $null
+        Light       = $true
+        Items       = $due
+        Queueable   = $openCount
+    }
 }
 
 # A preserved worktree with new source may hold unpublished work worth recovering.
@@ -555,9 +707,18 @@ function Get-RecoveryItem([string[]]$SweepOutput) {
 
 function Get-Prompt($Item) {
     $head = "Read $skill and follow the issue-pr-loop skill in single-unit mode for an assigned item."
+    # An earlier deferral reason lets this unit start from the blocker it named.
+    if ($Item.PSObject.Properties['PreviousReason'] -and $Item.PreviousReason) {
+        $head += " An earlier unit deferred this item with the reason: `"$($Item.PreviousReason)`". Check whether that blocker still holds, and try every route in Resolve, do not defer before you defer it again."
+    }
     switch ($Item.Kind) {
         'pr' {
-            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock pr-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire. Work only PR #$($Item.Number), release the lock, and print the RESULT line."
+            $hint = if ($Item.Hint) { " $($Item.Hint)" } else { '' }
+            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock pr-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire.$hint Work only PR #$($Item.Number), release the lock, and print the RESULT line."
+        }
+        'triage' {
+            $list = ($Item.Items | ForEach-Object { if ($_.Kind -eq 'pr') { "PR #$($_.Number)" } else { "#$($_.Number)" } }) -join ', '
+            return "$head This is a triage unit. The loop driver holds lock triage for you through `$env:$ownerVariable. Skip the sweep and the survey. Follow the triage procedure in the skill for these items: $list. The queue has $($Item.Queueable) issue(s) that a unit can claim now. Release every lock and print the RESULT line."
         }
         'issue' {
             $hint = if ($Item.Hint) { " $($Item.Hint)" } else { '' }
@@ -631,6 +792,27 @@ function Remove-CodexMarketplaceStaging([int]$MinutesOld = 10) {
     if ($removed -gt 0) { Write-Host "issue-pr-loop: removed $removed stale Codex marketplace staging dir(s)" }
 }
 
+# One JSON line per unit. The log directory is shared by every repository's loop, so each
+# record names its repository.
+function Write-UnitRecord([string]$RunId, $Item, [string]$Result, [string]$Category, [int]$ExitCode, [double]$Seconds) {
+    $outcome = if ($Result -match '^([a-z-]+)') { $Matches[1] } else { 'no-result' }
+    $record = [ordered]@{
+        runId    = $RunId
+        repo     = $repoSlug
+        agent    = $selected
+        kind     = $Item.Kind
+        number   = $Item.Number
+        outcome  = $outcome
+        category = $Category
+        result   = $Result
+        exitCode = $ExitCode
+        seconds  = [Math]::Round($Seconds)
+        endedAt  = (Get-Date).ToUniversalTime().ToString('o')
+    }
+    try { Add-Content -LiteralPath $unitsFile -Value ($record | ConvertTo-Json -Compress) }
+    catch { Write-Host "issue-pr-loop: could not append to ${unitsFile}: $($_.Exception.Message)" }
+}
+
 Write-Host "issue-pr-loop: agent=$selected repo=$repo"
 Write-Host "issue-pr-loop: logs in $LogDirectory"
 Write-Host "issue-pr-loop: create $stopFile to stop after the current unit"
@@ -639,6 +821,10 @@ Write-Host "issue-pr-loop: create $stopFile to stop after the current unit"
 Remove-Item Env:CLAUDECODE -ErrorAction SilentlyContinue
 
 $units = 0
+$sinceTriage = 0
+# Item numbers that a deferral named as open blockers; the next survey ranks them first.
+$script:promoted = [Collections.Generic.HashSet[int]]::new()
+$script:lastIssues = $null
 while (-not (Test-Path -LiteralPath $stopFile)) {
     if ($MaxUnits -gt 0 -and $units -ge $MaxUnits) { break }
 
@@ -657,8 +843,13 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     $sweep | Set-Content -LiteralPath (Join-Path $LogDirectory "$runId.sweep.log")
 
     try {
-        $item = Select-Item
+        # A periodic triage unit keeps issue state current while work is queued. It uses
+        # the previous survey's issue list, which is at most one unit old.
+        $item = if ($TriageEvery -gt 0 -and $sinceTriage -ge $TriageEvery) { Get-TriageItem } else { $null }
+        if (-not $item) { $item = Select-Item }
         if (-not $item) { $item = Get-RecoveryItem $sweep }
+        # Idle time goes to triage instead of sleep.
+        if (-not $item) { $item = Get-TriageItem }
     }
     catch {
         Wait-Backoff "survey failed: $($_.Exception.Message)"
@@ -681,8 +872,10 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     }
 
     $units++
+    if ($item.Kind -eq 'triage') { $sinceTriage = 0 } else { $sinceTriage++ }
     $effort = if ($item.Light) { $LightEffort } else { $HeavyEffort }
     Write-Host "issue-pr-loop: unit $units ($runId) $($item.Label)$(if ($effort) { " effort=$effort" })"
+    $started = Get-Date
     $run = Invoke-Agent (Get-Prompt $item) $effort $log
     $exitCode = $run.ExitCode
     $result = [regex]::Matches([string]$run.Text, '(?m)^\s*RESULT:\s*(.+)$') |
@@ -694,31 +887,58 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
         if ($status.Output -eq 'HELD-BY-ME') { $null = Invoke-Locks @('release', '-LockName', $item.LockName) }
     }
 
+    # A triage unit audits its batch whatever it changed, so the next triage takes new items.
+    if ($item.Kind -eq 'triage' -and $result) {
+        foreach ($audited in $item.Items) {
+            $null = Invoke-Locks @('defer', '-LockName', "audit-$($audited.Number)", '-Fingerprint', [string][DateTimeOffset]::UtcNow.ToUnixTimeSeconds(),
+                '-DeferSeconds', ($AuditDays * 86400))
+        }
+    }
+
+    # `deferred #N [category]: reason`. A deferral without an allowed category names no
+    # blocker that an agent cannot remove, so the item comes back soon.
+    $category = if ($result -match '^deferred\s+(#\d+|main)\s*\[([a-z-]+)\]') { $Matches[2] } else { '' }
+    $uncategorized = $result -match '^deferred\b' -and $category -notin $deferCategories
+    $waitRun = if ($result -match '^waiting\b' -and $result -match '\brun\s+(\d{6,})') { $Matches[1] } else { '' }
+
     # Remember an unchanged blocker so later units do not re-examine it.
-    if (-not $result -or $result -match '^(deferred|failed)\b' -or ($item.Kind -eq 'recovery' -and $result -eq 'queue-empty')) {
+    if ($item.Kind -ne 'triage' -and (-not $result -or $result -match '^(deferred|failed|waiting)\b' -or ($item.Kind -eq 'recovery' -and $result -eq 'queue-empty'))) {
         $fingerprint = if ($item.Kind -eq 'recovery') { $item.Fingerprint } else { Get-CurrentFingerprint $item }
         if ($fingerprint) {
             # Each repeat deferral of an unchanged item doubles its expiry. A crash says
-            # nothing about the item, so it neither counts nor waits long.
+            # nothing about the item, so it neither counts nor waits long. A wait ends when
+            # its run completes, so it neither counts nor needs a short expiry.
             $previous = try { (Get-Deferrals @($item))[$item.LockName] } catch { $null }
             $previous = if ($previous) { Split-Deferral $previous } else { $null }
             $count = if ($previous -and $previous.Fingerprint -eq $fingerprint) { $previous.Count } else { 0 }
-            if ($result) { $count++ }
-            $seconds = if ($result) { [Math]::Min($MaxDeferSeconds, $DeferSeconds * [Math]::Pow(2, [Math]::Min($count - 1, 20))) }
-            else { [Math]::Min($DeferSeconds, 3600) }
+            if ($result -and -not $waitRun) { $count++ }
+            $seconds = if (-not $result) { [Math]::Min($DeferSeconds, 3600) }
+            elseif ($waitRun) { $MaxDeferSeconds }
+            elseif ($uncategorized) { [Math]::Min($DeferSeconds, 3600) }
+            else { [Math]::Min($MaxDeferSeconds, $DeferSeconds * [Math]::Pow(2, [Math]::Min($count - 1, 20))) }
             $until = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds() + [long]$seconds
             $record = '{0}|until={1}|n={2}' -f $fingerprint, $until, [Math]::Max($count, 1)
+            if ($waitRun) { $record += "|run=$waitRun" }
             $refs = if ($item.Kind -ne 'recovery') { Get-ReasonReferences $result $item.Number } else { @() }
             if ($refs.Count -gt 0) {
                 $refStates = Get-ReferenceStates $refs
-                if ($refStates) { $record += '|refs=' + (Format-References $refs $refStates) }
+                if ($refStates) {
+                    $record += '|refs=' + (Format-References $refs $refStates)
+                    # Work the open blockers next. Parked ones wait for a person.
+                    foreach ($n in $refs) { if ($refStates[$n] -eq 'OPEN') { $null = $script:promoted.Add($n) } }
+                }
             }
             # The record outlives `until` so the next deferral can read the count.
             $ttl = [Math]::Min(604800, [long]$seconds + $MaxDeferSeconds)
             $null = Invoke-Locks @('defer', '-LockName', $item.LockName, '-Fingerprint', $record, '-DeferSeconds', $ttl)
-            if ($result) { Write-Host ('issue-pr-loop: {0} deferred {1} time(s) unchanged; next look in {2:N1} h' -f $item.Label, $count, ($seconds / 3600)) }
+            if ($result) { Set-DeferralNote $item.LockName $result $ttl }
+            if ($waitRun) { Write-Host "issue-pr-loop: $($item.Label) waits for run $waitRun" }
+            elseif ($uncategorized) { Write-Host "issue-pr-loop: $($item.Label) deferred without an allowed category ($($deferCategories -join '|')); next look in 1 h" }
+            elseif ($result) { Write-Host ('issue-pr-loop: {0} deferred {1} time(s) unchanged; next look in {2:N1} h' -f $item.Label, $count, ($seconds / 3600)) }
         }
     }
+
+    Write-UnitRecord $runId $item $result $category $exitCode ((Get-Date) - $started).TotalSeconds
 
     if (-not $result) {
         # A crashed or misconfigured agent must not spin; back off before retrying.
