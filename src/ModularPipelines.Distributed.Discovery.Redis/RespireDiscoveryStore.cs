@@ -1,31 +1,29 @@
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
 
 /// <summary>
-/// Stores the endpoint through a connection owned by discovery. The connection opens on first use,
+/// Stores the endpoint through a Respire connection owned by discovery. The connection opens on first use,
 /// asynchronously, so building the service provider never blocks on Redis.
 /// </summary>
-internal sealed class StackExchangeRedisDiscoveryStore : IRedisDiscoveryStore, IAsyncDisposable
+internal sealed class RespireDiscoveryStore : IRedisDiscoveryStore, IAsyncDisposable
 {
-    private readonly Func<CancellationToken, Task<IConnectionMultiplexer>> _connect;
+    private readonly Func<CancellationToken, Task<IRespireClient>> _connect;
     private readonly SemaphoreSlim _connectLock = new(1, 1);
-    private IConnectionMultiplexer? _connection;
+    private IRespireClient? _connection;
     private bool _ownsConnection;
 
-    public StackExchangeRedisDiscoveryStore(RedisDiscoveryOptions options)
+    public RespireDiscoveryStore(RedisDiscoveryOptions options)
     {
         _ownsConnection = true;
         _connect = async cancellationToken =>
         {
             var configuration = options.GetConnectionConfiguration();
-            return await ConnectionMultiplexer.ConnectAsync(configuration)
-                .WaitAsync(cancellationToken)
-                .ConfigureAwait(false);
+            return await RespireClient.ConnectAsync(configuration, cancellationToken).ConfigureAwait(false);
         };
     }
 
-    internal StackExchangeRedisDiscoveryStore(IConnectionMultiplexer connection)
+    internal RespireDiscoveryStore(IRespireClient connection)
     {
         _connection = connection;
         _connect = _ => Task.FromResult(connection);
@@ -38,26 +36,20 @@ internal sealed class StackExchangeRedisDiscoveryStore : IRedisDiscoveryStore, I
         CancellationToken cancellationToken)
     {
         var connection = await GetConnectionAsync(cancellationToken).ConfigureAwait(false);
-        await connection.GetDatabase().StringSetAsync(key, value, ttl)
-            .WaitAsync(cancellationToken)
+        await connection.SetAsync(key, (RespireValue) value, ttl, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }
 
     public async Task<string?> GetAsync(string key, CancellationToken cancellationToken)
     {
         var connection = await GetConnectionAsync(cancellationToken).ConfigureAwait(false);
-        var value = await connection.GetDatabase().StringGetAsync(key)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        return value.HasValue ? value.ToString() : null;
+        return await connection.GetStringAsync(key, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task DeleteAsync(string key, CancellationToken cancellationToken)
     {
         var connection = await GetConnectionAsync(cancellationToken).ConfigureAwait(false);
-        await connection.GetDatabase().KeyDeleteAsync(key)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
+        await connection.DeleteAsync([key], cancellationToken).ConfigureAwait(false);
     }
 
     public async ValueTask DisposeAsync()
@@ -70,7 +62,7 @@ internal sealed class StackExchangeRedisDiscoveryStore : IRedisDiscoveryStore, I
         _ownsConnection = false;
     }
 
-    private async Task<IConnectionMultiplexer> GetConnectionAsync(CancellationToken cancellationToken)
+    private async Task<IRespireClient> GetConnectionAsync(CancellationToken cancellationToken)
     {
         if (_connection is { } connection)
         {

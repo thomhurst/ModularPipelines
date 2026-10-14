@@ -2,7 +2,7 @@ using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Distributed.Redis.Coordination;
-using StackExchange.Redis;
+using Respire;
 using TUnit.Core.Exceptions;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests;
@@ -31,7 +31,7 @@ public class RedisStorageIntegrationTests
             TimeToLive = TimeSpan.FromMinutes(1),
         };
         var store = new RedisDistributedArtifactStore(
-            connection.GetDatabase(),
+            connection,
             new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N")),
             options);
         var data = Enumerable.Range(0, length).Select(value => (byte) value).ToArray();
@@ -64,13 +64,12 @@ public class RedisStorageIntegrationTests
         };
         var runId = Guid.NewGuid().ToString("N");
         var keys = new RedisKeyBuilder(options.KeyPrefix, runId);
-        var database = connection.GetDatabase();
 
         // Each process has its own store; the master's store cleans up artifacts a worker uploaded.
-        var workerStore = new RedisDistributedArtifactStore(database, keys, options);
-        var masterStore = new RedisDistributedArtifactStore(database, keys, options);
+        var workerStore = new RedisDistributedArtifactStore(connection, keys, options);
+        var masterStore = new RedisDistributedArtifactStore(connection, keys, options);
         var otherRunStore = new RedisDistributedArtifactStore(
-            database,
+            connection,
             new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N")),
             options);
         using var small = new MemoryStream([1, 2, 3]);
@@ -87,7 +86,7 @@ public class RedisStorageIntegrationTests
             new DistributedRunCleanupContext { RunId = runId, PipelineSucceeded = true },
             CancellationToken.None);
 
-        RedisKey[] deletedKeys =
+        RespireKey[] deletedKeys =
         [
             keys.ArtifactMeta(smallReference.ArtifactId),
             keys.ArtifactData(smallReference.ArtifactId),
@@ -100,7 +99,11 @@ public class RedisStorageIntegrationTests
         ];
         using (Assert.Multiple())
         {
-            await Assert.That(await database.KeyExistsAsync(deletedKeys)).IsEqualTo(0);
+            foreach (var key in deletedKeys)
+            {
+                await Assert.That(await connection.ExistsAsync(key)).IsFalse();
+            }
+
             await Assert.That(await otherRunStore.ListArtifactsAsync("Integration.Worker", CancellationToken.None))
                 .HasSingleItem();
         }
@@ -117,8 +120,7 @@ public class RedisStorageIntegrationTests
             TimeToLive = TimeSpan.FromMinutes(1),
         };
         var keys = new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N"));
-        var database = connection.GetDatabase();
-        var store = new RedisDistributedArtifactStore(database, keys, options, retryBaseDelay: TimeSpan.Zero);
+        var store = new RedisDistributedArtifactStore(connection, keys, options, retryBaseDelay: TimeSpan.Zero);
 
         await using var source = new FailAfterStream(new byte[16]);
         await Assert.That(async () => await store.UploadAsync(
@@ -126,16 +128,16 @@ public class RedisStorageIntegrationTests
                 source,
                 CancellationToken.None))
             .Throws<IOException>();
-        var artifactId = (await database.SetMembersAsync(keys.ArtifactIndex("Integration.Partial"))).Single().ToString();
-        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsTrue();
-        await Assert.That(await database.KeyTimeToLiveAsync(keys.ArtifactIndex("Integration.Partial"))).IsNotNull();
-        await Assert.That(await database.KeyTimeToLiveAsync(keys.ArtifactModules)).IsNotNull();
+        var artifactId = (await connection.Sets.MembersAsync(keys.ArtifactIndex("Integration.Partial"))).Single();
+        await Assert.That(await connection.ExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsTrue();
+        await Assert.That((await connection.Keys.ExpiryAsync(keys.ArtifactIndex("Integration.Partial"))).HasExpiry).IsTrue();
+        await Assert.That((await connection.Keys.ExpiryAsync(keys.ArtifactModules)).HasExpiry).IsTrue();
 
         await store.CleanupRunAsync(
             new DistributedRunCleanupContext { RunId = "partial", PipelineSucceeded = false },
             CancellationToken.None);
 
-        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsFalse();
+        await Assert.That(await connection.ExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsFalse();
     }
 
     [Test]
@@ -149,20 +151,19 @@ public class RedisStorageIntegrationTests
             TimeToLive = TimeSpan.FromMinutes(1),
         };
         var keys = new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N"));
-        var database = connection.GetDatabase();
-        var store = new RedisDistributedArtifactStore(database, keys, options);
+        var store = new RedisDistributedArtifactStore(connection, keys, options);
 
         // 300 chunks, more than one delete batch.
         using var source = new MemoryStream(new byte[16 * 300]);
         var reference = await store.UploadAsync(
             new ArtifactDescriptor { Name = "large", ModuleId = "Integration.Large" }, source, CancellationToken.None);
-        await database.KeyDeleteAsync(keys.ArtifactChunk(reference.ArtifactId, 0));
+        await connection.DeleteAsync([keys.ArtifactChunk(reference.ArtifactId, 0)]);
 
         await store.CleanupRunAsync(
             new DistributedRunCleanupContext { RunId = "large", PipelineSucceeded = true },
             CancellationToken.None);
 
-        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(reference.ArtifactId, 299))).IsFalse();
+        await Assert.That(await connection.ExistsAsync(keys.ArtifactChunk(reference.ArtifactId, 299))).IsFalse();
     }
 
     // Returns its content, then fails, like a source that breaks part way through an upload.
@@ -202,7 +203,7 @@ public class RedisStorageIntegrationTests
         await Assert.That(copy.ToArray()).IsEquivalentTo(data);
     }
 
-    private static async Task<ConnectionMultiplexer> ConnectAsync()
+    private static async Task<RespireClient> ConnectAsync()
     {
         var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariable);
         if (string.IsNullOrWhiteSpace(connectionString))
@@ -210,6 +211,6 @@ public class RedisStorageIntegrationTests
             throw new SkipTestException($"Set {ConnectionStringVariable} to run real Redis storage tests.");
         }
 
-        return await ConnectionMultiplexer.ConnectAsync(connectionString);
+        return await RespireClient.ConnectAsync(connectionString);
     }
 }

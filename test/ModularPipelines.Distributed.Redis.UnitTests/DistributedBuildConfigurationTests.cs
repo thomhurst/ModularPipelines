@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Build.Helpers;
-using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests;
 
@@ -59,12 +58,11 @@ public class DistributedBuildConfigurationTests
         await Assert.That(distributed.Capabilities.Contains(new Capability("ci-master"))).IsEqualTo(index == "0");
         await Assert.That(distributed.ModuleResultTimeout < TimeSpan.FromMinutes(90)).IsTrue();
         await Assert.That(redis.TimeToLive > distributed.ModuleResultTimeout).IsTrue();
-        await Assert.That(connection.EndPoints.Count).IsEqualTo(1);
-        await Assert.That(connection.Ssl).IsTrue();
-        await Assert.That(connection.AbortOnConnectFail).IsFalse();
+        await Assert.That(connection.Endpoints.Count).IsEqualTo(1);
+        await Assert.That(connection.UseTls).IsTrue();
         await Assert.That(connection.Password).IsEqualTo("key,with=special;characters");
         // A stalled heartbeat must fail before the worker's lease expires.
-        await Assert.That(TimeSpan.FromMilliseconds(connection.AsyncTimeout) < distributed.WorkerTimeout).IsTrue();
+        await Assert.That(connection.CommandTimeout < distributed.WorkerTimeout).IsTrue();
     }
 
     [Test]

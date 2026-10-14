@@ -28,7 +28,7 @@ ModularPipelines.Distributed.Redis.RedisOptions.Equals(ModularPipelines.Distribu
 ModularPipelines.Distributed.Redis.RedisOptions.KeyPrefix.init -> void
 ModularPipelines.Distributed.Redis.RedisOptions.RedisOptions() -> void
 ModularPipelines.Distributed.Redis.RedisOptions.ChunkSizeBytes.get -> int
-ModularPipelines.Distributed.Redis.RedisOptions.ConfigureConnection.get -> System.Action<StackExchange.Redis.ConfigurationOptions!>?
+ModularPipelines.Distributed.Redis.RedisOptions.ConfigureConnection.get -> System.Func<Respire.RespireOptions!, Respire.RespireOptions!>?
 ModularPipelines.Distributed.Redis.RedisOptions.ConnectionString.get -> string!
 ModularPipelines.Distributed.Redis.RedisOptions.KeyPrefix.get -> string!
 ModularPipelines.Distributed.Redis.RedisOptions.TimeToLive.get -> System.TimeSpan

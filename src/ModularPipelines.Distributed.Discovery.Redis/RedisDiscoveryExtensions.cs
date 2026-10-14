@@ -54,13 +54,13 @@ public static class RedisDiscoveryExtensions
         builder.Services.AddOptions<RedisDiscoveryOptions>().ValidateOnStart();
 
         // Discovery owns its connection so it neither replaces nor depends on an application
-        // IConnectionMultiplexer, and connects lazily without blocking service-provider construction.
+        // Redis client, and connects lazily without blocking service-provider construction.
         builder.Services.TryAddSingleton<IRedisDiscoveryStore>(sp =>
         {
             var options = sp.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
             return options.RestUrl is { } restUrl
                 ? new RestRedisDiscoveryStore(restUrl, options.RestToken!)
-                : new StackExchangeRedisDiscoveryStore(options);
+                : new RespireDiscoveryStore(options);
         });
         builder.Services.TryAddSingleton<IMasterDiscovery>(sp => new RedisMasterDiscovery(
             sp.GetRequiredService<IRedisDiscoveryStore>(),

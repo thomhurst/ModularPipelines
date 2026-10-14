@@ -1,8 +1,9 @@
+using System.Net.Sockets;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Extensions;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Build.Helpers;
 
@@ -12,38 +13,42 @@ internal static class DistributedBuildConfiguration
 
     public static async Task PrintRedisDiagnosticsAsync(Func<string, string?> getEnvironmentVariable, ILogger logger)
     {
-        var connectionOptions = ConfigurationOptions.Parse(getEnvironmentVariable("REDIS_ENDPOINT")
-            ?? throw new InvalidOperationException("REDIS_ENDPOINT is required for Redis diagnostics."));
-        connectionOptions.Password = getEnvironmentVariable("REDIS_KEY");
-        connectionOptions.Ssl = true;
-        connectionOptions.AbortOnConnectFail = true;
-        // StackExchange.Redis gates the read-only INFO command behind this client flag.
-        connectionOptions.AllowAdmin = true;
-        connectionOptions.ConnectRetry = 0;
-        connectionOptions.ConnectTimeout = 5000;
-        connectionOptions.AsyncTimeout = 5000;
+        var connectionOptions = RespireOptions.Parse(getEnvironmentVariable("REDIS_ENDPOINT")
+            ?? throw new InvalidOperationException("REDIS_ENDPOINT is required for Redis diagnostics.")) with
+        {
+            Password = getEnvironmentVariable("REDIS_KEY"),
+            UseTls = true,
+            ConnectTimeout = TimeSpan.FromSeconds(5),
+            CommandTimeout = TimeSpan.FromSeconds(5),
+        };
         try
         {
-            using var connection = await ConnectionMultiplexer.ConnectAsync(connectionOptions).ConfigureAwait(false);
-            var server = connection.GetServer(connection.GetEndPoints()[0]);
+            await using var connection = await RespireClient.ConnectAsync(connectionOptions).ConfigureAwait(false);
             foreach (var section in new[] { "memory", "stats" })
             {
-                var information = await server.InfoAsync(section).ConfigureAwait(false);
-                foreach (var entry in information.SelectMany(static group => group))
+                var information = await connection.Server.InfoAsync(section).ConfigureAwait(false);
+                foreach (var line in information.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
                 {
+                    var separator = line.IndexOf(':', StringComparison.Ordinal);
+                    if (separator <= 0)
+                    {
+                        continue;
+                    }
+
                     // Never print endpoint, credentials, or arbitrary server fields.
-                    if (entry.Key is "used_memory" or "maxmemory" or "evicted_keys"
-                        && long.TryParse(entry.Value, out var value))
+                    var counter = line[..separator];
+                    if (counter is "used_memory" or "maxmemory" or "evicted_keys"
+                        && long.TryParse(line.AsSpan(separator + 1), out var value))
                     {
                         if (logger.IsEnabled(LogLevel.Information))
                         {
-                            logger.LogInformation("Redis {Counter}: {Value}", entry.Key, value);
+                            logger.LogInformation("Redis {Counter}: {Value}", counter, value);
                         }
                     }
                 }
             }
         }
-        catch (Exception exception) when (exception is RedisException or RedisCommandException or TimeoutException)
+        catch (Exception exception) when (exception is RespireException or SocketException or TimeoutException)
         {
             logger.LogWarning("Redis capacity diagnostics unavailable; the service may restrict INFO.");
         }
@@ -113,15 +118,14 @@ internal static class DistributedBuildConfiguration
             ConnectionString = endpoint,
             // Keep credentials as typed options: connection-string serialization does not
             // escape commas in passwords.
-            ConfigureConnection = connection =>
+            ConfigureConnection = connection => connection with
             {
-                connection.Password = password;
-                connection.Ssl = true;
-                connection.AbortOnConnectFail = false;
+                Password = password,
+                UseTls = true,
                 // Six runners share the managed Redis link; build-output chunks queued behind each
-                // other exceeded the 5-second default while downloading. Stay well under the
+                // other exceeded a 5-second timeout while downloading. Stay well under the
                 // 30-second worker lease so a stalled heartbeat fails before its lease expires.
-                connection.AsyncTimeout = 15_000;
+                CommandTimeout = TimeSpan.FromSeconds(15),
             },
             KeyPrefix = "modularpipelines-ci",
             TimeToLive = TimeSpan.FromHours(2),

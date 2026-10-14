@@ -45,7 +45,7 @@ public class RedisEndpointOptionsTests
         await using var services = builder.Services.BuildServiceProvider();
 
         await Assert.That(services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value.RestUrl).IsNull();
-        await Assert.That(services.GetRequiredService<IRedisDiscoveryStore>().GetType()).IsEqualTo(typeof(StackExchangeRedisDiscoveryStore));
+        await Assert.That(services.GetRequiredService<IRedisDiscoveryStore>().GetType()).IsEqualTo(typeof(RespireDiscoveryStore));
     }
 
     [Test]

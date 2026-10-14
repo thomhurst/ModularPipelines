@@ -17,11 +17,20 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
         }
 
         var failures = new List<string>();
-        if (RedisConnectionProvider.CreateConfiguration(options).EndPoints.Count == 0)
+        try
         {
+            if (RedisConnectionProvider.CreateConfiguration(options).Endpoints.Count == 0)
+            {
+                failures.Add(
+                    $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} or " +
+                    $"{nameof(RedisOptions.ConfigureConnection)} must supply at least one endpoint after configuration.");
+            }
+        }
+        catch (ArgumentException exception)
+        {
+            // Respire rejects unknown or malformed connection string options, such as abortConnect.
             failures.Add(
-                $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} or " +
-                $"{nameof(RedisOptions.ConfigureConnection)} must supply at least one endpoint after configuration.");
+                $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} is invalid: {exception.Message}");
         }
 
         if (string.IsNullOrWhiteSpace(options.KeyPrefix))

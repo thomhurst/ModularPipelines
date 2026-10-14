@@ -1,8 +1,6 @@
-using System.Net;
-using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
 
@@ -11,24 +9,26 @@ namespace ModularPipelines.Distributed.Discovery.Redis;
 /// </summary>
 public sealed record RedisDiscoveryOptions
 {
-    private static readonly ConditionalWeakTable<RedisDiscoveryOptions, Lazy<ConfigurationOptions>> Configurations = [];
+    private static readonly ConditionalWeakTable<RedisDiscoveryOptions, Lazy<RespireOptions>> Configurations = [];
 
     /// <summary>
-    /// Gets the Redis connection string. Defaults to empty; configure it explicitly unless
+    /// Gets the Respire connection string: <c>host:port</c>, a <c>redis://</c> or <c>rediss://</c> URI, or a
+    /// StackExchange.Redis-style comma-delimited string. Unknown options, such as <c>abortConnect</c>, are rejected.
+    /// Defaults to empty; configure it explicitly unless
     /// <see cref="ConfigureConnection"/> supplies endpoints or both <see cref="RestUrl"/> and <see cref="RestToken"/> are set.
     /// Discovery opens its own connection; it does not use or replace a connection registered by the application.
     /// </summary>
     public string ConnectionString { get; init; } = string.Empty;
 
     /// <summary>
-    /// Gets an optional callback that adjusts the connection configuration parsed from
+    /// Gets an optional function that transforms the <see cref="RespireOptions"/> parsed from
     /// <see cref="ConnectionString"/>, for example to set credentials or TLS options.
-    /// When the connection string is empty, the callback must supply the endpoints.
+    /// When the connection string is empty, the function must supply the endpoints.
     /// Runs during options validation for TCP discovery; a defensive snapshot is reused when connecting.
-    /// Later changes to the callback's argument do not affect the validated configuration.
-    /// REST discovery does not invoke this callback.
+    /// Later changes to an endpoint list the function kept do not affect the validated configuration.
+    /// REST discovery does not invoke this function.
     /// </summary>
-    public Action<ConfigurationOptions>? ConfigureConnection { get; init; }
+    public Func<RespireOptions, RespireOptions>? ConfigureConnection { get; init; }
 
     /// <summary>
     /// Gets the optional absolute HTTPS Upstash Redis REST URL. HTTP is supported only on loopback. Set this together with <see cref="RestToken"/>
@@ -79,35 +79,33 @@ public sealed record RedisDiscoveryOptions
         return true;
     }
 
-    internal ConfigurationOptions GetConnectionConfiguration()
+    internal RespireOptions GetConnectionConfiguration()
     {
-        var configuration = Configurations.GetValue(this, static options => new Lazy<ConfigurationOptions>(() =>
+        var configuration = Configurations.GetValue(this, static options => new Lazy<RespireOptions>(() =>
         {
             var parsed = string.IsNullOrWhiteSpace(options.ConnectionString)
-                ? new ConfigurationOptions()
-                : ConfigurationOptions.Parse(options.ConnectionString);
-            options.ConfigureConnection?.Invoke(parsed);
+                ? new RespireOptions()
+                : RespireOptions.Parse(options.ConnectionString);
+
+            // After a dropped connection, Respire fails the next command at once while it reconnects. The default
+            // retry policy resends commands that were never written, and reads. ConfigureConnection can replace it.
+            parsed = parsed with { RetryPolicy = parsed.RetryPolicy ?? new RespireRetryPolicy() };
+            if (options.ConfigureConnection is { } configure)
+            {
+                parsed = configure(parsed)
+                    ?? throw new InvalidOperationException(
+                        $"{nameof(RedisDiscoveryOptions)}.{nameof(ConfigureConnection)} must not return null.");
+            }
+
             return CloneConfiguration(parsed);
         })).Value;
         return CloneConfiguration(configuration);
     }
 
-    private static ConfigurationOptions CloneConfiguration(ConfigurationOptions configuration)
+    // RespireOptions is an immutable record except for its endpoint lists, which a copy would share.
+    private static RespireOptions CloneConfiguration(RespireOptions configuration) => configuration with
     {
-        var clone = configuration.Clone();
-        // StackExchange.Redis copies the collection but shares mutable IP endpoints and addresses.
-        for (var i = 0; i < clone.EndPoints.Count; i++)
-        {
-            if (clone.EndPoints[i] is IPEndPoint endpoint)
-            {
-                var address = endpoint.Address;
-                var addressCopy = address.AddressFamily == AddressFamily.InterNetworkV6
-                    ? new IPAddress(address.GetAddressBytes(), address.ScopeId)
-                    : new IPAddress(address.GetAddressBytes());
-                clone.EndPoints[i] = new IPEndPoint(addressCopy, endpoint.Port);
-            }
-        }
-
-        return clone;
-    }
+        Endpoints = [.. configuration.Endpoints],
+        ReplicaEndpoints = [.. configuration.ReplicaEndpoints],
+    };
 }
