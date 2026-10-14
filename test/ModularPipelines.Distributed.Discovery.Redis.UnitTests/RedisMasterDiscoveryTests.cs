@@ -24,6 +24,56 @@ public class RedisMasterDiscoveryTests
     }
 
     [Test]
+    public async Task Run_Cleanup_Deletes_The_Advertised_Endpoint()
+    {
+        var store = new FakeStore();
+        var discovery = Create(store);
+        await discovery.AdvertiseMasterEndpointAsync(
+            new MasterEndpoint { Url = new Uri("https://master.example/"), AccessToken = "secret" },
+            CancellationToken.None);
+
+        await discovery.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "test-run", PipelineSucceeded = true },
+            CancellationToken.None);
+
+        await Assert.That(store.Values).IsEmpty();
+        await Assert.That(store.Deletes).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Run_Cleanup_Deletes_The_Endpoint_After_An_Ambiguous_Advertisement_Failure()
+    {
+        var store = new FakeStore { ThrowOnWrite = new TimeoutException("Simulated timeout after the write") };
+        var discovery = Create(store);
+        await Assert.That(async () => await discovery.AdvertiseMasterEndpointAsync(
+                new MasterEndpoint { Url = new Uri("https://master.example/"), AccessToken = "secret" },
+                CancellationToken.None))
+            .Throws<TimeoutException>();
+
+        await discovery.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "test-run", PipelineSucceeded = true },
+            CancellationToken.None);
+
+        await Assert.That(store.Values).IsEmpty();
+        await Assert.That(store.Deletes).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Run_Cleanup_Leaves_An_Endpoint_This_Process_Did_Not_Advertise()
+    {
+        var store = new FakeStore();
+        store.Values["test-prefix:test-run:master-endpoint"] = "{}";
+        var discovery = Create(store);
+
+        await discovery.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "test-run", PipelineSucceeded = true },
+            CancellationToken.None);
+
+        await Assert.That(store.Values.ContainsKey("test-prefix:test-run:master-endpoint")).IsTrue();
+        await Assert.That(store.Deletes).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task Discovery_Never_Logs_The_Access_Token()
     {
         var store = new FakeStore();
@@ -118,6 +168,7 @@ public class RedisMasterDiscoveryTests
     private sealed class FakeStore : IRedisDiscoveryStore
     {
         private int _reads;
+        private int _deletes;
 
         public ConcurrentDictionary<string, string> Values { get; } = new();
 
@@ -129,11 +180,24 @@ public class RedisMasterDiscoveryTests
 
         public int Reads => Volatile.Read(ref _reads);
 
+        public int Deletes => Volatile.Read(ref _deletes);
+
+        public Task DeleteAsync(string key, CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref _deletes);
+            Values.TryRemove(key, out _);
+            return Task.CompletedTask;
+        }
+
+        public Exception? ThrowOnWrite { get; init; }
+
         public Task SetAsync(string key, string value, TimeSpan ttl, CancellationToken cancellationToken)
         {
             Values[key] = value;
             Ttls.Add(ttl);
-            return Task.CompletedTask;
+
+            // The value is stored before the failure, like a write whose reply was lost.
+            return ThrowOnWrite is null ? Task.CompletedTask : Task.FromException(ThrowOnWrite);
         }
 
         public Task<string?> GetAsync(string key, CancellationToken cancellationToken)

@@ -761,12 +761,11 @@ public sealed class PipelineBuilder
     /// </summary>
     private sealed class DeferredArtifactStore(IDistributedArtifactStoreFactory factory) :
         IDistributedArtifactStore,
+        IDeferredDistributedBackend,
         IDisposable,
         IAsyncDisposable
     {
-        private readonly SemaphoreSlim _lock = new(1, 1);
-        private volatile IDistributedArtifactStore? _inner;
-        private int _disposeState;
+        private readonly DeferredBackend<IDistributedArtifactStore> _store = new(factory.CreateAsync);
 
         public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).UploadAsync(d, s, ct).ConfigureAwait(false);
 
@@ -776,97 +775,13 @@ public sealed class PipelineBuilder
 
         public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DeleteAsync(r, ct).ConfigureAwait(false);
 
-        public void Dispose()
-        {
-            if (Interlocked.Exchange(ref _disposeState, 1) != 0)
-            {
-                return;
-            }
+        public async ValueTask<object> GetBackendAsync(CancellationToken ct) => await GetAsync(ct).ConfigureAwait(false);
 
-            _lock.Wait();
-            try
-            {
-                DisposeStore(_inner);
-            }
-            finally
-            {
-                _lock.Release();
-            }
-        }
+        public void Dispose() => _store.Dispose();
 
-        public async ValueTask DisposeAsync()
-        {
-            if (Interlocked.Exchange(ref _disposeState, 1) != 0)
-            {
-                return;
-            }
+        public ValueTask DisposeAsync() => _store.DisposeAsync();
 
-            await _lock.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                await DisposeStoreAsync(_inner).ConfigureAwait(false);
-            }
-            finally
-            {
-                _lock.Release();
-            }
-        }
-
-        private async ValueTask<IDistributedArtifactStore> GetAsync(CancellationToken ct)
-        {
-            ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
-            if (_inner is not null)
-            {
-                return _inner;
-            }
-
-            await _lock.WaitAsync(ct).ConfigureAwait(false);
-            try
-            {
-                ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
-                if (_inner is not null)
-                {
-                    return _inner;
-                }
-
-                var createdStore = await factory.CreateAsync(ct).ConfigureAwait(false);
-                if (Volatile.Read(ref _disposeState) != 0)
-                {
-                    await DisposeStoreAsync(createdStore).ConfigureAwait(false);
-                    throw new ObjectDisposedException(nameof(DeferredArtifactStore));
-                }
-
-                return _inner = createdStore;
-            }
-            finally
-            {
-                _lock.Release();
-            }
-        }
-
-        private static async ValueTask DisposeStoreAsync(IDistributedArtifactStore? store)
-        {
-            if (store is IAsyncDisposable asyncDisposable)
-            {
-                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
-            }
-            else
-            {
-                (store as IDisposable)?.Dispose();
-            }
-        }
-
-        private static void DisposeStore(IDistributedArtifactStore? store)
-        {
-            if (store is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
-            else if (store is IAsyncDisposable asyncDisposable)
-            {
-                asyncDisposable.DisposeAsync().AsTask().GetAwaiter().GetResult();
-            }
-        }
+        private ValueTask<IDistributedArtifactStore> GetAsync(CancellationToken ct) => _store.GetAsync(ct);
     }
 
     private sealed class ServiceRegistrationOrder

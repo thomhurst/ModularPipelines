@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Distributed;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -42,6 +43,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<ExecutionOrchestrator> _logger;
     private readonly IRunReportService _runReportService;
+    private readonly DistributedRunCleanupExecutor? _runCleanupExecutor;
 
     private readonly object _lock = new();
 
@@ -60,7 +62,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IExceptionRethrowService exceptionRethrowService,
         IOptions<PipelineOptions> options,
         ILogger<ExecutionOrchestrator> logger,
-        IRunReportService runReportService)
+        IRunReportService runReportService,
+        DistributedRunCleanupExecutor? runCleanupExecutor = null)
     {
         _pipelineInitializer = pipelineInitializer;
         _moduleDisposeExecutor = moduleDisposeExecutor;
@@ -75,6 +78,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _options = options;
         _logger = logger;
         _runReportService = runReportService;
+        _runCleanupExecutor = runCleanupExecutor;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(CancellationToken cancellationToken = default)
@@ -157,6 +161,12 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 caughtException,
                 _engineCancellationToken.NonFailureCancellationToken)
             .ConfigureAwait(false);
+
+        // The run report has waited for workers' final statuses, so they no longer use the run's data.
+        if (_runCleanupExecutor is not null)
+        {
+            await _runCleanupExecutor.CleanupAsync(summary.Succeeded).ConfigureAwait(false);
+        }
 
         // Step 3: Handle exceptions - rethrow original if present, otherwise check for pipeline failure
         if (caughtException != null)

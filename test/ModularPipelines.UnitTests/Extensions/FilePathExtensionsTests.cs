@@ -49,7 +49,7 @@ public class FilePathExtensionsTests
     [Test]
     public async Task NotFoundMessage()
     {
-        var file = new FolderPath(Environment.CurrentDirectory).FindFile(_ => false);
+        FilePath? file = null;
 
         var exception = Assert.Throws<ArgumentNullException>(() => file.AssertExists("My message"));
 
@@ -59,7 +59,7 @@ public class FilePathExtensionsTests
     [Test]
     public async Task NotFoundWithoutMessage()
     {
-        var file = new FolderPath(Environment.CurrentDirectory).FindFile(_ => false);
+        FilePath? file = null;
 
         var exception = Assert.Throws<ArgumentNullException>(() => file.AssertExists());
 

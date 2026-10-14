@@ -772,7 +772,7 @@ public class EngineCancellationTokenTests : TestBase
         var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
-                DefaultModuleTimeout = TimeSpan.Zero,
+                DefaultModuleTimeout = Timeout.InfiniteTimeSpan,
                 ThrowOnPipelineFailure = true,
                 Concurrency = options.Concurrency with
                 {
@@ -800,7 +800,7 @@ public class EngineCancellationTokenTests : TestBase
         var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
-                DefaultModuleTimeout = TimeSpan.Zero,
+                DefaultModuleTimeout = Timeout.InfiniteTimeSpan,
                 ThrowOnPipelineFailure = true,
                 Concurrency = options.Concurrency with
                 {
@@ -833,7 +833,7 @@ public class EngineCancellationTokenTests : TestBase
         var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
-                DefaultModuleTimeout = TimeSpan.Zero,
+                DefaultModuleTimeout = Timeout.InfiniteTimeSpan,
                 ThrowOnPipelineFailure = true,
                 Concurrency = options.Concurrency with
                 {

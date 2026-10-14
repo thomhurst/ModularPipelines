@@ -835,7 +835,12 @@ Use `[CliArgument]` only for positional values that follow the command chain.
   `IModuleCacheStore` implementations add `DeleteAsync`. `IModuleCacheStore.ExistsAsync` is new too, with a
   default implementation that stores can override.
 - `ModuleCacheOptions` is an init-only record configured with `Func<ModuleCacheOptions, ModuleCacheOptions>`.
-- `WithTimeout` rejects zero and negative values; use `Timeout.InfiniteTimeSpan` to disable the timeout.
+- `WithTimeout` rejects zero and negative values other than `Timeout.InfiniteTimeSpan`, which disables
+  the timeout and is preserved in `ModuleConfiguration.Timeout`. A null module timeout inherits
+  `PipelineOptions.DefaultModuleTimeout` (30 minutes by default); it does not disable the timeout.
+  Replace `TimeSpan.Zero` with `Timeout.InfiniteTimeSpan` when disabling `DefaultModuleTimeout`,
+  `AlwaysRunProgressTimeout`, or `DistributedOptions.ModuleResultTimeout`. Zero now fails validation
+  for these options; positive durations keep their existing behavior.
 - Registration helpers for single-instance services replace earlier registrations; multi-instance helpers
   add each type once.
 
@@ -1037,3 +1042,15 @@ that omit options must be updated.
 Supply the resource source through `Filename`, `Kustomize`, or `Type` (`TypeArgument`
 for patch), including when adding manual `Arguments`; typed validation does not infer
 required values from those manual tokens.
+
+## Git root execution settings
+
+Git command options now inherit root execution settings, including repeated `-C` directory
+changes and ordered `-c` configuration overrides. Configuration values are masked in logs
+but remain visible in process arguments. Use `ConfigEnv` for credential-bearing values
+that must not appear in process arguments.
+Root settings render before subcommands; command-local switches keep their existing meaning.
+On `GitBaseOptions`, rename `GitDir` to `GitDirectory` and `Bare` to `BareRepository` to
+distinguish repository selection from command-local reporting or clone options. Other shared
+properties retain their names through inheritance. Version and path-reporting actions remain
+on `GitBaseOptions`, and the grouped command facade remains unchanged.

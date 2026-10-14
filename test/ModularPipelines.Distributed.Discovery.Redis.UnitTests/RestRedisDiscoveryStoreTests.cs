@@ -74,6 +74,26 @@ public class RestRedisDiscoveryStoreTests
     }
 
     [Test]
+    public async Task DeleteAsync_Sends_Authenticated_Delete_Command()
+    {
+        HttpRequestMessage? capturedRequest = null;
+        var handler = new StubHttpMessageHandler(request =>
+        {
+            capturedRequest = request;
+            return JsonResponse("{\"result\":1}");
+        });
+        using var store = new RestRedisDiscoveryStore(new Uri("https://redis.example/"), "secret-token", handler);
+
+        await store.DeleteAsync("test:key", CancellationToken.None);
+
+        await Assert.That(capturedRequest).IsNotNull();
+        await Assert.That(capturedRequest!.Method).IsEqualTo(HttpMethod.Post);
+        await Assert.That(capturedRequest.RequestUri!.AbsoluteUri).IsEqualTo("https://redis.example/del/test%3Akey");
+        await Assert.That(capturedRequest.Headers.Authorization)
+            .IsEqualTo(new AuthenticationHeaderValue("Bearer", "secret-token"));
+    }
+
+    [Test]
     public async Task GetAsync_Returns_Stored_Value()
     {
         var handler = new StubHttpMessageHandler(_ => JsonResponse("{\"result\":\"https://master.example\"}"));

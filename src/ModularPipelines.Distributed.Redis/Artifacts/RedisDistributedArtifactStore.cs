@@ -8,11 +8,24 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 /// <summary>
 /// Redis-based implementation of <see cref="IDistributedArtifactStore"/>.
 /// Artifacts that fit in one chunk are stored under a single key; larger artifacts are chunked.
-/// All keys are isolated by run identifier and expire via TTL. Data and chunk reads and writes are
-/// idempotent, so they are retried after transient timeouts and connection failures.
+/// All keys are isolated by run identifier and expire via TTL, or are deleted when the run is cleaned up.
+/// Data and chunk reads and writes are idempotent, so they are retried after transient timeouts and
+/// connection failures.
 /// </summary>
-internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
+internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup
 {
+    // Adds the artifact to its module's index and the module to the run's module set, each with the TTL, in one
+    // step, so no index key can be left without an expiry or outside run cleanup's reach.
+    private const int ChunkDeleteBatchSize = 256;
+
+    private const string IndexArtifactScript = """
+        redis.call('SADD', KEYS[1], ARGV[1])
+        redis.call('PEXPIRE', KEYS[1], ARGV[3])
+        redis.call('SADD', KEYS[2], ARGV[2])
+        redis.call('PEXPIRE', KEYS[2], ARGV[3])
+        return 1
+        """;
+
     private readonly IDatabase _database;
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _timeToLive;
@@ -46,6 +59,11 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         ArgumentNullException.ThrowIfNull(data);
 
         var artifactId = Guid.NewGuid().ToString("N");
+
+        // Index before writing content, so run cleanup also finds an upload that fails part way. Listing skips
+        // an indexed artifact until its metadata is written.
+        await IndexArtifactAsync(descriptor.ModuleId, artifactId, cancellationToken).ConfigureAwait(false);
+
         var buffer = new byte[_chunkSize];
         var bytesRead = await ReadFullBufferAsync(data, buffer, cancellationToken).ConfigureAwait(false);
         var totalBytes = 0L;
@@ -98,16 +116,19 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        var indexKey = _keys.ArtifactIndex(descriptor.ModuleId);
-        await _database.SetAddAsync(indexKey, artifactId)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        await _database.KeyExpireAsync(indexKey, _timeToLive)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
+        // Index again: reading a slow source can outlast the TTL of the index written before the content.
+        await IndexArtifactAsync(descriptor.ModuleId, artifactId, cancellationToken).ConfigureAwait(false);
 
         return reference;
     }
+
+    private async Task IndexArtifactAsync(ModuleId moduleId, string artifactId, CancellationToken cancellationToken) =>
+        await _database.ScriptEvaluateAsync(
+                IndexArtifactScript,
+                [(RedisKey) _keys.ArtifactIndex(moduleId), (RedisKey) _keys.ArtifactModules],
+                [artifactId, moduleId.Value, (long) _timeToLive.TotalMilliseconds])
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
 
     public async Task<Stream> DownloadAsync(ArtifactReference reference, CancellationToken cancellationToken)
     {
@@ -197,30 +218,91 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
     {
         ArgumentNullException.ThrowIfNull(reference);
 
-        await _database.KeyDeleteAsync(_keys.ArtifactMeta(reference.ArtifactId))
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        await _database.KeyDeleteAsync(_keys.ArtifactData(reference.ArtifactId))
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-
-        var chunkIndex = 0;
-        while (true)
-        {
-            var deleted = await _database.KeyDeleteAsync(_keys.ArtifactChunk(reference.ArtifactId, chunkIndex))
-                .WaitAsync(cancellationToken)
-                .ConfigureAwait(false);
-            if (!deleted)
-            {
-                break;
-            }
-
-            chunkIndex++;
-        }
-
+        await DeleteArtifactKeysAsync(reference.ArtifactId, reference.SizeBytes, cancellationToken).ConfigureAwait(false);
         await _database.SetRemoveAsync(_keys.ArtifactIndex(reference.ModuleId), reference.ArtifactId)
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes every artifact uploaded in the run, by any process, and the indexes that list them.
+    /// </summary>
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+
+        var moduleIds = await _database.SetMembersAsync(_keys.ArtifactModules)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        foreach (var moduleId in moduleIds)
+        {
+            var indexKey = _keys.ArtifactIndex(new ModuleId(moduleId.ToString()));
+            var artifactIds = await _database.SetMembersAsync(indexKey)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
+            foreach (var artifactId in artifactIds)
+            {
+                var id = artifactId.ToString();
+                var sizeBytes = await GetRecordedSizeAsync(id, cancellationToken).ConfigureAwait(false);
+                await DeleteArtifactKeysAsync(id, sizeBytes, cancellationToken).ConfigureAwait(false);
+            }
+
+            await _database.KeyDeleteAsync(indexKey)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        await _database.KeyDeleteAsync(_keys.ArtifactModules)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    // A partial upload has no metadata yet, so its size is unknown.
+    private async Task<long?> GetRecordedSizeAsync(string artifactId, CancellationToken cancellationToken)
+    {
+        var metaJson = await _database.StringGetAsync(_keys.ArtifactMeta(artifactId))
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        if (metaJson.IsNullOrEmpty)
+        {
+            return null;
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<ArtifactReference>(metaJson.ToString())?.SizeBytes;
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
+    }
+
+    private async Task DeleteArtifactKeysAsync(string artifactId, long? sizeBytes, CancellationToken cancellationToken)
+    {
+        await _database.KeyDeleteAsync([_keys.ArtifactMeta(artifactId), _keys.ArtifactData(artifactId)])
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        // Chunks share the run's hash tag, so delete them in batches: one round trip per batch keeps large
+        // artifacts within the timeout. A recorded size gives the chunk count, so evicted early chunks cannot end
+        // the loop before later ones; without one, chunks written in order from zero end at the first short batch.
+        var recordedChunks = sizeBytes is { } size ? (size + _chunkSize - 1) / _chunkSize : 0;
+        for (var firstChunk = 0; ; firstChunk += ChunkDeleteBatchSize)
+        {
+            RedisKey[] chunkKeys =
+            [
+                .. Enumerable.Range(firstChunk, ChunkDeleteBatchSize)
+                    .Select(chunkIndex => (RedisKey) _keys.ArtifactChunk(artifactId, chunkIndex)),
+            ];
+            var deleted = await _database.KeyDeleteAsync(chunkKeys)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
+            if (deleted < ChunkDeleteBatchSize && firstChunk + ChunkDeleteBatchSize >= recordedChunks)
+            {
+                break;
+            }
+        }
     }
 
     private ValueTask<RedisValue> GetValueAsync(RedisKey key, CancellationToken cancellationToken) =>

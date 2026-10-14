@@ -109,9 +109,25 @@ public sealed record DistributedOptions
     /// Gets how long the master waits for a claimed module's result beyond the module's own
     /// timeouts. The worker enforces the module's per-attempt timeout; the master's deadline starts
     /// when a worker claims the module and allows every configured attempt plus this period.
-    /// Defaults to 45 minutes. Set to <see cref="TimeSpan.Zero"/> to wait indefinitely.
+    /// Defaults to 45 minutes. Set to <see cref="Timeout.InfiniteTimeSpan"/> to wait indefinitely.
+    /// Zero and other negative durations are invalid.
     /// </summary>
     public TimeSpan ModuleResultTimeout { get; init; } = TimeSpan.FromMinutes(45);
+
+    /// <summary>
+    /// Gets which pipeline outcomes make <see cref="IDistributedRunCleanup"/> backends delete the data they
+    /// stored for this run. Only the master cleans up, and only in distributed mode. Defaults to
+    /// <see cref="DistributedRunCleanupPolicy.Always"/>; use <see cref="DistributedRunCleanupPolicy.OnSuccess"/>
+    /// to keep a failed run's data for investigation.
+    /// </summary>
+    public DistributedRunCleanupPolicy RunCleanup { get; init; } = DistributedRunCleanupPolicy.Always;
+
+    /// <summary>
+    /// Gets how long run cleanup waits for workers to publish their final status, and how long each
+    /// <see cref="IDistributedRunCleanup"/> backend may take to delete a run's data, before the pipeline stops
+    /// waiting. Cleanup is skipped when a worker does not finish in time. Defaults to 2 minutes.
+    /// </summary>
+    public TimeSpan RunCleanupTimeout { get; init; } = TimeSpan.FromMinutes(2);
 
     /// <summary>
     /// Gets the identifier this process uses when it registers, claims work and publishes results.

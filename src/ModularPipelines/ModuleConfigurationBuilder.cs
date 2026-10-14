@@ -454,14 +454,7 @@ public sealed class ModuleConfigurationBuilder
     /// </exception>
     public ModuleConfigurationBuilder WithTimeout(TimeSpan timeout)
     {
-        if (timeout == Timeout.InfiniteTimeSpan)
-        {
-            // TimeSpan.Zero is the configuration's representation of "no timeout".
-            _timeout = TimeSpan.Zero;
-            return this;
-        }
-
-        if (timeout <= TimeSpan.Zero)
+        if (timeout != Timeout.InfiniteTimeSpan && timeout <= TimeSpan.Zero)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(timeout),
@@ -624,16 +617,16 @@ public sealed class ModuleConfigurationBuilder
         var reason = intent == ConditionIntent.Run
             ? $"RunIf<{conditionType.Name}> not satisfied"
             : $"SkipIf<{conditionType.Name}> returned true";
-        Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> condition = async (context, cancellationToken) =>
+        async ValueTask<SkipDecision> Condition(IModuleContext context, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var satisfied = await conditionFactory().EvaluateAsync(context, cancellationToken).ConfigureAwait(false);
             return SkipDecision.When(satisfied == (intent == ConditionIntent.Skip), reason);
-        };
+        }
 
-        _skipConditions.Add(condition);
+        _skipConditions.Add(Condition);
         _planningSkipConditions.Add(typeof(IPlanningSafe).IsAssignableFrom(conditionType)
-            ? AdaptPlanningSkipCondition(condition)
+            ? AdaptPlanningSkipCondition(Condition)
             : static (_, _) => ValueTask.FromResult<SkipDecision?>(null));
         _hasAsyncSkipCondition = true;
         return this;
