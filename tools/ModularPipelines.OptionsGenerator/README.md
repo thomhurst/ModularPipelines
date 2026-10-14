@@ -292,7 +292,17 @@ Regenerate outputs instead of changing version attributes in place.
    the installed CLI is the source of truth.
 
 Generated-integration CI compares committed provenance with the generator tree and workflow
-on current `main`. Missing or mismatched provenance fails with a regeneration diagnostic.
+on current `main`. Missing or mismatched provenance fails with a regeneration diagnostic
+that lists the changed inputs when the producing commit is available.
+
+The fingerprint is scoped to one tool. It covers the shared generator sources, the
+workflow, and the build inputs, plus that tool's own `Scrapers/Cli/<Name>CliScraper*.cs`
+group, the `Scrapers/Cli/<Name><Helper>.cs` files beside it, and
+`TypeOverrides/<tool>.json`. Other tools' scraper groups and overrides are left out, so
+fixing one scraper does not make every other tool's snapshot stale. A scraper group
+counts as shared once any other generator file names one of its top-level types, for
+example when `NpxCliScraper` calls `NpmCliScraper`. Generator tests, examples, Markdown,
+public API baselines, and `scripts/Test-*.ps1` never affect output and are excluded.
 A clean rebase cannot refresh provenance and is intentionally rejected; rerun the Generate
 CLI Options workflow for that tool instead. Unrelated `main` changes do not invalidate a
 snapshot, and repeated generation with the same generator and pinned CLI produces identical

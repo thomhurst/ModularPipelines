@@ -238,12 +238,12 @@ try {
     Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot
 
     $originalRevision = (git -C $tempRoot rev-parse HEAD).Trim()
-    $originalFingerprint = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    $originalFingerprint = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
     Set-TestCentralPackageVersions -TUnit '2.0.0'
     Invoke-Git $tempRoot add Directory.Packages.props
     Invoke-Git $tempRoot commit -m 'update unrelated test package'
     Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot
-    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -ne $originalFingerprint) {
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -ne $originalFingerprint) {
         throw 'An unrelated test package changed the generator fingerprint.'
     }
 
@@ -258,12 +258,12 @@ try {
         -CurrentBase HEAD
 
     Set-TestCentralPackageVersions -AngleSharp '2.0.0' -TUnit '2.0.0'
-    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -ne $originalFingerprint) {
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -ne $originalFingerprint) {
         throw 'Uncommitted package versions affected the committed fingerprint.'
     }
     Invoke-Git $tempRoot add Directory.Packages.props
     Invoke-Git $tempRoot commit -m 'update central package version'
-    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Revision $originalRevision) -ne
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake -Revision $originalRevision) -ne
         $originalFingerprint) {
         throw 'Historical fingerprint used current package versions.'
     }
@@ -290,11 +290,11 @@ try {
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m 'refresh after central package update'
 
-    $beforeBuildPackage = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    $beforeBuildPackage = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
     Set-TestCentralPackageVersions -AngleSharp '2.0.0' -TUnit '2.0.0' -BuildPackage '2.0.0'
     Invoke-Git $tempRoot add Directory.Packages.props
     Invoke-Git $tempRoot commit -m 'update shared build package'
-    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeBuildPackage) {
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -eq $beforeBuildPackage) {
         throw 'A shared build package change did not invalidate the generator fingerprint.'
     }
     & $writeScript `
@@ -457,14 +457,14 @@ try {
         throw 'Generation provenance was not added to the change manifest.'
     }
 
-    $beforeSettings = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    $beforeSettings = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
     $centralPath = Join-Path $tempRoot 'Directory.Packages.props'
     (Get-Content -LiteralPath $centralPath -Raw).Replace(
         '<ManagePackageVersionsCentrally>true', '<ManagePackageVersionsCentrally>false') |
         Set-Content -LiteralPath $centralPath
     Invoke-Git $tempRoot add Directory.Packages.props
     Invoke-Git $tempRoot commit -m 'change central package management settings'
-    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeSettings) {
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -eq $beforeSettings) {
         throw 'Central package management settings were omitted from the fingerprint.'
     }
 
@@ -477,11 +477,11 @@ try {
         Set-TestCentralPackageVersions -TransitivePinning:($pinningLocation -eq 'central')
         Invoke-Git $tempRoot add .
         Invoke-Git $tempRoot commit -m "enable $pinningLocation transitive pinning"
-        $beforePinningUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+        $beforePinningUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
         Set-TestCentralPackageVersions -TUnit '2.0.0' -TransitivePinning:($pinningLocation -eq 'central')
         Invoke-Git $tempRoot add Directory.Packages.props
         Invoke-Git $tempRoot commit -m 'update potentially pinned dependency'
-        if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforePinningUpdate) {
+        if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -eq $beforePinningUpdate) {
             throw "$pinningLocation transitive pinning ignored a central version update."
         }
     }
@@ -502,11 +502,11 @@ try {
             Set-TestCentralPackageVersions
             Invoke-Git $tempRoot add .
             Invoke-Git $tempRoot commit -m "apply $removal $referenceType removal"
-            $beforeRemovalUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+            $beforeRemovalUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
             Set-TestCentralPackageVersions -BuildPackage '2.0.0'
             Invoke-Git $tempRoot add Directory.Packages.props
             Invoke-Git $tempRoot commit -m 'update removed package version'
-            $versionChanged = (Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -ne $beforeRemovalUpdate
+            $versionChanged = (Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -ne $beforeRemovalUpdate
             if ($versionChanged -ne ($removal -ne 'unconditional')) {
                 throw "Incorrect invalidation after $removal $referenceType removal."
             }
@@ -517,11 +517,11 @@ try {
         -Value '<Project><ItemGroup><PackageReference Include="AngleSharp" /><PackageReference Include="Build.Package" /></ItemGroup></Project>'
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m 'reinclude removed package in executable'
-    $beforeReincludedUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    $beforeReincludedUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
     Set-TestCentralPackageVersions -BuildPackage '3.0.0'
     Invoke-Git $tempRoot add Directory.Packages.props
     Invoke-Git $tempRoot commit -m 'update reincluded package version'
-    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeReincludedUpdate) {
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -eq $beforeReincludedUpdate) {
         throw 'Reincluded package version was ignored after a prior removal.'
     }
     Set-Content -LiteralPath $generatorProject `
@@ -535,11 +535,11 @@ try {
         Set-TestCentralPackageVersions
         Invoke-Git $tempRoot add .
         Invoke-Git $tempRoot commit -m "remove $removedType while $includedType remains"
-        $beforeCrossTypeUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+        $beforeCrossTypeUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
         Set-TestCentralPackageVersions -BuildPackage '2.0.0'
         Invoke-Git $tempRoot add Directory.Packages.props
         Invoke-Git $tempRoot commit -m 'update dependency retained by another item type'
-        if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeCrossTypeUpdate) {
+        if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -eq $beforeCrossTypeUpdate) {
             throw "$removedType removal discarded an active $includedType dependency."
         }
     }
@@ -550,21 +550,160 @@ try {
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m 'restore package filtering'
     $beforeReferenceRevision = (git -C $tempRoot rev-parse HEAD).Trim()
-    $beforeReferenceFingerprint = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    $beforeReferenceFingerprint = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
     Set-Content -LiteralPath $generatorProject `
         -Value '<Project><ItemGroup><PackageReference Include="$(GeneratorPackage)" /></ItemGroup></Project>'
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m 'use computed generator package name'
-    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Revision $beforeReferenceRevision) -ne
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake -Revision $beforeReferenceRevision) -ne
         $beforeReferenceFingerprint) {
         throw 'Historical fingerprint used current package references.'
     }
-    $beforeComputedUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot
+    $beforeComputedUpdate = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake
     Set-TestCentralPackageVersions -TUnit '2.0.0'
     Invoke-Git $tempRoot add Directory.Packages.props
     Invoke-Git $tempRoot commit -m 'update potentially computed dependency'
-    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot) -eq $beforeComputedUpdate) {
+    if ((Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $tempRoot -Tool fake) -eq $beforeComputedUpdate) {
         throw 'A computed package name allowed unsafe central version filtering.'
+    }
+
+    # Scoped fingerprints: each tool's snapshots depend on shared generator sources and
+    # its own scraper and overrides, not on other tools' files or generator tests.
+    $generatorSource = Join-Path $tempRoot 'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator'
+    $cliScrapers = Join-Path $generatorSource 'Scrapers/Cli'
+    New-Item -ItemType Directory -Path $cliScrapers, (Join-Path $generatorSource 'TypeOverrides') -Force | Out-Null
+    $generatorTests = Join-Path $tempRoot 'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests'
+    New-Item -ItemType Directory -Path $generatorTests -Force | Out-Null
+    function Set-TestScraper([string]$Name, [string]$Tool, [string]$Body = '') {
+        Set-Content -LiteralPath (Join-Path $cliScrapers "${Name}CliScraper.cs") -Value @"
+namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
+
+internal sealed class ${Name}CliScraper : CliScraperBase
+{
+    public override string ToolName => "$Tool";
+$Body
+    private sealed class Section;
+}
+"@
+    }
+    Set-TestScraper Fake fake
+    Set-TestScraper Other other
+    Set-Content -LiteralPath (Join-Path $cliScrapers 'CliScraperBase.cs') `
+        -Value "namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;`n`ninternal abstract class CliScraperBase;"
+    Set-Content -LiteralPath (Join-Path $generatorSource 'OptionsGeneratorCommand.cs') -Value @'
+namespace ModularPipelines.OptionsGenerator;
+
+internal static class OptionsGeneratorCommand
+{
+    static void Register(IServiceCollection services)
+    {
+        services.AddSingleton<ICliScraper, FakeCliScraper>();
+        services.AddSingleton<ICliScraper>(provider => new OtherCliScraper(provider.GetRequiredService<ILogger<OtherCliScraper>>()));
+    }
+}
+'@
+    Set-Content -LiteralPath (Join-Path $cliScrapers 'OtherSectionParser.cs') `
+        -Value "namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;`n`ninternal static class OtherSectionParser;"
+    # `Other` must not claim a helper whose name only starts with the same letters.
+    Set-Content -LiteralPath (Join-Path $cliScrapers 'Otherwise.cs') `
+        -Value "namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;`n`ninternal static class Otherwise;"
+    # Culture-aware and ordinal collation order these names differently.
+    foreach ($name in 'Sort_b.cs', 'Sort-b.cs', 'SortB.cs') {
+        Set-Content -LiteralPath (Join-Path $generatorSource $name) -Value "// $name"
+    }
+    Set-Content -LiteralPath (Join-Path $generatorSource 'TypeOverrides/fake.json') -Value '{}'
+    Set-Content -LiteralPath (Join-Path $generatorSource 'TypeOverrides/other.json') -Value '{}'
+    Set-Content -LiteralPath (Join-Path $generatorTests 'OtherCliScraperTests.cs') -Value 'class OtherCliScraperTests { OtherCliScraper s; }'
+    Invoke-Git $tempRoot add .
+    Invoke-Git $tempRoot commit -m 'add scoped generator sources'
+    & $writeScript `
+        -RepositoryRoot $tempRoot `
+        -Tool fake `
+        -PackageDirectory src/ModularPipelines.Fake `
+        -NamespacePrefix Fake `
+        -ChangeManifest $changeManifest
+    Invoke-Git $tempRoot add .
+    Invoke-Git $tempRoot commit -m 'record scoped provenance'
+    Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot
+
+    $scopedProvenance = Get-Content -LiteralPath $provenancePath -Raw | ConvertFrom-Json
+    $scopedEntries = @(Get-GeneratedOptionsSourceEntry -RepositoryRoot $tempRoot -Tool fake)
+    $ordinalEntries = [string[]]$scopedEntries.Clone()
+    [Array]::Sort($ordinalEntries, [StringComparer]::Ordinal)
+    if (($scopedEntries -join "`n") -cne ($ordinalEntries -join "`n")) {
+        throw 'Fingerprint entries are not in ordinal order, so the hash could depend on culture.'
+    }
+    if ($scopedProvenance.formatVersion -ne 2) {
+        throw 'The provenance writer did not record format 2.'
+    }
+    # Unchanged inputs must reproduce byte-identical provenance on a later commit.
+    $recordedProvenance = Get-Content -LiteralPath $provenancePath -Raw
+    Set-Content -LiteralPath (Join-Path $tempRoot 'README.md') -Value 'later unrelated change'
+    Invoke-Git $tempRoot add README.md
+    Invoke-Git $tempRoot commit -m 'later unrelated change'
+    & $writeScript -RepositoryRoot $tempRoot -Tool fake -PackageDirectory src/ModularPipelines.Fake -NamespacePrefix Fake -ChangeManifest $changeManifest
+    if ((Get-Content -LiteralPath $provenancePath -Raw) -ne $recordedProvenance) {
+        throw 'Regenerating with unchanged generator inputs changed the provenance file.'
+    }
+
+    $unaffected = @(
+        @{ Path = "$generatorTests/OtherCliScraperTests.cs"; Value = 'class OtherCliScraperTests { }'; Reason = 'a generator test' }
+        @{ Path = (Join-Path $tempRoot 'tools/ModularPipelines.OptionsGenerator/README.md'); Value = 'docs'; Reason = 'generator documentation' }
+        @{ Path = (Join-Path $generatorSource 'PublicAPI.Unshipped.txt'); Value = 'X'; Reason = 'a public API baseline' }
+        @{ Path = (Join-Path $cliScrapers 'OtherCliScraper.cs'); Value = $null; Reason = "another tool's scraper" }
+        @{ Path = (Join-Path $generatorSource 'TypeOverrides/other.json'); Value = '{ "x": 1 }'; Reason = "another tool's overrides" }
+        @{ Path = (Join-Path $cliScrapers 'OtherSectionParser.cs'); Value = 'namespace ModularPipelines.OptionsGenerator.Scrapers.Cli; internal static class OtherSectionParser { }'; Reason = "another tool's scraper helper" }
+    )
+    foreach ($change in $unaffected) {
+        if ($null -eq $change.Value) { Set-TestScraper Other other '    private int changed;' }
+        else { Set-Content -LiteralPath $change.Path -Value $change.Value }
+        Invoke-Git $tempRoot add .
+        Invoke-Git $tempRoot commit -m "change $($change.Reason)"
+        try { Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot }
+        catch { throw "Changing $($change.Reason) made another tool's snapshot stale: $($_.Exception.Message)" }
+    }
+
+    $affected = @(
+        @{ Reason = "the tool's own scraper"; Path = 'Scrapers/Cli/FakeCliScraper.cs'; Apply = { Set-TestScraper Fake fake '    private int changed;' } }
+        @{ Reason = "the tool's own overrides"; Path = 'TypeOverrides/fake.json'; Apply = { Set-Content -LiteralPath (Join-Path $generatorSource 'TypeOverrides/fake.json') -Value '{ "x": 1 }' } }
+        @{ Reason = 'a shared scraper base'; Path = 'Scrapers/Cli/CliScraperBase.cs'; Apply = { Add-Content -LiteralPath (Join-Path $cliScrapers 'CliScraperBase.cs') -Value '// changed' } }
+        @{ Reason = 'a helper that only shares a name prefix'; Path = 'Scrapers/Cli/Otherwise.cs'; Apply = { Add-Content -LiteralPath (Join-Path $cliScrapers 'Otherwise.cs') -Value '// changed' } }
+        # Once another scraper uses OtherCliScraper, it is shared, and its changes reach every tool.
+        @{ Reason = "a scraper that another scraper uses"; Path = 'Scrapers/Cli/OtherCliScraper.cs'; Apply = {
+                Set-TestScraper Fake fake '    private OtherCliScraper inner;'
+                Invoke-Git $tempRoot add .
+                Invoke-Git $tempRoot commit -m 'use other scraper from fake'
+                & $writeScript -RepositoryRoot $tempRoot -Tool fake -PackageDirectory src/ModularPipelines.Fake -NamespacePrefix Fake -ChangeManifest $changeManifest
+                Invoke-Git $tempRoot add .
+                Invoke-Git $tempRoot commit -m 'make other scraper shared'
+                Set-TestScraper Other other '    private int changedAgain;'
+            } }
+    )
+    foreach ($change in $affected) {
+        & $change.Apply
+        Invoke-Git $tempRoot add .
+        Invoke-Git $tempRoot commit -m "change $($change.Reason)"
+        $scopedError = $null
+        try { Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot }
+        catch { $scopedError = $_.Exception.Message }
+        $expectedPath = "tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/$($change.Path)"
+        if ([string]::IsNullOrWhiteSpace($scopedError) -or -not $scopedError.Contains('are stale', [StringComparison]::Ordinal) -or
+            -not $scopedError.Contains($expectedPath, [StringComparison]::Ordinal)) {
+            throw "Changing $($change.Reason) did not report a stale snapshot naming '$expectedPath': $scopedError"
+        }
+        & $writeScript -RepositoryRoot $tempRoot -Tool fake -PackageDirectory src/ModularPipelines.Fake -NamespacePrefix Fake -ChangeManifest $changeManifest
+        Invoke-Git $tempRoot add .
+        Invoke-Git $tempRoot commit -m "refresh after $($change.Reason)"
+    }
+
+    $legacyProvenance = Get-Content -LiteralPath $provenancePath -Raw | ConvertFrom-Json
+    $legacyProvenance.formatVersion = 1
+    $legacyProvenance | ConvertTo-Json | Set-Content -LiteralPath $provenancePath
+    $legacyError = $null
+    try { & $assertScript -RepositoryRoot $tempRoot -Tool fake -Package ModularPipelines.Fake -NamespacePrefix Fake -CurrentBase HEAD }
+    catch { $legacyError = $_.Exception.Message }
+    if ([string]::IsNullOrWhiteSpace($legacyError) -or -not $legacyError.Contains('provenance format 1', [StringComparison]::Ordinal)) {
+        throw "Whole-generator provenance passed the scoped freshness check: $legacyError"
     }
 
     Write-Host 'Generated options provenance tests passed.'
