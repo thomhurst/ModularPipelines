@@ -22,7 +22,11 @@
 #   5. Starts the agent on that one item, with lower reasoning effort for PRs that
 #      look ready to merge. When nothing is actionable, or every -TriageEvery units,
 #      it starts a triage unit instead: the agent audits a batch of open issues and
-#      parked PRs that no unit audited in the last -AuditDays days.
+#      parked PRs that no unit audited in the last -AuditDays days (-ParkedAuditHours for
+#      parked items). When triage has nothing due either, it starts a discovery unit at
+#      most every -DiscoveryHours, which files new claimable issues, and otherwise lists
+#      the items that wait for a person before it sleeps. A parent whose open sub-issues
+#      are all parked or blocked becomes a candidate, so a unit can unpark or flatten it.
 # After the agent ends, the script releases the lock if the agent left it held. On a
 # deferred, waiting, failed, or missing result it records the item's current fingerprint
 # with `AgentLocks.ps1 defer`, so later units skip it until its head, checks,
@@ -55,7 +59,7 @@
 # Stop:   create the stop file printed at startup (checked between units), or Ctrl+C.
 # Usage:  pwsh scripts/Start-IssuePrLoop.ps1 [-Agent auto|claude|codex] [-IdleSeconds n] [-MaxUnits n]
 #           [-DeferSeconds n] [-MaxDeferSeconds n] [-LightEffort level] [-HeavyEffort level]
-#           [-TriageEvery n] [-TriageBatch n] [-AuditDays n] [-DryRun]
+#           [-TriageEvery n] [-TriageBatch n] [-AuditDays n] [-ParkedAuditHours n] [-DiscoveryHours n] [-DryRun]
 #         pwsh scripts/Start-IssuePrLoop.ps1 -Report [-ReportHours n]
 
 [CmdletBinding()]
@@ -87,6 +91,12 @@ param(
     # Days before triage audits an item again.
     [ValidateRange(1, 90)]
     [int]$AuditDays = 3,
+    # Hours before triage audits a parked (`needs-human` or `on-hold`) item again.
+    [ValidateRange(1, 168)]
+    [int]$ParkedAuditHours = 24,
+    # Least hours between discovery units, which run only when nothing else is due. 0 disables them.
+    [ValidateRange(0, 168)]
+    [int]$DiscoveryHours = 6,
     # Survey and claim once, print the chosen item and its prompt, release, and exit.
     [switch]$DryRun,
     # Summarize units.jsonl for this repository over the last -ReportHours, and exit.
@@ -290,7 +300,7 @@ function Format-References([int[]]$Numbers, [hashtable]$States) {
 $prFields = 'number,title,author,headRefOid,mergeable,mergeStateStatus,statusCheckRollup,isDraft,labels,comments,reviews'
 $issueNodeFields = 'number title lastEditedAt author { login __typename } labels(first: 50) { nodes { name } } ' +
     'assignees(first: 10) { nodes { login } } comments(last: 20) { totalCount nodes { createdAt body } } ' +
-    'subIssuesSummary { total completed } issueDependenciesSummary { blockedBy blocking } ' +
+    'subIssuesSummary { total completed } subIssues(first: 50) { nodes { number state } } issueDependenciesSummary { blockedBy blocking } ' +
     'closedByPullRequestsReferences(first: 10, includeClosedPrs: false) { nodes { number state } }'
 
 # Labels that take an issue out of the queue. `in-progress` is handled separately.
@@ -490,8 +500,20 @@ function Get-Candidates {
         # A blocked issue returns to the queue on its own when its blockers close.
         if ($issue.issueDependenciesSummary.blockedBy -gt 0) { $surveyStats['issue-blocked']++; continue }
         $children = $issue.subIssuesSummary
-        if ($children.total -gt $children.completed) { $surveyStats['issue-parent']++; continue }
         $fingerprint = Get-IssueFingerprint $issue
+        if ($children.total -gt $children.completed) {
+            # A parent normally waits for its children. When no open child can be worked,
+            # the parent is the only place left to move the tree.
+            $open = @($issue.subIssues.nodes | Where-Object state -eq 'OPEN' | ForEach-Object { $openIssues[[int]$_.number] })
+            $stuck = $open.Count -gt 0 -and $open.Count -eq ($children.total - $children.completed) -and
+                @($open | Where-Object { $_ -and ((Test-HasLabel $_ $parkedLabels) -or $_.issueDependenciesSummary.blockedBy -gt 0) }).Count -eq $open.Count
+            if (-not $stuck) { $surveyStats['issue-parent']++; continue }
+            $list = ($open | ForEach-Object { "#$($_.number)" }) -join ', '
+            $hint = "Every open sub-issue of #$number ($list) is parked or blocked. Check each child's blocker: unpark children whose condition is met, " +
+                'flatten the chain into one claimable issue where it is deeper than parent and child, and implement work that does not need the blocker.'
+            New-Candidate 'issue' $number 5 $fingerprint $false $hint
+            continue
+        }
         if (Test-HasLabel $issue @('in-progress')) {
             # A claim with no open PR is stale unless a worker holds its lock; the acquire
             # in Select-Item skips it while one does.
@@ -671,9 +693,6 @@ function Get-TriageItem {
     if ($due.Count -eq 0) { return $null }
     $r = Invoke-Locks @('acquire', '-LockName', 'triage')
     if ($r.ExitCode -ne 0) { return $null }
-    $openCount = @($script:lastIssues | Where-Object {
-            -not (Test-HasLabel $_ ($excludedIssueLabels + 'in-progress')) -and $_.issueDependenciesSummary.blockedBy -eq 0 -and -not (Test-HasOpenPr $_)
-        }).Count
     [pscustomobject]@{
         Kind        = 'triage'
         Number      = 0
@@ -683,8 +702,43 @@ function Get-TriageItem {
         Fingerprint = $null
         Light       = $true
         Items       = $due
-        Queueable   = $openCount
+        Queueable   = Get-QueueableCount
     }
+}
+
+# Issues that a unit can claim now: not parked, claimed, blocked, or already on a PR.
+function Get-QueueableCount {
+    @($script:lastIssues | Where-Object {
+            -not (Test-HasLabel $_ ($excludedIssueLabels + 'in-progress')) -and $_.issueDependenciesSummary.blockedBy -eq 0 -and -not (Test-HasOpenPr $_)
+        }).Count
+}
+
+# Builds a discovery unit, which files new claimable issues, when the last one ran more
+# than -DiscoveryHours ago. The `discovery-ran` record spaces them out across workers.
+function Get-DiscoveryItem {
+    if ($DiscoveryHours -eq 0 -or -not $script:lastIssues) { return $null }
+    $r = Invoke-Locks @('deferred', '-LockName', 'discovery-ran')
+    if ($r.ExitCode -ne 0 -or ([string]$r.Output).Trim()) { return $null }
+    $r = Invoke-Locks @('acquire', '-LockName', 'discovery')
+    if ($r.ExitCode -ne 0) { return $null }
+    [pscustomobject]@{
+        Kind        = 'discovery'
+        Number      = 0
+        LockName    = 'discovery'
+        Label       = 'discovery'
+        Rank        = 9
+        Fingerprint = $null
+        Light       = $false
+        Queueable   = Get-QueueableCount
+    }
+}
+
+# Lists the items that only a person can move, so an idle loop says what it waits for.
+function Write-HumanDigest {
+    $issues = @($script:lastIssues | Where-Object { Test-HasLabel $_ @('needs-human', 'question') } | ForEach-Object { "#$($_.number)" })
+    $prs = @(gh pr list --repo $repoSlug --state open --label needs-human --json number --jq '.[].number' 2>$null | ForEach-Object { "PR #$_" })
+    $all = @($issues + $prs)
+    if ($all.Count -gt 0) { Write-Host "issue-pr-loop: waiting on a person: $($all -join ', ')" }
 }
 
 # A preserved worktree with new source may hold unpublished work worth recovering.
@@ -714,7 +768,10 @@ function Get-Prompt($Item) {
     switch ($Item.Kind) {
         'pr' {
             $hint = if ($Item.Hint) { " $($Item.Hint)" } else { '' }
-            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock pr-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire.$hint Work only PR #$($Item.Number), release the lock, and print the RESULT line."
+            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock pr-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire.$hint Start from PR #$($Item.Number); act on linked items under their own locks when the skill allows it. Release every lock and print the RESULT line."
+        }
+        'discovery' {
+            return "$head This is a discovery unit. The loop driver holds lock discovery for you through `$env:$ownerVariable. Skip the sweep and the survey. Nothing is actionable and every open item was audited recently, so follow the discovery procedure in the skill. The queue has $($Item.Queueable) issue(s) that a unit can claim now. Release every lock and print the RESULT line."
         }
         'triage' {
             $list = ($Item.Items | ForEach-Object { if ($_.Kind -eq 'pr') { "PR #$($_.Number)" } else { "#$($_.Number)" } }) -join ', '
@@ -722,7 +779,7 @@ function Get-Prompt($Item) {
         }
         'issue' {
             $hint = if ($Item.Hint) { " $($Item.Hint)" } else { '' }
-            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock issue-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire.$hint Re-check and claim issue #$($Item.Number), implement it, release the lock, and print the RESULT line."
+            return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock issue-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire.$hint Re-check and claim issue #$($Item.Number) and implement it; act on linked items under their own locks when the skill allows it. Release every lock and print the RESULT line."
         }
         'stranded' {
             return "$head The loop driver already ran the worktree sweep and the survey, and it holds lock issue-$($Item.Number) for you through `$env:$ownerVariable. Skip the sweep, the survey and the acquire. $($Item.Hint) Release the lock and print the RESULT line."
@@ -850,6 +907,8 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
         if (-not $item) { $item = Get-RecoveryItem $sweep }
         # Idle time goes to triage instead of sleep.
         if (-not $item) { $item = Get-TriageItem }
+        # With every item audited, look for new work before sleeping.
+        if (-not $item) { $item = Get-DiscoveryItem }
     }
     catch {
         Wait-Backoff "survey failed: $($_.Exception.Message)"
@@ -857,6 +916,7 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     }
     if (-not $item) {
         Write-Host "issue-pr-loop: nothing actionable ($(Format-SurveyStats))"
+        Write-HumanDigest
         if ($IdleSeconds -gt 0) {
             Write-Host "issue-pr-loop: next survey in $IdleSeconds s"
             Start-Sleep -Seconds $IdleSeconds
@@ -872,7 +932,7 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     }
 
     $units++
-    if ($item.Kind -eq 'triage') { $sinceTriage = 0 } else { $sinceTriage++ }
+    if ($item.Kind -in 'triage', 'discovery') { $sinceTriage = 0 } else { $sinceTriage++ }
     $effort = if ($item.Light) { $LightEffort } else { $HeavyEffort }
     Write-Host "issue-pr-loop: unit $units ($runId) $($item.Label)$(if ($effort) { " effort=$effort" })"
     $started = Get-Date
@@ -890,9 +950,17 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     # A triage unit audits its batch whatever it changed, so the next triage takes new items.
     if ($item.Kind -eq 'triage' -and $result) {
         foreach ($audited in $item.Items) {
+            # Parked items come back sooner: their condition often clears without a GitHub change.
+            $auditSeconds = if ($audited.Order -eq 0) { $ParkedAuditHours * 3600 } else { $AuditDays * 86400 }
             $null = Invoke-Locks @('defer', '-LockName', "audit-$($audited.Number)", '-Fingerprint', [string][DateTimeOffset]::UtcNow.ToUnixTimeSeconds(),
-                '-DeferSeconds', ($AuditDays * 86400))
+                '-DeferSeconds', $auditSeconds)
         }
+    }
+    # A discovery unit ran, whatever it found; the next one waits -DiscoveryHours. A crash
+    # still waits an hour, so a broken unit cannot spin.
+    if ($item.Kind -eq 'discovery') {
+        $wait = if ($result) { $DiscoveryHours * 3600 } else { 3600 }
+        $null = Invoke-Locks @('defer', '-LockName', 'discovery-ran', '-Fingerprint', [string][DateTimeOffset]::UtcNow.ToUnixTimeSeconds(), '-DeferSeconds', $wait)
     }
 
     # `deferred #N [category]: reason`. A deferral without an allowed category names no
@@ -902,7 +970,7 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     $waitRun = if ($result -match '^waiting\b' -and $result -match '\brun\s+(\d{6,})') { $Matches[1] } else { '' }
 
     # Remember an unchanged blocker so later units do not re-examine it.
-    if ($item.Kind -ne 'triage' -and (-not $result -or $result -match '^(deferred|failed|waiting)\b' -or ($item.Kind -eq 'recovery' -and $result -eq 'queue-empty'))) {
+    if ($item.Kind -notin 'triage', 'discovery' -and (-not $result -or $result -match '^(deferred|failed|waiting)\b' -or ($item.Kind -eq 'recovery' -and $result -eq 'queue-empty'))) {
         $fingerprint = if ($item.Kind -eq 'recovery') { $item.Fingerprint } else { Get-CurrentFingerprint $item }
         if ($fingerprint) {
             # Each repeat deferral of an unchanged item doubles its expiry. A crash says

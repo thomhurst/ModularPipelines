@@ -37,12 +37,13 @@ Every unit costs a full agent run, so a deferral that changes nothing is wasted 
 - **Waiting on a run.** When the item waits only for a workflow run that you or an earlier unit started, such as a hosted generation, report `waiting #N: run <id>`. The driver returns the item when that run completes. Do not add `on-hold` for a wait that ends by itself.
 - **Superseded PR.** Close a PR that another open or merged PR replaces, or an automated PR that is defective or conflicting, and link the replacement. Closed PRs keep their history; an open PR is not a place to keep evidence. Follow the repository rules for closed-PR CI cancellation.
 - **Earlier deferral.** When the prompt quotes an earlier deferral reason, start from that blocker. Check whether it still holds and try each route above before you defer the item again for the same reason.
+- **Decide and document.** When an item offers options and one of them is reasonable and reversible, pick it, state why in the PR or issue, and continue. Review catches a wrong choice faster than a parked item gets a human answer. Do not invent constraints the repository does not state: code that does not ship in a package (tools, tests, scripts, samples) has no compatibility contract, and a breaking change is allowed on a milestone that permits breaking changes. When acceptance criteria conflict with each other or with the code, rewrite them to the option you chose and say so; do not park the item to ask which criterion wins.
 
-Defer only for a reason that no agent can remove, and name its category in the result: `[human]` for a human decision, `[upstream]` for an upstream release, fix, or date, `[credentials]` for missing credentials or infrastructure access, and `[locked]` for a lock held by another worker. A prerequisite that an agent can work is not a reason to defer: work it, as described in **Blocker first**. The driver gives a deferral without one of these categories a short expiry, so the item comes back soon. Record the blocker once. Make it visible to the driver, so that later units do not re-examine an unchanged item:
+Defer only for a reason that no agent can remove, and name its category in the result: `[human]` for a human decision that no evidence can settle (a break to a shipped public API outside a breaking milestone, a security trade-off, spending money, or a choice the user reserved), `[upstream]` for an upstream release, fix, or date, `[credentials]` for missing credentials or infrastructure access, and `[locked]` for a lock held by another worker. A prerequisite that an agent can work is not a reason to defer: work it, as described in **Blocker first**. The driver gives a deferral without one of these categories a short expiry, so the item comes back soon. Record the blocker once. Make it visible to the driver, so that later units do not re-examine an unchanged item:
 
 - For a prerequisite, add a native `blocked_by` dependency. The driver skips the item until the prerequisite closes.
-- For a human decision, add `needs-human` and state the decision and its options.
-- For an external gate, such as a release date or an upstream fix, add `on-hold` (create the label if needed) and name the condition that removes it. Remove `on-hold` yourself as soon as that condition is met.
+- For a human decision, add `needs-human` and state the decision, its options, and the option you recommend. Do the work that does not depend on the answer first.
+- For an external gate, such as a release date or an upstream fix, add `on-hold` (create the label if needed) and name the condition that removes it. Remove `on-hold` yourself as soon as that condition is met. Never use `on-hold` for CI, reviews, workflow runs, or other issues and PRs in this repository: those end by themselves or can be worked. Before you park an item behind a release, do the parts that do not need the release.
 
 Name every blocker as `#N` in the result. The driver works an open blocker next, and while a blocker carries `needs-human` or `on-hold` it skips the items that wait on it.
 
@@ -60,12 +61,21 @@ For each item, acquire its lock (`issue-<N>` or `pr-<N>`), and skip it when `acq
 - Remove `on-hold` when its condition is met, for example the release shipped or the run completed. Remove `in-progress` when no open PR, lock holder, or branch backs it.
 - For `needs-human`, check whether a comment since the label was added answers the question. When it does, apply the answer, remove the label, and say so.
 - Close a superseded, defective, or conflicting automated PR and link its replacement.
+- Flatten issue chains. A sub-issue tree deeper than parent and child, or a parent with one open child, hides work from the queue: move the remaining acceptance criteria into one issue and close the rest as superseded. Close a child whose only work is to wait, re-run, or re-validate what another issue or an automated PR already delivers.
+- For a parent whose open children are all parked or blocked, check each child's blocker. Unpark the children whose condition is met, and move work that does not need the blocker into an issue that can be claimed now.
+- For `needs-human` or `question` with a recommended option that is reasonable and reversible, apply **Decide and document**: take that option, remove the label, and say so.
 
 Make only changes that the evidence supports, and keep a comment short. Do not implement an issue in a triage unit.
 
 When the prompt says that fewer than five issues can be claimed now, also file up to three new issues for concrete defects you find in the repository: failing or flaky tests in recent CI runs, analyzer or build warnings, `TODO` or `FIXME` comments that describe a defect, documentation that contradicts the code, or missing tests for public behavior. Search open and closed issues first so that you do not file a duplicate. Give each issue the evidence (file and line, run, or log line) and acceptance criteria. Do not file issues for style preferences or speculative features.
 
 Report `RESULT: triaged: <summary>`, for example `triaged: closed #12 #15, updated #18, filed #40`. Report `triaged: no changes` when every item was current.
+
+### Discovery
+
+The driver runs a discovery unit when nothing is actionable and every item was audited recently, instead of sleeping. Find real work and file it as issues that a unit can claim now. Look, in this order, at: failed or flaky jobs in recent CI runs on `main` and on PRs; open milestone issues whose acceptance criteria are not yet split into claimable work; analyzer and build warnings; `TODO` and `FIXME` comments that describe a defect; documentation that contradicts the code; and public behavior without tests. Search open and closed issues first so that you do not file a duplicate.
+
+File at most five issues. Each issue states the evidence (file and line, run, or log line), the expected behavior, and acceptance criteria, and is small enough for one PR. Do not file issues for style preferences or speculative features. Report `RESULT: triaged: filed #A #B` or `triaged: no changes`.
 
 ### Red main
 
@@ -91,7 +101,7 @@ Do not survey again, start a second item, or wait for CI or reviews. When the su
 
 A lock held by another owner is not a unit. When `acquire` exits 3, skip that item and try the next candidate in priority order. Report `deferred` only for an item you acquired and examined.
 
-When the invocation assigns an item and says the loop driver holds its lock, skip the cleanup script, the survey, and `acquire`. The driver already did them, and the lock belongs to the owner variable it set for this run. Work only the assigned item. Re-check its state before acting, because the driver's survey is mechanical. Release the lock when done. After a `deferred` or `failed` result the driver records the item's GitHub state, and it skips the item until that state changes. A clear blocker comment on the item is still required, because the driver's record is not visible to people.
+When the invocation assigns an item and says the loop driver holds its lock, skip the cleanup script, the survey, and `acquire`. The driver already did them, and the lock belongs to the owner variable it set for this run. The assigned item is where the unit starts, not a limit on what it may touch. When moving the item needs action on a linked item (a blocker, a replacement or superseded PR, a duplicate, its parent, or its children), acquire that item's lock and act on it in this unit. Do not start unrelated work. Re-check its state before acting, because the driver's survey is mechanical. Release the lock when done. After a `deferred` or `failed` result the driver records the item's GitHub state, and it skips the item until that state changes. A clear blocker comment on the item is still required, because the driver's record is not visible to people.
 
 ### Context and delegation
 
@@ -164,7 +174,7 @@ The loop runs unattended, so keep working a PR until it merges. A PR that keeps 
 
 Do not push more fixes to an over-budget PR. Split it yourself instead:
 
-1. File one native sub-issue of the PR's linked issue per part that can merge on its own, as described in [Pick an issue](#pick-an-issue). Each sub-issue names the files it owns, the blocking findings it must resolve, and the PR branch whose commits it can reuse. Put `<!-- split-from-pr #<N> -->` in each sub-issue body.
+1. File one native sub-issue of the PR's linked issue per part that can merge on its own (when the linked issue is itself a child, file the parts as siblings under its parent and close it as superseded), as described in [Pick an issue](#pick-an-issue). Each sub-issue names the files it owns, the blocking findings it must resolve, and the PR branch whose commits it can reuse. Put `<!-- split-from-pr #<N> -->` in each sub-issue body.
 2. Post one comment on the PR. It lists the open blocking findings, the files that keep conflicting, and the sub-issues.
 3. Close the PR without merging and keep its branch. Remove `in-progress` from the linked issue.
 4. Release the lock. Later units pick up the sub-issues like any other issue.
@@ -200,7 +210,7 @@ Under the issue lock, re-fetch state, assignees, labels, native dependencies, an
 
 Establish full scope from source, tests, and docs; a missing API may be the requested work. Deliver coherent issues in one PR.
 
-For independent deliverables, inspect existing children (including closed ones) before splitting into native sub-issues and `blocked_by` relationships. Avoid checklist-only tracking and `blocked` labels. Give children acceptance criteria, leave the parent open, remove your parent claim, and implement the first unclaimed child whose prerequisites are closed this iteration. If native links are unavailable, document the blocker.
+For independent deliverables, inspect existing children (including closed ones) before splitting into native sub-issues and `blocked_by` relationships. Avoid checklist-only tracking and `blocked` labels. Split only into parts that each merge on their own as one PR, and never below one level: a child is not split again. When the issue is already a child, deliver it in one PR, or move what is left into sibling issues of the same parent. Do not file a child whose only work is to wait for, re-run, or re-validate another child's output. Give children acceptance criteria, leave the parent open, remove your parent claim, and implement the first unclaimed child whose prerequisites are closed this iteration. If native links are unavailable, document the blocker.
 
 Relationship writes require numeric REST issue `.id`, not issue numbers or `gh issue view --json id` (GraphQL ID). Retrieve with `gh api "repos/$repoSlug/issues/$childNumber" --jq .id`; link via `POST issues/<parent>/sub_issues -F sub_issue_id=<id>` or `POST issues/<blocked>/dependencies/blocked_by -F issue_id=<prerequisite-id>` under `repos/$repoSlug/`. Verify each write before proceeding.
 
