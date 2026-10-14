@@ -96,8 +96,8 @@ Flags:
       --kubeconfig string               path to the kubeconfig file
   -n, --namespace string                namespace scope for this request
       --qps float32                     queries per second used when communicating with the Kubernetes API, not including bursting
-      --registry-config string          path to the registry config file (default "C:\\Users\\thomh\\AppData\\Roaming\\helm\\registry\\config.json")
-      --repository-cache string         path to the directory containing cached repository indexes (default "C:\\Users\\thomh\\AppData\\Local\\Temp\\helm\\repository")
-      --repository-config string        path to the file containing repository names and URLs (default "C:\\Users\\thomh\\AppData\\Roaming\\helm\\repositories.yaml")
+      --registry-config string          path to the registry config file (default "~/AppData/Roaming/helm/registry/config.json")
+      --repository-cache string         path to the directory containing cached repository indexes (default "~/AppData/Local/Temp/helm/repository")
+      --repository-config string        path to the file containing repository names and URLs (default "~/AppData/Roaming/helm/repositories.yaml")
 
 Use "helm [command] --help" for more information about a command.

@@ -132,7 +132,7 @@ public record HelmUpgradeOptions : HelmOptions
     public string? KeyFile { get; set; }
 
     /// <summary>
-    /// location of public keys used for verification (default "~\\.gnupg\\pubring.gpg")
+    /// location of public keys used for verification (default "~/.gnupg/pubring.gpg")
     /// </summary>
     [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
     public string? Keyring { get; set; }

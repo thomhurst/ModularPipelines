@@ -28,7 +28,7 @@ Flags:
       --insecure-skip-tls-verify                   skip tls certificate checks for the chart download
       --is-upgrade                                 set .Release.IsUpgrade instead of .Release.IsInstall
       --key-file string                            identify HTTPS client using this SSL key file
-      --keyring string                             location of public keys used for verification (default "C:\\Users\\thomh\\.gnupg\\pubring.gpg")
+      --keyring string                             location of public keys used for verification (default "~/.gnupg/pubring.gpg")
       --kube-version string                        Kubernetes version used for Capabilities.KubeVersion
   -l, --labels stringToString                      Labels that would be added to release metadata. Should be divided by comma. (default [])
       --name-template string                       specify template used to name the release
@@ -76,6 +76,6 @@ Global Flags:
       --kubeconfig string               path to the kubeconfig file
   -n, --namespace string                namespace scope for this request
       --qps float32                     queries per second used when communicating with the Kubernetes API, not including bursting
-      --registry-config string          path to the registry config file (default "C:\\Users\\thomh\\AppData\\Roaming\\helm\\registry\\config.json")
-      --repository-cache string         path to the directory containing cached repository indexes (default "C:\\Users\\thomh\\AppData\\Local\\Temp\\helm\\repository")
-      --repository-config string        path to the file containing repository names and URLs (default "C:\\Users\\thomh\\AppData\\Roaming\\helm\\repositories.yaml")
+      --registry-config string          path to the registry config file (default "~/AppData/Roaming/helm/registry/config.json")
+      --repository-cache string         path to the directory containing cached repository indexes (default "~/AppData/Local/Temp/helm/repository")
+      --repository-config string        path to the file containing repository names and URLs (default "~/AppData/Roaming/helm/repositories.yaml")

@@ -7,7 +7,9 @@ Archive SHA-256, verified against the official `.sha256sum` sidecar:
 `899615865726d39f9b245e71e848c5bf4adc7ed33a8c43ede660facb48151b43`.
 
 `root.txt` captures `helm --help`; `install.txt`, `template.txt`, and `version.txt`
-capture the corresponding command with `--help`. Only trailing whitespace was removed.
+capture the corresponding command with `--help`. Trailing whitespace was removed.
+Expanded user-home paths were replaced with `~` and their path separators normalized
+to `/`; other help content remains unchanged.
 
 Helm registers settings on `cmd.PersistentFlags()` in
 [cmd/helm/root.go](https://github.com/helm/helm/blob/v3.22.0/cmd/helm/root.go).

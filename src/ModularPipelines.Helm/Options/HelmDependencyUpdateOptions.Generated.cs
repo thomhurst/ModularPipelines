@@ -63,7 +63,7 @@ public record HelmDependencyUpdateOptions : HelmOptions
     public string? KeyFile { get; set; }
 
     /// <summary>
-    /// keyring containing public keys (default "~\\.gnupg\\pubring.gpg")
+    /// keyring containing public keys (default "~/.gnupg/pubring.gpg")
     /// </summary>
     [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
     public string? Keyring { get; set; }
