@@ -16,9 +16,11 @@ internal sealed class LocalFtpServer : IAsyncDisposable
     private readonly ConcurrentQueue<string> _commands = new();
     private readonly TcpListener _listener;
     private readonly Task _serverTask;
+    private readonly Func<CancellationToken, Task>? _beforeGreeting;
 
-    private LocalFtpServer()
+    private LocalFtpServer(Func<CancellationToken, Task>? beforeGreeting)
     {
+        _beforeGreeting = beforeGreeting;
         _listener = new TcpListener(IPAddress.Loopback, 0);
         _listener.Start();
         _serverTask = RunAsync(_cancellationTokenSource.Token);
@@ -28,7 +30,7 @@ internal sealed class LocalFtpServer : IAsyncDisposable
 
     public IReadOnlyCollection<string> Commands => [.. _commands];
 
-    public static LocalFtpServer Start() => new();
+    public static LocalFtpServer Start(Func<CancellationToken, Task>? beforeGreeting = null) => new(beforeGreeting);
 
     public async ValueTask DisposeAsync()
     {
@@ -68,7 +70,8 @@ internal sealed class LocalFtpServer : IAsyncDisposable
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
             }
-            catch (IOException) when (cancellationToken.IsCancellationRequested)
+            catch (IOException exception) when (cancellationToken.IsCancellationRequested
+                || exception.InnerException is SocketException { SocketErrorCode: SocketError.ConnectionReset or SocketError.ConnectionAborted })
             {
             }
             catch (SocketException) when (cancellationToken.IsCancellationRequested)
@@ -87,6 +90,11 @@ internal sealed class LocalFtpServer : IAsyncDisposable
             NewLine = "\r\n",
         };
         using var session = new FtpSession(writer);
+
+        if (_beforeGreeting is not null)
+        {
+            await _beforeGreeting(cancellationToken);
+        }
 
         await writer.WriteLineAsync("220 localhost FTP ready");
 
