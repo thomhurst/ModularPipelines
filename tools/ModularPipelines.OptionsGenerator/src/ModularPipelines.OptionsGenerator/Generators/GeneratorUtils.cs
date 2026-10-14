@@ -938,7 +938,8 @@ public static partial class GeneratorUtils
     private static readonly string[] IdentifierPropertySuffixes = ["Id", "Identifier"];
 
     private static readonly string[] CredentialCodePropertyNames =
-        ["ActivationCode", "VerificationCode", "ValidationCode", "ConfirmationCode", "AuthorizationCode", "CodeVerifier"];
+        ["ActivationCode", "VerificationCode", "ValidationCode", "ConfirmationCode", "AuthorizationCode", "CodeVerifier",
+            "AcceptCode", "AcknowledgmentCode", "AcknowledgementCode"];
 
     private static readonly string[] SecretMetadataSuffixes =
         ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
@@ -1121,7 +1122,8 @@ public static partial class GeneratorUtils
         @"\A\s*(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies))\s+)?(?:the\s+|a\s+|an\s+)?"
         + @"(?:one[\s-]+time[\s-]+(?:passcode|password)\b"
         + @"|(?:subsequent\s+)?authentication\s+code\s+(?:emitted|generated)\s+by\b"
-        + @"|(?:activation|verification|validation|confirmation|authorization)\s+code"
+        + @"|(?:\d+[\s-]+digit\s+)?code\s+(?:used\s+)?to\s+acknowledge\b"
+        + @"|(?:activation|verification|validation|confirmation|authorization|acknowledg(?:e)?ment)\s+code"
         + @"(?:\s+(?:for|that|received|sent|delivered|provided|generated|used|to|value)\b|[.!]|\s*$))",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex OneTimeCredentialDescriptionPattern();

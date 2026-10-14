@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -78,6 +79,7 @@ public record AwsSsmContactsAcceptPageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// A 6-digit code used to acknowledge the page. Constraints: o min: 6 o max: 10 o pattern: ^[0-9]*$
     /// </summary>
+    [SecretValue]
     [CliOption("--accept-code")]
     public string? AcceptCode { get; private init; }
 
