@@ -18,20 +18,16 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   -i CODE1,CODE2..     --include=CODE1,CODE2..  Include only specified warnings
 ///   ...
 /// </summary>
-public partial class ShellcheckCliScraper : CliScraperBase
+public partial class ShellcheckCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ShellcheckCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    private static readonly HashSet<string> RepeatableOptions = new(StringComparer.Ordinal)
-    {
+    private static readonly HashSet<string> RepeatableOptions =
+    [
+        with(StringComparer.Ordinal),
         "--enable",
         "--exclude",
         "--include",
         "--source-path",
-    };
-
-    public ShellcheckCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ShellcheckCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+    ];
 
     public override string ToolName => "shellcheck";
 
@@ -90,7 +86,7 @@ public partial class ShellcheckCliScraper : CliScraperBase
                 }
             ],
             SubDomainGroup = null,
-            Enums = enums.Values.ToList()
+            Enums = [.. enums.Values]
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
@@ -99,9 +95,9 @@ public partial class ShellcheckCliScraper : CliScraperBase
     /// <summary>
     /// Parses options from ShellCheck help text.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(
+    private static List<CliOptionDefinition> ParseOptions(
         string helpText,
-        IReadOnlyDictionary<string, CliEnumDefinition> enums)
+        Dictionary<string, CliEnumDefinition> enums)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -201,11 +197,11 @@ public partial class ShellcheckCliScraper : CliScraperBase
         {
             EnumName = name,
             Description = description,
-            Values = values.Select(value => new CliEnumValue
+            Values = [.. values.Select(value => new CliEnumValue
             {
                 MemberName = ToPascalCase(value),
                 CliValue = value
-            }).ToList()
+            })]
         };
     }
 

@@ -23,13 +23,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   -v,--version             Show version
 ///   ...
 /// </summary>
-public partial class HadolintCliScraper : CliScraperBase
+public partial class HadolintCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<HadolintCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public HadolintCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<HadolintCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "hadolint";
 
     public override string NamespacePrefix => "Hadolint";
@@ -129,7 +124,7 @@ public partial class HadolintCliScraper : CliScraperBase
     ///         -v,--version             Show version
     ///         -c,--config FILENAME     Use FILENAME as configuration file
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(
+    private static List<CliOptionDefinition> ParseOptions(
         string helpText,
         CliEnumDefinition formatEnum,
         CliEnumDefinition thresholdEnum)
@@ -166,7 +161,7 @@ public partial class HadolintCliScraper : CliScraperBase
 
     private static bool IsOptionRow(string line) => HadolintOptionPattern().IsMatch(line);
 
-    private CliOptionDefinition? CreateOption(
+    private static CliOptionDefinition? CreateOption(
         Match match,
         string description,
         CliEnumDefinition formatEnum,

@@ -26,8 +26,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GhCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    private static readonly IReadOnlyDictionary<(string Command, string Operand), string> OperandNames =
-        new Dictionary<(string Command, string Operand), string>
+    private static readonly Dictionary<(string Command, string Operand), string> OperandNames =
+        new()
         {
             [("agent-task view", "SessionId")] = "SessionIdOrPrNumberOrPrUrlOrPrBranch",
             [("attestation download", "FilePath")] = "FilePathOrImageUri",

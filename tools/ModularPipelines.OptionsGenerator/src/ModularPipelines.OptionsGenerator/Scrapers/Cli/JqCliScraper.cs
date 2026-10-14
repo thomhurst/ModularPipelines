@@ -21,7 +21,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///       --arg name value      set $name to the string value;
 ///     ...
 /// </summary>
-public partial class JqCliScraper : CliScraperBase
+public partial class JqCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<JqCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
     private static readonly IReadOnlyDictionary<string, int> OptionOperandCounts =
         new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
@@ -36,8 +36,8 @@ public partial class JqCliScraper : CliScraperBase
             ["--slurpfile"] = 2
         };
 
-    private static readonly IReadOnlyDictionary<string, string> DisplayedOperands =
-        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, string> DisplayedOperands =
+        new(StringComparer.OrdinalIgnoreCase)
         {
             ["--arg"] = "name value",
             ["--argjson"] = "name value",
@@ -47,11 +47,6 @@ public partial class JqCliScraper : CliScraperBase
             ["--run-tests"] = "[filename]",
             ["--slurpfile"] = "name file"
         };
-
-    public JqCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<JqCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
 
     public override string ToolName => "jq";
 
@@ -163,7 +158,7 @@ public partial class JqCliScraper : CliScraperBase
     /// Format:   -n, --null-input          use `null` as the single input value;
     ///               --arg name value      set $name to the string value;
     /// </summary>
-    protected List<CliOptionDefinition> ParseOptions(string helpText)
+    protected virtual List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

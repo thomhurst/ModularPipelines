@@ -56,5 +56,5 @@ public record CacheStatistics
     /// <summary>
     /// Hit ratio (0.0 to 1.0).
     /// </summary>
-    public double HitRatio => Hits + Misses > 0 ? (double)Hits / (Hits + Misses) : 0;
+    public double HitRatio => Hits + Misses > 0 ? (double) Hits / (Hits + Misses) : 0;
 }

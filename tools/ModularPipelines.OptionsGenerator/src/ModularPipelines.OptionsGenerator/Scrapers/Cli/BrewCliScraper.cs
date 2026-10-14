@@ -103,7 +103,10 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            Logger.LogDebug("Homebrew is not available on Windows");
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug("Homebrew is not available on Windows");
+            }
             return false;
         }
 
@@ -190,12 +193,12 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
     }
 
     private async Task<string> AppendOptionTypeMetadataAsync(
-        IReadOnlyList<string> commandPath,
+        string[] commandPath,
         string helpText,
         CancellationToken cancellationToken)
     {
         var command = commandPath[1];
-        var subcommand = commandPath.Count > 2 ? $" {commandPath[2]}" : string.Empty;
+        var subcommand = commandPath.Length > 2 ? $" {commandPath[2]}" : string.Empty;
         var escapedScript = OptionMetadataScript.Replace("\"", "\\\"", StringComparison.Ordinal);
         var result = await Executor.ExecuteAsync(
             ExecutablePath,
@@ -203,9 +206,12 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
             cancellationToken);
         if (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput))
         {
-            Logger.LogDebug(
-                "Could not query Homebrew parser metadata for {Command}; using help-text fallback",
-                string.Join(' ', commandPath));
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug(
+                    "Could not query Homebrew parser metadata for {Command}; using help-text fallback",
+                    string.Join(' ', commandPath));
+            }
             return helpText;
         }
 
@@ -277,12 +283,12 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
     }
 
     private static string ReadStandaloneSynopsis(
-        IReadOnlyList<string> lines,
+        string[] lines,
         ref int index,
         string firstLine)
     {
         var parts = new List<string> { firstLine };
-        while (index + 1 < lines.Count
+        while (index + 1 < lines.Length
                && UsageSynopsisParser.IsSynopsisContinuation(lines[index + 1]))
         {
             parts.Add(lines[++index].Trim());
@@ -350,7 +356,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
     /// <summary>
     /// Extracts subcommands from "Example usage:" section.
     /// </summary>
-    private static IEnumerable<string> ExtractSubcommandsFromExampleUsage(string helpText, HashSet<string> seenCommands)
+    private static List<string> ExtractSubcommandsFromExampleUsage(string helpText, HashSet<string> seenCommands)
     {
         var subcommands = new List<string>();
 
@@ -564,7 +570,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
     }
 
     private static bool TryMatchUsageSynopsis(
-        IReadOnlyList<string> lines,
+        string[] lines,
         ref int index,
         string expectedSynopsis)
     {
@@ -578,7 +584,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
         }
 
         var synopsisParts = new List<string> { synopsisStart };
-        while (index + 1 < lines.Count
+        while (index + 1 < lines.Length
                && UsageSynopsisParser.IsSynopsisContinuation(lines[index + 1]))
         {
             synopsisParts.Add(lines[++index].Trim());
@@ -594,17 +600,17 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
             || char.IsWhiteSpace(expectedSynopsis[candidate.Length]));
 
     private static string? ReadDescriptionParagraph(
-        IReadOnlyList<string> lines,
+        string[] lines,
         int usageEndIndex)
     {
         var index = usageEndIndex;
-        while (index + 1 < lines.Count && string.IsNullOrWhiteSpace(lines[index + 1]))
+        while (index + 1 < lines.Length && string.IsNullOrWhiteSpace(lines[index + 1]))
         {
             index++;
         }
 
         var descriptionLines = new List<string>();
-        while (index + 1 < lines.Count && !string.IsNullOrWhiteSpace(lines[index + 1]))
+        while (index + 1 < lines.Length && !string.IsNullOrWhiteSpace(lines[index + 1]))
         {
             var descriptionLine = lines[++index].Trim();
             if (BrewOptionPattern().IsMatch(lines[index]) || descriptionLine.EndsWith(':'))
@@ -646,7 +652,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
     }
 
     private static bool TryFindMatchingUsage(
-        IReadOnlyList<string> lines,
+        string[] lines,
         UsageSynopsisParseResult usage,
         out int usageStartIndex,
         out int usageEndIndex)
@@ -658,7 +664,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
             return false;
         }
 
-        for (var index = 0; index < lines.Count; index++)
+        for (var index = 0; index < lines.Length; index++)
         {
             var candidateStartIndex = index;
             if (!TryMatchUsageSynopsis(lines, ref index, usage.Synopsis))
@@ -683,7 +689,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
     /// </summary>
     private static List<CliOptionDefinition> ParseOptions(
         string helpText,
-        IReadOnlyDictionary<string, string> optionTypes)
+        Dictionary<string, string> optionTypes)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -737,7 +743,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
 
             // Find long form and short form
             var longForm = flags.FirstOrDefault(f => f.StartsWith("--") && !f.Contains("[no-]"));
-            var shortForm = flags.FirstOrDefault(f => f.StartsWith("-") && !f.StartsWith("--"));
+            var shortForm = flags.FirstOrDefault(f => f.StartsWith('-') && !f.StartsWith("--"));
 
             // Handle [no-] options (e.g., --[no-]quarantine)
             var noOptPattern = flags.FirstOrDefault(f => f.Contains("[no-]"));
@@ -818,7 +824,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
         return !match.Success || match.Groups["flags"].Index >= continuationColumn;
     }
 
-    private static IReadOnlyDictionary<string, string> ParseOptionTypes(IEnumerable<string> lines) =>
+    private static Dictionary<string, string> ParseOptionTypes(IEnumerable<string> lines) =>
         lines
             .Where(static line => line.StartsWith($"{OptionTypeMarker}\t", StringComparison.Ordinal))
             .Select(static line => line.Split('\t', 3, StringSplitOptions.TrimEntries))

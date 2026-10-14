@@ -170,7 +170,7 @@ public partial class NewmanCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// Format: -e, --environment <path>     Specify a URL or path to a Postman Environment
     ///         -n, --iteration-count <n>    Define the number of iterations
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
