@@ -107,7 +107,6 @@ internal class ExecutionOrchestrator(
         IReadOnlyList<IModule> allModules = [];
         PipelineSummary? summary = null;
         Exception? caughtException = null;
-        var reportCancellationToken = _engineCancellationToken.NonFailureCancellationToken;
         try
         {
             allModules = _pipelineInitializer.RegisteredModules ?? [];
@@ -120,10 +119,6 @@ internal class ExecutionOrchestrator(
                     _outputCoordinator.PrintResults(completedSummary);
                     return completedSummary;
                 }
-
-                // Accepted workers must publish their final status even after caller cancellation.
-                // RunReportService bounds that publication with its independent worker metrics timeout.
-                reportCancellationToken = CancellationToken.None;
             }
 
             using var initializationCts = CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
@@ -170,6 +165,11 @@ internal class ExecutionOrchestrator(
         }
 
         // Step 2: Always print summary (exactly once)
+        // An attempted registration may be committed even if cancellation interrupts its acknowledgment.
+        // RunReportService bounds final publication with its independent worker metrics timeout.
+        var reportCancellationToken = _executionBackend is WorkerModuleExecutor { RegistrationAttempted: true }
+            ? CancellationToken.None
+            : _engineCancellationToken.NonFailureCancellationToken;
         summary = await PrintSummary(
                 allModules,
                 stopWatch,

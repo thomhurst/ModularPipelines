@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
+using Moq;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Enums;
 using ModularPipelines.Events;
@@ -93,8 +94,12 @@ public class LateWorkerTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
     [Timeout(30_000)]
-    public async Task Cancellation_During_Start_Handlers_Publishes_Final_Status_And_Allows_Cleanup(CancellationToken cancellationToken)
+    public async Task Cancellation_During_Worker_Startup_Publishes_Final_Status_And_Allows_Cleanup(
+        bool cancelRegistrationAcknowledgment,
+        CancellationToken cancellationToken)
     {
         var coordinator = new InMemoryDistributedCoordinator();
         using var callerCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -106,8 +111,27 @@ public class LateWorkerTests
             TotalInstances = 2,
             RunId = "canceled-start-run",
         });
-        builder.Services.AddSingleton<IDistributedWorkerCoordinator>(coordinator);
-        builder.Services.AddSingleton<IPipelineEventHandler>(new CancelingStartHandler(coordinator, callerCancellation));
+        if (cancelRegistrationAcknowledgment)
+        {
+            var transport = new Mock<IDistributedWorkerCoordinator>(MockBehavior.Strict);
+            transport.Setup(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()))
+                .Returns<WorkerRegistration, CancellationToken>(async (registration, token) =>
+                {
+                    // The master commits the participant before the transport loses its acknowledgment.
+                    await coordinator.RegisterWorkerAsync(registration, token);
+                    await callerCancellation.CancelAsync();
+                    token.ThrowIfCancellationRequested();
+                });
+            transport.Setup(instance => instance.SendHeartbeatAsync(It.IsAny<WorkerStatus>(), It.IsAny<CancellationToken>()))
+                .Returns<WorkerStatus, CancellationToken>(coordinator.SendHeartbeatAsync);
+            builder.Services.AddSingleton(transport.Object);
+            builder.AddPipelineEventHandler<UnexpectedHandler>();
+        }
+        else
+        {
+            builder.Services.AddSingleton<IDistributedWorkerCoordinator>(coordinator);
+            builder.Services.AddSingleton<IPipelineEventHandler>(new CancelingStartHandler(coordinator, callerCancellation));
+        }
         builder.AddModule<UnexpectedModule>();
         await using var pipeline = await builder.BuildAsync();
 
@@ -138,6 +162,28 @@ public class LateWorkerTests
         await masterPipeline.RunAsync(cancellationToken);
 
         await Assert.That(cleanup.Called).IsTrue();
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Cancellation_Before_Registration_Does_Not_Register_Or_Publish_Final_Status(CancellationToken cancellationToken)
+    {
+        var coordinator = new Mock<IDistributedWorkerCoordinator>(MockBehavior.Strict);
+        using var callerCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options with { Role = DistributedRole.Worker });
+        builder.Services.AddSingleton(coordinator.Object);
+        builder.AddModule<UnexpectedModule>();
+        builder.AddPipelineEventHandler<UnexpectedHandler>();
+        await using var pipeline = await builder.BuildAsync();
+        await callerCancellation.CancelAsync();
+
+        await Assert.That(async () =>
+        {
+            await pipeline.RunAsync(callerCancellation.Token);
+        }).Throws<OperationCanceledException>();
+
+        coordinator.VerifyNoOtherCalls();
     }
 
     private sealed class CancelingStartHandler(

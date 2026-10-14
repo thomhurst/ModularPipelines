@@ -59,6 +59,9 @@ internal class WorkerModuleExecutor(
 
     private WorkerRegistration? _registration;
 
+    // A canceled acknowledgment does not prove that the master rejected the registration.
+    internal bool RegistrationAttempted { get; private set; }
+
     /// <summary>
     /// Gets or sets how long a worker waits for canceled modules to stop after its master completed
     /// or was lost, before it abandons them.
@@ -89,12 +92,15 @@ internal class WorkerModuleExecutor(
             RunId = options.RunId,
             PipelineSchemaVersion = _typeRegistry.GetPipelineSchemaVersion(),
         };
+        cancellationToken.ThrowIfCancellationRequested();
+        RegistrationAttempted = true;
         try
         {
             await _coordinator.RegisterWorkerAsync(registration, cancellationToken).ConfigureAwait(false);
         }
         catch (DistributedRunCompletedException)
         {
+            RegistrationAttempted = false;
             if (_logger.IsEnabled(LogLevel.Information))
             {
                 _logger.LogInformation("The distributed run has completed; worker {WorkerId} will not participate", registration.WorkerId);
