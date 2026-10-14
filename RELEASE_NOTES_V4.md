@@ -1091,3 +1091,12 @@ fallback; an explicitly configured implicit FTPS mode is also supported. Control
 data connections stay encrypted. This policy overrides configurator settings that would
 disable encryption. The default remains `false` for compatibility with plaintext servers
 and uses FluentFTP auto-detection, which can send credentials without encryption.
+
+## Email package namespaces
+
+`EmailSendOptions` and `EmailExtensions` now live in `ModularPipelines.Email` alongside
+`IEmail`. Replace imports of `ModularPipelines.Email.Options` and
+`ModularPipelines.Email.Extensions` with the root namespace. The generated
+`context.Tools.Email` entry point and `SendAsync` behavior are unchanged.
+`RegisterEmailContext` remains public for generated registration and is hidden from
+IntelliSense.
