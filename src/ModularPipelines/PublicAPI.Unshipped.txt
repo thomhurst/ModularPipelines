@@ -3555,3 +3555,5 @@ override ModularPipelines.Distributed.DistributedRunCleanupContext.GetHashCode()
 override ModularPipelines.Distributed.DistributedRunCleanupContext.ToString() -> string!
 static ModularPipelines.Distributed.DistributedRunCleanupContext.operator !=(ModularPipelines.Distributed.DistributedRunCleanupContext? left, ModularPipelines.Distributed.DistributedRunCleanupContext? right) -> bool
 static ModularPipelines.Distributed.DistributedRunCleanupContext.operator ==(ModularPipelines.Distributed.DistributedRunCleanupContext? left, ModularPipelines.Distributed.DistributedRunCleanupContext? right) -> bool
+ModularPipelines.Distributed.DistributedRunCompletedException
+ModularPipelines.Distributed.DistributedRunCompletedException.DistributedRunCompletedException() -> void

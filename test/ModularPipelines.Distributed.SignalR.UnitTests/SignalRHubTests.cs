@@ -52,19 +52,18 @@ public class SignalRHubTests
     }
 
     [Test]
-    public async Task Worker_That_Missed_Completion_Still_Stops()
+    public async Task New_Worker_Is_Rejected_After_Completion()
     {
         await using var test = await SignalRTestMaster.StartAsync();
         await test.Master.SignalCompletionAsync(CancellationToken.None);
-
-        // The worker connects after the master finished, so it never saw a completion broadcast.
         var worker = await test.ConnectWorkerAsync();
         var registration = SignalRTestMaster.Registration("late-worker");
-        await worker.RegisterWorkerAsync(registration, CancellationToken.None);
-        var lease = await worker.DequeueModuleAsync(registration.WorkerId, new HashSet<Capability>(), CancellationToken.None)
-            .WaitAsync(Timeout);
 
-        await Assert.That(lease).IsNull();
+        await Assert.That(async () => await worker.RegisterWorkerAsync(registration, CancellationToken.None))
+            .Throws<DistributedRunCompletedException>();
+        await Assert.That(await test.Master.GetRegisteredWorkersAsync(CancellationToken.None)).IsEmpty();
+        await Assert.That(await test.Master.GetWorkerStatusesAsync(CancellationToken.None)).IsEmpty();
+        await Assert.That(await worker.GetMasterStateAsync(CancellationToken.None)).IsEqualTo(DistributedMasterState.Completed);
     }
 
     [Test]
@@ -254,14 +253,19 @@ public class SignalRHubTests
     }
 
     [Test]
-    public async Task Worker_That_Registers_After_Completion_Learns_Of_It()
+    public async Task Reconnecting_Worker_Learns_Of_Completion_Without_Dequeuing()
     {
         await using var test = await SignalRTestMaster.StartAsync();
+        var registration = SignalRTestMaster.Registration("worker-a");
+        var first = await test.ConnectWorkerAsync();
+        await first.RegisterWorkerAsync(registration, CancellationToken.None);
+        await first.DisposeAsync();
         await test.Master.SignalCompletionAsync(CancellationToken.None);
         var worker = await test.ConnectWorkerAsync();
-        await worker.RegisterWorkerAsync(SignalRTestMaster.Registration("worker-a"), CancellationToken.None);
+        await worker.RegisterWorkerAsync(registration, CancellationToken.None);
 
         await WaitForMasterStateAsync(worker, DistributedMasterState.Completed);
+        await Assert.That(await test.Master.GetRegisteredWorkersAsync(CancellationToken.None)).HasSingleItem();
     }
 
     [Test]

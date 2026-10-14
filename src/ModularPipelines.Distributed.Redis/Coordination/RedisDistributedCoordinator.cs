@@ -159,15 +159,15 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         var waitReadySignalled = false;
         while (true)
         {
-            var claim = await TryClaimAsync(workerId, workerCapabilities, cancellationToken).ConfigureAwait(false);
-            if (claim.Closed)
+            var (closed, lease) = await TryClaimAsync(workerId, workerCapabilities, cancellationToken).ConfigureAwait(false);
+            if (closed)
             {
                 return null;
             }
 
-            if (claim.Lease is not null)
+            if (lease is not null)
             {
-                return claim.Lease;
+                return lease;
             }
 
             if (!waitReadySignalled)
@@ -258,6 +258,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 ],
                 cancellationToken)
             .ConfigureAwait(false);
+        if (result == "completed")
+        {
+            throw new DistributedRunCompletedException();
+        }
+
         if (result == "duplicate")
         {
             throw new InvalidOperationException(
