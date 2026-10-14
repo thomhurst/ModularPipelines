@@ -1,0 +1,32 @@
+DESCRIPTION
+       Used to acknowledge an engagement to a contact channel during an inci- dent. See also: AWS API Documentation
+
+SYNOPSIS
+       aws ssm-contacts accept-page
+       --page-id <value>
+       --accept-type <value>
+       --accept-code <value>
+       [--contact-channel-id <value>]
+       [--note <value>]
+       [--accept-code-validation <value>]
+       [--cli-input-json <value>]
+       [--generate-cli-skeleton <value>]
+
+OPTIONS
+       --page-id (string) [required]
+        The Amazon Resource Name (ARN) of the engagement to a contact chan- nel. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+
+       --accept-type (string) [required]
+        The type indicates if the page was DELIVERED or READ . Possible values: o DELIVERED o READ
+
+       --accept-code (string) [required]
+        A 6-digit code used to acknowledge the page. Constraints: o min: 6 o max: 10 o pattern: ^[0-9]*$
+
+       --contact-channel-id (string)
+        The ARN of the contact channel. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+
+       --note (string)
+        Information provided by the user when the user acknowledges the page. Constraints: o min: 1 o max: 2048 o pattern: ^[.\s\S]*$
+
+       --accept-code-validation (string)
+        An optional field that Incident Manager uses to ENFORCE AcceptCode validation when acknowledging an page. Acknowledgement can occur by replying to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation causes Incident Manager to verify that the code entered by the user matches the code sent by Incident Manager with the page. Incident Manager can also IGNORE AcceptCode validation. Ignoring AcceptCode validation causes Incident Manager to accept any value entered for the AcceptCode . Possible values: o IGNORE o ENFORCE
