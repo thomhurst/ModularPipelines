@@ -1,5 +1,4 @@
 using FluentFTP;
-using ModularPipelines.Ftp.Options;
 
 namespace ModularPipelines.Ftp;
 

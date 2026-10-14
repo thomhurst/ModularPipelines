@@ -14,11 +14,11 @@ dotnet add package ModularPipelines.Ftp
 
 ## Connect from a module
 
-Import `ModularPipelines.Ftp.Options` for the options and use `context.Tools.Ftp`:
+Import `ModularPipelines.Ftp` for the options and use `context.Tools.Ftp`:
 
 ```csharp
 using System.Net;
-using ModularPipelines.Ftp.Options;
+using ModularPipelines.Ftp;
 
 public class ConnectFtpModule : Module<None>
 {
@@ -55,6 +55,14 @@ compatibility with plaintext FTP servers; that mode uses FluentFTP auto-detectio
 and can send credentials without encryption.
 
 ## V4 migration
+
+`FtpOptions` and `FtpExtensions` now live in `ModularPipelines.Ftp`. Replace
+`using ModularPipelines.Ftp.Options;` and `using ModularPipelines.Ftp.Extensions;`
+with `using ModularPipelines.Ftp;`.
+
+`RegisterFtpContext` remains public for source-generator discovery but is hidden
+from IntelliSense with `EditorBrowsable(Never)`. Generated registration and
+`context.Tools.Ftp` remain available; modules do not need to register FTP manually.
 
 `GetFtpClientAsync` accepts an optional `CancellationToken`; custom `IFtp`
 implementations must update their signature. Existing calls without a token remain valid.
