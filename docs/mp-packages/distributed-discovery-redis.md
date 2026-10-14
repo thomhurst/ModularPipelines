@@ -57,15 +57,15 @@ builder.AddRedisMasterDiscovery(options => options with
 
 {
 
-    ConfigureConnection = connection =>
+    ConfigureConnection = connection => connection with
 
     {
 
-        connection.EndPoints.Add("redis.internal", 6380);
+        Endpoints = [new RespireEndpoint("redis.internal", 6380)],
 
-        connection.Ssl = true;
+        UseTls = true,
 
-        connection.Password = builder.Configuration["RedisPassword"];
+        Password = builder.Configuration["RedisPassword"],
 
     },
 

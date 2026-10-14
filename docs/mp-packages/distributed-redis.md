@@ -8,6 +8,8 @@
 dotnet add package ModularPipelines.Distributed.Redis
 ```
 
+The coordinator needs **Redis 7.4 or later, or Valkey 9.0 or later**, because worker heartbeats use hash field expiry (`HPEXPIRE`). Creating a coordinator against an older server fails with a `NotSupportedException` that names the requirement. The artifact store and module cache work with older servers.
+
 ## Configuration[​](#configuration "Direct link to Configuration")
 
 Use the combined helper when Redis should provide both services:
@@ -47,22 +49,20 @@ builder.AddRedisDistributed(redis => redis with
 
     ConnectionString = "redis.example.com:6380",
 
-    ConfigureConnection = connection =>
+    ConfigureConnection = connection => connection with
 
     {
 
-        connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+        Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD"),
 
-        connection.Ssl = true;
-
-        connection.AbortOnConnectFail = false;
+        UseTls = true,
 
     },
 
 });
 ```
 
-Each Redis feature owns its connection and connects asynchronously on first use. The package does not register or reuse an `IConnectionMultiplexer` from the service collection.
+The package uses the [Respire](https://thomhurst.github.io/Respire/) client. `ConfigureConnection` transforms the immutable `Respire.RespireOptions` parsed from the connection string. Each Redis feature owns its connection and connects asynchronously on first use. The package does not register or reuse an `IRespireClient` from the service collection.
 
 Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
