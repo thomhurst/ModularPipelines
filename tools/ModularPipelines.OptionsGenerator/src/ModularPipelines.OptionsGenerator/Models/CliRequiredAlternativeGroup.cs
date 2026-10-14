@@ -58,7 +58,7 @@ public sealed record CliRequiredAlternativeMember
     internal string? ValuePattern { get; init; }
 
     /// <summary>
-    /// The flag value that activates a named conditional requirement, when only one spelling is a trigger.
+    /// The flag value that satisfies a usage alternative or activates a named conditional requirement.
     /// </summary>
     public bool? RequiredFlagValue { get; init; }
 

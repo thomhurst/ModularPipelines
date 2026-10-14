@@ -2633,6 +2633,9 @@ public sealed record UsageRequiredAlternativeMember
     // Distinguishes a combined operand from a bare value in a usage alternative.
     internal string? ValuePattern { get; init; }
 
+    // A negatable flag can complete a usage form only through its selecting value.
+    internal bool? RequiredFlagValue { get; init; }
+
     /// <summary>Whether this member is mandatory when its bundle is supplied.</summary>
     public bool IsRequired { get; init; } = true;
 

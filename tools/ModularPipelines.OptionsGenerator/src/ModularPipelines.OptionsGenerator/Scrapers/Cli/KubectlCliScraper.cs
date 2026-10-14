@@ -72,7 +72,11 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
                         name,
                         type with { ValuePattern = @"\A[^/\s]+/[^/\s]+\z" },
                         .. options.Where(option => option.SwitchName is "--all" or "--selector" or "--field-selector")
-                            .Select(option => new UsageRequiredAlternativeMember { OptionSwitch = option.SwitchName }),
+                            .Select(option => new UsageRequiredAlternativeMember
+                            {
+                                OptionSwitch = option.SwitchName,
+                                RequiredFlagValue = option.SwitchName == "--all" ? true : null,
+                            }),
                     ],
                 });
             }

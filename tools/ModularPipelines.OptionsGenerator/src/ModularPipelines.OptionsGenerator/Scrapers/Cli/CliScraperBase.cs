@@ -1194,6 +1194,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 PropertyName = command.Options[optionIndex].PropertyName,
                 OptionSwitch = command.Options[optionIndex].SwitchName,
                 ValuePattern = member.ValuePattern,
+                RequiredFlagValue = member.RequiredFlagValue,
             };
         }
 
