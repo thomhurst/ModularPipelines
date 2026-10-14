@@ -186,6 +186,13 @@ internal class ExecutionOrchestrator(
         }
 
         // Step 3: Handle exceptions - rethrow original if present, otherwise check for pipeline failure
+        ThrowIfPipelineFailed(summary, caughtException);
+
+        return summary;
+    }
+
+    private void ThrowIfPipelineFailed(PipelineSummary summary, Exception? caughtException)
+    {
         if (caughtException != null)
         {
             ExceptionDispatchInfo.Capture(caughtException).Throw();
@@ -200,8 +207,6 @@ internal class ExecutionOrchestrator(
 
             throw new PipelineFailedException(summary, failedModules);
         }
-
-        return summary;
     }
 
     /// <summary>
