@@ -27,7 +27,10 @@ Help-only probes accepted `--recursive`, `-R`, `--recursive=true`,
 The short filename description and selector operator list in the annotate help
 are the binary's actual output, not truncated scraper descriptions.
 
-Only trailing whitespace was removed from the captured output.
+Trailing whitespace was removed from the captured output. In `options.txt`, the
+Windows user-specific `--cache-dir` default is sanitized to `~/.kube/cache`.
+The captured description remains unchanged; the scraper already removes this
+platform-specific default from generated option documentation.
 
 Additional help-only probes accepted `--recursive=` with each of `1`, `0`, `t`,
 `f`, `T`, `F`, `true`, `false`, `True`, `False`, `TRUE`, and `FALSE` (exit 0).

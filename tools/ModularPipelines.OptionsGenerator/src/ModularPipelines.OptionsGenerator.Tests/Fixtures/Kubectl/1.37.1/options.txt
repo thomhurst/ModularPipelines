@@ -12,7 +12,7 @@ The following options can be passed to any command:
     --as-user-extra=[]:
 	User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
 
-    --cache-dir='C:\Users\thomh\.kube\cache':
+    --cache-dir='~/.kube/cache':
 	Default cache directory
 
     --certificate-authority='':
