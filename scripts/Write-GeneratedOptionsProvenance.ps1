@@ -37,11 +37,11 @@ Assert-GeneratedOptionsCommandMetadata `
     -CommandTreeSha256 ([string]$coverage.commandTreeSha256)
 
 $provenance = [ordered]@{
-    formatVersion = 1
+    formatVersion = 2
     toolName = $Tool
     toolVersion = $coverage.toolVersion
     commandTreeSha256 = $coverage.commandTreeSha256
-    generatorSourceSha256 = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $root
+    generatorSourceSha256 = Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $root -Tool $Tool
 }
 $provenancePath = Join-Path $packagePath "Generated/$NamespacePrefix.Generation.json"
 $provenance | ConvertTo-Json | Set-Content -LiteralPath $provenancePath -Encoding utf8

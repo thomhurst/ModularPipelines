@@ -23,7 +23,10 @@ Assert-GeneratedOptionsCommandMetadata `
     -Name 'Generated provenance' `
     -ToolVersion ([string]$provenance.toolVersion) `
     -CommandTreeSha256 ([string]$provenance.commandTreeSha256)
-if ($provenance.formatVersion -ne 1 -or
+if ($provenance.formatVersion -eq 1) {
+    throw "Generated snapshots for '$Tool' use provenance format 1, which fingerprints the whole generator. Rerun Generate CLI Options from current '$CurrentBase'; do not rebase old generated commits."
+}
+if ($provenance.formatVersion -ne 2 -or
     -not [string]::Equals(
         [string]$provenance.toolName,
         $Tool,
@@ -49,9 +52,25 @@ if ($provenance.toolVersion -ne $coverage.toolVersion -or
 
 $currentFingerprint = Get-GeneratedOptionsSourceFingerprint `
     -RepositoryRoot $RepositoryRoot `
+    -Tool $Tool `
     -Revision $CurrentBase
 if ($provenance.generatorSourceSha256 -ne $currentFingerprint) {
-    throw "Generated snapshots for '$Tool' are stale. Generator inputs changed after this snapshot was produced. Rerun Generate CLI Options from current '$CurrentBase'; do not rebase old generated commits."
+    # The commit that recorded this provenance, or its parent, holds the generator inputs
+    # it fingerprints. Listing what changed since then tells the reader why it is stale.
+    $relativeProvenance = [IO.Path]::GetRelativePath([IO.Path]::GetFullPath($RepositoryRoot), [IO.Path]::GetFullPath($provenancePath)).Replace('\', '/')
+    $recordedIn = git -C $RepositoryRoot log -1 --format=%H HEAD -- $relativeProvenance 2>$null
+    $sourceRevision = @("$recordedIn", "$recordedIn^") | Where-Object {
+        $recordedIn -and $(try {
+                (Get-GeneratedOptionsSourceFingerprint -RepositoryRoot $RepositoryRoot -Tool $Tool -Revision $_ -ErrorAction Stop) -eq
+                    $provenance.generatorSourceSha256
+            } catch { $false })
+    } | Select-Object -First 1
+    $changed = if ($sourceRevision) {
+        $paths = @(Get-GeneratedOptionsChangedSource -RepositoryRoot $RepositoryRoot -Tool $Tool `
+                -FromRevision $sourceRevision -ToRevision $CurrentBase)
+        if ($paths.Count -gt 0) { " Changed inputs since $($sourceRevision): $($paths -join ', ')." } else { '' }
+    } else { ' The commit that produced this snapshot is not available locally, so the changed inputs cannot be listed.' }
+    throw "Generated snapshots for '$Tool' are stale. Generator inputs changed after this snapshot was produced.$changed Rerun Generate CLI Options from current '$CurrentBase'; do not rebase old generated commits."
 }
 
 Write-Host "Generated snapshots for '$Tool' match the generator on '$CurrentBase'."
