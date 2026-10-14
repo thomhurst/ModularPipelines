@@ -606,6 +606,31 @@ function Wait-Backoff([string]$Reason) {
     Start-Sleep -Seconds $seconds
 }
 
+# Codex leaks a full marketplace clone into .staging on every failed auto-upgrade
+# (openai/codex#38770), and every `codex exec` unit can start one. An upgrade times out
+# after 30 s, so a directory older than -MinutesOld belongs to no running upgrade. Git
+# marks pack files read-only, which blocks Remove-Item on Windows until it is cleared.
+function Remove-CodexMarketplaceStaging([int]$MinutesOld = 10) {
+    $codexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $HOME '.codex' }
+    $staging = Join-Path $codexHome '.tmp/marketplaces/.staging'
+    if (-not (Test-Path -LiteralPath $staging)) { return }
+    $cutoff = (Get-Date).AddMinutes(-$MinutesOld)
+    $stale = @(Get-ChildItem -LiteralPath $staging -Directory -Filter 'marketplace-upgrade-*' -Force -ErrorAction SilentlyContinue |
+        Where-Object LastWriteTime -lt $cutoff)
+    $removed = 0
+    foreach ($dir in $stale) {
+        try {
+            Get-ChildItem -LiteralPath $dir.FullName -Recurse -File -Force -ErrorAction SilentlyContinue |
+                Where-Object IsReadOnly |
+                ForEach-Object { $_.IsReadOnly = $false }
+            Remove-Item -LiteralPath $dir.FullName -Recurse -Force -ErrorAction Stop
+            $removed++
+        }
+        catch { Write-Host "issue-pr-loop: could not remove $($dir.FullName): $($_.Exception.Message)" }
+    }
+    if ($removed -gt 0) { Write-Host "issue-pr-loop: removed $removed stale Codex marketplace staging dir(s)" }
+}
+
 Write-Host "issue-pr-loop: agent=$selected repo=$repo"
 Write-Host "issue-pr-loop: logs in $LogDirectory"
 Write-Host "issue-pr-loop: create $stopFile to stop after the current unit"
@@ -620,6 +645,7 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     $runId = '{0:yyyyMMdd-HHmmss}-{1}' -f (Get-Date), ([guid]::NewGuid().ToString('N').Substring(0, 8))
     $log = Join-Path $LogDirectory "$runId.log"
     Set-Item -Path "Env:$ownerVariable" -Value "issue-pr-loop-$runId"
+    Remove-CodexMarketplaceStaging
 
     $ping = Invoke-Locks @('ping') -TimeoutSeconds 90
     if ($ping.ExitCode -ne 0) {
