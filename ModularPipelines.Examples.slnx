@@ -7,4 +7,6 @@
   <Project Path="src/ModularPipelines.Examples/ModularPipelines.Examples.csproj" />
   <Project Path="src/ModularPipelines.Git/ModularPipelines.Git.csproj" />
   <Project Path="src/ModularPipelines/ModularPipelines.csproj" />
+  <Project Path="test/ModularPipelines.DocumentationSnippets/ModularPipelines.DocumentationSnippets.csproj" />
+  <Project Path="test/ModularPipelines.DocumentationSnippets.FSharp/ModularPipelines.DocumentationSnippets.FSharp.fsproj" />
 </Solution>
