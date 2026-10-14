@@ -84,8 +84,8 @@ before the `--` separator. `NpmTeamCreateOptions` takes one `scope:team` operand
 `Otp` supplied as an option instead of a second positional argument.
 
 The profile 2FA options now use generated names: replace `NpmProfileDisable2faOptions`
-with `NpmProfileDisable_2faOptions` and `NpmProfileEnable2faOptions` with
-`NpmProfileEnable_2faOptions`, both in `ModularPipelines.Node.Options`.
+with `NpmProfileDisableNumber2faOptions` and `NpmProfileEnable2faOptions` with
+`NpmProfileEnableNumber2faOptions`, both in `ModularPipelines.Node.Options`.
 
 See the generated [npm reference](cli/npm.md), [npx reference](cli/npx.md), and
 [pnpm reference](cli/pnpm.md) for the current command surface.
