@@ -54,7 +54,7 @@ function Test-GeneratedOptionsIgnoredSource {
 
     # The test project is never built or run by generation.
     if ($RelativePath.StartsWith('src/ModularPipelines.OptionsGenerator.Tests/', [StringComparison]::Ordinal)) { return $true }
-    # Examples and Markdown are documentation for people.
+    # Examples and Markdown are documentation for people; the generator project embeds no Markdown.
     if ($RelativePath.StartsWith('examples/', [StringComparison]::Ordinal)) { return $true }
     if ($RelativePath.EndsWith('.md', [StringComparison]::OrdinalIgnoreCase)) { return $true }
     # Public API baselines feed an analyzer, not the emitted code.
@@ -219,7 +219,10 @@ function Get-GeneratedOptionsSourceEntry {
         $entries.Add("$GeneratedOptionsGeneratorRoot/$relative`t$($files[$relative])")
     }
 
-    return @($entries | Sort-Object -CaseSensitive)
+    # The hash must not depend on the culture of the machine that computes it.
+    $sorted = $entries.ToArray()
+    [Array]::Sort($sorted, [StringComparer]::Ordinal)
+    return $sorted
 }
 
 function Get-GeneratedOptionsSourceFingerprint {
@@ -256,7 +259,9 @@ function Get-GeneratedOptionsChangedSource {
         $from.Remove($path)
     }
     $changed.AddRange([string[]]@($from.Keys))
-    return @($changed | Sort-Object -Unique)
+    $sorted = $changed.ToArray()
+    [Array]::Sort($sorted, [StringComparer]::Ordinal)
+    return $sorted
 }
 
 function Get-GeneratedOptionsXmlAtRevision {

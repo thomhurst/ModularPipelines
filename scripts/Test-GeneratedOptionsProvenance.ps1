@@ -607,6 +607,10 @@ internal static class OptionsGeneratorCommand
     # `Other` must not claim a helper whose name only starts with the same letters.
     Set-Content -LiteralPath (Join-Path $cliScrapers 'Otherwise.cs') `
         -Value "namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;`n`ninternal static class Otherwise;"
+    # Culture-aware and ordinal collation order these names differently.
+    foreach ($name in 'Sort_b.cs', 'Sort-b.cs', 'SortB.cs') {
+        Set-Content -LiteralPath (Join-Path $generatorSource $name) -Value "// $name"
+    }
     Set-Content -LiteralPath (Join-Path $generatorSource 'TypeOverrides/fake.json') -Value '{}'
     Set-Content -LiteralPath (Join-Path $generatorSource 'TypeOverrides/other.json') -Value '{}'
     Set-Content -LiteralPath (Join-Path $generatorTests 'OtherCliScraperTests.cs') -Value 'class OtherCliScraperTests { OtherCliScraper s; }'
@@ -623,6 +627,12 @@ internal static class OptionsGeneratorCommand
     Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot
 
     $scopedProvenance = Get-Content -LiteralPath $provenancePath -Raw | ConvertFrom-Json
+    $scopedEntries = @(Get-GeneratedOptionsSourceEntry -RepositoryRoot $tempRoot -Tool fake)
+    $ordinalEntries = [string[]]$scopedEntries.Clone()
+    [Array]::Sort($ordinalEntries, [StringComparer]::Ordinal)
+    if (($scopedEntries -join "`n") -cne ($ordinalEntries -join "`n")) {
+        throw 'Fingerprint entries are not in ordinal order, so the hash could depend on culture.'
+    }
     if ($scopedProvenance.formatVersion -ne 2) {
         throw 'The provenance writer did not record format 2.'
     }
