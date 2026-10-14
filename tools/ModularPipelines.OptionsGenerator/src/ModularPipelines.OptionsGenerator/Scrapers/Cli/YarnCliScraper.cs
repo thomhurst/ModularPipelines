@@ -127,6 +127,20 @@ public partial class YarnCliScraper(ICliCommandExecutor executor, IHelpTextCache
 
     public override string OutputDirectory => "src/ModularPipelines.Yarn";
 
+    // Berry consumes --cwd before Clipanion selects the command. Its command help
+    // hides this option; install's --json and --immutable are not shared settings.
+    protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions =>
+    [
+        new()
+        {
+            SwitchName = "--cwd",
+            PropertyName = "Cwd",
+            CSharpType = "string?",
+            Description = "Run Yarn in this directory. Must precede the command path.",
+            DocumentationUrl = "https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-cli/sources/lib.ts",
+        },
+    ];
+
     protected override string ExecutablePath => OperatingSystem.IsWindows()
         ? ResolveWindowsExecutablePath()
         : ToolName;

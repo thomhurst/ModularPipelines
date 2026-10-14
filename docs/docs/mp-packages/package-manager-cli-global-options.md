@@ -1,0 +1,53 @@
+---
+title: Global options in package-manager CLIs
+---
+
+# Global options in package-manager CLIs
+
+This audit completes #5710, including the remaining Yarn/npm/pnpm work consolidated
+from #5719. The Node tools were checked on 15 October 2026. Versions for the four
+previously completed tools come from their checked-in generation manifests; their
+parser and rendering regressions remain in the generator and integration tests.
+
+| Tool | Evidence | Result |
+| --- | --- | --- |
+| pip 26.2.1 | Root **General Options**, [pip reference](https://pip.pypa.io/en/stable/cli/pip/), #5716 | General Options belong to `PipOptions`. Keep Package Index Options on the commands that expose them. Preserve repeated values, verbosity counters, and proxy masking. |
+| Homebrew 7.0.6 | Installed parser metadata and [GLOBAL OPTIONS](https://docs.brew.sh/Manpage#global-options), #5717 | Debug, quiet, and verbose are inherited after the command. GLOBAL CASK OPTIONS remain limited to the relevant commands. |
+| WinGet 1.29.380 | Installed common help and [WinGet reference](https://learn.microsoft.com/en-us/windows/package-manager/winget/), #5718 | Seven common options are inherited after the command. Help/version information operations are excluded; command-specific value selectors stay local. |
+| Chocolatey 2.7.4 | Installed **Default Options and Switches** and [command reference](https://docs.chocolatey.org/en-us/choco/commands/), #5718 | Shared defaults are inherited after the command. Preserve proxy secrets, value syntax, and command-specific overrides such as a package version. |
+| Yarn Berry 4.18.1 | Captured root/install help, [CLI reference](https://yarnpkg.com/cli), and [CLI dispatcher](https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-cli/sources/lib.ts) | `--cwd` is a shared execution control consumed before the command path. `--json`, `--immutable`, `--mode`, and similar install options stay local. Help/version are information operations. |
+| npm 11.11.0 | Installed root help, installed `@npmcli/config` definitions, and [npm config reference](https://docs.npmjs.com/cli/v11/using-npm/config/) | Supplement shared configuration-file, working-directory, logging, cache, and HTTP transport controls absent from terse root help. Do not promote install, publish, script, workspace, or root information operations merely because npm accepts configuration flags centrally. |
+| pnpm 12.8.1 | Captured root/install/exec help and [pnpm CLI options](https://pnpm.io/pnpm-cli) | Parse the shared execution-context, registry/proxy, reporter, and prompt controls from root help. Preserve `-C`/`--dir`, `-w`/`--workspace-root`, optional color values, repeated workspace-package patterns, and auth-file aliases. Recursive scheduling, filters, streaming, and install-specific settings stay local. |
+
+The Yarn scraper's Classic fallback remains separate from Berry. The system Classic
+1.22.22 help is not evidence for Berry globals. Hosted generation selects Yarn 4;
+the captured Berry 4.18.1 binary was run directly with Node 24.14.1. Both Berry and
+Classic accept the shared directory control, but Classic-only flags are not added
+to the Berry base class.
+
+## Migrating callers
+
+After automated regeneration, initialize inherited options on the selected command
+record. Reflection that uses `DeclaredOnly` must include the base class. Equivalent
+pnpm options are generated once; a command that changes an option's arity or aliases
+keeps its own replacement property. Shared pnpm reporter enums use the base-options
+name rather than a separate type for every command.
+
+Yarn's `Cwd` renders as `yarn --cwd <directory> <command>`. Berry rejects this setting
+after most command paths, so it is the only setting added before Yarn subcommands.
+Set `Json` or `Immutable` on the command that documents it.
+
+npm configuration controls render after the command with equals-separated values.
+Boolean configuration uses explicit `true`/`false`; `Color` accepts the strings
+`true`, `false`, or `always`. `Ca` and `Noproxy` accept repeated values. Proxy URLs
+retain secret metadata because they may include credentials; certificate/config
+file paths are paths, not credential contents. pnpm `Color` uses `CliOptionValue`
+for a bare switch or an attached explicit value.
+
+The npm/npx API migration is owned by #5962 / #6054. This audit changes the merged
+scraper source independently and does not replace that migration's generated output.
+Complete generated packages, references, coverage, and provenance ship through
+**Generate CLI Options** after generator source merges. Automated output PRs must
+build/test the affected package solutions and pass coverage/freshness checks. There
+are no handwritten generated-file changes or generated-package API baselines in
+this audit.

@@ -32,6 +32,16 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
     private static readonly IReadOnlySet<string> PnpmIgnoredOptionSwitches =
         new[] { "--help", "-h" }.ToFrozenSet(StringComparer.Ordinal);
 
+    // Root help also lists recursive/workspace operations. Only execution context,
+    // transport, prompting and reporter settings apply independently of a command.
+    private static readonly FrozenSet<string> GlobalOptionSwitches = new[]
+    {
+        "--yes", "--dir", "--store-dir", "--state-dir", "--npmrc-auth-file",
+        "--ignore-workspace", "--workspace-packages", "--registry", "--https-proxy",
+        "--http-proxy", "--no-proxy", "--color", "--reporter", "--loglevel",
+        "--no-progress", "--use-stderr", "--workspace-root",
+    }.ToFrozenSet(StringComparer.Ordinal);
+
     private static readonly string[] ExcludedChildCommands =
     [
         "pnpm audit signatures", "pnpm stage approve", "pnpm stage download",
@@ -47,6 +57,11 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
     public override string OutputDirectory => "src/ModularPipelines.Node";
 
     protected override IReadOnlySet<string> IgnoredOptionSwitches => PnpmIgnoredOptionSwitches;
+
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseOptions(helpText, "PnpmOptions").Where(option => GlobalOptionSwitches.Contains(option.SwitchName))];
 
     public override CliToolDefinition CreateToolDefinition() =>
         base.CreateToolDefinition() with
@@ -194,9 +209,11 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         var className = GenerateClassName(commandPath);
 
         // Parse options from the help text; clap lists required ones in the usage line
-        var options = ParseOptions(helpText, className);
+        var globalOptions = EffectiveGlobalOptions;
+        var options = ParseOptions(helpText, className, globalOptions);
         usage = UsageSynopsisParser.ResolveOptionUsage(usage, options);
         options = ApplyUsageRequiredOptions(options, usage);
+        options.RemoveAll(option => globalOptions.Any(global => CliGlobalOptionMerger.HasSameShape(global, option)));
 
         // Extract enums from options
         var enums = options
@@ -268,7 +285,8 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
     /// more spaces, or ends at the declaration and is described on the lines beneath it,
     /// followed by [possible values] and other trailers, as clap prints for pnpm 12.
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText, string className)
+    private static List<CliOptionDefinition> ParseOptions(string helpText, string className,
+        IReadOnlyList<CliOptionDefinition>? globalOptions = null)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -322,7 +340,27 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
                 continue;
             }
 
-            options.Add(CreateClapOption(match, className, propertyName, switchName, block));
+            var globalEnum = globalOptions?.FirstOrDefault(option => option.SwitchName == switchName)?.EnumDefinition;
+            var sharesGlobalEnum = globalEnum is not null && globalEnum.Values.Select(value => value.CliValue)
+                .ToHashSet(StringComparer.Ordinal).SetEquals(block.PossibleValues.Select(value => value.Value));
+            var option = CreateClapOption(match, sharesGlobalEnum ? "PnpmOptions" : className, propertyName, switchName, block);
+            // This alias is printed as help metadata, not on the declaration row.
+            // The file contains credentials, but the option value is only its path.
+            if (switchName == "--npmrc-auth-file")
+            {
+                option = option with
+                {
+                    Aliases = block.Description.Contains("--userconfig", StringComparison.Ordinal) ? ["--userconfig"] : [],
+                    IsSecret = false,
+                };
+            }
+
+            if (switchName is "--http-proxy" or "--https-proxy")
+            {
+                option = option with { IsSecret = true };
+            }
+
+            options.Add(option);
         }
 
         return options;

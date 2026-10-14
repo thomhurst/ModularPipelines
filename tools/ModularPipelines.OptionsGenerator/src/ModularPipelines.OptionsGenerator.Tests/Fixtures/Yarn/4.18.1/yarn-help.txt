@@ -1,0 +1,206 @@
+Yarn Package Manager - 4.18.1
+
+  $ yarn <command>
+
+General commands
+
+  yarn add [--json] [-F,--fixed] [-E,--exact] [-T,--tilde] [-C,--caret] [-D,--dev] [-P,--peer] [-O,--optional] [--prefer-dev] [-i,--interactive] [--cached] [--no-time-gate] [--mode #0] ...
+    add dependencies to the project
+
+  yarn bin [-v,--verbose] [--json] [name]
+    get the path to a binary script
+
+  yarn cache clean [--mirror] [--all]
+    remove the shared cache files
+
+  yarn config [--no-defaults] [--json] ...
+    display the current configuration
+
+  yarn config get [--why] [--json] [--no-redacted] <name>
+    read a configuration settings
+
+  yarn config set [--json] [-H,--home] <name> <value>
+    change a configuration settings
+
+  yarn config unset [-H,--home] <name>
+    unset a configuration setting
+
+  yarn dedupe [-s,--strategy #0] [-c,--check] [--json] [--mode #0] ...
+    deduplicate dependencies with overlapping ranges
+
+  yarn dlx [-p,--package #0] [-q,--quiet] <command> ...
+    run a package in a temporary environment
+
+  yarn exec <commandName> ...
+    execute a shell script
+
+  yarn explain [--json] [code]
+    explain an error code
+
+  yarn explain peer-requirements [hash]
+    explain a set of peer requirements
+
+  yarn info [-A,--all] [-R,--recursive] [-X,--extra #0] [--cache] [--dependents] [--manifest] [--name-only] [--virtuals] [--json] ...
+    see information related to packages
+
+  yarn init [-p,--private] [-w,--workspace] [-i,--install] [-n,--name #0]
+    create a new package
+
+  yarn init [-p,--private] [-w,--workspace] [-i,--install] [-n,--name #0] <initializer> ...
+    create a new package
+
+  yarn install [--json] [--immutable] [--immutable-cache] [--refresh-lockfile] [--check-cache] [--check-resolutions] [--inline-builds] [--mode #0]
+    install the project dependencies
+
+  yarn link [-A,--all] [-p,--private] [-r,--relative] ...
+    connect the local project to another one
+
+  yarn node ...
+    run node with the hook already setup
+
+  yarn npm audit [-A,--all] [-R,--recursive] [--environment #0] [--json] [--no-deprecations] [--severity #0] [--exclude #0] [--ignore #0]
+    perform a vulnerability audit against the installed packages
+
+  yarn pack [--install-if-needed] [-n,--dry-run] [--json] [-o,--out #0]
+    generate a tarball from the active workspace
+
+  yarn patch [-u,--update] [--json] <package>
+    prepare a package for patching
+
+  yarn patch-commit [-s,--save] <patchFolder>
+    generate a patch out of a directory
+
+  yarn rebuild ...
+    rebuild the project's native packages
+
+  yarn remove [-A,--all] [--mode #0] ...
+    remove dependencies from the project
+
+  yarn run [--inspect] [--inspect-brk] [-T,--top-level] [-B,--binaries-only] [--require #0] <scriptName> ...
+    run a script defined in the package.json
+
+  yarn set resolution <descriptor> <resolution>
+    enforce a package resolution
+
+  yarn set version [--yarn-path] [--only-if-needed] <version>
+    lock the Yarn version used by the project
+
+  yarn set version from sources [--path #0] [--repository #0] [--branch #0] [--plugin #0] [-n,--dry-run] [--no-minify] [-f,--force] [--skip-plugins]
+    build Yarn from master
+
+  yarn stage [-c,--commit] [-r,--reset] [-n,--dry-run]
+    add all yarn files to your vcs
+
+  yarn unlink [-A,--all] ...
+    disconnect the local project from another one
+
+  yarn unplug [-A,--all] [-R,--recursive] [--json] ...
+    force the unpacking of a list of packages
+
+  yarn up [-i,--interactive] [-F,--fixed] [-E,--exact] [-T,--tilde] [-C,--caret] [-R,--recursive] [--no-time-gate] [--mode #0] ...
+    upgrade dependencies across the project
+
+  yarn why [-R,--recursive] [--json] [--peers] <package>
+    display the reason why a package is needed
+
+Constraints-related commands
+
+  yarn constraints [--fix] [--json]
+    check that the project constraints are met
+
+  yarn constraints query [--json] <query>
+    query the constraints fact database
+
+  yarn constraints source [-v,--verbose]
+    print the source code for the constraints
+
+Interactive commands
+
+  yarn search
+    open the search interface
+
+  yarn upgrade-interactive [--mode #0]
+    open the upgrade interface
+
+Npm-related commands
+
+  yarn npm info [-f,--fields #0] [--json] ...
+    show information about a package
+
+  yarn npm login [-s,--scope #0] [--publish] [--always-auth] [--web-login]
+    store new login info to access the npm registry
+
+  yarn npm logout [-s,--scope #0] [--publish] [-A,--all]
+    logout of the npm registry
+
+  yarn npm publish [--access #0] [--tag #0] [--tolerate-republish] [--otp #0] [--provenance] [-n,--dry-run] [--json] [--staged]
+    publish the active workspace to the npm registry
+
+  yarn npm stage approve [--otp #0] <stageId>
+    approve a staged package version for publishing
+
+  yarn npm stage list [--json] [package]
+    list all staged package versions
+
+  yarn npm stage reject [--otp #0] <stageId>
+    reject a staged package version
+
+  yarn npm tag add <package> <tag>
+    add a tag for a specific version of a package
+
+  yarn npm tag list [--json] [package]
+    list all dist-tags of a package
+
+  yarn npm tag remove <package> <tag>
+    remove a tag from a package
+
+  yarn npm whoami [-s,--scope #0] [--publish]
+    display the name of the authenticated user
+
+Plugin-related commands
+
+  yarn plugin check [--json]
+    find all third-party plugins that differ from their own spec
+
+  yarn plugin import [--checksum] <name>
+    download a plugin
+
+  yarn plugin import from sources [--path #0] [--repository #0] [--branch #0] [--no-minify] [-f,--force] <name>
+    build a plugin from sources
+
+  yarn plugin list [--json]
+    list the available official plugins
+
+  yarn plugin remove <name>
+    remove a plugin
+
+  yarn plugin runtime [--json]
+    list the active plugins
+
+Release-related commands
+
+  yarn version [-d,--deferred] [-i,--immediate] [--all] [-R,--recursive] [--exact] [--prerelease] [--dry-run] [--force] [--json] <strategy>
+    change versions of workspaces
+
+  yarn version apply [--all] [-R,--recursive] [--exact] [--prerelease] [--dry-run] [--force] [--json]
+    apply deferred records to workspaces
+
+  yarn version check [-i,--interactive]
+    check that all the changed workspaces have deferred version bump records
+
+Workspace-related commands
+
+  yarn workspace <workspaceName> <commandName> ...
+    run a command within the specified workspace
+
+  yarn workspaces focus [--json] [--production] [-A,--all] ...
+    install a single workspace and its dependencies
+
+  yarn workspaces foreach [--from #0] [-A,--all] [-R,--recursive] [-W,--worktree] [-v,--verbose] [-p,--parallel] [-i,--interlaced] [-j,--jobs #0] [-t,--topological] [--topological-dev] [--include #0] [--exclude #0] [--no-private] [--since] [-n,--dry-run] <commandName> ...
+    run a command on all workspaces
+
+  yarn workspaces list [--since] [-R,--recursive] [--no-private] [-v,--verbose] [--json]
+    list all available workspaces
+
+You can also print more details about any of these commands by calling them with
+the `-h,--help` flag right after the command name.

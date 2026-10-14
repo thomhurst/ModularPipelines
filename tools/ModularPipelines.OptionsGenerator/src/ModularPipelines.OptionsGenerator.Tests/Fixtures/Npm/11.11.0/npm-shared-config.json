@@ -1,0 +1,140 @@
+{
+  "prefix": {
+    "type": "Path",
+    "short": "C",
+    "description": "The location to install global items.  If set on the command line, then\n      it forces non-global commands to run in the specified folder."
+  },
+  "userconfig": {
+    "type": "Path",
+    "description": "The location of user-level configuration settings.\n\n      This may be overridden by the `npm_config_userconfig` environment\n      variable or the `--userconfig` command line option, but may _not_\n      be overridden by settings in the `globalconfig` file."
+  },
+  "globalconfig": {
+    "type": "Path",
+    "description": "The config file to read for global config options."
+  },
+  "cache": {
+    "type": "Path",
+    "description": "The location of npm's cache directory."
+  },
+  "loglevel": {
+    "type": [
+      "silent",
+      "error",
+      "warn",
+      "notice",
+      "http",
+      "info",
+      "verbose",
+      "silly"
+    ],
+    "description": "What level of logs to report.  All logs are written to a debug log,\n      with the path to that file printed if the execution of a command fails.\n\n      Any logs of a higher level than the setting are shown. The default is\n      \"notice\".\n\n      See also the `foreground-scripts` config."
+  },
+  "logs-dir": {
+    "type": [
+      null,
+      "Path"
+    ],
+    "description": "The location of npm's log directory.  See [`npm\n      logging`](/using-npm/logging) for more information."
+  },
+  "logs-max": {
+    "type": "Number",
+    "description": "The maximum number of log files to store.\n\n      If set to 0, no log files will be written for the current run."
+  },
+  "heading": {
+    "type": "String",
+    "description": "The string that starts all the debugging log output."
+  },
+  "timing": {
+    "type": "Boolean",
+    "description": "If true, writes timing information to a process specific json file in\n      the cache or `logs-dir`. The file name ends with `-timing.json`.\n\n      You can quickly view it with this [json](https://npm.im/json) command\n      line: `cat ~/.npm/_logs/*-timing.json | npm exec -- json -g`.\n\n      Timing information will also be reported in the terminal. To suppress this\n      while still writing the timing file, use `--silent`."
+  },
+  "color": {
+    "type": [
+      "always",
+      "Boolean"
+    ],
+    "description": "If false, never shows colors.  If `\"always\"` then always shows colors.\n      If true, then only prints color codes for tty file descriptors."
+  },
+  "unicode": {
+    "type": "Boolean",
+    "description": "When set to true, npm uses unicode characters in the tree output.  When\n      false, it uses ascii characters instead of unicode glyphs."
+  },
+  "progress": {
+    "type": "Boolean",
+    "description": "When set to `true`, npm will display a progress bar during time\n      intensive operations, if `process.stderr` and `process.stdout` are a TTY.\n\n      Set to `false` to suppress the progress bar."
+  },
+  "registry": {
+    "type": "Path",
+    "description": "The base URL of the npm registry."
+  },
+  "ca": {
+    "type": [
+      null,
+      "String",
+      "Array"
+    ],
+    "description": "The Certificate Authority signing certificate that is trusted for SSL\n    connections to the registry. Values should be in PEM format (Windows\n      calls it \"Base-64 encoded X.509 (.CER)\") with newlines replaced by the\n    string \"\\n\". For example:\n\n    ```ini\n    ca=\"-----BEGIN CERTIFICATE-----\\nXXXX\\nXXXX\\n-----END CERTIFICATE-----\"\n    ```\n\n    Set to `null` to only allow \"known\" registrars, or to a specific CA\n    cert to trust only that specific signing authority.\n\n    Multiple CAs can be trusted by specifying an array of certificates:\n\n    ```ini\n    ca[]=\"...\"\n    ca[]=\"...\"\n    ```\n\n    See also the `strict-ssl` config."
+  },
+  "cafile": {
+    "type": "Path",
+    "description": "A path to a file containing one or multiple Certificate Authority signing\n      certificates. Similar to the `ca` setting, but allows for multiple\n      CA's, as well as for the CA information to be stored in a file on disk."
+  },
+  "strict-ssl": {
+    "type": "Boolean",
+    "description": "Whether or not to do SSL key validation when making requests to the\n      registry via https.\n\n      See also the `ca` config."
+  },
+  "https-proxy": {
+    "type": [
+      null,
+      "Path"
+    ],
+    "description": "A proxy to use for outgoing https requests. If the `HTTPS_PROXY` or\n      `https_proxy` or `HTTP_PROXY` or `http_proxy` environment variables\n      are set, proxy settings will be honored by the underlying\n      `make-fetch-happen` library."
+  },
+  "proxy": {
+    "type": [
+      null,
+      false,
+      "Path"
+    ],
+    "description": "A proxy to use for outgoing http requests. If the `HTTP_PROXY` or\n      `http_proxy` environment variables are set, proxy settings will be\n      honored by the underlying `request` library."
+  },
+  "noproxy": {
+    "type": [
+      "String",
+      "Array"
+    ],
+    "description": "Domain extensions that should bypass any proxies.\n\n      Also accepts a comma-delimited string."
+  },
+  "offline": {
+    "type": "Boolean",
+    "description": "Force offline mode: no network requests will be done during install. To allow\n      the CLI to fill in missing cache data, see `--prefer-offline`."
+  },
+  "prefer-offline": {
+    "type": "Boolean",
+    "description": "If true, staleness checks for cached data will be bypassed, but missing\n      data will be requested from the server. To force full offline mode, use\n      `--offline`."
+  },
+  "prefer-online": {
+    "type": "Boolean",
+    "description": "If true, staleness checks for cached data will be forced, making the CLI\n      look for updates immediately even for fresh package data."
+  },
+  "fetch-retries": {
+    "type": "Number",
+    "description": "The \"retries\" config for the `retry` module to use when fetching\n      packages from the registry.\n\n      npm will retry idempotent read requests to the registry in the case\n      of network failures or 5xx HTTP errors."
+  },
+  "fetch-retry-factor": {
+    "type": "Number",
+    "description": "The \"factor\" config for the `retry` module to use when fetching\n      packages."
+  },
+  "fetch-retry-mintimeout": {
+    "type": "Number",
+    "description": "The \"minTimeout\" config for the `retry` module to use when fetching\n      packages."
+  },
+  "fetch-retry-maxtimeout": {
+    "type": "Number",
+    "description": "The \"maxTimeout\" config for the `retry` module to use when fetching\n      packages."
+  },
+  "fetch-timeout": {
+    "type": "Number",
+    "description": "The maximum amount of time to wait for HTTP requests to complete."
+  }
+}
