@@ -82,6 +82,26 @@ public interface IAwsSecurityagent
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Disassociates a batch of findings from their linked issues. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> BatchDisassociateFindingIssueAsync(AwsSecurityagentBatchDisassociateFindingIssueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Exports a batch of findings to the connected issue tracker as issues. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> BatchExportFindingsAsync(AwsSecurityagentBatchExportFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Retrieves information about one or more agent spaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

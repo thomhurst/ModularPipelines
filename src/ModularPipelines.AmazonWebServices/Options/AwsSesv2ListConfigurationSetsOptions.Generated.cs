@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListConfigurationSetsOptions : AwsOptions
 {
     /// <summary>
-    /// An object that contains filters to apply when listing configuration sets. You can filter by configuration set name. key -&gt; (string) The filter key to use when listing configuration sets. This can be one of the following: o CONFIGURATION_SET_NAME_CONTAINS Filter by a substring of the configuration set name. Possible values: o CONFIGURATION_SET_NAME_CONTAINS value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: CONFIGURATION_SET_NAME_CONTAINS JSON Syntax: {"CONFIGURATION_SET_NAME_CONTAINS": "string" ...}
+    /// An object that contains filters to apply when listing configuration sets. You can filter by a substring of the configuration set name. key -&gt; (string) The filter key to use when listing configuration sets. This can be one of the following: o CONFIGURATION_SET_NAME_CONTAINS Filter by a substring of the configuration set name. Possible values: o CONFIGURATION_SET_NAME_CONTAINS value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: CONFIGURATION_SET_NAME_CONTAINS JSON Syntax: {"CONFIGURATION_SET_NAME_CONTAINS": "string" ...}
     /// </summary>
     [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }

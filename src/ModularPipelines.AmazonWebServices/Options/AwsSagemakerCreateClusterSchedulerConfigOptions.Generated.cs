@@ -27,7 +27,7 @@ public record AwsSagemakerCreateClusterSchedulerConfigOptions : AwsOptions, IVal
     /// <summary>
     /// Create cluster policy configuration. This policy is used for task pri- oritization and fair-share allocation of idle compute. This helps pri- oritize critical workloads and distributes idle compute across enti- ties. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Name for the cluster policy. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="Name">The name for the cluster policy. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn . You can use the same name in other clusters within a Region or across Regions. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     /// <param name="ClusterArn">ARN of the cluster. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12}</param>
     /// <param name="SchedulerConfig">Configuration about the monitoring schedule. PriorityClasses -&gt; (list) List of the priority classes, PriorityClass , of the cluster policy. When specified, these class configurations define how tasks are queued. Constraints: o min: 0 o max: 10 (structure) Priority class configuration. When included in Priority- Classes , these class configurations define how tasks are queued. Name -&gt; (string) [required] Name of the priority class. Constraints: o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9]){0,39}? Weight -&gt; (integer) [required] Weight of the priority class. The value is within a range from 0 to 100, where 0 is the default. A weight of 0 is the lowest priority and 100 is the high- est. Weight 0 is the default. Constraints: o min: 0 o max: 100 FairShare -&gt; (string) When enabled, entities borrow idle compute based on their as- signed FairShareWeight . When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled . Possible values: o Enabled o Disabled IdleResourceSharing -&gt; (string) Configuration for sharing idle compute resources across entities in the cluster. When enabled, unallocated resources are automat- ically calculated and made available for entities to borrow. Possible values: o Enabled o Disabled Shorthand Syntax: PriorityClasses=[{Name=string,Weight=integer},{Name=string,Weight=integer}],FairShare=string,IdleResourceSharing=string JSON Syntax: { "PriorityClasses": [ { "Name": "string", "Weight": integer } ... ], "FairShare": "Enabled"|"Disabled", "IdleResourceSharing": "Enabled"|"Disabled" }</param>
     public AwsSagemakerCreateClusterSchedulerConfigOptions(
@@ -64,7 +64,7 @@ public record AwsSagemakerCreateClusterSchedulerConfigOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name for the cluster policy. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name for the cluster policy. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn . You can use the same name in other clusters within a Region or across Regions. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }

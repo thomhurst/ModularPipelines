@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of Lambda functions, with the version-specific configu- ration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. NOTE: The ListFunctions operation returns a subset of the FunctionConfig- uration fields. To get the additional fields (State, StateReason- Code, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUp- dateStatusReasonCode, RuntimeVersionConfig...
+/// Returns a list of Lambda Event Functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. NOTE: The ListFunctions operation returns a subset of the FunctionConfig- uration fields. To get the additional fields (State, StateReason- Code, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUp- dateStatusReasonCode, RuntimeVersionCo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about an export job. See also: AWS API Documentation
+/// Provides information about an export job. When the job status is COMPLETED , the response includes a pre-signed URL in ExportDestination.S3Url that you use to download the export file. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsSesv2GetExportJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about an export job. See also: AWS API Documentation
+    /// Provides information about an export job. When the job status is COMPLETED , the response includes a pre-signed URL in ExportDestination.S3Url that you use to download the export file. See also: AWS API Documentation
     /// </summary>
     /// <param name="JobId">The export job ID. Constraints: o min: 1</param>
     public AwsSesv2GetExportJobOptions(

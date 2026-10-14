@@ -90,6 +90,12 @@ public record AwsBedrockAgentcoreBatchCreateMemoryRecordsOptions : AwsOptions, I
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
+    /// <summary>
+    /// The record expiry (long-term memory time-to-live) applied to every record created by this request. Set recordExpiryDurationDays to the number of days after which the records expire. Only the expiry pro- vided here is applied; the records' strategy association has no ef- fect on their expiry. If you do not provide this value, the records do not expire. The REMOVE action does not apply when creating records. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: recordExpiryDurationDays, action. recordExpiryDurationDays -&gt; (integer) The duration, in days, after which the records in this request expire. The minimum is 31 days. Constraints: o min: 31 action -&gt; (string) The action to apply to the existing record expiry configuration. Set to REMOVE to remove a previously configured expiry so that the records no longer expire. This value does not apply when creating records. Possible values: o REMOVE Shorthand Syntax: recordExpiryDurationDays=integer,action=string JSON Syntax: { "recordExpiryDurationDays": integer, "action": "REMOVE" }
+    /// </summary>
+    [CliOption("--record-expiry-specification")]
+    public string? RecordExpirySpecification { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

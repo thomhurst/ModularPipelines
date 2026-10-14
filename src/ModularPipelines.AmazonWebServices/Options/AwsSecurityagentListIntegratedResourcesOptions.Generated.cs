@@ -70,7 +70,7 @@ public record AwsSecurityagentListIntegratedResourcesOptions : AwsOptions, IVali
     public string? IntegrationId { get; set; }
 
     /// <summary>
-    /// The type of resource to filter by. Possible values: o CODE_REPOSITORY o DOCUMENT
+    /// The type of resource to filter by. Possible values: o CODE_REPOSITORY o DOCUMENT o PROJECT
     /// </summary>
     [CliOption("--resource-type")]
     public AwsSecurityagentListIntegratedResourcesResourceType? ResourceType { get; set; }

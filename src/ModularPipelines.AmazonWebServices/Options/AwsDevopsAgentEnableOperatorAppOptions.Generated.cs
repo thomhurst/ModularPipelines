@@ -31,7 +31,7 @@ public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions, IValidatableO
     /// </summary>
     /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
     /// <param name="AuthFlow">The authentication flow configured for the operator App. e.g. iam or idc Possible values: o iam o idc o idp</param>
-    /// <param name="OperatorAppRoleArn">The IAM role end users assume to access AIDevOps APIs Constraints: o min: 1 o max: 255 o pattern: arn:aws:iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+</param>
+    /// <param name="OperatorAppRoleArn">The IAM role end users assume to access AIDevOps APIs Constraints: o min: 1 o max: 255 o pattern: arn:(aws|aws-cn|aws-us-gov):iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+</param>
     public AwsDevopsAgentEnableOperatorAppOptions(
         string AgentSpaceId,
         AwsDevopsAgentEnableOperatorAppAuthFlow AuthFlow,
@@ -77,7 +77,7 @@ public record AwsDevopsAgentEnableOperatorAppOptions : AwsOptions, IValidatableO
     public AwsDevopsAgentEnableOperatorAppAuthFlow? AuthFlow { get; private init; }
 
     /// <summary>
-    /// The IAM role end users assume to access AIDevOps APIs Constraints: o min: 1 o max: 255 o pattern: arn:aws:iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+
+    /// The IAM role end users assume to access AIDevOps APIs Constraints: o min: 1 o max: 255 o pattern: arn:(aws|aws-cn|aws-us-gov):iam::\d{12}:role/[a-zA-Z0-9+=,.@_/-]+
     /// </summary>
     [CliOption("--operator-app-role-arn")]
     public string? OperatorAppRoleArn { get; private init; }

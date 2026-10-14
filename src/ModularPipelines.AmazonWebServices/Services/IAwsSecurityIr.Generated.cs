@@ -112,6 +112,16 @@ public interface IAwsSecurityIr
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Returns finding-lifecycle metrics for a membership over a date range. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetFindingMetricsAsync(AwsSecurityIrGetFindingMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Returns the attributes of a membership. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

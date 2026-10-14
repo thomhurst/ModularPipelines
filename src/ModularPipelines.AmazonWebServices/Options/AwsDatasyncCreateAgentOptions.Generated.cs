@@ -74,19 +74,19 @@ public record AwsDatasyncCreateAgentOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1 . WARNING: The VPC service endpoint you use must include the DataSync ser- vice name (for example, com.amazonaws.us-east-2.datasync ). Constraints: o pattern: ^vpce-[0-9a-f]{17}$
+    /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1 . WARNING: The VPC service endpoint you use must include the DataSync ser- vice name (for example, com.amazonaws.us-east-2.datasync ). The endpoint ID is informational. DataSync doesn't verify it or use it to connect to your agent. For more information, see Using a sin- gle VPC service endpoint across multiple subnets . Constraints: o pattern: ^vpce-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
 
     /// <summary>
-    /// Specifies the ARN of the subnet where your VPC service endpoint is located. You can only specify one ARN. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:sub- net/subnet-[a-f0-9]+$ Syntax: "string" "string" ...
+    /// Specifies the ARN of the subnet where DataSync creates the network interfaces that handle data transfer traffic for your tasks. You can only specify one ARN. The subnet doesn't have to be the subnet that contains your VPC ser- vice endpoint. The subnet can be one that another Amazon Web Ser- vices account shared with you through RAM , in which case the ARN must specify the account that owns the subnet. For more information, see Using a single VPC service endpoint across multiple subnets . Constraints: o min: 1 o max: 1 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:sub- net/subnet-[a-f0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-arns", GroupValues = true)]
     public IEnumerable<string>? SubnetArns { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...
+    /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN. The ARN must specify your own account, even when the security group was shared with you from the account that owns the VPC. The security group must belong to the same VPC as the subnet that you specify in SubnetArns . Constraints: o min: 1 o max: 1 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-arns", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupArns { get; set; }

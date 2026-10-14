@@ -29,7 +29,7 @@ public record AwsCeListCostCategoryDefinitionsOptions : AwsOptions
     public string? EffectiveOn { get; set; }
 
     /// <summary>
-    /// Filter cost category definitions that are supported by given re- source types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input re- source type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing and billing:billingview . Constraints: o min: 0 o max: 5 (string) Constraints: o pattern: ^[-a-zA-Z0-9/_]+:[-a-zA-Z0-9/_]+ Syntax: "string" "string" ...
+    /// Filter cost category definitions that are supported by given re- source types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input re- source type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing , billing:billingview , and billing:creditsharing . Constraints: o min: 0 o max: 5 (string) Constraints: o pattern: ^[-a-zA-Z0-9/_]+:[-a-zA-Z0-9/_]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--supported-resource-types", GroupValues = true)]
     public IEnumerable<string>? SupportedResourceTypes { get; set; }

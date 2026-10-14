@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves a collection of fleet resources in an Amazon Web Services Re- gion. You can filter the result set to find only those fleets that are deployed with a specific build or script. For fleets that have multiple locations, this operation retrieves fleets based on their home Region only. You can use operation in the following ways: o To get a list of all fleets in a Region, don't provide a build or script identifier. o T...
+/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves a collection of fleet resources in an Amazon Web Services Re- gion. You can filter the result set to find only those fleets that are deployed with a specific build or script. For fleets that have multiple locations, this operation retrieves fleets based on their home Region only. You can use this operation in the following ways: o To get a list of all fleets in a Region, don't provide a build or script identifier...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

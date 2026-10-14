@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -68,6 +69,7 @@ public record AwsSsmContactsActivateContactChannelOptions : AwsOptions, IValidat
     /// <summary>
     /// The code sent to the contact channel when it was created in the con- tact. Constraints: o min: 6 o max: 10 o pattern: ^[0-9]*$
     /// </summary>
+    [SecretValue]
     [CliOption("--activation-code")]
     public string? ActivationCode { get; private init; }
 

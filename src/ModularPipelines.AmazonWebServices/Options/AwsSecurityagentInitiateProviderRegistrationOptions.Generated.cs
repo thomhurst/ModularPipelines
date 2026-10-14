@@ -29,7 +29,7 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
     /// <summary>
     /// Initiates the OAuth registration flow with a third-party provider. Re- turns a redirect URL and CSRF state token for completing the authoriza- tion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Provider">The provider to initiate registration with. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS</param>
+    /// <param name="Provider">The provider to initiate registration with. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS o JIRA</param>
     public AwsSecurityagentInitiateProviderRegistrationOptions(
         AwsSecurityagentInitiateProviderRegistrationProvider Provider
     )
@@ -57,7 +57,7 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The provider to initiate registration with. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS
+    /// The provider to initiate registration with. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS o JIRA
     /// </summary>
     [CliOption("--provider")]
     public AwsSecurityagentInitiateProviderRegistrationProvider? Provider { get; private init; }

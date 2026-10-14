@@ -181,7 +181,7 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
     public string? GatewayBridgeSource { get; set; }
 
     /// <summary>
-    /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source. SourceName -&gt; (string) The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName) . Shorthand Syntax: SourceName=string JSON Syntax: { "SourceName": "string" }
+    /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source. SourceName -&gt; (string) The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName) . AudioReferenceLevel -&gt; (integer) The audio reference level of the NDI sender, in decibels rela- tive to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect uses -20 . Constraints: o min: -40 o max: 0 Shorthand Syntax: SourceName=string,AudioReferenceLevel=integer JSON Syntax: { "SourceName": "string", "AudioReferenceLevel": integer }
     /// </summary>
     [CliOption("--ndi-source-settings")]
     public string? NdiSourceSettings { get; set; }

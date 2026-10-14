@@ -28,7 +28,7 @@ public record AwsEmrServerlessTagResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Assigns tags to resources. A tag is a label that you assign to an Ama- zon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+)?</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+|\/ses- sions\/[0-9a-zA-Z]+)?</param>
     /// <param name="Tags">The tags to add to the resource. A tag is an array of key-value pairs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9 /_.:=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9 /_.:=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsEmrServerlessTagResourceOptions(
         string ResourceArn,
@@ -72,7 +72,7 @@ public record AwsEmrServerlessTagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+)?
+    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+|\/ses- sions\/[0-9a-zA-Z]+)?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

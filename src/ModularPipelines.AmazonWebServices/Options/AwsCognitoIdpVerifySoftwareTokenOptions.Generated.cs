@@ -70,7 +70,7 @@ public record AwsCognitoIdpVerifySoftwareTokenOptions : AwsOptions, IValidatable
     public string? AccessToken { get; set; }
 
     /// <summary>
-    /// The session ID from an AssociateSoftwareToken request. Constraints: o min: 20 o max: 2048
+    /// The session ID from an AssociateSoftwareToken request. Constraints: o min: 20 o max: 4096
     /// </summary>
     [CliOption("--session")]
     public string? Session { get; set; }

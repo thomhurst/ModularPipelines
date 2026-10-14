@@ -82,7 +82,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specif...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 fleet and begins populating the new lo- cations with instances. The new instances conform to the fleet's in- stance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -142,7 +142,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Defines a new matchmaking configuration for use with FlexMatch. Whether your are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Ama- zon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations t...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Defines a new matchmaking configuration for use with FlexMatch. Whether you are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Ama- zon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations to...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Removes locations from a multi-location fleet. When deleting a loca- tion, all game server process and all instances that are still active in the location are shut down. To delete fleet locations, identify the fleet ID and provide a list of the locations to be deleted. If successful, GameLift sets the location status to DELETING , and be- gins to shut down existing server processes and terminate instances in each location ...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Removes locations from a multi-location fleet. When deleting a loca- tion, all game server processes and all instances that are still active in the location are shut down. To delete fleet locations, identify the fleet ID and provide a list of the locations to be deleted. If successful, GameLift sets the location status to DELETING , and be- gins to shut down existing server processes and terminate instances in each locatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -352,7 +352,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete.. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task S...
+    /// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task Se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: Anywhere Removes a compute resource from an Anywhere fleet. Deregistered com- putes can no longer host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that doesn't use the Amazon GameLift Servers Agent For Anywhere fleets with the Agent, the Agent handles all compute registry tasks for you. To deregister a compute, call this operation from the compute that's being deregistered and specify the compute name and...
+    /// This API works with the following fleet types: Anywhere Removes a compute resource from an Anywhere fleet. Deregistered com- putes can no longer host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that doesn't use the Amazon GameLift Servers Agent. For Anywhere fleets with the Agent, the Agent handles all compute registry tasks for you. To deregister a compute, call this operation from the compute that's being deregistered and specify the compute name an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves additional game session properties, including the game ses- sion protection policy in force, a set of one or more game sessions in a specific fleet location. You can optionally filter the results by current game session status. This operation can be used in the following ways: o To retrieve details for all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID, with an o...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves additional game session properties, including the game ses- sion protection policy in force, for a set of one or more game sessions in a specific fleet location. You can optionally filter the results by current game session status. This operation can be used in the following ways: o To retrieve details for all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID, with ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves a collection of fleet resources in an Amazon Web Services Re- gion. You can filter the result set to find only those fleets that are deployed with a specific build or script. For fleets that have multiple locations, this operation retrieves fleets based on their home Region only. You can use operation in the following ways: o To get a list of all fleets in a Region, don't provide a build or script identifier. o T...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves a collection of fleet resources in an Amazon Web Services Re- gion. You can filter the result set to find only those fleets that are deployed with a specific build or script. For fleets that have multiple locations, this operation retrieves fleets based on their home Region only. You can use this operation in the following ways: o To get a list of all fleets in a Region, don't provide a build or script identifier...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Lists a game server groups. See also: AWS API Documentation list-game-server-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: GameSe...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Lists game server groups. See also: AWS API Documentation list-game-server-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: GameServ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Finds new players to fill open slots in currently running game ses- sions. The backfill match process is essentially identical to the process of forming new matches. Backfill requests use the same match- maker that was used to make the original match, and they provide match- making data for all players currently in the game session. FlexMatch uses this information to select new players so that backfilled match continues to...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Finds new players to fill open slots in currently running game ses- sions. The backfill match process is essentially identical to the process of forming new matches. Backfill requests use the same match- maker that was used to make the original match, and they provide match- making data for all players currently in the game session. FlexMatch uses this information to select new players so that the backfilled match continue...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestExecption (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by ca...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestException (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1102,7 +1102,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: Container Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deploy- ment. You can track deployments for a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html . NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new fleet. As...
+    /// This API works with the following fleet types: Container Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deploy- ment. You can track deployments for a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html . NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image (AMI) version, can't be updated. You must create a new fleet. As...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1122,7 @@ public interface IAwsGamelift
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere Updates a fleet's mutable attributes, such as game session protection and resource creation limits. To update fleet attributes, specify the fleet ID and the property val- ues that you want to change. If successful, Amazon GameLift Servers re- turns the identifiers for the updated fleet. NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new f...
+    /// This API works with the following fleet types: EC2, Anywhere Updates a fleet's mutable attributes, such as game session protection and resource creation limits. To update fleet attributes, specify the fleet ID and the property val- ues that you want to change. If successful, Amazon GameLift Servers re- turns the identifiers for the updated fleet. NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image (AMI) version, can't be updated. You must create a new f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

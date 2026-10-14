@@ -122,6 +122,16 @@ public interface IAwsGlue
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Retrieves a list of data quality results for the specified result IDs. You can specify up to 100 result IDs in a single request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> BatchGetDataQualityResultV2Async(AwsGlueBatchGetDataQualityResultV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Retrieves the details of multiple evaluation runs in a single request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1342,6 +1352,16 @@ public interface IAwsGlue
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Retrieves the result of a data quality rule evaluation published from any supported data platform. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetDataQualityResultV2Async(AwsGlueGetDataQualityResultV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the specified recommendation run that was used to generate rules. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1732,6 +1752,26 @@ public interface IAwsGlue
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Retrieves the system logs for a job run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetSystemLogsForJobRunAsync(AwsGlueGetSystemLogsForJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Retrieves the system logs for an interactive session. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetSystemLogsForSessionAsync(AwsGlueGetSystemLogsForSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Returns the configuration of all optimizers associated with a specified table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2002,6 +2042,16 @@ public interface IAwsGlue
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Returns a paginated list of data quality execution results for your ac- count, filtered by the specified criteria. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-quality-results-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the -...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListDataQualityResultsV2Async(AwsGlueListDataQualityResultsV2Options? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Lists the recommendation runs meeting the filter criteria. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2259,6 +2309,16 @@ public interface IAwsGlue
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ModifyIntegrationAsync(AwsGlueModifyIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// NOTE: This operation is intended for internal use. Do not call it di- rectly. AWS Glue Data Quality uses this operation to publish a data quality re- sult. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> PublishDataQualityResultV2Async(AwsGluePublishDataQualityResultV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

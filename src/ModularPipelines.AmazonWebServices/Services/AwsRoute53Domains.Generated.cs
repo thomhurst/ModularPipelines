@@ -242,6 +242,21 @@ public class AwsRoute53Domains : IAwsRoute53Domains
     }
 
     /// <summary>
+    /// Returns the following prices for the specified domain: o Registration o Transfer o Owner change o Renewal o Restoration For most domains, the prices match the standard prices for the TLD that the ListPrices operation returns. For a premium domain, the registry sets the price individually. Premium prices might differ from the stan- dard prices and can change over time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetDomainPricesAsync(
+        AwsRoute53domainsGetDomainPricesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// The GetDomainSuggestions operation returns a list of suggested domain names. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -302,7 +317,7 @@ public class AwsRoute53Domains : IAwsRoute53Domains
     }
 
     /// <summary>
-    /// Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD: o Registration o Transfer o Owner change o Domain renewal o Domain restoration See also: AWS API Documentation list-prices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument mus...
+    /// Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD: o Registration o Transfer o Owner change o Renewal o Restoration NOTE: The prices that ListPrices returns are the standard rates for a TLD. ListPrices doesn't return registry premium prices, which apply to individual domain names rather than to a TLD. To get accurate pric- ing for a specific domain name, including premium prices, call Get- DomainPrices . See also: AWS API Documentation list-prices is ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

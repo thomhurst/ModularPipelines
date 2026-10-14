@@ -125,7 +125,7 @@ public record AwsAgentRegistryControlCreateRegistryRecordOptions : AwsOptions, I
     public IEnumerable<string>? Provenance { get; set; }
 
     /// <summary>
-    /// The custom metadata to attach to the registry record. Each key must match a property defined in the registry's custom metadata schema. Values can be strings (maximum 128 characters) or native JSON booleans (true or false ). Values are validated against the schema at creation time. JSON Syntax: {...}
+    /// The custom metadata for the record. Values are strings or JSON booleans. JSON Syntax: {...}
     /// </summary>
     [CliOption("--custom-metadata")]
     public string? CustomMetadata { get; set; }

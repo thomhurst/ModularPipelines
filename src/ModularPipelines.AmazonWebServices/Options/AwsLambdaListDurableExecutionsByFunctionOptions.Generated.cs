@@ -63,7 +63,7 @@ public record AwsLambdaListDurableExecutionsByFunctionOptions : AwsOptions, IVal
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// The function version or alias. If not specified, lists executions for the $LATEST version. Constraints: o min: 1 o max: 128 o pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
+    /// The function version to filter executions by. If you don't specify a qualifier, this operation returns executions across all versions of the Lambda function. Constraints: o min: 1 o max: 128 o pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
     /// </summary>
     [CliOption("--qualifier")]
     public string? Qualifier { get; set; }

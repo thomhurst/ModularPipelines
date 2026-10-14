@@ -152,7 +152,7 @@ public interface IAwsSesv2
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates an export job for a data source and destination. Export jobs run asynchronously. This operation returns a JobId . Call GetExportJob with that ID until JobStatus is COMPLETED , FAILED , or CANCELLED . When the status is COMPLETED , download the export file from the pre-signed URL in ExportDestination.S3Url . When the status is FAILED , see FailureInfo . To store a copy in your own bucket, upload the downloaded file to your bucket. Do not include S3Url in the re- quest. You can execute thi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public interface IAwsSesv2
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Provides information about an export job. See also: AWS API Documentation
+    /// Provides information about an export job. When the job status is COMPLETED , the response includes a pre-signed URL in ExportDestination.S3Url that you use to download the export file. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

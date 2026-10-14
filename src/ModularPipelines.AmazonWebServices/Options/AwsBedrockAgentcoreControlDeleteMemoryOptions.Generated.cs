@@ -63,7 +63,7 @@ public record AwsBedrockAgentcoreControlDeleteMemoryOptions : AwsOptions, IValid
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier. Constraints: o min: 0 o max: 500
+    /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique Amazon Web Services identifier. Constraints: o min: 0 o max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

@@ -662,7 +662,7 @@ public interface IAwsCognitoIdp
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:Descri- beTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:De- scribeTerms , the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also den...
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:Descri- beTermsByClient Identity and Access Management (IAM) permission. An IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -742,7 +742,7 @@ public interface IAwsCognitoIdp
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH...
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authenti- cation flows. It must be the only authentication flow that you config- ure for the app cl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

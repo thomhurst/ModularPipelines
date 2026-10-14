@@ -76,6 +76,12 @@ public record AwsRoute53domainsRenewDomainOptions : AwsOptions, IValidatableObje
     [CliOption("--duration-in-years")]
     public int? DurationInYears { get; set; }
 
+    /// <summary>
+    /// Specifies the maximum price that you agree to pay to renew the do- main name. This element is required if the domain has registry pre- mium pricing, and optional if the domain is priced at the standard rate for its TLD. If you include it and the renewal price is more than MaxPrice , the request fails. MaxPrice -&gt; (double) [required] The maximum amount that you agree to accept. Constraints: o min: 0.0 o max: 2000000000.0 Currency -&gt; (string) [required] The currency for the MaxPrice . Constraints: o min: 3 o max: 3 Shorthand Syntax: MaxPrice=double,Currency=string JSON Syntax: { "MaxPrice": double, "Currency": "string" }
+    /// </summary>
+    [CliOption("--consent")]
+    public string? Consent { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

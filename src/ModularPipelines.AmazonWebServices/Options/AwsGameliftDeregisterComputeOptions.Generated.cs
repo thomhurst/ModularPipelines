@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: Anywhere Removes a compute resource from an Anywhere fleet. Deregistered com- putes can no longer host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that doesn't use the Amazon GameLift Servers Agent For Anywhere fleets with the Agent, the Agent handles all compute registry tasks for you. To deregister a compute, call this operation from the compute that's being deregistered and specify the compute name and...
+/// This API works with the following fleet types: Anywhere Removes a compute resource from an Anywhere fleet. Deregistered com- putes can no longer host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that doesn't use the Amazon GameLift Servers Agent. For Anywhere fleets with the Agent, the Agent handles all compute registry tasks for you. To deregister a compute, call this operation from the compute that's being deregistered and specify the compute name an...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsGameliftDeregisterComputeOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: Anywhere Removes a compute resource from an Anywhere fleet. Deregistered com- putes can no longer host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that doesn't use the Amazon GameLift Servers Agent For Anywhere fleets with the Agent, the Agent handles all compute registry tasks for you. To deregister a compute, call this operation from the compute that's being deregistered and specify the compute name and...
+    /// This API works with the following fleet types: Anywhere Removes a compute resource from an Anywhere fleet. Deregistered com- putes can no longer host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that doesn't use the Amazon GameLift Servers Agent. For Anywhere fleets with the Agent, the Agent handles all compute registry tasks for you. To deregister a compute, call this operation from the compute that's being deregistered and specify the compute name an...
     /// </summary>
     /// <param name="FleetId">A unique identifier for the fleet the compute resource is currently registered to. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     /// <param name="ComputeName">The unique identifier of the compute resource to deregister. For an Anywhere fleet compute, use the registered compute name. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:com- pute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$</param>

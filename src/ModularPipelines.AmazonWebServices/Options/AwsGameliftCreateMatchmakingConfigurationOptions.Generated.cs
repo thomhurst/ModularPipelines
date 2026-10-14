@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Defines a new matchmaking configuration for use with FlexMatch. Whether your are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Ama- zon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations t...
+/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Defines a new matchmaking configuration for use with FlexMatch. Whether you are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Ama- zon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations to...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsGameliftCreateMatchmakingConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Defines a new matchmaking configuration for use with FlexMatch. Whether your are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Ama- zon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations t...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Defines a new matchmaking configuration for use with FlexMatch. Whether you are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Ama- zon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations to...
     /// </summary>
     /// <param name="Name">A unique identifier for the matchmaking configuration. This name is used to identify the configuration associated with a matchmaking re- quest or ticket. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$</param>
     /// <param name="RequestTimeoutSeconds">The maximum duration, in seconds, that a matchmaking ticket can re- main in process before timing out. Requests that fail due to timing out can be resubmitted as needed. Constraints: o min: 1 o max: 43200</param>
@@ -97,7 +97,7 @@ public record AwsGameliftCreateMatchmakingConfigurationOptions : AwsOptions, IVa
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN ) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt; . Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE , do not set this parameter. (string) Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$ Syntax: "string" "string" ...
+    /// The Amazon Resource Name (ARN ) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt; . Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. A matchmaking configuration supports only one queue; if you specify more than one ARN, the re- quest fails with an InvalidRequestException . If FlexMatchMode is set to STANDALONE , do not set this parameter. (string) Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--game-session-queue-arns", GroupValues = true)]
     public IEnumerable<string>? GameSessionQueueArns { get; set; }
@@ -151,7 +151,7 @@ public record AwsGameliftCreateMatchmakingConfigurationOptions : AwsOptions, IVa
     public AwsGameliftCreateMatchmakingConfigurationFlexMatchMode? FlexMatchMode { get; set; }
 
     /// <summary>
-    /// A list of labels to assign to the new matchmaking configuration re- source. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . Constraints: o min: 0 o max: 200 (structure) A label that you can assign to a Amazon GameLift Servers re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Ser- vices General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of labels to assign to the new matchmaking configuration re- source. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . Constraints: o min: 0 o max: 200 (structure) A label that you can assign to a Amazon GameLift Servers re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Ser- vices General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -29,7 +29,7 @@ public record AwsRoute53domainsGetDomainSuggestionsOptions : AwsOptions, IValida
     /// </summary>
     /// <param name="DomainName">A domain name that you want to use as the basis for a list of possi- ble domain names. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . The domain name can contain only the following characters: o Letters a through z. Domain names are not case sensitive. o Numbers 0 through 9. o Hyphen (-). You can't specify a hyphen at the beginning or end of a label. o Period (.) to separate the labels in the name, such as the . in example.com . Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see Domains that You Can Register with Amazon Route 53 . Constraints: o max: 255</param>
     /// <param name="SuggestionCount">The number of suggested domain names that you want Route 53 to re- turn. Specify a value between 1 and 50. Note that fewer than the re- quested number might be returned.</param>
-    /// <param name="OnlyAvailable">If OnlyAvailable is true , Route 53 returns only domain names that are available. If OnlyAvailable is false , Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDo- mainAvailability for each suggestion.</param>
+    /// <param name="OnlyAvailable">If OnlyAvailable is true , Route 53 returns only domain names that are available. If OnlyAvailable is false , Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, call checkDomainAvail- ability for each suggestion. If OnlyAvailable is false , Route 53 does not return pricing infor- mation for the suggested domain names.</param>
     public AwsRoute53domainsGetDomainSuggestionsOptions(
         string DomainName,
         int SuggestionCount,
@@ -74,10 +74,16 @@ public record AwsRoute53domainsGetDomainSuggestionsOptions : AwsOptions, IValida
     public int? SuggestionCount { get; private init; }
 
     /// <summary>
-    /// If OnlyAvailable is true , Route 53 returns only domain names that are available. If OnlyAvailable is false , Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDo- mainAvailability for each suggestion.
+    /// If OnlyAvailable is true , Route 53 returns only domain names that are available. If OnlyAvailable is false , Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, call checkDomainAvail- ability for each suggestion. If OnlyAvailable is false , Route 53 does not return pricing infor- mation for the suggested domain names.
     /// </summary>
     [CliFlag("--only-available", NegatedName = "--no-only-available")]
     public bool? OnlyAvailable { get; private init; }
+
+    /// <summary>
+    /// If true , Route 53 returns only domain names that are priced at the standard registration rate for their TLD. If false , Route 53 in- cludes domain names with premium pricing in the suggestions list. The default is true .
+    /// </summary>
+    [CliFlag("--only-standard-prices", NegatedName = "--no-only-standard-prices")]
+    public bool? OnlyStandardPrices { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

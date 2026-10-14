@@ -62,7 +62,7 @@ public record AwsLambdaSendDurableExecutionCallbackSuccessOptions : AwsOptions, 
     public string? CallbackId { get; private init; }
 
     /// <summary>
-    /// The result data from the successful callback operation. Maximum size is 256 KB. Constraints: o min: 0 o max: 262144
+    /// The result data from the successful callback operation. Maximum size is 256 KB. Constraints: o min: 0 o max: 1048576
     /// </summary>
     [CliOption("--result")]
     public string? Result { get; set; }

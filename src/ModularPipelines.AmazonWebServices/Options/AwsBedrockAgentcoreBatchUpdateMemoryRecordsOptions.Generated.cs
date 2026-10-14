@@ -82,6 +82,12 @@ public record AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions : AwsOptions, I
     [CliOption("--records", GroupValues = true)]
     public IEnumerable<string>? Records { get; private init; }
 
+    /// <summary>
+    /// The record expiry (long-term memory time-to-live) applied to every record updated by this request. Set recordExpiryDurationDays to con- figure or overwrite the number of days after which the records ex- pire, or set action to REMOVE to clear a previously configured ex- piry so that the records no longer expire. When you do not provide this value, the service determines each record's expiry from its current state: o If the record already has an expiry configured, the service resets and reapplies the expiry based on the last applied recordExpiryDu- rationDays . o If the record does not have an expiry configured, no expiry is ap- plied and the record remains non-expiring. This is the outcome re- gardless of whether the record's strategy configures an expiry. Providing an explicit recordExpiryDurationDays always takes prece- dence: it overwrites an existing expiry, or sets one on a record that previously had none. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: recordExpiryDurationDays, action. recordExpiryDurationDays -&gt; (integer) The duration, in days, after which the records in this request expire. The minimum is 31 days. Constraints: o min: 31 action -&gt; (string) The action to apply to the existing record expiry configuration. Set to REMOVE to remove a previously configured expiry so that the records no longer expire. This value does not apply when creating records. Possible values: o REMOVE Shorthand Syntax: recordExpiryDurationDays=integer,action=string JSON Syntax: { "recordExpiryDurationDays": integer, "action": "REMOVE" }
+    /// </summary>
+    [CliOption("--record-expiry-specification")]
+    public string? RecordExpirySpecification { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
