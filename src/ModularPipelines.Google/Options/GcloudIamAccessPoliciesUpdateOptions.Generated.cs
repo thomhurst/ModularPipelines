@@ -78,14 +78,8 @@ public record GcloudIamAccessPoliciesUpdateOptions : GcloudOptions, IValidatable
     /// <summary>
     /// If set, validate the request and preview the update, but do not actually post it. Use --validate-only to enable and --no-validate-only to disable.
     /// </summary>
-    [CliFlag("--validate-only")]
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
     public bool? ValidateOnly { get; set; }
-
-    /// <summary>
-    /// Negates --validate-only. If set, validate the request and preview the update, but do not actually post it. Use --validate-only to enable and --no-validate-only to disable.
-    /// </summary>
-    [CliFlag("--no-validate-only")]
-    public bool? NoValidateOnly { get; set; }
 
     /// <summary>
     /// Update annotations. At most one of these can be specified: Set annotations to new value. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)

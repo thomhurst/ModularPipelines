@@ -59,14 +59,8 @@ public record GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingUpdateOpti
     /// <summary>
     /// Administrative status of the interconnect attachment. If not provided on creation, defaults to enabled. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
     /// </summary>
-    [CliFlag("--enable-admin")]
+    [CliFlag("--enable-admin", NegatedName = "--no-enable-admin")]
     public bool? EnableAdmin { get; set; }
-
-    /// <summary>
-    /// Negates --enable-admin. Administrative status of the interconnect attachment. If not provided on creation, defaults to enabled. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
-    /// </summary>
-    [CliFlag("--no-enable-admin")]
-    public bool? NoEnableAdmin { get; set; }
 
     /// <summary>
     /// A VNI identier for Geneve header, as defined in https://datatracker.ietf.org/doc/html/rfc8926, used for L2 forwarding.

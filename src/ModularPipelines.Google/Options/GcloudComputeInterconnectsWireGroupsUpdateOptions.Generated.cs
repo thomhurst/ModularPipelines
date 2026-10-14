@@ -52,14 +52,8 @@ public record GcloudComputeInterconnectsWireGroupsUpdateOptions : GcloudOptions
     /// <summary>
     /// Administrative status of the wire group. When this is enabled, the wire group is operational and will carry traffic. Use --no-admin-enabled to disable it.
     /// </summary>
-    [CliFlag("--admin-enabled")]
+    [CliFlag("--admin-enabled", NegatedName = "--no-admin-enabled")]
     public bool? AdminEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --admin-enabled. Administrative status of the wire group. When this is enabled, the wire group is operational and will carry traffic. Use --no-admin-enabled to disable it.
-    /// </summary>
-    [CliFlag("--no-admin-enabled")]
-    public bool? NoAdminEnabled { get; set; }
 
     /// <summary>
     /// The bandwidth allocation for the wire group. BANDWIDTH_ALLOCATION must be one of: ALLOCATE_PER_WIRE Configures a separate unmetered bandwidth allocation (and associated charges) for each wire in the group. SHARED_WITH_WIRE_GROUP Configures one unmetered bandwidth allocation for the wire group. The unmetered bandwidth is divided equally across each wire in the group, but dynamic throttling reallocates unused unmetered bandwidth from unused or underused wires to other wires in the group.

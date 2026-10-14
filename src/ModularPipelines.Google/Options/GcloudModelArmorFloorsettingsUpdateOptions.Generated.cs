@@ -54,14 +54,8 @@ public record GcloudModelArmorFloorsettingsUpdateOptions : GcloudOptions, IValid
     /// <summary>
     /// Multi language detection enablement. Enable multi-language detection for floor setting, allowing Model Armor to process content in multiple languages. Use --enable-multi-language-detection to enable and --no-enable-multi-language-detection to disable.
     /// </summary>
-    [CliFlag("--enable-multi-language-detection")]
+    [CliFlag("--enable-multi-language-detection", NegatedName = "--no-enable-multi-language-detection")]
     public bool? EnableMultiLanguageDetection { get; set; }
-
-    /// <summary>
-    /// Negates --enable-multi-language-detection. Multi language detection enablement. Enable multi-language detection for floor setting, allowing Model Armor to process content in multiple languages. Use --enable-multi-language-detection to enable and --no-enable-multi-language-detection to disable.
-    /// </summary>
-    [CliFlag("--no-enable-multi-language-detection")]
-    public bool? NoEnableMultiLanguageDetection { get; set; }
 
     /// <summary>
     /// Malicious uri filter settings. Malicious URI filter settings.
@@ -302,14 +296,8 @@ public record GcloudModelArmorFloorsettingsUpdateOptions : GcloudOptions, IValid
     /// <summary>
     /// Options for Google MCP server sanitization. Enable Cloud Logging for Google MCP server sanitization to log Model Armor sanitization results. Use --enable-google-mcp-server-cloud-logging to enable and --no-enable-google-mcp-server-cloud-logging to disable.
     /// </summary>
-    [CliFlag("--enable-google-mcp-server-cloud-logging")]
+    [CliFlag("--enable-google-mcp-server-cloud-logging", NegatedName = "--no-enable-google-mcp-server-cloud-logging")]
     public bool? EnableGoogleMcpServerCloudLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-google-mcp-server-cloud-logging. Options for Google MCP server sanitization. Enable Cloud Logging for Google MCP server sanitization to log Model Armor sanitization results. Use --enable-google-mcp-server-cloud-logging to enable and --no-enable-google-mcp-server-cloud-logging to disable.
-    /// </summary>
-    [CliFlag("--no-enable-google-mcp-server-cloud-logging")]
-    public bool? NoEnableGoogleMcpServerCloudLogging { get; set; }
 
     /// <summary>
     /// Specifies the enforcement mode for Google MCP server sanitization, such as "INSPECT_ONLY" or "INSPECT_AND_BLOCK". Default is "INSPECT_ONLY".
@@ -320,14 +308,8 @@ public record GcloudModelArmorFloorsettingsUpdateOptions : GcloudOptions, IValid
     /// <summary>
     /// Options for Vertex AI sanitization. Enable Cloud Logging for Vertex AI sanitization to log Model Armor sanitization results. Use --enable-vertex-ai-cloud-logging to enable and --no-enable-vertex-ai-cloud-logging to disable.
     /// </summary>
-    [CliFlag("--enable-vertex-ai-cloud-logging")]
+    [CliFlag("--enable-vertex-ai-cloud-logging", NegatedName = "--no-enable-vertex-ai-cloud-logging")]
     public bool? EnableVertexAiCloudLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-vertex-ai-cloud-logging. Options for Vertex AI sanitization. Enable Cloud Logging for Vertex AI sanitization to log Model Armor sanitization results. Use --enable-vertex-ai-cloud-logging to enable and --no-enable-vertex-ai-cloud-logging to disable.
-    /// </summary>
-    [CliFlag("--no-enable-vertex-ai-cloud-logging")]
-    public bool? NoEnableVertexAiCloudLogging { get; set; }
 
     /// <summary>
     /// Specifies the enforcement mode for Vertex AI sanitization, such as "INSPECT_ONLY" or "INSPECT_AND_BLOCK". Default is "INSPECT_ONLY".

@@ -37,14 +37,8 @@ public record GcloudFunctionsLogsReadOptions : GcloudOptions
     /// <summary>
     /// If enabled, this command will use Cloud Functions (Second generation). If disabled with --no-gen2, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the functions/gen2 configuration property. If the functions/gen2 configuration property is not set, defaults to looking up the given function and using its generation.
     /// </summary>
-    [CliFlag("--gen2")]
+    [CliFlag("--gen2", NegatedName = "--no-gen2")]
     public bool? Gen2 { get; set; }
-
-    /// <summary>
-    /// Negates --gen2. If enabled, this command will use Cloud Functions (Second generation). If disabled with --no-gen2, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the functions/gen2 configuration property. If the functions/gen2 configuration property is not set, defaults to looking up the given function and using its generation.
-    /// </summary>
-    [CliFlag("--no-gen2")]
-    public bool? NoGen2 { get; set; }
 
     /// <summary>
     /// Number of log entries to be fetched; must not be greater than 1000. Note that the most recent entries in the specified time range are returned, rather than the earliest.

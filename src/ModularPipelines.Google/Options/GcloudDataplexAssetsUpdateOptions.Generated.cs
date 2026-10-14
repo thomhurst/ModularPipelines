@@ -96,14 +96,8 @@ public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
     /// <summary>
     /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
     /// </summary>
-    [CliFlag("--discovery-enabled")]
+    [CliFlag("--discovery-enabled", NegatedName = "--no-discovery-enabled")]
     public bool? DiscoveryEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --discovery-enabled. Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-discovery-enabled")]
-    public bool? NoDiscoveryEnabled { get; set; }
 
     /// <summary>
     /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -132,14 +126,8 @@ public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
     /// <summary>
     /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
     /// </summary>
-    [CliFlag("--csv-disable-type-inference")]
+    [CliFlag("--csv-disable-type-inference", NegatedName = "--no-csv-disable-type-inference")]
     public bool? CsvDisableTypeInference { get; set; }
-
-    /// <summary>
-    /// Negates --csv-disable-type-inference. Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
-    /// </summary>
-    [CliFlag("--no-csv-disable-type-inference")]
-    public bool? NoCsvDisableTypeInference { get; set; }
 
     /// <summary>
     /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The character encoding of the data. The default is UTF-8.
@@ -156,14 +144,8 @@ public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
     /// <summary>
     /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
     /// </summary>
-    [CliFlag("--json-disable-type-inference")]
+    [CliFlag("--json-disable-type-inference", NegatedName = "--no-json-disable-type-inference")]
     public bool? JsonDisableTypeInference { get; set; }
-
-    /// <summary>
-    /// Negates --json-disable-type-inference. Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
-    /// </summary>
-    [CliFlag("--no-json-disable-type-inference")]
-    public bool? NoJsonDisableTypeInference { get; set; }
 
     /// <summary>
     /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The character encoding of the data. The default is UTF-8.

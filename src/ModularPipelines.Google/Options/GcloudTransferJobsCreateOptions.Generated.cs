@@ -316,14 +316,8 @@ public record GcloudTransferJobsCreateOptions : GcloudOptions, IValidatableObjec
     /// <summary>
     /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS Sets whether to generate logs for transfers with a POSIX filesystem source. This setting will later be merged with other log configurations. Use --enable-posix-transfer-logs to enable and --no-enable-posix-transfer-logs to disable.
     /// </summary>
-    [CliFlag("--enable-posix-transfer-logs")]
+    [CliFlag("--enable-posix-transfer-logs", NegatedName = "--no-enable-posix-transfer-logs")]
     public bool? EnablePosixTransferLogs { get; set; }
-
-    /// <summary>
-    /// Negates --enable-posix-transfer-logs. LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS Sets whether to generate logs for transfers with a POSIX filesystem source. This setting will later be merged with other log configurations. Use --enable-posix-transfer-logs to enable and --no-enable-posix-transfer-logs to disable.
-    /// </summary>
-    [CliFlag("--no-enable-posix-transfer-logs")]
-    public bool? NoEnablePosixTransferLogs { get; set; }
 
     /// <summary>
     /// LOGGING CONFIG Configure which transfer actions and action states are reported when logs are generated for this job. Logs can be viewed by running the following command: gcloud logging read "resource.type=storage_transfer_job" ADDITIONAL OPTIONS EXECUTION OPTIONS Define the transfer operation actions to report in logs. Separate multiple actions with commas, omitting spaces after the commas (e.g., --log-actions=find,copy). LOG_ACTIONS must be one of: copy, delete, find.

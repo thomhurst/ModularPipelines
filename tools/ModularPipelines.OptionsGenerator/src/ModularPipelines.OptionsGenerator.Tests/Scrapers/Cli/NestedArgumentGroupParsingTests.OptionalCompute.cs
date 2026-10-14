@@ -29,7 +29,7 @@ public partial class NestedArgumentGroupParsingTests
                 ("accelerator-count", true, [("AcceleratorType", accelerator), ("AcceleratorCount", 1)]),
                 ("disk-size", false, [("DiskSizeGb", 100)]),
                 ("disk-size-type", true, [("DiskSizeGb", 100), ("DiskType", disk)]),
-                ("no-internet", true, [("NoEnableInternetAccess", true)]),
+                ("no-internet", true, [("EnableInternetAccess", false)]),
                 ("no-source", false, [("GcsNotebookUri", null)]),
             ];
             foreach (var (selection, valid, settings) in cases)

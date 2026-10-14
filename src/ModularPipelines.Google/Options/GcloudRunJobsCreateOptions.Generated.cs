@@ -50,14 +50,8 @@ public record GcloudRunJobsCreateOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
-    [CliFlag("--gpu-zonal-redundancy")]
+    [CliFlag("--gpu-zonal-redundancy", NegatedName = "--no-gpu-zonal-redundancy")]
     public bool? GpuZonalRedundancy { get; set; }
-
-    /// <summary>
-    /// Negates --gpu-zonal-redundancy. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
-    /// </summary>
-    [CliFlag("--no-gpu-zonal-redundancy")]
-    public bool? NoGpuZonalRedundancy { get; set; }
 
     /// <summary>
     /// CMEK key reference to encrypt the container with.

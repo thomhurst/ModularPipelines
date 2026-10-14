@@ -60,14 +60,8 @@ public record GcloudPreviewComputeTargetTcpProxiesCreateOptions : GcloudOptions,
     /// <summary>
     /// This field only applies when the forwarding rule that references this target proxy has a --load-balancing-scheme set to INTERNAL_SELF_MANAGED. When this field is set to true, Envoy proxies set up inbound traffic interception and bind to the IP address and port specified in the forwarding rule. This is generally useful when using Traffic Director to configure Envoy as a gateway or middle proxy (in other words, not a sidecar proxy). The Envoy proxy listens for inbound requests and handles requests when it receives them. Use --proxy-bind to enable and --no-proxy-bind to disable.
     /// </summary>
-    [CliFlag("--proxy-bind")]
+    [CliFlag("--proxy-bind", NegatedName = "--no-proxy-bind")]
     public bool? ProxyBind { get; set; }
-
-    /// <summary>
-    /// Negates --proxy-bind. This field only applies when the forwarding rule that references this target proxy has a --load-balancing-scheme set to INTERNAL_SELF_MANAGED. When this field is set to true, Envoy proxies set up inbound traffic interception and bind to the IP address and port specified in the forwarding rule. This is generally useful when using Traffic Director to configure Envoy as a gateway or middle proxy (in other words, not a sidecar proxy). The Envoy proxy listens for inbound requests and handles requests when it receives them. Use --proxy-bind to enable and --no-proxy-bind to disable.
-    /// </summary>
-    [CliFlag("--no-proxy-bind")]
-    public bool? NoProxyBind { get; set; }
 
     /// <summary>
     /// The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Enables PROXY protocol (version 1) for passing client connection information.

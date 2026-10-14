@@ -50,14 +50,8 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Accelerated Security Patch - Looker (Google Cloud core) releases security patches to your instance. If specified, accelerated security patch will be enabled. Use --no-accelerated-security-patch-enabled to disable it.
     /// </summary>
-    [CliFlag("--accelerated-security-patch-enabled")]
+    [CliFlag("--accelerated-security-patch-enabled", NegatedName = "--no-accelerated-security-patch-enabled")]
     public bool? AcceleratedSecurityPatchEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --accelerated-security-patch-enabled. Accelerated Security Patch - Looker (Google Cloud core) releases security patches to your instance. If specified, accelerated security patch will be enabled. Use --no-accelerated-security-patch-enabled to disable it.
-    /// </summary>
-    [CliFlag("--no-accelerated-security-patch-enabled")]
-    public bool? NoAcceleratedSecurityPatchEnabled { get; set; }
 
     /// <summary>
     /// Email Domain Allowlist for Scheduled Content - Define the email domains to which your users can deliver Looker (Google Cloud core) content. This specifies the entire allowed email domain list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -74,14 +68,8 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Catalog Integration - Catalog Integration is a feature that allows Looker to integrate with Universal Dataplex Catalog. If specified, catalog integration will be disabled. Use --no-catalog-integration-opt-out to re-enable it.
     /// </summary>
-    [CliFlag("--catalog-integration-opt-out")]
+    [CliFlag("--catalog-integration-opt-out", NegatedName = "--no-catalog-integration-opt-out")]
     public bool? CatalogIntegrationOptOut { get; set; }
-
-    /// <summary>
-    /// Negates --catalog-integration-opt-out. Catalog Integration - Catalog Integration is a feature that allows Looker to integrate with Universal Dataplex Catalog. If specified, catalog integration will be disabled. Use --no-catalog-integration-opt-out to re-enable it.
-    /// </summary>
-    [CliFlag("--no-catalog-integration-opt-out")]
-    public bool? NoCatalogIntegrationOptOut { get; set; }
 
     /// <summary>
     /// The class type of the Looker instance. CLASS_TYPE must be one of: p1, r1.
@@ -268,14 +256,8 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Controlled Egress - Controlled egress allows you to egress data from a Looker (Google Cloud core) instance to a third party service provider. This specifies whether controlled egress is enabled on the Looker instance. To disable controlled egress, use the --no-egress-enabled flag.
     /// </summary>
-    [CliFlag("--egress-enabled")]
+    [CliFlag("--egress-enabled", NegatedName = "--no-egress-enabled")]
     public bool? EgressEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --egress-enabled. Controlled Egress - Controlled egress allows you to egress data from a Looker (Google Cloud core) instance to a third party service provider. This specifies whether controlled egress is enabled on the Looker instance. To disable controlled egress, use the --no-egress-enabled flag.
-    /// </summary>
-    [CliFlag("--no-egress-enabled")]
-    public bool? NoEgressEnabled { get; set; }
 
     /// <summary>
     /// Controlled Egress - Controlled egress allows you to egress data from a Looker (Google Cloud core) instance to a third party service provider. List of FQDNs that are allowed to egress from the Looker instance. Example: --egress-fqdns="github.com,my.salesforce.com". To clear all egress FQDNs, use --egress-fqdns="". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -286,14 +268,8 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Controlled Egress - Controlled egress allows you to egress data from a Looker (Google Cloud core) instance to a third party service provider. This specifies whether marketplace is enabled for controlled egress on the Looker instance. To disable marketplace for controlled egress, use the --no-marketplace-enabled flag.
     /// </summary>
-    [CliFlag("--marketplace-enabled")]
+    [CliFlag("--marketplace-enabled", NegatedName = "--no-marketplace-enabled")]
     public bool? MarketplaceEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --marketplace-enabled. Controlled Egress - Controlled egress allows you to egress data from a Looker (Google Cloud core) instance to a third party service provider. This specifies whether marketplace is enabled for controlled egress on the Looker instance. To disable marketplace for controlled egress, use the --no-marketplace-enabled flag.
-    /// </summary>
-    [CliFlag("--no-marketplace-enabled")]
-    public bool? NoMarketplaceEnabled { get; set; }
 
     /// <summary>
     /// Maintenance Window - Maintenance typically only takes place once every few months, and requires your instance to be restarted while updates are made, which disrupts service briefly. Day of the week for the maintenance window, in UTC time zone. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday. This flag argument must be specified if any of the other arguments in this group are specified.

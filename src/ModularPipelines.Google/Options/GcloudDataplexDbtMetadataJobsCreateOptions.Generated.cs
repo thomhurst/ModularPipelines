@@ -78,14 +78,8 @@ public record GcloudDataplexDbtMetadataJobsCreateOptions : GcloudOptions, IValid
     /// <summary>
     /// Also emit EntryLink records capturing dbt relationships: reference where one resource describes or uses another (a test, a semantic model, a metric, a macro the project defines and a node calls, or the physical BigQuery table a node writes), and schema-join for joinable columns declared by a dbt relationships test. Enabled by default, use --no-include-entry-links to disable.
     /// </summary>
-    [CliFlag("--include-entry-links")]
+    [CliFlag("--include-entry-links", NegatedName = "--no-include-entry-links")]
     public bool? IncludeEntryLinks { get; set; }
-
-    /// <summary>
-    /// Negates --include-entry-links. Also emit EntryLink records capturing dbt relationships: reference where one resource describes or uses another (a test, a semantic model, a metric, a macro the project defines and a node calls, or the physical BigQuery table a node writes), and schema-join for joinable columns declared by a dbt relationships test. Enabled by default, use --no-include-entry-links to disable.
-    /// </summary>
-    [CliFlag("--no-include-entry-links")]
-    public bool? NoIncludeEntryLinks { get; set; }
 
     /// <summary>
     /// Skip physical reference links (dbt node -&gt; physical BigQuery table entry). Otherwise a reference link is emitted for each materialized dbt node (model/seed/snapshot) whose BigQuery dataset lives in the import location (--location); links can only reference @bigquery entries in that same region, so datasets in another region are skipped automatically. Use this flag when the BigQuery tables are not cataloged in Dataplex.

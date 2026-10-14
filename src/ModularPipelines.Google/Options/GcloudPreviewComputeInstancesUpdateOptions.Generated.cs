@@ -44,50 +44,26 @@ public record GcloudPreviewComputeInstancesUpdateOptions : GcloudOptions, IValid
     /// <summary>
     /// Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
-    [CliFlag("--deletion-protection")]
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection. Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
-    /// </summary>
-    [CliFlag("--no-deletion-protection")]
-    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// Enable a display device on VM instances. Use --enable-display-device to enable and --no-enable-display-device to disable.
     /// </summary>
-    [CliFlag("--enable-display-device")]
+    [CliFlag("--enable-display-device", NegatedName = "--no-enable-display-device")]
     public bool? EnableDisplayDevice { get; set; }
-
-    /// <summary>
-    /// Negates --enable-display-device. Enable a display device on VM instances. Use --enable-display-device to enable and --no-enable-display-device to disable.
-    /// </summary>
-    [CliFlag("--no-enable-display-device")]
-    public bool? NoEnableDisplayDevice { get; set; }
 
     /// <summary>
     /// If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
     /// </summary>
-    [CliFlag("--expose-host-topology")]
+    [CliFlag("--expose-host-topology", NegatedName = "--no-expose-host-topology")]
     public bool? ExposeHostTopology { get; set; }
-
-    /// <summary>
-    /// Negates --expose-host-topology. If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
-    /// </summary>
-    [CliFlag("--no-expose-host-topology")]
-    public bool? NoExposeHostTopology { get; set; }
 
     /// <summary>
     /// Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
     /// </summary>
-    [CliFlag("--graceful-shutdown")]
+    [CliFlag("--graceful-shutdown", NegatedName = "--no-graceful-shutdown")]
     public bool? GracefulShutdown { get; set; }
-
-    /// <summary>
-    /// Negates --graceful-shutdown. Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
-    /// </summary>
-    [CliFlag("--no-graceful-shutdown")]
-    public bool? NoGracefulShutdown { get; set; }
 
     /// <summary>
     /// Specifies the maximum time for the graceful shutdown. After this time, the instance is set to STOPPING even if tasks are still running. Specify the time as the number of hours, minutes, or seconds followed by h, m, and s respectively. For example, specify 30m for 30 minutes or 20m10s for 20 minutes and 10 seconds. The value must be between 1 second and 1 hour.
@@ -104,14 +80,8 @@ public record GcloudPreviewComputeInstancesUpdateOptions : GcloudOptions, IValid
     /// <summary>
     /// Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
     /// </summary>
-    [CliFlag("--identity-certificate")]
+    [CliFlag("--identity-certificate", NegatedName = "--no-identity-certificate")]
     public bool? IdentityCertificate { get; set; }
-
-    /// <summary>
-    /// Negates --identity-certificate. Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
-    /// </summary>
-    [CliFlag("--no-identity-certificate")]
-    public bool? NoIdentityCertificate { get; set; }
 
     /// <summary>
     /// When specified, the VM will be scheduled on host with specified CPU architecture or a newer one. To list available CPU platforms in given zone, run: $ gcloud preview compute zones describe ZONE \ --format="value(availableCpuPlatforms)" Default setting is "AUTOMATIC". CPU platform selection is available only in selected zones. You can find more information on-line: https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform
@@ -128,14 +98,8 @@ public record GcloudPreviewComputeInstancesUpdateOptions : GcloudOptions, IValid
     /// <summary>
     /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
     /// </summary>
-    [CliFlag("--shielded-integrity-monitoring")]
+    [CliFlag("--shielded-integrity-monitoring", NegatedName = "--no-shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
-
-    /// <summary>
-    /// Negates --shielded-integrity-monitoring. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
-    /// </summary>
-    [CliFlag("--no-shielded-integrity-monitoring")]
-    public bool? NoShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
     /// Causes the instance to re-learn the integrity policy baseline using the current instance configuration. Use this flag after any planned boot-specific changes in the instance configuration, like kernel updates or kernel driver installation.
@@ -146,26 +110,14 @@ public record GcloudPreviewComputeInstancesUpdateOptions : GcloudOptions, IValid
     /// <summary>
     /// The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
     /// </summary>
-    [CliFlag("--shielded-secure-boot")]
+    [CliFlag("--shielded-secure-boot", NegatedName = "--no-shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
-
-    /// <summary>
-    /// Negates --shielded-secure-boot. The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
-    /// </summary>
-    [CliFlag("--no-shielded-secure-boot")]
-    public bool? NoShieldedSecureBoot { get; set; }
 
     /// <summary>
     /// The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
     /// </summary>
-    [CliFlag("--shielded-vtpm")]
+    [CliFlag("--shielded-vtpm", NegatedName = "--no-shielded-vtpm")]
     public bool? ShieldedVtpm { get; set; }
-
-    /// <summary>
-    /// Negates --shielded-vtpm. The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
-    /// </summary>
-    [CliFlag("--no-shielded-vtpm")]
-    public bool? NoShieldedVtpm { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

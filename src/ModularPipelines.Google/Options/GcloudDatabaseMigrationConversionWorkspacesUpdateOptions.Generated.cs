@@ -53,26 +53,14 @@ public record GcloudDatabaseMigrationConversionWorkspacesUpdateOptions : GcloudO
     /// <summary>
     /// Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
     /// </summary>
-    [CliFlag("--auto-conversion")]
+    [CliFlag("--auto-conversion", NegatedName = "--no-auto-conversion")]
     public bool? AutoConversion { get; set; }
-
-    /// <summary>
-    /// Negates --auto-conversion. Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
-    /// </summary>
-    [CliFlag("--no-auto-conversion")]
-    public bool? NoAutoConversion { get; set; }
 
     /// <summary>
     /// Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
     /// </summary>
-    [CliFlag("--conversion-assistance")]
+    [CliFlag("--conversion-assistance", NegatedName = "--no-conversion-assistance")]
     public bool? ConversionAssistance { get; set; }
-
-    /// <summary>
-    /// Negates --conversion-assistance. Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
-    /// </summary>
-    [CliFlag("--no-conversion-assistance")]
-    public bool? NoConversionAssistance { get; set; }
 
     /// <summary>
     /// A user-friendly name for the conversion workspace. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter. The maximum length allowed is 60 characters.
@@ -95,26 +83,14 @@ public record GcloudDatabaseMigrationConversionWorkspacesUpdateOptions : GcloudO
     /// <summary>
     /// Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
     /// </summary>
-    [CliFlag("--pattern-matching")]
+    [CliFlag("--pattern-matching", NegatedName = "--no-pattern-matching")]
     public bool? PatternMatching { get; set; }
-
-    /// <summary>
-    /// Negates --pattern-matching. Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
-    /// </summary>
-    [CliFlag("--no-pattern-matching")]
-    public bool? NoPatternMatching { get; set; }
 
     /// <summary>
     /// Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
     /// </summary>
-    [CliFlag("--quality-assessment")]
+    [CliFlag("--quality-assessment", NegatedName = "--no-quality-assessment")]
     public bool? QualityAssessment { get; set; }
-
-    /// <summary>
-    /// Negates --quality-assessment. Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
-    /// </summary>
-    [CliFlag("--no-quality-assessment")]
-    public bool? NoQualityAssessment { get; set; }
 
     /// <summary>
     /// The database name to use when seeding from a connection profile. If not specified, the database name from the connection profile is used. Currently only supported for SQL Server source seeding.

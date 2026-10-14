@@ -60,14 +60,8 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateOptions : GcloudOpt
     /// <summary>
     /// Specifies whether to apply the group's latest configuration when repairing a VM. If you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If this flag is disabled with -no-force-update-on-repair, then updates are applied in accordance with the group's update policy type. By default, this flag is disabled. Use --force-update-on-repair to enable and --no-force-update-on-repair to disable.
     /// </summary>
-    [CliFlag("--force-update-on-repair")]
+    [CliFlag("--force-update-on-repair", NegatedName = "--no-force-update-on-repair")]
     public bool? ForceUpdateOnRepair { get; set; }
-
-    /// <summary>
-    /// Negates --force-update-on-repair. Specifies whether to apply the group's latest configuration when repairing a VM. If you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If this flag is disabled with -no-force-update-on-repair, then updates are applied in accordance with the group's update policy type. By default, this flag is disabled. Use --force-update-on-repair to enable and --no-force-update-on-repair to disable.
-    /// </summary>
-    [CliFlag("--no-force-update-on-repair")]
-    public bool? NoForceUpdateOnRepair { get; set; }
 
     /// <summary>
     /// Named selection of machine types with an optional rank. For example, --instance-selection="name=instance-selection-1,machine-type=e2-standard-8,machine-type=t2d-standard-8,rank=0"

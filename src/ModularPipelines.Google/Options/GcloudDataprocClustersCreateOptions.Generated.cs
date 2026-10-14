@@ -146,14 +146,8 @@ public record GcloudDataprocClustersCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// Enable SSH access for the cluster. This is supported for Dataproc image version 2.3.30 and later. SSH is enabled by default for image versions earlier than 3.1, and will be disabled by default starting from image version 3.1. Use --enable-ssh to enable and --no-enable-ssh to disable.
     /// </summary>
-    [CliFlag("--enable-ssh")]
+    [CliFlag("--enable-ssh", NegatedName = "--no-enable-ssh")]
     public bool? EnableSsh { get; set; }
-
-    /// <summary>
-    /// Negates --enable-ssh. Enable SSH access for the cluster. This is supported for Dataproc image version 2.3.30 and later. SSH is enabled by default for image versions earlier than 3.1, and will be disabled by default starting from image version 3.1. Use --enable-ssh to enable and --no-enable-ssh to disable.
-    /// </summary>
-    [CliFlag("--no-enable-ssh")]
-    public bool? NoEnableSsh { get; set; }
 
     /// <summary>
     /// Cluster engine. ENGINE must be one of: default, lightning.

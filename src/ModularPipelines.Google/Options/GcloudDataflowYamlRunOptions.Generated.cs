@@ -162,14 +162,8 @@ public record GcloudDataflowYamlRunOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Specify this flag to update a streaming job. Use --update to enable and --no-update to disable.
     /// </summary>
-    [CliFlag("--update")]
+    [CliFlag("--update", NegatedName = "--no-update")]
     public bool? Update { get; set; }
-
-    /// <summary>
-    /// Negates --update. Specify this flag to update a streaming job. Use --update to enable and --no-update to disable.
-    /// </summary>
-    [CliFlag("--no-update")]
-    public bool? NoUpdate { get; set; }
 
     /// <summary>
     /// Transform name mappings for the streaming update job. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

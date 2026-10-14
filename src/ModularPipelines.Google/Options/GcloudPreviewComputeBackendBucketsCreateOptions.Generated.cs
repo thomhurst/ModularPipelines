@@ -109,14 +109,8 @@ public record GcloudPreviewComputeBackendBucketsCreateOptions : GcloudOptions, I
     /// <summary>
     /// Enable Cloud CDN for the backend bucket. Cloud CDN can cache HTTP responses from a backend bucket at the edge of the network, close to users. Use --enable-cdn to enable and --no-enable-cdn to disable.
     /// </summary>
-    [CliFlag("--enable-cdn")]
+    [CliFlag("--enable-cdn", NegatedName = "--no-enable-cdn")]
     public bool? EnableCdn { get; set; }
-
-    /// <summary>
-    /// Negates --enable-cdn. Enable Cloud CDN for the backend bucket. Cloud CDN can cache HTTP responses from a backend bucket at the edge of the network, close to users. Use --enable-cdn to enable and --no-enable-cdn to disable.
-    /// </summary>
-    [CliFlag("--no-enable-cdn")]
-    public bool? NoEnableCdn { get; set; }
 
     /// <summary>
     /// The load balancing scheme of the backend bucket. If left blank, the backend bucket will be compatible with Global External Application Load Balancer or Classic Application Load Balancer. LOAD_BALANCING_SCHEME must be one of: INTERNAL_MANAGED, EXTERNAL_MANAGED.
@@ -133,14 +127,8 @@ public record GcloudPreviewComputeBackendBucketsCreateOptions : GcloudOptions, I
     /// <summary>
     /// Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: ◆ HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m ◆ HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s ◆ HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
     /// </summary>
-    [CliFlag("--negative-caching")]
+    [CliFlag("--negative-caching", NegatedName = "--no-negative-caching")]
     public bool? NegativeCaching { get; set; }
-
-    /// <summary>
-    /// Negates --negative-caching. Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: ◆ HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m ◆ HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s ◆ HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
-    /// </summary>
-    [CliFlag("--no-negative-caching")]
-    public bool? NoNegativeCaching { get; set; }
 
     /// <summary>
     /// Sets a cache TTL for the specified HTTP status code. NegativeCaching must be enabled to config the negativeCachingPolicy. If you omit the policy and leave negativeCaching enabled, Cloud CDN's default cache TTLs are used. Note that when specifying an explicit negative caching policy, make sure that you specify a cache TTL for all response codes that you want to cache. Cloud CDN doesn't apply any default negative caching when a policy exists. CODE is the HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451, and 501 can be specified as values, and you cannot specify a status code more than once. TTL is the time to live (in seconds) for which to cache responses for the specified CODE. The maximum allowed value is 1800s (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
@@ -151,14 +139,8 @@ public record GcloudPreviewComputeBackendBucketsCreateOptions : GcloudOptions, I
     /// <summary>
     /// Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
     /// </summary>
-    [CliFlag("--request-coalescing")]
+    [CliFlag("--request-coalescing", NegatedName = "--no-request-coalescing")]
     public bool? RequestCoalescing { get; set; }
-
-    /// <summary>
-    /// Negates --request-coalescing. Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
-    /// </summary>
-    [CliFlag("--no-request-coalescing")]
-    public bool? NoRequestCoalescing { get; set; }
 
     /// <summary>
     /// Comma-separated list of Resource Manager tags to apply to the backend bucket. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

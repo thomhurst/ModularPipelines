@@ -47,14 +47,8 @@ public record GcloudSqlInstancesPromoteReplicaOptions : GcloudOptions
     /// <summary>
     /// Whether the promote operation is a failover. Use --failover to enable and --no-failover to disable.
     /// </summary>
-    [CliFlag("--failover")]
+    [CliFlag("--failover", NegatedName = "--no-failover")]
     public bool? Failover { get; set; }
-
-    /// <summary>
-    /// Negates --failover. Whether the promote operation is a failover. Use --failover to enable and --no-failover to disable.
-    /// </summary>
-    [CliFlag("--no-failover")]
-    public bool? NoFailover { get; set; }
 
     /// <summary>
     /// Cloud SQL read replica ID.

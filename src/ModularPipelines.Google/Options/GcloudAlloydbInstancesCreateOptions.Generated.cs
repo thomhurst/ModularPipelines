@@ -189,14 +189,8 @@ public record GcloudAlloydbInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
     /// </summary>
-    [CliFlag("--enable-connection-pooling")]
+    [CliFlag("--enable-connection-pooling", NegatedName = "--no-enable-connection-pooling")]
     public bool? EnableConnectionPooling { get; set; }
-
-    /// <summary>
-    /// Negates --enable-connection-pooling. Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
-    /// </summary>
-    [CliFlag("--no-enable-connection-pooling")]
-    public bool? NoEnableConnectionPooling { get; set; }
 
     /// <summary>
     /// Number of query plans to sample every minute. Default value is 5. Allowed range: 0 to 20.
@@ -213,26 +207,14 @@ public record GcloudAlloydbInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Allow application tags to be recorded by the query insights feature. Use --insights-config-record-application-tags to enable and --no-insights-config-record-application-tags to disable.
     /// </summary>
-    [CliFlag("--insights-config-record-application-tags")]
+    [CliFlag("--insights-config-record-application-tags", NegatedName = "--no-insights-config-record-application-tags")]
     public bool? InsightsConfigRecordApplicationTags { get; set; }
-
-    /// <summary>
-    /// Negates --insights-config-record-application-tags. Allow application tags to be recorded by the query insights feature. Use --insights-config-record-application-tags to enable and --no-insights-config-record-application-tags to disable.
-    /// </summary>
-    [CliFlag("--no-insights-config-record-application-tags")]
-    public bool? NoInsightsConfigRecordApplicationTags { get; set; }
 
     /// <summary>
     /// Allow the client address to be recorded by the query insights feature. Use --insights-config-record-client-address to enable and --no-insights-config-record-client-address to disable.
     /// </summary>
-    [CliFlag("--insights-config-record-client-address")]
+    [CliFlag("--insights-config-record-client-address", NegatedName = "--no-insights-config-record-client-address")]
     public bool? InsightsConfigRecordClientAddress { get; set; }
-
-    /// <summary>
-    /// Negates --insights-config-record-client-address. Allow the client address to be recorded by the query insights feature. Use --insights-config-record-client-address to enable and --no-insights-config-record-client-address to disable.
-    /// </summary>
-    [CliFlag("--no-insights-config-record-client-address")]
-    public bool? NoInsightsConfigRecordClientAddress { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -249,14 +231,8 @@ public record GcloudAlloydbInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Enable enhanced query insights feature. Use --observability-config-enabled to enable and --no-observability-config-enabled to disable.
     /// </summary>
-    [CliFlag("--observability-config-enabled")]
+    [CliFlag("--observability-config-enabled", NegatedName = "--no-observability-config-enabled")]
     public bool? ObservabilityConfigEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --observability-config-enabled. Enable enhanced query insights feature. Use --observability-config-enabled to enable and --no-observability-config-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-observability-config-enabled")]
-    public bool? NoObservabilityConfigEnabled { get; set; }
 
     /// <summary>
     /// Query string length in bytes to be stored by the enhanced query insights feature. Default length is 10k bytes.
@@ -267,14 +243,8 @@ public record GcloudAlloydbInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Allow preservation of comments in query string recorded by the enhanced query insights feature. Use --observability-config-preserve-comments to enable and --no-observability-config-preserve-comments to disable.
     /// </summary>
-    [CliFlag("--observability-config-preserve-comments")]
+    [CliFlag("--observability-config-preserve-comments", NegatedName = "--no-observability-config-preserve-comments")]
     public bool? ObservabilityConfigPreserveComments { get; set; }
-
-    /// <summary>
-    /// Negates --observability-config-preserve-comments. Allow preservation of comments in query string recorded by the enhanced query insights feature. Use --observability-config-preserve-comments to enable and --no-observability-config-preserve-comments to disable.
-    /// </summary>
-    [CliFlag("--no-observability-config-preserve-comments")]
-    public bool? NoObservabilityConfigPreserveComments { get; set; }
 
     /// <summary>
     /// Number of query plans to sample every minute. Default value is 20. Allowed range: 0 to 200.
@@ -285,26 +255,14 @@ public record GcloudAlloydbInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Allow application tags to be recorded by the enhanced query insights feature. Use --observability-config-record-application-tags to enable and --no-observability-config-record-application-tags to disable.
     /// </summary>
-    [CliFlag("--observability-config-record-application-tags")]
+    [CliFlag("--observability-config-record-application-tags", NegatedName = "--no-observability-config-record-application-tags")]
     public bool? ObservabilityConfigRecordApplicationTags { get; set; }
-
-    /// <summary>
-    /// Negates --observability-config-record-application-tags. Allow application tags to be recorded by the enhanced query insights feature. Use --observability-config-record-application-tags to enable and --no-observability-config-record-application-tags to disable.
-    /// </summary>
-    [CliFlag("--no-observability-config-record-application-tags")]
-    public bool? NoObservabilityConfigRecordApplicationTags { get; set; }
 
     /// <summary>
     /// Track actively running queries. Use --observability-config-track-active-queries to enable and --no-observability-config-track-active-queries to disable.
     /// </summary>
-    [CliFlag("--observability-config-track-active-queries")]
+    [CliFlag("--observability-config-track-active-queries", NegatedName = "--no-observability-config-track-active-queries")]
     public bool? ObservabilityConfigTrackActiveQueries { get; set; }
-
-    /// <summary>
-    /// Negates --observability-config-track-active-queries. Track actively running queries. Use --observability-config-track-active-queries to enable and --no-observability-config-track-active-queries to disable.
-    /// </summary>
-    [CliFlag("--no-observability-config-track-active-queries")]
-    public bool? NoObservabilityConfigTrackActiveQueries { get; set; }
 
     /// <summary>
     /// Track wait events during query execution.
@@ -315,14 +273,8 @@ public record GcloudAlloydbInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Add outbound Public IP connectivity to an AlloyDB instance. Use --outbound-public-ip to enable and --no-outbound-public-ip to disable.
     /// </summary>
-    [CliFlag("--outbound-public-ip")]
+    [CliFlag("--outbound-public-ip", NegatedName = "--no-outbound-public-ip")]
     public bool? OutboundPublicIp { get; set; }
-
-    /// <summary>
-    /// Negates --outbound-public-ip. Add outbound Public IP connectivity to an AlloyDB instance. Use --outbound-public-ip to enable and --no-outbound-public-ip to disable.
-    /// </summary>
-    [CliFlag("--no-outbound-public-ip")]
-    public bool? NoOutboundPublicIp { get; set; }
 
     /// <summary>
     /// Comma-separated list of consumer project and consumer network pairs to create endpoints for Private Service Connect (PSC) connectivity for the instance. Only instances in PSC-enabled clusters are allowed to set this field. Both project and network must be specified. (e.g., --psc-auto-connections=project=project1,network=projects/vpc-host-project1/global/networks/network1 --psc-auto-connections=project=project2,network=projects/vpc-host-project2/global/networks/network2). Sets psc_auto_connections value. network Required, sets network value. project Required, sets project value. Shorthand Example: --psc-auto-connections=network=string,project=string JSON Example: --psc-auto-connections='{"network": "string", "project": "string"}' File Example: --psc-auto-connections=path_to_file.(yaml|json)
@@ -345,14 +297,8 @@ public record GcloudAlloydbInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Enable or disable enforcing connectors only (ex: AuthProxy) connections to the database. Use --require-connectors to enable and --no-require-connectors to disable.
     /// </summary>
-    [CliFlag("--require-connectors")]
+    [CliFlag("--require-connectors", NegatedName = "--no-require-connectors")]
     public bool? RequireConnectors { get; set; }
-
-    /// <summary>
-    /// Negates --require-connectors. Enable or disable enforcing connectors only (ex: AuthProxy) connections to the database. Use --require-connectors to enable and --no-require-connectors to disable.
-    /// </summary>
-    [CliFlag("--no-require-connectors")]
-    public bool? NoRequireConnectors { get; set; }
 
     /// <summary>
     /// Specify the SSL mode to use when the instance connects to the database. Default SSL mode is ENCRYPTED_ONLY. SSL_MODE must be one of: ALLOW_UNENCRYPTED_AND_ENCRYPTED SSL connections are optional. CA verification is not enforced. ENCRYPTED_ONLY SSL connections are required. CA verification is not enforced.

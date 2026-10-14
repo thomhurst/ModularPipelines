@@ -48,14 +48,8 @@ public record GcloudComputeInstancesSetSchedulingOptions : GcloudOptions, IValid
     /// <summary>
     /// Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
     /// </summary>
-    [CliFlag("--graceful-shutdown")]
+    [CliFlag("--graceful-shutdown", NegatedName = "--no-graceful-shutdown")]
     public bool? GracefulShutdown { get; set; }
-
-    /// <summary>
-    /// Negates --graceful-shutdown. Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
-    /// </summary>
-    [CliFlag("--no-graceful-shutdown")]
-    public bool? NoGracefulShutdown { get; set; }
 
     /// <summary>
     /// Specifies the maximum time for the graceful shutdown. After this time, the instance is set to STOPPING even if tasks are still running. Specify the time as the number of hours, minutes, or seconds followed by h, m, and s respectively. For example, specify 30m for 30 minutes or 20m10s for 20 minutes and 10 seconds. The value must be between 1 second and 1 hour.
@@ -90,14 +84,8 @@ public record GcloudComputeInstancesSetSchedulingOptions : GcloudOptions, IValid
     /// <summary>
     /// If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate. Use --preemptible to enable and --no-preemptible to disable.
     /// </summary>
-    [CliFlag("--preemptible")]
+    [CliFlag("--preemptible", NegatedName = "--no-preemptible")]
     public bool? Preemptible { get; set; }
-
-    /// <summary>
-    /// Negates --preemptible. If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate. Use --preemptible to enable and --no-preemptible to disable.
-    /// </summary>
-    [CliFlag("--no-preemptible")]
-    public bool? NoPreemptible { get; set; }
 
     /// <summary>
     /// Only allowed with --provisioning-model=SPOT. If provided, the preemption notice will be triggered PREEMPTION_NOTICE_DURATION seconds before the ACPI G2 soft off signal. Valid values for PREEMPTION_NOTICE_DURATION are [0s,120s]; for example, specify 120s for 120 seconds. Otherwise, if this flag is omitted (default), there will be no wait time before the ACPI G2 soft off signal is triggered.
@@ -114,26 +102,14 @@ public record GcloudComputeInstancesSetSchedulingOptions : GcloudOptions, IValid
     /// <summary>
     /// The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. This option is mutually exclusive with --preemptible. Use --restart-on-failure to enable and --no-restart-on-failure to disable.
     /// </summary>
-    [CliFlag("--restart-on-failure")]
+    [CliFlag("--restart-on-failure", NegatedName = "--no-restart-on-failure")]
     public bool? RestartOnFailure { get; set; }
-
-    /// <summary>
-    /// Negates --restart-on-failure. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. This option is mutually exclusive with --preemptible. Use --restart-on-failure to enable and --no-restart-on-failure to disable.
-    /// </summary>
-    [CliFlag("--no-restart-on-failure")]
-    public bool? NoRestartOnFailure { get; set; }
 
     /// <summary>
     /// If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
     /// </summary>
-    [CliFlag("--skip-guest-os-shutdown")]
+    [CliFlag("--skip-guest-os-shutdown", NegatedName = "--no-skip-guest-os-shutdown")]
     public bool? SkipGuestOsShutdown { get; set; }
-
-    /// <summary>
-    /// Negates --skip-guest-os-shutdown. If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
-    /// </summary>
-    [CliFlag("--no-skip-guest-os-shutdown")]
-    public bool? NoSkipGuestOsShutdown { get; set; }
 
     /// <summary>
     /// Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.

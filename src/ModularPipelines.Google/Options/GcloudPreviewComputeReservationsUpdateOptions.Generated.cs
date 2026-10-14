@@ -59,14 +59,8 @@ public record GcloudPreviewComputeReservationsUpdateOptions : GcloudOptions
     /// <summary>
     /// Enables the reservation to receive notifications when urgent maintenance for a GPU VM starts after the VM encounters a host error. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
     /// </summary>
-    [CliFlag("--enable-emergent-maintenance")]
+    [CliFlag("--enable-emergent-maintenance", NegatedName = "--no-enable-emergent-maintenance")]
     public bool? EnableEmergentMaintenance { get; set; }
-
-    /// <summary>
-    /// Negates --enable-emergent-maintenance. Enables the reservation to receive notifications when urgent maintenance for a GPU VM starts after the VM encounters a host error. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
-    /// </summary>
-    [CliFlag("--no-enable-emergent-maintenance")]
-    public bool? NoEnableEmergentMaintenance { get; set; }
 
     /// <summary>
     /// A list of specific projects to remove from the list of projects that this reservation is shared with. List must contain project IDs or project numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -77,14 +71,8 @@ public record GcloudPreviewComputeReservationsUpdateOptions : GcloudOptions
     /// <summary>
     /// Indicates whether the reservation can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target this reservation by name using --reservation-affinity=specific can consume from this reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
     /// </summary>
-    [CliFlag("--require-specific-reservation")]
+    [CliFlag("--require-specific-reservation", NegatedName = "--no-require-specific-reservation")]
     public bool? RequireSpecificReservation { get; set; }
-
-    /// <summary>
-    /// Negates --require-specific-reservation. Indicates whether the reservation can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target this reservation by name using --reservation-affinity=specific can consume from this reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
-    /// </summary>
-    [CliFlag("--no-require-specific-reservation")]
-    public bool? NoRequireSpecificReservation { get; set; }
 
     /// <summary>
     /// The reservation sharing policy to use for this reservation. RESERVATION_SHARING_POLICY must be one of: ALLOW_ALL The reservation can be shared with Google Cloud services. DISALLOW_ALL The reservation won't be shared with Google Cloud services. If you omit this flag during creation, the default value is DISALLOW_ALL.

@@ -50,26 +50,14 @@ public record GcloudPrivatecaTemplatesUpdateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
     /// </summary>
-    [CliFlag("--copy-sans")]
+    [CliFlag("--copy-sans", NegatedName = "--no-copy-sans")]
     public bool? CopySans { get; set; }
-
-    /// <summary>
-    /// Negates --copy-sans. If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
-    /// </summary>
-    [CliFlag("--no-copy-sans")]
-    public bool? NoCopySans { get; set; }
 
     /// <summary>
     /// If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
     /// </summary>
-    [CliFlag("--copy-subject")]
+    [CliFlag("--copy-subject", NegatedName = "--no-copy-subject")]
     public bool? CopySubject { get; set; }
-
-    /// <summary>
-    /// Negates --copy-subject. If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
-    /// </summary>
-    [CliFlag("--no-copy-subject")]
-    public bool? NoCopySubject { get; set; }
 
     /// <summary>
     /// A text description for the Certificate Template.

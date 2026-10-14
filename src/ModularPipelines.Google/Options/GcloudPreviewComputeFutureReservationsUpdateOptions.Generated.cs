@@ -43,14 +43,8 @@ public record GcloudPreviewComputeFutureReservationsUpdateOptions : GcloudOption
     /// <summary>
     /// If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
     /// </summary>
-    [CliFlag("--auto-delete-auto-created-reservations")]
+    [CliFlag("--auto-delete-auto-created-reservations", NegatedName = "--no-auto-delete-auto-created-reservations")]
     public bool? AutoDeleteAutoCreatedReservations { get; set; }
-
-    /// <summary>
-    /// Negates --auto-delete-auto-created-reservations. If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
-    /// </summary>
-    [CliFlag("--no-auto-delete-auto-created-reservations")]
-    public bool? NoAutoDeleteAutoCreatedReservations { get; set; }
 
     /// <summary>
     /// The deployment type for the reserved capacity. DEPLOYMENT_TYPE must be one of: DENSE DENSE mode is for densely deployed reservation blocks. FLEXIBLE FLEXIBLE mode is for highly flexible, logical reservation blocks.
@@ -67,14 +61,8 @@ public record GcloudPreviewComputeFutureReservationsUpdateOptions : GcloudOption
     /// <summary>
     /// Emergent maintenance flag for the reservation, which enrolls all the underlying vms, hosts and SB infrastructure to receive emergent maintenance notifications in advance. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
     /// </summary>
-    [CliFlag("--enable-emergent-maintenance")]
+    [CliFlag("--enable-emergent-maintenance", NegatedName = "--no-enable-emergent-maintenance")]
     public bool? EnableEmergentMaintenance { get; set; }
-
-    /// <summary>
-    /// Negates --enable-emergent-maintenance. Emergent maintenance flag for the reservation, which enrolls all the underlying vms, hosts and SB infrastructure to receive emergent maintenance notifications in advance. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
-    /// </summary>
-    [CliFlag("--no-enable-emergent-maintenance")]
-    public bool? NoEnableEmergentMaintenance { get; set; }
 
     /// <summary>
     /// The planning status of the future reservation. The default value is DRAFT. While in DRAFT, any changes to the future reservation's properties will be allowed. If set to SUBMITTED, the future reservation will submit and its procurementStatus will change to PENDING_APPROVAL. Once the future reservation is pending approval, changes to the future reservation's properties will not be allowed. PLANNING_STATUS must be one of: DRAFT Default planning status value. SUBMITTED Planning status value to immediately submit the future reservation.
@@ -85,14 +73,8 @@ public record GcloudPreviewComputeFutureReservationsUpdateOptions : GcloudOption
     /// <summary>
     /// Indicate whether the auto-created reservations can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target the auto-created reservation by name using --reservation-affinity=specific can consume from this reservation. Auto-created reservations delivered with this flag enabled will inherit the name of the future reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
     /// </summary>
-    [CliFlag("--require-specific-reservation")]
+    [CliFlag("--require-specific-reservation", NegatedName = "--no-require-specific-reservation")]
     public bool? RequireSpecificReservation { get; set; }
-
-    /// <summary>
-    /// Negates --require-specific-reservation. Indicate whether the auto-created reservations can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target the auto-created reservation by name using --reservation-affinity=specific can consume from this reservation. Auto-created reservations delivered with this flag enabled will inherit the name of the future reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
-    /// </summary>
-    [CliFlag("--no-require-specific-reservation")]
-    public bool? NoRequireSpecificReservation { get; set; }
 
     /// <summary>
     /// Name of reservations where the capacity is provisioned at the time of delivery of future reservations. If the reservation with the given name does not exist already, it is created automatically at the time of Approval with INACTIVE state till specified start-time. Either provide the reservation_name or a name_prefix.

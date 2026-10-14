@@ -105,14 +105,8 @@ public record GcloudSqlExportBakOptions : GcloudOptions
     /// <summary>
     /// Whether SQL Server export should be striped. Use --striped to enable and --no-striped to disable.
     /// </summary>
-    [CliFlag("--striped")]
+    [CliFlag("--striped", NegatedName = "--no-striped")]
     public bool? Striped { get; set; }
-
-    /// <summary>
-    /// Negates --striped. Whether SQL Server export should be striped. Use --striped to enable and --no-striped to disable.
-    /// </summary>
-    [CliFlag("--no-striped")]
-    public bool? NoStriped { get; set; }
 
     /// <summary>
     /// Cloud SQL instance ID.

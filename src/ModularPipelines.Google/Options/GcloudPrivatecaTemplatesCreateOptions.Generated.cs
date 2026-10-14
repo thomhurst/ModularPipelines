@@ -50,26 +50,14 @@ public record GcloudPrivatecaTemplatesCreateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
     /// </summary>
-    [CliFlag("--copy-sans")]
+    [CliFlag("--copy-sans", NegatedName = "--no-copy-sans")]
     public bool? CopySans { get; set; }
-
-    /// <summary>
-    /// Negates --copy-sans. If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
-    /// </summary>
-    [CliFlag("--no-copy-sans")]
-    public bool? NoCopySans { get; set; }
 
     /// <summary>
     /// If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
     /// </summary>
-    [CliFlag("--copy-subject")]
+    [CliFlag("--copy-subject", NegatedName = "--no-copy-subject")]
     public bool? CopySubject { get; set; }
-
-    /// <summary>
-    /// Negates --copy-subject. If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
-    /// </summary>
-    [CliFlag("--no-copy-subject")]
-    public bool? NoCopySubject { get; set; }
 
     /// <summary>
     /// A text description for the Certificate Template.
@@ -172,13 +160,13 @@ public record GcloudPrivatecaTemplatesCreateOptions : GcloudOptions, IValidatabl
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((CopySans == true ? 1 : 0) + (NoCopySans == true ? 1 : 0) != 1)
+        if (!((object?)CopySans is not null))
         {
-            yield return new ValidationResult("Exactly one of CopySans or NoCopySans must be specified.", [nameof(CopySans), nameof(NoCopySans)]);
+            yield return new ValidationResult("At least one of CopySans must be specified.", [nameof(CopySans)]);
         }
-        if ((CopySubject == true ? 1 : 0) + (NoCopySubject == true ? 1 : 0) != 1)
+        if (!((object?)CopySubject is not null))
         {
-            yield return new ValidationResult("Exactly one of CopySubject or NoCopySubject must be specified.", [nameof(CopySubject), nameof(NoCopySubject)]);
+            yield return new ValidationResult("At least one of CopySubject must be specified.", [nameof(CopySubject)]);
         }
         if ((CopyAllRequestedExtensions == true ? 1 : 0) + ((((object?)CopyExtensionsByOid is global::System.Collections.Generic.IEnumerable<char> ? (object?)CopyExtensionsByOid is not string || !string.IsNullOrWhiteSpace(CopyExtensionsByOid?.ToString()) : ((object?)CopyExtensionsByOid is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CopyExtensionsByOid, static item => item is not null) : (CopyExtensionsByOid is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CopyExtensionsByOid), static item => item is not null)))) || ((object?)CopyKnownExtensions is global::System.Collections.Generic.IEnumerable<char> ? (object?)CopyKnownExtensions is not string || !string.IsNullOrWhiteSpace(CopyKnownExtensions?.ToString()) : ((object?)CopyKnownExtensions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CopyKnownExtensions, static item => item is not null) : (CopyKnownExtensions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CopyKnownExtensions), static item => item is not null))))) ? 1 : 0) > 1)
         {

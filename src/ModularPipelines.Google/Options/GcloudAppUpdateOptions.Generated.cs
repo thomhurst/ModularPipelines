@@ -31,14 +31,8 @@ public record GcloudAppUpdateOptions : GcloudOptions
     /// <summary>
     /// Enables/disables split health checks by default on new deployments. Use --split-health-checks to enable and --no-split-health-checks to disable.
     /// </summary>
-    [CliFlag("--split-health-checks")]
+    [CliFlag("--split-health-checks", NegatedName = "--no-split-health-checks")]
     public bool? SplitHealthChecks { get; set; }
-
-    /// <summary>
-    /// Negates --split-health-checks. Enables/disables split health checks by default on new deployments. Use --split-health-checks to enable and --no-split-health-checks to disable.
-    /// </summary>
-    [CliFlag("--no-split-health-checks")]
-    public bool? NoSplitHealthChecks { get; set; }
 
     /// <summary>
     /// The app-level SSL policy to update the app with. SSL_POLICY must be one of: TLS_VERSION_1_0, TLS_VERSION_1_2.

@@ -46,6 +46,8 @@ ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.Positional
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.PositionalArgumentPositionIndex.init -> void
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.PropertyName.get -> string!
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.PropertyName.init -> void
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.RequiredFlagValue.get -> bool?
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.RequiredFlagValue.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptionsBeforeSubcommands.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptionsBeforeSubcommands.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ClapOptionBlock

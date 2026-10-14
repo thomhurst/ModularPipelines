@@ -62,50 +62,26 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Whether to allocate extra CPU to containers on startup to reduce the perceived latency of a cold start request. Enabled by default when unspecified on new services. Use --cpu-boost to enable and --no-cpu-boost to disable.
     /// </summary>
-    [CliFlag("--cpu-boost")]
+    [CliFlag("--cpu-boost", NegatedName = "--no-cpu-boost")]
     public bool? CpuBoost { get; set; }
-
-    /// <summary>
-    /// Negates --cpu-boost. Whether to allocate extra CPU to containers on startup to reduce the perceived latency of a cold start request. Enabled by default when unspecified on new services. Use --cpu-boost to enable and --no-cpu-boost to disable.
-    /// </summary>
-    [CliFlag("--no-cpu-boost")]
-    public bool? NoCpuBoost { get; set; }
 
     /// <summary>
     /// Whether to throttle the CPU when the container is not actively serving requests. Use --cpu-throttling to enable and --no-cpu-throttling to disable.
     /// </summary>
-    [CliFlag("--cpu-throttling")]
+    [CliFlag("--cpu-throttling", NegatedName = "--no-cpu-throttling")]
     public bool? CpuThrottling { get; set; }
-
-    /// <summary>
-    /// Negates --cpu-throttling. Whether to throttle the CPU when the container is not actively serving requests. Use --cpu-throttling to enable and --no-cpu-throttling to disable.
-    /// </summary>
-    [CliFlag("--no-cpu-throttling")]
-    public bool? NoCpuThrottling { get; set; }
 
     /// <summary>
     /// Toggles the default url for a run service. This is enabled by default if not specified. Use --default-url to enable and --no-default-url to disable.
     /// </summary>
-    [CliFlag("--default-url")]
+    [CliFlag("--default-url", NegatedName = "--no-default-url")]
     public bool? DefaultUrl { get; set; }
-
-    /// <summary>
-    /// Negates --default-url. Toggles the default url for a run service. This is enabled by default if not specified. Use --default-url to enable and --no-default-url to disable.
-    /// </summary>
-    [CliFlag("--no-default-url")]
-    public bool? NoDefaultUrl { get; set; }
 
     /// <summary>
     /// Schedules a single instance of the Revision and waits for it to pass its startup probe for the deployment to succeed. If disabled, the startup probe runs only when the revision is first started via invocation or by setting min-instances. This check is enabled by default when unspecified. Use --deploy-health-check to enable and --no-deploy-health-check to disable.
     /// </summary>
-    [CliFlag("--deploy-health-check")]
+    [CliFlag("--deploy-health-check", NegatedName = "--no-deploy-health-check")]
     public bool? DeployHealthCheck { get; set; }
-
-    /// <summary>
-    /// Negates --deploy-health-check. Schedules a single instance of the Revision and waits for it to pass its startup probe for the deployment to succeed. If disabled, the startup probe runs only when the revision is first started via invocation or by setting min-instances. This check is enabled by default when unspecified. Use --deploy-health-check to enable and --no-deploy-health-check to disable.
-    /// </summary>
-    [CliFlag("--no-deploy-health-check")]
-    public bool? NoDeployHealthCheck { get; set; }
 
     /// <summary>
     /// Selects the execution environment where the application will run. EXECUTION_ENVIRONMENT must be one of: gen1 Run the application in a first generation execution environment. gen2 Run the application in a second generation execution environment.
@@ -122,26 +98,14 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
-    [CliFlag("--gpu-zonal-redundancy")]
+    [CliFlag("--gpu-zonal-redundancy", NegatedName = "--no-gpu-zonal-redundancy")]
     public bool? GpuZonalRedundancy { get; set; }
-
-    /// <summary>
-    /// Negates --gpu-zonal-redundancy. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
-    /// </summary>
-    [CliFlag("--no-gpu-zonal-redundancy")]
-    public bool? NoGpuZonalRedundancy { get; set; }
 
     /// <summary>
     /// Whether to enable IAP for the Service. Use --iap to enable and --no-iap to disable.
     /// </summary>
-    [CliFlag("--iap")]
+    [CliFlag("--iap", NegatedName = "--no-iap")]
     public bool? Iap { get; set; }
-
-    /// <summary>
-    /// Negates --iap. Whether to enable IAP for the Service. Use --iap to enable and --no-iap to disable.
-    /// </summary>
-    [CliFlag("--no-iap")]
-    public bool? NoIap { get; set; }
 
     /// <summary>
     /// Set the ingress traffic sources allowed to call the service. For Cloud Run the --[no-]allow-unauthenticated flag separately controls the identities allowed to call the service. INGRESS must be one of: all Inbound requests from all sources are allowed. internal For Cloud Run, only inbound requests from VPC networks in the same project or VPC Service Controls perimeter, as well as Pub/Sub subscriptions and Eventarc events in the same project or VPC Service Controls perimeter are allowed. All other requests are rejected. See https://cloud.google.com/run/docs/securing/ingress for full details on the definition of internal traffic for Cloud Run. internal-and-cloud-load-balancing Only inbound requests from Google Cloud Load Balancing or a traffic source allowed by the internal option are allowed.
@@ -152,14 +116,8 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Optionally disable invoker IAM checks. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
     /// </summary>
-    [CliFlag("--invoker-iam-check")]
+    [CliFlag("--invoker-iam-check", NegatedName = "--no-invoker-iam-check")]
     public bool? InvokerIamCheck { get; set; }
-
-    /// <summary>
-    /// Negates --invoker-iam-check. Optionally disable invoker IAM checks. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
-    /// </summary>
-    [CliFlag("--no-invoker-iam-check")]
-    public bool? NoInvokerIamCheck { get; set; }
 
     /// <summary>
     /// The maximum number of container instances to run for this Service. This instance limit will be divided among all Revisions receiving a percentage of traffic and can be modified without deploying a new Revision.
@@ -230,14 +188,8 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Whether to enable session affinity for connections to the service. Use --session-affinity to enable and --no-session-affinity to disable.
     /// </summary>
-    [CliFlag("--session-affinity")]
+    [CliFlag("--session-affinity", NegatedName = "--no-session-affinity")]
     public bool? SessionAffinity { get; set; }
-
-    /// <summary>
-    /// Negates --session-affinity. Whether to enable session affinity for connections to the service. Use --session-affinity to enable and --no-session-affinity to disable.
-    /// </summary>
-    [CliFlag("--no-session-affinity")]
-    public bool? NoSessionAffinity { get; set; }
 
     /// <summary>
     /// Traffic tag to assign to the newly created revision.
@@ -554,14 +506,8 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to use HTTP/2 for connections to the service. Use --use-http2 to enable and --no-use-http2 to disable.
     /// </summary>
-    [CliFlag("--use-http2")]
+    [CliFlag("--use-http2", NegatedName = "--no-use-http2")]
     public bool? UseHttp2 { get; set; }
-
-    /// <summary>
-    /// Negates --use-http2. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to use HTTP/2 for connections to the service. Use --use-http2 to enable and --no-use-http2 to disable.
-    /// </summary>
-    [CliFlag("--no-use-http2")]
-    public bool? NoUseHttp2 { get; set; }
 
     /// <summary>
     /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Working directory of the container process. If not specified, the container image's default working directory is used. To reset this field to its default, pass an empty string.

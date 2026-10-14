@@ -103,14 +103,8 @@ public record GcloudPreviewComputeInstancesImportOptions : GcloudOptions, IValid
     /// <summary>
     /// The guest environment will be installed on the instance. Enabled by default, use --no-guest-environment to disable.
     /// </summary>
-    [CliFlag("--guest-environment")]
+    [CliFlag("--guest-environment", NegatedName = "--no-guest-environment")]
     public bool? GuestEnvironment { get; set; }
-
-    /// <summary>
-    /// Negates --guest-environment. The guest environment will be installed on the instance. Enabled by default, use --no-guest-environment to disable.
-    /// </summary>
-    [CliFlag("--no-guest-environment")]
-    public bool? NoGuestEnvironment { get; set; }
 
     /// <summary>
     /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be (only one value is supported): UEFI_COMPATIBLE. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -169,14 +163,8 @@ public record GcloudPreviewComputeInstancesImportOptions : GcloudOptions, IValid
     /// <summary>
     /// The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
     /// </summary>
-    [CliFlag("--restart-on-failure")]
+    [CliFlag("--restart-on-failure", NegatedName = "--no-restart-on-failure")]
     public bool? RestartOnFailure { get; set; }
-
-    /// <summary>
-    /// Negates --restart-on-failure. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
-    /// </summary>
-    [CliFlag("--no-restart-on-failure")]
-    public bool? NoRestartOnFailure { get; set; }
 
     /// <summary>
     /// Specifies the subnet that the VM instances are a part of. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag.

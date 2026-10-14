@@ -109,14 +109,8 @@ public record GcloudPreviewComputeNetworkEndpointGroupsCreateOptions : GcloudOpt
     /// <summary>
     /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
     /// </summary>
-    [CliFlag("--app-engine-app")]
+    [CliFlag("--app-engine-app", NegatedName = "--no-app-engine-app")]
     public bool? AppEngineApp { get; set; }
-
-    /// <summary>
-    /// Negates --app-engine-app. The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
-    /// </summary>
-    [CliFlag("--no-app-engine-app")]
-    public bool? NoAppEngineApp { get; set; }
 
     /// <summary>
     /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Optional serving service to add to the Serverless NEG.
@@ -163,13 +157,9 @@ public record GcloudPreviewComputeNetworkEndpointGroupsCreateOptions : GcloudOpt
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (((!string.IsNullOrWhiteSpace(CloudFunctionName) || !string.IsNullOrWhiteSpace(CloudFunctionUrlMask)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CloudRunService) || !string.IsNullOrWhiteSpace(CloudRunTag) || !string.IsNullOrWhiteSpace(CloudRunUrlMask)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AppEngineService) || !string.IsNullOrWhiteSpace(AppEngineUrlMask) || !string.IsNullOrWhiteSpace(AppEngineVersion) || AppEngineApp == true || NoAppEngineApp == true) ? 1 : 0) > 1)
+        if (((!string.IsNullOrWhiteSpace(CloudFunctionName) || !string.IsNullOrWhiteSpace(CloudFunctionUrlMask)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CloudRunService) || !string.IsNullOrWhiteSpace(CloudRunTag) || !string.IsNullOrWhiteSpace(CloudRunUrlMask)) ? 1 : 0) + (((object?)AppEngineApp is not null || !string.IsNullOrWhiteSpace(AppEngineService) || !string.IsNullOrWhiteSpace(AppEngineUrlMask) || !string.IsNullOrWhiteSpace(AppEngineVersion)) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of (CloudFunctionName or CloudFunctionUrlMask), (CloudRunService, CloudRunTag, or CloudRunUrlMask), or (AppEngineService, AppEngineUrlMask, AppEngineVersion, AppEngineApp, or NoAppEngineApp) may be specified.", [nameof(CloudFunctionName), nameof(CloudFunctionUrlMask), nameof(CloudRunService), nameof(CloudRunTag), nameof(CloudRunUrlMask), nameof(AppEngineService), nameof(AppEngineUrlMask), nameof(AppEngineVersion), nameof(AppEngineApp), nameof(NoAppEngineApp)]);
-        }
-        if ((!string.IsNullOrWhiteSpace(CloudFunctionName) || !string.IsNullOrWhiteSpace(CloudFunctionUrlMask) || !string.IsNullOrWhiteSpace(CloudRunService) || !string.IsNullOrWhiteSpace(CloudRunTag) || !string.IsNullOrWhiteSpace(CloudRunUrlMask) || !string.IsNullOrWhiteSpace(AppEngineService) || !string.IsNullOrWhiteSpace(AppEngineUrlMask) || !string.IsNullOrWhiteSpace(AppEngineVersion) || AppEngineApp == true || NoAppEngineApp == true) && (!string.IsNullOrWhiteSpace(AppEngineService) || !string.IsNullOrWhiteSpace(AppEngineUrlMask) || !string.IsNullOrWhiteSpace(AppEngineVersion) || AppEngineApp == true || NoAppEngineApp == true) && ((AppEngineApp == true ? 1 : 0) + (NoAppEngineApp == true ? 1 : 0) > 1))
-        {
-            yield return new ValidationResult("At most one of AppEngineApp or NoAppEngineApp may be specified.", [nameof(AppEngineApp), nameof(NoAppEngineApp)]);
+            yield return new ValidationResult("At most one of (CloudFunctionName or CloudFunctionUrlMask), (CloudRunService, CloudRunTag, or CloudRunUrlMask), or (AppEngineApp, AppEngineService, AppEngineUrlMask, or AppEngineVersion) may be specified.", [nameof(CloudFunctionName), nameof(CloudFunctionUrlMask), nameof(CloudRunService), nameof(CloudRunTag), nameof(CloudRunUrlMask), nameof(AppEngineApp), nameof(AppEngineService), nameof(AppEngineUrlMask), nameof(AppEngineVersion)]);
         }
         if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
         {

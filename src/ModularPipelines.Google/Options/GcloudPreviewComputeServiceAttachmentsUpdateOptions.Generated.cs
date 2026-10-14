@@ -65,14 +65,8 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions : GcloudOption
     /// <summary>
     /// If True, then enable the proxy protocol which is for supplying client TCP/IP address data in TCP connections that traverse proxies on their way to destination servers. Use --enable-proxy-protocol to enable and --no-enable-proxy-protocol to disable.
     /// </summary>
-    [CliFlag("--enable-proxy-protocol")]
+    [CliFlag("--enable-proxy-protocol", NegatedName = "--no-enable-proxy-protocol")]
     public bool? EnableProxyProtocol { get; set; }
-
-    /// <summary>
-    /// Negates --enable-proxy-protocol. If True, then enable the proxy protocol which is for supplying client TCP/IP address data in TCP connections that traverse proxies on their way to destination servers. Use --enable-proxy-protocol to enable and --no-enable-proxy-protocol to disable.
-    /// </summary>
-    [CliFlag("--no-enable-proxy-protocol")]
-    public bool? NoEnableProxyProtocol { get; set; }
 
     /// <summary>
     /// The number of NAT IP addresses to be allocated per connected endpoint.
@@ -101,14 +95,8 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions : GcloudOption
     /// <summary>
     /// Determines whether to apply changes to consumer accept or reject lists to existing connections or only to new connections. If false, existing endpoints with a connection status of ACCEPTED or REJECTED are not updated. If true, existing endpoints with a connection status of ACCEPTED or REJECTED are updated based on the connection policy update. For example, if a project or network is removed from the --consumer-accept-list and added to --consumer-reject-list, all the endpoints in that project or network with the ACCEPTED state are set to REJECTED. Use --reconcile-connections to enable and --no-reconcile-connections to disable.
     /// </summary>
-    [CliFlag("--reconcile-connections")]
+    [CliFlag("--reconcile-connections", NegatedName = "--no-reconcile-connections")]
     public bool? ReconcileConnections { get; set; }
-
-    /// <summary>
-    /// Negates --reconcile-connections. Determines whether to apply changes to consumer accept or reject lists to existing connections or only to new connections. If false, existing endpoints with a connection status of ACCEPTED or REJECTED are not updated. If true, existing endpoints with a connection status of ACCEPTED or REJECTED are updated based on the connection policy update. For example, if a project or network is removed from the --consumer-accept-list and added to --consumer-reject-list, all the endpoints in that project or network with the ACCEPTED state are set to REJECTED. Use --reconcile-connections to enable and --no-reconcile-connections to disable.
-    /// </summary>
-    [CliFlag("--no-reconcile-connections")]
-    public bool? NoReconcileConnections { get; set; }
 
     /// <summary>
     /// Region of the service attachment to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.

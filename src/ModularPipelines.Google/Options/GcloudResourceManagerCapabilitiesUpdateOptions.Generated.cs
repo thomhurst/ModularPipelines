@@ -42,14 +42,8 @@ public record GcloudResourceManagerCapabilitiesUpdateOptions : GcloudOptions, IV
     /// <summary>
     /// Enable the Capability. Use --enable to enable and --no-enable to disable.
     /// </summary>
-    [CliFlag("--enable")]
+    [CliFlag("--enable", NegatedName = "--no-enable")]
     public bool? Enable { get; set; }
-
-    /// <summary>
-    /// Negates --enable. Enable the Capability. Use --enable to enable and --no-enable to disable.
-    /// </summary>
-    [CliFlag("--no-enable")]
-    public bool? NoEnable { get; set; }
 
     /// <summary>
     /// Update Mask. This is an optional field, and the only valid value this can be set to currently is "value".
@@ -66,9 +60,9 @@ public record GcloudResourceManagerCapabilitiesUpdateOptions : GcloudOptions, IV
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((Enable == true ? 1 : 0) + (NoEnable == true ? 1 : 0) != 1)
+        if (!((object?)Enable is not null))
         {
-            yield return new ValidationResult("Exactly one of Enable or NoEnable must be specified.", [nameof(Enable), nameof(NoEnable)]);
+            yield return new ValidationResult("At least one of Enable must be specified.", [nameof(Enable)]);
         }
         yield break;
     }

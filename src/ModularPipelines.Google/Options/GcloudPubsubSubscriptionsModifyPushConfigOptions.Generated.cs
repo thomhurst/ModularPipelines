@@ -65,26 +65,14 @@ public record GcloudPubsubSubscriptionsModifyPushConfigOptions : GcloudOptions, 
     /// <summary>
     /// NoWrapper Config Options. When set, the message data is delivered directly as the HTTP body. Use --no-push-no-wrapper to disable this flag. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
-    [CliFlag("--push-no-wrapper")]
+    [CliFlag("--push-no-wrapper", NegatedName = "--no-push-no-wrapper")]
     public bool? PushNoWrapper { get; set; }
-
-    /// <summary>
-    /// Negates --push-no-wrapper. NoWrapper Config Options. When set, the message data is delivered directly as the HTTP body. Use --no-push-no-wrapper to disable this flag. This flag argument must be specified if any of the other arguments in this group are specified.
-    /// </summary>
-    [CliFlag("--no-push-no-wrapper")]
-    public bool? NoPushNoWrapper { get; set; }
 
     /// <summary>
     /// NoWrapper Config Options. When true, writes the Pub/Sub message metadata to x-goog-pubsub-&lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Writes the Pub/Sub message attributes to &lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Use --no-push-no-wrapper-write-metadata to disable this flag.
     /// </summary>
-    [CliFlag("--push-no-wrapper-write-metadata")]
+    [CliFlag("--push-no-wrapper-write-metadata", NegatedName = "--no-push-no-wrapper-write-metadata")]
     public bool? PushNoWrapperWriteMetadata { get; set; }
-
-    /// <summary>
-    /// Negates --push-no-wrapper-write-metadata. NoWrapper Config Options. When true, writes the Pub/Sub message metadata to x-goog-pubsub-&lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Writes the Pub/Sub message attributes to &lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Use --no-push-no-wrapper-write-metadata to disable this flag.
-    /// </summary>
-    [CliFlag("--no-push-no-wrapper-write-metadata")]
-    public bool? NoPushNoWrapperWriteMetadata { get; set; }
 
     /// <summary>
     /// Subscription resource - Name of the subscription to modify. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line.
@@ -95,13 +83,9 @@ public record GcloudPubsubSubscriptionsModifyPushConfigOptions : GcloudOptions, 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && ((PushNoWrapper == true ? 1 : 0) + (NoPushNoWrapper == true ? 1 : 0) != 1))
+        if (((object?)PushNoWrapper is not null || (object?)PushNoWrapperWriteMetadata is not null) && (!((object?)PushNoWrapper is not null)))
         {
-            yield return new ValidationResult("Exactly one of PushNoWrapper or NoPushNoWrapper must be specified.", [nameof(PushNoWrapper), nameof(NoPushNoWrapper)]);
-        }
-        if ((PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && ((PushNoWrapperWriteMetadata == true ? 1 : 0) + (NoPushNoWrapperWriteMetadata == true ? 1 : 0) > 1))
-        {
-            yield return new ValidationResult("At most one of PushNoWrapperWriteMetadata or NoPushNoWrapperWriteMetadata may be specified.", [nameof(PushNoWrapperWriteMetadata), nameof(NoPushNoWrapperWriteMetadata)]);
+            yield return new ValidationResult("PushNoWrapper must be specified when other arguments in this group are specified.", [nameof(PushNoWrapper)]);
         }
         yield break;
     }

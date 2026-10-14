@@ -78,14 +78,8 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions,
     /// <summary>
     /// Import existing resources into the application. Use --import-existing-resources to enable and --no-import-existing-resources to disable.
     /// </summary>
-    [CliFlag("--import-existing-resources")]
+    [CliFlag("--import-existing-resources", NegatedName = "--no-import-existing-resources")]
     public bool? ImportExistingResources { get; set; }
-
-    /// <summary>
-    /// Negates --import-existing-resources. Import existing resources into the application. Use --import-existing-resources to enable and --no-import-existing-resources to disable.
-    /// </summary>
-    [CliFlag("--no-import-existing-resources")]
-    public bool? NoImportExistingResources { get; set; }
 
     /// <summary>
     /// Specifies the strategy to use when updating the application parameters while updating the application template revision. PARAMS_UPDATE_STRATEGY must be (only one value is supported): replace Replaces the existing field values with the provided ones.
@@ -696,14 +690,8 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions,
     /// <summary>
     /// Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
     /// </summary>
-    [CliFlag("--criticality-mission-critical")]
+    [CliFlag("--criticality-mission-critical", NegatedName = "--no-criticality-mission-critical")]
     public bool? CriticalityMissionCritical { get; set; }
-
-    /// <summary>
-    /// Negates --criticality-mission-critical. Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
-    /// </summary>
-    [CliFlag("--no-criticality-mission-critical")]
-    public bool? NoCriticalityMissionCritical { get; set; }
 
     /// <summary>
     /// Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload.
@@ -854,14 +842,8 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions,
     /// <summary>
     /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. Whether to create the provided KSA. If true, the KSA will be created in the namespace provided above. If false, the KSA is expected to already exist in the namespace provided above. Use --gke-deployment-target-kubernetes-service-account-creation to enable and --no-gke-deployment-target-kubernetes-service-account-creation to disable.
     /// </summary>
-    [CliFlag("--gke-deployment-target-kubernetes-service-account-creation")]
+    [CliFlag("--gke-deployment-target-kubernetes-service-account-creation", NegatedName = "--no-gke-deployment-target-kubernetes-service-account-creation")]
     public bool? GkeDeploymentTargetKubernetesServiceAccountCreation { get; set; }
-
-    /// <summary>
-    /// Negates --gke-deployment-target-kubernetes-service-account-creation. Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. Whether to create the provided KSA. If true, the KSA will be created in the namespace provided above. If false, the KSA is expected to already exist in the namespace provided above. Use --gke-deployment-target-kubernetes-service-account-creation to enable and --no-gke-deployment-target-kubernetes-service-account-creation to disable.
-    /// </summary>
-    [CliFlag("--no-gke-deployment-target-kubernetes-service-account-creation")]
-    public bool? NoGkeDeploymentTargetKubernetesServiceAccountCreation { get; set; }
 
     /// <summary>
     /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. The namespace where the application is deployed.

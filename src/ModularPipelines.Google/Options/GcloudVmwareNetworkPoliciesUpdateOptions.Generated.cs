@@ -47,14 +47,8 @@ public record GcloudVmwareNetworkPoliciesUpdateOptions : GcloudOptions
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
-    [CliFlag("--async")]
+    [CliFlag("--async", NegatedName = "--no-async")]
     public bool? Async { get; set; }
-
-    /// <summary>
-    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
-    /// </summary>
-    [CliFlag("--no-async")]
-    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// Updated description for the network policy.
@@ -71,26 +65,14 @@ public record GcloudVmwareNetworkPoliciesUpdateOptions : GcloudOptions
     /// <summary>
     /// Enable or disable network service that allows external IP addresses to be assigned to VMware workloads. To enable this service, internet-access must also be enabled. Use --no-external-ip-access to disable.
     /// </summary>
-    [CliFlag("--external-ip-access")]
+    [CliFlag("--external-ip-access", NegatedName = "--no-external-ip-access")]
     public bool? ExternalIpAccess { get; set; }
-
-    /// <summary>
-    /// Negates --external-ip-access. Enable or disable network service that allows external IP addresses to be assigned to VMware workloads. To enable this service, internet-access must also be enabled. Use --no-external-ip-access to disable.
-    /// </summary>
-    [CliFlag("--no-external-ip-access")]
-    public bool? NoExternalIpAccess { get; set; }
 
     /// <summary>
     /// Enable or disable network service that allows VMware workloads to access the internet. Use --no-internet-access to disable.
     /// </summary>
-    [CliFlag("--internet-access")]
+    [CliFlag("--internet-access", NegatedName = "--no-internet-access")]
     public bool? InternetAccess { get; set; }
-
-    /// <summary>
-    /// Negates --internet-access. Enable or disable network service that allows VMware workloads to access the internet. Use --no-internet-access to disable.
-    /// </summary>
-    [CliFlag("--no-internet-access")]
-    public bool? NoInternetAccess { get; set; }
 
     /// <summary>
     /// VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine Network Policy or fully qualified identifier for the VMware Engine Network Policy. To set the network-policy attribute: ▸ provide the argument network_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.

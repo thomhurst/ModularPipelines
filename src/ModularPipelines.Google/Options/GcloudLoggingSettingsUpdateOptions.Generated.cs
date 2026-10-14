@@ -37,14 +37,8 @@ public record GcloudLoggingSettingsUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Enable or disable _Default sink for the _Default bucket. Specify --no-disable-default-sink to enable a disabled _Default sink. Note: It only applies to the newly created projects and will not affect the projects created before.
     /// </summary>
-    [CliFlag("--disable-default-sink")]
+    [CliFlag("--disable-default-sink", NegatedName = "--no-disable-default-sink")]
     public bool? DisableDefaultSink { get; set; }
-
-    /// <summary>
-    /// Negates --disable-default-sink. Enable or disable _Default sink for the _Default bucket. Specify --no-disable-default-sink to enable a disabled _Default sink. Note: It only applies to the newly created projects and will not affect the projects created before.
-    /// </summary>
-    [CliFlag("--no-disable-default-sink")]
-    public bool? NoDisableDefaultSink { get; set; }
 
     /// <summary>
     /// Update the storage location for _Default bucket and _Required bucket. Note: It only applies to the newly created projects and will not affect the projects created before.
