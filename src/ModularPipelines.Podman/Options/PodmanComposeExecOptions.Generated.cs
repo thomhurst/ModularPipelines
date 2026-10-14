@@ -67,12 +67,6 @@ public record PodmanComposeExecOptions : PodmanOptions
     public int? Index { get; set; }
 
     /// <summary>
-    /// Disable pseudo-TTY allocation. By default 'podman compose exec' allocates a TTY. (default true)
-    /// </summary>
-    [CliOption("--no-tty", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
-    public bool? NoTty { get; set; }
-
-    /// <summary>
     /// Give extended privileges to the process
     /// </summary>
     [CliFlag("--privileged")]

@@ -106,7 +106,7 @@ public record PulumiRefreshOptions : PulumiOptions
     public IEnumerable<string>? OverrideEnv { get; set; }
 
     /// <summary>
-    /// Allow P resource operations to run in parallel at once (1 for no parallelism). (default 80)
+    /// Allow P resource operations to run in parallel at once (1 for no parallelism). (default 16)
     /// </summary>
     [CliOption("--parallel", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public int? Parallel { get; set; }

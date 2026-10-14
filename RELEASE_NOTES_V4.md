@@ -37,6 +37,9 @@ Generated identifiers beginning with a digit now use a `Number` prefix. For exam
 `--use-32bit-worker-process` is unchanged. Azure static-website options remain available
 in the current generated storage service commands.
 
+Minikube's `--9p-version` and `--mount-9p-version` switches now use `Number9pVersion`
+and `MountNumber9pVersion`, replacing `_9pVersion` and `Mount_9pVersion`.
+
 ## Filesystem provider primitives
 
 `IFileSystemProvider.DirectorySeparatorChar` defaults to the host separator,
@@ -1037,6 +1040,12 @@ local identity property on `PodmanSystemConnectionAddOptions` configures the new
 connection. Compose provider settings remain on `PodmanComposeOptions`. See the
 [Podman migration guidance](docs/docs/mp-packages/podman.md#v4-migration).
 
+Regenerated Compose options follow the selected Compose provider's current help.
+`PodmanComposePortOptions` now requires both service and private port; replace
+`new PodmanComposePortOptions("web") { PrivatePort = "8080" }` with
+`new PodmanComposePortOptions("web", "8080")`. Provider switches absent from that
+help are no longer generated, including build provenance/SBOM and start wait options.
+
 ## Immutable distributed configuration
 
 `DistributedOptions`, `RedisOptions`, `SignalRDistributedOptions`, `SignalRTunnelOptions`,
@@ -1070,6 +1079,19 @@ the separator in relative paths. Its default follows the host. Providers using W
 separators on Unix must override it so artifact extraction validates traversal with the
 same separator semantics as the backing store; slash-based providers retain literal
 backslashes in filenames.
+
+## Kustomize edit operands
+
+When adopting regenerated Kustomize edit APIs that require an operand, supply
+the corresponding options. For example, replace `Edit.Set.NamespaceAsync()` with
+`Edit.Set.NamespaceAsync(new KustomizeEditSetNamespaceOptions("production"))`, and
+replace `Edit.Add.BaseAsync()` with
+`Edit.Add.BaseAsync(new KustomizeEditAddBaseOptions("../base"))`. Other add, remove,
+and set subcommands whose generated options require an operand similarly need their
+options type. Empty calls do not compile when the generated options parameter is
+required; compatibility overloads are not retained for commands that require input.
+`Edit.Add.PatchAsync()` and `Edit.Remove.PatchAsync()` still compile because their
+options parameters default to `null`.
 
 ## Go working-directory options
 

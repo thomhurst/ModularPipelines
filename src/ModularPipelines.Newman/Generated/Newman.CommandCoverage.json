@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "newman",
-  "toolVersion": "6.2.2",
+  "toolVersion": "6.2.3",
   "commandCount": 1,
   "commandTreeSha256": "ced9ddeba1af07157ce673dfef4b2f598ce1042109b01550b39b5f7ea93e9c38",
   "commands": [

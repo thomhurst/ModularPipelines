@@ -145,6 +145,16 @@ public partial interface ITrivy
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Print the version
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> VersionAsync(TrivyVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// [EXPERIMENTAL] Scan a virtual machine image
     /// </summary>
     /// <param name="options">The command options.</param>

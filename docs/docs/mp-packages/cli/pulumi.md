@@ -129,6 +129,13 @@ Global options are rendered before the selected subcommand.
 | `pulumi env tag list` | `PulumiEnvTagListOptions` |
 | `pulumi env tag move` | `PulumiEnvTagMoveOptions` |
 | `pulumi env tag remove` | `PulumiEnvTagRemoveOptions` |
+| `pulumi env version` | `PulumiEnvVersionOptions` |
+| `pulumi env version history` | `PulumiEnvVersionHistoryOptions` |
+| `pulumi env version retract` | `PulumiEnvVersionRetractOptions` |
+| `pulumi env version rollback` | `PulumiEnvVersionRollbackOptions` |
+| `pulumi env version tag` | `PulumiEnvVersionTagOptions` |
+| `pulumi env version tag list` | `PulumiEnvVersionTagListOptions` |
+| `pulumi env version tag remove` | `PulumiEnvVersionTagRemoveOptions` |
 | `pulumi env webhook` | `PulumiEnvWebhookOptions` |
 | `pulumi env webhook delivery` | `PulumiEnvWebhookDeliveryOptions` |
 | `pulumi env webhook delivery list` | `PulumiEnvWebhookDeliveryListOptions` |
@@ -285,5 +292,6 @@ Global options are rendered before the selected subcommand.
 | `pulumi template list` | `PulumiTemplateListOptions` |
 | `pulumi template publish` | `PulumiTemplatePublishOptions` |
 | `pulumi up` | `PulumiUpOptions` |
+| `pulumi version` | `PulumiVersionOptions` |
 | `pulumi watch` | `PulumiWatchOptions` |
 | `pulumi whoami` | `PulumiWhoamiOptions` |

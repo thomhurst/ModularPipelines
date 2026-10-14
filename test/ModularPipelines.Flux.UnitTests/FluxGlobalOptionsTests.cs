@@ -93,7 +93,7 @@ public class FluxGlobalOptionsTests : TestBase
         await Assert.That(globals.Length).IsEqualTo(23);
         var commands = typeof(FluxOptions).Assembly.GetTypes()
             .Where(type => !type.IsAbstract && typeof(FluxOptions).IsAssignableFrom(type)).ToArray();
-        await Assert.That(commands.Length).IsEqualTo(173);
+        await Assert.That(commands.Length).IsEqualTo(174);
         foreach (var command in commands)
         {
             foreach (var global in globals)
@@ -109,6 +109,20 @@ public class FluxGlobalOptionsTests : TestBase
         await Assert.That(typeof(FluxOptions).GetProperty("Branch")).IsNull();
         await Assert.That(typeof(FluxOptions).GetProperty(nameof(FluxOptions.Token))!
             .GetCustomAttribute<SecretValueAttribute>()).IsNotNull();
+    }
+
+    [Test]
+    public async Task Client_Version_Keeps_Local_And_Global_Options()
+    {
+        var options = new FluxVersionOptions
+        {
+            Client = true,
+            Output = "json",
+            Namespace = "platform",
+        };
+
+        await Assert.That(await RenderCommand(options))
+            .IsEqualTo("flux version --client --output=json --namespace=platform");
     }
 
     [Test]

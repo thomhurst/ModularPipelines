@@ -44,10 +44,4 @@ public record PodmanComposeBridgeConvertOptions : PodmanOptions
     [CliOption("--transformation", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Transformation { get; set; }
 
-    /// <summary>
-    /// Assume "yes" to the output directory overwrite prompt. For scripts/CI, where no interactive confirmation is possible
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
-
 }

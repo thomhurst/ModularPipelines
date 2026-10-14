@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -6,6 +7,42 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class CliVersionProbeTests
 {
+    [Test]
+    [Arguments(false, "windows_amd64")]
+    [Arguments(true, "windows_amd64")]
+    [Arguments(false, "linux_arm64")]
+    [Arguments(true, "linux_arm64")]
+    public async Task Terraform_Uses_Stable_Installed_Version_From_Json(bool outdated, string platform)
+    {
+        var output = JsonSerializer.Serialize(new
+        {
+            terraform_version = "1.16.4",
+            platform,
+            terraform_outdated = outdated,
+        });
+        var executor = new RecordingExecutor("terraform", "version -json", output);
+        var scraper = new TerraformCliScraper(executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<TerraformCliScraper>.Instance);
+
+        await Assert.That(await scraper.IsAvailableAsync()).IsTrue();
+        await Assert.That(await scraper.GetVersionAsync()).IsEqualTo("Terraform v1.16.4");
+    }
+
+    [Test]
+    [Arguments("invalid json")]
+    [Arguments("{}")]
+    [Arguments("{\"terraform_version\":null}")]
+    [Arguments("{\"terraform_version\":\" \"}")]
+    public async Task Terraform_Rejects_Missing_Or_Invalid_Version_Metadata(string output)
+    {
+        var scraper = new TerraformCliScraper(new RecordingExecutor("terraform", "version -json", output),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<TerraformCliScraper>.Instance);
+
+        await Assert.That(await scraper.GetVersionAsync()).IsNull();
+    }
+
     [Test]
     public async Task ArgoCd_Uses_Client_Version_Subcommand() =>
         await AssertVersionProbeAsync(
@@ -75,7 +112,7 @@ public class CliVersionProbeTests
         }
     }
 
-    private sealed class RecordingExecutor(string expectedCommand, string expectedArguments)
+    private sealed class RecordingExecutor(string expectedCommand, string expectedArguments, string output = "version")
         : ICliCommandExecutor
     {
         public int InvocationCount { get; private set; }
@@ -91,7 +128,7 @@ public class CliVersionProbeTests
                           && arguments.Equals(expectedArguments, StringComparison.Ordinal);
             return Task.FromResult(new CliCommandResult
             {
-                StandardOutput = success ? "version" : string.Empty,
+                StandardOutput = success ? output : string.Empty,
                 StandardError = success ? string.Empty : "unexpected probe",
                 ExitCode = success ? 0 : 1,
             });

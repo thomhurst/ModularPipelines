@@ -2,6 +2,6 @@
   "formatVersion": 1,
   "toolName": "flyway",
   "toolVersion": "10.20.1",
-  "commandTreeSha256": "206d77a06b83779df807e8cfc15afcf1ecf040cfbfb7380cf9ede97417872e7a",
-  "generatorSourceSha256": "dba78e524115ccc2889205b03eb199a3d66632dba9394d8c4f72ec69205549d8"
+  "commandTreeSha256": "e4c660d2e284ff8f850baff3e4244d36056da5fca66e424a17b4b01ef1372dfe",
+  "generatorSourceSha256": "afccdffa78c2fffb68d3b082c27643e8ad9968078785b7b94d14c7237cfbae48"
 }

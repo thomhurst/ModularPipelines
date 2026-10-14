@@ -21,9 +21,26 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetNameprefixOptions : KustomizeOptions
 {
     /// <summary>
-    /// print a stack-trace on error
+    /// Sets the value of the namePrefix field in the kustomization file
     /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
+    /// <param name="Prefix">The &lt;prefix&gt; operand.</param>
+    public KustomizeEditSetNameprefixOptions(
+        string Prefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Prefix);
+        this.Prefix = Prefix;
+    }
+
+    public void Deconstruct(out string Prefix)
+    {
+        Prefix = this.Prefix;
+    }
+
+    /// <summary>
+    /// The &lt;prefix&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Prefix { get; private init; }
 
 }

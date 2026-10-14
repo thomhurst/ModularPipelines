@@ -26,10 +26,4 @@ public record KustomizeEditFixOptions : KustomizeOptions
     [CliFlag("--vars")]
     public bool? Vars { get; set; }
 
-    /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
 }

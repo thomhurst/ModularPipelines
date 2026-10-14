@@ -21,9 +21,37 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetAnnotationOptions : KustomizeOptions
 {
     /// <summary>
-    /// print a stack-trace on error
+    /// Sets one or more commonAnnotations in kustomization.yaml
     /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
+    /// <param name="Annotation">The &lt;annotation&gt; operand.</param>
+    public KustomizeEditSetAnnotationOptions(
+        IEnumerable<string> Annotation
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Annotation);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Annotation));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Annotation));
+            }
+
+            Annotation = materialized;
+        }
+        this.Annotation = Annotation;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Annotation)
+    {
+        Annotation = this.Annotation;
+    }
+
+    /// <summary>
+    /// The &lt;annotation&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Annotation { get; private init; }
 
 }

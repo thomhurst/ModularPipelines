@@ -48,13 +48,13 @@ public abstract record BuildahOptions : CommandLineToolOptions
     public virtual string? RegistriesConfDir { get; set; }
 
     /// <summary>
-    /// storage root dir (default "/var/lib/containers/storage")
+    /// storage root dir (default "~/.local/share/containers/storage")
     /// </summary>
     [CliOption("--root", Format = OptionFormat.EqualsSeparated)]
     public virtual string? Root { get; set; }
 
     /// <summary>
-    /// storage state dir (default "/run/containers/storage")
+    /// storage state dir (default "/run/user/1001/containers")
     /// </summary>
     [CliOption("--runroot", Format = OptionFormat.EqualsSeparated)]
     public virtual string? Runroot { get; set; }
@@ -66,7 +66,7 @@ public abstract record BuildahOptions : CommandLineToolOptions
     public virtual string? ShortNameAliasConf { get; set; }
 
     /// <summary>
-    /// storage-driver
+    /// storage-driver (default "overlay")
     /// </summary>
     [CliOption("--storage-driver", Format = OptionFormat.EqualsSeparated)]
     public virtual string? StorageDriver { get; set; }

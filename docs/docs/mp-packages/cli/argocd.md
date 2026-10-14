@@ -232,3 +232,4 @@ Global options are rendered after the selected subcommand.
 | `argocd repocreds add` | `ArgoCdRepocredsAddOptions` |
 | `argocd repocreds list` | `ArgoCdRepocredsListOptions` |
 | `argocd repocreds rm` | `ArgoCdRepocredsRmOptions` |
+| `argocd version` | `ArgoCdVersionOptions` |

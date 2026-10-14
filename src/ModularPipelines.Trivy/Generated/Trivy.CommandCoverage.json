@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "trivy",
   "toolVersion": "Version: 0.75.0",
-  "commandCount": 31,
-  "commandTreeSha256": "b9112521b915056fc75f902cabad65819a612532ebab47cf3d1cb8d0d264e789",
+  "commandCount": 32,
+  "commandTreeSha256": "0bd0140c9a6c333fc5fdc85a5da490ba0459d299178abc50af7866d3ab9730ee",
   "commands": [
     "trivy clean",
     "trivy config",
@@ -30,6 +30,7 @@
     "trivy rootfs",
     "trivy sbom",
     "trivy server",
+    "trivy version",
     "trivy vex",
     "trivy vex repo",
     "trivy vex repo download",
