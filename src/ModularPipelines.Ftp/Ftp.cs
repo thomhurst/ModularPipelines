@@ -5,13 +5,24 @@ namespace ModularPipelines.Ftp;
 internal class Ftp : IAsyncDisposable, IFtp
 {
     private readonly List<AsyncFtpClient> _clients = [];
+    private readonly Lock _sync = new();
+    private readonly TaskCompletionSource _connectionsDrained = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private TaskCompletionSource? _disposalCompletion;
+    private int _activeConnections;
 
     public async Task<AsyncFtpClient> GetFtpClientAsync(FtpOptions options, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var client = new AsyncFtpClient(options.Host, options.Credentials);
+        lock (_sync)
+        {
+            ObjectDisposedException.ThrowIf(_disposalCompletion is not null, this);
+            _activeConnections++;
+        }
+
+        AsyncFtpClient? client = null;
         try
         {
+            client = new AsyncFtpClient(options.Host, options.Credentials);
             options.ClientConfigurator?.Invoke(client);
             if (options.RequireEncryption)
             {
@@ -32,21 +43,85 @@ internal class Ftp : IAsyncDisposable, IFtp
             }
 
             cancellationToken.ThrowIfCancellationRequested();
-            _clients.Add(client);
+            lock (_sync)
+            {
+                // Disposal closes ownership before taking its snapshot. Late connections clean up in catch.
+                ObjectDisposedException.ThrowIf(_disposalCompletion is not null, this);
+                _clients.Add(client);
+            }
             return client;
         }
         catch
         {
-            await client.DisposeAsync().ConfigureAwait(false);
+            if (client is not null)
+            {
+                await client.DisposeAsync().ConfigureAwait(false);
+            }
+
             throw;
+        }
+        finally
+        {
+            lock (_sync)
+            {
+                _activeConnections--;
+                if (_disposalCompletion is not null && _activeConnections == 0)
+                {
+                    _connectionsDrained.TrySetResult();
+                }
+            }
         }
     }
 
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
-        foreach (var asyncFtpClient in _clients)
+        AsyncFtpClient[] clients;
+        TaskCompletionSource completion;
+        lock (_sync)
         {
-            await asyncFtpClient.DisposeAsync().ConfigureAwait(false);
+            if (_disposalCompletion is not null)
+            {
+                return new ValueTask(_disposalCompletion.Task);
+            }
+
+            completion = _disposalCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            clients = [.. _clients];
+            _clients.Clear();
+            if (_activeConnections == 0)
+            {
+                _connectionsDrained.SetResult();
+            }
+        }
+
+        _ = DisposeClientsAsync(clients, completion);
+        return new ValueTask(completion.Task);
+    }
+
+    private async Task DisposeClientsAsync(AsyncFtpClient[] clients, TaskCompletionSource completion)
+    {
+        // In-flight setup retains its caller's cancellation/timeout and must finish cleanup before disposal completes.
+        await _connectionsDrained.Task.ConfigureAwait(false);
+        List<Exception> failures = [];
+        foreach (var client in clients)
+        {
+            try
+            {
+                await client.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                // A failed disposal must not prevent cleanup of the remaining owned clients.
+                failures.Add(exception);
+            }
+        }
+
+        if (failures.Count > 0)
+        {
+            completion.SetException(failures);
+        }
+        else
+        {
+            completion.SetResult();
         }
     }
 }
