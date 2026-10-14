@@ -1037,3 +1037,16 @@ On `GitBaseOptions`, rename `GitDir` to `GitDirectory` and `Bare` to `BareReposi
 distinguish repository selection from command-local reporting or clone options. Other shared
 properties retain their names through inheritance. Version and path-reporting actions remain
 on `GitBaseOptions`, and the grouped command facade remains unchanged.
+
+## FTP connection cancellation and encryption
+
+`IFtp.GetFtpClientAsync(FtpOptions, CancellationToken = default)` now accepts cancellation
+for connection establishment. Failed or canceled client setup disposes the client;
+successfully connected clients remain owned by the FTP context. Custom `IFtp`
+implementations must accept the new parameter. Existing calls without a token remain valid.
+
+Set `FtpOptions.RequireEncryption = true` to require explicit FTPS without plaintext
+fallback; an explicitly configured implicit FTPS mode is also supported. Control and
+data connections stay encrypted. This policy overrides configurator settings that would
+disable encryption. The default remains `false` for compatibility with plaintext servers
+and uses FluentFTP auto-detection, which can send credentials without encryption.
