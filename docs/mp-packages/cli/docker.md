@@ -21,6 +21,8 @@ Resolve the service with `context.Tools.Docker`. Projects using C# 13 or another
 ```
 using ModularPipelines;
 
+using ModularPipelines.Docker.Enums;
+
 using ModularPipelines.Docker.Options;
 
 
@@ -101,6 +103,7 @@ Global options are rendered before the selected subcommand.
 | `docker buildx rm`                             | `DockerBuildxRmOptions`                           |
 | `docker buildx stop`                           | `DockerBuildxStopOptions`                         |
 | `docker buildx use`                            | `DockerBuildxUseOptions`                          |
+| `docker buildx version`                        | `DockerBuildxVersionOptions`                      |
 | `docker commit`                                | `DockerCommitOptions`                             |
 | `docker compose`                               | `DockerComposeOptions`                            |
 | `docker compose attach`                        | `DockerComposeAttachOptions`                      |
@@ -138,6 +141,7 @@ Global options are rendered before the selected subcommand.
 | `docker compose top`                           | `DockerComposeTopOptions`                         |
 | `docker compose unpause`                       | `DockerComposeUnpauseOptions`                     |
 | `docker compose up`                            | `DockerComposeUpOptions`                          |
+| `docker compose version`                       | `DockerComposeVersionOptions`                     |
 | `docker compose volumes`                       | `DockerComposeVolumesOptions`                     |
 | `docker compose wait`                          | `DockerComposeWaitOptions`                        |
 | `docker compose watch`                         | `DockerComposeWatchOptions`                       |
@@ -267,6 +271,7 @@ Global options are rendered before the selected subcommand.
 | `docker trust signer remove`                   | `DockerTrustSignerRemoveOptions`                  |
 | `docker unpause`                               | `DockerUnpauseOptions`                            |
 | `docker update`                                | `DockerUpdateOptions`                             |
+| `docker version`                               | `DockerVersionOptions`                            |
 | `docker volume`                                | `DockerVolumeOptions`                             |
 | `docker volume create`                         | `DockerVolumeCreateOptions`                       |
 | `docker volume inspect`                        | `DockerVolumeInspectOptions`                      |

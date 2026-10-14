@@ -113,6 +113,7 @@ Global options are rendered before the selected subcommand.
 | `podman compose top`                           | `PodmanComposeTopOptions`                         |
 | `podman compose unpause`                       | `PodmanComposeUnpauseOptions`                     |
 | `podman compose up`                            | `PodmanComposeUpOptions`                          |
+| `podman compose version`                       | `PodmanComposeVersionOptions`                     |
 | `podman compose volumes`                       | `PodmanComposeVolumesOptions`                     |
 | `podman compose wait`                          | `PodmanComposeWaitOptions`                        |
 | `podman compose watch`                         | `PodmanComposeWatchOptions`                       |
@@ -310,6 +311,7 @@ Global options are rendered before the selected subcommand.
 | `podman unshare`                               | `PodmanUnshareOptions`                            |
 | `podman untag`                                 | `PodmanUntagOptions`                              |
 | `podman update`                                | `PodmanUpdateOptions`                             |
+| `podman version`                               | `PodmanVersionOptions`                            |
 | `podman volume`                                | `PodmanVolumeOptions`                             |
 | `podman volume create`                         | `PodmanVolumeCreateOptions`                       |
 | `podman volume exists`                         | `PodmanVolumeExistsOptions`                       |

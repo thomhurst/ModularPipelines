@@ -231,3 +231,4 @@ Global options are rendered after the selected subcommand.
 | `flux trigger`                    | `FluxTriggerOptions`                  |
 | `flux trigger receiver`           | `FluxTriggerReceiverOptions`          |
 | `flux uninstall`                  | `FluxUninstallOptions`                |
+| `flux version`                    | `FluxVersionOptions`                  |

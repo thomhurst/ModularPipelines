@@ -14983,6 +14983,7 @@ Global options are rendered after the selected subcommand.
 | `argocd repocreds add`                                             | `ArgoCdRepocredsAddOptions`                                        |
 | `argocd repocreds list`                                            | `ArgoCdRepocredsListOptions`                                       |
 | `argocd repocreds rm`                                              | `ArgoCdRepocredsRmOptions`                                         |
+| `argocd version`                                                   | `ArgoCdVersionOptions`                                             |
 
 
 ---
@@ -40289,10 +40290,10 @@ Global options are rendered after the selected subcommand.
 | `--log-level`             | `LogLevel`           | All editions | the log level to be used, one of "trace", "debug", "info", "warn", "error", "fatal", or "panic" (default "warn") |
 | `--registries-conf`       | `RegistriesConf`     | All editions | path to registries.conf file (not usually used)                                                                  |
 | `--registries-conf-dir`   | `RegistriesConfDir`  | All editions | path to registries.conf.d directory (not usually used)                                                           |
-| `--root`                  | `Root`               | All editions | storage root dir (default "/var/lib/containers/storage")                                                         |
-| `--runroot`               | `Runroot`            | All editions | storage state dir (default "/run/containers/storage")                                                            |
+| `--root`                  | `Root`               | All editions | storage root dir (default "\~/.local/share/containers/storage")                                                  |
+| `--runroot`               | `Runroot`            | All editions | storage state dir (default "/run/user/1001/containers")                                                          |
 | `--short-name-alias-conf` | `ShortNameAliasConf` | All editions | path to short name alias cache file (not usually used)                                                           |
-| `--storage-driver`        | `StorageDriver`      | All editions | storage-driver                                                                                                   |
+| `--storage-driver`        | `StorageDriver`      | All editions | storage-driver (default "overlay")                                                                               |
 | `--storage-opt`           | `StorageOpt`         | All editions | storage driver option                                                                                            |
 | `--userns-gid-map`        | `UsernsGidMap`       | All editions | default ctrID:hostID<!-- -->:length<!-- --> GID mapping to use                                                   |
 | `--userns-uid-map`        | `UsernsUidMap`       | All editions | default ctrID:hostID<!-- -->:length<!-- --> UID mapping to use                                                   |
@@ -40600,6 +40601,7 @@ Global options are rendered before the selected subcommand.
 | `cosign verify-attestation`      | `CosignVerifyAttestationOptions`     |
 | `cosign verify-blob`             | `CosignVerifyBlobOptions`            |
 | `cosign verify-blob-attestation` | `CosignVerifyBlobAttestationOptions` |
+| `cosign version`                 | `CosignVersionOptions`               |
 
 
 ---
@@ -40626,6 +40628,8 @@ Resolve the service with `context.Tools.Docker`. Projects using C# 13 or another
 
 ```
 using ModularPipelines;
+
+using ModularPipelines.Docker.Enums;
 
 using ModularPipelines.Docker.Options;
 
@@ -40707,6 +40711,7 @@ Global options are rendered before the selected subcommand.
 | `docker buildx rm`                             | `DockerBuildxRmOptions`                           |
 | `docker buildx stop`                           | `DockerBuildxStopOptions`                         |
 | `docker buildx use`                            | `DockerBuildxUseOptions`                          |
+| `docker buildx version`                        | `DockerBuildxVersionOptions`                      |
 | `docker commit`                                | `DockerCommitOptions`                             |
 | `docker compose`                               | `DockerComposeOptions`                            |
 | `docker compose attach`                        | `DockerComposeAttachOptions`                      |
@@ -40744,6 +40749,7 @@ Global options are rendered before the selected subcommand.
 | `docker compose top`                           | `DockerComposeTopOptions`                         |
 | `docker compose unpause`                       | `DockerComposeUnpauseOptions`                     |
 | `docker compose up`                            | `DockerComposeUpOptions`                          |
+| `docker compose version`                       | `DockerComposeVersionOptions`                     |
 | `docker compose volumes`                       | `DockerComposeVolumesOptions`                     |
 | `docker compose wait`                          | `DockerComposeWaitOptions`                        |
 | `docker compose watch`                         | `DockerComposeWatchOptions`                       |
@@ -40873,6 +40879,7 @@ Global options are rendered before the selected subcommand.
 | `docker trust signer remove`                   | `DockerTrustSignerRemoveOptions`                  |
 | `docker unpause`                               | `DockerUnpauseOptions`                            |
 | `docker update`                                | `DockerUpdateOptions`                             |
+| `docker version`                               | `DockerVersionOptions`                            |
 | `docker volume`                                | `DockerVolumeOptions`                             |
 | `docker volume create`                         | `DockerVolumeCreateOptions`                       |
 | `docker volume inspect`                        | `DockerVolumeInspectOptions`                      |
@@ -41172,6 +41179,7 @@ Global options are rendered before the selected subcommand.
 | `eksctl utils update-legacy-subnet-settings`         | `EksctlUtilsUpdateLegacySubnetSettingsOptions`        |
 | `eksctl utils update-zonal-shift-config`             | `EksctlUtilsUpdateZonalShiftConfigOptions`            |
 | `eksctl utils write-kubeconfig`                      | `EksctlUtilsWriteKubeconfigOptions`                   |
+| `eksctl version`                                     | `EksctlVersionOptions`                                |
 
 
 ---
@@ -41409,6 +41417,7 @@ Global options are rendered after the selected subcommand.
 | `flux trigger`                    | `FluxTriggerOptions`                  |
 | `flux trigger receiver`           | `FluxTriggerReceiverOptions`          |
 | `flux uninstall`                  | `FluxUninstallOptions`                |
+| `flux version`                    | `FluxVersionOptions`                  |
 
 
 ---
@@ -41528,6 +41537,7 @@ Global options are rendered before the selected subcommand.
 | `flyway snapshot`     | `FlywaySnapshotOptions`    |
 | `flyway undo`         | `FlywayUndoOptions`        |
 | `flyway validate`     | `FlywayValidateOptions`    |
+| `flyway version`      | `FlywayVersionOptions`     |
 
 
 ---
@@ -50072,6 +50082,7 @@ Global options are rendered before the selected subcommand.
 | `grype db status`      | `GrypeDbStatusOptions`     |
 | `grype db update`      | `GrypeDbUpdateOptions`     |
 | `grype explain`        | `GrypeExplainOptions`      |
+| `grype version`        | `GrypeVersionOptions`      |
 
 
 ---
@@ -50215,6 +50226,7 @@ public class RunCommandModule : Module<CommandResult>
 | `helm uninstall`         | `HelmUninstallOptions`        |
 | `helm upgrade`           | `HelmUpgradeOptions`          |
 | `helm verify`            | `HelmVerifyOptions`           |
+| `helm version`           | `HelmVersionOptions`          |
 
 
 ---
@@ -50342,6 +50354,7 @@ Global options are rendered before the selected subcommand.
 | `kind load`               | `KindLoadOptions`             |
 | `kind load docker-image`  | `KindLoadDockerImageOptions`  |
 | `kind load image-archive` | `KindLoadImageArchiveOptions` |
+| `kind version`            | `KindVersionOptions`          |
 
 
 ---
@@ -50461,6 +50474,7 @@ public class RunCommandModule : Module<CommandResult>
 | `kubectl top node`                | `KubernetesTopNodeOptions`              |
 | `kubectl top pod`                 | `KubernetesTopPodOptions`               |
 | `kubectl uncordon`                | `KubernetesUncordonOptions`             |
+| `kubectl version`                 | `KubernetesVersionOptions`              |
 | `kubectl wait`                    | `KubernetesWaitOptions`                 |
 
 
@@ -50492,6 +50506,14 @@ Resolve the service in a module, then select a command from the table below. A r
 var kustomize = context.Tools.Kustomize;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option      | Property     | Availability | Description                  |
+| --------------- | ------------ | ------------ | ---------------------------- |
+| `--stack-trace` | `StackTrace` | All editions | print a stack-trace on error |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                                | Options record                               |
@@ -50510,6 +50532,7 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize edit add buildmetadata`         | `KustomizeEditAddBuildmetadataOptions`       |
 | `kustomize edit add component`             | `KustomizeEditAddComponentOptions`           |
 | `kustomize edit add configmap`             | `KustomizeEditAddConfigmapOptions`           |
+| `kustomize edit add configuration`         | `KustomizeEditAddConfigurationOptions`       |
 | `kustomize edit add generator`             | `KustomizeEditAddGeneratorOptions`           |
 | `kustomize edit add label`                 | `KustomizeEditAddLabelOptions`               |
 | `kustomize edit add patch`                 | `KustomizeEditAddPatchOptions`               |
@@ -50521,6 +50544,7 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize edit remove`                    | `KustomizeEditRemoveOptions`                 |
 | `kustomize edit remove annotation`         | `KustomizeEditRemoveAnnotationOptions`       |
 | `kustomize edit remove buildmetadata`      | `KustomizeEditRemoveBuildmetadataOptions`    |
+| `kustomize edit remove component`          | `KustomizeEditRemoveComponentOptions`        |
 | `kustomize edit remove configmap`          | `KustomizeEditRemoveConfigmapOptions`        |
 | `kustomize edit remove label`              | `KustomizeEditRemoveLabelOptions`            |
 | `kustomize edit remove patch`              | `KustomizeEditRemovePatchOptions`            |
@@ -50541,6 +50565,7 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize fn`                             | `KustomizeFnOptions`                         |
 | `kustomize fn run`                         | `KustomizeFnRunOptions`                      |
 | `kustomize localize`                       | `KustomizeLocalizeOptions`                   |
+| `kustomize version`                        | `KustomizeVersionOptions`                    |
 
 
 ---
@@ -50996,6 +51021,7 @@ Global options are rendered before the selected subcommand.
 | `packer plugins`            | `PackerPluginsOptions`           |
 | `packer validate`           | `PackerValidateOptions`          |
 | `packer verify-attestation` | `PackerVerifyAttestationOptions` |
+| `packer version`            | `PackerVersionOptions`           |
 
 
 ---
@@ -51405,6 +51431,7 @@ Global options are rendered before the selected subcommand.
 | `podman compose top`                           | `PodmanComposeTopOptions`                         |
 | `podman compose unpause`                       | `PodmanComposeUnpauseOptions`                     |
 | `podman compose up`                            | `PodmanComposeUpOptions`                          |
+| `podman compose version`                       | `PodmanComposeVersionOptions`                     |
 | `podman compose volumes`                       | `PodmanComposeVolumesOptions`                     |
 | `podman compose wait`                          | `PodmanComposeWaitOptions`                        |
 | `podman compose watch`                         | `PodmanComposeWatchOptions`                       |
@@ -51602,6 +51629,7 @@ Global options are rendered before the selected subcommand.
 | `podman unshare`                               | `PodmanUnshareOptions`                            |
 | `podman untag`                                 | `PodmanUntagOptions`                              |
 | `podman update`                                | `PodmanUpdateOptions`                             |
+| `podman version`                               | `PodmanVersionOptions`                            |
 | `podman volume`                                | `PodmanVolumeOptions`                             |
 | `podman volume create`                         | `PodmanVolumeCreateOptions`                       |
 | `podman volume exists`                         | `PodmanVolumeExistsOptions`                       |
@@ -51744,6 +51772,13 @@ Global options are rendered before the selected subcommand.
 | `pulumi env tag list`                     | `PulumiEnvTagListOptions`                    |
 | `pulumi env tag move`                     | `PulumiEnvTagMoveOptions`                    |
 | `pulumi env tag remove`                   | `PulumiEnvTagRemoveOptions`                  |
+| `pulumi env version`                      | `PulumiEnvVersionOptions`                    |
+| `pulumi env version history`              | `PulumiEnvVersionHistoryOptions`             |
+| `pulumi env version retract`              | `PulumiEnvVersionRetractOptions`             |
+| `pulumi env version rollback`             | `PulumiEnvVersionRollbackOptions`            |
+| `pulumi env version tag`                  | `PulumiEnvVersionTagOptions`                 |
+| `pulumi env version tag list`             | `PulumiEnvVersionTagListOptions`             |
+| `pulumi env version tag remove`           | `PulumiEnvVersionTagRemoveOptions`           |
 | `pulumi env webhook`                      | `PulumiEnvWebhookOptions`                    |
 | `pulumi env webhook delivery`             | `PulumiEnvWebhookDeliveryOptions`            |
 | `pulumi env webhook delivery list`        | `PulumiEnvWebhookDeliveryListOptions`        |
@@ -51900,6 +51935,7 @@ Global options are rendered before the selected subcommand.
 | `pulumi template list`                    | `PulumiTemplateListOptions`                  |
 | `pulumi template publish`                 | `PulumiTemplatePublishOptions`               |
 | `pulumi up`                               | `PulumiUpOptions`                            |
+| `pulumi version`                          | `PulumiVersionOptions`                       |
 | `pulumi watch`                            | `PulumiWatchOptions`                         |
 | `pulumi whoami`                           | `PulumiWhoamiOptions`                        |
 
@@ -52268,6 +52304,7 @@ Global options are rendered before the selected subcommand.
 | `terraform stacks list`                               | `TerraformStacksListOptions`                           |
 | `terraform stacks providers-lock`                     | `TerraformStacksProvidersLockOptions`                  |
 | `terraform stacks validate`                           | `TerraformStacksValidateOptions`                       |
+| `terraform stacks version`                            | `TerraformStacksVersionOptions`                        |
 | `terraform state`                                     | `TerraformStateOptions`                                |
 | `terraform state identities`                          | `TerraformStateIdentitiesOptions`                      |
 | `terraform state list`                                | `TerraformStateListOptions`                            |
@@ -52281,6 +52318,7 @@ Global options are rendered before the selected subcommand.
 | `terraform test`                                      | `TerraformTestOptions`                                 |
 | `terraform untaint`                                   | `TerraformUntaintOptions`                              |
 | `terraform validate`                                  | `TerraformValidateOptions`                             |
+| `terraform version`                                   | `TerraformVersionOptions`                              |
 | `terraform workspace delete`                          | `TerraformWorkspaceDeleteOptions`                      |
 | `terraform workspace list`                            | `TerraformWorkspaceListOptions`                        |
 | `terraform workspace new`                             | `TerraformWorkspaceNewOptions`                         |
@@ -52359,6 +52397,7 @@ Global options are rendered before the selected subcommand.
 | `trivy rootfs`            | `TrivyRootfsOptions`          |
 | `trivy sbom`              | `TrivySbomOptions`            |
 | `trivy server`            | `TrivyServerOptions`          |
+| `trivy version`           | `TrivyVersionOptions`         |
 | `trivy vex`               | `TrivyVexOptions`             |
 | `trivy vex repo`          | `TrivyVexRepoOptions`         |
 | `trivy vex repo download` | `TrivyVexRepoDownloadOptions` |

@@ -67,3 +67,4 @@ Global options are rendered before the selected subcommand.
 | `cosign verify-attestation`      | `CosignVerifyAttestationOptions`     |
 | `cosign verify-blob`             | `CosignVerifyBlobOptions`            |
 | `cosign verify-blob-attestation` | `CosignVerifyBlobAttestationOptions` |
+| `cosign version`                 | `CosignVersionOptions`               |

@@ -102,3 +102,4 @@ public class RunCommandModule : Module<CommandResult>
 | `helm uninstall`         | `HelmUninstallOptions`        |
 | `helm upgrade`           | `HelmUpgradeOptions`          |
 | `helm verify`            | `HelmVerifyOptions`           |
+| `helm version`           | `HelmVersionOptions`          |
