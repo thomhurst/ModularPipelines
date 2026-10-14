@@ -15,7 +15,8 @@ public abstract class HeadlessBrowserScraperBase : CliDocumentationScraperBase
     protected HeadlessBrowserScraperBase(HttpClient httpClient, ILogger logger)
         : base(httpClient, logger)
     {
-        _playwright = new Lazy<Task<IPlaywright>>(() => Playwright.CreateAsync());
+        static Task<IPlaywright> CreatePlaywrightAsync() => Playwright.CreateAsync();
+        _playwright = new Lazy<Task<IPlaywright>>(CreatePlaywrightAsync);
     }
 
     /// <summary>
@@ -24,7 +25,9 @@ public abstract class HeadlessBrowserScraperBase : CliDocumentationScraperBase
     protected async Task<IBrowser> GetBrowserAsync()
     {
         if (_browser is not null)
+        {
             return _browser;
+        }
 
         var playwright = await _playwright.Value;
         _browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
@@ -43,7 +46,10 @@ public abstract class HeadlessBrowserScraperBase : CliDocumentationScraperBase
         string waitForSelector,
         CancellationToken cancellationToken)
     {
-        Logger.LogDebug("Fetching rendered content from {Url}", url);
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("Fetching rendered content from {Url}", url);
+        }
 
         var browser = await GetBrowserAsync();
         var page = await browser.NewPageAsync();

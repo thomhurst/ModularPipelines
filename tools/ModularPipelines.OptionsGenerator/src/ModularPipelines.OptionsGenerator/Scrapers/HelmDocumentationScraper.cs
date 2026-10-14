@@ -26,7 +26,10 @@ public partial class HelmDocumentationScraper(HttpClient httpClient, ILogger<Hel
         var commands = new List<CliCommandDefinition>();
         var errors = new List<ScrapingError>();
 
-        Logger.LogInformation("Fetching Helm command index from {Url}", BaseUrl);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Fetching Helm command index from {Url}", BaseUrl);
+        }
 
         try
         {
@@ -34,7 +37,10 @@ public partial class HelmDocumentationScraper(HttpClient httpClient, ILogger<Hel
 
             // Find all command links in the sidebar/navigation
             var commandLinks = ExtractCommandLinks(mainDoc);
-            Logger.LogInformation("Found {Count} command links", commandLinks.Count);
+            if (Logger.IsEnabled(LogLevel.Information))
+            {
+                Logger.LogInformation("Found {Count} command links", commandLinks.Count);
+            }
 
             foreach (var (url, commandName) in commandLinks)
             {
@@ -44,7 +50,10 @@ public partial class HelmDocumentationScraper(HttpClient httpClient, ILogger<Hel
                     if (command is not null)
                     {
                         commands.Add(command);
-                        Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                        if (Logger.IsEnabled(LogLevel.Debug))
+                        {
+                            Logger.LogDebug("Scraped command: {Command}", command.FullCommand);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -141,7 +150,7 @@ public partial class HelmDocumentationScraper(HttpClient httpClient, ILogger<Hel
         var options = ExtractOptions(doc, commandParts);
 
         // Find positional arguments from synopsis
-        var positionalArgs = ExtractPositionalArguments(doc);
+        var positionalArgs = ExtractPositionalArguments();
 
         // Build enum definitions from options
         var enums = options
@@ -274,7 +283,7 @@ public partial class HelmDocumentationScraper(HttpClient httpClient, ILogger<Hel
         return options;
     }
 
-    private static List<CliPositionalArgument> ExtractPositionalArguments(IDocument doc)
+    private static List<CliPositionalArgument> ExtractPositionalArguments()
     {
         // Helm commands typically don't have complex positional args
         // Most are like: helm install [NAME] [CHART]
