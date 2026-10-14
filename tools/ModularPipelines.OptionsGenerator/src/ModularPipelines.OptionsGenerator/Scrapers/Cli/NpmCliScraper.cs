@@ -20,6 +20,9 @@ public partial class NpmCliScraper(
 
     public override string NamespacePrefix => "Npm";
 
+    /// <inheritdoc />
+    public override bool IncludeInGenerationMatrix => true;
+
     public override string TargetNamespace => "ModularPipelines.Node";
 
     public override string OutputDirectory => "src/ModularPipelines.Node";
