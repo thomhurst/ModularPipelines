@@ -943,7 +943,7 @@ public partial class GcloudCliScraper : CliScraperBase
         return new CliOptionDefinition
         {
             SwitchName = longForm,
-            Aliases = argument.Aliases,
+            Aliases = [.. argument.Aliases.Skip(1)],
             ShortForm = argument.Aliases.FirstOrDefault(),
             PropertyName = propertyName,
             CSharpType = DetermineCSharpType(
@@ -1355,7 +1355,7 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"(?:multiple\s+times|more\s+than\s+once)"
         + @"|(?:the\s+)?(?<switch>--?[\w-]+)\s+(?:(?:flag|argument|option)\s+)?"
         + RepeatableSwitchRegex
-        + @"|each\s+(?<switch>--?[\w-]+)\s+(?:arg|argument|flag|option)\b)\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+        + @"|(?:additionally,\s*)?each\s+(?<switch>--?[\w-]+)\s+(?:arg|argument|flag|option)\b)\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex NamedRepeatedSwitchDescriptionPattern();
 
     [GeneratedRegex(@"(?:^|[.!?]\s+)" + StatusPrefixPattern

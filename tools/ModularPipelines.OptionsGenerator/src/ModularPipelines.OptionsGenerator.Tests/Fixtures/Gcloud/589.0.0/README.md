@@ -9,5 +9,4 @@ official Google Cloud CLI 589.0.0 Windows archive. It retains the complete
 - The archive's `google-cloud-sdk/VERSION` is `589.0.0`.
 
 Help was captured with an isolated `CLOUDSDK_CONFIG`, prompts disabled, and
-the pager disabled. No cloud operation ran. `command-removal-help.json`
-records separate command coverage evidence and its own provenance.
+the pager disabled. No cloud operation ran.

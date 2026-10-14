@@ -55,7 +55,7 @@ public class GcloudGlobalOptionsTests
                  --project=PROJECT
                     The command-specific project selector.
             """;
-        string Normalize(string text) => windowsNewlines ? text.Replace("\n", "\r\n") : text;
+        string Normalize(string text) => text.ReplaceLineEndings(windowsNewlines ? "\r\n" : "\n");
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         var scraper = new GcloudCliScraper(new FixtureExecutor(new Dictionary<string, string>
         {
@@ -75,9 +75,8 @@ public class GcloudGlobalOptionsTests
         await Assert.That(globals.Count).IsEqualTo(6);
         await Assert.That(globals.Single(option => option.SwitchName == "--project").PropertyType).IsEqualTo("string?");
         await Assert.That(globals.Single(option => option.SwitchName == "--project").ValueSeparator).IsEqualTo("=");
-        await Assert.That(globals.Single(option => option.SwitchName == "--quiet").Aliases).IsEquivalentTo(["-q"]);
+        await Assert.That(globals.Single(option => option.SwitchName == "--quiet").GetSwitchNames()).IsEquivalentTo(["--quiet", "-q"]);
         await Assert.That(globals.Single(option => option.SwitchName == "--quiet").ShortForm).IsEqualTo("-q");
-        await Assert.That(globals.Single(option => option.SwitchName == "--flags-file").AcceptsMultipleValues).IsTrue();
         await Assert.That(globals.Single(option => option.SwitchName == "--flatten").CollectionSeparator).IsEqualTo(",");
         await Assert.That(globals.Single(option => option.SwitchName == "--flags-file").AcceptsMultipleValues).IsTrue();
         await Assert.That(globals.Single(option => option.SwitchName == "--flags-file").CollectionSeparator).IsNull();
@@ -118,12 +117,18 @@ public class GcloudGlobalOptionsTests
         }
 
         var globals = scraper.CreateToolDefinition().GetGlobalOptions();
+        await Assert.That(globals.Select(option => option.SwitchName)).IsEquivalentTo(
+        [
+            "--account", "--billing-project", "--configuration", "--flags-file", "--flatten", "--format",
+            "--project", "--quiet", "--verbosity", "--access-token-file", "--impersonate-service-account",
+            "--log-http", "--trace-token", "--user-output-enabled", "--version",
+        ]);
         await Assert.That(globals.Single(option => option.SwitchName == "--project").PropertyType).IsEqualTo("string?");
         await Assert.That(globals.Single(option => option.SwitchName == "--user-output-enabled").NegatedSwitchName)
             .IsEqualTo("--no-user-output-enabled");
         await Assert.That(globals.Single(option => option.SwitchName == "--impersonate-service-account").CollectionSeparator)
             .IsEqualTo(",");
-        await Assert.That(globals.Single(option => option.SwitchName == "--quiet").Aliases).IsEquivalentTo(["-q"]);
+        await Assert.That(globals.Single(option => option.SwitchName == "--quiet").GetSwitchNames()).IsEquivalentTo(["--quiet", "-q"]);
         await Assert.That(globals.Single(option => option.SwitchName == "--flags-file").AcceptsMultipleValues).IsTrue();
     }
 
