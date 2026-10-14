@@ -8,22 +8,22 @@ FTP file-transfer helpers for pipeline modules.
 dotnet add package ModularPipelines.Ftp
 ```
 
-## Context entry points[​](#context-entry-points "Direct link to Context entry points")
+## Connect from a module[​](#connect-from-a-module "Direct link to Connect from a module")
 
-Use the discoverable `context.Tools` surface from a module:
-
-* `context.Tools.Ftp`
-
-## Module example[​](#module-example "Direct link to Module example")
+Import `ModularPipelines.Ftp.Options` for the options and use `context.Tools.Ftp`:
 
 ```
+using System.Net;
+
+using ModularPipelines.Ftp.Options;
 
 
-public class UseFtpModule : SyncModule<None>
+
+public class ConnectFtpModule : Module<None>
 
 {
 
-    protected override None Execute(
+    protected override async Task<None> ExecuteAsync(
 
         IModuleContext context,
 
@@ -31,13 +31,27 @@ public class UseFtpModule : SyncModule<None>
 
     {
 
-        var ftp = context.Tools.Ftp;
+        var options = new FtpOptions(
+
+            "ftp.example.com",
+
+            new NetworkCredential(
+
+                Environment.GetEnvironmentVariable("FTP_USERNAME"),
+
+                Environment.GetEnvironmentVariable("FTP_PASSWORD")))
+
+        {
+
+            RequireEncryption = true,
+
+        };
 
 
 
-        // Call the integration's strongly typed operations here.
+        var client = await context.Tools.Ftp.GetFtpClientAsync(options, cancellationToken);
 
-        context.Logger.LogInformation("Ftp integration is ready");
+        context.Logger.LogInformation("Connected to {Host}", client.Host);
 
         return None.Value;
 
@@ -45,3 +59,11 @@ public class UseFtpModule : SyncModule<None>
 
 }
 ```
+
+The cancellation token applies to connection establishment. Pass a cancellation token separately to subsequent FluentFTP operations. The FTP context disposes connected clients when its scope ends; failed or canceled setup disposes the client before returning the error. A token canceled before the call prevents client configuration and connection attempts.
+
+Set `RequireEncryption = true` when sending credentials. This requires explicit FTPS and fails before authentication if the server rejects TLS. To use implicit FTPS, set `client.Config.EncryptionMode = FtpEncryptionMode.Implicit` in `ClientConfigurator`. Both control and data connections remain encrypted. The default is `false` for compatibility with plaintext FTP servers; that mode uses FluentFTP auto-detection and can send credentials without encryption.
+
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+`GetFtpClientAsync` accepts an optional `CancellationToken`; custom `IFtp` implementations must update their signature. Existing calls without a token remain valid.
