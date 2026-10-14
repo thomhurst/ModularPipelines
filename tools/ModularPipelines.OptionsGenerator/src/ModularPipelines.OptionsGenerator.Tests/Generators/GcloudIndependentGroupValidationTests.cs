@@ -99,7 +99,7 @@ public partial class RequiredConstructorValidationTests
         var command = await GcloudCapturedSemanticsTests.Scrape("sql instances create");
         var names = command.RequiredAlternativeGroups.SelectMany(group => group.PropertyNames).ToHashSet();
         names.Add("AutoScaleMaxNodeCount");
-        var generated = await Generate(command.Options.Where(option => names.Contains(option.PropertyName)).ToList(),
+        var generated = await Generate([.. command.Options.Where(option => names.Contains(option.PropertyName))],
             alternativeGroups: command.RequiredAlternativeGroups);
         var optionsType = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
 

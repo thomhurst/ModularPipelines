@@ -68,8 +68,9 @@ public partial class RequiredConstructorValidationTests
             await Assert.That(validation.Validate(new(instance))).IsEmpty();
             var retained = ((IEnumerable) property.GetValue(instance)!).Cast<string>().ToArray();
             await Assert.That(retained).IsEquivalentTo(["first", "second"]);
+            string[] expectedArguments = positional ? ["first", "second"] : ["--requirement", "first", "--requirement", "second"];
             await Assert.That(RenderAlternativeCollection(instance, positional))
-                .IsEquivalentTo(positional ? new[] { "first", "second" } : new[] { "--requirement", "first", "--requirement", "second" });
+                .IsEquivalentTo(expectedArguments);
         }
 
         await Assert.That(source.EnumerationCount).IsEqualTo(1);
@@ -115,8 +116,9 @@ public partial class RequiredConstructorValidationTests
 
         var validation = (IValidatableObject) instance;
         await Assert.That(validation.Validate(new(instance))).IsEmpty();
+        string[] expectedArguments = positional ? ["second", "third"] : ["--requirement", "second", "--requirement", "third"];
         await Assert.That(RenderAlternativeCollection(instance, positional))
-            .IsEquivalentTo(positional ? new[] { "second", "third" } : new[] { "--requirement", "second", "--requirement", "third" });
+            .IsEquivalentTo(expectedArguments);
         if (retained is ICollection<string> mutableCollection)
         {
             mutableCollection.Clear();
@@ -313,8 +315,9 @@ public partial class RequiredConstructorValidationTests
         {
             await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
             await Assert.That(property.GetValue(instance)!.ToString()).IsEqualTo("scalar-value");
+            string[] expectedArguments = positional ? ["scalar-value"] : ["--requirement", "scalar-value"];
             await Assert.That(RenderAlternativeCollection(instance, positional))
-                .IsEquivalentTo(positional ? new[] { "scalar-value" } : new[] { "--requirement", "scalar-value" });
+                .IsEquivalentTo(expectedArguments);
             await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
         }
     }
@@ -482,8 +485,9 @@ public partial class RequiredConstructorValidationTests
         for (var pass = 0; pass < 2; pass++)
         {
             await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            string[] expectedArguments = positional ? ["first=second"] : ["--requirement", "first=second"];
             await Assert.That(RenderAlternativeCollection(instance, positional))
-                .IsEquivalentTo(positional ? new[] { "first=second" } : ["--requirement", "first=second"]);
+                .IsEquivalentTo(expectedArguments);
         }
 
         await Assert.That(input.EnumerationCount).IsEqualTo(1);
@@ -495,8 +499,9 @@ public partial class RequiredConstructorValidationTests
             retained.Add("ordinary object addition");
             retained.Add(null!);
             await Assert.That(retained.Count).IsEqualTo(3);
+            string[] expectedArguments = positional ? ["third:fourth"] : ["--requirement", "third:fourth"];
             await Assert.That(RenderAlternativeCollection(instance, positional))
-                .IsEquivalentTo(positional ? new[] { "third:fourth" } : ["--requirement", "third:fourth"]);
+                .IsEquivalentTo(expectedArguments);
             retained.Remove(pair);
             await Assert.That(retained.Count).IsEqualTo(2);
             await Assert.That(RenderAlternativeCollection(instance, positional)).IsEmpty();
@@ -1025,7 +1030,7 @@ public partial class RequiredConstructorValidationTests
                 throw new InvalidOperationException("Input can only be enumerated once.");
             }
 
-            return ((IEnumerable<string>) new[] { "first", "second" }).GetEnumerator();
+            return ((IEnumerable<string>) ["first", "second"]).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

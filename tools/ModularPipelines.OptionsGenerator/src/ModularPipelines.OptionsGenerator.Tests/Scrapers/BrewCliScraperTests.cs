@@ -72,8 +72,9 @@ public class BrewCliScraperTests
     public async Task Command_Override_With_Different_Aliases_Replaces_The_Inherited_Switch()
     {
         var scraper = new TestBrewCliScraper(new GlobalMetadataExecutor(false));
-        await foreach (var unused in scraper.ScrapeAsync())
+        await foreach (var scrapedCommand in scraper.ScrapeAsync())
         {
+            _ = scrapedCommand;
         }
 
         var command = await scraper.Parse(["brew", "tests"], """

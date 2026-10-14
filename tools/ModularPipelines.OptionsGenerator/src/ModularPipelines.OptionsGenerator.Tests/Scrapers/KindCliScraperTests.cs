@@ -183,17 +183,12 @@ public class KindCliScraperTests
     private static async Task<CliCommandDefinition> Parse(string[] commandPath, string helpText) =>
         (await new TestKindCliScraper().Parse(commandPath, helpText))!;
 
-    private sealed class TestKindCliScraper : KindCliScraper
+    private sealed class TestKindCliScraper(ICliCommandExecutor? executor = null) : KindCliScraper(
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<KindCliScraper>.Instance)
     {
         public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
-
-        public TestKindCliScraper(ICliCommandExecutor? executor = null)
-            : base(
-                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<KindCliScraper>.Instance)
-        {
-        }
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {

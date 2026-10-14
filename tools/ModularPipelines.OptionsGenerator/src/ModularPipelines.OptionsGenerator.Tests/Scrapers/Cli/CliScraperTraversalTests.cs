@@ -752,7 +752,7 @@ public partial class CliScraperTraversalTests
     {
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
-        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        string[] commandPath = ["podman", .. command.Split(' ')];
         var helpText = $"Usage: podman {command} [options] {operands}";
 
         var definition = await scraper.Parse(commandPath, helpText);
@@ -773,7 +773,7 @@ public partial class CliScraperTraversalTests
     {
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
-        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        string[] commandPath = ["podman", .. command.Split(' ')];
         var helpText = $"Usage: podman {command} [options] CONTAINER COMMAND [ARG...]";
 
         var definition = await scraper.Parse(commandPath, helpText);
@@ -798,7 +798,7 @@ public partial class CliScraperTraversalTests
     {
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
-        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        string[] commandPath = ["podman", .. command.Split(' ')];
         var helpText = $"Usage: podman {command} [options] {operands}";
 
         var definition = await scraper.Parse(commandPath, helpText);
@@ -839,7 +839,7 @@ public partial class CliScraperTraversalTests
     {
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
-        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        string[] commandPath = ["podman", .. command.Split(' ')];
         var helpText = $"Usage: podman {command} [options] {operands}";
 
         var definition = await scraper.Parse(commandPath, helpText);
@@ -897,7 +897,7 @@ public partial class CliScraperTraversalTests
     {
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
-        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        string[] commandPath = ["podman", .. command.Split(' ')];
         var helpText = $"Usage: podman {command} [options] [KUBEFILE [KUBEFILE...]]|-";
 
         var definition = await scraper.Parse(commandPath, helpText);
@@ -973,11 +973,11 @@ public partial class CliScraperTraversalTests
     {
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
-        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        string[] commandPath = ["podman", .. command.Split(' ')];
 
         var definition = await scraper.Parse(commandPath, helpText);
 
-        await Assert.That(definition!.PositionalArguments.Last().PropertyName)
+        await Assert.That(definition!.PositionalArguments[^1].PropertyName)
             .IsEqualTo(expectedPropertyName);
     }
 
@@ -1542,19 +1542,14 @@ public partial class CliScraperTraversalTests
         ChangesApproved = false,
     };
 
-    private sealed class TestCobraScraper : CobraCliScraper
+    private sealed class TestCobraScraper(
+        ICliCommandExecutor executor,
+        ILogger? logger = null,
+        IHelpTextCache? cache = null) : CobraCliScraper(
+            executor,
+            cache ?? new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            logger ?? NullLogger<TestCobraScraper>.Instance)
     {
-        public TestCobraScraper(
-            ICliCommandExecutor executor,
-            ILogger? logger = null,
-            IHelpTextCache? cache = null)
-            : base(
-                executor,
-                cache ?? new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                logger ?? NullLogger<TestCobraScraper>.Instance)
-        {
-        }
-
         public override string ToolName => "fake";
 
         public override string NamespacePrefix => "Fake";
@@ -1573,7 +1568,7 @@ public partial class CliScraperTraversalTests
 
         public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 
-        public IReadOnlyList<string> GetSubcommands(string helpText) => ExtractSubcommands(helpText).ToList();
+        public List<string> GetSubcommands(string helpText) => [.. ExtractSubcommands(helpText)];
 
         public Task<string?> GetHelp(string[] commandPath) =>
             GetHelpTextAsync(commandPath, CancellationToken.None);
@@ -1753,18 +1748,12 @@ public partial class CliScraperTraversalTests
             Task.FromResult(true);
     }
 
-    private sealed class OptionShapeScraper : CliScraperBase
+    private sealed class OptionShapeScraper(ICliCommandExecutor executor, string csharpType = "string?") : CliScraperBase(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<OptionShapeScraper>.Instance)
     {
-        private readonly string _csharpType;
-
-        public OptionShapeScraper(ICliCommandExecutor executor, string csharpType = "string?")
-            : base(
-                executor,
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<OptionShapeScraper>.Instance)
-        {
-            _csharpType = csharpType;
-        }
+        private readonly string _csharpType = csharpType;
 
         public override string ToolName => "fake";
 
@@ -1802,16 +1791,11 @@ public partial class CliScraperTraversalTests
             });
     }
 
-    private sealed class OperandCoverageMismatchScraper : CliScraperBase
+    private sealed class OperandCoverageMismatchScraper(ICliCommandExecutor executor, ILogger logger) : CliScraperBase(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            logger)
     {
-        public OperandCoverageMismatchScraper(ICliCommandExecutor executor, ILogger logger)
-            : base(
-                executor,
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                logger)
-        {
-        }
-
         public override string ToolName => "fake";
 
         public override string NamespacePrefix => "Fake";
@@ -1840,7 +1824,7 @@ public partial class CliScraperTraversalTests
     private sealed class StubExecutor(IReadOnlyDictionary<string, string> helpByArguments)
         : ICliCommandExecutor
     {
-        private readonly object _gate = new();
+        private readonly Lock _gate = new();
         private readonly List<string> _arguments = [];
 
         public IReadOnlyList<string> Arguments
@@ -1849,7 +1833,7 @@ public partial class CliScraperTraversalTests
             {
                 lock (_gate)
                 {
-                    return _arguments.ToArray();
+                    return [.. _arguments];
                 }
             }
         }

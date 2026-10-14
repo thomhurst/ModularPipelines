@@ -86,18 +86,13 @@ public class SonarScannerCliScraperTests
         await Assert.That(version).IsEqualTo("SonarScanner CLI 8.0.1.6346");
     }
 
-    private sealed class TestSonarScannerCliScraper : SonarScannerCliScraper
+    private sealed class TestSonarScannerCliScraper(ICliCommandExecutor executor) : SonarScannerCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<SonarScannerCliScraper>.Instance)
     {
         public TestSonarScannerCliScraper()
             : this(new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance))
-        {
-        }
-
-        public TestSonarScannerCliScraper(ICliCommandExecutor executor)
-            : base(
-                executor,
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<SonarScannerCliScraper>.Instance)
         {
         }
 

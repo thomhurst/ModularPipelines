@@ -154,6 +154,6 @@ public class GcloudSynopsisGroupReconcilerTests
     };
 
     private static CliArgumentGroup Reconcile(CliArgumentGroup group, string synopsis) =>
-        GcloudSynopsisGroupReconciler.Reconcile(group, UsageSynopsisParser.GetOptionChoiceBranches(synopsis).ToArray(),
-            UsageSynopsisParser.GetOptionBundles(synopsis).ToArray());
+        GcloudSynopsisGroupReconciler.Reconcile(group, [.. UsageSynopsisParser.GetOptionChoiceBranches(synopsis)],
+            [.. UsageSynopsisParser.GetOptionBundles(synopsis)]);
 }

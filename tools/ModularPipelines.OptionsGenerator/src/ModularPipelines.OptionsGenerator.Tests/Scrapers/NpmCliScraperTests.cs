@@ -130,7 +130,7 @@ public class NpmCliScraperTests
             """);
 
         await Assert.That(command!.CommandParts).IsEquivalentTo(["exec"]);
-        var operand = command.PositionalArguments.First();
+        var operand = command.PositionalArguments[0];
         await Assert.That(operand.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(operand.PrependOptionTerminator).IsTrue();
     }
