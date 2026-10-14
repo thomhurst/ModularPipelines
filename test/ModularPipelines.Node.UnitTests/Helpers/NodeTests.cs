@@ -1,6 +1,8 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Node.Services;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
 
@@ -8,6 +10,15 @@ namespace ModularPipelines.Node.UnitTests.Helpers;
 
 public class NodeTests : TestBase
 {
+    [Test]
+    public async Task Node_Accessors_Resolve_The_Registered_Generated_Services()
+    {
+        var (node, pipeline) = await GetService<INode>(configureServices: null);
+
+        await Assert.That(ReferenceEquals(node.Npm, pipeline.Services.GetRequiredService<INpm>())).IsTrue();
+        await Assert.That(ReferenceEquals(node.Npx, pipeline.Services.GetRequiredService<INpx>())).IsTrue();
+    }
+
     private class NodeVersionModule : Module<CommandResult>
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

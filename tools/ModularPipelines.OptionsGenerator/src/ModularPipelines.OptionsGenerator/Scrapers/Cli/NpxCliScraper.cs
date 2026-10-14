@@ -15,9 +15,6 @@ internal sealed partial class NpxCliScraper(
 
     public override string NamespacePrefix => "Npx";
 
-    // Enable automated publication only after the handwritten Node API migration.
-    public override bool IncludeInGenerationMatrix => false;
-
     public override string TargetNamespace => "ModularPipelines.Node";
 
     public override string OutputDirectory => "src/ModularPipelines.Node";
