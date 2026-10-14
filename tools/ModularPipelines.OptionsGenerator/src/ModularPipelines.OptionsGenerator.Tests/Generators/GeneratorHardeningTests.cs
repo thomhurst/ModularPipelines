@@ -349,7 +349,7 @@ public class GeneratorHardeningTests
         await Assert.That(subDomainInterface.Content)
             .Contains("Task<CommandResult> ExecuteAsync(ToolApplicationSetOptions? options = null");
         await Assert.That(interfaceFiles.Single().Content)
-            .Contains("IToolApplicationSet ApplicationSet => throw new System.NotSupportedException();");
+            .Contains("IToolApplicationSet ApplicationSet { get; }");
         await Assert.That(interfaceFiles.Single().Content).DoesNotContain("Appset(");
         await Assert.That(implementationFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
         await Assert.That(registrationFiles.Single().Content)
@@ -435,7 +435,7 @@ public class GeneratorHardeningTests
 
         await Assert.That(subDomainClass.RelativePath).EndsWith("ToolWorkspaceAddOns.Generated.cs");
         await Assert.That(interfaceFiles.Single().Content)
-            .Contains("IToolWorkspaceAddOns WorkspaceAddOns => throw new System.NotSupportedException();");
+            .Contains("IToolWorkspaceAddOns WorkspaceAddOns { get; }");
     }
 
     [Test]
@@ -477,7 +477,7 @@ public class GeneratorHardeningTests
         await Assert.That(groupService.Content)
             .Contains("public virtual async Task<CommandResult> ChildAsync(");
         await Assert.That(interfaceFiles.Single().Content)
-            .Contains("IToolGroup Group => throw new System.NotSupportedException();");
+            .Contains("IToolGroup Group { get; }");
         await Assert.That(optionFiles.Single(file =>
                 file.RelativePath.EndsWith("ToolGroupOptions.Generated.cs")).Content)
             .Contains("[CliSubCommand(\"group\")]");
@@ -685,7 +685,7 @@ public class GeneratorHardeningTests
         await Assert.That(clusterInfoService.Content)
             .Contains("public virtual async Task<CommandResult> DumpAsync(");
         await Assert.That(interfaceFiles.Single().Content)
-            .Contains("IKubernetesClusterInfo ClusterInfo => throw new System.NotSupportedException();");
+            .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(implementationFiles.Single().Content)
             .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(registrationFiles.Single().Content)
@@ -716,7 +716,7 @@ public class GeneratorHardeningTests
             await Assert.That(rootClass.Content)
                 .Contains("public ToolParentImageTools ImageTools =>");
             await Assert.That(rootInterface.Content)
-                .Contains("ToolParentImageTools ImageTools => throw new System.NotSupportedException();");
+                .Contains("ToolParentImageTools ImageTools { get; }");
             await Assert.That(rootInterface.Content)
                 .Contains("only this top-level facade is interface-backed");
             await Assert.That(childClass.Content)
@@ -1367,19 +1367,19 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task ServiceInterfaceGenerator_Emits_Default_Command_Implementations()
+    public async Task ServiceInterfaceGenerator_Emits_Command_Declarations()
     {
         var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"]));
 
         var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
 
-        await Assert.That(generated).Contains("Task<CommandResult> RunAsync(");
-        await Assert.That(generated)
-            .Contains("    => throw new System.NotSupportedException();");
+        await Assert.That(generated).Contains(
+            "Task<CommandResult> RunAsync(ToolRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);");
+        await Assert.That(generated).DoesNotContain("NotSupportedException");
     }
 
     [Test]
-    public async Task ServiceInterfaceGenerator_Emits_Default_SubDomain_Implementations()
+    public async Task ServiceInterfaceGenerator_Emits_SubDomain_Declarations()
     {
         var tool = Tool(Command(
             "ToolArtifactAddOptions",
@@ -1390,7 +1390,93 @@ public class GeneratorHardeningTests
         var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
 
         await Assert.That(generated)
-            .Contains("IToolArtifact Artifact => throw new System.NotSupportedException();");
+            .Contains("IToolArtifact Artifact { get; }");
+        await Assert.That(generated).DoesNotContain("NotSupportedException");
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments("RunAsync")]
+    [Arguments("Artifact")]
+    [Arguments("ExecuteAsync")]
+    [Arguments("AddAsync")]
+    [Arguments("Group")]
+    public async Task Generated_Interfaces_Require_Every_Member(string missingMember)
+    {
+        var tool = Tool(
+            Command("ToolRunOptions", "ToolOptions", ["run"]),
+            Command("ToolArtifactOptions", "ToolOptions", ["artifact"]),
+            Command("ToolArtifactAddOptions", "ToolOptions", ["artifact", "add"], subDomainGroup: "artifact"),
+            Command("ToolArtifactGroupListOptions", "ToolOptions", ["artifact", "group", "list"], subDomainGroup: "artifact"));
+        var rootInterface = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+        var artifactInterface = (await new SubDomainClassGenerator().GenerateAsync(tool))
+            .Single(file => Path.GetFileName(file.RelativePath) == "IToolArtifact.Generated.cs").Content;
+        (string Name, string Source)[] rootMembers =
+        [
+            ("RunAsync", "public Task<CommandResult> RunAsync(ToolRunOptions? options, CommandExecutionOptions? executionOptions, CancellationToken cancellationToken) => Task.FromResult(new CommandResult());"),
+            ("Artifact", "public IToolArtifact Artifact => new FakeArtifact();"),
+        ];
+        (string Name, string Source)[] artifactMembers =
+        [
+            ("ExecuteAsync", "public Task<CommandResult> ExecuteAsync(ToolArtifactOptions? options, CommandExecutionOptions? executionOptions, CancellationToken cancellationToken) => Task.FromResult(new CommandResult());"),
+            ("AddAsync", "public Task<CommandResult> AddAsync(ToolArtifactAddOptions? options, CommandExecutionOptions? executionOptions, CancellationToken cancellationToken) => Task.FromResult(new CommandResult());"),
+            ("Group", "public ToolArtifactGroup Group => new();"),
+        ];
+        var fakeSource = $$"""
+            using ModularPipelines.Models;
+            using ModularPipelines.Options;
+            using ModularPipelines.Tool.Options;
+            namespace ModularPipelines.Tool.Services
+            {
+                public class ToolArtifactGroup;
+                public class FakeTool : ITool
+                {
+                    {{string.Join(Environment.NewLine, rootMembers.Where(member => member.Name != missingMember).Select(member => member.Source))}}
+                }
+                public class FakeArtifact : IToolArtifact
+                {
+                    {{string.Join(Environment.NewLine, artifactMembers.Where(member => member.Name != missingMember).Select(member => member.Source))}}
+                }
+            }
+            """;
+        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
+            .Split(Path.PathSeparator)
+            .Select(static path => MetadataReference.CreateFromFile(path));
+        var compilation = CSharpCompilation.Create(
+            "generated-interface-contract",
+            [
+                CSharpSyntaxTree.ParseText("""
+                    global using System.Threading;
+                    global using System.Threading.Tasks;
+                    namespace ModularPipelines.Models { public class CommandResult; }
+                    namespace ModularPipelines.Options { public record CommandExecutionOptions; }
+                    namespace ModularPipelines.Tool.Options
+                    {
+                        public record ToolRunOptions;
+                        public record ToolArtifactOptions;
+                        public record ToolArtifactAddOptions;
+                    }
+                    """),
+                CSharpSyntaxTree.ParseText(rootInterface),
+                CSharpSyntaxTree.ParseText(artifactInterface),
+                CSharpSyntaxTree.ParseText(fakeSource),
+            ],
+            references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                .WithNullableContextOptions(NullableContextOptions.Enable));
+        var errors = compilation.GetDiagnostics()
+            .Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
+
+        if (missingMember.Length == 0)
+        {
+            await Assert.That(errors).IsEmpty();
+        }
+        else
+        {
+            await Assert.That(errors).Count().IsEqualTo(1);
+            await Assert.That(errors[0].Id).IsEqualTo("CS0535");
+            await Assert.That(errors[0].GetMessage()).Contains($".{missingMember}");
+        }
     }
 
     [Test]
