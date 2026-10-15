@@ -91,6 +91,12 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
         // env's synopsis omits the file, selector, list, and import forms in its examples.
         helpText = commandPath switch
         {
+            // The delete synopsis omits repetition shown in its multi-name examples.
+            // Use the shared resource-choice model so selectors still complete TYPE.
+            ["kubectl", "delete"] => helpText.Replace(
+                "kubectl delete ([-f FILENAME] | [-k DIRECTORY] | TYPE [(NAME | -l label | --all)])",
+                "kubectl delete (-f FILENAME | -k DIRECTORY | TYPE NAME...)",
+                StringComparison.Ordinal),
             ["kubectl", "set", "resources"] => helpText.Replace(
                 "([--limits=LIMITS & --requests=REQUESTS]", "[--limits=LIMITS & --requests=REQUESTS]",
                 StringComparison.Ordinal),
@@ -127,7 +133,7 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
     {
         string[] selectionSwitches = command.CommandParts switch
         {
-            ["annotate" or "label"] => ["--all", "--selector", "--field-selector"],
+            ["annotate" or "label" or "delete"] => ["--all", "--selector", "--field-selector"],
             ["scale"] or ["set", "env" or "image" or "resources"] => ["--all", "--selector"],
             _ => [],
         };

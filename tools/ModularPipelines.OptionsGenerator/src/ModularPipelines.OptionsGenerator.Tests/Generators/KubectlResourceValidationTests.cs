@@ -197,6 +197,7 @@ public partial class RequiredConstructorValidationTests
               -l, --selector string       Label selector.
                   --replicas int         Number of replicas.
             """);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--replicas").IsRequired).IsTrue();
         var options = Compile(await Generate([.. command.Options], command.PositionalArguments,
             command.RequiredAlternativeGroups)).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         (string? Type, bool? All, string? Selector, bool Valid)[] cases =
@@ -214,11 +215,10 @@ public partial class RequiredConstructorValidationTests
         ];
         foreach (var input in cases)
         {
-            var instance = Activator.CreateInstance(options)!;
+            var instance = Activator.CreateInstance(options, [3])!;
             options.GetProperty("Type")!.SetValue(instance, input.Type);
             options.GetProperty("All")!.SetValue(instance, input.All);
             options.GetProperty("Selector")!.SetValue(instance, input.Selector);
-            options.GetProperty("Replicas")!.SetValue(instance, 3);
             await Assert.That(!((IValidatableObject) instance).Validate(new(instance)).Any())
                 .IsEqualTo(input.Valid).Because(input.ToString());
             if (input.Valid)

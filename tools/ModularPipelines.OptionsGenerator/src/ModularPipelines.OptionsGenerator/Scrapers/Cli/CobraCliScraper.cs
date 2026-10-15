@@ -219,6 +219,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
         // Parse options from the help text
         var options = ApplyOptionFixes(commandParts, ParseOptions(helpText, commandParts));
+        options = ApplyUsageRequiredOptions([.. options], usage);
 
         // Parse positional arguments from usage/synopsis text
         var positionalArgs = ApplyPositionalArgumentFixes(

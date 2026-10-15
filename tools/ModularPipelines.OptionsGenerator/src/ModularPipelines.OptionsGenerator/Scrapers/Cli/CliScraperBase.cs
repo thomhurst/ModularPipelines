@@ -1261,7 +1261,17 @@ public abstract partial class CliScraperBase : ICliScraper
         var requiredSwitches = usage.PositionalArguments
             .Where(argument => argument.IsRequired && argument.AssociatedOptionSwitch is not null)
             .Select(argument => argument.AssociatedOptionSwitch!)
+            // Inline values such as --image=image have no separate operand.
+            // A switch is unconditional only when every synopsis requires it.
+            .Concat(usage.RequiredOptionSwitches.Where(optionSwitch => usage.RequirednessCandidates.All(candidate =>
+                candidate.RequiredOptionSwitches.Contains(optionSwitch, StringComparer.OrdinalIgnoreCase))))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        // Choices are validated as groups. Do not require every branch's option
+        // in the constructor, even when the parser records their switches.
+        requiredSwitches.ExceptWith(usage.RequiredAlternativeGroups
+            .SelectMany(group => group.EnumerateMembers())
+            .Select(member => member.OptionSwitch)
+            .OfType<string>());
         if (requiredSwitches.Count == 0)
         {
             return options;
