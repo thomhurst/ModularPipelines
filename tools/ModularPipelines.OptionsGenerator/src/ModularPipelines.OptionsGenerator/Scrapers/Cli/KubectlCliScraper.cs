@@ -11,6 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
     private const string GlobalOptionsHeading = "The following options can be passed to any command";
+    private const string CombinedResourcePattern = @"\A[^/\s]+/[^/\s]+\z";
 
     private static readonly string[] RequiredGlobalSwitches = ["--namespace", "--context", "--kubeconfig"];
 
@@ -97,36 +98,20 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
     private static UsageRequiredAlternativeGroup NormalizeResourceInputs(
         UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options, bool requireSelection)
     {
-        var members = group.Members;
+        var members = group.Members.Select(NormalizeCombinedResource).ToList();
         var groups = group.Groups.Select(child => NormalizeResourceInputs(child, options, requireSelection)).ToList();
         if (!group.IsChoice
-            && members.FirstOrDefault(member => member.PositionalPropertyName == "Type") is { } type)
+            && members.FirstOrDefault(member => member.PositionalPropertyName == "Type") is { } type
+            && members.FirstOrDefault(member => member.PositionalPropertyName == "Name") is { } name)
         {
-            var name = members.FirstOrDefault(member => member.PositionalPropertyName == "Name");
-            members = [.. members.Where(member => member.PositionalPropertyName != "Name")];
-            if (requireSelection && name is not null)
-            {
-                groups.Add(new UsageRequiredAlternativeGroup
-                {
-                    Members =
-                    [
-                        name,
-                        type with { ValuePattern = @"\A[^/\s]+/[^/\s]+\z" },
-                        .. options.Where(option => option.SwitchName is "--all" or "--selector" or "--field-selector")
-                            .Select(option => new UsageRequiredAlternativeMember
-                            {
-                                OptionSwitch = option.SwitchName,
-                                RequiredFlagValue = option.SwitchName == "--all" ? true : null,
-                            }),
-                    ],
-                });
-            }
+            members.Remove(name);
+            groups.Add(CreateResourceSelection(type, name, requireSelection ? options : []));
         }
 
         if (group.IsChoice && members.Any(member => member.OptionSwitch is "-f" or "--filename")
             && options.Any(option => option.SwitchName == "--kustomize"))
         {
-            members = [.. members, new UsageRequiredAlternativeMember { OptionSwitch = "--kustomize" }];
+            members.Add(new UsageRequiredAlternativeMember { OptionSwitch = "--kustomize" });
         }
 
         return group with
@@ -135,6 +120,28 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
             Groups = groups,
         };
     }
+
+    private static UsageRequiredAlternativeMember NormalizeCombinedResource(UsageRequiredAlternativeMember member) =>
+        member.PositionalPropertyName == "TypeOrName"
+            ? member with { ValuePattern = CombinedResourcePattern }
+            : member;
+
+    private static UsageRequiredAlternativeGroup CreateResourceSelection(
+        UsageRequiredAlternativeMember type, UsageRequiredAlternativeMember name,
+        IReadOnlyList<CliOptionDefinition> options) => new()
+        {
+            Members =
+            [
+                name,
+                type with { ValuePattern = CombinedResourcePattern },
+                .. options.Where(option => option.SwitchName is "--all" or "--selector" or "--field-selector")
+                    .Select(option => new UsageRequiredAlternativeMember
+                    {
+                        OptionSwitch = option.SwitchName,
+                        RequiredFlagValue = option.SwitchName == "--all" ? true : null,
+                    }),
+            ],
+        };
 
     /// <summary>
     /// kubectl has some additional skip patterns for plugin and completion commands.

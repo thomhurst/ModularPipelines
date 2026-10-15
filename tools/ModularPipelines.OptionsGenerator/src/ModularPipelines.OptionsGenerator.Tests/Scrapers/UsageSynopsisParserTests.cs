@@ -10,6 +10,70 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    [Arguments("--file=FILE")]
+    [Arguments("--file FILE")]
+    public async Task Presence_Only_Flag_Alternative_Preserves_Its_Target(string fileBranch)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool run (--all TARGET | {fileBranch}) TAIL", ["tool", "run"]);
+        CliOptionDefinition[] options =
+        [
+            new() { SwitchName = "--all", PropertyName = "All", CSharpType = "bool?", IsFlag = true },
+            new() { SwitchName = "--file", PropertyName = "File", CSharpType = "string?" },
+        ];
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage, options);
+        var repeated = UsageSynopsisParser.ResolveOptionUsage(resolved, options);
+        await Assert.That(resolved.PositionalArguments.Where(argument => UsageSynopsisParser.IsPositionalSlot(argument, options))
+            .Select(argument => argument.PropertyName)).IsEquivalentTo(["Target", "Tail"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(resolved.PositionalArguments.Select(argument => argument.PositionIndex))
+            .IsEquivalentTo([0, 1], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        var choice = resolved.RequiredAlternativeGroups.Single();
+        await Assert.That(choice.Members.Single().OptionSwitch).IsEqualTo("--file");
+        await Assert.That(choice.Groups.Single().Members.Select(member => (member.PositionalPropertyName ?? member.OptionSwitch)!))
+            .IsEquivalentTo(["--all", "Target"]);
+        await Assert.That(repeated.PositionalArguments).IsEquivalentTo(resolved.PositionalArguments);
+        await Assert.That(repeated.RequiredAlternativeGroups).IsEquivalentTo(resolved.RequiredAlternativeGroups);
+    }
+
+    [Test]
+    public async Task Recovering_Flag_Bundles_Preserves_Adapter_Renames_And_Operand_Phases()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run (--all TARGET | --file FILE) TAIL", ["tool", "run"]);
+        var normalized = usage with
+        {
+            PositionalArguments = [.. usage.PositionalArguments.Select(argument => argument with { PropertyName = "RenamedTail" })],
+        };
+        CliOptionDefinition[] options =
+        [
+            new() { SwitchName = "--all", PropertyName = "All", CSharpType = "bool?", IsFlag = true },
+            new() { SwitchName = "--file", PropertyName = "File", CSharpType = "string?" },
+        ];
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(normalized, options);
+        await Assert.That(resolved.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Target", "RenamedTail"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(resolved.PositionalArguments[0].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(resolved.PositionalArguments[1].Phase).IsEqualTo(usage.PositionalArguments.Single().Phase);
+    }
+
+    [Test]
+    public async Task Resolving_Known_Bundles_Does_Not_Restore_Adapter_Renamed_Candidates()
+    {
+        var usage = UsageSynopsisParser.Parse("Usage: tool run (TYPE NAME --all | --file FILE)", ["tool", "run"]);
+        await Assert.That(usage.PositionalArguments.Count).IsEqualTo(2);
+        usage = usage with
+        {
+            RequirednessCandidates = [.. usage.RequirednessCandidates.Select(candidate => candidate with
+            {
+                PositionalArguments = [.. candidate.PositionalArguments.Select(argument => argument with { PropertyName = "Renamed" + argument.PropertyName })],
+            })],
+        };
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage,
+            [new() { SwitchName = "--all", PropertyName = "All", CSharpType = "bool?", IsFlag = true }]);
+        await Assert.That(resolved.RequirednessCandidates.Single().PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["RenamedType", "RenamedName"]);
+    }
+
+    [Test]
     public async Task Optional_Common_Selectors_Remain_Independent_Of_Nested_Alternatives()
     {
         var documentedGroup = new CliArgumentGroup
@@ -563,12 +627,12 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    [Arguments("(--verbose <TARGET>|--file <FILE>)", true, false)]
-    [Arguments("(--file <FILE>|--verbose <TARGET>)", true, false)]
-    [Arguments("(--verbose <TARGET>|--file <FILE>)", false, true)]
-    [Arguments("(--verbose|--file <FILE>)", true, true)]
+    [Arguments("(--verbose <TARGET>|--file <FILE>)", true, true)]
+    [Arguments("(--file <FILE>|--verbose <TARGET>)", true, true)]
+    [Arguments("(--verbose <TARGET>|--file <FILE>)", false, false)]
+    [Arguments("(--verbose|--file <FILE>)", true, false)]
     public async Task Resolving_Single_Synopsis_Uses_Option_Shapes_For_Inline_Alternatives(
-        string alternatives, bool verboseIsFlag, bool hasAlternativeGroup)
+        string alternatives, bool verboseIsFlag, bool hasOperandBundle)
     {
         var usage = UsageSynopsisParser.Parse($"Usage: tool run {alternatives}", ["tool", "run"]);
         CliOptionDefinition[] options =
@@ -580,13 +644,12 @@ public class UsageSynopsisParserTests
         var resolved = UsageSynopsisParser.ResolveOptionUsage(usage, options);
         var repeated = UsageSynopsisParser.ResolveOptionUsage(resolved, options);
 
-        await Assert.That(resolved.RequiredAlternativeGroups.Count).IsEqualTo(hasAlternativeGroup ? 1 : 0);
+        await Assert.That(resolved.RequiredAlternativeGroups.Count).IsEqualTo(1);
         await Assert.That(repeated.RequiredAlternativeGroups).IsEquivalentTo(resolved.RequiredAlternativeGroups);
-        if (hasAlternativeGroup)
-        {
-            await Assert.That(resolved.RequiredAlternativeGroups.Single().Members.Select(member => member.OptionSwitch!))
-                .IsEquivalentTo(["--verbose", "--file"]);
-        }
+        var group = resolved.RequiredAlternativeGroups.Single();
+        string[] expected = hasOperandBundle ? ["--verbose", "--file", "Target"] : ["--verbose", "--file"];
+        await Assert.That(group.EnumerateMembers().Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(expected);
     }
 
     [Test]

@@ -54,6 +54,7 @@ public class SynopsisIdentifierRegressionTests
         var usage = UsageSynopsisParser.Parse("Usage: tool run --x_1 ... --x_N", ["tool", "run"]);
         await Assert.That(usage.RequiredOptionSwitches.ToArray()).IsEquivalentTo(["--x_1", "--x_N"]);
     }
+
     [Test]
     [Arguments("-f FILENAME")]
     [Arguments("--filename FILENAME")]

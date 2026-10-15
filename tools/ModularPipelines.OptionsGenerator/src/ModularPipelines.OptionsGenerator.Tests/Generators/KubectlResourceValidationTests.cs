@@ -100,6 +100,10 @@ public partial class RequiredConstructorValidationTests
         [
             (null, null, null, null, false),
             (null, "web", null, null, false),
+            ("pods", null, null, null, false),
+            ("pods/", null, null, null, false),
+            ("/web", null, null, null, false),
+            ("pods", " ", null, null, false),
             ("pods", "web", null, null, true),
             ("pods/web", null, null, null, true),
             (null, null, ["manifest.yaml"], null, true),
@@ -141,6 +145,36 @@ public partial class RequiredConstructorValidationTests
             await Assert.That(service).Contains($"{command.ClassName} options,");
             await Assert.That(service).DoesNotContain($"{command.ClassName}? options");
         }
+    }
+
+    private static readonly string[] valueArray = ["manifest.yaml"];
+
+    [Test]
+    [Arguments("patch")]
+    [Arguments("scale")]
+    [Arguments("label")]
+    public async Task Kubectl_Direct_Combined_Target_Requires_Both_Type_And_Name(string commandName)
+    {
+        var command = await ScrapeResourceCommand(commandName, $$"""
+            Usage:
+              kubectl {{commandName}} (-f FILENAME | TYPE/NAME) [options]
+
+            Options:
+              -f, --filename stringArray   Files identifying resources.
+            """);
+        var options = Compile(await Generate([.. command.Options], command.PositionalArguments,
+            command.RequiredAlternativeGroups)).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        string[] targets = ["pods/web", "pods/", "/web", "pods", "pods/web/extra", " "];
+        foreach (var target in targets)
+        {
+            var instance = Activator.CreateInstance(options)!;
+            options.GetProperty("TypeOrName")!.SetValue(instance, target);
+            await Assert.That(!((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(target == "pods/web").Because(target);
+        }
+        var file = Activator.CreateInstance(options)!;
+        options.GetProperty("Filename")!.SetValue(file, valueArray);
+        await Assert.That(((IValidatableObject) file).Validate(new(file))).IsEmpty();
     }
 
     private static IReadOnlyList<string> RenderResourceOperands(object instance)

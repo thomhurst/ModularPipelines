@@ -327,7 +327,7 @@ public static partial class UsageSynopsisParser
         // Option-only conjunctions beside an operand branch need no extraction;
         // option-only choices retain their existing option-specific reconciliation.
         if (branches.Any(IsConjunctiveBranch)
-            && GetBundledOperandBranch(alternatives) is null
+            && GetBundledOperandBranch(alternatives, options) is null
             && !HasOptionConjunctionsBesideOperand(branches))
         {
             return null;
@@ -754,7 +754,8 @@ public static partial class UsageSynopsisParser
 
     private static ParsedOperands ParseOperandTokens(
         IEnumerable<string> operandTokens,
-        CommandLinePhase phase)
+        CommandLinePhase phase,
+        IReadOnlyList<CliOptionDefinition>? options = null)
     {
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
@@ -780,7 +781,7 @@ public static partial class UsageSynopsisParser
                 groupedBehindOptionTerminator,
                 ref associatedOptionSwitch);
 
-            if (TryHandleOptionToken(
+            if (!HasKnownOperandBundle(operandToken, options) && TryHandleOptionToken(
                     operandToken,
                     requiredOptionSwitches,
                     ref associatedOptionSwitch))
@@ -798,7 +799,8 @@ public static partial class UsageSynopsisParser
                     arguments.Count,
                     operandPhase,
                     out var nestedArguments,
-                    out var nestedRequiredOptions))
+                    out var nestedRequiredOptions,
+                    options))
             {
                 nestedArguments = PreserveOptionTerminatorOnNestedGroup(
                     nestedArguments,
@@ -1005,6 +1007,13 @@ public static partial class UsageSynopsisParser
             return usage;
         }
 
+        usage = RecoverFlagBundleOperands(usage, original, options) with
+        {
+            RequirednessCandidates = [.. usage.RequirednessCandidates.Select(candidate =>
+                RecoverFlagBundleOperands(candidate, candidate, options))],
+        };
+        original = usage.RequirednessCandidates.First(candidate => candidate.Synopsis == usage.Synopsis);
+
         if (usage.RequirednessCandidates.Count == 1)
         {
             // There are no alternate forms to rerank. Preserve adapter-requiredness
@@ -1040,6 +1049,47 @@ public static partial class UsageSynopsisParser
         {
             PositionalArguments = ProjectRequiredness(usage.PositionalArguments, resolved, options),
             RequiredAlternativeGroups = GetRequiredAlternativeGroups(selected, candidates),
+        };
+    }
+
+    // Revisit bundles once flag shapes are known. Preserve adapter edits and omissions
+    // to existing operands; only restore operands that the unresolved parser never saw.
+    private static UsageSynopsisParseResult RecoverFlagBundleOperands(
+        UsageSynopsisParseResult usage, UsageSynopsisParseResult original,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        if (!options.Any(option => option.IsFlag)
+            || !original.OperandTokens.Any(token => HasKnownOperandBundle(token, options)))
+        {
+            return usage;
+        }
+        var tokens = Tokenize(original.Synopsis ?? "");
+        var phase = CollapseAlternatives(tokens.Take(tokens.Count - original.OperandTokens.Count)).Any(IsPhaseControlToken)
+            ? CommandLinePhase.Passthrough : CommandLinePhase.EarlyOperand;
+        var parsed = ParseOperandTokens(original.OperandTokens, phase, options);
+        var originalNames = original.PositionalArguments.Concat(ParseOperandTokens(original.OperandTokens, phase).Arguments)
+            .Select(argument => argument.PropertyName).ToHashSet(StringComparer.Ordinal);
+        var recovered = parsed.Arguments.Where(argument => !originalNames.Contains(argument.PropertyName)).ToArray();
+        if (recovered.Length == 0)
+        {
+            return usage;
+        }
+        var arguments = usage.PositionalArguments.Select(argument =>
+        {
+            var position = argument.PositionIndex;
+            foreach (var operand in recovered)
+            {
+                if (operand.PositionIndex <= position)
+                {
+                    position++;
+                }
+            }
+            return argument with { PositionIndex = position };
+        }).Concat(recovered).OrderBy(argument => argument.PositionIndex).ToArray();
+        return usage with
+        {
+            PositionalArguments = arguments,
+            HasOperandTokens = arguments.Length > 0 || usage.UnparsedOperandTokens.Count > 0,
         };
     }
 
@@ -1502,7 +1552,8 @@ public static partial class UsageSynopsisParser
         int positionIndex,
         CommandLinePhase phase,
         out IReadOnlyList<CliPositionalArgument> arguments,
-        out IReadOnlyList<string> requiredOptionSwitches)
+        out IReadOnlyList<string> requiredOptionSwitches,
+        IReadOnlyList<CliOptionDefinition>? options = null)
     {
         arguments = [];
         requiredOptionSwitches = [];
@@ -1531,14 +1582,14 @@ public static partial class UsageSynopsisParser
         var alternatives = SplitTopLevelAlternatives(content);
         if (alternatives.Count > 1)
         {
-            if (GetBundledOperandBranch(alternatives) is not { } branch)
+            if (GetBundledOperandBranch(alternatives, options) is not { } branch)
             {
                 return false;
             }
 
             // A single operand-bearing branch can bundle an operand with flags.
             // Its operands stay optional; the enclosing choice validates complete branches.
-            return TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches);
+            return TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches, options);
         }
 
         if (!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
@@ -1551,7 +1602,7 @@ public static partial class UsageSynopsisParser
             return false;
         }
 
-        return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches);
+        return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches, options);
     }
 
     private static void ValidateNestedColonGroup(string token, string content, List<string> nestedTokens)
@@ -1575,21 +1626,35 @@ public static partial class UsageSynopsisParser
         }
     }
 
-    private static List<string>? GetBundledOperandBranch(IReadOnlyList<string> alternatives)
+    private static bool HasKnownOperandBundle(string token, IReadOnlyList<CliOptionDefinition>? options)
     {
-        var operandBranches = alternatives.Select(TokenizeNestedGroup)
-            .Where(HasUnboundOperand).ToArray();
-        return operandBranches is [var branch] && branch.Count > 1 ? branch : null;
+        var normalized = TrimTrailingOperandPunctuation(token);
+        return options is not null && IsWrapped(normalized)
+            && SplitTopLevelAlternatives(TrimWrapper(normalized)) is { Count: > 1 } alternatives
+            && GetBundledOperandBranch(alternatives, options) is not null;
     }
 
-    private static bool HasUnboundOperand(List<string> tokens)
+    private static List<string>? GetBundledOperandBranch(IReadOnlyList<string> alternatives,
+        IReadOnlyList<CliOptionDefinition>? options = null)
+    {
+        var operandBranches = alternatives.Select(TokenizeNestedGroup)
+            .Where(tokens => HasUnboundOperand(tokens, options)).ToArray();
+        return operandBranches is [var branch]
+            && (branch.Count > 1 || (branch[0].Contains('/') && IsPlaceholderToken(branch[0]))) ? branch : null;
+    }
+
+    private static bool HasUnboundOperand(List<string> tokens, IReadOnlyList<CliOptionDefinition>? options)
     {
         var consumesOptionValue = false;
         foreach (var token in tokens)
         {
             if (GetOptionSwitches(token).Count > 0)
             {
-                consumesOptionValue = !HasInlineOptionValue(token) && !IsWrapped(token);
+                var optionSwitch = SelectPreferredOptionSwitch(GetOptionSwitches(token));
+                var optionIndex = options is not null && optionSwitch is not null
+                    ? CliOptionDefinition.FindIndexBySwitch(options, optionSwitch) : -1;
+                consumesOptionValue = !HasInlineOptionValue(token) && !IsWrapped(token)
+                    && (optionIndex < 0 || !options![optionIndex].IsFlag);
                 continue;
             }
             if (consumesOptionValue)
@@ -1895,7 +1960,8 @@ public static partial class UsageSynopsisParser
         int positionIndex,
         CommandLinePhase phase,
         out IReadOnlyList<CliPositionalArgument> arguments,
-        out IReadOnlyList<string> requiredOptionSwitches)
+        out IReadOnlyList<string> requiredOptionSwitches,
+        IReadOnlyList<CliOptionDefinition>? options = null)
     {
         arguments = [];
         requiredOptionSwitches = [];
@@ -1905,7 +1971,7 @@ public static partial class UsageSynopsisParser
         foreach (var nestedToken in nestedTokens)
         {
             if (TryParseNestedOperandGroup(nestedToken, positionIndex + parsedArguments.Count, phase,
-                    out var nestedArguments, out var nestedRequiredOptions))
+                    out var nestedArguments, out var nestedRequiredOptions, options))
             {
                 parsedArguments.AddRange(nestedArguments);
                 parsedRequiredOptions.AddRange(nestedRequiredOptions);
