@@ -24,17 +24,17 @@ public interface IAzBoards
     /// <summary>
     /// az area sub-commands.
     /// </summary>
-    AzBoardsArea Area => throw new System.NotSupportedException();
+    AzBoardsArea Area { get; }
 
     /// <summary>
     /// az iteration sub-commands.
     /// </summary>
-    AzBoardsIteration Iteration => throw new System.NotSupportedException();
+    AzBoardsIteration Iteration { get; }
 
     /// <summary>
     /// az work-item sub-commands.
     /// </summary>
-    AzBoardsWorkItem WorkItem => throw new System.NotSupportedException();
+    AzBoardsWorkItem WorkItem { get; }
 
     /// <summary>
     /// Query for a list of work items. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -43,7 +43,6 @@ public interface IAzBoards
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QueryAsync(AzBoardsQueryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QueryAsync(AzBoardsQueryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

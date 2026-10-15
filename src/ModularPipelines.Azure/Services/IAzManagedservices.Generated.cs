@@ -24,11 +24,11 @@ public interface IAzManagedservices
     /// <summary>
     /// az assignment sub-commands.
     /// </summary>
-    AzManagedservicesAssignment Assignment => throw new System.NotSupportedException();
+    AzManagedservicesAssignment Assignment { get; }
 
     /// <summary>
     /// az definition sub-commands.
     /// </summary>
-    AzManagedservicesDefinition Definition => throw new System.NotSupportedException();
+    AzManagedservicesDefinition Definition { get; }
 
 }

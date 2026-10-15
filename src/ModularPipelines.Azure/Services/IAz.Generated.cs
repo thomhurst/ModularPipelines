@@ -23,452 +23,452 @@ public partial interface IAz
     /// <summary>
     /// Gets the account sub-domain service.
     /// </summary>
-    IAzAccount Account => throw new System.NotSupportedException();
+    IAzAccount Account { get; }
 
     /// <summary>
     /// Gets the acr sub-domain service.
     /// </summary>
-    IAzAcr Acr => throw new System.NotSupportedException();
+    IAzAcr Acr { get; }
 
     /// <summary>
     /// Gets the ad sub-domain service.
     /// </summary>
-    IAzAd Ad => throw new System.NotSupportedException();
+    IAzAd Ad { get; }
 
     /// <summary>
     /// Gets the advisor sub-domain service.
     /// </summary>
-    IAzAdvisor Advisor => throw new System.NotSupportedException();
+    IAzAdvisor Advisor { get; }
 
     /// <summary>
     /// Gets the aks sub-domain service.
     /// </summary>
-    IAzAks Aks => throw new System.NotSupportedException();
+    IAzAks Aks { get; }
 
     /// <summary>
     /// Gets the ams sub-domain service.
     /// </summary>
-    IAzAms Ams => throw new System.NotSupportedException();
+    IAzAms Ams { get; }
 
     /// <summary>
     /// Gets the apim sub-domain service.
     /// </summary>
-    IAzApim Apim => throw new System.NotSupportedException();
+    IAzApim Apim { get; }
 
     /// <summary>
     /// Gets the appconfig sub-domain service.
     /// </summary>
-    IAzAppConfig AppConfig => throw new System.NotSupportedException();
+    IAzAppConfig AppConfig { get; }
 
     /// <summary>
     /// Gets the appservice sub-domain service.
     /// </summary>
-    IAzAppservice Appservice => throw new System.NotSupportedException();
+    IAzAppservice Appservice { get; }
 
     /// <summary>
     /// Gets the aro sub-domain service.
     /// </summary>
-    IAzAro Aro => throw new System.NotSupportedException();
+    IAzAro Aro { get; }
 
     /// <summary>
     /// Gets the artifacts sub-domain service.
     /// </summary>
-    IAzArtifacts Artifacts => throw new System.NotSupportedException();
+    IAzArtifacts Artifacts { get; }
 
     /// <summary>
     /// Gets the backup sub-domain service.
     /// </summary>
-    IAzBackup Backup => throw new System.NotSupportedException();
+    IAzBackup Backup { get; }
 
     /// <summary>
     /// Gets the batch sub-domain service.
     /// </summary>
-    IAzBatch Batch => throw new System.NotSupportedException();
+    IAzBatch Batch { get; }
 
     /// <summary>
     /// Gets the bicep sub-domain service.
     /// </summary>
-    IAzBicep Bicep => throw new System.NotSupportedException();
+    IAzBicep Bicep { get; }
 
     /// <summary>
     /// Gets the billing sub-domain service.
     /// </summary>
-    IAzBilling Billing => throw new System.NotSupportedException();
+    IAzBilling Billing { get; }
 
     /// <summary>
     /// Gets the boards sub-domain service.
     /// </summary>
-    IAzBoards Boards => throw new System.NotSupportedException();
+    IAzBoards Boards { get; }
 
     /// <summary>
     /// Gets the bot sub-domain service.
     /// </summary>
-    IAzBot Bot => throw new System.NotSupportedException();
+    IAzBot Bot { get; }
 
     /// <summary>
     /// Gets the cache sub-domain service.
     /// </summary>
-    IAzCache Cache => throw new System.NotSupportedException();
+    IAzCache Cache { get; }
 
     /// <summary>
     /// Gets the capacity sub-domain service.
     /// </summary>
-    IAzCapacity Capacity => throw new System.NotSupportedException();
+    IAzCapacity Capacity { get; }
 
     /// <summary>
     /// Gets the cloud sub-domain service.
     /// </summary>
-    IAzCloud Cloud => throw new System.NotSupportedException();
+    IAzCloud Cloud { get; }
 
     /// <summary>
     /// Gets the cognitiveservices sub-domain service.
     /// </summary>
-    IAzCognitiveservices Cognitiveservices => throw new System.NotSupportedException();
+    IAzCognitiveservices Cognitiveservices { get; }
 
     /// <summary>
     /// Gets the computefleet sub-domain service.
     /// </summary>
-    IAzComputeFleet ComputeFleet => throw new System.NotSupportedException();
+    IAzComputeFleet ComputeFleet { get; }
 
     /// <summary>
     /// Gets the computerecommender sub-domain service.
     /// </summary>
-    IAzComputeRecommender ComputeRecommender => throw new System.NotSupportedException();
+    IAzComputeRecommender ComputeRecommender { get; }
 
     /// <summary>
     /// Gets the connection sub-domain service.
     /// </summary>
-    IAzConnection Connection => throw new System.NotSupportedException();
+    IAzConnection Connection { get; }
 
     /// <summary>
     /// Gets the container sub-domain service.
     /// </summary>
-    IAzContainer Container => throw new System.NotSupportedException();
+    IAzContainer Container { get; }
 
     /// <summary>
     /// Gets the containerapp sub-domain service.
     /// </summary>
-    IAzContainerapp Containerapp => throw new System.NotSupportedException();
+    IAzContainerapp Containerapp { get; }
 
     /// <summary>
     /// Gets the cosmosdb sub-domain service.
     /// </summary>
-    IAzCosmosdb Cosmosdb => throw new System.NotSupportedException();
+    IAzCosmosdb Cosmosdb { get; }
 
     /// <summary>
     /// Gets the databoundary sub-domain service.
     /// </summary>
-    IAzDataBoundary DataBoundary => throw new System.NotSupportedException();
+    IAzDataBoundary DataBoundary { get; }
 
     /// <summary>
     /// Gets the databoxedge sub-domain service.
     /// </summary>
-    IAzDataboxedge Databoxedge => throw new System.NotSupportedException();
+    IAzDataboxedge Databoxedge { get; }
 
     /// <summary>
     /// Gets the deployment sub-domain service.
     /// </summary>
-    IAzDeployment Deployment => throw new System.NotSupportedException();
+    IAzDeployment Deployment { get; }
 
     /// <summary>
     /// Gets the deploymentscripts sub-domain service.
     /// </summary>
-    IAzDeploymentScripts DeploymentScripts => throw new System.NotSupportedException();
+    IAzDeploymentScripts DeploymentScripts { get; }
 
     /// <summary>
     /// Gets the devops sub-domain service.
     /// </summary>
-    IAzDevops Devops => throw new System.NotSupportedException();
+    IAzDevops Devops { get; }
 
     /// <summary>
     /// Gets the disk sub-domain service.
     /// </summary>
-    IAzDisk Disk => throw new System.NotSupportedException();
+    IAzDisk Disk { get; }
 
     /// <summary>
     /// Gets the diskaccess sub-domain service.
     /// </summary>
-    IAzDiskAccess DiskAccess => throw new System.NotSupportedException();
+    IAzDiskAccess DiskAccess { get; }
 
     /// <summary>
     /// Gets the diskencryptionset sub-domain service.
     /// </summary>
-    IAzDiskEncryptionSet DiskEncryptionSet => throw new System.NotSupportedException();
+    IAzDiskEncryptionSet DiskEncryptionSet { get; }
 
     /// <summary>
     /// Gets the dms sub-domain service.
     /// </summary>
-    IAzDms Dms => throw new System.NotSupportedException();
+    IAzDms Dms { get; }
 
     /// <summary>
     /// Gets the eventgrid sub-domain service.
     /// </summary>
-    IAzEventgrid Eventgrid => throw new System.NotSupportedException();
+    IAzEventgrid Eventgrid { get; }
 
     /// <summary>
     /// Gets the eventhubs sub-domain service.
     /// </summary>
-    IAzEventhubs Eventhubs => throw new System.NotSupportedException();
+    IAzEventhubs Eventhubs { get; }
 
     /// <summary>
     /// Gets the extension sub-domain service.
     /// </summary>
-    IAzExtension Extension => throw new System.NotSupportedException();
+    IAzExtension Extension { get; }
 
     /// <summary>
     /// Gets the feature sub-domain service.
     /// </summary>
-    IAzFeature Feature => throw new System.NotSupportedException();
+    IAzFeature Feature { get; }
 
     /// <summary>
     /// Gets the functionapp sub-domain service.
     /// </summary>
-    IAzFunctionapp Functionapp => throw new System.NotSupportedException();
+    IAzFunctionapp Functionapp { get; }
 
     /// <summary>
     /// Gets the group sub-domain service.
     /// </summary>
-    IAzGroup Group => throw new System.NotSupportedException();
+    IAzGroup Group { get; }
 
     /// <summary>
     /// Gets the hdinsight sub-domain service.
     /// </summary>
-    IAzHdinsight Hdinsight => throw new System.NotSupportedException();
+    IAzHdinsight Hdinsight { get; }
 
     /// <summary>
     /// Gets the identity sub-domain service.
     /// </summary>
-    IAzIdentity Identity => throw new System.NotSupportedException();
+    IAzIdentity Identity { get; }
 
     /// <summary>
     /// Gets the image sub-domain service.
     /// </summary>
-    IAzImage Image => throw new System.NotSupportedException();
+    IAzImage Image { get; }
 
     /// <summary>
     /// Gets the iot sub-domain service.
     /// </summary>
-    IAzIot Iot => throw new System.NotSupportedException();
+    IAzIot Iot { get; }
 
     /// <summary>
     /// Gets the keyvault sub-domain service.
     /// </summary>
-    IAzKeyvault Keyvault => throw new System.NotSupportedException();
+    IAzKeyvault Keyvault { get; }
 
     /// <summary>
     /// Gets the lock sub-domain service.
     /// </summary>
-    IAzLock Lock => throw new System.NotSupportedException();
+    IAzLock Lock { get; }
 
     /// <summary>
     /// Gets the logicapp sub-domain service.
     /// </summary>
-    IAzLogicapp Logicapp => throw new System.NotSupportedException();
+    IAzLogicapp Logicapp { get; }
 
     /// <summary>
     /// Gets the managedapp sub-domain service.
     /// </summary>
-    IAzManagedapp Managedapp => throw new System.NotSupportedException();
+    IAzManagedapp Managedapp { get; }
 
     /// <summary>
     /// Gets the managedcassandra sub-domain service.
     /// </summary>
-    IAzManagedCassandra ManagedCassandra => throw new System.NotSupportedException();
+    IAzManagedCassandra ManagedCassandra { get; }
 
     /// <summary>
     /// Gets the managedservices sub-domain service.
     /// </summary>
-    IAzManagedservices Managedservices => throw new System.NotSupportedException();
+    IAzManagedservices Managedservices { get; }
 
     /// <summary>
     /// Gets the maps sub-domain service.
     /// </summary>
-    IAzMaps Maps => throw new System.NotSupportedException();
+    IAzMaps Maps { get; }
 
     /// <summary>
     /// Gets the mariadb sub-domain service.
     /// </summary>
-    IAzMariadb Mariadb => throw new System.NotSupportedException();
+    IAzMariadb Mariadb { get; }
 
     /// <summary>
     /// Gets the monitor sub-domain service.
     /// </summary>
-    IAzMonitor Monitor => throw new System.NotSupportedException();
+    IAzMonitor Monitor { get; }
 
     /// <summary>
     /// Gets the mysql sub-domain service.
     /// </summary>
-    IAzMysql Mysql => throw new System.NotSupportedException();
+    IAzMysql Mysql { get; }
 
     /// <summary>
     /// Gets the netappfiles sub-domain service.
     /// </summary>
-    IAzNetappfiles Netappfiles => throw new System.NotSupportedException();
+    IAzNetappfiles Netappfiles { get; }
 
     /// <summary>
     /// Gets the network sub-domain service.
     /// </summary>
-    IAzNetwork Network => throw new System.NotSupportedException();
+    IAzNetwork Network { get; }
 
     /// <summary>
     /// Gets the pipelines sub-domain service.
     /// </summary>
-    IAzPipelines Pipelines => throw new System.NotSupportedException();
+    IAzPipelines Pipelines { get; }
 
     /// <summary>
     /// Gets the policy sub-domain service.
     /// </summary>
-    IAzPolicy Policy => throw new System.NotSupportedException();
+    IAzPolicy Policy { get; }
 
     /// <summary>
     /// Gets the postgres sub-domain service.
     /// </summary>
-    IAzPostgres Postgres => throw new System.NotSupportedException();
+    IAzPostgres Postgres { get; }
 
     /// <summary>
     /// Gets the ppg sub-domain service.
     /// </summary>
-    IAzPpg Ppg => throw new System.NotSupportedException();
+    IAzPpg Ppg { get; }
 
     /// <summary>
     /// Gets the privatelink sub-domain service.
     /// </summary>
-    IAzPrivateLink PrivateLink => throw new System.NotSupportedException();
+    IAzPrivateLink PrivateLink { get; }
 
     /// <summary>
     /// Gets the provider sub-domain service.
     /// </summary>
-    IAzProvider Provider => throw new System.NotSupportedException();
+    IAzProvider Provider { get; }
 
     /// <summary>
     /// Gets the redis sub-domain service.
     /// </summary>
-    IAzRedis Redis => throw new System.NotSupportedException();
+    IAzRedis Redis { get; }
 
     /// <summary>
     /// Gets the relay sub-domain service.
     /// </summary>
-    IAzRelay Relay => throw new System.NotSupportedException();
+    IAzRelay Relay { get; }
 
     /// <summary>
     /// Gets the repos sub-domain service.
     /// </summary>
-    IAzRepos Repos => throw new System.NotSupportedException();
+    IAzRepos Repos { get; }
 
     /// <summary>
     /// Gets the resource sub-domain service.
     /// </summary>
-    IAzResource Resource => throw new System.NotSupportedException();
+    IAzResource Resource { get; }
 
     /// <summary>
     /// Gets the resourcemanagement sub-domain service.
     /// </summary>
-    IAzResourceManagement ResourceManagement => throw new System.NotSupportedException();
+    IAzResourceManagement ResourceManagement { get; }
 
     /// <summary>
     /// Gets the restorepoint sub-domain service.
     /// </summary>
-    IAzRestorePoint RestorePoint => throw new System.NotSupportedException();
+    IAzRestorePoint RestorePoint { get; }
 
     /// <summary>
     /// Gets the role sub-domain service.
     /// </summary>
-    IAzRole Role => throw new System.NotSupportedException();
+    IAzRole Role { get; }
 
     /// <summary>
     /// Gets the search sub-domain service.
     /// </summary>
-    IAzSearch Search => throw new System.NotSupportedException();
+    IAzSearch Search { get; }
 
     /// <summary>
     /// Gets the security sub-domain service.
     /// </summary>
-    IAzSecurity Security => throw new System.NotSupportedException();
+    IAzSecurity Security { get; }
 
     /// <summary>
     /// Gets the servicebus sub-domain service.
     /// </summary>
-    IAzServicebus Servicebus => throw new System.NotSupportedException();
+    IAzServicebus Servicebus { get; }
 
     /// <summary>
     /// Gets the sf sub-domain service.
     /// </summary>
-    IAzSf Sf => throw new System.NotSupportedException();
+    IAzSf Sf { get; }
 
     /// <summary>
     /// Gets the sig sub-domain service.
     /// </summary>
-    IAzSig Sig => throw new System.NotSupportedException();
+    IAzSig Sig { get; }
 
     /// <summary>
     /// Gets the signalr sub-domain service.
     /// </summary>
-    IAzSignalr Signalr => throw new System.NotSupportedException();
+    IAzSignalr Signalr { get; }
 
     /// <summary>
     /// Gets the snapshot sub-domain service.
     /// </summary>
-    IAzSnapshot Snapshot => throw new System.NotSupportedException();
+    IAzSnapshot Snapshot { get; }
 
     /// <summary>
     /// Gets the sql sub-domain service.
     /// </summary>
-    IAzSql Sql => throw new System.NotSupportedException();
+    IAzSql Sql { get; }
 
     /// <summary>
     /// Gets the sshkey sub-domain service.
     /// </summary>
-    IAzSshKey SshKey => throw new System.NotSupportedException();
+    IAzSshKey SshKey { get; }
 
     /// <summary>
     /// Gets the stack sub-domain service.
     /// </summary>
-    IAzStack Stack => throw new System.NotSupportedException();
+    IAzStack Stack { get; }
 
     /// <summary>
     /// Gets the stackwhatif sub-domain service.
     /// </summary>
-    IAzStackWhatif StackWhatif => throw new System.NotSupportedException();
+    IAzStackWhatif StackWhatif { get; }
 
     /// <summary>
     /// Gets the staticwebapp sub-domain service.
     /// </summary>
-    IAzStaticwebapp Staticwebapp => throw new System.NotSupportedException();
+    IAzStaticwebapp Staticwebapp { get; }
 
     /// <summary>
     /// Gets the storage sub-domain service.
     /// </summary>
-    IAzStorage Storage => throw new System.NotSupportedException();
+    IAzStorage Storage { get; }
 
     /// <summary>
     /// Gets the synapse sub-domain service.
     /// </summary>
-    IAzSynapse Synapse => throw new System.NotSupportedException();
+    IAzSynapse Synapse { get; }
 
     /// <summary>
     /// Gets the tag sub-domain service.
     /// </summary>
-    IAzTag Tag => throw new System.NotSupportedException();
+    IAzTag Tag { get; }
 
     /// <summary>
     /// Gets the ts sub-domain service.
     /// </summary>
-    IAzTs Ts => throw new System.NotSupportedException();
+    IAzTs Ts { get; }
 
     /// <summary>
     /// Gets the vm sub-domain service.
     /// </summary>
-    IAzVm Vm => throw new System.NotSupportedException();
+    IAzVm Vm { get; }
 
     /// <summary>
     /// Gets the vmss sub-domain service.
     /// </summary>
-    IAzVmss Vmss => throw new System.NotSupportedException();
+    IAzVmss Vmss { get; }
 
     /// <summary>
     /// Gets the webapp sub-domain service.
     /// </summary>
-    IAzWebapp Webapp => throw new System.NotSupportedException();
+    IAzWebapp Webapp { get; }
 
     #endregion
 
@@ -481,8 +481,7 @@ public partial interface IAz
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LoginAsync(AzLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LoginAsync(AzLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Log out to remove access to Azure subscriptions.
@@ -491,8 +490,7 @@ public partial interface IAz
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LogoutAsync(AzLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LogoutAsync(AzLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Take Azure CLI survey.
@@ -501,8 +499,7 @@ public partial interface IAz
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SurveyAsync(AzSurveyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SurveyAsync(AzSurveyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show the versions of Azure CLI modules and extensions in JSON format by default or
@@ -511,8 +508,7 @@ public partial interface IAz
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(AzVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(AzVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

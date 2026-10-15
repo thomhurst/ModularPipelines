@@ -24,16 +24,16 @@ public interface IAzMariadb
     /// <summary>
     /// az db sub-commands.
     /// </summary>
-    AzMariadbDb Db => throw new System.NotSupportedException();
+    AzMariadbDb Db { get; }
 
     /// <summary>
     /// az server sub-commands.
     /// </summary>
-    AzMariadbServer Server => throw new System.NotSupportedException();
+    AzMariadbServer Server { get; }
 
     /// <summary>
     /// az server-logs sub-commands.
     /// </summary>
-    AzMariadbServerLogs ServerLogs => throw new System.NotSupportedException();
+    AzMariadbServerLogs ServerLogs { get; }
 
 }

@@ -24,12 +24,12 @@ public interface IAzProvider
     /// <summary>
     /// az operation sub-commands.
     /// </summary>
-    AzProviderOperation Operation => throw new System.NotSupportedException();
+    AzProviderOperation Operation { get; }
 
     /// <summary>
     /// az permission sub-commands.
     /// </summary>
-    AzProviderPermission Permission => throw new System.NotSupportedException();
+    AzProviderPermission Permission { get; }
 
     /// <summary>
     /// Gets all resource providers for a subscription.
@@ -38,8 +38,7 @@ public interface IAzProvider
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzProviderListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzProviderListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Register a provider.
@@ -48,8 +47,7 @@ public interface IAzProvider
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterAsync(AzProviderRegisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterAsync(AzProviderRegisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the specified resource provider.
@@ -58,8 +56,7 @@ public interface IAzProvider
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzProviderShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzProviderShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unregister a provider.
@@ -68,7 +65,6 @@ public interface IAzProvider
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnregisterAsync(AzProviderUnregisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UnregisterAsync(AzProviderUnregisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

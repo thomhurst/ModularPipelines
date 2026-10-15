@@ -24,57 +24,57 @@ public interface IAzSql
     /// <summary>
     /// az db sub-commands.
     /// </summary>
-    AzSqlDb Db => throw new System.NotSupportedException();
+    AzSqlDb Db { get; }
 
     /// <summary>
     /// az dw sub-commands.
     /// </summary>
-    AzSqlDw Dw => throw new System.NotSupportedException();
+    AzSqlDw Dw { get; }
 
     /// <summary>
     /// az elastic-pool sub-commands.
     /// </summary>
-    AzSqlElasticPool ElasticPool => throw new System.NotSupportedException();
+    AzSqlElasticPool ElasticPool { get; }
 
     /// <summary>
     /// az failover-group sub-commands.
     /// </summary>
-    AzSqlFailoverGroup FailoverGroup => throw new System.NotSupportedException();
+    AzSqlFailoverGroup FailoverGroup { get; }
 
     /// <summary>
     /// az instance-failover-group sub-commands.
     /// </summary>
-    AzSqlInstanceFailoverGroup InstanceFailoverGroup => throw new System.NotSupportedException();
+    AzSqlInstanceFailoverGroup InstanceFailoverGroup { get; }
 
     /// <summary>
     /// az mi sub-commands.
     /// </summary>
-    AzSqlMi Mi => throw new System.NotSupportedException();
+    AzSqlMi Mi { get; }
 
     /// <summary>
     /// az midb sub-commands.
     /// </summary>
-    AzSqlMidb Midb => throw new System.NotSupportedException();
+    AzSqlMidb Midb { get; }
 
     /// <summary>
     /// az recoverable-midb sub-commands.
     /// </summary>
-    AzSqlRecoverableMidb RecoverableMidb => throw new System.NotSupportedException();
+    AzSqlRecoverableMidb RecoverableMidb { get; }
 
     /// <summary>
     /// az server sub-commands.
     /// </summary>
-    AzSqlServer Server => throw new System.NotSupportedException();
+    AzSqlServer Server { get; }
 
     /// <summary>
     /// az virtual-cluster sub-commands.
     /// </summary>
-    AzSqlVirtualCluster VirtualCluster => throw new System.NotSupportedException();
+    AzSqlVirtualCluster VirtualCluster { get; }
 
     /// <summary>
     /// az vm sub-commands.
     /// </summary>
-    AzSqlVm Vm => throw new System.NotSupportedException();
+    AzSqlVm Vm { get; }
 
     /// <summary>
     /// Gets all subscription usage metrics in a given location.
@@ -83,8 +83,7 @@ public interface IAzSql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsagesAsync(AzSqlListUsagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsagesAsync(AzSqlListUsagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a subscription usage metric.
@@ -93,7 +92,6 @@ public interface IAzSql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowUsageAsync(AzSqlShowUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowUsageAsync(AzSqlShowUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

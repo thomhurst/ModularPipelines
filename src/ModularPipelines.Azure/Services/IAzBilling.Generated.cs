@@ -24,21 +24,21 @@ public interface IAzBilling
     /// <summary>
     /// az enrollment-account sub-commands.
     /// </summary>
-    AzBillingEnrollmentAccount EnrollmentAccount => throw new System.NotSupportedException();
+    AzBillingEnrollmentAccount EnrollmentAccount { get; }
 
     /// <summary>
     /// az invoice sub-commands.
     /// </summary>
-    AzBillingInvoice Invoice => throw new System.NotSupportedException();
+    AzBillingInvoice Invoice { get; }
 
     /// <summary>
     /// az period sub-commands.
     /// </summary>
-    AzBillingPeriod Period => throw new System.NotSupportedException();
+    AzBillingPeriod Period { get; }
 
     /// <summary>
     /// az transfer sub-commands.
     /// </summary>
-    AzBillingTransfer Transfer => throw new System.NotSupportedException();
+    AzBillingTransfer Transfer { get; }
 
 }

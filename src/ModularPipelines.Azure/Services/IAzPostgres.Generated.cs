@@ -24,6 +24,6 @@ public interface IAzPostgres
     /// <summary>
     /// az flexible-server sub-commands.
     /// </summary>
-    AzPostgresFlexibleServer FlexibleServer => throw new System.NotSupportedException();
+    AzPostgresFlexibleServer FlexibleServer { get; }
 
 }

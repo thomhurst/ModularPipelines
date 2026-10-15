@@ -24,47 +24,47 @@ public interface IAzNetappfiles
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzNetappfilesAccount Account => throw new System.NotSupportedException();
+    AzNetappfilesAccount Account { get; }
 
     /// <summary>
     /// az cache sub-commands.
     /// </summary>
-    AzNetappfilesCache Cache => throw new System.NotSupportedException();
+    AzNetappfilesCache Cache { get; }
 
     /// <summary>
     /// az pool sub-commands.
     /// </summary>
-    AzNetappfilesPool Pool => throw new System.NotSupportedException();
+    AzNetappfilesPool Pool { get; }
 
     /// <summary>
     /// az quota-limit sub-commands.
     /// </summary>
-    AzNetappfilesQuotaLimit QuotaLimit => throw new System.NotSupportedException();
+    AzNetappfilesQuotaLimit QuotaLimit { get; }
 
     /// <summary>
     /// az resource sub-commands.
     /// </summary>
-    AzNetappfilesResource Resource => throw new System.NotSupportedException();
+    AzNetappfilesResource Resource { get; }
 
     /// <summary>
     /// az snapshot sub-commands.
     /// </summary>
-    AzNetappfilesSnapshot Snapshot => throw new System.NotSupportedException();
+    AzNetappfilesSnapshot Snapshot { get; }
 
     /// <summary>
     /// az usage sub-commands.
     /// </summary>
-    AzNetappfilesUsage Usage => throw new System.NotSupportedException();
+    AzNetappfilesUsage Usage { get; }
 
     /// <summary>
     /// az volume sub-commands.
     /// </summary>
-    AzNetappfilesVolume Volume => throw new System.NotSupportedException();
+    AzNetappfilesVolume Volume { get; }
 
     /// <summary>
     /// az volume-group sub-commands.
     /// </summary>
-    AzNetappfilesVolumeGroup VolumeGroup => throw new System.NotSupportedException();
+    AzNetappfilesVolumeGroup VolumeGroup { get; }
 
     /// <summary>
     /// Check if a file path is available.
@@ -73,8 +73,7 @@ public interface IAzNetappfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckFilePathAvailabilityAsync(AzNetappfilesCheckFilePathAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckFilePathAvailabilityAsync(AzNetappfilesCheckFilePathAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Check if a resource name is available.
@@ -83,8 +82,7 @@ public interface IAzNetappfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckNameAvailabilityAsync(AzNetappfilesCheckNameAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckNameAvailabilityAsync(AzNetappfilesCheckNameAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Check if a quota is available.
@@ -93,8 +91,7 @@ public interface IAzNetappfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckQuotaAvailabilityAsync(AzNetappfilesCheckQuotaAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckQuotaAvailabilityAsync(AzNetappfilesCheckQuotaAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe a network sibling set.
@@ -103,8 +100,7 @@ public interface IAzNetappfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QueryNetworkSiblingSetAsync(AzNetappfilesQueryNetworkSiblingSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QueryNetworkSiblingSetAsync(AzNetappfilesQueryNetworkSiblingSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the network features of a network sibling
@@ -113,7 +109,6 @@ public interface IAzNetappfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNetworkSiblingSetAsync(AzNetappfilesUpdateNetworkSiblingSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNetworkSiblingSetAsync(AzNetappfilesUpdateNetworkSiblingSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

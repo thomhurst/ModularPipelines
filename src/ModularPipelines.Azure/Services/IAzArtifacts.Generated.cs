@@ -24,6 +24,6 @@ public interface IAzArtifacts
     /// <summary>
     /// az universal sub-commands.
     /// </summary>
-    AzArtifactsUniversal Universal => throw new System.NotSupportedException();
+    AzArtifactsUniversal Universal { get; }
 
 }

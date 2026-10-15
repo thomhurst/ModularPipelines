@@ -24,6 +24,6 @@ public interface IAzPrivateLink
     /// <summary>
     /// az association sub-commands.
     /// </summary>
-    AzPrivateLinkAssociation Association => throw new System.NotSupportedException();
+    AzPrivateLinkAssociation Association { get; }
 
 }

@@ -24,46 +24,46 @@ public interface IAzMonitor
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzMonitorAccount Account => throw new System.NotSupportedException();
+    AzMonitorAccount Account { get; }
 
     /// <summary>
     /// az action-group sub-commands.
     /// </summary>
-    AzMonitorActionGroup ActionGroup => throw new System.NotSupportedException();
+    AzMonitorActionGroup ActionGroup { get; }
 
     /// <summary>
     /// az activity-log sub-commands.
     /// </summary>
-    AzMonitorActivityLog ActivityLog => throw new System.NotSupportedException();
+    AzMonitorActivityLog ActivityLog { get; }
 
     /// <summary>
     /// az autoscale sub-commands.
     /// </summary>
-    AzMonitorAutoscale Autoscale => throw new System.NotSupportedException();
+    AzMonitorAutoscale Autoscale { get; }
 
     /// <summary>
     /// az dashboard sub-commands.
     /// </summary>
-    AzMonitorDashboard Dashboard => throw new System.NotSupportedException();
+    AzMonitorDashboard Dashboard { get; }
 
     /// <summary>
     /// az diagnostic-settings sub-commands.
     /// </summary>
-    AzMonitorDiagnosticSettings DiagnosticSettings => throw new System.NotSupportedException();
+    AzMonitorDiagnosticSettings DiagnosticSettings { get; }
 
     /// <summary>
     /// az log-analytics sub-commands.
     /// </summary>
-    AzMonitorLogAnalytics LogAnalytics => throw new System.NotSupportedException();
+    AzMonitorLogAnalytics LogAnalytics { get; }
 
     /// <summary>
     /// az log-profiles sub-commands.
     /// </summary>
-    AzMonitorLogProfiles LogProfiles => throw new System.NotSupportedException();
+    AzMonitorLogProfiles LogProfiles { get; }
 
     /// <summary>
     /// az metrics sub-commands.
     /// </summary>
-    AzMonitorMetrics Metrics => throw new System.NotSupportedException();
+    AzMonitorMetrics Metrics { get; }
 
 }
