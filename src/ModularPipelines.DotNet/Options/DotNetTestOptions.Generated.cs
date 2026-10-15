@@ -28,10 +28,10 @@ public record DotNetTestOptions : DotNetOptions
     public string? Settings { get; set; }
 
     /// <summary>
-    /// List the discovered tests instead of running the tests. [default: False]
+    /// List the discovered tests instead of running the tests. Optionally accepts a format: 'text' (default) for human-readable output or 'json' for machine-readable output. [default: False]
     /// </summary>
-    [CliFlag("--list-tests", ShortForm = "-t")]
-    public bool? ListTests { get; set; }
+    [CliOption("--list-tests", ShortForm = "-t", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ListTests { get; set; }
 
     /// <summary>
     /// Sets the value of an environment variable. Creates the variable if it does not exist, overrides if it does. This will force the tests to be run in an isolated process. This argument can be specified multiple times to provide multiple variables.
@@ -80,6 +80,12 @@ public record DotNetTestOptions : DotNetOptions
     /// </summary>
     [CliFlag("--no-build")]
     public bool? NoBuild { get; set; }
+
+    /// <summary>
+    /// Do not build project-to-project references and only build the specified project. [default: False]
+    /// </summary>
+    [CliFlag("--no-dependencies")]
+    public bool? NoDependencies { get; set; }
 
     /// <summary>
     /// The directory where the test results will be placed. The specified directory will be created if it does not exist.

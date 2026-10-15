@@ -14,7 +14,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Services;
 
 /// <summary>
-/// dotnet buildserver commands.
+/// dotnet build-server commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DotNetBuildServer : IDotNetBuildServer

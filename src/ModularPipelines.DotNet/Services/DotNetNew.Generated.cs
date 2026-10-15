@@ -62,7 +62,7 @@ public class DotNetNew : IDotNetNew
     }
 
     /// <summary>
-    /// Provides the details for specified template package.
+    /// Provides the details for specified template package. The command checks if the package is installed locally, if it was not found, it searches the configured NuGet feeds.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

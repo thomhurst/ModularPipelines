@@ -14,7 +14,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Services;
 
 /// <summary>
-/// dotnet trust commands.
+/// dotnet nuget trust commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DotNetNuGetTrust

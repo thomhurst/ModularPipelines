@@ -39,6 +39,12 @@ public record DotNetFormatOptions : DotNetOptions
     public bool? NoRestore { get; set; }
 
     /// <summary>
+    /// The target framework (TFM) to use when loading the workspace. Restricts restore and analysis to the specified framework only.
+    /// </summary>
+    [CliOption("--framework", ShortForm = "-f")]
+    public string? Framework { get; set; }
+
+    /// <summary>
     /// Verify no formatting changes would be performed. Terminates with a non-zero exit code if any files would have been formatted.
     /// </summary>
     [CliFlag("--verify-no-changes")]
@@ -87,7 +93,7 @@ public record DotNetFormatOptions : DotNetOptions
     public bool? Version { get; set; }
 
     /// <summary>
-    /// The project or solution file to operate on. If a file is not specified, the command will search the current directory for one.
+    /// The project or solution or C# (file-based program) file to operate on. If a file is not specified, the command will search the current directory for a project or solution.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }

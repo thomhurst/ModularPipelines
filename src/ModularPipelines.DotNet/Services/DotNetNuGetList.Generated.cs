@@ -14,7 +14,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Services;
 
 /// <summary>
-/// dotnet list commands.
+/// dotnet nuget list commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DotNetNuGetList
