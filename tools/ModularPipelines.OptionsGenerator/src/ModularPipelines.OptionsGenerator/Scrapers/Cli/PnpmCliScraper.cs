@@ -344,26 +344,28 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
             var sharesGlobalEnum = globalEnum is not null && globalEnum.Values.Select(value => value.CliValue)
                 .ToHashSet(StringComparer.Ordinal).SetEquals(block.PossibleValues.Select(value => value.Value));
             var option = CreateClapOption(match, sharesGlobalEnum ? "PnpmOptions" : className, propertyName, switchName, block);
-            // This alias is printed as help metadata, not on the declaration row.
-            // The file contains credentials, but the option value is only its path.
-            if (switchName == "--npmrc-auth-file")
-            {
-                option = option with
-                {
-                    Aliases = block.Description.Contains("--userconfig", StringComparison.Ordinal) ? ["--userconfig"] : [],
-                    IsSecret = false,
-                };
-            }
-
-            if (switchName is "--http-proxy" or "--https-proxy")
-            {
-                option = option with { IsSecret = true };
-            }
-
-            options.Add(option);
+            options.Add(ApplyOptionMetadata(option, block));
         }
 
         return options;
+    }
+
+    private static CliOptionDefinition ApplyOptionMetadata(CliOptionDefinition option, ClapOptionBlock block)
+    {
+        // This alias is printed as help metadata, not on the declaration row.
+        // The file contains credentials, but the option value is only its path.
+        if (option.SwitchName == "--npmrc-auth-file")
+        {
+            return option with
+            {
+                Aliases = block.Description.Contains("--userconfig", StringComparison.Ordinal) ? ["--userconfig"] : [],
+                IsSecret = false,
+            };
+        }
+
+        return option.SwitchName is "--http-proxy" or "--https-proxy"
+            ? option with { IsSecret = true }
+            : option;
     }
 
     private static bool IsOptionRow(string line) => ClapOptionDeclarationPattern().IsMatch(line);
