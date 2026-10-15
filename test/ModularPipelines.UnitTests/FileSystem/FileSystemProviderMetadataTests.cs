@@ -173,6 +173,125 @@ public class FileSystemProviderMetadataTests
     }
 
     [Test]
+    [MatrixDataSource]
+    public async Task FolderPath_CopyTo_Rejects_Source_And_Descendants_Without_Mutation(
+        [Matrix(".", "child", "existing", "child/../existing")] string destination,
+        [Matrix(false, true)] bool useAsync,
+        [Matrix(false, true)] bool preserveTimestamps,
+        [Matrix(false, true)] bool useRelativePaths)
+    {
+        var provider = new FakeFileSystemProvider();
+        var source = Path.Combine(FakeFileSystemProvider.Root, "source");
+        var existing = Path.Combine(source, "existing");
+        var file = Path.Combine(existing, "file.txt");
+        provider.CreateDirectory(existing);
+        provider.AddFile(file, "contents"u8.ToArray());
+        provider.SetLastWriteTimeUtc(source, Written);
+        var absoluteSource = source;
+        var directoriesBefore = provider.EnumerateDirectories(source, "*", SearchOption.AllDirectories).ToArray();
+        var target = Path.Combine(source, destination) + Path.DirectorySeparatorChar;
+        if (useRelativePaths)
+        {
+            source = Path.GetRelativePath(Environment.CurrentDirectory, source);
+            target = Path.GetRelativePath(Environment.CurrentDirectory, target) + Path.DirectorySeparatorChar;
+        }
+
+        var folder = new FolderPath(source + Path.DirectorySeparatorChar, provider);
+
+        // The fake provider snapshots enumeration, so this stays bounded even without the guard.
+        var exception = await Assert.That(() => CopyFolder(folder, target, useAsync, preserveTimestamps))
+            .Throws<ArgumentException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception.ParamName).IsEqualTo("targetPath");
+            await Assert.That(provider.EnumerateDirectories(absoluteSource, "*", SearchOption.AllDirectories))
+                .IsEquivalentTo(directoriesBefore);
+            await Assert.That(provider.EnumerateFiles(absoluteSource, "*", SearchOption.AllDirectories))
+                .IsEquivalentTo(new[] { file });
+            await Assert.That(await ((IFileSystemProvider) provider).ReadAllTextAsync(file)).IsEqualTo("contents");
+            await Assert.That(provider.GetLastWriteTimeUtc(absoluteSource))
+                .IsEqualTo(Written);
+        }
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task FolderPath_CopyTo_Allows_Sibling_With_Shared_Prefix(
+        [Matrix(false, true)] bool useAsync,
+        [Matrix(false, true)] bool preserveTimestamps)
+    {
+        var provider = new FakeFileSystemProvider();
+        var source = Path.Combine(FakeFileSystemProvider.Root, "source");
+        var nested = Path.Combine(source, "nested");
+        var file = Path.Combine(nested, "file.txt");
+        var target = source + "-copy";
+        provider.CreateDirectory(nested);
+        provider.AddFile(file, "contents"u8.ToArray());
+        var folder = new FolderPath(source, provider);
+        var relativeTarget = Path.GetRelativePath(Environment.CurrentDirectory, target);
+
+        var copied = await CopyFolder(folder, relativeTarget, useAsync, preserveTimestamps);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(copied.Path).IsEqualTo(target);
+            await Assert.That(copied.OriginalPath).IsEqualTo(relativeTarget);
+            await Assert.That(copied.Provider).IsSameReferenceAs(provider);
+            await Assert.That(provider.DirectoryExists(Path.Combine(target, "nested"))).IsTrue();
+            await Assert.That(await ((IFileSystemProvider) provider).ReadAllTextAsync(Path.Combine(target, "nested", "file.txt")))
+                .IsEqualTo("contents");
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task FolderPath_CopyTo_Uses_Host_Path_Case_Comparison(bool useAsync)
+    {
+        var provider = new FakeFileSystemProvider();
+        var source = Path.Combine(FakeFileSystemProvider.Root, "source");
+        var target = Path.Combine(FakeFileSystemProvider.Root, "SOURCE");
+        provider.CreateDirectory(source);
+        var folder = new FolderPath(source, provider);
+
+        if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS())
+        {
+            await Assert.That(() => CopyFolder(folder, target, useAsync, preserveTimestamps: false))
+                .Throws<ArgumentException>();
+            await Assert.That(provider.DirectoryExists(target)).IsFalse();
+        }
+        else
+        {
+            var copied = await CopyFolder(folder, target, useAsync, preserveTimestamps: false);
+            await Assert.That(copied.Exists).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task FolderPath_CopyTo_Rejects_Descendant_Of_FileSystem_Root(bool useAsync)
+    {
+        var provider = new FakeFileSystemProvider();
+        var root = Path.GetPathRoot(FakeFileSystemProvider.Root)!;
+        var folder = new FolderPath(root, provider);
+
+        await Assert.That(() => CopyFolder(folder, FakeFileSystemProvider.Root, useAsync, preserveTimestamps: false))
+            .Throws<ArgumentException>();
+    }
+
+    private static Task<FolderPath> CopyFolder(FolderPath folder, string target, bool useAsync, bool preserveTimestamps)
+    {
+        if (useAsync)
+        {
+            return preserveTimestamps ? folder.CopyToAsync(target, preserveTimestamps: true) : folder.CopyToAsync(target);
+        }
+
+        return Task.FromResult(preserveTimestamps ? folder.CopyTo(target, preserveTimestamps: true) : folder.CopyTo(target));
+    }
+
+    [Test]
     public async Task FolderPath_Clean_Removes_ReadOnly_Attributes_Through_Provider()
     {
         var provider = new FakeFileSystemProvider();

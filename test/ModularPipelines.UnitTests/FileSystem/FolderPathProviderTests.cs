@@ -148,6 +148,141 @@ public class FolderPathProviderTests
     }
 
     [Test]
+    [MatrixDataSource]
+    public async Task CopyTo_Uses_Provider_Separator_For_Parent_Relative_Destinations(
+        [Matrix('/', '\\')] char separator,
+        [Matrix(false, true)] bool useAsync)
+    {
+        var source = Path.GetFullPath("source");
+        var target = Path.GetFullPath("target");
+        var mockProvider = new Mock<IFileSystemProvider>();
+        mockProvider.SetupGet(p => p.DirectorySeparatorChar).Returns(separator);
+        mockProvider.Setup(p => p.GetRelativePath(source, target)).Returns($"..{separator}target");
+        var folder = new FolderPath(source, mockProvider.Object);
+
+        var copied = useAsync ? await folder.CopyToAsync(target) : folder.CopyTo(target);
+
+        mockProvider.Verify(p => p.GetRelativePath(source, target), Times.Once);
+        mockProvider.Verify(p => p.CreateDirectory(target), Times.Once);
+        await Assert.That(copied.Provider).IsSameReferenceAs(mockProvider.Object);
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Copy_Does_Not_Consume_Output_Through_An_Unrecognized_Alias(
+        [Matrix(0, 1, 2, 3)] int overload,
+        [Matrix(false, true)] bool liveDirectories)
+    {
+        var source = Path.GetFullPath("source");
+        var target = Path.GetFullPath("alias");
+        var child = Path.Combine(source, "child");
+        var directories = new List<string> { child };
+        var files = new List<string> { Path.Combine(source, "payload.txt") };
+        var copiedFiles = new List<string>();
+        var outputs = new List<MemoryStream>();
+        var provider = new Mock<IFileSystemProvider>();
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>()))
+            .Returns((string from, string to) => Path.GetRelativePath(from, to));
+        provider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] paths) => Path.Combine(paths));
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.AllDirectories))
+            .Returns(() => liveDirectories ? EnumerateLive(directories) : directories.ToArray());
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.AllDirectories))
+            .Returns(() => EnumerateLive(files));
+
+        // Model a bind mount: writes through the unrelated alias appear under source/child.
+        provider.Setup(p => p.CreateDirectory(It.IsAny<string>())).Callback((string path) =>
+        {
+            var physicalPath = PhysicalPath(path);
+            if (!directories.Contains(physicalPath))
+            {
+                directories.Add(physicalPath);
+            }
+        });
+        provider.Setup(p => p.CopyFile(It.IsAny<string>(), It.IsAny<string>(), true))
+            .Callback((string _, string destination, bool _) => RecordOutput(destination));
+        provider.Setup(p => p.OpenRead(It.IsAny<string>())).Returns(() => new MemoryStream("contents"u8.ToArray()));
+        provider.Setup(p => p.Create(It.IsAny<string>())).Returns((string destination) =>
+        {
+            RecordOutput(destination);
+            var stream = new MemoryStream();
+            outputs.Add(stream);
+            return stream;
+        });
+        var folder = new FolderPath(source, provider.Object);
+
+        var copied = overload switch
+        {
+            0 => folder.CopyTo(target),
+            1 => folder.CopyTo(target, preserveTimestamps: true),
+            2 => await folder.CopyToAsync(target),
+            _ => await folder.CopyToAsync(target, preserveTimestamps: true),
+        };
+
+        await Assert.That(copied.OriginalPath).IsEqualTo(target);
+        await Assert.That(directories).IsEquivalentTo(new[] { child, Path.Combine(child, "child") });
+        await Assert.That(copiedFiles).IsEquivalentTo(new[] { Path.Combine(target, "payload.txt") });
+        foreach (var stream in outputs)
+        {
+            await Assert.That(stream.ToArray()).IsEquivalentTo("contents"u8.ToArray());
+        }
+
+        string PhysicalPath(string path) => Path.GetFullPath(Path.Combine(child, Path.GetRelativePath(target, path)));
+
+        void RecordOutput(string destination)
+        {
+            copiedFiles.Add(destination);
+            files.Add(PhysicalPath(destination));
+        }
+
+        static IEnumerable<string> EnumerateLive(List<string> entries)
+        {
+            for (var index = 0; index < entries.Count; index++)
+            {
+                // Bound a regression without touching the real filesystem or exhausting resources.
+                if (index == 8)
+                {
+                    throw new InvalidOperationException("Copy consumed its own output through an alias.");
+                }
+
+                yield return entries[index];
+            }
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Async_Copy_Cancellation_During_Snapshot_Does_Not_Mutate_Destination(bool cancelDuringEnumeration)
+    {
+        using var cancellation = new CancellationTokenSource();
+        var source = Path.GetFullPath("source");
+        var target = Path.GetFullPath("target");
+        var provider = new Mock<IFileSystemProvider>();
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetRelativePath(source, target)).Returns(Path.GetRelativePath(source, target));
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.AllDirectories))
+            .Returns(EnumerateDirectories);
+        if (!cancelDuringEnumeration)
+        {
+            cancellation.Cancel();
+        }
+
+        await Assert.That(() => new FolderPath(source, provider.Object).CopyToAsync(target, cancellation.Token))
+            .Throws<OperationCanceledException>();
+
+        provider.Verify(p => p.CreateDirectory(It.IsAny<string>()), Times.Never);
+        provider.Verify(p => p.EnumerateFiles(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>()), Times.Never);
+
+        IEnumerable<string> EnumerateDirectories()
+        {
+            yield return Path.Combine(source, "first");
+            cancellation.Cancel();
+            yield return Path.Combine(source, "second");
+        }
+    }
+
+    [Test]
     public async Task CopyTo_UsesProviderAndReturnsFolderWithProvider()
     {
         // Use real temp directories because CopyTo sets DirectoryInfo.Attributes
@@ -159,6 +294,7 @@ public class FolderPathProviderTests
         {
             var mockProvider = new Mock<IFileSystemProvider>();
             mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
+            mockProvider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
             mockProvider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>())).Returns((string a, string b) => Path.GetRelativePath(a, b));
             mockProvider.Setup(p => p.EnumerateDirectories(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>())).Returns(Array.Empty<string>());
             mockProvider.Setup(p => p.EnumerateFiles(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>())).Returns(Array.Empty<string>());
@@ -204,6 +340,7 @@ public class FolderPathProviderTests
         {
             var mockProvider = new Mock<IFileSystemProvider>();
             mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
+            mockProvider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
             mockProvider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>())).Returns((string a, string b) => Path.GetRelativePath(a, b));
             mockProvider.Setup(p => p.EnumerateDirectories(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>())).Returns(Array.Empty<string>());
             mockProvider.Setup(p => p.EnumerateFiles(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>())).Returns(Array.Empty<string>());
