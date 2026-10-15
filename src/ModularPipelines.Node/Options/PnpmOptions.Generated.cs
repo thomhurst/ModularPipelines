@@ -5,10 +5,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Node.Enums;
 
 namespace ModularPipelines.Node.Options;
 
@@ -19,7 +22,111 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("pnpm")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record PnpmOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Force colored output
+    /// </summary>
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Color { get; set; }
+
+    /// <summary>
+    /// Set working directory. Accepted anywhere on the command line, before or after the subcommand, like every other rc-option [default: .]
+    /// </summary>
+    [CliOption("--dir", ShortForm = "-C")]
+    public virtual string? Dir { get; set; }
+
+    /// <summary>
+    /// Proxy for HTTP registry and tarball requests
+    /// </summary>
+    [SecretValue]
+    [CliOption("--http-proxy")]
+    public virtual string? HttpProxy { get; set; }
+
+    /// <summary>
+    /// Proxy for HTTPS registry and tarball requests
+    /// </summary>
+    [SecretValue]
+    [CliOption("--https-proxy")]
+    public virtual string? HttpsProxy { get; set; }
+
+    /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public virtual bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// What level of logs to print. `silent` selects the silent reporter over any `--reporter` choice; the other levels cap the default reporter's output
+    /// </summary>
+    [CliOption("--loglevel")]
+    public virtual PnpmLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Disable dependency and download progress output
+    /// </summary>
+    [CliFlag("--no-progress")]
+    public virtual bool? NoProgress { get; set; }
+
+    /// <summary>
+    /// Hosts that bypass configured proxies
+    /// </summary>
+    [CliOption("--no-proxy")]
+    public virtual string? NoProxy { get; set; }
+
+    /// <summary>
+    /// Path to an `.npmrc` to read auth settings from, overriding the default `~/.npmrc` [alias: --userconfig]
+    /// </summary>
+    [CliOption("--npmrc-auth-file")]
+    public virtual string? NpmrcAuthFile { get; set; }
+
+    /// <summary>
+    /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
+    /// </summary>
+    [CliOption("--registry")]
+    public virtual string? Registry { get; set; }
+
+    /// <summary>
+    /// Reporter output format
+    /// </summary>
+    [CliOption("--reporter")]
+    public virtual PnpmReporter? Reporter { get; set; }
+
+    /// <summary>
+    /// Directory in which pnpm persists machine-local state
+    /// </summary>
+    [CliOption("--state-dir")]
+    public virtual string? StateDir { get; set; }
+
+    /// <summary>
+    /// Directory in which the package store is created. Relative paths are resolved from the workspace root, or from `--dir` outside a workspace
+    /// </summary>
+    [CliOption("--store-dir")]
+    public virtual string? StoreDir { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public virtual bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public virtual IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// Run the command on the root workspace project
+    /// </summary>
+    [CliFlag("--workspace-root", ShortForm = "-w")]
+    public virtual bool? WorkspaceRoot { get; set; }
+
+    /// <summary>
+    /// Automatically answer yes to prompts
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public virtual bool? Yes { get; set; }
+
 }

@@ -9,8 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
-using ModularPipelines.Models;
-using ModularPipelines.Node.Enums;
 
 namespace ModularPipelines.Node.Options;
 
@@ -29,96 +27,6 @@ public record PnpmUnlinkOptions : PnpmOptions
     public bool? IgnorePnpmfile { get; set; }
 
     /// <summary>
-    /// Automatically answer yes to prompts
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
-
-    /// <summary>
-    /// Set working directory. Accepted anywhere on the command line, before or after the subcommand, like every other rc-option [default: .]
-    /// </summary>
-    [CliOption("--dir", ShortForm = "-C")]
-    public string? Dir { get; set; }
-
-    /// <summary>
-    /// Directory in which the package store is created. Relative paths are resolved from the workspace root, or from `--dir` outside a workspace
-    /// </summary>
-    [CliOption("--store-dir")]
-    public string? StoreDir { get; set; }
-
-    /// <summary>
-    /// Directory in which pnpm persists machine-local state
-    /// </summary>
-    [CliOption("--state-dir")]
-    public string? StateDir { get; set; }
-
-    /// <summary>
-    /// Path to an `.npmrc` to read auth settings from, overriding the default `~/.npmrc` [alias: --userconfig]
-    /// </summary>
-    [CliOption("--npmrc-auth-file")]
-    public string? NpmrcAuthFile { get; set; }
-
-    /// <summary>
-    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
-    /// </summary>
-    [CliFlag("--ignore-workspace")]
-    public bool? IgnoreWorkspace { get; set; }
-
-    /// <summary>
-    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
-    /// </summary>
-    [CliOption("--workspace-packages")]
-    public IEnumerable<string>? WorkspacePackages { get; set; }
-
-    /// <summary>
-    /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
-    /// </summary>
-    [CliOption("--registry")]
-    public string? Registry { get; set; }
-
-    /// <summary>
-    /// Proxy for HTTPS registry and tarball requests
-    /// </summary>
-    [CliOption("--https-proxy")]
-    public string? HttpsProxy { get; set; }
-
-    /// <summary>
-    /// Proxy for HTTP registry and tarball requests
-    /// </summary>
-    [CliOption("--http-proxy")]
-    public string? HttpProxy { get; set; }
-
-    /// <summary>
-    /// Hosts that bypass configured proxies
-    /// </summary>
-    [CliOption("--no-proxy")]
-    public string? NoProxy { get; set; }
-
-    /// <summary>
-    /// Force colored output
-    /// </summary>
-    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
-    public CliOptionValue? Color { get; set; }
-
-    /// <summary>
-    /// Reporter output format
-    /// </summary>
-    [CliOption("--reporter")]
-    public PnpmUnlinkReporter? Reporter { get; set; }
-
-    /// <summary>
-    /// What level of logs to print. Mirrors pnpm's universal `--loglevel` option: `silent` selects the silent reporter over any `--reporter` choice; the other levels cap the default reporter's output
-    /// </summary>
-    [CliOption("--loglevel")]
-    public PnpmUnlinkLoglevel? Loglevel { get; set; }
-
-    /// <summary>
-    /// Disable dependency and download progress output
-    /// </summary>
-    [CliFlag("--no-progress")]
-    public bool? NoProgress { get; set; }
-
-    /// <summary>
     /// Stream a recursive command's script output as it arrives, one prefixed line at a time
     /// </summary>
     [CliFlag("--stream")]
@@ -129,12 +37,6 @@ public record PnpmUnlinkOptions : PnpmOptions
     /// </summary>
     [CliFlag("--aggregate-output")]
     public bool? AggregateOutput { get; set; }
-
-    /// <summary>
-    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
-    /// </summary>
-    [CliFlag("--use-stderr")]
-    public bool? UseStderr { get; set; }
 
     /// <summary>
     /// Run the command for every project in the workspace instead of only the project in `--dir`
@@ -155,16 +57,16 @@ public record PnpmUnlinkOptions : PnpmOptions
     public string? FilterProd { get; set; }
 
     /// <summary>
-    /// Run the command on the root workspace project
-    /// </summary>
-    [CliFlag("--workspace-root", ShortForm = "-w")]
-    public bool? WorkspaceRoot { get; set; }
-
-    /// <summary>
     /// Exit with code 1 when the `--filter` / `--filter-prod` selectors match no workspace project
     /// </summary>
     [CliFlag("--fail-if-no-match")]
     public bool? FailIfNoMatch { get; set; }
+
+    /// <summary>
+    /// Let a command run over an empty selection, overriding a `failIfNoMatch: true` setting
+    /// </summary>
+    [CliFlag("--no-fail-if-no-match")]
+    public bool? NoFailIfNoMatch { get; set; }
 
     /// <summary>
     /// Also run a recursive command on the root workspace project, which `run` / `exec` / `add` / `test` otherwise leave out
@@ -209,7 +111,7 @@ public record PnpmUnlinkOptions : PnpmOptions
     public bool? Reverse { get; set; }
 
     /// <summary>
-    /// Maximum number of workspace projects to process in parallel
+    /// Maximum number of workspace projects to process in parallel, or `Infinity` for no limit
     /// </summary>
     [CliOption("--workspace-concurrency")]
     public string? WorkspaceConcurrency { get; set; }
