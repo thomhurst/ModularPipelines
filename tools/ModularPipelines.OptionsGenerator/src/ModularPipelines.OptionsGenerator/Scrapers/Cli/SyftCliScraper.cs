@@ -45,11 +45,13 @@ public partial class SyftCliScraper(ICliCommandExecutor executor, IHelpTextCache
     /// <inheritdoc />
     protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
     {
-        // Syft 1.54 attest defaults to syft-json and documents examples without --output.
-        // Its synopsis brackets only FORMAT even though the whole option is optional.
-        if (commandPath is ["syft", "attest"])
+        // Syft 1.54 attest and convert declare default output formats in their flag help.
+        // Their synopses bracket only FORMAT even though the whole option is optional.
+        if (commandPath is ["syft", "attest" or "convert"])
         {
-            helpText = helpText.Replace("--output [FORMAT]", "[--output FORMAT]", StringComparison.Ordinal);
+            helpText = helpText
+                .Replace("--output [FORMAT]", "[--output FORMAT]", StringComparison.Ordinal)
+                .Replace("-o [FORMAT]", "[-o FORMAT]", StringComparison.Ordinal);
         }
 
         return base.ParseUsageSynopsis(commandPath, helpText);

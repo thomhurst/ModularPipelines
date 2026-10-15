@@ -108,6 +108,34 @@ public class SyftCliScraperTests
         await Assert.That(await scraper.GetVersionAsync()).IsEqualTo(expected.ReplaceLineEndings(" ").Trim());
     }
 
+    [Test]
+    public async Task Convert_Default_Output_Stays_Optional_And_Source_Is_Preserved()
+    {
+        var tool = await Scrape();
+        var convert = tool.Commands.Single(command => command.FullCommand == "syft convert");
+        var output = convert.Options.Single(option => option.SwitchName == "--output");
+        await Assert.That(output.IsRequired).IsFalse();
+        await Assert.That(output.AcceptsMultipleValues).IsTrue();
+        await Assert.That(output.CSharpType).IsEqualTo("IEnumerable<string>?");
+        var source = convert.PositionalArguments.Single();
+        await Assert.That(source.PropertyName).IsEqualTo("SourceSbom");
+        await Assert.That(source.IsRequired).IsFalse();
+        await Assert.That(source.AssociatedOptionSwitch).IsNull();
+        await Assert.That(source.CSharpType).IsEqualTo("string?");
+
+        var options = (await new OptionsClassGenerator().GenerateAsync(tool with { Commands = [convert] })).Single().Content;
+        await Assert.That(options).DoesNotContain("public SyftConvertOptions(");
+        await Assert.That(options).Contains("public IEnumerable<string>? Output { get; set; }");
+        var serviceInterface = string.Join("\n", (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Select(file => file.Content));
+        await Assert.That(serviceInterface).Contains("ConvertAsync(SyftConvertOptions? options = null");
+        var service = string.Join("\n", (await new ServiceImplementationGenerator().GenerateAsync(tool)).Select(file => file.Content));
+        await Assert.That(service).Contains("options ?? new SyftConvertOptions()");
+
+        var attest = tool.Commands.Single(command => command.FullCommand == "syft attest");
+        await Assert.That(attest.Options.Single(option => option.SwitchName == "--output").IsRequired).IsFalse();
+        await Assert.That(attest.PositionalArguments.Single().IsRequired).IsTrue();
+    }
+
     private static async Task<CliToolDefinition> Scrape(ICliCommandExecutor? executor = null)
     {
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
