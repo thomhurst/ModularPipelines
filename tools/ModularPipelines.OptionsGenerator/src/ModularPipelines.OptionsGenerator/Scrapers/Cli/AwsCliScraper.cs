@@ -501,7 +501,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
                 EnumDefinition = enumDef,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag || isBooleanValue)
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag || isBooleanValue, description)
             });
         }
 

@@ -1130,6 +1130,32 @@ public class AzCliScraperTests
         await Assert.That(command!.Options).IsEmpty();
     }
 
+    [Test]
+    [Arguments("--account-key", true)]
+    [Arguments("--connection-string", true)]
+    [Arguments("--sas-token", true)]
+    [Arguments("--account-name", false)]
+    public async Task Captured_Storage_Help_Masks_Generated_Credentials(string switchName, bool expectedSecret)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "AzCli", "az-2.84.0-storage-blob-upload.txt"));
+        var scraper = new TestAzCliScraper();
+        var command = (await scraper.Parse(["az", "storage", "blob", "upload"], help))!;
+        var enhancer = new OptionTypeEnhancer(
+            new OptionTypeDetectorPipeline([], NullLogger<OptionTypeDetectorPipeline>.Instance),
+            NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = await enhancer.EnhanceManualOverridesAsync(
+            scraper.CreateToolDefinition() with { Commands = [command] });
+        var option = tool.Commands.Single().Options.Single(option => option.SwitchName == switchName);
+        var files = await new OptionsClassGenerator().GenerateAsync(tool);
+
+        await Assert.That(option.IsSecret).IsEqualTo(expectedSecret);
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(files.Single().Content.Contains(
+            $"[SecretValue]{Environment.NewLine}    [CliOption(\"{switchName}\")]",
+            StringComparison.Ordinal)).IsEqualTo(expectedSecret);
+    }
+
     private sealed class HelpFetchingAzCliScraper(ICliCommandExecutor executor)
         : AzCliScraper(
             executor,
