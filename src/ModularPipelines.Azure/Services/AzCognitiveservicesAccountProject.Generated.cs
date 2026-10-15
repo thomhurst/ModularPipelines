@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az project commands.
+/// az cognitiveservices account project commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCognitiveservicesAccountProject
@@ -33,7 +33,7 @@ public class AzCognitiveservicesAccountProject
     #region Sub-command Groups
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az cognitiveservices account project connection sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountProjectConnection Connection => _connection ??= new AzCognitiveservicesAccountProjectConnection(_command);
 

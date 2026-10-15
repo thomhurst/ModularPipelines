@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az flexible-server commands.
+/// az postgres flexible-server commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPostgresFlexibleServer
@@ -49,87 +49,87 @@ public class AzPostgresFlexibleServer
     #region Sub-command Groups
 
     /// <summary>
-    /// az advanced-threat-protection-setting sub-commands.
+    /// az postgres flexible-server advanced-threat-protection-setting sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzPostgresFlexibleServerAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
-    /// az autonomous-tuning sub-commands.
+    /// az postgres flexible-server autonomous-tuning sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerAutonomousTuning AutonomousTuning => _autonomousTuning ??= new AzPostgresFlexibleServerAutonomousTuning(_command);
 
     /// <summary>
-    /// az backup sub-commands.
+    /// az postgres flexible-server backup sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerBackup Backup => _backup ??= new AzPostgresFlexibleServerBackup(_command);
 
     /// <summary>
-    /// az db sub-commands.
+    /// az postgres flexible-server db sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerDb Db => _db ??= new AzPostgresFlexibleServerDb(_command);
 
     /// <summary>
-    /// az deploy sub-commands.
+    /// az postgres flexible-server deploy sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerDeploy Deploy => _deploy ??= new AzPostgresFlexibleServerDeploy(_command);
 
     /// <summary>
-    /// az fabric-mirroring sub-commands.
+    /// az postgres flexible-server fabric-mirroring sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerFabricMirroring FabricMirroring => _fabricMirroring ??= new AzPostgresFlexibleServerFabricMirroring(_command);
 
     /// <summary>
-    /// az firewall-rule sub-commands.
+    /// az postgres flexible-server firewall-rule sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerFirewallRule FirewallRule => _firewallRule ??= new AzPostgresFlexibleServerFirewallRule(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az postgres flexible-server identity sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerIdentity Identity => _identity ??= new AzPostgresFlexibleServerIdentity(_command);
 
     /// <summary>
-    /// az maintenance-event sub-commands.
+    /// az postgres flexible-server maintenance-event sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerMaintenanceEvent MaintenanceEvent => _maintenanceEvent ??= new AzPostgresFlexibleServerMaintenanceEvent(_command);
 
     /// <summary>
-    /// az microsoft-entra-admin sub-commands.
+    /// az postgres flexible-server microsoft-entra-admin sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerMicrosoftEntraAdmin MicrosoftEntraAdmin => _microsoftEntraAdmin ??= new AzPostgresFlexibleServerMicrosoftEntraAdmin(_command);
 
     /// <summary>
-    /// az migration sub-commands.
+    /// az postgres flexible-server migration sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerMigration Migration => _migration ??= new AzPostgresFlexibleServerMigration(_command);
 
     /// <summary>
-    /// az parameter sub-commands.
+    /// az postgres flexible-server parameter sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerParameter Parameter => _parameter ??= new AzPostgresFlexibleServerParameter(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az postgres flexible-server private-endpoint-connection sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzPostgresFlexibleServerPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az postgres flexible-server private-link-resource sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzPostgresFlexibleServerPrivateLinkResource(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az postgres flexible-server replica sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerReplica Replica => _replica ??= new AzPostgresFlexibleServerReplica(_command);
 
     /// <summary>
-    /// az server-logs sub-commands.
+    /// az postgres flexible-server server-logs sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerServerLogs ServerLogs => _serverLogs ??= new AzPostgresFlexibleServerServerLogs(_command);
 
     /// <summary>
-    /// az virtual-endpoint sub-commands.
+    /// az postgres flexible-server virtual-endpoint sub-commands.
     /// </summary>
     public AzPostgresFlexibleServerVirtualEndpoint VirtualEndpoint => _virtualEndpoint ??= new AzPostgresFlexibleServerVirtualEndpoint(_command);
 

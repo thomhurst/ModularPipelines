@@ -35,17 +35,17 @@ public class AzStack : IAzStack
     #region Sub-command Groups
 
     /// <summary>
-    /// az group sub-commands.
+    /// az stack group sub-commands.
     /// </summary>
     public AzStackGroup Group => _group ??= new AzStackGroup(_command);
 
     /// <summary>
-    /// az mg sub-commands.
+    /// az stack mg sub-commands.
     /// </summary>
     public AzStackMg Mg => _mg ??= new AzStackMg(_command);
 
     /// <summary>
-    /// az sub sub-commands.
+    /// az stack sub sub-commands.
     /// </summary>
     public AzStackSub Sub => _sub ??= new AzStackSub(_command);
 

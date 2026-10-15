@@ -22,8 +22,8 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzPostgres
 {
     /// <summary>
-    /// az flexible-server sub-commands.
+    /// az postgres flexible-server sub-commands.
     /// </summary>
-    AzPostgresFlexibleServer FlexibleServer => throw new System.NotSupportedException();
+    AzPostgresFlexibleServer FlexibleServer { get; }
 
 }

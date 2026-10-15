@@ -26,6 +26,8 @@ public class AzVmss : IAzVmss
     private AzVmssEncryption? _encryption;
     private AzVmssExtension? _extension;
     private AzVmssIdentity? _identity;
+    private AzVmssLifecycleHook? _lifecycleHook;
+    private AzVmssLifecycleHookEvent? _lifecycleHookEvent;
     private AzVmssNic? _nic;
     private AzVmssRollingUpgrade? _rollingUpgrade;
     private AzVmssRunCommand? _runCommand;
@@ -41,47 +43,57 @@ public class AzVmss : IAzVmss
     #region Sub-command Groups
 
     /// <summary>
-    /// az application sub-commands.
+    /// az vmss application sub-commands.
     /// </summary>
     public AzVmssApplication Application => _application ??= new AzVmssApplication(_command);
 
     /// <summary>
-    /// az diagnostics sub-commands.
+    /// az vmss diagnostics sub-commands.
     /// </summary>
     public AzVmssDiagnostics Diagnostics => _diagnostics ??= new AzVmssDiagnostics(_command);
 
     /// <summary>
-    /// az disk sub-commands.
+    /// az vmss disk sub-commands.
     /// </summary>
     public AzVmssDisk Disk => _disk ??= new AzVmssDisk(_command);
 
     /// <summary>
-    /// az encryption sub-commands.
+    /// az vmss encryption sub-commands.
     /// </summary>
     public AzVmssEncryption Encryption => _encryption ??= new AzVmssEncryption(_command);
 
     /// <summary>
-    /// az extension sub-commands.
+    /// az vmss extension sub-commands.
     /// </summary>
     public AzVmssExtension Extension => _extension ??= new AzVmssExtension(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az vmss identity sub-commands.
     /// </summary>
     public AzVmssIdentity Identity => _identity ??= new AzVmssIdentity(_command);
 
     /// <summary>
-    /// az nic sub-commands.
+    /// az vmss lifecycle-hook sub-commands.
+    /// </summary>
+    public AzVmssLifecycleHook LifecycleHook => _lifecycleHook ??= new AzVmssLifecycleHook(_command);
+
+    /// <summary>
+    /// az vmss lifecycle-hook-event sub-commands.
+    /// </summary>
+    public AzVmssLifecycleHookEvent LifecycleHookEvent => _lifecycleHookEvent ??= new AzVmssLifecycleHookEvent(_command);
+
+    /// <summary>
+    /// az vmss nic sub-commands.
     /// </summary>
     public AzVmssNic Nic => _nic ??= new AzVmssNic(_command);
 
     /// <summary>
-    /// az rolling-upgrade sub-commands.
+    /// az vmss rolling-upgrade sub-commands.
     /// </summary>
     public AzVmssRollingUpgrade RollingUpgrade => _rollingUpgrade ??= new AzVmssRollingUpgrade(_command);
 
     /// <summary>
-    /// az run-command sub-commands.
+    /// az vmss run-command sub-commands.
     /// </summary>
     public AzVmssRunCommand RunCommand => _runCommand ??= new AzVmssRunCommand(_command);
 

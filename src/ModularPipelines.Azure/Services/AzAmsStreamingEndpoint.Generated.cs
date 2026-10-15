@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az streaming-endpoint commands.
+/// az ams streaming-endpoint commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAmsStreamingEndpoint
@@ -33,7 +33,7 @@ public class AzAmsStreamingEndpoint
     #region Sub-command Groups
 
     /// <summary>
-    /// az akamai sub-commands.
+    /// az ams streaming-endpoint akamai sub-commands.
     /// </summary>
     public AzAmsStreamingEndpointAkamai Akamai => _akamai ??= new AzAmsStreamingEndpointAkamai(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az namespace commands.
+/// az servicebus namespace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzServicebusNamespace
@@ -39,37 +39,37 @@ public class AzServicebusNamespace
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az servicebus namespace authorization-rule sub-commands.
     /// </summary>
     public AzServicebusNamespaceAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzServicebusNamespaceAuthorizationRule(_command);
 
     /// <summary>
-    /// az encryption sub-commands.
+    /// az servicebus namespace encryption sub-commands.
     /// </summary>
     public AzServicebusNamespaceEncryption Encryption => _encryption ??= new AzServicebusNamespaceEncryption(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az servicebus namespace identity sub-commands.
     /// </summary>
     public AzServicebusNamespaceIdentity Identity => _identity ??= new AzServicebusNamespaceIdentity(_command);
 
     /// <summary>
-    /// az network-rule-set sub-commands.
+    /// az servicebus namespace network-rule-set sub-commands.
     /// </summary>
     public AzServicebusNamespaceNetworkRuleSet NetworkRuleSet => _networkRuleSet ??= new AzServicebusNamespaceNetworkRuleSet(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az servicebus namespace private-endpoint-connection sub-commands.
     /// </summary>
     public AzServicebusNamespacePrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzServicebusNamespacePrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az servicebus namespace private-link-resource sub-commands.
     /// </summary>
     public AzServicebusNamespacePrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzServicebusNamespacePrivateLinkResource(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az servicebus namespace replica sub-commands.
     /// </summary>
     public AzServicebusNamespaceReplica Replica => _replica ??= new AzServicebusNamespaceReplica(_command);
 

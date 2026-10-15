@@ -22,79 +22,79 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzFunctionapp
 {
     /// <summary>
-    /// az config sub-commands.
+    /// az functionapp config sub-commands.
     /// </summary>
-    AzFunctionappConfig Config => throw new System.NotSupportedException();
+    AzFunctionappConfig Config { get; }
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az functionapp connection sub-commands.
     /// </summary>
-    AzFunctionappConnection Connection => throw new System.NotSupportedException();
+    AzFunctionappConnection Connection { get; }
 
     /// <summary>
-    /// az cors sub-commands.
+    /// az functionapp cors sub-commands.
     /// </summary>
-    AzFunctionappCors Cors => throw new System.NotSupportedException();
+    AzFunctionappCors Cors { get; }
 
     /// <summary>
-    /// az deployment sub-commands.
+    /// az functionapp deployment sub-commands.
     /// </summary>
-    AzFunctionappDeployment Deployment => throw new System.NotSupportedException();
+    AzFunctionappDeployment Deployment { get; }
 
     /// <summary>
-    /// az flex-migration sub-commands.
+    /// az functionapp flex-migration sub-commands.
     /// </summary>
-    AzFunctionappFlexMigration FlexMigration => throw new System.NotSupportedException();
+    AzFunctionappFlexMigration FlexMigration { get; }
 
     /// <summary>
-    /// az function sub-commands.
+    /// az functionapp function sub-commands.
     /// </summary>
-    AzFunctionappFunction Function => throw new System.NotSupportedException();
+    AzFunctionappFunction Function { get; }
 
     /// <summary>
-    /// az hybrid-connection sub-commands.
+    /// az functionapp hybrid-connection sub-commands.
     /// </summary>
-    AzFunctionappHybridConnection HybridConnection => throw new System.NotSupportedException();
+    AzFunctionappHybridConnection HybridConnection { get; }
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az functionapp identity sub-commands.
     /// </summary>
-    AzFunctionappIdentity Identity => throw new System.NotSupportedException();
+    AzFunctionappIdentity Identity { get; }
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az functionapp keys sub-commands.
     /// </summary>
-    AzFunctionappKeys Keys => throw new System.NotSupportedException();
+    AzFunctionappKeys Keys { get; }
 
     /// <summary>
-    /// az log sub-commands.
+    /// az functionapp log sub-commands.
     /// </summary>
-    AzFunctionappLog Log => throw new System.NotSupportedException();
+    AzFunctionappLog Log { get; }
 
     /// <summary>
-    /// az plan sub-commands.
+    /// az functionapp plan sub-commands.
     /// </summary>
-    AzFunctionappPlan Plan => throw new System.NotSupportedException();
+    AzFunctionappPlan Plan { get; }
 
     /// <summary>
-    /// az runtime sub-commands.
+    /// az functionapp runtime sub-commands.
     /// </summary>
-    AzFunctionappRuntime Runtime => throw new System.NotSupportedException();
+    AzFunctionappRuntime Runtime { get; }
 
     /// <summary>
-    /// az scale sub-commands.
+    /// az functionapp scale sub-commands.
     /// </summary>
-    AzFunctionappScale Scale => throw new System.NotSupportedException();
+    AzFunctionappScale Scale { get; }
 
     /// <summary>
-    /// az update-strategy sub-commands.
+    /// az functionapp update-strategy sub-commands.
     /// </summary>
-    AzFunctionappUpdateStrategy UpdateStrategy => throw new System.NotSupportedException();
+    AzFunctionappUpdateStrategy UpdateStrategy { get; }
 
     /// <summary>
-    /// az vnet-integration sub-commands.
+    /// az functionapp vnet-integration sub-commands.
     /// </summary>
-    AzFunctionappVnetIntegration VnetIntegration => throw new System.NotSupportedException();
+    AzFunctionappVnetIntegration VnetIntegration { get; }
 
     /// <summary>
     /// Create a function app.
@@ -103,8 +103,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzFunctionappCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzFunctionappCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a function app.
@@ -113,8 +112,16 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzFunctionappDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzFunctionappDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deploys a provided artifact to Azure functionapp.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeployAsync(AzFunctionappDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List available locations for running function apps.
@@ -123,8 +130,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConsumptionLocationsAsync(AzFunctionappListConsumptionLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConsumptionLocationsAsync(AzFunctionappListConsumptionLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List available locations for running function
@@ -133,8 +139,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlexconsumptionLocationsAsync(AzFunctionappListFlexconsumptionLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlexconsumptionLocationsAsync(AzFunctionappListFlexconsumptionLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List available built-in stacks which can be used
@@ -143,8 +148,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlexconsumptionRuntimesAsync(AzFunctionappListFlexconsumptionRuntimesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlexconsumptionRuntimesAsync(AzFunctionappListFlexconsumptionRuntimesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List function apps.
@@ -153,8 +157,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzFunctionappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzFunctionappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List available built-in stacks which can be used for function
@@ -163,8 +166,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRuntimesAsync(AzFunctionappListRuntimesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRuntimesAsync(AzFunctionappListRuntimesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restart a function app.
@@ -173,8 +175,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestartAsync(AzFunctionappRestartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestartAsync(AzFunctionappRestartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of a function app.
@@ -183,8 +184,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzFunctionappShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzFunctionappShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start a function app.
@@ -193,8 +193,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAsync(AzFunctionappStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAsync(AzFunctionappStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stop a function app.
@@ -203,8 +202,7 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAsync(AzFunctionappStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAsync(AzFunctionappStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a function app.
@@ -213,7 +211,6 @@ public interface IAzFunctionapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzFunctionappUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzFunctionappUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

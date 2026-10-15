@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az express-route commands.
+/// az network express-route commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkExpressRoute
@@ -36,22 +36,22 @@ public class AzNetworkExpressRoute
     #region Sub-command Groups
 
     /// <summary>
-    /// az auth sub-commands.
+    /// az network express-route auth sub-commands.
     /// </summary>
     public AzNetworkExpressRouteAuth Auth => _auth ??= new AzNetworkExpressRouteAuth(_command);
 
     /// <summary>
-    /// az gateway sub-commands.
+    /// az network express-route gateway sub-commands.
     /// </summary>
     public AzNetworkExpressRouteGateway Gateway => _gateway ??= new AzNetworkExpressRouteGateway(_command);
 
     /// <summary>
-    /// az peering sub-commands.
+    /// az network express-route peering sub-commands.
     /// </summary>
     public AzNetworkExpressRoutePeering Peering => _peering ??= new AzNetworkExpressRoutePeering(_command);
 
     /// <summary>
-    /// az port sub-commands.
+    /// az network express-route port sub-commands.
     /// </summary>
     public AzNetworkExpressRoutePort Port => _port ??= new AzNetworkExpressRoutePort(_command);
 
@@ -162,6 +162,36 @@ public class AzNetworkExpressRoute
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Show the current routing table of an ExpressRoute
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRouteTablesAsync(
+        AzNetworkExpressRouteListRouteTablesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteListRouteTablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Show the current routing table summary of
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRouteTablesSummaryAsync(
+        AzNetworkExpressRouteListRouteTablesSummaryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRouteListRouteTablesSummaryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

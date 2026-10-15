@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az ekm-connection commands.
+/// az keyvault ekm-connection commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzKeyvaultEkmConnection
@@ -33,7 +33,7 @@ public class AzKeyvaultEkmConnection
     #region Sub-command Groups
 
     /// <summary>
-    /// az certificate sub-commands.
+    /// az keyvault ekm-connection certificate sub-commands.
     /// </summary>
     public AzKeyvaultEkmConnectionCertificate Certificate => _certificate ??= new AzKeyvaultEkmConnectionCertificate(_command);
 

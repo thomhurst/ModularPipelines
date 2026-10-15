@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az nodepool commands.
+/// az aks nodepool commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAksNodepool
@@ -35,17 +35,17 @@ public class AzAksNodepool
     #region Sub-command Groups
 
     /// <summary>
-    /// az auto-scale sub-commands.
+    /// az aks nodepool auto-scale sub-commands.
     /// </summary>
     public AzAksNodepoolAutoScale AutoScale => _autoScale ??= new AzAksNodepoolAutoScale(_command);
 
     /// <summary>
-    /// az manual-scale sub-commands.
+    /// az aks nodepool manual-scale sub-commands.
     /// </summary>
     public AzAksNodepoolManualScale ManualScale => _manualScale ??= new AzAksNodepoolManualScale(_command);
 
     /// <summary>
-    /// az snapshot sub-commands.
+    /// az aks nodepool snapshot sub-commands.
     /// </summary>
     public AzAksNodepoolSnapshot Snapshot => _snapshot ??= new AzAksNodepoolSnapshot(_command);
 

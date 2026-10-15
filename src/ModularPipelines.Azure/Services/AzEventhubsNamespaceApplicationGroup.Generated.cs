@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az application-group commands.
+/// az eventhubs namespace application-group commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventhubsNamespaceApplicationGroup
@@ -33,7 +33,7 @@ public class AzEventhubsNamespaceApplicationGroup
     #region Sub-command Groups
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az eventhubs namespace application-group policy sub-commands.
     /// </summary>
     public AzEventhubsNamespaceApplicationGroupPolicy Policy => _policy ??= new AzEventhubsNamespaceApplicationGroupPolicy(_command);
 

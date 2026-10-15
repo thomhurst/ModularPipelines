@@ -22,24 +22,24 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzRepos
 {
     /// <summary>
-    /// az import sub-commands.
+    /// az repos import sub-commands.
     /// </summary>
-    AzReposImport Import => throw new System.NotSupportedException();
+    AzReposImport Import { get; }
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az repos policy sub-commands.
     /// </summary>
-    AzReposPolicy Policy => throw new System.NotSupportedException();
+    AzReposPolicy Policy { get; }
 
     /// <summary>
-    /// az pr sub-commands.
+    /// az repos pr sub-commands.
     /// </summary>
-    AzReposPr Pr => throw new System.NotSupportedException();
+    AzReposPr Pr { get; }
 
     /// <summary>
-    /// az ref sub-commands.
+    /// az repos ref sub-commands.
     /// </summary>
-    AzReposRef Ref => throw new System.NotSupportedException();
+    AzReposRef Ref { get; }
 
     /// <summary>
     /// Create a Git repository in a team project. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -48,8 +48,7 @@ public interface IAzRepos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzReposCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzReposCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a Git repository in a team project. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -58,8 +57,7 @@ public interface IAzRepos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzReposDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzReposDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Git repositories of a team project. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -68,8 +66,7 @@ public interface IAzRepos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzReposListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzReposListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of a Git repository. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -78,8 +75,7 @@ public interface IAzRepos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzReposShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzReposShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the Git repository. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -88,7 +84,6 @@ public interface IAzRepos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzReposUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzReposUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

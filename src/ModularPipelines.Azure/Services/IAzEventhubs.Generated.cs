@@ -22,23 +22,23 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzEventhubs
 {
     /// <summary>
-    /// az cluster sub-commands.
+    /// az eventhubs cluster sub-commands.
     /// </summary>
-    AzEventhubsCluster Cluster => throw new System.NotSupportedException();
+    AzEventhubsCluster Cluster { get; }
 
     /// <summary>
-    /// az eventhub sub-commands.
+    /// az eventhubs eventhub sub-commands.
     /// </summary>
-    AzEventhubsEventhub Eventhub => throw new System.NotSupportedException();
+    AzEventhubsEventhub Eventhub { get; }
 
     /// <summary>
-    /// az georecovery-alias sub-commands.
+    /// az eventhubs georecovery-alias sub-commands.
     /// </summary>
-    AzEventhubsGeorecoveryAlias GeorecoveryAlias => throw new System.NotSupportedException();
+    AzEventhubsGeorecoveryAlias GeorecoveryAlias { get; }
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az eventhubs namespace sub-commands.
     /// </summary>
-    AzEventhubsNamespace Namespace => throw new System.NotSupportedException();
+    AzEventhubsNamespace Namespace { get; }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az nat commands.
+/// az network nat commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkNat
@@ -33,7 +33,7 @@ public class AzNetworkNat
     #region Sub-command Groups
 
     /// <summary>
-    /// az gateway sub-commands.
+    /// az network nat gateway sub-commands.
     /// </summary>
     public AzNetworkNatGateway Gateway => _gateway ??= new AzNetworkNatGateway(_command);
 

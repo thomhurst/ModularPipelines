@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az sql commands.
+/// az cosmosdb sql commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbSql
@@ -41,47 +41,47 @@ public class AzCosmosdbSql
     #region Sub-command Groups
 
     /// <summary>
-    /// az container sub-commands.
+    /// az cosmosdb sql container sub-commands.
     /// </summary>
     public AzCosmosdbSqlContainer Container => _container ??= new AzCosmosdbSqlContainer(_command);
 
     /// <summary>
-    /// az database sub-commands.
+    /// az cosmosdb sql database sub-commands.
     /// </summary>
     public AzCosmosdbSqlDatabase Database => _database ??= new AzCosmosdbSqlDatabase(_command);
 
     /// <summary>
-    /// az restorable-container sub-commands.
+    /// az cosmosdb sql restorable-container sub-commands.
     /// </summary>
     public AzCosmosdbSqlRestorableContainer RestorableContainer => _restorableContainer ??= new AzCosmosdbSqlRestorableContainer(_command);
 
     /// <summary>
-    /// az restorable-database sub-commands.
+    /// az cosmosdb sql restorable-database sub-commands.
     /// </summary>
     public AzCosmosdbSqlRestorableDatabase RestorableDatabase => _restorableDatabase ??= new AzCosmosdbSqlRestorableDatabase(_command);
 
     /// <summary>
-    /// az restorable-resource sub-commands.
+    /// az cosmosdb sql restorable-resource sub-commands.
     /// </summary>
     public AzCosmosdbSqlRestorableResource RestorableResource => _restorableResource ??= new AzCosmosdbSqlRestorableResource(_command);
 
     /// <summary>
-    /// az role sub-commands.
+    /// az cosmosdb sql role sub-commands.
     /// </summary>
     public AzCosmosdbSqlRole Role => _role ??= new AzCosmosdbSqlRole(_command);
 
     /// <summary>
-    /// az stored-procedure sub-commands.
+    /// az cosmosdb sql stored-procedure sub-commands.
     /// </summary>
     public AzCosmosdbSqlStoredProcedure StoredProcedure => _storedProcedure ??= new AzCosmosdbSqlStoredProcedure(_command);
 
     /// <summary>
-    /// az trigger sub-commands.
+    /// az cosmosdb sql trigger sub-commands.
     /// </summary>
     public AzCosmosdbSqlTrigger Trigger => _trigger ??= new AzCosmosdbSqlTrigger(_command);
 
     /// <summary>
-    /// az user-defined-function sub-commands.
+    /// az cosmosdb sql user-defined-function sub-commands.
     /// </summary>
     public AzCosmosdbSqlUserDefinedFunction UserDefinedFunction => _userDefinedFunction ??= new AzCosmosdbSqlUserDefinedFunction(_command);
 

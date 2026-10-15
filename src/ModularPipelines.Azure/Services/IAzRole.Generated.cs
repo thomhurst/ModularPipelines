@@ -22,18 +22,18 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzRole
 {
     /// <summary>
-    /// az assignment sub-commands.
+    /// az role assignment sub-commands.
     /// </summary>
-    AzRoleAssignment Assignment => throw new System.NotSupportedException();
+    AzRoleAssignment Assignment { get; }
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az role definition sub-commands.
     /// </summary>
-    AzRoleDefinition Definition => throw new System.NotSupportedException();
+    AzRoleDefinition Definition { get; }
 
     /// <summary>
-    /// az deny-assignment sub-commands.
+    /// az role deny-assignment sub-commands.
     /// </summary>
-    AzRoleDenyAssignment DenyAssignment => throw new System.NotSupportedException();
+    AzRoleDenyAssignment DenyAssignment { get; }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az wcfrelay commands.
+/// az relay wcfrelay commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzRelayWcfrelay
@@ -33,7 +33,7 @@ public class AzRelayWcfrelay
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az relay wcfrelay authorization-rule sub-commands.
     /// </summary>
     public AzRelayWcfrelayAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzRelayWcfrelayAuthorizationRule(_command);
 

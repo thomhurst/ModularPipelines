@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az enrollment-account commands.
+/// az billing enrollment-account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBillingEnrollmentAccount
@@ -33,7 +33,7 @@ public class AzBillingEnrollmentAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az billing-permission sub-commands.
+    /// az billing enrollment-account billing-permission sub-commands.
     /// </summary>
     public AzBillingEnrollmentAccountBillingPermission BillingPermission => _billingPermission ??= new AzBillingEnrollmentAccountBillingPermission(_command);
 

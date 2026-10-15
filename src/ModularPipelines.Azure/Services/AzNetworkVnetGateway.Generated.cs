@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az vnet-gateway commands.
+/// az network vnet-gateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkVnetGateway
@@ -41,47 +41,47 @@ public class AzNetworkVnetGateway
     #region Sub-command Groups
 
     /// <summary>
-    /// az aad sub-commands.
+    /// az network vnet-gateway aad sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayAad Aad => _aad ??= new AzNetworkVnetGatewayAad(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az network vnet-gateway identity sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayIdentity Identity => _identity ??= new AzNetworkVnetGatewayIdentity(_command);
 
     /// <summary>
-    /// az ipsec-policy sub-commands.
+    /// az network vnet-gateway ipsec-policy sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayIpsecPolicy IpsecPolicy => _ipsecPolicy ??= new AzNetworkVnetGatewayIpsecPolicy(_command);
 
     /// <summary>
-    /// az migration sub-commands.
+    /// az network vnet-gateway migration sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayMigration Migration => _migration ??= new AzNetworkVnetGatewayMigration(_command);
 
     /// <summary>
-    /// az nat-rule sub-commands.
+    /// az network vnet-gateway nat-rule sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayNatRule NatRule => _natRule ??= new AzNetworkVnetGatewayNatRule(_command);
 
     /// <summary>
-    /// az packet-capture sub-commands.
+    /// az network vnet-gateway packet-capture sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayPacketCapture PacketCapture => _packetCapture ??= new AzNetworkVnetGatewayPacketCapture(_command);
 
     /// <summary>
-    /// az revoked-cert sub-commands.
+    /// az network vnet-gateway revoked-cert sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayRevokedCert RevokedCert => _revokedCert ??= new AzNetworkVnetGatewayRevokedCert(_command);
 
     /// <summary>
-    /// az root-cert sub-commands.
+    /// az network vnet-gateway root-cert sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayRootCert RootCert => _rootCert ??= new AzNetworkVnetGatewayRootCert(_command);
 
     /// <summary>
-    /// az vpn-client sub-commands.
+    /// az network vnet-gateway vpn-client sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayVpnClient VpnClient => _vpnClient ??= new AzNetworkVnetGatewayVpnClient(_command);
 
@@ -117,6 +117,21 @@ public class AzNetworkVnetGateway
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Disconnect vpn connections of virtual
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DisconnectVpnConnectionsAsync(
+        AzNetworkVnetGatewayDisconnectVpnConnectionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayDisconnectVpnConnectionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -267,6 +282,21 @@ public class AzNetworkVnetGateway
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get a xml format representation for supported
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowSupportedDevicesAsync(
+        AzNetworkVnetGatewayShowSupportedDevicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayShowSupportedDevicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

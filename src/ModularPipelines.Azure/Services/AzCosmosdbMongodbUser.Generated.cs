@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az user commands.
+/// az cosmosdb mongodb user commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbMongodbUser
@@ -33,7 +33,7 @@ public class AzCosmosdbMongodbUser
     #region Sub-command Groups
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az cosmosdb mongodb user definition sub-commands.
     /// </summary>
     public AzCosmosdbMongodbUserDefinition Definition => _definition ??= new AzCosmosdbMongodbUserDefinition(_command);
 

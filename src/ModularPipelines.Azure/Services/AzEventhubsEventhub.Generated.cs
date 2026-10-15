@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az eventhub commands.
+/// az eventhubs eventhub commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventhubsEventhub
@@ -35,17 +35,17 @@ public class AzEventhubsEventhub
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az eventhubs eventhub authorization-rule sub-commands.
     /// </summary>
     public AzEventhubsEventhubAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzEventhubsEventhubAuthorizationRule(_command);
 
     /// <summary>
-    /// az consumer-group sub-commands.
+    /// az eventhubs eventhub consumer-group sub-commands.
     /// </summary>
     public AzEventhubsEventhubConsumerGroup ConsumerGroup => _consumerGroup ??= new AzEventhubsEventhubConsumerGroup(_command);
 
     /// <summary>
-    /// az fabric-shortcut sub-commands.
+    /// az eventhubs eventhub fabric-shortcut sub-commands.
     /// </summary>
     public AzEventhubsEventhubFabricShortcut FabricShortcut => _fabricShortcut ??= new AzEventhubsEventhubFabricShortcut(_command);
 

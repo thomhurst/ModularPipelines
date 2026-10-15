@@ -22,8 +22,8 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzCapacity
 {
     /// <summary>
-    /// az reservation sub-commands.
+    /// az capacity reservation sub-commands.
     /// </summary>
-    AzCapacityReservation Reservation => throw new System.NotSupportedException();
+    AzCapacityReservation Reservation { get; }
 
 }

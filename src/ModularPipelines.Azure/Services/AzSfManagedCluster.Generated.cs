@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az managed-cluster commands.
+/// az sf managed-cluster commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSfManagedCluster
@@ -34,12 +34,12 @@ public class AzSfManagedCluster
     #region Sub-command Groups
 
     /// <summary>
-    /// az client-certificate sub-commands.
+    /// az sf managed-cluster client-certificate sub-commands.
     /// </summary>
     public AzSfManagedClusterClientCertificate ClientCertificate => _clientCertificate ??= new AzSfManagedClusterClientCertificate(_command);
 
     /// <summary>
-    /// az network-security-rule sub-commands.
+    /// az sf managed-cluster network-security-rule sub-commands.
     /// </summary>
     public AzSfManagedClusterNetworkSecurityRule NetworkSecurityRule => _networkSecurityRule ??= new AzSfManagedClusterNetworkSecurityRule(_command);
 

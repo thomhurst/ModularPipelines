@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az api commands.
+/// az apim api commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzApimApi
@@ -37,27 +37,27 @@ public class AzApimApi
     #region Sub-command Groups
 
     /// <summary>
-    /// az operation sub-commands.
+    /// az apim api operation sub-commands.
     /// </summary>
     public AzApimApiOperation Operation => _operation ??= new AzApimApiOperation(_command);
 
     /// <summary>
-    /// az release sub-commands.
+    /// az apim api release sub-commands.
     /// </summary>
     public AzApimApiRelease Release => _release ??= new AzApimApiRelease(_command);
 
     /// <summary>
-    /// az revision sub-commands.
+    /// az apim api revision sub-commands.
     /// </summary>
     public AzApimApiRevision Revision => _revision ??= new AzApimApiRevision(_command);
 
     /// <summary>
-    /// az schema sub-commands.
+    /// az apim api schema sub-commands.
     /// </summary>
     public AzApimApiSchema Schema => _schema ??= new AzApimApiSchema(_command);
 
     /// <summary>
-    /// az versionset sub-commands.
+    /// az apim api versionset sub-commands.
     /// </summary>
     public AzApimApiVersionSet VersionSet => _versionSet ??= new AzApimApiVersionSet(_command);
 

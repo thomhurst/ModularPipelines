@@ -14,13 +14,14 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az monitor commands.
+/// az vm monitor commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzVmMonitor
 {
     private readonly ICommandContext _command;
     private AzVmMonitorLog? _log;
+    private AzVmMonitorMetrics? _metrics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmMonitor"/> class.
@@ -33,9 +34,14 @@ public class AzVmMonitor
     #region Sub-command Groups
 
     /// <summary>
-    /// az log sub-commands.
+    /// az vm monitor log sub-commands.
     /// </summary>
     public AzVmMonitorLog Log => _log ??= new AzVmMonitorLog(_command);
+
+    /// <summary>
+    /// az vm monitor metrics sub-commands.
+    /// </summary>
+    public AzVmMonitorMetrics Metrics => _metrics ??= new AzVmMonitorMetrics(_command);
 
     #endregion
 }

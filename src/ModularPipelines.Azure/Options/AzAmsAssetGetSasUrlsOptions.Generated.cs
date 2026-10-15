@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -29,6 +30,7 @@ public record AzAmsAssetGetSasUrlsOptions : AzOptions
     /// <summary>
     /// The permissions to set on the SAS URL.  Allowed values: Read, ReadWrite, ReadWriteDelete.  Default: Read.
     /// </summary>
+    [SecretValue]
     [CliOption("--permissions")]
     public string? Permissions { get; set; }
 

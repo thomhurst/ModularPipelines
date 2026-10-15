@@ -14,13 +14,14 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az log-analytics commands.
+/// az monitor log-analytics commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorLogAnalytics
 {
     private readonly ICommandContext _command;
     private AzMonitorLogAnalyticsCluster? _cluster;
+    private AzMonitorLogAnalyticsQueryPack? _queryPack;
     private AzMonitorLogAnalyticsWorkspace? _workspace;
 
     /// <summary>
@@ -34,12 +35,17 @@ public class AzMonitorLogAnalytics
     #region Sub-command Groups
 
     /// <summary>
-    /// az cluster sub-commands.
+    /// az monitor log-analytics cluster sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsCluster Cluster => _cluster ??= new AzMonitorLogAnalyticsCluster(_command);
 
     /// <summary>
-    /// az workspace sub-commands.
+    /// az monitor log-analytics query-pack sub-commands.
+    /// </summary>
+    public AzMonitorLogAnalyticsQueryPack QueryPack => _queryPack ??= new AzMonitorLogAnalyticsQueryPack(_command);
+
+    /// <summary>
+    /// az monitor log-analytics workspace sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspace Workspace => _workspace ??= new AzMonitorLogAnalyticsWorkspace(_command);
 

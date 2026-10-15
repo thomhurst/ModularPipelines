@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az project commands.
+/// az dms project commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDmsProject
@@ -33,7 +33,7 @@ public class AzDmsProject
     #region Sub-command Groups
 
     /// <summary>
-    /// az task sub-commands.
+    /// az dms project task sub-commands.
     /// </summary>
     public AzDmsProjectTask Task => _task ??= new AzDmsProjectTask(_command);
 

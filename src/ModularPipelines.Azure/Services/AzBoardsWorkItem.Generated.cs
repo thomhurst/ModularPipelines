@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az work-item commands.
+/// az boards work-item commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBoardsWorkItem
@@ -33,7 +33,7 @@ public class AzBoardsWorkItem
     #region Sub-command Groups
 
     /// <summary>
-    /// az relation sub-commands.
+    /// az boards work-item relation sub-commands.
     /// </summary>
     public AzBoardsWorkItemRelation Relation => _relation ??= new AzBoardsWorkItemRelation(_command);
 

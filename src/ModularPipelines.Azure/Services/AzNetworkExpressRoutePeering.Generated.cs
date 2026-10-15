@@ -14,13 +14,14 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az peering commands.
+/// az network express-route peering commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkExpressRoutePeering
 {
     private readonly ICommandContext _command;
     private AzNetworkExpressRoutePeeringConnection? _connection;
+    private AzNetworkExpressRoutePeeringPeerConnection? _peerConnection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRoutePeering"/> class.
@@ -33,9 +34,14 @@ public class AzNetworkExpressRoutePeering
     #region Sub-command Groups
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az network express-route peering connection sub-commands.
     /// </summary>
     public AzNetworkExpressRoutePeeringConnection Connection => _connection ??= new AzNetworkExpressRoutePeeringConnection(_command);
+
+    /// <summary>
+    /// az network express-route peering peer-connection sub-commands.
+    /// </summary>
+    public AzNetworkExpressRoutePeeringPeerConnection PeerConnection => _peerConnection ??= new AzNetworkExpressRoutePeeringPeerConnection(_command);
 
     #endregion
 
@@ -69,6 +75,21 @@ public class AzNetworkExpressRoutePeering
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePeeringDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get all traffic stats of an ExpressRoute peering.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetStatsAsync(
+        AzNetworkExpressRoutePeeringGetStatsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkExpressRoutePeeringGetStatsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

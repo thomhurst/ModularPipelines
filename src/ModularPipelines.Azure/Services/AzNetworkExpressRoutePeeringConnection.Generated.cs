@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az connection commands.
+/// az network express-route peering connection commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkExpressRoutePeeringConnection
@@ -33,7 +33,7 @@ public class AzNetworkExpressRoutePeeringConnection
     #region Sub-command Groups
 
     /// <summary>
-    /// az ipv6-config sub-commands.
+    /// az network express-route peering connection ipv6-config sub-commands.
     /// </summary>
     public AzNetworkExpressRoutePeeringConnectionIpv6Config Ipv6Config => _ipv6Config ??= new AzNetworkExpressRoutePeeringConnectionIpv6Config(_command);
 

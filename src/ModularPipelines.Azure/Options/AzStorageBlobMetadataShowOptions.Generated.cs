@@ -30,6 +30,7 @@ public record AzStorageBlobMetadataShowOptions : AzOptions
     /// <summary>
     /// The full endpoint URL to the Blob, including SAS token and snapshot if used. This could be either the primary endpoint, or the secondary endpoint depending on the current `location_mode`.
     /// </summary>
+    [SecretValue]
     [CliOption("--blob-url")]
     public string? BlobUrl { get; set; }
 
@@ -96,6 +97,7 @@ public record AzStorageBlobMetadataShowOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
@@ -114,6 +116,7 @@ public record AzStorageBlobMetadataShowOptions : AzOptions
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 

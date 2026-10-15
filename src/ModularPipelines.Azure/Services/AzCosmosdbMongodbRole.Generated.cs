@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az role commands.
+/// az cosmosdb mongodb role commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbMongodbRole
@@ -33,7 +33,7 @@ public class AzCosmosdbMongodbRole
     #region Sub-command Groups
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az cosmosdb mongodb role definition sub-commands.
     /// </summary>
     public AzCosmosdbMongodbRoleDefinition Definition => _definition ??= new AzCosmosdbMongodbRoleDefinition(_command);
 

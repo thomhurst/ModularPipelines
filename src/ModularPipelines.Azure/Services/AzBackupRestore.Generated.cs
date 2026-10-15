@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az restore commands.
+/// az backup restore commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBackupRestore
@@ -33,7 +33,7 @@ public class AzBackupRestore
     #region Sub-command Groups
 
     /// <summary>
-    /// az files sub-commands.
+    /// az backup restore files sub-commands.
     /// </summary>
     public AzBackupRestoreFiles Files => _files ??= new AzBackupRestoreFiles(_command);
 

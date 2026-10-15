@@ -22,39 +22,39 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzSig
 {
     /// <summary>
-    /// az gallery-application sub-commands.
+    /// az sig gallery-application sub-commands.
     /// </summary>
-    AzSigGalleryApplication GalleryApplication => throw new System.NotSupportedException();
+    AzSigGalleryApplication GalleryApplication { get; }
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az sig identity sub-commands.
     /// </summary>
-    AzSigIdentity Identity => throw new System.NotSupportedException();
+    AzSigIdentity Identity { get; }
 
     /// <summary>
-    /// az image-definition sub-commands.
+    /// az sig image-definition sub-commands.
     /// </summary>
-    AzSigImageDefinition ImageDefinition => throw new System.NotSupportedException();
+    AzSigImageDefinition ImageDefinition { get; }
 
     /// <summary>
-    /// az image-version sub-commands.
+    /// az sig image-version sub-commands.
     /// </summary>
-    AzSigImageVersion ImageVersion => throw new System.NotSupportedException();
+    AzSigImageVersion ImageVersion { get; }
 
     /// <summary>
-    /// az in-vm-access-control-profile sub-commands.
+    /// az sig in-vm-access-control-profile sub-commands.
     /// </summary>
-    AzSigInVmAccessControlProfile InVmAccessControlProfile => throw new System.NotSupportedException();
+    AzSigInVmAccessControlProfile InVmAccessControlProfile { get; }
 
     /// <summary>
-    /// az in-vm-access-control-profile-version sub-commands.
+    /// az sig in-vm-access-control-profile-version sub-commands.
     /// </summary>
-    AzSigInVmAccessControlProfileVersion InVmAccessControlProfileVersion => throw new System.NotSupportedException();
+    AzSigInVmAccessControlProfileVersion InVmAccessControlProfileVersion { get; }
 
     /// <summary>
-    /// az share sub-commands.
+    /// az sig share sub-commands.
     /// </summary>
-    AzSigShare Share => throw new System.NotSupportedException();
+    AzSigShare Share { get; }
 
     /// <summary>
     /// Create a shared image gallery.
@@ -63,8 +63,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzSigCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzSigCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a Shared Image Gallery.
@@ -73,8 +72,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzSigDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzSigDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all community galleries shared directly to your subscription or
@@ -83,8 +81,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCommunityAsync(AzSigListCommunityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCommunityAsync(AzSigListCommunityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List galleries under a resource group.
@@ -93,8 +90,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzSigListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzSigListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all shared galleries shared directly to your subscription or tenant.
@@ -103,8 +99,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSharedAsync(AzSigListSharedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSharedAsync(AzSigListSharedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a community gallery by gallery public name.
@@ -113,8 +108,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowCommunityAsync(AzSigShowCommunityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowCommunityAsync(AzSigShowCommunityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve information about a Shared Image Gallery.
@@ -123,8 +117,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzSigShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzSigShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a gallery that has been shared directly to your subscription or tenant.
@@ -133,8 +126,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowSharedAsync(AzSigShowSharedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowSharedAsync(AzSigShowSharedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a Shared Image Gallery.
@@ -143,8 +135,7 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzSigUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzSigUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Place the CLI in a waiting state until a condition is met.
@@ -153,7 +144,6 @@ public interface IAzSig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WaitAsync(AzSigWaitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> WaitAsync(AzSigWaitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -22,79 +22,84 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzCosmosdb
 {
     /// <summary>
-    /// az cassandra sub-commands.
+    /// az cosmosdb cassandra sub-commands.
     /// </summary>
-    AzCosmosdbCassandra Cassandra => throw new System.NotSupportedException();
+    AzCosmosdbCassandra Cassandra { get; }
 
     /// <summary>
-    /// az fleet sub-commands.
+    /// az cosmosdb fleet sub-commands.
     /// </summary>
-    AzCosmosdbFleet Fleet => throw new System.NotSupportedException();
+    AzCosmosdbFleet Fleet { get; }
 
     /// <summary>
-    /// az fleetspace sub-commands.
+    /// az cosmosdb fleetspace sub-commands.
     /// </summary>
-    AzCosmosdbFleetspace Fleetspace => throw new System.NotSupportedException();
+    AzCosmosdbFleetspace Fleetspace { get; }
 
     /// <summary>
-    /// az gremlin sub-commands.
+    /// az cosmosdb gremlin sub-commands.
     /// </summary>
-    AzCosmosdbGremlin Gremlin => throw new System.NotSupportedException();
+    AzCosmosdbGremlin Gremlin { get; }
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az cosmosdb identity sub-commands.
     /// </summary>
-    AzCosmosdbKeys Keys => throw new System.NotSupportedException();
+    AzCosmosdbIdentity Identity { get; }
 
     /// <summary>
-    /// az locations sub-commands.
+    /// az cosmosdb keys sub-commands.
     /// </summary>
-    AzCosmosdbLocations Locations => throw new System.NotSupportedException();
+    AzCosmosdbKeys Keys { get; }
 
     /// <summary>
-    /// az mongodb sub-commands.
+    /// az cosmosdb locations sub-commands.
     /// </summary>
-    AzCosmosdbMongodb Mongodb => throw new System.NotSupportedException();
+    AzCosmosdbLocations Locations { get; }
 
     /// <summary>
-    /// az network-rule sub-commands.
+    /// az cosmosdb mongodb sub-commands.
     /// </summary>
-    AzCosmosdbNetworkRule NetworkRule => throw new System.NotSupportedException();
+    AzCosmosdbMongodb Mongodb { get; }
 
     /// <summary>
-    /// az postgres sub-commands.
+    /// az cosmosdb network-rule sub-commands.
     /// </summary>
-    AzCosmosdbPostgres Postgres => throw new System.NotSupportedException();
+    AzCosmosdbNetworkRule NetworkRule { get; }
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az cosmosdb postgres sub-commands.
     /// </summary>
-    AzCosmosdbPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
+    AzCosmosdbPostgres Postgres { get; }
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az cosmosdb private-endpoint-connection sub-commands.
     /// </summary>
-    AzCosmosdbPrivateLinkResource PrivateLinkResource => throw new System.NotSupportedException();
+    AzCosmosdbPrivateEndpointConnection PrivateEndpointConnection { get; }
 
     /// <summary>
-    /// az restorable-database-account sub-commands.
+    /// az cosmosdb private-link-resource sub-commands.
     /// </summary>
-    AzCosmosdbRestorableDatabaseAccount RestorableDatabaseAccount => throw new System.NotSupportedException();
+    AzCosmosdbPrivateLinkResource PrivateLinkResource { get; }
 
     /// <summary>
-    /// az service sub-commands.
+    /// az cosmosdb restorable-database-account sub-commands.
     /// </summary>
-    AzCosmosdbService Service => throw new System.NotSupportedException();
+    AzCosmosdbRestorableDatabaseAccount RestorableDatabaseAccount { get; }
 
     /// <summary>
-    /// az sql sub-commands.
+    /// az cosmosdb service sub-commands.
     /// </summary>
-    AzCosmosdbSql Sql => throw new System.NotSupportedException();
+    AzCosmosdbService Service { get; }
 
     /// <summary>
-    /// az table sub-commands.
+    /// az cosmosdb sql sub-commands.
     /// </summary>
-    AzCosmosdbTable Table => throw new System.NotSupportedException();
+    AzCosmosdbSql Sql { get; }
+
+    /// <summary>
+    /// az cosmosdb table sub-commands.
+    /// </summary>
+    AzCosmosdbTable Table { get; }
 
     /// <summary>
     /// Checks if an Azure Cosmos DB account name exists.
@@ -103,8 +108,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckNameExistsAsync(AzCosmosdbCheckNameExistsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckNameExistsAsync(AzCosmosdbCheckNameExistsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Azure Cosmos DB database account.
@@ -113,8 +117,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzCosmosdbCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzCosmosdbCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Azure Cosmos DB database account.
@@ -123,8 +126,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzCosmosdbDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzCosmosdbDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the failover priority for the Azure Cosmos DB
@@ -133,8 +135,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> FailoverPriorityChangeAsync(AzCosmosdbFailoverPriorityChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> FailoverPriorityChangeAsync(AzCosmosdbFailoverPriorityChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Azure Cosmos DB database accounts.
@@ -143,8 +144,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzCosmosdbListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzCosmosdbListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Offline the specified region for the specified Azure Cosmos DB
@@ -153,8 +153,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> OfflineRegionAsync(AzCosmosdbOfflineRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> OfflineRegionAsync(AzCosmosdbOfflineRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Azure Cosmos DB database account by restoring from an
@@ -163,8 +162,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreAsync(AzCosmosdbRestoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreAsync(AzCosmosdbRestoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of an Azure Cosmos DB database account.
@@ -173,8 +171,7 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzCosmosdbShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzCosmosdbShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an Azure Cosmos DB database account.
@@ -183,7 +180,6 @@ public interface IAzCosmosdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzCosmosdbUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzCosmosdbUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

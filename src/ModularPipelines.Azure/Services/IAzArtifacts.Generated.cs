@@ -22,8 +22,8 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzArtifacts
 {
     /// <summary>
-    /// az universal sub-commands.
+    /// az artifacts universal sub-commands.
     /// </summary>
-    AzArtifactsUniversal Universal => throw new System.NotSupportedException();
+    AzArtifactsUniversal Universal { get; }
 
 }

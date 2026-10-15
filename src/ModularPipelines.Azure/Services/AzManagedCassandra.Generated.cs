@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az managedcassandra commands.
+/// az managed-cassandra commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzManagedCassandra : IAzManagedCassandra
@@ -34,12 +34,12 @@ public class AzManagedCassandra : IAzManagedCassandra
     #region Sub-command Groups
 
     /// <summary>
-    /// az cluster sub-commands.
+    /// az managed-cassandra cluster sub-commands.
     /// </summary>
     public AzManagedCassandraCluster Cluster => _cluster ??= new AzManagedCassandraCluster(_command);
 
     /// <summary>
-    /// az datacenter sub-commands.
+    /// az managed-cassandra datacenter sub-commands.
     /// </summary>
     public AzManagedCassandraDatacenter Datacenter => _datacenter ??= new AzManagedCassandraDatacenter(_command);
 

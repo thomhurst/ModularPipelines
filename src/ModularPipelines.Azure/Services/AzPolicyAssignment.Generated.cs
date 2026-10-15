@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az assignment commands.
+/// az policy assignment commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPolicyAssignment
@@ -34,12 +34,12 @@ public class AzPolicyAssignment
     #region Sub-command Groups
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az policy assignment identity sub-commands.
     /// </summary>
     public AzPolicyAssignmentIdentity Identity => _identity ??= new AzPolicyAssignmentIdentity(_command);
 
     /// <summary>
-    /// az non-compliance-message sub-commands.
+    /// az policy assignment non-compliance-message sub-commands.
     /// </summary>
     public AzPolicyAssignmentNonComplianceMessage NonComplianceMessage => _nonComplianceMessage ??= new AzPolicyAssignmentNonComplianceMessage(_command);
 

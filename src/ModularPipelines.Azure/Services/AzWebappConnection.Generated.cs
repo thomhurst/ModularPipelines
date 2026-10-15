@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az connection commands.
+/// az webapp connection commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzWebappConnection
@@ -34,12 +34,12 @@ public class AzWebappConnection
     #region Sub-command Groups
 
     /// <summary>
-    /// az create sub-commands.
+    /// az webapp connection create sub-commands.
     /// </summary>
     public AzWebappConnectionCreate Create => _create ??= new AzWebappConnectionCreate(_command);
 
     /// <summary>
-    /// az update sub-commands.
+    /// az webapp connection update sub-commands.
     /// </summary>
     public AzWebappConnectionUpdate Update => _update ??= new AzWebappConnectionUpdate(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az node commands.
+/// az batch node commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBatchNode
@@ -37,27 +37,27 @@ public class AzBatchNode
     #region Sub-command Groups
 
     /// <summary>
-    /// az file sub-commands.
+    /// az batch node file sub-commands.
     /// </summary>
     public AzBatchNodeFile File => _file ??= new AzBatchNodeFile(_command);
 
     /// <summary>
-    /// az remote-login-settings sub-commands.
+    /// az batch node remote-login-settings sub-commands.
     /// </summary>
     public AzBatchNodeRemoteLoginSettings RemoteLoginSettings => _remoteLoginSettings ??= new AzBatchNodeRemoteLoginSettings(_command);
 
     /// <summary>
-    /// az scheduling sub-commands.
+    /// az batch node scheduling sub-commands.
     /// </summary>
     public AzBatchNodeScheduling Scheduling => _scheduling ??= new AzBatchNodeScheduling(_command);
 
     /// <summary>
-    /// az service-logs sub-commands.
+    /// az batch node service-logs sub-commands.
     /// </summary>
     public AzBatchNodeServiceLogs ServiceLogs => _serviceLogs ??= new AzBatchNodeServiceLogs(_command);
 
     /// <summary>
-    /// az user sub-commands.
+    /// az batch node user sub-commands.
     /// </summary>
     public AzBatchNodeUser User => _user ??= new AzBatchNodeUser(_command);
 

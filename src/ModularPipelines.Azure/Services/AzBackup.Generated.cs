@@ -43,57 +43,57 @@ public class AzBackup : IAzBackup
     #region Sub-command Groups
 
     /// <summary>
-    /// az container sub-commands.
+    /// az backup container sub-commands.
     /// </summary>
     public AzBackupContainer Container => _container ??= new AzBackupContainer(_command);
 
     /// <summary>
-    /// az deleted-vault sub-commands.
+    /// az backup deleted-vault sub-commands.
     /// </summary>
     public AzBackupDeletedVault DeletedVault => _deletedVault ??= new AzBackupDeletedVault(_command);
 
     /// <summary>
-    /// az item sub-commands.
+    /// az backup item sub-commands.
     /// </summary>
     public AzBackupItem Item => _item ??= new AzBackupItem(_command);
 
     /// <summary>
-    /// az job sub-commands.
+    /// az backup job sub-commands.
     /// </summary>
     public AzBackupJob Job => _job ??= new AzBackupJob(_command);
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az backup policy sub-commands.
     /// </summary>
     public AzBackupPolicy Policy => _policy ??= new AzBackupPolicy(_command);
 
     /// <summary>
-    /// az protectable-item sub-commands.
+    /// az backup protectable-item sub-commands.
     /// </summary>
     public AzBackupProtectableItem ProtectableItem => _protectableItem ??= new AzBackupProtectableItem(_command);
 
     /// <summary>
-    /// az protection sub-commands.
+    /// az backup protection sub-commands.
     /// </summary>
     public AzBackupProtection Protection => _protection ??= new AzBackupProtection(_command);
 
     /// <summary>
-    /// az recoveryconfig sub-commands.
+    /// az backup recoveryconfig sub-commands.
     /// </summary>
     public AzBackupRecoveryConfig RecoveryConfig => _recoveryConfig ??= new AzBackupRecoveryConfig(_command);
 
     /// <summary>
-    /// az recoverypoint sub-commands.
+    /// az backup recoverypoint sub-commands.
     /// </summary>
     public AzBackupRecoveryPoint RecoveryPoint => _recoveryPoint ??= new AzBackupRecoveryPoint(_command);
 
     /// <summary>
-    /// az restore sub-commands.
+    /// az backup restore sub-commands.
     /// </summary>
     public AzBackupRestore Restore => _restore ??= new AzBackupRestore(_command);
 
     /// <summary>
-    /// az vault sub-commands.
+    /// az backup vault sub-commands.
     /// </summary>
     public AzBackupVault Vault => _vault ??= new AzBackupVault(_command);
 

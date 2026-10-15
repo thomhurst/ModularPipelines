@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az flexible-server commands.
+/// az mysql flexible-server commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMysqlFlexibleServer
@@ -46,72 +46,72 @@ public class AzMysqlFlexibleServer
     #region Sub-command Groups
 
     /// <summary>
-    /// az ad-admin sub-commands.
+    /// az mysql flexible-server ad-admin sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerAdAdmin AdAdmin => _adAdmin ??= new AzMysqlFlexibleServerAdAdmin(_command);
 
     /// <summary>
-    /// az advanced-threat-protection-setting sub-commands.
+    /// az mysql flexible-server advanced-threat-protection-setting sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzMysqlFlexibleServerAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
-    /// az backup sub-commands.
+    /// az mysql flexible-server backup sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerBackup Backup => _backup ??= new AzMysqlFlexibleServerBackup(_command);
 
     /// <summary>
-    /// az db sub-commands.
+    /// az mysql flexible-server db sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerDb Db => _db ??= new AzMysqlFlexibleServerDb(_command);
 
     /// <summary>
-    /// az deploy sub-commands.
+    /// az mysql flexible-server deploy sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerDeploy Deploy => _deploy ??= new AzMysqlFlexibleServerDeploy(_command);
 
     /// <summary>
-    /// az firewall-rule sub-commands.
+    /// az mysql flexible-server firewall-rule sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerFirewallRule FirewallRule => _firewallRule ??= new AzMysqlFlexibleServerFirewallRule(_command);
 
     /// <summary>
-    /// az gtid sub-commands.
+    /// az mysql flexible-server gtid sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerGtid Gtid => _gtid ??= new AzMysqlFlexibleServerGtid(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az mysql flexible-server identity sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerIdentity Identity => _identity ??= new AzMysqlFlexibleServerIdentity(_command);
 
     /// <summary>
-    /// az import sub-commands.
+    /// az mysql flexible-server import sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerImport Import => _import ??= new AzMysqlFlexibleServerImport(_command);
 
     /// <summary>
-    /// az maintenance sub-commands.
+    /// az mysql flexible-server maintenance sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerMaintenance Maintenance => _maintenance ??= new AzMysqlFlexibleServerMaintenance(_command);
 
     /// <summary>
-    /// az mirroring sub-commands.
+    /// az mysql flexible-server mirroring sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerMirroring Mirroring => _mirroring ??= new AzMysqlFlexibleServerMirroring(_command);
 
     /// <summary>
-    /// az parameter sub-commands.
+    /// az mysql flexible-server parameter sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerParameter Parameter => _parameter ??= new AzMysqlFlexibleServerParameter(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az mysql flexible-server replica sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerReplica Replica => _replica ??= new AzMysqlFlexibleServerReplica(_command);
 
     /// <summary>
-    /// az server-logs sub-commands.
+    /// az mysql flexible-server server-logs sub-commands.
     /// </summary>
     public AzMysqlFlexibleServerServerLogs ServerLogs => _serverLogs ??= new AzMysqlFlexibleServerServerLogs(_command);
 

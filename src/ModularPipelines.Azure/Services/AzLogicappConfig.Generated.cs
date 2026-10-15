@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az config commands.
+/// az logicapp config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzLogicappConfig
@@ -33,7 +33,7 @@ public class AzLogicappConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// az appsettings sub-commands.
+    /// az logicapp config appsettings sub-commands.
     /// </summary>
     public AzLogicappConfigAppSettings AppSettings => _appSettings ??= new AzLogicappConfigAppSettings(_command);
 

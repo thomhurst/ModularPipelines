@@ -14,17 +14,20 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az account commands.
+/// az cognitiveservices account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCognitiveservicesAccount
 {
     private readonly ICommandContext _command;
     private AzCognitiveservicesAccountCommitmentPlan? _commitmentPlan;
+    private AzCognitiveservicesAccountCompute? _compute;
     private AzCognitiveservicesAccountConnection? _connection;
     private AzCognitiveservicesAccountDeployment? _deployment;
     private AzCognitiveservicesAccountIdentity? _identity;
     private AzCognitiveservicesAccountKeys? _keys;
+    private AzCognitiveservicesAccountManagedComputeDeployment? _managedComputeDeployment;
+    private AzCognitiveservicesAccountManagedNetwork? _managedNetwork;
     private AzCognitiveservicesAccountNetworkRule? _networkRule;
     private AzCognitiveservicesAccountProject? _project;
 
@@ -39,37 +42,52 @@ public class AzCognitiveservicesAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az commitment-plan sub-commands.
+    /// az cognitiveservices account commitment-plan sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountCommitmentPlan CommitmentPlan => _commitmentPlan ??= new AzCognitiveservicesAccountCommitmentPlan(_command);
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az cognitiveservices account compute sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountCompute Compute => _compute ??= new AzCognitiveservicesAccountCompute(_command);
+
+    /// <summary>
+    /// az cognitiveservices account connection sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountConnection Connection => _connection ??= new AzCognitiveservicesAccountConnection(_command);
 
     /// <summary>
-    /// az deployment sub-commands.
+    /// az cognitiveservices account deployment sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountDeployment Deployment => _deployment ??= new AzCognitiveservicesAccountDeployment(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az cognitiveservices account identity sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountIdentity Identity => _identity ??= new AzCognitiveservicesAccountIdentity(_command);
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az cognitiveservices account keys sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountKeys Keys => _keys ??= new AzCognitiveservicesAccountKeys(_command);
 
     /// <summary>
-    /// az network-rule sub-commands.
+    /// az cognitiveservices account managed-compute-deployment sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountManagedComputeDeployment ManagedComputeDeployment => _managedComputeDeployment ??= new AzCognitiveservicesAccountManagedComputeDeployment(_command);
+
+    /// <summary>
+    /// az cognitiveservices account managed-network sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountManagedNetwork ManagedNetwork => _managedNetwork ??= new AzCognitiveservicesAccountManagedNetwork(_command);
+
+    /// <summary>
+    /// az cognitiveservices account network-rule sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountNetworkRule NetworkRule => _networkRule ??= new AzCognitiveservicesAccountNetworkRule(_command);
 
     /// <summary>
-    /// az project sub-commands.
+    /// az cognitiveservices account project sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountProject Project => _project ??= new AzCognitiveservicesAccountProject(_command);
 

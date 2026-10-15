@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -30,6 +31,7 @@ public record AzNetworkVirtualApplianceGetBootDiagnosticLogOptions : AzOptions
     /// <summary>
     /// Specify the sas-url to the storage blob into which console screen shot for the requested instance will be written.
     /// </summary>
+    [SecretValue]
     [CliOption("--console-screenshot-storage-sas-url")]
     public string? ConsoleScreenshotStorageSasUrl { get; set; }
 
@@ -42,6 +44,7 @@ public record AzNetworkVirtualApplianceGetBootDiagnosticLogOptions : AzOptions
     /// <summary>
     /// Specify the sas-url to the storage blob into which serial console logs for the requested instance will be written.
     /// </summary>
+    [SecretValue]
     [CliOption("--scs-sas-url")]
     public string? ScsSasUrl { get; set; }
 

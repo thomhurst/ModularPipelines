@@ -14,12 +14,13 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az private-link commands.
+/// az network application-gateway private-link commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGatewayPrivateLink
 {
     private readonly ICommandContext _command;
+    private AzNetworkApplicationGatewayPrivateLinkIpConfig? _ipConfig;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayPrivateLink"/> class.
@@ -29,7 +30,76 @@ public class AzNetworkApplicationGatewayPrivateLink
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az network application-gateway private-link ip-config sub-commands.
+    /// </summary>
+    public AzNetworkApplicationGatewayPrivateLinkIpConfig IpConfig => _ipConfig ??= new AzNetworkApplicationGatewayPrivateLinkIpConfig(_command);
+
+    #endregion
+
     #region Commands
+
+    /// <summary>
+    /// Add a new private link with a default IP
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AddAsync(
+        AzNetworkApplicationGatewayPrivateLinkAddOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List all the private links.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzNetworkApplicationGatewayPrivateLinkListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Remove a private link and clear association
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveAsync(
+        AzNetworkApplicationGatewayPrivateLinkRemoveOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Show a private link.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzNetworkApplicationGatewayPrivateLinkShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Place the CLI in a waiting state until a

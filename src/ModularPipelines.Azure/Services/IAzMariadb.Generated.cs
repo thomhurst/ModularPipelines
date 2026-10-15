@@ -22,18 +22,18 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzMariadb
 {
     /// <summary>
-    /// az db sub-commands.
+    /// az mariadb db sub-commands.
     /// </summary>
-    AzMariadbDb Db => throw new System.NotSupportedException();
+    AzMariadbDb Db { get; }
 
     /// <summary>
-    /// az server sub-commands.
+    /// az mariadb server sub-commands.
     /// </summary>
-    AzMariadbServer Server => throw new System.NotSupportedException();
+    AzMariadbServer Server { get; }
 
     /// <summary>
-    /// az server-logs sub-commands.
+    /// az mariadb server-logs sub-commands.
     /// </summary>
-    AzMariadbServerLogs ServerLogs => throw new System.NotSupportedException();
+    AzMariadbServerLogs ServerLogs { get; }
 
 }

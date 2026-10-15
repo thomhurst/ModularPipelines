@@ -36,22 +36,22 @@ public class AzMysql : IAzMysql
     #region Sub-command Groups
 
     /// <summary>
-    /// az db sub-commands.
+    /// az mysql db sub-commands.
     /// </summary>
     public AzMysqlDb Db => _db ??= new AzMysqlDb(_command);
 
     /// <summary>
-    /// az flexible-server sub-commands.
+    /// az mysql flexible-server sub-commands.
     /// </summary>
     public AzMysqlFlexibleServer FlexibleServer => _flexibleServer ??= new AzMysqlFlexibleServer(_command);
 
     /// <summary>
-    /// az server sub-commands.
+    /// az mysql server sub-commands.
     /// </summary>
     public AzMysqlServer Server => _server ??= new AzMysqlServer(_command);
 
     /// <summary>
-    /// az server-logs sub-commands.
+    /// az mysql server-logs sub-commands.
     /// </summary>
     public AzMysqlServerLogs ServerLogs => _serverLogs ??= new AzMysqlServerLogs(_command);
 

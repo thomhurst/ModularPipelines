@@ -48,82 +48,82 @@ public class AzContainerapp : IAzContainerapp
     #region Sub-command Groups
 
     /// <summary>
-    /// az auth sub-commands.
+    /// az containerapp auth sub-commands.
     /// </summary>
     public AzContainerappAuth Auth => _auth ??= new AzContainerappAuth(_command);
 
     /// <summary>
-    /// az compose sub-commands.
+    /// az containerapp compose sub-commands.
     /// </summary>
     public AzContainerappCompose Compose => _compose ??= new AzContainerappCompose(_command);
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az containerapp connection sub-commands.
     /// </summary>
     public AzContainerappConnection Connection => _connection ??= new AzContainerappConnection(_command);
 
     /// <summary>
-    /// az dapr sub-commands.
+    /// az containerapp dapr sub-commands.
     /// </summary>
     public AzContainerappDapr Dapr => _dapr ??= new AzContainerappDapr(_command);
 
     /// <summary>
-    /// az env sub-commands.
+    /// az containerapp env sub-commands.
     /// </summary>
     public AzContainerappEnv Env => _env ??= new AzContainerappEnv(_command);
 
     /// <summary>
-    /// az github-action sub-commands.
+    /// az containerapp github-action sub-commands.
     /// </summary>
     public AzContainerappGithubAction GithubAction => _githubAction ??= new AzContainerappGithubAction(_command);
 
     /// <summary>
-    /// az hostname sub-commands.
+    /// az containerapp hostname sub-commands.
     /// </summary>
     public AzContainerappHostname Hostname => _hostname ??= new AzContainerappHostname(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az containerapp identity sub-commands.
     /// </summary>
     public AzContainerappIdentity Identity => _identity ??= new AzContainerappIdentity(_command);
 
     /// <summary>
-    /// az ingress sub-commands.
+    /// az containerapp ingress sub-commands.
     /// </summary>
     public AzContainerappIngress Ingress => _ingress ??= new AzContainerappIngress(_command);
 
     /// <summary>
-    /// az job sub-commands.
+    /// az containerapp job sub-commands.
     /// </summary>
     public AzContainerappJob Job => _job ??= new AzContainerappJob(_command);
 
     /// <summary>
-    /// az logs sub-commands.
+    /// az containerapp logs sub-commands.
     /// </summary>
     public AzContainerappLogs Logs => _logs ??= new AzContainerappLogs(_command);
 
     /// <summary>
-    /// az registry sub-commands.
+    /// az containerapp registry sub-commands.
     /// </summary>
     public AzContainerappRegistry Registry => _registry ??= new AzContainerappRegistry(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az containerapp replica sub-commands.
     /// </summary>
     public AzContainerappReplica Replica => _replica ??= new AzContainerappReplica(_command);
 
     /// <summary>
-    /// az revision sub-commands.
+    /// az containerapp revision sub-commands.
     /// </summary>
     public AzContainerappRevision Revision => _revision ??= new AzContainerappRevision(_command);
 
     /// <summary>
-    /// az secret sub-commands.
+    /// az containerapp secret sub-commands.
     /// </summary>
     public AzContainerappSecret Secret => _secret ??= new AzContainerappSecret(_command);
 
     /// <summary>
-    /// az ssl sub-commands.
+    /// az containerapp ssl sub-commands.
     /// </summary>
     public AzContainerappSsl Ssl => _ssl ??= new AzContainerappSsl(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az create commands.
+/// az containerapp connection create commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappConnectionCreate
@@ -257,6 +257,21 @@ public class AzContainerappConnectionCreate
     }
 
     /// <summary>
+    /// Create a containerapp connection to mysql.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MysqlAsync(
+        AzContainerappConnectionCreateMysqlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappConnectionCreateMysqlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Create a containerapp connection to neon-
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -284,6 +299,21 @@ public class AzContainerappConnectionCreate
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappConnectionCreatePostgresFlexibleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Create a containerapp connection to postgres.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PostgresAsync(
+        AzContainerappConnectionCreatePostgresOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappConnectionCreatePostgresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

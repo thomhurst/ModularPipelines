@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az pool commands.
+/// az batch pool commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBatchPool
@@ -36,22 +36,22 @@ public class AzBatchPool
     #region Sub-command Groups
 
     /// <summary>
-    /// az autoscale sub-commands.
+    /// az batch pool autoscale sub-commands.
     /// </summary>
     public AzBatchPoolAutoscale Autoscale => _autoscale ??= new AzBatchPoolAutoscale(_command);
 
     /// <summary>
-    /// az node-counts sub-commands.
+    /// az batch pool node-counts sub-commands.
     /// </summary>
     public AzBatchPoolNodeCounts NodeCounts => _nodeCounts ??= new AzBatchPoolNodeCounts(_command);
 
     /// <summary>
-    /// az supported-images sub-commands.
+    /// az batch pool supported-images sub-commands.
     /// </summary>
     public AzBatchPoolSupportedImages SupportedImages => _supportedImages ??= new AzBatchPoolSupportedImages(_command);
 
     /// <summary>
-    /// az usage-metrics sub-commands.
+    /// az batch pool usage-metrics sub-commands.
     /// </summary>
     public AzBatchPoolUsageMetrics UsageMetrics => _usageMetrics ??= new AzBatchPoolUsageMetrics(_command);
 

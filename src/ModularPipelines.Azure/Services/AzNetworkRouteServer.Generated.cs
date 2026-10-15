@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az routeserver commands.
+/// az network routeserver commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkRouteServer
@@ -33,7 +33,7 @@ public class AzNetworkRouteServer
     #region Sub-command Groups
 
     /// <summary>
-    /// az peering sub-commands.
+    /// az network routeserver peering sub-commands.
     /// </summary>
     public AzNetworkRouteServerPeering Peering => _peering ??= new AzNetworkRouteServerPeering(_command);
 

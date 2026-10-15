@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az keyspace commands.
+/// az cosmosdb cassandra keyspace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbCassandraKeyspace
@@ -33,7 +33,7 @@ public class AzCosmosdbCassandraKeyspace
     #region Sub-command Groups
 
     /// <summary>
-    /// az throughput sub-commands.
+    /// az cosmosdb cassandra keyspace throughput sub-commands.
     /// </summary>
     public AzCosmosdbCassandraKeyspaceThroughput Throughput => _throughput ??= new AzCosmosdbCassandraKeyspaceThroughput(_command);
 

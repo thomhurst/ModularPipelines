@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az cluster commands.
+/// az eventhubs cluster commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventhubsCluster
@@ -35,17 +35,17 @@ public class AzEventhubsCluster
     #region Sub-command Groups
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az eventhubs cluster namespace sub-commands.
     /// </summary>
     public AzEventhubsClusterNamespace Namespace => _namespace ??= new AzEventhubsClusterNamespace(_command);
 
     /// <summary>
-    /// az quota-configuration sub-commands.
+    /// az eventhubs cluster quota-configuration sub-commands.
     /// </summary>
     public AzEventhubsClusterQuotaConfiguration QuotaConfiguration => _quotaConfiguration ??= new AzEventhubsClusterQuotaConfiguration(_command);
 
     /// <summary>
-    /// az upgrade-preference sub-commands.
+    /// az eventhubs cluster upgrade-preference sub-commands.
     /// </summary>
     public AzEventhubsClusterUpgradePreference UpgradePreference => _upgradePreference ??= new AzEventhubsClusterUpgradePreference(_command);
 

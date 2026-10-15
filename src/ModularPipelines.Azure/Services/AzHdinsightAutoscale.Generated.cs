@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az autoscale commands.
+/// az hdinsight autoscale commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzHdinsightAutoscale
@@ -33,7 +33,7 @@ public class AzHdinsightAutoscale
     #region Sub-command Groups
 
     /// <summary>
-    /// az condition sub-commands.
+    /// az hdinsight autoscale condition sub-commands.
     /// </summary>
     public AzHdinsightAutoscaleCondition Condition => _condition ??= new AzHdinsightAutoscaleCondition(_command);
 

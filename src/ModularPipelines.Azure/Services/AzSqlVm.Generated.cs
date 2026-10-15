@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az vm commands.
+/// az sql vm commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlVm
@@ -33,7 +33,7 @@ public class AzSqlVm
     #region Sub-command Groups
 
     /// <summary>
-    /// az group sub-commands.
+    /// az sql vm group sub-commands.
     /// </summary>
     public AzSqlVmGroup Group => _group ??= new AzSqlVmGroup(_command);
 

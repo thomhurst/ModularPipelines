@@ -33,7 +33,7 @@ public class AzContainer : IAzContainer
     #region Sub-command Groups
 
     /// <summary>
-    /// az container-group-profile sub-commands.
+    /// az container container-group-profile sub-commands.
     /// </summary>
     public AzContainerContainerGroupProfile ContainerGroupProfile => _containerGroupProfile ??= new AzContainerContainerGroupProfile(_command);
 

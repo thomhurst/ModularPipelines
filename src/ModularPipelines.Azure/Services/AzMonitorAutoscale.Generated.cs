@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az autoscale commands.
+/// az monitor autoscale commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorAutoscale
@@ -34,12 +34,12 @@ public class AzMonitorAutoscale
     #region Sub-command Groups
 
     /// <summary>
-    /// az profile sub-commands.
+    /// az monitor autoscale profile sub-commands.
     /// </summary>
     public AzMonitorAutoscaleProfile Profile => _profile ??= new AzMonitorAutoscaleProfile(_command);
 
     /// <summary>
-    /// az rule sub-commands.
+    /// az monitor autoscale rule sub-commands.
     /// </summary>
     public AzMonitorAutoscaleRule Rule => _rule ??= new AzMonitorAutoscaleRule(_command);
 

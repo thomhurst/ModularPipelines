@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az microsoft-entra-admin commands.
+/// az postgres flexible-server microsoft-entra-admin commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPostgresFlexibleServerMicrosoftEntraAdmin

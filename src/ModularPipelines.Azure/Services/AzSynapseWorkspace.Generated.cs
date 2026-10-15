@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az workspace commands.
+/// az synapse workspace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapseWorkspace
@@ -35,17 +35,17 @@ public class AzSynapseWorkspace
     #region Sub-command Groups
 
     /// <summary>
-    /// az firewall-rule sub-commands.
+    /// az synapse workspace firewall-rule sub-commands.
     /// </summary>
     public AzSynapseWorkspaceFirewallRule FirewallRule => _firewallRule ??= new AzSynapseWorkspaceFirewallRule(_command);
 
     /// <summary>
-    /// az key sub-commands.
+    /// az synapse workspace key sub-commands.
     /// </summary>
     public AzSynapseWorkspaceKey Key => _key ??= new AzSynapseWorkspaceKey(_command);
 
     /// <summary>
-    /// az managed-identity sub-commands.
+    /// az synapse workspace managed-identity sub-commands.
     /// </summary>
     public AzSynapseWorkspaceManagedIdentity ManagedIdentity => _managedIdentity ??= new AzSynapseWorkspaceManagedIdentity(_command);
 

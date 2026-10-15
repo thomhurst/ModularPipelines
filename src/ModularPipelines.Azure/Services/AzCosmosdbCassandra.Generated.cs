@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az cassandra commands.
+/// az cosmosdb cassandra commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbCassandra
@@ -34,12 +34,12 @@ public class AzCosmosdbCassandra
     #region Sub-command Groups
 
     /// <summary>
-    /// az keyspace sub-commands.
+    /// az cosmosdb cassandra keyspace sub-commands.
     /// </summary>
     public AzCosmosdbCassandraKeyspace Keyspace => _keyspace ??= new AzCosmosdbCassandraKeyspace(_command);
 
     /// <summary>
-    /// az table sub-commands.
+    /// az cosmosdb cassandra table sub-commands.
     /// </summary>
     public AzCosmosdbCassandraTable Table => _table ??= new AzCosmosdbCassandraTable(_command);
 

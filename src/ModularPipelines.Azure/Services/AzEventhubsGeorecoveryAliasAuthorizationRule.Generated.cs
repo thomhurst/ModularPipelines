@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az authorization-rule commands.
+/// az eventhubs georecovery-alias authorization-rule commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventhubsGeorecoveryAliasAuthorizationRule
@@ -33,7 +33,7 @@ public class AzEventhubsGeorecoveryAliasAuthorizationRule
     #region Sub-command Groups
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az eventhubs georecovery-alias authorization-rule keys sub-commands.
     /// </summary>
     public AzEventhubsGeorecoveryAliasAuthorizationRuleKeys Keys => _keys ??= new AzEventhubsGeorecoveryAliasAuthorizationRuleKeys(_command);
 

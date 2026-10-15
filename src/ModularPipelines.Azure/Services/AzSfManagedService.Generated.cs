@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az managed-service commands.
+/// az sf managed-service commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSfManagedService
@@ -34,12 +34,12 @@ public class AzSfManagedService
     #region Sub-command Groups
 
     /// <summary>
-    /// az correlation-scheme sub-commands.
+    /// az sf managed-service correlation-scheme sub-commands.
     /// </summary>
     public AzSfManagedServiceCorrelationScheme CorrelationScheme => _correlationScheme ??= new AzSfManagedServiceCorrelationScheme(_command);
 
     /// <summary>
-    /// az load-metrics sub-commands.
+    /// az sf managed-service load-metrics sub-commands.
     /// </summary>
     public AzSfManagedServiceLoadMetrics LoadMetrics => _loadMetrics ??= new AzSfManagedServiceLoadMetrics(_command);
 

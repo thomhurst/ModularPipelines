@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az variable-group commands.
+/// az pipelines variable-group commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPipelinesVariableGroup
@@ -33,7 +33,7 @@ public class AzPipelinesVariableGroup
     #region Sub-command Groups
 
     /// <summary>
-    /// az variable sub-commands.
+    /// az pipelines variable-group variable sub-commands.
     /// </summary>
     public AzPipelinesVariableGroupVariable Variable => _variable ??= new AzPipelinesVariableGroupVariable(_command);
 

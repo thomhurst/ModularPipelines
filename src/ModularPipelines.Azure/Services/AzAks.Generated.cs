@@ -22,6 +22,7 @@ public class AzAks : IAzAks
     private readonly ICommandContext _command;
     private AzAksApprouting? _approuting;
     private AzAksCommand? _commandSubGroup;
+    private AzAksConnection? _connection;
     private AzAksIdentityBinding? _identityBinding;
     private AzAksMachine? _machine;
     private AzAksMaintenanceconfiguration? _maintenanceconfiguration;
@@ -43,57 +44,62 @@ public class AzAks : IAzAks
     #region Sub-command Groups
 
     /// <summary>
-    /// az approuting sub-commands.
+    /// az aks approuting sub-commands.
     /// </summary>
     public AzAksApprouting Approuting => _approuting ??= new AzAksApprouting(_command);
 
     /// <summary>
-    /// az command sub-commands.
+    /// az aks command sub-commands.
     /// </summary>
     public AzAksCommand Command => _commandSubGroup ??= new AzAksCommand(_command);
 
     /// <summary>
-    /// az identity-binding sub-commands.
+    /// az aks connection sub-commands.
+    /// </summary>
+    public AzAksConnection Connection => _connection ??= new AzAksConnection(_command);
+
+    /// <summary>
+    /// az aks identity-binding sub-commands.
     /// </summary>
     public AzAksIdentityBinding IdentityBinding => _identityBinding ??= new AzAksIdentityBinding(_command);
 
     /// <summary>
-    /// az machine sub-commands.
+    /// az aks machine sub-commands.
     /// </summary>
     public AzAksMachine Machine => _machine ??= new AzAksMachine(_command);
 
     /// <summary>
-    /// az maintenanceconfiguration sub-commands.
+    /// az aks maintenanceconfiguration sub-commands.
     /// </summary>
     public AzAksMaintenanceconfiguration Maintenanceconfiguration => _maintenanceconfiguration ??= new AzAksMaintenanceconfiguration(_command);
 
     /// <summary>
-    /// az mesh sub-commands.
+    /// az aks mesh sub-commands.
     /// </summary>
     public AzAksMesh Mesh => _mesh ??= new AzAksMesh(_command);
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az aks namespace sub-commands.
     /// </summary>
     public AzAksNamespace Namespace => _namespace ??= new AzAksNamespace(_command);
 
     /// <summary>
-    /// az nodepool sub-commands.
+    /// az aks nodepool sub-commands.
     /// </summary>
     public AzAksNodepool Nodepool => _nodepool ??= new AzAksNodepool(_command);
 
     /// <summary>
-    /// az oidc-issuer sub-commands.
+    /// az aks oidc-issuer sub-commands.
     /// </summary>
     public AzAksOidcIssuer OidcIssuer => _oidcIssuer ??= new AzAksOidcIssuer(_command);
 
     /// <summary>
-    /// az safeguards sub-commands.
+    /// az aks safeguards sub-commands.
     /// </summary>
     public AzAksSafeguards Safeguards => _safeguards ??= new AzAksSafeguards(_command);
 
     /// <summary>
-    /// az trustedaccess sub-commands.
+    /// az aks trustedaccess sub-commands.
     /// </summary>
     public AzAksTrustedaccess Trustedaccess => _trustedaccess ??= new AzAksTrustedaccess(_command);
 
@@ -297,6 +303,21 @@ public class AzAks : IAzAks
     }
 
     /// <summary>
+    /// Remove Azure Dev Spaces from a managed Kubernetes cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveDevSpacesAsync(
+        AzAksRemoveDevSpacesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Rotate certificates and keys on a managed Kubernetes cluster.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -395,6 +416,21 @@ public class AzAks : IAzAks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
         AzAksUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Use Azure Dev Spaces with a managed Kubernetes cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UseDevSpacesAsync(
+        AzAksUseDevSpacesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

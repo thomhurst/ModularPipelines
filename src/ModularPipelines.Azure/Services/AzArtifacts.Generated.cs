@@ -33,7 +33,7 @@ public class AzArtifacts : IAzArtifacts
     #region Sub-command Groups
 
     /// <summary>
-    /// az universal sub-commands.
+    /// az artifacts universal sub-commands.
     /// </summary>
     public AzArtifactsUniversal Universal => _universal ??= new AzArtifactsUniversal(_command);
 

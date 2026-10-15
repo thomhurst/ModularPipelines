@@ -41,47 +41,47 @@ public class AzSf : IAzSf
     #region Sub-command Groups
 
     /// <summary>
-    /// az application sub-commands.
+    /// az sf application sub-commands.
     /// </summary>
     public AzSfApplication Application => _application ??= new AzSfApplication(_command);
 
     /// <summary>
-    /// az application-type sub-commands.
+    /// az sf application-type sub-commands.
     /// </summary>
     public AzSfApplicationType ApplicationType => _applicationType ??= new AzSfApplicationType(_command);
 
     /// <summary>
-    /// az cluster sub-commands.
+    /// az sf cluster sub-commands.
     /// </summary>
     public AzSfCluster Cluster => _cluster ??= new AzSfCluster(_command);
 
     /// <summary>
-    /// az managed-application sub-commands.
+    /// az sf managed-application sub-commands.
     /// </summary>
     public AzSfManagedApplication ManagedApplication => _managedApplication ??= new AzSfManagedApplication(_command);
 
     /// <summary>
-    /// az managed-application-type sub-commands.
+    /// az sf managed-application-type sub-commands.
     /// </summary>
     public AzSfManagedApplicationType ManagedApplicationType => _managedApplicationType ??= new AzSfManagedApplicationType(_command);
 
     /// <summary>
-    /// az managed-cluster sub-commands.
+    /// az sf managed-cluster sub-commands.
     /// </summary>
     public AzSfManagedCluster ManagedCluster => _managedCluster ??= new AzSfManagedCluster(_command);
 
     /// <summary>
-    /// az managed-node-type sub-commands.
+    /// az sf managed-node-type sub-commands.
     /// </summary>
     public AzSfManagedNodeType ManagedNodeType => _managedNodeType ??= new AzSfManagedNodeType(_command);
 
     /// <summary>
-    /// az managed-service sub-commands.
+    /// az sf managed-service sub-commands.
     /// </summary>
     public AzSfManagedService ManagedService => _managedService ??= new AzSfManagedService(_command);
 
     /// <summary>
-    /// az service sub-commands.
+    /// az sf service sub-commands.
     /// </summary>
     public AzSfService Service => _service ??= new AzSfService(_command);
 

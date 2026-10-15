@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az runs commands.
+/// az pipelines runs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPipelinesRuns
@@ -34,12 +34,12 @@ public class AzPipelinesRuns
     #region Sub-command Groups
 
     /// <summary>
-    /// az artifact sub-commands.
+    /// az pipelines runs artifact sub-commands.
     /// </summary>
     public AzPipelinesRunsArtifact Artifact => _artifact ??= new AzPipelinesRunsArtifact(_command);
 
     /// <summary>
-    /// az tag sub-commands.
+    /// az pipelines runs tag sub-commands.
     /// </summary>
     public AzPipelinesRunsTag Tag => _tag ??= new AzPipelinesRunsTag(_command);
 

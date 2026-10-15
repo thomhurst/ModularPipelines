@@ -24,6 +24,7 @@ public class AzCosmosdb : IAzCosmosdb
     private AzCosmosdbFleet? _fleet;
     private AzCosmosdbFleetspace? _fleetspace;
     private AzCosmosdbGremlin? _gremlin;
+    private AzCosmosdbIdentity? _identity;
     private AzCosmosdbKeys? _keys;
     private AzCosmosdbLocations? _locations;
     private AzCosmosdbMongodb? _mongodb;
@@ -47,77 +48,82 @@ public class AzCosmosdb : IAzCosmosdb
     #region Sub-command Groups
 
     /// <summary>
-    /// az cassandra sub-commands.
+    /// az cosmosdb cassandra sub-commands.
     /// </summary>
     public AzCosmosdbCassandra Cassandra => _cassandra ??= new AzCosmosdbCassandra(_command);
 
     /// <summary>
-    /// az fleet sub-commands.
+    /// az cosmosdb fleet sub-commands.
     /// </summary>
     public AzCosmosdbFleet Fleet => _fleet ??= new AzCosmosdbFleet(_command);
 
     /// <summary>
-    /// az fleetspace sub-commands.
+    /// az cosmosdb fleetspace sub-commands.
     /// </summary>
     public AzCosmosdbFleetspace Fleetspace => _fleetspace ??= new AzCosmosdbFleetspace(_command);
 
     /// <summary>
-    /// az gremlin sub-commands.
+    /// az cosmosdb gremlin sub-commands.
     /// </summary>
     public AzCosmosdbGremlin Gremlin => _gremlin ??= new AzCosmosdbGremlin(_command);
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az cosmosdb identity sub-commands.
+    /// </summary>
+    public AzCosmosdbIdentity Identity => _identity ??= new AzCosmosdbIdentity(_command);
+
+    /// <summary>
+    /// az cosmosdb keys sub-commands.
     /// </summary>
     public AzCosmosdbKeys Keys => _keys ??= new AzCosmosdbKeys(_command);
 
     /// <summary>
-    /// az locations sub-commands.
+    /// az cosmosdb locations sub-commands.
     /// </summary>
     public AzCosmosdbLocations Locations => _locations ??= new AzCosmosdbLocations(_command);
 
     /// <summary>
-    /// az mongodb sub-commands.
+    /// az cosmosdb mongodb sub-commands.
     /// </summary>
     public AzCosmosdbMongodb Mongodb => _mongodb ??= new AzCosmosdbMongodb(_command);
 
     /// <summary>
-    /// az network-rule sub-commands.
+    /// az cosmosdb network-rule sub-commands.
     /// </summary>
     public AzCosmosdbNetworkRule NetworkRule => _networkRule ??= new AzCosmosdbNetworkRule(_command);
 
     /// <summary>
-    /// az postgres sub-commands.
+    /// az cosmosdb postgres sub-commands.
     /// </summary>
     public AzCosmosdbPostgres Postgres => _postgres ??= new AzCosmosdbPostgres(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az cosmosdb private-endpoint-connection sub-commands.
     /// </summary>
     public AzCosmosdbPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzCosmosdbPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az cosmosdb private-link-resource sub-commands.
     /// </summary>
     public AzCosmosdbPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzCosmosdbPrivateLinkResource(_command);
 
     /// <summary>
-    /// az restorable-database-account sub-commands.
+    /// az cosmosdb restorable-database-account sub-commands.
     /// </summary>
     public AzCosmosdbRestorableDatabaseAccount RestorableDatabaseAccount => _restorableDatabaseAccount ??= new AzCosmosdbRestorableDatabaseAccount(_command);
 
     /// <summary>
-    /// az service sub-commands.
+    /// az cosmosdb service sub-commands.
     /// </summary>
     public AzCosmosdbService Service => _service ??= new AzCosmosdbService(_command);
 
     /// <summary>
-    /// az sql sub-commands.
+    /// az cosmosdb sql sub-commands.
     /// </summary>
     public AzCosmosdbSql Sql => _sql ??= new AzCosmosdbSql(_command);
 
     /// <summary>
-    /// az table sub-commands.
+    /// az cosmosdb table sub-commands.
     /// </summary>
     public AzCosmosdbTable Table => _table ??= new AzCosmosdbTable(_command);
 

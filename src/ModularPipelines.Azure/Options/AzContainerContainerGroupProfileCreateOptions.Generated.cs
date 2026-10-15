@@ -174,6 +174,7 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The storage account access key used to access the Azure File share.
     /// </summary>
+    [SecretValue]
     [CliOption("--azure-file-volume-account-key")]
     public string? AzureFileVolumeAccountKey { get; set; }
 

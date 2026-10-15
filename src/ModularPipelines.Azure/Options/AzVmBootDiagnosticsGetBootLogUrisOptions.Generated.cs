@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,6 +24,7 @@ public record AzVmBootDiagnosticsGetBootLogUrisOptions : AzOptions
     /// <summary>
     /// Expiration duration in minutes for the SAS URIs with a value between 1 to                           1440 minutes. If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes.
     /// </summary>
+    [SecretValue]
     [CliOption("--expire")]
     public string? Expire { get; set; }
 

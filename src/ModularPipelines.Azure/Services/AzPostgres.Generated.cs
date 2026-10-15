@@ -33,7 +33,7 @@ public class AzPostgres : IAzPostgres
     #region Sub-command Groups
 
     /// <summary>
-    /// az flexible-server sub-commands.
+    /// az postgres flexible-server sub-commands.
     /// </summary>
     public AzPostgresFlexibleServer FlexibleServer => _flexibleServer ??= new AzPostgresFlexibleServer(_command);
 

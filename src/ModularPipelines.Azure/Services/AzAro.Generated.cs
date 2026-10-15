@@ -33,7 +33,7 @@ public class AzAro : IAzAro
     #region Sub-command Groups
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az aro identity sub-commands.
     /// </summary>
     public AzAroIdentity Identity => _identity ??= new AzAroIdentity(_command);
 

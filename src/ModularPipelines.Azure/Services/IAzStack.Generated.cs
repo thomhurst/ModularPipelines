@@ -22,18 +22,18 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzStack
 {
     /// <summary>
-    /// az group sub-commands.
+    /// az stack group sub-commands.
     /// </summary>
-    AzStackGroup Group => throw new System.NotSupportedException();
+    AzStackGroup Group { get; }
 
     /// <summary>
-    /// az mg sub-commands.
+    /// az stack mg sub-commands.
     /// </summary>
-    AzStackMg Mg => throw new System.NotSupportedException();
+    AzStackMg Mg { get; }
 
     /// <summary>
-    /// az sub sub-commands.
+    /// az stack sub sub-commands.
     /// </summary>
-    AzStackSub Sub => throw new System.NotSupportedException();
+    AzStackSub Sub { get; }
 
 }

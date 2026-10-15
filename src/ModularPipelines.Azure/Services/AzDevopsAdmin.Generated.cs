@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az admin commands.
+/// az devops admin commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDevopsAdmin
@@ -33,7 +33,7 @@ public class AzDevopsAdmin
     #region Sub-command Groups
 
     /// <summary>
-    /// az banner sub-commands.
+    /// az devops admin banner sub-commands.
     /// </summary>
     public AzDevopsAdminBanner Banner => _banner ??= new AzDevopsAdminBanner(_command);
 

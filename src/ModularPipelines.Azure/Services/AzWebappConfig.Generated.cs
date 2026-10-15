@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az config commands.
+/// az webapp config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzWebappConfig
@@ -41,47 +41,47 @@ public class AzWebappConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// az access-restriction sub-commands.
+    /// az webapp config access-restriction sub-commands.
     /// </summary>
     public AzWebappConfigAccessRestriction AccessRestriction => _accessRestriction ??= new AzWebappConfigAccessRestriction(_command);
 
     /// <summary>
-    /// az appsettings sub-commands.
+    /// az webapp config appsettings sub-commands.
     /// </summary>
     public AzWebappConfigAppSettings AppSettings => _appSettings ??= new AzWebappConfigAppSettings(_command);
 
     /// <summary>
-    /// az backup sub-commands.
+    /// az webapp config backup sub-commands.
     /// </summary>
     public AzWebappConfigBackup Backup => _backup ??= new AzWebappConfigBackup(_command);
 
     /// <summary>
-    /// az connection-string sub-commands.
+    /// az webapp config connection-string sub-commands.
     /// </summary>
     public AzWebappConfigConnectionString ConnectionString => _connectionString ??= new AzWebappConfigConnectionString(_command);
 
     /// <summary>
-    /// az container sub-commands.
+    /// az webapp config container sub-commands.
     /// </summary>
     public AzWebappConfigContainer Container => _container ??= new AzWebappConfigContainer(_command);
 
     /// <summary>
-    /// az hostname sub-commands.
+    /// az webapp config hostname sub-commands.
     /// </summary>
     public AzWebappConfigHostname Hostname => _hostname ??= new AzWebappConfigHostname(_command);
 
     /// <summary>
-    /// az snapshot sub-commands.
+    /// az webapp config snapshot sub-commands.
     /// </summary>
     public AzWebappConfigSnapshot Snapshot => _snapshot ??= new AzWebappConfigSnapshot(_command);
 
     /// <summary>
-    /// az ssl sub-commands.
+    /// az webapp config ssl sub-commands.
     /// </summary>
     public AzWebappConfigSsl Ssl => _ssl ??= new AzWebappConfigSsl(_command);
 
     /// <summary>
-    /// az storage-account sub-commands.
+    /// az webapp config storage-account sub-commands.
     /// </summary>
     public AzWebappConfigStorageAccount StorageAccount => _storageAccount ??= new AzWebappConfigStorageAccount(_command);
 

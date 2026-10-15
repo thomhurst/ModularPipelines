@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az advanced-threat-protection-setting commands.
+/// az postgres flexible-server advanced-threat-protection-setting commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPostgresFlexibleServerAdvancedThreatProtectionSetting

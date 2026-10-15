@@ -13,7 +13,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az privatelink commands.
+/// az private-link commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,8 +22,8 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzPrivateLink
 {
     /// <summary>
-    /// az association sub-commands.
+    /// az private-link association sub-commands.
     /// </summary>
-    AzPrivateLinkAssociation Association => throw new System.NotSupportedException();
+    AzPrivateLinkAssociation Association { get; }
 
 }

@@ -14,12 +14,13 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az invoice commands.
+/// az billing invoice commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBillingInvoice
 {
     private readonly ICommandContext _command;
+    private AzBillingInvoiceSection? _section;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBillingInvoice"/> class.
@@ -29,7 +30,31 @@ public class AzBillingInvoice
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az billing invoice section sub-commands.
+    /// </summary>
+    public AzBillingInvoiceSection Section => _section ??= new AzBillingInvoiceSection(_command);
+
+    #endregion
+
     #region Commands
+
+    /// <summary>
+    /// Get URL to download invoice.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DownloadAsync(
+        AzBillingInvoiceDownloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBillingInvoiceDownloadOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// List the invoices for a subscription.

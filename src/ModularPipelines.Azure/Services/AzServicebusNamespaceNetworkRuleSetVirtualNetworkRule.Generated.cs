@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az virtual-network-rule commands.
+/// az servicebus namespace network-rule-set virtual-network-rule commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule

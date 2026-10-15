@@ -33,7 +33,7 @@ public class AzDisk : IAzDisk
     #region Sub-command Groups
 
     /// <summary>
-    /// az config sub-commands.
+    /// az disk config sub-commands.
     /// </summary>
     public AzDiskConfig Config => _config ??= new AzDiskConfig(_command);
 

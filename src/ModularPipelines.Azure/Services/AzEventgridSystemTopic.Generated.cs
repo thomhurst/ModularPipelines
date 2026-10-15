@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az system-topic commands.
+/// az eventgrid system-topic commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventgridSystemTopic
@@ -33,7 +33,7 @@ public class AzEventgridSystemTopic
     #region Sub-command Groups
 
     /// <summary>
-    /// az event-subscription sub-commands.
+    /// az eventgrid system-topic event-subscription sub-commands.
     /// </summary>
     public AzEventgridSystemTopicEventSubscription EventSubscription => _eventSubscription ??= new AzEventgridSystemTopicEventSubscription(_command);
 

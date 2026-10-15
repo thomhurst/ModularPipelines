@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az db commands.
+/// az sql db commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlDb
@@ -43,57 +43,57 @@ public class AzSqlDb
     #region Sub-command Groups
 
     /// <summary>
-    /// az advanced-threat-protection-setting sub-commands.
+    /// az sql db advanced-threat-protection-setting sub-commands.
     /// </summary>
     public AzSqlDbAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzSqlDbAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
-    /// az audit-policy sub-commands.
+    /// az sql db audit-policy sub-commands.
     /// </summary>
     public AzSqlDbAuditPolicy AuditPolicy => _auditPolicy ??= new AzSqlDbAuditPolicy(_command);
 
     /// <summary>
-    /// az classification sub-commands.
+    /// az sql db classification sub-commands.
     /// </summary>
     public AzSqlDbClassification Classification => _classification ??= new AzSqlDbClassification(_command);
 
     /// <summary>
-    /// az geo-backup sub-commands.
+    /// az sql db geo-backup sub-commands.
     /// </summary>
     public AzSqlDbGeoBackup GeoBackup => _geoBackup ??= new AzSqlDbGeoBackup(_command);
 
     /// <summary>
-    /// az ledger-digest-uploads sub-commands.
+    /// az sql db ledger-digest-uploads sub-commands.
     /// </summary>
     public AzSqlDbLedgerDigestUploads LedgerDigestUploads => _ledgerDigestUploads ??= new AzSqlDbLedgerDigestUploads(_command);
 
     /// <summary>
-    /// az ltr-backup sub-commands.
+    /// az sql db ltr-backup sub-commands.
     /// </summary>
     public AzSqlDbLtrBackup LtrBackup => _ltrBackup ??= new AzSqlDbLtrBackup(_command);
 
     /// <summary>
-    /// az ltr-policy sub-commands.
+    /// az sql db ltr-policy sub-commands.
     /// </summary>
     public AzSqlDbLtrPolicy LtrPolicy => _ltrPolicy ??= new AzSqlDbLtrPolicy(_command);
 
     /// <summary>
-    /// az op sub-commands.
+    /// az sql db op sub-commands.
     /// </summary>
     public AzSqlDbOp Op => _op ??= new AzSqlDbOp(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az sql db replica sub-commands.
     /// </summary>
     public AzSqlDbReplica Replica => _replica ??= new AzSqlDbReplica(_command);
 
     /// <summary>
-    /// az str-policy sub-commands.
+    /// az sql db str-policy sub-commands.
     /// </summary>
     public AzSqlDbStrPolicy StrPolicy => _strPolicy ??= new AzSqlDbStrPolicy(_command);
 
     /// <summary>
-    /// az tde sub-commands.
+    /// az sql db tde sub-commands.
     /// </summary>
     public AzSqlDbTde Tde => _tde ??= new AzSqlDbTde(_command);
 

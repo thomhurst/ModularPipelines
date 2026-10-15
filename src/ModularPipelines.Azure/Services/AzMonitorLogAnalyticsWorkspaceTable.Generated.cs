@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az table commands.
+/// az monitor log-analytics workspace table commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorLogAnalyticsWorkspaceTable
@@ -34,12 +34,12 @@ public class AzMonitorLogAnalyticsWorkspaceTable
     #region Sub-command Groups
 
     /// <summary>
-    /// az restore sub-commands.
+    /// az monitor log-analytics workspace table restore sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspaceTableRestore Restore => _restore ??= new AzMonitorLogAnalyticsWorkspaceTableRestore(_command);
 
     /// <summary>
-    /// az search-job sub-commands.
+    /// az monitor log-analytics workspace table search-job sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspaceTableSearchJob SearchJob => _searchJob ??= new AzMonitorLogAnalyticsWorkspaceTableSearchJob(_command);
 

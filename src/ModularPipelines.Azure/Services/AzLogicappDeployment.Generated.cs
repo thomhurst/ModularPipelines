@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az deployment commands.
+/// az logicapp deployment commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzLogicappDeployment
@@ -33,7 +33,7 @@ public class AzLogicappDeployment
     #region Sub-command Groups
 
     /// <summary>
-    /// az source sub-commands.
+    /// az logicapp deployment source sub-commands.
     /// </summary>
     public AzLogicappDeploymentSource Source => _source ??= new AzLogicappDeploymentSource(_command);
 

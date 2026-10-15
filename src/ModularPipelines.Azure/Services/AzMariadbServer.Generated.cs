@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az server commands.
+/// az mariadb server commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMariadbServer
@@ -38,32 +38,32 @@ public class AzMariadbServer
     #region Sub-command Groups
 
     /// <summary>
-    /// az configuration sub-commands.
+    /// az mariadb server configuration sub-commands.
     /// </summary>
     public AzMariadbServerConfiguration Configuration => _configuration ??= new AzMariadbServerConfiguration(_command);
 
     /// <summary>
-    /// az firewall-rule sub-commands.
+    /// az mariadb server firewall-rule sub-commands.
     /// </summary>
     public AzMariadbServerFirewallRule FirewallRule => _firewallRule ??= new AzMariadbServerFirewallRule(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az mariadb server private-endpoint-connection sub-commands.
     /// </summary>
     public AzMariadbServerPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzMariadbServerPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az mariadb server private-link-resource sub-commands.
     /// </summary>
     public AzMariadbServerPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzMariadbServerPrivateLinkResource(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az mariadb server replica sub-commands.
     /// </summary>
     public AzMariadbServerReplica Replica => _replica ??= new AzMariadbServerReplica(_command);
 
     /// <summary>
-    /// az vnet-rule sub-commands.
+    /// az mariadb server vnet-rule sub-commands.
     /// </summary>
     public AzMariadbServerVnetRule VnetRule => _vnetRule ??= new AzMariadbServerVnetRule(_command);
 

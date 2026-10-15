@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az reservation commands.
+/// az capacity reservation commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCapacityReservation
@@ -33,7 +33,7 @@ public class AzCapacityReservation
     #region Sub-command Groups
 
     /// <summary>
-    /// az group sub-commands.
+    /// az capacity reservation group sub-commands.
     /// </summary>
     public AzCapacityReservationGroup Group => _group ??= new AzCapacityReservationGroup(_command);
 

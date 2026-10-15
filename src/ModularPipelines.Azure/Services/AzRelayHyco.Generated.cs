@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az hyco commands.
+/// az relay hyco commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzRelayHyco
@@ -33,7 +33,7 @@ public class AzRelayHyco
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az relay hyco authorization-rule sub-commands.
     /// </summary>
     public AzRelayHycoAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzRelayHycoAuthorizationRule(_command);
 

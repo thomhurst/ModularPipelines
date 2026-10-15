@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az custom-rule commands.
+/// az network application-gateway waf-policy custom-rule commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGatewayWafPolicyCustomRule
@@ -33,7 +33,7 @@ public class AzNetworkApplicationGatewayWafPolicyCustomRule
     #region Sub-command Groups
 
     /// <summary>
-    /// az match-condition sub-commands.
+    /// az network application-gateway waf-policy custom-rule match-condition sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition MatchCondition => _matchCondition ??= new AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az action-group commands.
+/// az monitor action-group commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorActionGroup
@@ -34,12 +34,12 @@ public class AzMonitorActionGroup
     #region Sub-command Groups
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az monitor action-group identity sub-commands.
     /// </summary>
     public AzMonitorActionGroupIdentity Identity => _identity ??= new AzMonitorActionGroupIdentity(_command);
 
     /// <summary>
-    /// az test-notifications sub-commands.
+    /// az monitor action-group test-notifications sub-commands.
     /// </summary>
     public AzMonitorActionGroupTestNotifications TestNotifications => _testNotifications ??= new AzMonitorActionGroupTestNotifications(_command);
 

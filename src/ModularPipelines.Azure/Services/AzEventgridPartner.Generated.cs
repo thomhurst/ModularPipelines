@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az partner commands.
+/// az eventgrid partner commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventgridPartner
@@ -38,32 +38,32 @@ public class AzEventgridPartner
     #region Sub-command Groups
 
     /// <summary>
-    /// az configuration sub-commands.
+    /// az eventgrid partner configuration sub-commands.
     /// </summary>
     public AzEventgridPartnerConfiguration Configuration => _configuration ??= new AzEventgridPartnerConfiguration(_command);
 
     /// <summary>
-    /// az destination sub-commands.
+    /// az eventgrid partner destination sub-commands.
     /// </summary>
     public AzEventgridPartnerDestination Destination => _destination ??= new AzEventgridPartnerDestination(_command);
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az eventgrid partner namespace sub-commands.
     /// </summary>
     public AzEventgridPartnerNamespace Namespace => _namespace ??= new AzEventgridPartnerNamespace(_command);
 
     /// <summary>
-    /// az registration sub-commands.
+    /// az eventgrid partner registration sub-commands.
     /// </summary>
     public AzEventgridPartnerRegistration Registration => _registration ??= new AzEventgridPartnerRegistration(_command);
 
     /// <summary>
-    /// az topic sub-commands.
+    /// az eventgrid partner topic sub-commands.
     /// </summary>
     public AzEventgridPartnerTopic Topic => _topic ??= new AzEventgridPartnerTopic(_command);
 
     /// <summary>
-    /// az verified-partner sub-commands.
+    /// az eventgrid partner verified-partner sub-commands.
     /// </summary>
     public AzEventgridPartnerVerifiedPartner VerifiedPartner => _verifiedPartner ??= new AzEventgridPartnerVerifiedPartner(_command);
 

@@ -47,77 +47,77 @@ public class AzFunctionapp : IAzFunctionapp
     #region Sub-command Groups
 
     /// <summary>
-    /// az config sub-commands.
+    /// az functionapp config sub-commands.
     /// </summary>
     public AzFunctionappConfig Config => _config ??= new AzFunctionappConfig(_command);
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az functionapp connection sub-commands.
     /// </summary>
     public AzFunctionappConnection Connection => _connection ??= new AzFunctionappConnection(_command);
 
     /// <summary>
-    /// az cors sub-commands.
+    /// az functionapp cors sub-commands.
     /// </summary>
     public AzFunctionappCors Cors => _cors ??= new AzFunctionappCors(_command);
 
     /// <summary>
-    /// az deployment sub-commands.
+    /// az functionapp deployment sub-commands.
     /// </summary>
     public AzFunctionappDeployment Deployment => _deployment ??= new AzFunctionappDeployment(_command);
 
     /// <summary>
-    /// az flex-migration sub-commands.
+    /// az functionapp flex-migration sub-commands.
     /// </summary>
     public AzFunctionappFlexMigration FlexMigration => _flexMigration ??= new AzFunctionappFlexMigration(_command);
 
     /// <summary>
-    /// az function sub-commands.
+    /// az functionapp function sub-commands.
     /// </summary>
     public AzFunctionappFunction Function => _function ??= new AzFunctionappFunction(_command);
 
     /// <summary>
-    /// az hybrid-connection sub-commands.
+    /// az functionapp hybrid-connection sub-commands.
     /// </summary>
     public AzFunctionappHybridConnection HybridConnection => _hybridConnection ??= new AzFunctionappHybridConnection(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az functionapp identity sub-commands.
     /// </summary>
     public AzFunctionappIdentity Identity => _identity ??= new AzFunctionappIdentity(_command);
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az functionapp keys sub-commands.
     /// </summary>
     public AzFunctionappKeys Keys => _keys ??= new AzFunctionappKeys(_command);
 
     /// <summary>
-    /// az log sub-commands.
+    /// az functionapp log sub-commands.
     /// </summary>
     public AzFunctionappLog Log => _log ??= new AzFunctionappLog(_command);
 
     /// <summary>
-    /// az plan sub-commands.
+    /// az functionapp plan sub-commands.
     /// </summary>
     public AzFunctionappPlan Plan => _plan ??= new AzFunctionappPlan(_command);
 
     /// <summary>
-    /// az runtime sub-commands.
+    /// az functionapp runtime sub-commands.
     /// </summary>
     public AzFunctionappRuntime Runtime => _runtime ??= new AzFunctionappRuntime(_command);
 
     /// <summary>
-    /// az scale sub-commands.
+    /// az functionapp scale sub-commands.
     /// </summary>
     public AzFunctionappScale Scale => _scale ??= new AzFunctionappScale(_command);
 
     /// <summary>
-    /// az update-strategy sub-commands.
+    /// az functionapp update-strategy sub-commands.
     /// </summary>
     public AzFunctionappUpdateStrategy UpdateStrategy => _updateStrategy ??= new AzFunctionappUpdateStrategy(_command);
 
     /// <summary>
-    /// az vnet-integration sub-commands.
+    /// az functionapp vnet-integration sub-commands.
     /// </summary>
     public AzFunctionappVnetIntegration VnetIntegration => _vnetIntegration ??= new AzFunctionappVnetIntegration(_command);
 
@@ -153,6 +153,21 @@ public class AzFunctionapp : IAzFunctionapp
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deploys a provided artifact to Azure functionapp.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeployAsync(
+        AzFunctionappDeployOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappDeployOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

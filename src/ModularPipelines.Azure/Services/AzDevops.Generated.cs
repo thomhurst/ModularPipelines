@@ -22,6 +22,7 @@ public class AzDevops : IAzDevops
     private readonly ICommandContext _command;
     private AzDevopsAdmin? _admin;
     private AzDevopsExtension? _extension;
+    private AzDevopsMigrations? _migrations;
     private AzDevopsProject? _project;
     private AzDevopsSecurity? _security;
     private AzDevopsServiceEndpoint? _serviceEndpoint;
@@ -40,42 +41,47 @@ public class AzDevops : IAzDevops
     #region Sub-command Groups
 
     /// <summary>
-    /// az admin sub-commands.
+    /// az devops admin sub-commands.
     /// </summary>
     public AzDevopsAdmin Admin => _admin ??= new AzDevopsAdmin(_command);
 
     /// <summary>
-    /// az extension sub-commands.
+    /// az devops extension sub-commands.
     /// </summary>
     public AzDevopsExtension Extension => _extension ??= new AzDevopsExtension(_command);
 
     /// <summary>
-    /// az project sub-commands.
+    /// az devops migrations sub-commands.
+    /// </summary>
+    public AzDevopsMigrations Migrations => _migrations ??= new AzDevopsMigrations(_command);
+
+    /// <summary>
+    /// az devops project sub-commands.
     /// </summary>
     public AzDevopsProject Project => _project ??= new AzDevopsProject(_command);
 
     /// <summary>
-    /// az security sub-commands.
+    /// az devops security sub-commands.
     /// </summary>
     public AzDevopsSecurity Security => _security ??= new AzDevopsSecurity(_command);
 
     /// <summary>
-    /// az service-endpoint sub-commands.
+    /// az devops service-endpoint sub-commands.
     /// </summary>
     public AzDevopsServiceEndpoint ServiceEndpoint => _serviceEndpoint ??= new AzDevopsServiceEndpoint(_command);
 
     /// <summary>
-    /// az team sub-commands.
+    /// az devops team sub-commands.
     /// </summary>
     public AzDevopsTeam Team => _team ??= new AzDevopsTeam(_command);
 
     /// <summary>
-    /// az user sub-commands.
+    /// az devops user sub-commands.
     /// </summary>
     public AzDevopsUser User => _user ??= new AzDevopsUser(_command);
 
     /// <summary>
-    /// az wiki sub-commands.
+    /// az devops wiki sub-commands.
     /// </summary>
     public AzDevopsWiki Wiki => _wiki ??= new AzDevopsWiki(_command);
 

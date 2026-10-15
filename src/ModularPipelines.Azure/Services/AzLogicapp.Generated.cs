@@ -34,12 +34,12 @@ public class AzLogicapp : IAzLogicapp
     #region Sub-command Groups
 
     /// <summary>
-    /// az config sub-commands.
+    /// az logicapp config sub-commands.
     /// </summary>
     public AzLogicappConfig Config => _config ??= new AzLogicappConfig(_command);
 
     /// <summary>
-    /// az deployment sub-commands.
+    /// az logicapp deployment sub-commands.
     /// </summary>
     public AzLogicappDeployment Deployment => _deployment ??= new AzLogicappDeployment(_command);
 

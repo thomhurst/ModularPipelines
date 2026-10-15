@@ -36,22 +36,22 @@ public class AzEventhubs : IAzEventhubs
     #region Sub-command Groups
 
     /// <summary>
-    /// az cluster sub-commands.
+    /// az eventhubs cluster sub-commands.
     /// </summary>
     public AzEventhubsCluster Cluster => _cluster ??= new AzEventhubsCluster(_command);
 
     /// <summary>
-    /// az eventhub sub-commands.
+    /// az eventhubs eventhub sub-commands.
     /// </summary>
     public AzEventhubsEventhub Eventhub => _eventhub ??= new AzEventhubsEventhub(_command);
 
     /// <summary>
-    /// az georecovery-alias sub-commands.
+    /// az eventhubs georecovery-alias sub-commands.
     /// </summary>
     public AzEventhubsGeorecoveryAlias GeorecoveryAlias => _georecoveryAlias ??= new AzEventhubsGeorecoveryAlias(_command);
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az eventhubs namespace sub-commands.
     /// </summary>
     public AzEventhubsNamespace Namespace => _namespace ??= new AzEventhubsNamespace(_command);
 

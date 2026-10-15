@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -45,6 +46,7 @@ public record AzSecurityAutomationActionEventHubCreateOptions : AzOptions
     /// <summary>
     /// The target Event Hub connection string (it will not be included in any response).
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-string")]
     public string ConnectionString { get; private init; }
 

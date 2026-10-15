@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az public-ip commands.
+/// az network public-ip commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkPublicIp
@@ -34,12 +34,12 @@ public class AzNetworkPublicIp
     #region Sub-command Groups
 
     /// <summary>
-    /// az ddos-protection sub-commands.
+    /// az network public-ip ddos-protection sub-commands.
     /// </summary>
     public AzNetworkPublicIpDdosProtection DdosProtection => _ddosProtection ??= new AzNetworkPublicIpDdosProtection(_command);
 
     /// <summary>
-    /// az prefix sub-commands.
+    /// az network public-ip prefix sub-commands.
     /// </summary>
     public AzNetworkPublicIpPrefix Prefix => _prefix ??= new AzNetworkPublicIpPrefix(_command);
 

@@ -24,12 +24,15 @@ public class AzWebapp : IAzWebapp
     private AzWebappConfig? _config;
     private AzWebappConnection? _connection;
     private AzWebappCors? _cors;
+    private AzWebappDeleted? _deleted;
     private AzWebappDeployment? _deployment;
     private AzWebappHybridConnection? _hybridConnection;
     private AzWebappIdentity? _identity;
     private AzWebappLog? _log;
+    private AzWebappSecureBuild? _secureBuild;
     private AzWebappSitecontainers? _sitecontainers;
     private AzWebappTrafficRouting? _trafficRouting;
+    private AzWebappTroubleshoot? _troubleshoot;
     private AzWebappVnetIntegration? _vnetIntegration;
     private AzWebappWebjob? _webjob;
 
@@ -44,62 +47,77 @@ public class AzWebapp : IAzWebapp
     #region Sub-command Groups
 
     /// <summary>
-    /// az auth sub-commands.
+    /// az webapp auth sub-commands.
     /// </summary>
     public AzWebappAuth Auth => _auth ??= new AzWebappAuth(_command);
 
     /// <summary>
-    /// az config sub-commands.
+    /// az webapp config sub-commands.
     /// </summary>
     public AzWebappConfig Config => _config ??= new AzWebappConfig(_command);
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az webapp connection sub-commands.
     /// </summary>
     public AzWebappConnection Connection => _connection ??= new AzWebappConnection(_command);
 
     /// <summary>
-    /// az cors sub-commands.
+    /// az webapp cors sub-commands.
     /// </summary>
     public AzWebappCors Cors => _cors ??= new AzWebappCors(_command);
 
     /// <summary>
-    /// az deployment sub-commands.
+    /// az webapp deleted sub-commands.
+    /// </summary>
+    public AzWebappDeleted Deleted => _deleted ??= new AzWebappDeleted(_command);
+
+    /// <summary>
+    /// az webapp deployment sub-commands.
     /// </summary>
     public AzWebappDeployment Deployment => _deployment ??= new AzWebappDeployment(_command);
 
     /// <summary>
-    /// az hybrid-connection sub-commands.
+    /// az webapp hybrid-connection sub-commands.
     /// </summary>
     public AzWebappHybridConnection HybridConnection => _hybridConnection ??= new AzWebappHybridConnection(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az webapp identity sub-commands.
     /// </summary>
     public AzWebappIdentity Identity => _identity ??= new AzWebappIdentity(_command);
 
     /// <summary>
-    /// az log sub-commands.
+    /// az webapp log sub-commands.
     /// </summary>
     public AzWebappLog Log => _log ??= new AzWebappLog(_command);
 
     /// <summary>
-    /// az sitecontainers sub-commands.
+    /// az webapp secure-build sub-commands.
+    /// </summary>
+    public AzWebappSecureBuild SecureBuild => _secureBuild ??= new AzWebappSecureBuild(_command);
+
+    /// <summary>
+    /// az webapp sitecontainers sub-commands.
     /// </summary>
     public AzWebappSitecontainers Sitecontainers => _sitecontainers ??= new AzWebappSitecontainers(_command);
 
     /// <summary>
-    /// az traffic-routing sub-commands.
+    /// az webapp traffic-routing sub-commands.
     /// </summary>
     public AzWebappTrafficRouting TrafficRouting => _trafficRouting ??= new AzWebappTrafficRouting(_command);
 
     /// <summary>
-    /// az vnet-integration sub-commands.
+    /// az webapp troubleshoot sub-commands.
+    /// </summary>
+    public AzWebappTroubleshoot Troubleshoot => _troubleshoot ??= new AzWebappTroubleshoot(_command);
+
+    /// <summary>
+    /// az webapp vnet-integration sub-commands.
     /// </summary>
     public AzWebappVnetIntegration VnetIntegration => _vnetIntegration ??= new AzWebappVnetIntegration(_command);
 
     /// <summary>
-    /// az webjob sub-commands.
+    /// az webapp webjob sub-commands.
     /// </summary>
     public AzWebappWebjob Webjob => _webjob ??= new AzWebappWebjob(_command);
 
@@ -183,6 +201,21 @@ public class AzWebapp : IAzWebapp
     }
 
     /// <summary>
+    /// Open an interactive shell session or run a command in a Linux web app
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecAsync(
+        AzWebappExecOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List all scaled out instances of a web app or web app slot.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -258,6 +291,21 @@ public class AzWebapp : IAzWebapp
     }
 
     /// <summary>
+    /// SSH command establishes a ssh session to the web container and developer would
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SshAsync(
+        AzWebappSshOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappSshOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Start a web app.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -300,6 +348,21 @@ public class AzWebapp : IAzWebapp
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappUpdateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Create a webapp and deploy code from a local workspace to the app. The command is
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpAsync(
+        AzWebappUpOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappUpOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

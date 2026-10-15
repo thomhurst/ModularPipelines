@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az resolver commands.
+/// az apim graphql resolver commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzApimGraphqlResolver
@@ -33,7 +33,7 @@ public class AzApimGraphqlResolver
     #region Sub-command Groups
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az apim graphql resolver policy sub-commands.
     /// </summary>
     public AzApimGraphqlResolverPolicy Policy => _policy ??= new AzApimGraphqlResolverPolicy(_command);
 

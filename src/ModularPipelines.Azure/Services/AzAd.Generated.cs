@@ -37,27 +37,27 @@ public class AzAd : IAzAd
     #region Sub-command Groups
 
     /// <summary>
-    /// az app sub-commands.
+    /// az ad app sub-commands.
     /// </summary>
     public AzAdApp App => _app ??= new AzAdApp(_command);
 
     /// <summary>
-    /// az group sub-commands.
+    /// az ad group sub-commands.
     /// </summary>
     public AzAdGroup Group => _group ??= new AzAdGroup(_command);
 
     /// <summary>
-    /// az signed-in-user sub-commands.
+    /// az ad signed-in-user sub-commands.
     /// </summary>
     public AzAdSignedInUser SignedInUser => _signedInUser ??= new AzAdSignedInUser(_command);
 
     /// <summary>
-    /// az sp sub-commands.
+    /// az ad sp sub-commands.
     /// </summary>
     public AzAdSp Sp => _sp ??= new AzAdSp(_command);
 
     /// <summary>
-    /// az user sub-commands.
+    /// az ad user sub-commands.
     /// </summary>
     public AzAdUser User => _user ??= new AzAdUser(_command);
 

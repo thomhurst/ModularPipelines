@@ -22,23 +22,23 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzMysql
 {
     /// <summary>
-    /// az db sub-commands.
+    /// az mysql db sub-commands.
     /// </summary>
-    AzMysqlDb Db => throw new System.NotSupportedException();
+    AzMysqlDb Db { get; }
 
     /// <summary>
-    /// az flexible-server sub-commands.
+    /// az mysql flexible-server sub-commands.
     /// </summary>
-    AzMysqlFlexibleServer FlexibleServer => throw new System.NotSupportedException();
+    AzMysqlFlexibleServer FlexibleServer { get; }
 
     /// <summary>
-    /// az server sub-commands.
+    /// az mysql server sub-commands.
     /// </summary>
-    AzMysqlServer Server => throw new System.NotSupportedException();
+    AzMysqlServer Server { get; }
 
     /// <summary>
-    /// az server-logs sub-commands.
+    /// az mysql server-logs sub-commands.
     /// </summary>
-    AzMysqlServerLogs ServerLogs => throw new System.NotSupportedException();
+    AzMysqlServerLogs ServerLogs { get; }
 
 }

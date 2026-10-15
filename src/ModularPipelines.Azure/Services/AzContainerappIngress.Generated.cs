@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az ingress commands.
+/// az containerapp ingress commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappIngress
@@ -36,22 +36,22 @@ public class AzContainerappIngress
     #region Sub-command Groups
 
     /// <summary>
-    /// az access-restriction sub-commands.
+    /// az containerapp ingress access-restriction sub-commands.
     /// </summary>
     public AzContainerappIngressAccessRestriction AccessRestriction => _accessRestriction ??= new AzContainerappIngressAccessRestriction(_command);
 
     /// <summary>
-    /// az cors sub-commands.
+    /// az containerapp ingress cors sub-commands.
     /// </summary>
     public AzContainerappIngressCors Cors => _cors ??= new AzContainerappIngressCors(_command);
 
     /// <summary>
-    /// az sticky-sessions sub-commands.
+    /// az containerapp ingress sticky-sessions sub-commands.
     /// </summary>
     public AzContainerappIngressStickySessions StickySessions => _stickySessions ??= new AzContainerappIngressStickySessions(_command);
 
     /// <summary>
-    /// az traffic sub-commands.
+    /// az containerapp ingress traffic sub-commands.
     /// </summary>
     public AzContainerappIngressTraffic Traffic => _traffic ??= new AzContainerappIngressTraffic(_command);
 

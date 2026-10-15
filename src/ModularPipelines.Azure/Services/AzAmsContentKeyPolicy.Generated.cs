@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az content-key-policy commands.
+/// az ams content-key-policy commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAmsContentKeyPolicy
@@ -33,7 +33,7 @@ public class AzAmsContentKeyPolicy
     #region Sub-command Groups
 
     /// <summary>
-    /// az option sub-commands.
+    /// az ams content-key-policy option sub-commands.
     /// </summary>
     public AzAmsContentKeyPolicyOption Option => _option ??= new AzAmsContentKeyPolicyOption(_command);
 

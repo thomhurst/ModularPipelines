@@ -22,39 +22,44 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzAppConfig
 {
     /// <summary>
-    /// az credential sub-commands.
+    /// az appconfig credential sub-commands.
     /// </summary>
-    AzAppConfigCredential Credential => throw new System.NotSupportedException();
+    AzAppConfigCredential Credential { get; }
 
     /// <summary>
-    /// az feature sub-commands.
+    /// az appconfig feature sub-commands.
     /// </summary>
-    AzAppConfigFeature Feature => throw new System.NotSupportedException();
+    AzAppConfigFeature Feature { get; }
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az appconfig identity sub-commands.
     /// </summary>
-    AzAppConfigIdentity Identity => throw new System.NotSupportedException();
+    AzAppConfigIdentity Identity { get; }
 
     /// <summary>
-    /// az kv sub-commands.
+    /// az appconfig kv sub-commands.
     /// </summary>
-    AzAppConfigKv Kv => throw new System.NotSupportedException();
+    AzAppConfigKv Kv { get; }
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az appconfig network-security-perimeter-configuration sub-commands.
     /// </summary>
-    AzAppConfigReplica Replica => throw new System.NotSupportedException();
+    AzAppConfigNetworkSecurityPerimeterConfiguration NetworkSecurityPerimeterConfiguration { get; }
 
     /// <summary>
-    /// az revision sub-commands.
+    /// az appconfig replica sub-commands.
     /// </summary>
-    AzAppConfigRevision Revision => throw new System.NotSupportedException();
+    AzAppConfigReplica Replica { get; }
 
     /// <summary>
-    /// az snapshot sub-commands.
+    /// az appconfig revision sub-commands.
     /// </summary>
-    AzAppConfigSnapshot Snapshot => throw new System.NotSupportedException();
+    AzAppConfigRevision Revision { get; }
+
+    /// <summary>
+    /// az appconfig snapshot sub-commands.
+    /// </summary>
+    AzAppConfigSnapshot Snapshot { get; }
 
     /// <summary>
     /// Create an App Configuration.
@@ -63,8 +68,7 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzAppConfigCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzAppConfigCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an App Configuration store.
@@ -73,8 +77,7 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzAppConfigDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzAppConfigDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all deleted, but not yet purged App Configuration stores.
@@ -83,8 +86,7 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeletedAsync(AzAppConfigListDeletedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeletedAsync(AzAppConfigListDeletedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all App Configuration stores under the current subscription.
@@ -93,8 +95,7 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzAppConfigListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzAppConfigListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently delete an App Configuration store. Aka 'purge' the deleted App
@@ -103,8 +104,7 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurgeAsync(AzAppConfigPurgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurgeAsync(AzAppConfigPurgeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Recover a previously deleted, but not yet purged App Configuration store.
@@ -113,8 +113,7 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RecoverAsync(AzAppConfigRecoverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RecoverAsync(AzAppConfigRecoverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show properties of a deleted, but not yet purged App Configuration
@@ -123,8 +122,7 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowDeletedAsync(AzAppConfigShowDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowDeletedAsync(AzAppConfigShowDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show properties of an App Configuration store.
@@ -133,8 +131,7 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzAppConfigShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzAppConfigShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an App Configuration store.
@@ -143,7 +140,6 @@ public interface IAzAppConfig
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzAppConfigUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzAppConfigUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

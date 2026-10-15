@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az output commands.
+/// az image builder output commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzImageBuilderOutput
@@ -33,7 +33,7 @@ public class AzImageBuilderOutput
     #region Sub-command Groups
 
     /// <summary>
-    /// az versioning sub-commands.
+    /// az image builder output versioning sub-commands.
     /// </summary>
     public AzImageBuilderOutputVersioning Versioning => _versioning ??= new AzImageBuilderOutputVersioning(_command);
 

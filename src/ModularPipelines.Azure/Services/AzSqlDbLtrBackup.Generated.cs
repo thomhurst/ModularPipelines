@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az ltr-backup commands.
+/// az sql db ltr-backup commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlDbLtrBackup
@@ -77,6 +77,21 @@ public class AzSqlDbLtrBackup
     }
 
     /// <summary>
+    /// Remove a legal hold on the long term
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveLegalHoldImmutabilityAsync(
+        AzSqlDbLtrBackupRemoveLegalHoldImmutabilityOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Disable the time based immutability on a
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -100,6 +115,21 @@ public class AzSqlDbLtrBackup
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAsync(
         AzSqlDbLtrBackupRestoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Set a legal hold on the long term retention
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetLegalHoldImmutabilityAsync(
+        AzSqlDbLtrBackupSetLegalHoldImmutabilityOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

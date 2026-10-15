@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az application commands.
+/// az batch application commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBatchApplication
@@ -34,12 +34,12 @@ public class AzBatchApplication
     #region Sub-command Groups
 
     /// <summary>
-    /// az package sub-commands.
+    /// az batch application package sub-commands.
     /// </summary>
     public AzBatchApplicationPackage Package => _package ??= new AzBatchApplicationPackage(_command);
 
     /// <summary>
-    /// az summary sub-commands.
+    /// az batch application summary sub-commands.
     /// </summary>
     public AzBatchApplicationSummary Summary => _summary ??= new AzBatchApplicationSummary(_command);
 

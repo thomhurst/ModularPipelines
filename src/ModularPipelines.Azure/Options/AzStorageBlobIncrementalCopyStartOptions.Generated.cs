@@ -82,6 +82,7 @@ public record AzStorageBlobIncrementalCopyStartOptions : AzOptions
     /// <summary>
     /// The storage account key of the source blob.
     /// </summary>
+    [SecretValue]
     [CliOption("--source-account-key")]
     public string? SourceAccountKey { get; set; }
 
@@ -124,12 +125,14 @@ public record AzStorageBlobIncrementalCopyStartOptions : AzOptions
     /// <summary>
     /// A URL of up to 2 KB in length that specifies an Azure page blob. The value should be URL-encoded as it would appear in a request URI. The copy source must be a snapshot and include a valid SAS token or be public. Example: `https://myaccount.blob.core.windows.net/mycont ainer/myblob?snapshot=&lt;DateTime&gt;&amp;sastoken`.
     /// </summary>
+    [SecretValue]
     [CliOption("--source-uri", ShortForm = "-u")]
     public string? SourceUri { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
@@ -148,6 +151,7 @@ public record AzStorageBlobIncrementalCopyStartOptions : AzOptions
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 

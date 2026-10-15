@@ -24,6 +24,7 @@ public class AzAppConfig : IAzAppConfig
     private AzAppConfigFeature? _feature;
     private AzAppConfigIdentity? _identity;
     private AzAppConfigKv? _kv;
+    private AzAppConfigNetworkSecurityPerimeterConfiguration? _networkSecurityPerimeterConfiguration;
     private AzAppConfigReplica? _replica;
     private AzAppConfigRevision? _revision;
     private AzAppConfigSnapshot? _snapshot;
@@ -39,37 +40,42 @@ public class AzAppConfig : IAzAppConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// az credential sub-commands.
+    /// az appconfig credential sub-commands.
     /// </summary>
     public AzAppConfigCredential Credential => _credential ??= new AzAppConfigCredential(_command);
 
     /// <summary>
-    /// az feature sub-commands.
+    /// az appconfig feature sub-commands.
     /// </summary>
     public AzAppConfigFeature Feature => _feature ??= new AzAppConfigFeature(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az appconfig identity sub-commands.
     /// </summary>
     public AzAppConfigIdentity Identity => _identity ??= new AzAppConfigIdentity(_command);
 
     /// <summary>
-    /// az kv sub-commands.
+    /// az appconfig kv sub-commands.
     /// </summary>
     public AzAppConfigKv Kv => _kv ??= new AzAppConfigKv(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az appconfig network-security-perimeter-configuration sub-commands.
+    /// </summary>
+    public AzAppConfigNetworkSecurityPerimeterConfiguration NetworkSecurityPerimeterConfiguration => _networkSecurityPerimeterConfiguration ??= new AzAppConfigNetworkSecurityPerimeterConfiguration(_command);
+
+    /// <summary>
+    /// az appconfig replica sub-commands.
     /// </summary>
     public AzAppConfigReplica Replica => _replica ??= new AzAppConfigReplica(_command);
 
     /// <summary>
-    /// az revision sub-commands.
+    /// az appconfig revision sub-commands.
     /// </summary>
     public AzAppConfigRevision Revision => _revision ??= new AzAppConfigRevision(_command);
 
     /// <summary>
-    /// az snapshot sub-commands.
+    /// az appconfig snapshot sub-commands.
     /// </summary>
     public AzAppConfigSnapshot Snapshot => _snapshot ??= new AzAppConfigSnapshot(_command);
 

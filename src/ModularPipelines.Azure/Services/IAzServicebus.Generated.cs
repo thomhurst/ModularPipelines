@@ -22,28 +22,28 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzServicebus
 {
     /// <summary>
-    /// az georecovery-alias sub-commands.
+    /// az servicebus georecovery-alias sub-commands.
     /// </summary>
-    AzServicebusGeorecoveryAlias GeorecoveryAlias => throw new System.NotSupportedException();
+    AzServicebusGeorecoveryAlias GeorecoveryAlias { get; }
 
     /// <summary>
-    /// az migration sub-commands.
+    /// az servicebus migration sub-commands.
     /// </summary>
-    AzServicebusMigration Migration => throw new System.NotSupportedException();
+    AzServicebusMigration Migration { get; }
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az servicebus namespace sub-commands.
     /// </summary>
-    AzServicebusNamespace Namespace => throw new System.NotSupportedException();
+    AzServicebusNamespace Namespace { get; }
 
     /// <summary>
-    /// az queue sub-commands.
+    /// az servicebus queue sub-commands.
     /// </summary>
-    AzServicebusQueue Queue => throw new System.NotSupportedException();
+    AzServicebusQueue Queue { get; }
 
     /// <summary>
-    /// az topic sub-commands.
+    /// az servicebus topic sub-commands.
     /// </summary>
-    AzServicebusTopic Topic => throw new System.NotSupportedException();
+    AzServicebusTopic Topic { get; }
 
 }

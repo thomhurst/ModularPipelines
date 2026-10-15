@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az alert commands.
+/// az monitor activity-log alert commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorActivityLogAlert
@@ -34,12 +34,12 @@ public class AzMonitorActivityLogAlert
     #region Sub-command Groups
 
     /// <summary>
-    /// az action-group sub-commands.
+    /// az monitor activity-log alert action-group sub-commands.
     /// </summary>
     public AzMonitorActivityLogAlertActionGroup ActionGroup => _actionGroup ??= new AzMonitorActivityLogAlertActionGroup(_command);
 
     /// <summary>
-    /// az scope sub-commands.
+    /// az monitor activity-log alert scope sub-commands.
     /// </summary>
     public AzMonitorActivityLogAlertScope Scope => _scope ??= new AzMonitorActivityLogAlertScope(_command);
 

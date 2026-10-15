@@ -39,37 +39,37 @@ public class AzSig : IAzSig
     #region Sub-command Groups
 
     /// <summary>
-    /// az gallery-application sub-commands.
+    /// az sig gallery-application sub-commands.
     /// </summary>
     public AzSigGalleryApplication GalleryApplication => _galleryApplication ??= new AzSigGalleryApplication(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az sig identity sub-commands.
     /// </summary>
     public AzSigIdentity Identity => _identity ??= new AzSigIdentity(_command);
 
     /// <summary>
-    /// az image-definition sub-commands.
+    /// az sig image-definition sub-commands.
     /// </summary>
     public AzSigImageDefinition ImageDefinition => _imageDefinition ??= new AzSigImageDefinition(_command);
 
     /// <summary>
-    /// az image-version sub-commands.
+    /// az sig image-version sub-commands.
     /// </summary>
     public AzSigImageVersion ImageVersion => _imageVersion ??= new AzSigImageVersion(_command);
 
     /// <summary>
-    /// az in-vm-access-control-profile sub-commands.
+    /// az sig in-vm-access-control-profile sub-commands.
     /// </summary>
     public AzSigInVmAccessControlProfile InVmAccessControlProfile => _inVmAccessControlProfile ??= new AzSigInVmAccessControlProfile(_command);
 
     /// <summary>
-    /// az in-vm-access-control-profile-version sub-commands.
+    /// az sig in-vm-access-control-profile-version sub-commands.
     /// </summary>
     public AzSigInVmAccessControlProfileVersion InVmAccessControlProfileVersion => _inVmAccessControlProfileVersion ??= new AzSigInVmAccessControlProfileVersion(_command);
 
     /// <summary>
-    /// az share sub-commands.
+    /// az sig share sub-commands.
     /// </summary>
     public AzSigShare Share => _share ??= new AzSigShare(_command);
 

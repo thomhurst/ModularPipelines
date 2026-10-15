@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az table commands.
+/// az cosmosdb cassandra table commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbCassandraTable
@@ -33,7 +33,7 @@ public class AzCosmosdbCassandraTable
     #region Sub-command Groups
 
     /// <summary>
-    /// az throughput sub-commands.
+    /// az cosmosdb cassandra table throughput sub-commands.
     /// </summary>
     public AzCosmosdbCassandraTableThroughput Throughput => _throughput ??= new AzCosmosdbCassandraTableThroughput(_command);
 

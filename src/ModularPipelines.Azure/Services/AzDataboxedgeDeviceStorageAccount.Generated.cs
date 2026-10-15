@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az storage-account commands.
+/// az databoxedge device storage-account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDataboxedgeDeviceStorageAccount
@@ -33,7 +33,7 @@ public class AzDataboxedgeDeviceStorageAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az container sub-commands.
+    /// az databoxedge device storage-account container sub-commands.
     /// </summary>
     public AzDataboxedgeDeviceStorageAccountContainer Container => _container ??= new AzDataboxedgeDeviceStorageAccountContainer(_command);
 

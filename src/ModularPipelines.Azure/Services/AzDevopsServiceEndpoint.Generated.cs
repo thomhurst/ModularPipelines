@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az service-endpoint commands.
+/// az devops service-endpoint commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDevopsServiceEndpoint
@@ -34,12 +34,12 @@ public class AzDevopsServiceEndpoint
     #region Sub-command Groups
 
     /// <summary>
-    /// az azurerm sub-commands.
+    /// az devops service-endpoint azurerm sub-commands.
     /// </summary>
     public AzDevopsServiceEndpointAzurerm Azurerm => _azurerm ??= new AzDevopsServiceEndpointAzurerm(_command);
 
     /// <summary>
-    /// az github sub-commands.
+    /// az devops service-endpoint github sub-commands.
     /// </summary>
     public AzDevopsServiceEndpointGithub Github => _github ??= new AzDevopsServiceEndpointGithub(_command);
 

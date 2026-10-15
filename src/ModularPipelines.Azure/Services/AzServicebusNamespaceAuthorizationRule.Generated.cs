@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az authorization-rule commands.
+/// az servicebus namespace authorization-rule commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzServicebusNamespaceAuthorizationRule
@@ -33,7 +33,7 @@ public class AzServicebusNamespaceAuthorizationRule
     #region Sub-command Groups
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az servicebus namespace authorization-rule keys sub-commands.
     /// </summary>
     public AzServicebusNamespaceAuthorizationRuleKeys Keys => _keys ??= new AzServicebusNamespaceAuthorizationRuleKeys(_command);
 

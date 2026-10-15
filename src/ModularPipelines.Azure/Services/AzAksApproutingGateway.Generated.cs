@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az gateway commands.
+/// az aks approuting gateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAksApproutingGateway
@@ -33,7 +33,7 @@ public class AzAksApproutingGateway
     #region Sub-command Groups
 
     /// <summary>
-    /// az istio sub-commands.
+    /// az aks approuting gateway istio sub-commands.
     /// </summary>
     public AzAksApproutingGatewayIstio Istio => _istio ??= new AzAksApproutingGatewayIstio(_command);
 

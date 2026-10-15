@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az resource commands.
+/// az netappfiles resource commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetappfilesResource
@@ -33,7 +33,7 @@ public class AzNetappfilesResource
     #region Sub-command Groups
 
     /// <summary>
-    /// az region-info sub-commands.
+    /// az netappfiles resource region-info sub-commands.
     /// </summary>
     public AzNetappfilesResourceRegionInfo RegionInfo => _regionInfo ??= new AzNetappfilesResourceRegionInfo(_command);
 

@@ -42,52 +42,52 @@ public class AzBatch : IAzBatch
     #region Sub-command Groups
 
     /// <summary>
-    /// az account sub-commands.
+    /// az batch account sub-commands.
     /// </summary>
     public AzBatchAccount Account => _account ??= new AzBatchAccount(_command);
 
     /// <summary>
-    /// az application sub-commands.
+    /// az batch application sub-commands.
     /// </summary>
     public AzBatchApplication Application => _application ??= new AzBatchApplication(_command);
 
     /// <summary>
-    /// az job sub-commands.
+    /// az batch job sub-commands.
     /// </summary>
     public AzBatchJob Job => _job ??= new AzBatchJob(_command);
 
     /// <summary>
-    /// az job-schedule sub-commands.
+    /// az batch job-schedule sub-commands.
     /// </summary>
     public AzBatchJobSchedule JobSchedule => _jobSchedule ??= new AzBatchJobSchedule(_command);
 
     /// <summary>
-    /// az location sub-commands.
+    /// az batch location sub-commands.
     /// </summary>
     public AzBatchLocation Location => _location ??= new AzBatchLocation(_command);
 
     /// <summary>
-    /// az node sub-commands.
+    /// az batch node sub-commands.
     /// </summary>
     public AzBatchNode Node => _node ??= new AzBatchNode(_command);
 
     /// <summary>
-    /// az pool sub-commands.
+    /// az batch pool sub-commands.
     /// </summary>
     public AzBatchPool Pool => _pool ??= new AzBatchPool(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az batch private-endpoint-connection sub-commands.
     /// </summary>
     public AzBatchPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzBatchPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az batch private-link-resource sub-commands.
     /// </summary>
     public AzBatchPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzBatchPrivateLinkResource(_command);
 
     /// <summary>
-    /// az task sub-commands.
+    /// az batch task sub-commands.
     /// </summary>
     public AzBatchTask Task => _task ??= new AzBatchTask(_command);
 

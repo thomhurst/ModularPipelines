@@ -13,7 +13,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az managedcassandra commands.
+/// az managed-cassandra commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,13 +22,13 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzManagedCassandra
 {
     /// <summary>
-    /// az cluster sub-commands.
+    /// az managed-cassandra cluster sub-commands.
     /// </summary>
-    AzManagedCassandraCluster Cluster => throw new System.NotSupportedException();
+    AzManagedCassandraCluster Cluster { get; }
 
     /// <summary>
-    /// az datacenter sub-commands.
+    /// az managed-cassandra datacenter sub-commands.
     /// </summary>
-    AzManagedCassandraDatacenter Datacenter => throw new System.NotSupportedException();
+    AzManagedCassandraDatacenter Datacenter { get; }
 
 }

@@ -70,6 +70,7 @@ public record AzBatchNodeUserCreateOptions : AzOptions
     /// <summary>
     /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 

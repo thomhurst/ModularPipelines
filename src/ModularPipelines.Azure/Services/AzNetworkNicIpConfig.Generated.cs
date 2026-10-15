@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az ip-config commands.
+/// az network nic ip-config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkNicIpConfig
@@ -34,12 +34,12 @@ public class AzNetworkNicIpConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// az address-pool sub-commands.
+    /// az network nic ip-config address-pool sub-commands.
     /// </summary>
     public AzNetworkNicIpConfigAddressPool AddressPool => _addressPool ??= new AzNetworkNicIpConfigAddressPool(_command);
 
     /// <summary>
-    /// az inbound-nat-rule sub-commands.
+    /// az network nic ip-config inbound-nat-rule sub-commands.
     /// </summary>
     public AzNetworkNicIpConfigInboundNatRule InboundNatRule => _inboundNatRule ??= new AzNetworkNicIpConfigInboundNatRule(_command);
 

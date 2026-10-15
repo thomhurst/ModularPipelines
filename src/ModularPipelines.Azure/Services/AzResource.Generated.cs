@@ -34,12 +34,12 @@ public class AzResource : IAzResource
     #region Sub-command Groups
 
     /// <summary>
-    /// az link sub-commands.
+    /// az resource link sub-commands.
     /// </summary>
     public AzResourceLink Link => _link ??= new AzResourceLink(_command);
 
     /// <summary>
-    /// az lock sub-commands.
+    /// az resource lock sub-commands.
     /// </summary>
     public AzResourceLock Lock => _lock ??= new AzResourceLock(_command);
 

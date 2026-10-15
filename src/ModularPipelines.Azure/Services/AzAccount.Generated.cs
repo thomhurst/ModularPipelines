@@ -34,12 +34,12 @@ public class AzAccount : IAzAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az lock sub-commands.
+    /// az account lock sub-commands.
     /// </summary>
     public AzAccountLock Lock => _lock ??= new AzAccountLock(_command);
 
     /// <summary>
-    /// az management-group sub-commands.
+    /// az account management-group sub-commands.
     /// </summary>
     public AzAccountManagementGroup ManagementGroup => _managementGroup ??= new AzAccountManagementGroup(_command);
 

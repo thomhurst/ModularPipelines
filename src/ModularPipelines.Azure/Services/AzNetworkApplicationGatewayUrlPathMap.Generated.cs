@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az url-path-map commands.
+/// az network application-gateway url-path-map commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGatewayUrlPathMap
@@ -33,7 +33,7 @@ public class AzNetworkApplicationGatewayUrlPathMap
     #region Sub-command Groups
 
     /// <summary>
-    /// az rule sub-commands.
+    /// az network application-gateway url-path-map rule sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayUrlPathMapRule Rule => _rule ??= new AzNetworkApplicationGatewayUrlPathMapRule(_command);
 

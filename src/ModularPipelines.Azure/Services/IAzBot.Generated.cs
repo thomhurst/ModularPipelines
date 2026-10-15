@@ -22,14 +22,59 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzBot
 {
     /// <summary>
-    /// az authsetting sub-commands.
+    /// az bot authsetting sub-commands.
     /// </summary>
-    AzBotAuthsetting Authsetting => throw new System.NotSupportedException();
+    AzBotAuthsetting Authsetting { get; }
 
     /// <summary>
-    /// az webchat sub-commands.
+    /// az bot directline sub-commands.
     /// </summary>
-    AzBotWebchat Webchat => throw new System.NotSupportedException();
+    AzBotDirectline Directline { get; }
+
+    /// <summary>
+    /// az bot email sub-commands.
+    /// </summary>
+    AzBotEmail Email { get; }
+
+    /// <summary>
+    /// az bot facebook sub-commands.
+    /// </summary>
+    AzBotFacebook Facebook { get; }
+
+    /// <summary>
+    /// az bot kik sub-commands.
+    /// </summary>
+    AzBotKik Kik { get; }
+
+    /// <summary>
+    /// az bot msteams sub-commands.
+    /// </summary>
+    AzBotMsteams Msteams { get; }
+
+    /// <summary>
+    /// az bot skype sub-commands.
+    /// </summary>
+    AzBotSkype Skype { get; }
+
+    /// <summary>
+    /// az bot slack sub-commands.
+    /// </summary>
+    AzBotSlack Slack { get; }
+
+    /// <summary>
+    /// az bot sms sub-commands.
+    /// </summary>
+    AzBotSms Sms { get; }
+
+    /// <summary>
+    /// az bot telegram sub-commands.
+    /// </summary>
+    AzBotTelegram Telegram { get; }
+
+    /// <summary>
+    /// az bot webchat sub-commands.
+    /// </summary>
+    AzBotWebchat Webchat { get; }
 
     /// <summary>
     /// Create a new v4 SDK bot.
@@ -38,8 +83,7 @@ public interface IAzBot
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzBotCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzBotCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an existing bot.
@@ -48,8 +92,16 @@ public interface IAzBot
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzBotDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzBotDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Download an existing bot.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DownloadAsync(AzBotDownloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add scripts/config files for publishing with `az webapp deployment`.
@@ -58,8 +110,25 @@ public interface IAzBot
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PrepareDeployAsync(AzBotPrepareDeployOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PrepareDeployAsync(AzBotPrepareDeployOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// (Maintenance mode) Add scripts to your local source code directory to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> PreparePublishAsync(AzBotPreparePublishOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Publish to a bot's associated app service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> PublishAsync(AzBotPublishOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get an existing bot.
@@ -68,8 +137,7 @@ public interface IAzBot
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzBotShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzBotShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an existing bot.
@@ -78,7 +146,6 @@ public interface IAzBot
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzBotUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzBotUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

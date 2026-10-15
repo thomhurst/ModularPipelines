@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az georecovery-alias commands.
+/// az servicebus georecovery-alias commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzServicebusGeorecoveryAlias
@@ -33,7 +33,7 @@ public class AzServicebusGeorecoveryAlias
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az servicebus georecovery-alias authorization-rule sub-commands.
     /// </summary>
     public AzServicebusGeorecoveryAliasAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzServicebusGeorecoveryAliasAuthorizationRule(_command);
 

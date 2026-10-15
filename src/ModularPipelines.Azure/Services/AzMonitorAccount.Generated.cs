@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az account commands.
+/// az monitor account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorAccount
@@ -35,17 +35,17 @@ public class AzMonitorAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az monitor account identity sub-commands.
     /// </summary>
     public AzMonitorAccountIdentity Identity => _identity ??= new AzMonitorAccountIdentity(_command);
 
     /// <summary>
-    /// az issue sub-commands.
+    /// az monitor account issue sub-commands.
     /// </summary>
     public AzMonitorAccountIssue Issue => _issue ??= new AzMonitorAccountIssue(_command);
 
     /// <summary>
-    /// az metrics-container sub-commands.
+    /// az monitor account metrics-container sub-commands.
     /// </summary>
     public AzMonitorAccountMetricsContainer MetricsContainer => _metricsContainer ??= new AzMonitorAccountMetricsContainer(_command);
 

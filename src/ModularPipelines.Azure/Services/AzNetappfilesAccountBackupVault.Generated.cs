@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az backup-vault commands.
+/// az netappfiles account backup-vault commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetappfilesAccountBackupVault
@@ -33,7 +33,7 @@ public class AzNetappfilesAccountBackupVault
     #region Sub-command Groups
 
     /// <summary>
-    /// az backup sub-commands.
+    /// az netappfiles account backup-vault backup sub-commands.
     /// </summary>
     public AzNetappfilesAccountBackupVaultBackup Backup => _backup ??= new AzNetappfilesAccountBackupVaultBackup(_command);
 

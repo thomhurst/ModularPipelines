@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az file commands.
+/// az storage fs file commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageFsFile
@@ -33,7 +33,7 @@ public class AzStorageFsFile
     #region Sub-command Groups
 
     /// <summary>
-    /// az metadata sub-commands.
+    /// az storage fs file metadata sub-commands.
     /// </summary>
     public AzStorageFsFileMetadata Metadata => _metadata ??= new AzStorageFsFileMetadata(_command);
 

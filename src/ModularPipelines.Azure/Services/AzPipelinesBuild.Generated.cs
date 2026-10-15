@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az build commands.
+/// az pipelines build commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPipelinesBuild
@@ -34,12 +34,12 @@ public class AzPipelinesBuild
     #region Sub-command Groups
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az pipelines build definition sub-commands.
     /// </summary>
     public AzPipelinesBuildDefinition Definition => _definition ??= new AzPipelinesBuildDefinition(_command);
 
     /// <summary>
-    /// az tag sub-commands.
+    /// az pipelines build tag sub-commands.
     /// </summary>
     public AzPipelinesBuildTag Tag => _tag ??= new AzPipelinesBuildTag(_command);
 

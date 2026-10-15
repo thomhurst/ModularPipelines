@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az app commands.
+/// az iot central app commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzIotCentralApp
@@ -35,17 +35,17 @@ public class AzIotCentralApp
     #region Sub-command Groups
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az iot central app identity sub-commands.
     /// </summary>
     public AzIotCentralAppIdentity Identity => _identity ??= new AzIotCentralAppIdentity(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az iot central app private-endpoint-connection sub-commands.
     /// </summary>
     public AzIotCentralAppPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzIotCentralAppPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az iot central app private-link-resource sub-commands.
     /// </summary>
     public AzIotCentralAppPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzIotCentralAppPrivateLinkResource(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az revision commands.
+/// az containerapp revision commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappRevision
@@ -33,7 +33,7 @@ public class AzContainerappRevision
     #region Sub-command Groups
 
     /// <summary>
-    /// az label sub-commands.
+    /// az containerapp revision label sub-commands.
     /// </summary>
     public AzContainerappRevisionLabel Label => _label ??= new AzContainerappRevisionLabel(_command);
 

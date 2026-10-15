@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az image commands.
+/// az vm image commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzVmImage
@@ -33,13 +33,28 @@ public class AzVmImage
     #region Sub-command Groups
 
     /// <summary>
-    /// az terms sub-commands.
+    /// az vm image terms sub-commands.
     /// </summary>
     public AzVmImageTerms Terms => _terms ??= new AzVmImageTerms(_command);
 
     #endregion
 
     #region Commands
+
+    /// <summary>
+    /// Accept Azure Marketplace term so that the image can be used to create
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AcceptTermsAsync(
+        AzVmImageAcceptTermsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmImageAcceptTermsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// List the VM image offers available in the Azure Marketplace.

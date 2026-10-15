@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az definition commands.
+/// az policy definition commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPolicyDefinition
@@ -33,7 +33,7 @@ public class AzPolicyDefinition
     #region Sub-command Groups
 
     /// <summary>
-    /// az version sub-commands.
+    /// az policy definition version sub-commands.
     /// </summary>
     public AzPolicyDefinitionVersion Version => _version ??= new AzPolicyDefinitionVersion(_command);
 

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -70,6 +71,7 @@ public record AzImageBuilderCustomizerAddOptions : AzOptions
     /// <summary>
     /// The URI of the file to be downloaded into the image. It can be a github link, SAS URI for Azure Storage, etc.
     /// </summary>
+    [SecretValue]
     [CliOption("--file-source")]
     public string? FileSource { get; set; }
 

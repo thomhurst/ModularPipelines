@@ -22,18 +22,18 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzRelay
 {
     /// <summary>
-    /// az hyco sub-commands.
+    /// az relay hyco sub-commands.
     /// </summary>
-    AzRelayHyco Hyco => throw new System.NotSupportedException();
+    AzRelayHyco Hyco { get; }
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az relay namespace sub-commands.
     /// </summary>
-    AzRelayNamespace Namespace => throw new System.NotSupportedException();
+    AzRelayNamespace Namespace { get; }
 
     /// <summary>
-    /// az wcfrelay sub-commands.
+    /// az relay wcfrelay sub-commands.
     /// </summary>
-    AzRelayWcfrelay Wcfrelay => throw new System.NotSupportedException();
+    AzRelayWcfrelay Wcfrelay { get; }
 
 }

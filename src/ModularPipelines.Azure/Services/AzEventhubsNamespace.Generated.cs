@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az namespace commands.
+/// az eventhubs namespace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventhubsNamespace
@@ -42,52 +42,52 @@ public class AzEventhubsNamespace
     #region Sub-command Groups
 
     /// <summary>
-    /// az application-group sub-commands.
+    /// az eventhubs namespace application-group sub-commands.
     /// </summary>
     public AzEventhubsNamespaceApplicationGroup ApplicationGroup => _applicationGroup ??= new AzEventhubsNamespaceApplicationGroup(_command);
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az eventhubs namespace authorization-rule sub-commands.
     /// </summary>
     public AzEventhubsNamespaceAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzEventhubsNamespaceAuthorizationRule(_command);
 
     /// <summary>
-    /// az encryption sub-commands.
+    /// az eventhubs namespace encryption sub-commands.
     /// </summary>
     public AzEventhubsNamespaceEncryption Encryption => _encryption ??= new AzEventhubsNamespaceEncryption(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az eventhubs namespace identity sub-commands.
     /// </summary>
     public AzEventhubsNamespaceIdentity Identity => _identity ??= new AzEventhubsNamespaceIdentity(_command);
 
     /// <summary>
-    /// az network-rule-set sub-commands.
+    /// az eventhubs namespace network-rule-set sub-commands.
     /// </summary>
     public AzEventhubsNamespaceNetworkRuleSet NetworkRuleSet => _networkRuleSet ??= new AzEventhubsNamespaceNetworkRuleSet(_command);
 
     /// <summary>
-    /// az nsp-configuration sub-commands.
+    /// az eventhubs namespace nsp-configuration sub-commands.
     /// </summary>
     public AzEventhubsNamespaceNspConfiguration NspConfiguration => _nspConfiguration ??= new AzEventhubsNamespaceNspConfiguration(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az eventhubs namespace private-endpoint-connection sub-commands.
     /// </summary>
     public AzEventhubsNamespacePrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzEventhubsNamespacePrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az eventhubs namespace private-link-resource sub-commands.
     /// </summary>
     public AzEventhubsNamespacePrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzEventhubsNamespacePrivateLinkResource(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az eventhubs namespace replica sub-commands.
     /// </summary>
     public AzEventhubsNamespaceReplica Replica => _replica ??= new AzEventhubsNamespaceReplica(_command);
 
     /// <summary>
-    /// az schema-registry sub-commands.
+    /// az eventhubs namespace schema-registry sub-commands.
     /// </summary>
     public AzEventhubsNamespaceSchemaRegistry SchemaRegistry => _schemaRegistry ??= new AzEventhubsNamespaceSchemaRegistry(_command);
 

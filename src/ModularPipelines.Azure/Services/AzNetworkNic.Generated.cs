@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az nic commands.
+/// az network nic commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkNic
@@ -33,7 +33,7 @@ public class AzNetworkNic
     #region Sub-command Groups
 
     /// <summary>
-    /// az ip-config sub-commands.
+    /// az network nic ip-config sub-commands.
     /// </summary>
     public AzNetworkNicIpConfig IpConfig => _ipConfig ??= new AzNetworkNicIpConfig(_command);
 

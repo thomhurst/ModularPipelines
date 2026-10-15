@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az network-rule-set commands.
+/// az servicebus namespace network-rule-set commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzServicebusNamespaceNetworkRuleSet
@@ -34,12 +34,12 @@ public class AzServicebusNamespaceNetworkRuleSet
     #region Sub-command Groups
 
     /// <summary>
-    /// az ip-rule sub-commands.
+    /// az servicebus namespace network-rule-set ip-rule sub-commands.
     /// </summary>
     public AzServicebusNamespaceNetworkRuleSetIpRule IpRule => _ipRule ??= new AzServicebusNamespaceNetworkRuleSetIpRule(_command);
 
     /// <summary>
-    /// az virtual-network-rule sub-commands.
+    /// az servicebus namespace network-rule-set virtual-network-rule sub-commands.
     /// </summary>
     public AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule VirtualNetworkRule => _virtualNetworkRule ??= new AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule(_command);
 

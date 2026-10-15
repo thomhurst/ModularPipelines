@@ -35,17 +35,17 @@ public class AzBoards : IAzBoards
     #region Sub-command Groups
 
     /// <summary>
-    /// az area sub-commands.
+    /// az boards area sub-commands.
     /// </summary>
     public AzBoardsArea Area => _area ??= new AzBoardsArea(_command);
 
     /// <summary>
-    /// az iteration sub-commands.
+    /// az boards iteration sub-commands.
     /// </summary>
     public AzBoardsIteration Iteration => _iteration ??= new AzBoardsIteration(_command);
 
     /// <summary>
-    /// az work-item sub-commands.
+    /// az boards work-item sub-commands.
     /// </summary>
     public AzBoardsWorkItem WorkItem => _workItem ??= new AzBoardsWorkItem(_command);
 

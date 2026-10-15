@@ -48,82 +48,82 @@ public class AzVm : IAzVm
     #region Sub-command Groups
 
     /// <summary>
-    /// az application sub-commands.
+    /// az vm application sub-commands.
     /// </summary>
     public AzVmApplication Application => _application ??= new AzVmApplication(_command);
 
     /// <summary>
-    /// az availability-set sub-commands.
+    /// az vm availability-set sub-commands.
     /// </summary>
     public AzVmAvailabilitySet AvailabilitySet => _availabilitySet ??= new AzVmAvailabilitySet(_command);
 
     /// <summary>
-    /// az boot-diagnostics sub-commands.
+    /// az vm boot-diagnostics sub-commands.
     /// </summary>
     public AzVmBootDiagnostics BootDiagnostics => _bootDiagnostics ??= new AzVmBootDiagnostics(_command);
 
     /// <summary>
-    /// az diagnostics sub-commands.
+    /// az vm diagnostics sub-commands.
     /// </summary>
     public AzVmDiagnostics Diagnostics => _diagnostics ??= new AzVmDiagnostics(_command);
 
     /// <summary>
-    /// az disk sub-commands.
+    /// az vm disk sub-commands.
     /// </summary>
     public AzVmDisk Disk => _disk ??= new AzVmDisk(_command);
 
     /// <summary>
-    /// az encryption sub-commands.
+    /// az vm encryption sub-commands.
     /// </summary>
     public AzVmEncryption Encryption => _encryption ??= new AzVmEncryption(_command);
 
     /// <summary>
-    /// az extension sub-commands.
+    /// az vm extension sub-commands.
     /// </summary>
     public AzVmExtension Extension => _extension ??= new AzVmExtension(_command);
 
     /// <summary>
-    /// az host sub-commands.
+    /// az vm host sub-commands.
     /// </summary>
     public AzVmHost Host => _host ??= new AzVmHost(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az vm identity sub-commands.
     /// </summary>
     public AzVmIdentity Identity => _identity ??= new AzVmIdentity(_command);
 
     /// <summary>
-    /// az image sub-commands.
+    /// az vm image sub-commands.
     /// </summary>
     public AzVmImage Image => _image ??= new AzVmImage(_command);
 
     /// <summary>
-    /// az monitor sub-commands.
+    /// az vm monitor sub-commands.
     /// </summary>
     public AzVmMonitor Monitor => _monitor ??= new AzVmMonitor(_command);
 
     /// <summary>
-    /// az nic sub-commands.
+    /// az vm nic sub-commands.
     /// </summary>
     public AzVmNic Nic => _nic ??= new AzVmNic(_command);
 
     /// <summary>
-    /// az run-command sub-commands.
+    /// az vm run-command sub-commands.
     /// </summary>
     public AzVmRunCommand RunCommand => _runCommand ??= new AzVmRunCommand(_command);
 
     /// <summary>
-    /// az secret sub-commands.
+    /// az vm secret sub-commands.
     /// </summary>
     public AzVmSecret Secret => _secret ??= new AzVmSecret(_command);
 
     /// <summary>
-    /// az unmanaged-disk sub-commands.
+    /// az vm unmanaged-disk sub-commands.
     /// </summary>
     public AzVmUnmanagedDisk UnmanagedDisk => _unmanagedDisk ??= new AzVmUnmanagedDisk(_command);
 
     /// <summary>
-    /// az user sub-commands.
+    /// az vm user sub-commands.
     /// </summary>
     public AzVmUser User => _user ??= new AzVmUser(_command);
 
@@ -309,6 +309,21 @@ public class AzVm : IAzVm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List available sizes for VMs.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSizesAsync(
+        AzVmListSizesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

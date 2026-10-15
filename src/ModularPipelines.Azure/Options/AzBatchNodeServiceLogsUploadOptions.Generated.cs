@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -69,6 +70,7 @@ public record AzBatchNodeServiceLogsUploadOptions : AzOptions
     /// <summary>
     /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
@@ -81,6 +83,7 @@ public record AzBatchNodeServiceLogsUploadOptions : AzOptions
     /// <summary>
     /// The URL of the container within Azure Blob Storage to which to upload the Batch Service log file(s). If a user assigned managed identity is not being used, the URL must include a Shared Access Signature (SAS) granting write permissions to the container. The SAS duration must allow enough time for the upload to finish. The start time for SAS is optional and recommended to not be specified. Required.
     /// </summary>
+    [SecretValue]
     [CliOption("--container-url")]
     public string? ContainerUrl { get; set; }
 

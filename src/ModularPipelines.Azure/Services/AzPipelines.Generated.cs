@@ -41,47 +41,47 @@ public class AzPipelines : IAzPipelines
     #region Sub-command Groups
 
     /// <summary>
-    /// az agent sub-commands.
+    /// az pipelines agent sub-commands.
     /// </summary>
     public AzPipelinesAgent Agent => _agent ??= new AzPipelinesAgent(_command);
 
     /// <summary>
-    /// az build sub-commands.
+    /// az pipelines build sub-commands.
     /// </summary>
     public AzPipelinesBuild Build => _build ??= new AzPipelinesBuild(_command);
 
     /// <summary>
-    /// az folder sub-commands.
+    /// az pipelines folder sub-commands.
     /// </summary>
     public AzPipelinesFolder Folder => _folder ??= new AzPipelinesFolder(_command);
 
     /// <summary>
-    /// az pool sub-commands.
+    /// az pipelines pool sub-commands.
     /// </summary>
     public AzPipelinesPool Pool => _pool ??= new AzPipelinesPool(_command);
 
     /// <summary>
-    /// az queue sub-commands.
+    /// az pipelines queue sub-commands.
     /// </summary>
     public AzPipelinesQueue Queue => _queue ??= new AzPipelinesQueue(_command);
 
     /// <summary>
-    /// az release sub-commands.
+    /// az pipelines release sub-commands.
     /// </summary>
     public AzPipelinesRelease Release => _release ??= new AzPipelinesRelease(_command);
 
     /// <summary>
-    /// az runs sub-commands.
+    /// az pipelines runs sub-commands.
     /// </summary>
     public AzPipelinesRuns Runs => _runs ??= new AzPipelinesRuns(_command);
 
     /// <summary>
-    /// az variable sub-commands.
+    /// az pipelines variable sub-commands.
     /// </summary>
     public AzPipelinesVariable Variable => _variable ??= new AzPipelinesVariable(_command);
 
     /// <summary>
-    /// az variable-group sub-commands.
+    /// az pipelines variable-group sub-commands.
     /// </summary>
     public AzPipelinesVariableGroup VariableGroup => _variableGroup ??= new AzPipelinesVariableGroup(_command);
 

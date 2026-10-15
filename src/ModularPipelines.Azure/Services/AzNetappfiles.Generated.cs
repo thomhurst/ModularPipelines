@@ -26,6 +26,7 @@ public class AzNetappfiles : IAzNetappfiles
     private AzNetappfilesQuotaLimit? _quotaLimit;
     private AzNetappfilesResource? _resource;
     private AzNetappfilesSnapshot? _snapshot;
+    private AzNetappfilesSubvolume? _subvolume;
     private AzNetappfilesUsage? _usage;
     private AzNetappfilesVolume? _volume;
     private AzNetappfilesVolumeGroup? _volumeGroup;
@@ -41,47 +42,52 @@ public class AzNetappfiles : IAzNetappfiles
     #region Sub-command Groups
 
     /// <summary>
-    /// az account sub-commands.
+    /// az netappfiles account sub-commands.
     /// </summary>
     public AzNetappfilesAccount Account => _account ??= new AzNetappfilesAccount(_command);
 
     /// <summary>
-    /// az cache sub-commands.
+    /// az netappfiles cache sub-commands.
     /// </summary>
     public AzNetappfilesCache Cache => _cache ??= new AzNetappfilesCache(_command);
 
     /// <summary>
-    /// az pool sub-commands.
+    /// az netappfiles pool sub-commands.
     /// </summary>
     public AzNetappfilesPool Pool => _pool ??= new AzNetappfilesPool(_command);
 
     /// <summary>
-    /// az quota-limit sub-commands.
+    /// az netappfiles quota-limit sub-commands.
     /// </summary>
     public AzNetappfilesQuotaLimit QuotaLimit => _quotaLimit ??= new AzNetappfilesQuotaLimit(_command);
 
     /// <summary>
-    /// az resource sub-commands.
+    /// az netappfiles resource sub-commands.
     /// </summary>
     public AzNetappfilesResource Resource => _resource ??= new AzNetappfilesResource(_command);
 
     /// <summary>
-    /// az snapshot sub-commands.
+    /// az netappfiles snapshot sub-commands.
     /// </summary>
     public AzNetappfilesSnapshot Snapshot => _snapshot ??= new AzNetappfilesSnapshot(_command);
 
     /// <summary>
-    /// az usage sub-commands.
+    /// az netappfiles subvolume sub-commands.
+    /// </summary>
+    public AzNetappfilesSubvolume Subvolume => _subvolume ??= new AzNetappfilesSubvolume(_command);
+
+    /// <summary>
+    /// az netappfiles usage sub-commands.
     /// </summary>
     public AzNetappfilesUsage Usage => _usage ??= new AzNetappfilesUsage(_command);
 
     /// <summary>
-    /// az volume sub-commands.
+    /// az netappfiles volume sub-commands.
     /// </summary>
     public AzNetappfilesVolume Volume => _volume ??= new AzNetappfilesVolume(_command);
 
     /// <summary>
-    /// az volume-group sub-commands.
+    /// az netappfiles volume-group sub-commands.
     /// </summary>
     public AzNetappfilesVolumeGroup VolumeGroup => _volumeGroup ??= new AzNetappfilesVolumeGroup(_command);
 

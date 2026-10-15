@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az feature commands.
+/// az appconfig feature commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAppConfigFeature
@@ -33,7 +33,7 @@ public class AzAppConfigFeature
     #region Sub-command Groups
 
     /// <summary>
-    /// az filter sub-commands.
+    /// az appconfig feature filter sub-commands.
     /// </summary>
     public AzAppConfigFeatureFilter Filter => _filter ??= new AzAppConfigFeatureFilter(_command);
 

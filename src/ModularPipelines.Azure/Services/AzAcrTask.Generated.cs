@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az task commands.
+/// az acr task commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAcrTask
@@ -35,17 +35,17 @@ public class AzAcrTask
     #region Sub-command Groups
 
     /// <summary>
-    /// az credential sub-commands.
+    /// az acr task credential sub-commands.
     /// </summary>
     public AzAcrTaskCredential Credential => _credential ??= new AzAcrTaskCredential(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az acr task identity sub-commands.
     /// </summary>
     public AzAcrTaskIdentity Identity => _identity ??= new AzAcrTaskIdentity(_command);
 
     /// <summary>
-    /// az timer sub-commands.
+    /// az acr task timer sub-commands.
     /// </summary>
     public AzAcrTaskTimer Timer => _timer ??= new AzAcrTaskTimer(_command);
 

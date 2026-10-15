@@ -33,7 +33,7 @@ public class AzResourceManagement : IAzResourceManagement
     #region Sub-command Groups
 
     /// <summary>
-    /// az private-link sub-commands.
+    /// az resourcemanagement private-link sub-commands.
     /// </summary>
     public AzResourceManagementPrivateLink PrivateLink => _privateLink ??= new AzResourceManagementPrivateLink(_command);
 

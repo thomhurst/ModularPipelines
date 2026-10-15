@@ -22,34 +22,34 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzApim
 {
     /// <summary>
-    /// az api sub-commands.
+    /// az apim api sub-commands.
     /// </summary>
-    AzApimApi Api => throw new System.NotSupportedException();
+    AzApimApi Api { get; }
 
     /// <summary>
-    /// az backend sub-commands.
+    /// az apim backend sub-commands.
     /// </summary>
-    AzApimBackend Backend => throw new System.NotSupportedException();
+    AzApimBackend Backend { get; }
 
     /// <summary>
-    /// az deletedservice sub-commands.
+    /// az apim deletedservice sub-commands.
     /// </summary>
-    AzApimDeletedservice Deletedservice => throw new System.NotSupportedException();
+    AzApimDeletedservice Deletedservice { get; }
 
     /// <summary>
-    /// az graphql sub-commands.
+    /// az apim graphql sub-commands.
     /// </summary>
-    AzApimGraphql Graphql => throw new System.NotSupportedException();
+    AzApimGraphql Graphql { get; }
 
     /// <summary>
-    /// az nv sub-commands.
+    /// az apim nv sub-commands.
     /// </summary>
-    AzApimNv Nv => throw new System.NotSupportedException();
+    AzApimNv Nv { get; }
 
     /// <summary>
-    /// az product sub-commands.
+    /// az apim product sub-commands.
     /// </summary>
-    AzApimProduct Product => throw new System.NotSupportedException();
+    AzApimProduct Product { get; }
 
     /// <summary>
     /// Update the API Management resource running in the virtual
@@ -58,8 +58,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApplyNetworkUpdatesAsync(AzApimApplyNetworkUpdatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApplyNetworkUpdatesAsync(AzApimApplyNetworkUpdatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a backup of the API Management service to the given Azure Storage
@@ -68,8 +67,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BackupAsync(AzApimBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BackupAsync(AzApimBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks to see if a service name is available to use.
@@ -78,8 +76,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckNameAsync(AzApimCheckNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckNameAsync(AzApimCheckNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an API Management service instance.
@@ -88,8 +85,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzApimCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzApimCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an API Management service.
@@ -98,8 +94,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzApimDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzApimDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List API Management service instances.
@@ -108,8 +103,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzApimListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzApimListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores a backup of an API Management service created using the
@@ -118,8 +112,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreAsync(AzApimRestoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreAsync(AzApimRestoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show details of an API Management service instance.
@@ -128,8 +121,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzApimShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzApimShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an API Management service instance.
@@ -138,8 +130,7 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzApimUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzApimUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Place the CLI in a waiting state until a condition of an apim is met.
@@ -148,7 +139,6 @@ public interface IAzApim
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WaitAsync(AzApimWaitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> WaitAsync(AzApimWaitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

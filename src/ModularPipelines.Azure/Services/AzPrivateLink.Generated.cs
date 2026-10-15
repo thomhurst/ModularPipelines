@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az privatelink commands.
+/// az private-link commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPrivateLink : IAzPrivateLink
@@ -33,7 +33,7 @@ public class AzPrivateLink : IAzPrivateLink
     #region Sub-command Groups
 
     /// <summary>
-    /// az association sub-commands.
+    /// az private-link association sub-commands.
     /// </summary>
     public AzPrivateLinkAssociation Association => _association ??= new AzPrivateLinkAssociation(_command);
 

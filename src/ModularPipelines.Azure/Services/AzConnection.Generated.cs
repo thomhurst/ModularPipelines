@@ -35,17 +35,17 @@ public class AzConnection : IAzConnection
     #region Sub-command Groups
 
     /// <summary>
-    /// az create sub-commands.
+    /// az connection create sub-commands.
     /// </summary>
     public AzConnectionCreate Create => _create ??= new AzConnectionCreate(_command);
 
     /// <summary>
-    /// az preview-configuration sub-commands.
+    /// az connection preview-configuration sub-commands.
     /// </summary>
     public AzConnectionPreviewConfiguration PreviewConfiguration => _previewConfiguration ??= new AzConnectionPreviewConfiguration(_command);
 
     /// <summary>
-    /// az update sub-commands.
+    /// az connection update sub-commands.
     /// </summary>
     public AzConnectionUpdate Update => _update ??= new AzConnectionUpdate(_command);
 

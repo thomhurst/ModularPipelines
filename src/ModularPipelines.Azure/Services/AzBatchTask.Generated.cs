@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az task commands.
+/// az batch task commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBatchTask
@@ -34,12 +34,12 @@ public class AzBatchTask
     #region Sub-command Groups
 
     /// <summary>
-    /// az file sub-commands.
+    /// az batch task file sub-commands.
     /// </summary>
     public AzBatchTaskFile File => _file ??= new AzBatchTaskFile(_command);
 
     /// <summary>
-    /// az subtask sub-commands.
+    /// az batch task subtask sub-commands.
     /// </summary>
     public AzBatchTaskSubtask Subtask => _subtask ??= new AzBatchTaskSubtask(_command);
 

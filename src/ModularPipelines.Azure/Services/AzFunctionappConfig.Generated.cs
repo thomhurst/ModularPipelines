@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az config commands.
+/// az functionapp config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappConfig
@@ -37,27 +37,27 @@ public class AzFunctionappConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// az access-restriction sub-commands.
+    /// az functionapp config access-restriction sub-commands.
     /// </summary>
     public AzFunctionappConfigAccessRestriction AccessRestriction => _accessRestriction ??= new AzFunctionappConfigAccessRestriction(_command);
 
     /// <summary>
-    /// az appsettings sub-commands.
+    /// az functionapp config appsettings sub-commands.
     /// </summary>
     public AzFunctionappConfigAppSettings AppSettings => _appSettings ??= new AzFunctionappConfigAppSettings(_command);
 
     /// <summary>
-    /// az container sub-commands.
+    /// az functionapp config container sub-commands.
     /// </summary>
     public AzFunctionappConfigContainer Container => _container ??= new AzFunctionappConfigContainer(_command);
 
     /// <summary>
-    /// az hostname sub-commands.
+    /// az functionapp config hostname sub-commands.
     /// </summary>
     public AzFunctionappConfigHostname Hostname => _hostname ??= new AzFunctionappConfigHostname(_command);
 
     /// <summary>
-    /// az ssl sub-commands.
+    /// az functionapp config ssl sub-commands.
     /// </summary>
     public AzFunctionappConfigSsl Ssl => _ssl ??= new AzFunctionappConfigSsl(_command);
 

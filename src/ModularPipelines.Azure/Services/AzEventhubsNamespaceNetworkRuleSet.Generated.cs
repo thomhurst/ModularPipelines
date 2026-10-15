@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az network-rule-set commands.
+/// az eventhubs namespace network-rule-set commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventhubsNamespaceNetworkRuleSet
@@ -34,12 +34,12 @@ public class AzEventhubsNamespaceNetworkRuleSet
     #region Sub-command Groups
 
     /// <summary>
-    /// az ip-rule sub-commands.
+    /// az eventhubs namespace network-rule-set ip-rule sub-commands.
     /// </summary>
     public AzEventhubsNamespaceNetworkRuleSetIpRule IpRule => _ipRule ??= new AzEventhubsNamespaceNetworkRuleSetIpRule(_command);
 
     /// <summary>
-    /// az virtual-network-rule sub-commands.
+    /// az eventhubs namespace network-rule-set virtual-network-rule sub-commands.
     /// </summary>
     public AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule VirtualNetworkRule => _virtualNetworkRule ??= new AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule(_command);
 

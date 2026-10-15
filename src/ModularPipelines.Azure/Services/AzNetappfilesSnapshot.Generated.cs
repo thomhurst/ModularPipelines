@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az snapshot commands.
+/// az netappfiles snapshot commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetappfilesSnapshot
@@ -33,7 +33,7 @@ public class AzNetappfilesSnapshot
     #region Sub-command Groups
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az netappfiles snapshot policy sub-commands.
     /// </summary>
     public AzNetappfilesSnapshotPolicy Policy => _policy ??= new AzNetappfilesSnapshotPolicy(_command);
 

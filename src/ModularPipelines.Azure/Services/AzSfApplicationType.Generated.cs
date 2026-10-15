@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az application-type commands.
+/// az sf application-type commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSfApplicationType
@@ -33,7 +33,7 @@ public class AzSfApplicationType
     #region Sub-command Groups
 
     /// <summary>
-    /// az version sub-commands.
+    /// az sf application-type version sub-commands.
     /// </summary>
     public AzSfApplicationTypeVersion Version => _version ??= new AzSfApplicationTypeVersion(_command);
 

@@ -35,17 +35,17 @@ public class AzRelay : IAzRelay
     #region Sub-command Groups
 
     /// <summary>
-    /// az hyco sub-commands.
+    /// az relay hyco sub-commands.
     /// </summary>
     public AzRelayHyco Hyco => _hyco ??= new AzRelayHyco(_command);
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az relay namespace sub-commands.
     /// </summary>
     public AzRelayNamespace Namespace => _namespace ??= new AzRelayNamespace(_command);
 
     /// <summary>
-    /// az wcfrelay sub-commands.
+    /// az relay wcfrelay sub-commands.
     /// </summary>
     public AzRelayWcfrelay Wcfrelay => _wcfrelay ??= new AzRelayWcfrelay(_command);
 

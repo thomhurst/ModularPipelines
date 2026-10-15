@@ -28,6 +28,7 @@ public class AzSynapse : IAzSynapse
     private AzSynapseIntegrationRuntimeNode? _integrationRuntimeNode;
     private AzSynapseKqlScript? _kqlScript;
     private AzSynapseKusto? _kusto;
+    private AzSynapseKustoOperation? _kustoOperation;
     private AzSynapseLinkConnection? _linkConnection;
     private AzSynapseLinkedService? _linkedService;
     private AzSynapseManagedPrivateEndpoints? _managedPrivateEndpoints;
@@ -55,117 +56,122 @@ public class AzSynapse : IAzSynapse
     #region Sub-command Groups
 
     /// <summary>
-    /// az activity-run sub-commands.
+    /// az synapse activity-run sub-commands.
     /// </summary>
     public AzSynapseActivityRun ActivityRun => _activityRun ??= new AzSynapseActivityRun(_command);
 
     /// <summary>
-    /// az ad-only-auth sub-commands.
+    /// az synapse ad-only-auth sub-commands.
     /// </summary>
     public AzSynapseAdOnlyAuth AdOnlyAuth => _adOnlyAuth ??= new AzSynapseAdOnlyAuth(_command);
 
     /// <summary>
-    /// az data-flow sub-commands.
+    /// az synapse data-flow sub-commands.
     /// </summary>
     public AzSynapseDataFlow DataFlow => _dataFlow ??= new AzSynapseDataFlow(_command);
 
     /// <summary>
-    /// az dataset sub-commands.
+    /// az synapse dataset sub-commands.
     /// </summary>
     public AzSynapseDataSet DataSet => _dataSet ??= new AzSynapseDataSet(_command);
 
     /// <summary>
-    /// az integration-runtime sub-commands.
+    /// az synapse integration-runtime sub-commands.
     /// </summary>
     public AzSynapseIntegrationRuntime IntegrationRuntime => _integrationRuntime ??= new AzSynapseIntegrationRuntime(_command);
 
     /// <summary>
-    /// az integration-runtime-node sub-commands.
+    /// az synapse integration-runtime-node sub-commands.
     /// </summary>
     public AzSynapseIntegrationRuntimeNode IntegrationRuntimeNode => _integrationRuntimeNode ??= new AzSynapseIntegrationRuntimeNode(_command);
 
     /// <summary>
-    /// az kql-script sub-commands.
+    /// az synapse kql-script sub-commands.
     /// </summary>
     public AzSynapseKqlScript KqlScript => _kqlScript ??= new AzSynapseKqlScript(_command);
 
     /// <summary>
-    /// az kusto sub-commands.
+    /// az synapse kusto sub-commands.
     /// </summary>
     public AzSynapseKusto Kusto => _kusto ??= new AzSynapseKusto(_command);
 
     /// <summary>
-    /// az link-connection sub-commands.
+    /// az synapse kusto-operation sub-commands.
+    /// </summary>
+    public AzSynapseKustoOperation KustoOperation => _kustoOperation ??= new AzSynapseKustoOperation(_command);
+
+    /// <summary>
+    /// az synapse link-connection sub-commands.
     /// </summary>
     public AzSynapseLinkConnection LinkConnection => _linkConnection ??= new AzSynapseLinkConnection(_command);
 
     /// <summary>
-    /// az linked-service sub-commands.
+    /// az synapse linked-service sub-commands.
     /// </summary>
     public AzSynapseLinkedService LinkedService => _linkedService ??= new AzSynapseLinkedService(_command);
 
     /// <summary>
-    /// az managed-private-endpoints sub-commands.
+    /// az synapse managed-private-endpoints sub-commands.
     /// </summary>
     public AzSynapseManagedPrivateEndpoints ManagedPrivateEndpoints => _managedPrivateEndpoints ??= new AzSynapseManagedPrivateEndpoints(_command);
 
     /// <summary>
-    /// az notebook sub-commands.
+    /// az synapse notebook sub-commands.
     /// </summary>
     public AzSynapseNotebook Notebook => _notebook ??= new AzSynapseNotebook(_command);
 
     /// <summary>
-    /// az pipeline sub-commands.
+    /// az synapse pipeline sub-commands.
     /// </summary>
     public AzSynapsePipeline Pipeline => _pipeline ??= new AzSynapsePipeline(_command);
 
     /// <summary>
-    /// az pipeline-run sub-commands.
+    /// az synapse pipeline-run sub-commands.
     /// </summary>
     public AzSynapsePipelineRun PipelineRun => _pipelineRun ??= new AzSynapsePipelineRun(_command);
 
     /// <summary>
-    /// az role sub-commands.
+    /// az synapse role sub-commands.
     /// </summary>
     public AzSynapseRole Role => _role ??= new AzSynapseRole(_command);
 
     /// <summary>
-    /// az spark sub-commands.
+    /// az synapse spark sub-commands.
     /// </summary>
     public AzSynapseSpark Spark => _spark ??= new AzSynapseSpark(_command);
 
     /// <summary>
-    /// az spark-job-definition sub-commands.
+    /// az synapse spark-job-definition sub-commands.
     /// </summary>
     public AzSynapseSparkJobDefinition SparkJobDefinition => _sparkJobDefinition ??= new AzSynapseSparkJobDefinition(_command);
 
     /// <summary>
-    /// az sql sub-commands.
+    /// az synapse sql sub-commands.
     /// </summary>
     public AzSynapseSql Sql => _sql ??= new AzSynapseSql(_command);
 
     /// <summary>
-    /// az sql-script sub-commands.
+    /// az synapse sql-script sub-commands.
     /// </summary>
     public AzSynapseSqlScript SqlScript => _sqlScript ??= new AzSynapseSqlScript(_command);
 
     /// <summary>
-    /// az trigger sub-commands.
+    /// az synapse trigger sub-commands.
     /// </summary>
     public AzSynapseTrigger Trigger => _trigger ??= new AzSynapseTrigger(_command);
 
     /// <summary>
-    /// az trigger-run sub-commands.
+    /// az synapse trigger-run sub-commands.
     /// </summary>
     public AzSynapseTriggerRun TriggerRun => _triggerRun ??= new AzSynapseTriggerRun(_command);
 
     /// <summary>
-    /// az workspace sub-commands.
+    /// az synapse workspace sub-commands.
     /// </summary>
     public AzSynapseWorkspace Workspace => _workspace ??= new AzSynapseWorkspace(_command);
 
     /// <summary>
-    /// az workspace-package sub-commands.
+    /// az synapse workspace-package sub-commands.
     /// </summary>
     public AzSynapseWorkspacePackage WorkspacePackage => _workspacePackage ??= new AzSynapseWorkspacePackage(_command);
 

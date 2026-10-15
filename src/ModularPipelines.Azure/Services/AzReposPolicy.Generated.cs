@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az policy commands.
+/// az repos policy commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzReposPolicy
@@ -40,42 +40,42 @@ public class AzReposPolicy
     #region Sub-command Groups
 
     /// <summary>
-    /// az approver-count sub-commands.
+    /// az repos policy approver-count sub-commands.
     /// </summary>
     public AzReposPolicyApproverCount ApproverCount => _approverCount ??= new AzReposPolicyApproverCount(_command);
 
     /// <summary>
-    /// az build sub-commands.
+    /// az repos policy build sub-commands.
     /// </summary>
     public AzReposPolicyBuild Build => _build ??= new AzReposPolicyBuild(_command);
 
     /// <summary>
-    /// az case-enforcement sub-commands.
+    /// az repos policy case-enforcement sub-commands.
     /// </summary>
     public AzReposPolicyCaseEnforcement CaseEnforcement => _caseEnforcement ??= new AzReposPolicyCaseEnforcement(_command);
 
     /// <summary>
-    /// az comment-required sub-commands.
+    /// az repos policy comment-required sub-commands.
     /// </summary>
     public AzReposPolicyCommentRequired CommentRequired => _commentRequired ??= new AzReposPolicyCommentRequired(_command);
 
     /// <summary>
-    /// az file-size sub-commands.
+    /// az repos policy file-size sub-commands.
     /// </summary>
     public AzReposPolicyFileSize FileSize => _fileSize ??= new AzReposPolicyFileSize(_command);
 
     /// <summary>
-    /// az merge-strategy sub-commands.
+    /// az repos policy merge-strategy sub-commands.
     /// </summary>
     public AzReposPolicyMergeStrategy MergeStrategy => _mergeStrategy ??= new AzReposPolicyMergeStrategy(_command);
 
     /// <summary>
-    /// az required-reviewer sub-commands.
+    /// az repos policy required-reviewer sub-commands.
     /// </summary>
     public AzReposPolicyRequiredReviewer RequiredReviewer => _requiredReviewer ??= new AzReposPolicyRequiredReviewer(_command);
 
     /// <summary>
-    /// az work-item-linking sub-commands.
+    /// az repos policy work-item-linking sub-commands.
     /// </summary>
     public AzReposPolicyWorkItemLinking WorkItemLinking => _workItemLinking ??= new AzReposPolicyWorkItemLinking(_command);
 

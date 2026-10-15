@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az network-watcher commands.
+/// az network network-watcher commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkNetworkWatcher
@@ -34,12 +34,12 @@ public class AzNetworkNetworkWatcher
     #region Sub-command Groups
 
     /// <summary>
-    /// az connection-monitor sub-commands.
+    /// az network network-watcher connection-monitor sub-commands.
     /// </summary>
     public AzNetworkNetworkWatcherConnectionMonitor ConnectionMonitor => _connectionMonitor ??= new AzNetworkNetworkWatcherConnectionMonitor(_command);
 
     /// <summary>
-    /// az packet-capture sub-commands.
+    /// az network network-watcher packet-capture sub-commands.
     /// </summary>
     public AzNetworkNetworkWatcherPacketCapture PacketCapture => _packetCapture ??= new AzNetworkNetworkWatcherPacketCapture(_command);
 

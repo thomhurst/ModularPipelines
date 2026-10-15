@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az wiki commands.
+/// az devops wiki commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDevopsWiki
@@ -33,7 +33,7 @@ public class AzDevopsWiki
     #region Sub-command Groups
 
     /// <summary>
-    /// az page sub-commands.
+    /// az devops wiki page sub-commands.
     /// </summary>
     public AzDevopsWikiPage Page => _page ??= new AzDevopsWikiPage(_command);
 

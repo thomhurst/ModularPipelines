@@ -45,67 +45,67 @@ public class AzAms : IAzAms
     #region Sub-command Groups
 
     /// <summary>
-    /// az account sub-commands.
+    /// az ams account sub-commands.
     /// </summary>
     public AzAmsAccount Account => _account ??= new AzAmsAccount(_command);
 
     /// <summary>
-    /// az account-filter sub-commands.
+    /// az ams account-filter sub-commands.
     /// </summary>
     public AzAmsAccountFilter AccountFilter => _accountFilter ??= new AzAmsAccountFilter(_command);
 
     /// <summary>
-    /// az asset sub-commands.
+    /// az ams asset sub-commands.
     /// </summary>
     public AzAmsAsset Asset => _asset ??= new AzAmsAsset(_command);
 
     /// <summary>
-    /// az asset-filter sub-commands.
+    /// az ams asset-filter sub-commands.
     /// </summary>
     public AzAmsAssetFilter AssetFilter => _assetFilter ??= new AzAmsAssetFilter(_command);
 
     /// <summary>
-    /// az asset-track sub-commands.
+    /// az ams asset-track sub-commands.
     /// </summary>
     public AzAmsAssetTrack AssetTrack => _assetTrack ??= new AzAmsAssetTrack(_command);
 
     /// <summary>
-    /// az content-key-policy sub-commands.
+    /// az ams content-key-policy sub-commands.
     /// </summary>
     public AzAmsContentKeyPolicy ContentKeyPolicy => _contentKeyPolicy ??= new AzAmsContentKeyPolicy(_command);
 
     /// <summary>
-    /// az job sub-commands.
+    /// az ams job sub-commands.
     /// </summary>
     public AzAmsJob Job => _job ??= new AzAmsJob(_command);
 
     /// <summary>
-    /// az live-event sub-commands.
+    /// az ams live-event sub-commands.
     /// </summary>
     public AzAmsLiveEvent LiveEvent => _liveEvent ??= new AzAmsLiveEvent(_command);
 
     /// <summary>
-    /// az live-output sub-commands.
+    /// az ams live-output sub-commands.
     /// </summary>
     public AzAmsLiveOutput LiveOutput => _liveOutput ??= new AzAmsLiveOutput(_command);
 
     /// <summary>
-    /// az streaming-endpoint sub-commands.
+    /// az ams streaming-endpoint sub-commands.
     /// </summary>
     public AzAmsStreamingEndpoint StreamingEndpoint => _streamingEndpoint ??= new AzAmsStreamingEndpoint(_command);
 
     /// <summary>
-    /// az streaming-locator sub-commands.
+    /// az ams streaming-locator sub-commands.
     /// </summary>
     public AzAmsStreamingLocator StreamingLocator => _streamingLocator ??= new AzAmsStreamingLocator(_command);
 
     /// <summary>
-    /// az streaming-policy sub-commands.
+    /// az ams streaming-policy sub-commands.
     /// </summary>
     public AzAmsStreamingPolicy StreamingPolicy => _streamingPolicy ??= new AzAmsStreamingPolicy(_command);
 
     /// <summary>
-    /// az transform sub-commands.
+    /// az ams transform sub-commands.
     /// </summary>
     public AzAmsTransform Transform => _transform ??= new AzAmsTransform(_command);
 

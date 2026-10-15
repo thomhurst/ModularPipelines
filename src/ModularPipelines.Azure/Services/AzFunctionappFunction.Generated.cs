@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az function commands.
+/// az functionapp function commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappFunction
@@ -33,7 +33,7 @@ public class AzFunctionappFunction
     #region Sub-command Groups
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az functionapp function keys sub-commands.
     /// </summary>
     public AzFunctionappFunctionKeys Keys => _keys ??= new AzFunctionappFunctionKeys(_command);
 

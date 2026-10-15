@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az ssl-policy commands.
+/// az network application-gateway ssl-policy commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGatewaySslPolicy
@@ -33,7 +33,7 @@ public class AzNetworkApplicationGatewaySslPolicy
     #region Sub-command Groups
 
     /// <summary>
-    /// az predefined sub-commands.
+    /// az network application-gateway ssl-policy predefined sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewaySslPolicyPredefined Predefined => _predefined ??= new AzNetworkApplicationGatewaySslPolicyPredefined(_command);
 

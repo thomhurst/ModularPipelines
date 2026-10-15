@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az traffic-manager commands.
+/// az network traffic-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkTrafficManager
@@ -34,12 +34,12 @@ public class AzNetworkTrafficManager
     #region Sub-command Groups
 
     /// <summary>
-    /// az endpoint sub-commands.
+    /// az network traffic-manager endpoint sub-commands.
     /// </summary>
     public AzNetworkTrafficManagerEndpoint Endpoint => _endpoint ??= new AzNetworkTrafficManagerEndpoint(_command);
 
     /// <summary>
-    /// az profile sub-commands.
+    /// az network traffic-manager profile sub-commands.
     /// </summary>
     public AzNetworkTrafficManagerProfile Profile => _profile ??= new AzNetworkTrafficManagerProfile(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az ase commands.
+/// az appservice ase commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAppserviceAse
@@ -30,6 +30,21 @@ public class AzAppserviceAse
     }
 
     #region Commands
+
+    /// <summary>
+    /// Private DNS Zone for Internal (ILB) App Service
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateInboundServicesAsync(
+        AzAppserviceAseCreateInboundServicesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Create App Service Environment.
