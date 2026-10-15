@@ -36,7 +36,7 @@ public class TempFolderTests
         {
             await System.IO.File.WriteAllTextAsync(externalFile, "contents");
             System.IO.File.SetAttributes(externalFile, FileAttributes.ReadOnly);
-            Directory.CreateSymbolicLink(Path.Combine(path, "external"), externalPath);
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(Path.Combine(path, "external"), externalPath));
 
             using (new TempFolder(new FolderPath(path)))
             {
@@ -79,7 +79,7 @@ public class TempFolderTests
         {
             await System.IO.File.WriteAllTextAsync(externalFile, "contents");
             System.IO.File.SetAttributes(externalFile, FileAttributes.ReadOnly);
-            System.IO.File.CreateSymbolicLink(Path.Combine(path, "external.txt"), externalFile);
+            SymbolicLinkTestHelper.CreateOrSkip(() => System.IO.File.CreateSymbolicLink(Path.Combine(path, "external.txt"), externalFile));
 
             using (new TempFolder(new FolderPath(path)))
             {
