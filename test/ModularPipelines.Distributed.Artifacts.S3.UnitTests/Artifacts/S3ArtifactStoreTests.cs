@@ -1,4 +1,6 @@
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.DependencyInjection;
@@ -112,6 +114,65 @@ public class S3ArtifactStoreTests
     [Arguments("meta%2Foutput", "meta%252Foutput")]
     [Arguments("build output/雪.zip", "build%20output%2F%E9%9B%AA.zip")]
     public async Task Artifact_Names_Stay_In_The_Data_Prefix_Throughout_Their_Lifecycle(string name, string encodedName)
+        => await AssertArtifactLifecycleAsync(_store, "modpipe", name, encodedName);
+
+    [Test]
+    [Arguments(1024, "modpipe")]
+    [Arguments(1025, "modpipe")]
+    [Arguments(1200, "modpipe")]
+    [Arguments(1024, "雪")]
+    [Arguments(1025, "雪")]
+    public async Task Artifact_Name_Respects_Complete_Key_Byte_Limit(int escapedKeyBytes, string keyPrefix)
+    {
+        var fixedKeyBytes = Encoding.UTF8.GetByteCount($"{keyPrefix}/artifacts/run123/Test.Module/data//{new string('0', 32)}");
+        var name = new string('雪', 100) + new string('a', escapedKeyBytes - fixedKeyBytes - 900);
+        var encodedName = escapedKeyBytes <= 1024
+            ? Uri.EscapeDataString(name)
+            : Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(name)));
+        using var store = CreateStore(16 * 1024 * 1024, keyPrefix);
+
+        await AssertArtifactLifecycleAsync(store, keyPrefix, name, encodedName);
+    }
+
+    [Test]
+    [Arguments(4)]
+    [Arguments(8)]
+    [Arguments(32)]
+    [Arguments(64)]
+    public async Task Long_Prefix_Leaves_A_Bounded_Artifact_Name_Segment(int nameBudget)
+    {
+        var fixedKeyBytes = Encoding.UTF8.GetByteCount($"/artifacts/run123/Test.Module/data//{new string('0', 32)}");
+        var keyPrefix = new string('a', 1024 - fixedKeyBytes - nameBudget);
+        var name = new string('雪', 120);
+        var encodedName = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(name)))[..nameBudget];
+        using var store = CreateStore(16 * 1024 * 1024, keyPrefix);
+
+        await AssertArtifactLifecycleAsync(store, keyPrefix, name, encodedName);
+    }
+
+    [Test]
+    [Arguments(-1)]
+    [Arguments(0)]
+    [Arguments(3)]
+    public async Task Upload_Rejects_Prefix_Too_Long_For_A_Bounded_Name_Before_Sending_Data(int nameBudget)
+    {
+        var fixedKeyBytes = Encoding.UTF8.GetByteCount($"/artifacts/run123/Test.Module/data//{new string('0', 32)}");
+        using var store = CreateStore(16 * 1024 * 1024, new string('a', 1024 - fixedKeyBytes - nameBudget));
+        using var stream = new MemoryStream([1]);
+
+        await Assert.That(async () =>
+        {
+            await store.UploadAsync(new ArtifactDescriptor
+            {
+                Name = "output",
+                ModuleId = "Test.Module",
+            }, stream, CancellationToken.None);
+        }).Throws<InvalidOperationException>();
+
+        _mockS3.Verify(s => s.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()), Times.Never());
+    }
+
+    private async Task AssertArtifactLifecycleAsync(S3DistributedArtifactStore store, string keyPrefix, string name, string encodedName)
     {
         var objects = new Dictionary<string, byte[]>();
         _mockS3.Setup(s => s.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
@@ -145,13 +206,13 @@ public class S3ArtifactStoreTests
 
         byte[] payload = [1, 2, 3];
         using var stream = new MemoryStream(payload);
-        var uploaded = await _store.UploadAsync(new ArtifactDescriptor
+        var uploaded = await store.UploadAsync(new ArtifactDescriptor
         {
             Name = name,
             ModuleId = "Test.Module",
         }, stream, CancellationToken.None);
 
-        var listed = await _store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+        var listed = await store.ListArtifactsAsync("Test.Module", CancellationToken.None);
 
         // Listing must never fetch the payload, even when its name resembles the metadata prefix.
         _mockS3.Verify(s => s.GetObjectAsync("test-bucket",
@@ -160,16 +221,17 @@ public class S3ArtifactStoreTests
         await Assert.That(listed).HasSingleItem();
         await Assert.That(listed[0].Name).IsEqualTo(name);
         await Assert.That(listed[0].ArtifactId).IsEqualTo(uploaded.ArtifactId);
-        var dataKey = $"modpipe/artifacts/run123/Test.Module/data/{encodedName}/{uploaded.ArtifactId}";
-        var metaKey = $"modpipe/artifacts/run123/Test.Module/meta/{uploaded.ArtifactId}.json";
+        var dataKey = $"{keyPrefix}/artifacts/run123/Test.Module/data/{encodedName}/{uploaded.ArtifactId}";
+        var metaKey = $"{keyPrefix}/artifacts/run123/Test.Module/meta/{uploaded.ArtifactId}.json";
         await Assert.That(objects.Keys).IsEquivalentTo([dataKey, metaKey]);
+        await Assert.That(objects.Keys.All(key => Encoding.UTF8.GetByteCount(key) <= 1024)).IsTrue();
 
-        await using var downloaded = await _store.DownloadAsync(listed[0], CancellationToken.None);
+        await using var downloaded = await store.DownloadAsync(listed[0], CancellationToken.None);
         using var copy = new MemoryStream();
         await downloaded.CopyToAsync(copy);
-        await Assert.That(copy.ToArray()).IsEquivalentTo(payload);
+        await Assert.That(copy.ToArray().SequenceEqual(payload)).IsTrue();
 
-        await _store.DeleteAsync(listed[0], CancellationToken.None);
+        await store.DeleteAsync(listed[0], CancellationToken.None);
         await Assert.That(objects).IsEmpty();
     }
 
@@ -644,12 +706,13 @@ public class S3ArtifactStoreTests
         _mockS3.Verify(s => s.Dispose(), Times.Once);
     }
 
-    private S3DistributedArtifactStore CreateStore(int partSizeBytes) =>
+    private S3DistributedArtifactStore CreateStore(int partSizeBytes, string keyPrefix = "modpipe") =>
         new(
             _mockS3.Object,
             new S3StorageOptions
             {
                 BucketName = "test-bucket",
+                KeyPrefix = keyPrefix,
                 MultipartPartSizeBytes = partSizeBytes,
             },
             "run123",
