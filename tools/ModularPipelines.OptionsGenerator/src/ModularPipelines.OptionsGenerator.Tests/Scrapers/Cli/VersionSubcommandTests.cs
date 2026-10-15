@@ -286,8 +286,8 @@ public class VersionSubcommandTests
             Task.FromResult(true);
 
         public Task<CliCommandResult> ExecuteAsync(
-            string command, string arguments, CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string command, string arguments, string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             Arguments.Add(arguments);
             return Task.FromResult(new CliCommandResult

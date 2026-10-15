@@ -100,8 +100,8 @@ public class ShellcheckCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) => throw new NotSupportedException();
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) => throw new NotSupportedException();
 
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
             Task.FromResult(false);

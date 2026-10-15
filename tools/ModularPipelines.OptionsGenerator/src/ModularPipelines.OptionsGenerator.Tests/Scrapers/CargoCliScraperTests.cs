@@ -666,7 +666,7 @@ public class CargoCliScraperTests
         public bool ManualRequested { get; private set; }
 
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             ManualRequested |= arguments == $"help {commandName}";
             var output = arguments switch

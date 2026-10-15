@@ -735,7 +735,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             var repeat = await Executor.ExecuteAsync(
                 ExecutablePath,
                 GetHelpArguments(commandPath),
-                cancellationToken);
+                cancellationToken: cancellationToken);
             var repeatText = !string.IsNullOrEmpty(repeat.StandardOutput)
                 ? repeat.StandardOutput
                 : repeat.StandardError;

@@ -102,7 +102,7 @@ public partial class YarnCliScraper(ICliCommandExecutor executor, IHelpTextCache
         _yarnProjectDir = Path.Combine(Path.GetTempPath(), $"yarn-scraper-{Guid.NewGuid():N}");
         Directory.CreateDirectory(_yarnProjectDir);
 
-        var versionResult = await Executor.ExecuteAsync(ExecutablePath, "--version", cancellationToken);
+        var versionResult = await Executor.ExecuteAsync(ExecutablePath, "--version", cancellationToken: cancellationToken);
         var version = versionResult.StandardOutput.Trim();
         var packageManager = YarnVersionPattern().IsMatch(version)
             ? $",\"packageManager\":\"yarn@{version}\""

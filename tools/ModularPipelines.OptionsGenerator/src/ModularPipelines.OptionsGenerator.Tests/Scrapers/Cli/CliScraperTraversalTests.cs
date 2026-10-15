@@ -1630,8 +1630,8 @@ public partial class CliScraperTraversalTests
     private sealed class FixedResultExecutor(CliCommandResult result) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
-            string command, string arguments, CancellationToken cancellationToken = default,
-            string? workingDirectory = null) => Task.FromResult(result);
+            string command, string arguments, string? workingDirectory = null,
+            CancellationToken cancellationToken = default) => Task.FromResult(result);
 
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
@@ -1660,8 +1660,8 @@ public partial class CliScraperTraversalTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             Invocations.Add((command, arguments));
             if (command == "docker-compose-shim" && providerResult is not null)
@@ -1715,8 +1715,8 @@ public partial class CliScraperTraversalTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var helpText = command switch
             {
@@ -1841,8 +1841,8 @@ public partial class CliScraperTraversalTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             lock (_gate)
             {

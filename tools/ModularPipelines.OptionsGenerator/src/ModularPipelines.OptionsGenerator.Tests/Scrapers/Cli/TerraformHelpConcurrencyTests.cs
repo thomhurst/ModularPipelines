@@ -94,7 +94,7 @@ public class TerraformHelpConcurrencyTests
         public TaskCompletionSource ReleaseFirst { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public async Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             if (!arguments.StartsWith("stacks ", StringComparison.Ordinal))
             {

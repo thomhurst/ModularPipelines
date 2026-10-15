@@ -69,7 +69,7 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     public override async Task<CliToolDefinition> CreateToolDefinitionAsync(CancellationToken cancellationToken = default)
     {
         var tool = CreateToolDefinition();
-        var result = await Executor.ExecuteAsync(ExecutablePath, "extension list", cancellationToken).ConfigureAwait(false);
+        var result = await Executor.ExecuteAsync(ExecutablePath, "extension list", cancellationToken: cancellationToken).ConfigureAwait(false);
         if (result.Unavailable || !result.Success || !string.IsNullOrWhiteSpace(result.StandardError))
         {
             throw new InvalidOperationException("Cannot verify gh extension availability: gh extension list did not complete reliably.");

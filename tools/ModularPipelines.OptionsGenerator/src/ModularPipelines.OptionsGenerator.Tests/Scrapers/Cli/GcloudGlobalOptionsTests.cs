@@ -142,7 +142,7 @@ public class GcloudGlobalOptionsTests
     private sealed class FixtureExecutor(IReadOnlyDictionary<string, string> help) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            string? workingDirectory = null, CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 StandardOutput = help.GetValueOrDefault(arguments, string.Empty),

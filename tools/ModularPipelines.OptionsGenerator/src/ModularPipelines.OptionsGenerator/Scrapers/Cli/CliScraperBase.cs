@@ -210,7 +210,7 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         try
         {
-            var result = await Executor.ExecuteAsync(ExecutablePath, VersionArguments, cancellationToken);
+            var result = await Executor.ExecuteAsync(ExecutablePath, VersionArguments, cancellationToken: cancellationToken);
             if (!result.Success)
             {
                 Logger.LogWarning(
@@ -961,8 +961,8 @@ public abstract partial class CliScraperBase : ICliScraper
         var result = await Executor.ExecuteAsync(
             executablePath,
             arguments,
-            cancellationToken,
-            workingDirectory);
+            workingDirectory,
+            cancellationToken);
         _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp, helpKind);
         if (!result.Unavailable)
         {

@@ -37,11 +37,14 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     public async Task<CliCommandResult> ExecuteAsync(
         string command,
         string arguments,
-        CancellationToken cancellationToken = default,
-        string? workingDirectory = null)
+        string? workingDirectory = null,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
+        }
 
         var executablePath = ResolveExecutablePath(command);
         if (executablePath is null)
@@ -164,7 +167,10 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             // exit code or stderr cannot be mistaken for a launcher failure.
             var executionFailed = statusBytesRead != 1 || acknowledgement[0] != 1;
 
-            _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
+            }
             if (process.ExitCode != 0)
             {
                 _logger.LogWarning(
@@ -319,7 +325,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     {
         try
         {
-            var result = await ExecuteAsync(command, arguments, cancellationToken);
+            var result = await ExecuteAsync(command, arguments, cancellationToken: cancellationToken);
             if (result.Success && !result.Unavailable)
             {
                 return true;
@@ -328,7 +334,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             // Some commands don't support the preferred probe, so preserve the help fallback.
             if (!arguments.Equals("--help", StringComparison.Ordinal))
             {
-                result = await ExecuteAsync(command, "--help", cancellationToken);
+                result = await ExecuteAsync(command, "--help", cancellationToken: cancellationToken);
             }
 
             return !result.Unavailable && (result.HasProcessExitCode || result.ExitCode != -1);
@@ -349,7 +355,10 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         string command,
         string arguments)
     {
-        _logger.LogDebug("Killing timed-out process tree: {Command} {Arguments}", command, arguments);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Killing timed-out process tree: {Command} {Arguments}", command, arguments);
+        }
         var processId = process.Id;
         var processStartTime = TryGetProcessStartTime(process);
         var cleanupOwnsDescendantTracker = false;

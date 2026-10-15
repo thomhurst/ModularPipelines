@@ -900,8 +900,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -942,8 +942,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1005,8 +1005,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1042,8 +1042,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 StandardOutput = arguments == "help"
@@ -1064,8 +1064,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1098,8 +1098,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1127,8 +1127,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1162,8 +1162,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1194,8 +1194,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1226,8 +1226,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1258,8 +1258,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1287,8 +1287,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {
@@ -1352,8 +1352,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(Result(arguments switch
             {
                 "help" => "AVAILABLE SERVICES\n       o fixture",
@@ -1384,8 +1384,8 @@ public partial class AwsCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var output = arguments switch
             {

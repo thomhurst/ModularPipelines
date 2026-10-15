@@ -54,12 +54,12 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
     public async Task<CliCommandResult> ExecuteAsync(
         string command,
         string arguments,
-        CancellationToken cancellationToken = default,
-        string? workingDirectory = null)
+        string? workingDirectory = null,
+        CancellationToken cancellationToken = default)
     {
         if (!arguments.EndsWith("--help", StringComparison.Ordinal))
         {
-            return await inner.ExecuteAsync(command, arguments, cancellationToken, workingDirectory).ConfigureAwait(false);
+            return await inner.ExecuteAsync(command, arguments, workingDirectory, cancellationToken).ConfigureAwait(false);
         }
 
         var python = await _pythonPaths.GetOrAdd(command,
@@ -68,7 +68,7 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
         var encodedScript = Convert.ToBase64String(Encoding.UTF8.GetBytes(Script));
         var result = await inner.ExecuteAsync(python,
                 $"-c \"import base64;exec(base64.b64decode('{encodedScript}'))\" {arguments}",
-                cancellationToken, workingDirectory)
+                workingDirectory, cancellationToken)
             .ConfigureAwait(false);
         if (!result.Unavailable && (!result.Success || !result.StandardOutput.Contains(MetadataMarker, StringComparison.Ordinal)))
         {
@@ -85,7 +85,7 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
     {
         try
         {
-            var version = await inner.ExecuteAsync(command, "--version", cancellationToken).ConfigureAwait(false);
+            var version = await inner.ExecuteAsync(command, "--version", cancellationToken: cancellationToken).ConfigureAwait(false);
             var match = PythonLocationPattern().Match(version.CombinedOutput);
             if (version.Unavailable || !version.Success || !match.Success)
             {

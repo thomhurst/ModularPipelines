@@ -12,17 +12,12 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 ///   --env stringArray (array type)
 ///   --labels map      (key-value type)
 /// </summary>
-public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
+public partial class CobraHelpTypeDetector(ICliCommandExecutor executor, ILogger<CobraHelpTypeDetector> logger) : HelpTextTypeDetectorBase(executor, logger)
 {
     private static readonly string[] SupportedTools = ["docker", "helm", "kubectl"];
 
     public override int Priority => 100; // Primary automated detector
     public override string Name => "CobraHelp";
-
-    public CobraHelpTypeDetector(ICliCommandExecutor executor, ILogger<CobraHelpTypeDetector> logger)
-        : base(executor, logger)
-    {
-    }
 
     public override bool CanHandle(string toolName)
     {
@@ -62,8 +57,11 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
                 var typeHint = match.Groups["type"].Value.Trim();
                 var detectedType = CliTypeMapper.FromCobraTypeHint(typeHint);
 
-                Logger.LogDebug("Detected {Option} as {Type} (Cobra type hint: '{Hint}')",
-                    optionName, detectedType, typeHint);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("Detected {Option} as {Type} (Cobra type hint: '{Hint}')",
+                        optionName, detectedType, typeHint);
+                }
 
                 return new OptionTypeDetectionResult
                 {
@@ -92,7 +90,10 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
         }
 
         var confidence = match.MatchKind == DescriptionEnumMatchKind.Explicit ? 95 : 85;
-        Logger.LogDebug("Detected {Option} as Enum ({Values})", optionName, string.Join(", ", match.Values));
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("Detected {Option} as Enum ({Values})", optionName, string.Join(", ", match.Values));
+        }
         return new OptionTypeDetectionResult
         {
             Type = CliOptionType.Enum,
@@ -131,7 +132,7 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
         return null;
     }
 
-    private Match? FindCobraOptionMatch(string helpText, string optionName)
+    private static Match? FindCobraOptionMatch(string helpText, string optionName)
     {
         // Pattern to match Cobra-style option definitions
         // Handles: -s, --long type   OR  --long type  OR  -s, --long  OR  --long

@@ -241,7 +241,7 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         foreach (var candidate in candidates)
         {
             var arguments = $"{command} {candidate.SwitchName}={FlagProbeValue} -h";
-            var result = await Executor.ExecuteAsync(ExecutablePath, arguments, cancellationToken);
+            var result = await Executor.ExecuteAsync(ExecutablePath, arguments, cancellationToken: cancellationToken);
             if (!UnknownFlagPattern().IsMatch(result.CombinedOutput))
             {
                 supportedFlags.Add(candidate.SwitchName);
@@ -314,7 +314,7 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return cached;
         }
 
-        var result = await Executor.ExecuteAsync(ExecutablePath, arguments, cancellationToken);
+        var result = await Executor.ExecuteAsync(ExecutablePath, arguments, cancellationToken: cancellationToken);
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)
             ? result.StandardOutput
             : result.StandardError;

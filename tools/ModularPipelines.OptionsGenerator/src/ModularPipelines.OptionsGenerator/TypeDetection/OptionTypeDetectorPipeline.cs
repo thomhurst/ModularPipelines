@@ -26,7 +26,7 @@ public class OptionTypeDetectorPipeline
         ArgumentNullException.ThrowIfNull(detectors);
         ArgumentNullException.ThrowIfNull(logger);
 
-        _detectors = detectors.OrderBy(d => d.Priority).ToList();
+        _detectors = [.. detectors.OrderBy(d => d.Priority)];
         _logger = logger;
         _minimumConfidence = minimumConfidence;
     }
@@ -61,9 +61,12 @@ public class OptionTypeDetectorPipeline
                     continue;
                 }
 
-                _logger.LogDebug(
-                    "Detector {Detector} returned {Type} with confidence {Confidence} for {Option}",
-                    detector.Name, result.Type, result.Confidence, context.OptionName);
+                if (_logger.IsEnabled(LogLevel.Debug))
+                {
+                    _logger.LogDebug(
+                        "Detector {Detector} returned {Type} with confidence {Confidence} for {Option}",
+                        detector.Name, result.Type, result.Confidence, context.OptionName);
+                }
 
                 // If confidence is high enough, return immediately
                 if (result.Confidence >= _minimumConfidence)
@@ -88,13 +91,19 @@ public class OptionTypeDetectorPipeline
         // Return best result even if below minimum confidence
         if (bestResult is not null)
         {
-            _logger.LogDebug(
-                "Using best available result: {Type} with confidence {Confidence} for {Option}",
-                bestResult.Type, bestResult.Confidence, context.OptionName);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug(
+                    "Using best available result: {Type} with confidence {Confidence} for {Option}",
+                    bestResult.Type, bestResult.Confidence, context.OptionName);
+            }
             return bestResult;
         }
 
-        _logger.LogDebug("No detector could determine type for {Option}", context.OptionName);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("No detector could determine type for {Option}", context.OptionName);
+        }
         return OptionTypeDetectionResult.Unknown("Pipeline");
     }
 

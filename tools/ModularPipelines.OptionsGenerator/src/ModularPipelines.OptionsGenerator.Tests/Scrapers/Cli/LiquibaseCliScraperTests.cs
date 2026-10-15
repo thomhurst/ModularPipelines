@@ -440,8 +440,8 @@ public class LiquibaseCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) => Task.FromResult(new CliCommandResult
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) => Task.FromResult(new CliCommandResult
             {
                 StandardOutput = arguments == "--help" ? rootHelp ?? string.Empty : updateHelp ?? string.Empty,
                 StandardError = string.Empty,

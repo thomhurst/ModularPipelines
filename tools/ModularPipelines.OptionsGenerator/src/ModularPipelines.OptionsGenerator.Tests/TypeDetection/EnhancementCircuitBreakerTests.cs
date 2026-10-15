@@ -71,7 +71,7 @@ public class EnhancementCircuitBreakerTests
             Task.FromResult(true);
 
         Task<CliCommandResult> ICliCommandExecutor.ExecuteAsync(
-            string command, string arguments, CancellationToken cancellationToken, string? workingDirectory)
+            string command, string arguments, string? workingDirectory, CancellationToken cancellationToken)
         {
             Calls++;
             return Task.FromResult(new CliCommandResult

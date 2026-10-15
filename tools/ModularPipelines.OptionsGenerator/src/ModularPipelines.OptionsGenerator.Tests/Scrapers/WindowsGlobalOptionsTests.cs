@@ -146,7 +146,7 @@ public class WindowsGlobalOptionsTests
 
     private sealed class FixtureExecutor(string root, string child) : ICliCommandExecutor
     {
-        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, string? workingDirectory = null, CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 StandardOutput = arguments is "--help" or "-?" ? root : child,

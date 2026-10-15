@@ -59,7 +59,7 @@ internal static class WindowsJob
         return succeeded;
     }
 
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+#pragma warning disable SYSLIB1054 // Existing runtime imports; native migration is separate from ChildProcessSnapshot.
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     private static extern SafeFileHandle CreateJobObject(nint jobAttributes, string? name);
 

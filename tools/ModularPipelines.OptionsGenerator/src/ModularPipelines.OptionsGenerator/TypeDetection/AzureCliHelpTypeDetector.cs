@@ -9,17 +9,12 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 /// Azure CLI provides structured help output via `az help-dump` and shows
 /// "Accepted values: 0, 1, f, false, n, no, t, true, y, yes" for booleans.
 /// </summary>
-public partial class AzureCliHelpTypeDetector : HelpTextTypeDetectorBase
+public partial class AzureCliHelpTypeDetector(ICliCommandExecutor executor, ILogger<AzureCliHelpTypeDetector> logger) : HelpTextTypeDetectorBase(executor, logger)
 {
     private const string HelpDumpCacheKey = "AzHelpDump";
 
     public override int Priority => 100;
     public override string Name => "AzureCliHelp";
-
-    public AzureCliHelpTypeDetector(ICliCommandExecutor executor, ILogger<AzureCliHelpTypeDetector> logger)
-        : base(executor, logger)
-    {
-    }
 
     public override bool CanHandle(string toolName)
     {
@@ -39,7 +34,7 @@ public partial class AzureCliHelpTypeDetector : HelpTextTypeDetectorBase
 
         // Fall back to regular --help
         var arguments = string.Join(" ", context.CommandPath.Skip(1)) + " --help";
-        var result = await Executor.ExecuteAsync("az", arguments.Trim(), cancellationToken);
+        var result = await Executor.ExecuteAsync("az", arguments.Trim(), cancellationToken: cancellationToken);
 
         return result.Success ? result.CombinedOutput : null;
     }
@@ -57,7 +52,7 @@ public partial class AzureCliHelpTypeDetector : HelpTextTypeDetectorBase
 
         // Try to get structured help
         var arguments = string.Join(" ", context.CommandPath.Skip(1)) + " --help --output json";
-        var result = await Executor.ExecuteAsync("az", arguments.Trim(), cancellationToken);
+        var result = await Executor.ExecuteAsync("az", arguments.Trim(), cancellationToken: cancellationToken);
 
         if (result.Success && result.StandardOutput.TrimStart().StartsWith('{'))
         {
@@ -103,7 +98,9 @@ public partial class AzureCliHelpTypeDetector : HelpTextTypeDetectorBase
                         : null;
 
                     if (name is null || !context.AllNames.Contains(name))
+                    {
                         continue;
+                    }
 
                     // Check for type information
                     if (param.TryGetProperty("type", out var typeProp))
@@ -143,7 +140,9 @@ public partial class AzureCliHelpTypeDetector : HelpTextTypeDetectorBase
         {
             var optionLine = FindAzureOptionLine(helpText, optionName);
             if (optionLine is null)
+            {
                 continue;
+            }
 
             // Check for accepted values pattern
             var acceptedMatch = AcceptedValuesPattern().Match(optionLine);
@@ -154,7 +153,10 @@ public partial class AzureCliHelpTypeDetector : HelpTextTypeDetectorBase
                 // Check for boolean pattern
                 if (IsBooleanAcceptedValues(acceptedValues))
                 {
-                    Logger.LogDebug("Detected {Option} as Bool (accepted values indicate boolean)", optionName);
+                    if (Logger.IsEnabled(LogLevel.Debug))
+                    {
+                        Logger.LogDebug("Detected {Option} as Bool (accepted values indicate boolean)", optionName);
+                    }
                     return new OptionTypeDetectionResult
                     {
                         Type = CliOptionType.Bool,
@@ -165,7 +167,10 @@ public partial class AzureCliHelpTypeDetector : HelpTextTypeDetectorBase
                 }
 
                 // Otherwise it's likely an enum, treat as string
-                Logger.LogDebug("Detected {Option} as String (enum values: {Values})", optionName, acceptedValues);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("Detected {Option} as String (enum values: {Values})", optionName, acceptedValues);
+                }
                 return new OptionTypeDetectionResult
                 {
                     Type = CliOptionType.String,
@@ -179,7 +184,10 @@ public partial class AzureCliHelpTypeDetector : HelpTextTypeDetectorBase
             if (optionLine.Contains("Required:", StringComparison.OrdinalIgnoreCase))
             {
                 // Azure CLI options with no accepted values are typically strings
-                Logger.LogDebug("Detected {Option} as String (no accepted values, has Required field)", optionName);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("Detected {Option} as String (no accepted values, has Required field)", optionName);
+                }
                 return new OptionTypeDetectionResult
                 {
                     Type = CliOptionType.String,

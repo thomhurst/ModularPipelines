@@ -436,7 +436,7 @@ public class DotNetCliScraperTests
         public string? Settings { get; private set; }
 
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             if (arguments == "--version")
             {

@@ -339,8 +339,8 @@ public class FlywayCommandCoverageTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             throw new NotSupportedException();
 
         public Task<bool> IsAvailableAsync(
@@ -366,8 +366,8 @@ public class FlywayCommandCoverageTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 StandardOutput = arguments switch

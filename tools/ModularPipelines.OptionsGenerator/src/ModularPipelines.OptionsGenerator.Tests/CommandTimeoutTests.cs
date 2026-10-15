@@ -67,7 +67,7 @@ public class CommandTimeoutTests
         public List<string> Commands { get; } = [];
 
         Task<CliCommandResult> ICliCommandExecutor.ExecuteAsync(
-            string command, string arguments, CancellationToken cancellationToken, string? workingDirectory)
+            string command, string arguments, string? workingDirectory, CancellationToken cancellationToken)
         {
             Commands.Add($"{command} {arguments}");
             return Task.FromResult(new CliCommandResult

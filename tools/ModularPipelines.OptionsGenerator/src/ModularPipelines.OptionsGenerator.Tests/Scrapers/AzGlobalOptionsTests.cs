@@ -166,7 +166,7 @@ public class AzGlobalOptionsTests
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
 
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null) => Task.FromResult(new CliCommandResult
+            string? workingDirectory = null, CancellationToken cancellationToken = default) => Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,
                 StandardError = string.Empty,

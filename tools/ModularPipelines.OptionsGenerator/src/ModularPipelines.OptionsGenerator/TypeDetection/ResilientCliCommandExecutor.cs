@@ -102,13 +102,13 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
     public async Task<CliCommandResult> ExecuteAsync(
         string command,
         string arguments,
-        CancellationToken cancellationToken = default,
-        string? workingDirectory = null)
+        string? workingDirectory = null,
+        CancellationToken cancellationToken = default)
     {
         try
         {
             var result = await _shield.ExecuteAsync(
-                    async token => await _inner.ExecuteAsync(command, arguments, token, workingDirectory).ConfigureAwait(false),
+                    async token => await _inner.ExecuteAsync(command, arguments, workingDirectory, token).ConfigureAwait(false),
                     cancellationToken)
                 .ConfigureAwait(false);
 

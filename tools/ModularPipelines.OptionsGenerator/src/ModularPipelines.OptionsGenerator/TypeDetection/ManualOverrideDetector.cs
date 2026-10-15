@@ -10,6 +10,12 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 /// </summary>
 public class ManualOverrideDetector : IOptionTypeDetector
 {
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        Converters = { new CliOptionTypeConverter() },
+    };
+
     private readonly ILogger<ManualOverrideDetector> _logger;
     private readonly string _overridesDirectory;
     private readonly ConcurrentDictionary<string, ToolOverrides?> _cache = new();
@@ -71,7 +77,10 @@ public class ManualOverrideDetector : IOptionTypeDetector
 
     private OptionTypeDetectionResult CreateResult(OptionOverride optionOverride, string scope)
     {
-        _logger.LogDebug("Using manual override: {Type} ({Scope})", optionOverride.Type, scope);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Using manual override: {Type} ({Scope})", optionOverride.Type, scope);
+        }
 
         return new OptionTypeDetectionResult
         {
@@ -101,13 +110,7 @@ public class ManualOverrideDetector : IOptionTypeDetector
         try
         {
             var json = File.ReadAllText(filePath);
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                Converters = { new CliOptionTypeConverter() }
-            };
-
-            return JsonSerializer.Deserialize<ToolOverrides>(json, options);
+            return JsonSerializer.Deserialize<ToolOverrides>(json, SerializerOptions);
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {

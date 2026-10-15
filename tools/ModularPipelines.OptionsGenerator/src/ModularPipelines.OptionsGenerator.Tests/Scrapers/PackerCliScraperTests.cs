@@ -101,7 +101,7 @@ public class PackerCliScraperTests
     private sealed class FixtureExecutor : ICliCommandExecutor
     {
         public async Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var root = arguments is "--help" or "-help" or "-h";
             var output = arguments is "--version" or "-version" or "version"
@@ -211,8 +211,8 @@ public class PackerCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) => Task.FromResult(new CliCommandResult
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) => Task.FromResult(new CliCommandResult
             {
                 StandardOutput = output,
                 StandardError = error,

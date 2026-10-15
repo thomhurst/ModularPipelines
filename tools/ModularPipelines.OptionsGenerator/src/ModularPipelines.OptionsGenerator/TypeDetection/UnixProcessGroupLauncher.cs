@@ -119,7 +119,7 @@ internal static class UnixProcessGroupLauncher
         return startInfo;
     }
 
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+#pragma warning disable SYSLIB1054 // Existing runtime imports; native migration is separate from ChildProcessSnapshot.
     // Use the hosting .NET runtime's fixed-arity fcntl bridge. Calling libc's variadic
     // fcntl as a fixed-arity P/Invoke is not portable to macOS ARM64.
     [DllImport("System.Native", EntryPoint = "SystemNative_FcntlGetFD", SetLastError = true)]

@@ -511,7 +511,7 @@ public class ZeroOutputScraperTests
             var arguments = commandPath.Length > 1
                 ? string.Join(" ", commandPath.Skip(1)) + " --help"
                 : "--help";
-            var result = await Executor.ExecuteAsync(ToolName, arguments, cancellationToken);
+            var result = await Executor.ExecuteAsync(ToolName, arguments, cancellationToken: cancellationToken);
             return result.StandardOutput;
         }
     }
@@ -521,8 +521,8 @@ public class ZeroOutputScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,

@@ -176,17 +176,11 @@ internal static class WindowsJobLauncher
         }
     }
 
-    private sealed class SuspendedProcess : IDisposable
+    private sealed class SuspendedProcess(WindowsJobLauncher.ProcessInformation processInformation) : IDisposable
     {
-        public SuspendedProcess(ProcessInformation processInformation)
-        {
-            ProcessHandle = new SafeProcessHandle(processInformation.Process, ownsHandle: true);
-            ThreadHandle = new SafeWaitHandle(processInformation.Thread, ownsHandle: true);
-        }
+        public SafeProcessHandle ProcessHandle { get; } = new SafeProcessHandle(processInformation.Process, ownsHandle: true);
 
-        public SafeProcessHandle ProcessHandle { get; }
-
-        public SafeWaitHandle ThreadHandle { get; }
+        public SafeWaitHandle ThreadHandle { get; } = new SafeWaitHandle(processInformation.Thread, ownsHandle: true);
 
         public void Dispose()
         {
@@ -220,7 +214,7 @@ internal static class WindowsJobLauncher
         return startInfo;
     }
 
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+#pragma warning disable SYSLIB1054 // Existing runtime imports; native migration is separate from ChildProcessSnapshot.
     [DllImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool SetHandleInformation(SafePipeHandle handle, uint mask, uint flags);

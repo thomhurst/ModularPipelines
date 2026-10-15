@@ -375,7 +375,7 @@ internal sealed class DescendantProcessTracker : IDisposable
 
     private sealed record TrackedProcess(ProcessIdentity Identity, Process Process);
 
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+#pragma warning disable SYSLIB1054 // Existing runtime imports; native migration is separate from ChildProcessSnapshot.
     [DllImport("libc", EntryPoint = "kill", SetLastError = true)]
     private static extern int KillProcess(int processId, int signal);
 

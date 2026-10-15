@@ -48,7 +48,7 @@ public partial class GitCliScraperTests
         public int RootUsageCalls { get; private set; }
 
         public async Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             if (arguments == "help -a")
             {
@@ -167,7 +167,7 @@ public partial class GitCliScraperTests
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
 
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             if (arguments == "help -a")
             {
@@ -286,7 +286,7 @@ public partial class GitCliScraperTests
     private sealed class RootUsageBranchHelpExecutor(int rootUsageExitCode) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            string? workingDirectory = null, CancellationToken cancellationToken = default) =>
             Task.FromResult(arguments switch
             {
                 "help -a" => Result("Main Porcelain Commands\n   branch                  List branches"),
