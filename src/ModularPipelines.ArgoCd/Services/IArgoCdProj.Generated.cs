@@ -24,17 +24,17 @@ public interface IArgoCdProj
     /// <summary>
     /// argocd role sub-commands.
     /// </summary>
-    ArgoCdProjRole Role => throw new System.NotSupportedException();
+    ArgoCdProjRole Role { get; }
 
     /// <summary>
     /// argocd source-integrity sub-commands.
     /// </summary>
-    ArgoCdProjSourceIntegrity SourceIntegrity => throw new System.NotSupportedException();
+    ArgoCdProjSourceIntegrity SourceIntegrity { get; }
 
     /// <summary>
     /// argocd windows sub-commands.
     /// </summary>
-    ArgoCdProjWindows Windows => throw new System.NotSupportedException();
+    ArgoCdProjWindows Windows { get; }
 
     /// <summary>
     /// Manage projects
@@ -43,8 +43,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(ArgoCdProjOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(ArgoCdProjOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add project destination
@@ -53,8 +52,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddDestinationAsync(ArgoCdProjAddDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddDestinationAsync(ArgoCdProjAddDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add project destination's default service account
@@ -63,8 +61,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddDestinationServiceAccountAsync(ArgoCdProjAddDestinationServiceAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddDestinationServiceAccountAsync(ArgoCdProjAddDestinationServiceAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add a resource to orphaned ignore list
@@ -73,8 +70,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddOrphanedIgnoreAsync(ArgoCdProjAddOrphanedIgnoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddOrphanedIgnoreAsync(ArgoCdProjAddOrphanedIgnoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add source namespace to the AppProject
@@ -83,8 +79,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddSourceNamespaceAsync(ArgoCdProjAddSourceNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddSourceNamespaceAsync(ArgoCdProjAddSourceNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add project source repository
@@ -93,8 +88,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddSourceAsync(ArgoCdProjAddSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddSourceAsync(ArgoCdProjAddSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a cluster-scoped API resource to the allow list and removes it from deny list
@@ -103,8 +97,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AllowClusterResourceAsync(ArgoCdProjAllowClusterResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AllowClusterResourceAsync(ArgoCdProjAllowClusterResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a namespaced API resource from the deny list or add a namespaced API resource to the allow list
@@ -113,8 +106,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AllowNamespaceResourceAsync(ArgoCdProjAllowNamespaceResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AllowNamespaceResourceAsync(ArgoCdProjAllowNamespaceResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a project
@@ -123,8 +115,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(ArgoCdProjCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(ArgoCdProjCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete project
@@ -133,8 +124,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(ArgoCdProjDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(ArgoCdProjDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a cluster-scoped API resource from the allow list and adds it to deny list
@@ -143,8 +133,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DenyClusterResourceAsync(ArgoCdProjDenyClusterResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DenyClusterResourceAsync(ArgoCdProjDenyClusterResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a namespaced API resource to the deny list or removes a namespaced API resource from the allow list
@@ -153,8 +142,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DenyNamespaceResourceAsync(ArgoCdProjDenyNamespaceResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DenyNamespaceResourceAsync(ArgoCdProjDenyNamespaceResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Edit project
@@ -163,8 +151,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EditAsync(ArgoCdProjEditOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EditAsync(ArgoCdProjEditOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get project details
@@ -173,8 +160,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAsync(ArgoCdProjGetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAsync(ArgoCdProjGetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List projects
@@ -183,8 +169,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(ArgoCdProjListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(ArgoCdProjListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove project destination
@@ -193,8 +178,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveDestinationAsync(ArgoCdProjRemoveDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveDestinationAsync(ArgoCdProjRemoveDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove default destination service account from the project
@@ -203,8 +187,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveDestinationServiceAccountAsync(ArgoCdProjRemoveDestinationServiceAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveDestinationServiceAccountAsync(ArgoCdProjRemoveDestinationServiceAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a resource from orphaned ignore list
@@ -213,8 +196,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveOrphanedIgnoreAsync(ArgoCdProjRemoveOrphanedIgnoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveOrphanedIgnoreAsync(ArgoCdProjRemoveOrphanedIgnoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the source namespace from the AppProject
@@ -223,8 +205,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveSourceNamespaceAsync(ArgoCdProjRemoveSourceNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveSourceNamespaceAsync(ArgoCdProjRemoveSourceNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove project source repository
@@ -233,8 +214,7 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveSourceAsync(ArgoCdProjRemoveSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveSourceAsync(ArgoCdProjRemoveSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set project parameters
@@ -243,7 +223,6 @@ public interface IArgoCdProj
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetAsync(ArgoCdProjSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetAsync(ArgoCdProjSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
