@@ -4,16 +4,16 @@ Captured on Windows on 15 October 2026 with Node 24.14.1 and the exact
 `@yarnpkg/cli-dist@4.18.1` package installed in an isolated directory using
 `npm install --ignore-scripts --no-audit --no-fund`. No global installation changed.
 
-- `yarn-help.txt`: `node <cli-dist>/bin/yarn.js --help`.
-- `yarn-install-help.txt`: `node <cli-dist>/bin/yarn.js install --help`.
-- `yarn-workspaces-foreach-help.txt`, `yarn-workspace-help.txt`, and
-  `yarn-dlx-help.txt`: the corresponding command's `--help`, captured with
+- `yarn.help`: `node <cli-dist>/bin/yarn.js --help`.
+- `yarn-install.help`: `node <cli-dist>/bin/yarn.js install --help`.
+- `yarn-workspaces-foreach.help`, `yarn-workspace.help`, and
+  `yarn-dlx.help`: the corresponding command's `--help`, captured with
   the same exact CLI version on 15 October 2026. Proxy rendering tests retain
   the root discovery lines and verify that Yarn options precede child arguments.
   `workspace` has no local options; its workspace name stays before the child command.
-- `yarn-npm-tag-add-help.txt`, `yarn-npm-tag-remove-help.txt`,
-  `yarn-plugin-remove-help.txt`, `yarn-set-resolution-help.txt`, and
-  `yarn-explain-peer-requirements-help.txt`: the corresponding command's
+- `yarn-npm-tag-add.help`, `yarn-npm-tag-remove.help`,
+  `yarn-plugin-remove.help`, `yarn-set-resolution.help`, and
+  `yarn-explain-peer-requirements.help`: the corresponding command's
   `--help`, captured with the same exact CLI version in an isolated installation.
   These fixtures exercise discovery, required and optional operands, generated
   constructors and service signatures, and operand rendering for nested commands.
@@ -28,6 +28,9 @@ Captured on Windows on 15 October 2026 with Node 24.14.1 and the exact
 The root help fixture is retained for audit evidence; tests use its install help
 with a reduced discovery catalog. Classic 1.22.22 is installed on the machine but
 was not used to infer Berry globals. Hosted generation uses Yarn 4 project context.
+
+Help fixtures use the `.help` extension so dependency discovery does not mistake
+command names containing `requirements` for pip requirements manifests.
 
 Trailing whitespace on captured help lines is stripped; blank lines are retained.
 
