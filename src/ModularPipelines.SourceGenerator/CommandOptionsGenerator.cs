@@ -1101,28 +1101,23 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .ToList();
         var sharedParts = SharedParts.Create(uniqueItems);
 
-        List<(string HintName, string Source)> sources =
-            uniqueItems.Count(RequiresCommandRegistrationChunking) <= RuntimeRegistrationChunkSize
-                ?
-                [
-                    ("ModularPipelines.RuntimeMetadata.g.cs", GenerateSingleSource(
-                        uniqueItems,
-                        coveredExternalAssemblyIdentities,
-                        requiresGeneratedMetadata,
-                        sharedParts)),
-                ]
-                : GenerateChunkedSources(
+        var sources = uniqueItems.Count(RequiresCommandRegistrationChunking) <= RuntimeRegistrationChunkSize
+            ?
+            [
+                ("ModularPipelines.RuntimeMetadata.g.cs", GenerateSingleSource(
                     uniqueItems,
                     coveredExternalAssemblyIdentities,
                     requiresGeneratedMetadata,
-                    sharedParts);
+                    sharedParts)),
+            ]
+            : GenerateChunkedSources(
+                uniqueItems,
+                coveredExternalAssemblyIdentities,
+                requiresGeneratedMetadata,
+                sharedParts);
 
-        if (!sharedParts.IsEmpty)
-        {
-            sources.Add((
-                "ModularPipelines.RuntimeMetadata.SharedParts.g.cs",
-                GenerateSharedPartsSource(uniqueItems, sharedParts)));
-        }
+        sources.AddRange(GenerateSharedPartSources(uniqueItems, sharedParts.CommandParts, SharedParts.CommandClassPrefix, AppendSharedCommandPart));
+        sources.AddRange(GenerateSharedPartSources(uniqueItems, sharedParts.SecretParts, SharedParts.SecretClassPrefix, AppendSharedSecretPart));
 
         return sources;
     }
@@ -1145,30 +1140,44 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return sb.ToString();
     }
 
-    private static string GenerateSharedPartsSource(
+    private static IEnumerable<(string HintName, string Source)> GenerateSharedPartSources(
         IReadOnlyList<TypeMetadata> uniqueItems,
-        SharedParts sharedParts)
+        IReadOnlyDictionary<PropertyMetadata, int> parts,
+        string classPrefix,
+        Action<StringBuilder, PropertyMetadata, int> appendPart)
     {
-        var sb = new StringBuilder();
-        AppendGeneratedFilePreamble(sb, uniqueItems, includeIncompleteMetadataAttributes: false);
-        sb.AppendLine("namespace ModularPipelines.Generated;");
-        sb.AppendLine();
-        sb.AppendLine($"internal static class {SharedParts.ClassName}");
-        sb.AppendLine("{");
-        foreach (var part in sharedParts.CommandParts.OrderBy(static part => part.Value, StringComparer.Ordinal))
+        // Chunk like registrations so no single static constructor grows with the shared-part count.
+        foreach (var chunk in parts
+                     .OrderBy(static part => part.Value)
+                     .GroupBy(static part => part.Value / RuntimeRegistrationChunkSize))
         {
-            sb.AppendLine($"    internal static readonly global::ModularPipelines.Generated.PropertyCommandLinePart {part.Value} =");
-            AppendCommandPart(sb, part.Key, "        ", ";");
-        }
+            var className = $"{classPrefix}{chunk.Key:D4}";
+            var sb = new StringBuilder();
+            AppendGeneratedFilePreamble(sb, uniqueItems, includeIncompleteMetadataAttributes: false);
+            sb.AppendLine("namespace ModularPipelines.Generated;");
+            sb.AppendLine();
+            sb.AppendLine($"internal static class {className}");
+            sb.AppendLine("{");
+            foreach (var part in chunk)
+            {
+                appendPart(sb, part.Key, part.Value);
+            }
 
-        foreach (var part in sharedParts.SecretParts.OrderBy(static part => part.Value, StringComparer.Ordinal))
-        {
-            sb.AppendLine($"    internal static readonly global::ModularPipelines.Generated.SecretPropertyAccessor {part.Value} =");
-            sb.AppendLine($"        {GetSecretPartExpression(part.Key)};");
+            sb.AppendLine("}");
+            yield return ($"ModularPipelines.RuntimeMetadata.{className}.g.cs", sb.ToString());
         }
+    }
 
-        sb.AppendLine("}");
-        return sb.ToString();
+    private static void AppendSharedCommandPart(StringBuilder sb, PropertyMetadata property, int index)
+    {
+        sb.AppendLine($"    internal static readonly global::ModularPipelines.Generated.PropertyCommandLinePart {SharedParts.FieldName(index)} =");
+        AppendCommandPart(sb, property, "        ", ";");
+    }
+
+    private static void AppendSharedSecretPart(StringBuilder sb, PropertyMetadata property, int index)
+    {
+        sb.AppendLine($"    internal static readonly global::ModularPipelines.Generated.SecretPropertyAccessor {SharedParts.FieldName(index)} =");
+        sb.AppendLine($"        {GetSecretPartExpression(property)};");
     }
 
     private static List<(string HintName, string Source)> GenerateChunkedSources(
@@ -1569,9 +1578,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         foreach (var property in item.CommandMetadata.Properties)
         {
-            if (sharedParts.CommandParts.TryGetValue(property, out var fieldName))
+            if (sharedParts.CommandParts.TryGetValue(property, out var index))
             {
-                sb.AppendLine($"                {SharedParts.ClassName}.{fieldName},");
+                sb.AppendLine($"                {SharedParts.Reference(SharedParts.CommandClassPrefix, index)},");
                 continue;
             }
 
@@ -1661,8 +1670,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         foreach (var property in item.SecretMetadata.Properties)
         {
-            var part = sharedParts.SecretParts.TryGetValue(property, out var fieldName)
-                ? $"{SharedParts.ClassName}.{fieldName}"
+            var part = sharedParts.SecretParts.TryGetValue(property, out var index)
+                ? SharedParts.Reference(SharedParts.SecretClassPrefix, index)
                 : GetSecretPartExpression(property);
             sb.AppendLine($"                {part},");
         }
@@ -2403,38 +2412,36 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     /// </summary>
     private sealed class SharedParts
     {
-        public const string ClassName = "RuntimeMetadataSharedParts";
+        public const string CommandClassPrefix = "RuntimeMetadataSharedCommandParts";
+        public const string SecretClassPrefix = "RuntimeMetadataSharedSecretParts";
 
         private SharedParts(
-            IReadOnlyDictionary<PropertyMetadata, string> commandParts,
-            IReadOnlyDictionary<PropertyMetadata, string> secretParts)
+            IReadOnlyDictionary<PropertyMetadata, int> commandParts,
+            IReadOnlyDictionary<PropertyMetadata, int> secretParts)
         {
             CommandParts = commandParts;
             SecretParts = secretParts;
         }
 
-        public IReadOnlyDictionary<PropertyMetadata, string> CommandParts { get; }
+        public IReadOnlyDictionary<PropertyMetadata, int> CommandParts { get; }
 
-        public IReadOnlyDictionary<PropertyMetadata, string> SecretParts { get; }
+        public IReadOnlyDictionary<PropertyMetadata, int> SecretParts { get; }
 
-        public bool IsEmpty => CommandParts.Count == 0 && SecretParts.Count == 0;
+        public static string FieldName(int index) => $"Part{index:D4}";
+
+        public static string Reference(string classPrefix, int index) =>
+            $"{classPrefix}{index / RuntimeRegistrationChunkSize:D4}.{FieldName(index)}";
 
         public static SharedParts Create(IReadOnlyList<TypeMetadata> uniqueItems) =>
             new(
-                Index(
-                    uniqueItems
-                        .Where(CanRegisterCompleteCommandMetadata)
-                        .SelectMany(static item => item.CommandMetadata.Properties),
-                    "Command"),
-                Index(
-                    uniqueItems
-                        .Where(static item => item.SecretMetadata.IsComplete && item.CanRegisterSecretCoverage)
-                        .SelectMany(static item => item.SecretMetadata.Properties),
-                    "Secret"));
+                Index(uniqueItems
+                    .Where(CanRegisterCompleteCommandMetadata)
+                    .SelectMany(static item => item.CommandMetadata.Properties)),
+                Index(uniqueItems
+                    .Where(static item => item.SecretMetadata.IsComplete && item.CanRegisterSecretCoverage)
+                    .SelectMany(static item => item.SecretMetadata.Properties)));
 
-        private static Dictionary<PropertyMetadata, string> Index(
-            IEnumerable<PropertyMetadata> properties,
-            string prefix)
+        private static Dictionary<PropertyMetadata, int> Index(IEnumerable<PropertyMetadata> properties)
         {
             var counts = new Dictionary<PropertyMetadata, int>();
             var order = new List<PropertyMetadata>();
@@ -2450,13 +2457,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 order.Add(property);
             }
 
-            var fields = new Dictionary<PropertyMetadata, string>();
+            var indexes = new Dictionary<PropertyMetadata, int>();
             foreach (var property in order.Where(property => counts[property] > 1))
             {
-                fields.Add(property, $"{prefix}{fields.Count:D4}");
+                indexes.Add(property, indexes.Count);
             }
 
-            return fields;
+            return indexes;
         }
     }
 

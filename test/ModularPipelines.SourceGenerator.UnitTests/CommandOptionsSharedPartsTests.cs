@@ -53,23 +53,113 @@ public class CommandOptionsSharedPartsTests
         var sources = result.GeneratedTrees.ToDictionary(
             static tree => Path.GetFileName(tree.FilePath),
             static tree => tree.ToString());
-        var sharedSource = sources["ModularPipelines.RuntimeMetadata.SharedParts.g.cs"];
+        var commandSource = sources["ModularPipelines.RuntimeMetadata.RuntimeMetadataSharedCommandParts0000.g.cs"];
+        var secretSource = sources["ModularPipelines.RuntimeMetadata.RuntimeMetadataSharedSecretParts0000.g.cs"];
         var registrationSource = sources["ModularPipelines.RuntimeMetadata.g.cs"];
         var allSources = string.Concat(sources.Values);
 
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(sharedSource).Contains("PropertyCommandLinePart Command0000 =");
-            await Assert.That(sharedSource).Contains("SecretPropertyAccessor Secret0000 =");
-            await Assert.That(sharedSource).DoesNotContain("Command0001");
+            await Assert.That(commandSource).Contains("PropertyCommandLinePart Part0000 =");
+            await Assert.That(commandSource).DoesNotContain("Part0001");
+            await Assert.That(secretSource).Contains("SecretPropertyAccessor Part0000 =");
             await Assert.That(CountOccurrences(allSources, "((global::WideOptions)instance).@Account")).IsEqualTo(1);
             await Assert.That(CountOccurrences(allSources, "((global::WideOptions)instance).@Token")).IsEqualTo(1);
+
             // The abstract base registers too, so all three registrations reference the shared parts.
-            await Assert.That(CountOccurrences(registrationSource, "RuntimeMetadataSharedParts.Command0000,")).IsEqualTo(3);
-            await Assert.That(CountOccurrences(registrationSource, "RuntimeMetadataSharedParts.Secret0000,")).IsEqualTo(3);
+            await Assert.That(CountOccurrences(registrationSource, "RuntimeMetadataSharedCommandParts0000.Part0000,")).IsEqualTo(3);
+            await Assert.That(CountOccurrences(registrationSource, "RuntimeMetadataSharedSecretParts0000.Part0000,")).IsEqualTo(3);
             await Assert.That(registrationSource).Contains("((global::FirstOptions)instance).@First");
             await Assert.That(registrationSource).Contains("((global::SecondOptions)instance).@Second");
+        }
+    }
+
+    [Test]
+    [Arguments(2, 14)]
+    [Arguments(65, 14)]
+    [Arguments(65, 65)]
+    public async Task Inherited_Properties_Emit_One_Getter_And_Attribute_Per_Declaration(
+        int derivedCount,
+        int propertyCount)
+    {
+        var properties = string.Join(Environment.NewLine, Enumerable.Range(0, propertyCount)
+            .Select(index => $$"""
+                [ModularPipelines.Attributes.CliOption("--wide{{index}}")]
+                public virtual string? Wide{{index}} { get; set; }
+                """));
+        var derivedTypes = string.Join(Environment.NewLine, Enumerable.Range(0, derivedCount)
+            .Select(index => $$"""
+                public sealed record Options{{index}} : WideOptions
+                {
+                    [ModularPipelines.Attributes.CliOption("--own")]
+                    public string? Own { get; set; }
+                }
+                """));
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            Infrastructure,
+            $$"""
+            public abstract record WideOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                {{properties}}
+            }
+            {{derivedTypes}}
+            """);
+        var generated = string.Concat(result.GeneratedTrees.Select(static tree => tree.ToString()));
+        var commandPartFiles = result.GeneratedTrees
+            .Select(static tree => Path.GetFileName(tree.FilePath))
+            .Count(static name => name.Contains("RuntimeMetadataSharedCommandParts", StringComparison.Ordinal));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(result.GeneratedTrees.SelectMany(static tree => tree.GetDiagnostics())).IsEmpty();
+            for (var index = 0; index < propertyCount; index++)
+            {
+                await Assert.That(CountOccurrences(generated, $"static instance => ((global::WideOptions)instance).@Wide{index},"))
+                    .IsEqualTo(1);
+                await Assert.That(CountOccurrences(generated, $"CliOptionAttribute(\"--wide{index}\")"))
+                    .IsEqualTo(1);
+            }
+
+            await Assert.That(CountOccurrences(generated, "CliOptionAttribute(\"--own\")")).IsEqualTo(derivedCount);
+
+            // Shared fields are chunked like registrations: 32 parts per class.
+            await Assert.That(commandPartFiles).IsEqualTo((propertyCount + 31) / 32);
+        }
+    }
+
+    [Test]
+    public async Task External_Base_Properties_Reuse_Declaring_Type_Getters()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            Infrastructure,
+            """
+            public abstract record ExternalOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--project")]
+                public string? Project { get; set; }
+            }
+            """,
+            """
+            public sealed record FirstOptions : ExternalOptions;
+            public sealed record SecondOptions : ExternalOptions;
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+        var generated = string.Concat(result.GeneratedTrees.Select(static tree => tree.ToString()));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(CountOccurrences(generated, "static instance => ((global::ExternalOptions)instance).@Project,"))
+                .IsEqualTo(1);
+            await Assert.That(CountOccurrences(generated, "CliOptionAttribute(\"--project\")")).IsEqualTo(1);
+            await Assert.That(generated).Contains("GeneratedCommandMetadata.RegisterExternal(");
         }
     }
 
