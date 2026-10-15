@@ -13,6 +13,43 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     private static readonly string[] KubectlResourceUpdates = ["owner=team"];
+    private static readonly string[] valueArray0 = new[] { "--filename", "manifest.yaml" };
+    private static readonly string[] valueArray1 = new[] { "manifest.yaml" };
+
+    [Test]
+    [Arguments("annotate")]
+    [Arguments("label")]
+    [Arguments("patch")]
+    [Arguments("scale")]
+    public async Task Kubectl_Manual_Filename_Does_Not_Satisfy_Typed_Resource_Validation(string commandName)
+    {
+        var command = await ScrapeResourceCommand(commandName, $$"""
+            Usage:
+              kubectl {{commandName}} (-f FILENAME | TYPE NAME) [options]
+
+            Options:
+              -f, --filename stringArray   Files identifying resources.
+            """);
+        var generated = await Generate([.. command.Options], command.PositionalArguments,
+            command.RequiredAlternativeGroups);
+        var options = Compile(generated, """
+            namespace ModularPipelines.Tool.Options
+            {
+                public partial record ToolOptions
+                {
+                    public System.Collections.Generic.IEnumerable<string>? Arguments { get; init; }
+                }
+            }
+            """).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        options.GetProperty("Arguments")!.SetValue(instance, valueArray0);
+        var validation = (IValidatableObject) instance;
+
+        await Assert.That(validation.Validate(new(instance))).IsNotEmpty();
+
+        options.GetProperty("Filename")!.SetValue(instance, valueArray1);
+        await Assert.That(validation.Validate(new(instance))).IsEmpty();
+    }
 
     [Test]
     [Arguments("annotate")]
