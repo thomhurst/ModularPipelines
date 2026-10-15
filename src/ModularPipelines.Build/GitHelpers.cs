@@ -41,42 +41,9 @@ public static class GitHelpers
         }, cancellationToken: cancellationToken);
     }
 
-    internal static async Task<GitDiffDetails?> GetUncommittedChanges(
-        IModuleContext context,
-        IEnumerable<string> paths,
-        CancellationToken cancellationToken)
-    {
-        var pathArguments = paths.ToArray();
-        var changedFilesResult = await context.Tools.Git.Commands.WorkingTree.DiffAsync(
-            new GitDiffOptions
-            {
-                NameOnly = true,
-                Arguments = ["-z", "--", .. pathArguments],
-            },
-            cancellationToken: cancellationToken).ConfigureAwait(false);
-        var changedFiles = changedFilesResult.StandardOutput
-            .Split('\0', StringSplitOptions.RemoveEmptyEntries);
-        if (changedFiles.Length == 0)
-        {
-            return null;
-        }
-
-        var diffStatResult = await context.Tools.Git.Commands.WorkingTree.DiffAsync(
-            new GitDiffOptions
-            {
-                Stat = true,
-                Arguments = ["--", .. pathArguments],
-            },
-            cancellationToken: cancellationToken).ConfigureAwait(false);
-
-        return new GitDiffDetails(changedFiles, diffStatResult.StandardOutput.TrimEnd());
-    }
-
     private static GitHubSettings GetGitHubSettings(IModuleContext context)
     {
         var options = context.Services.GetRequiredService<IOptions<GitHubSettings>>();
         return options?.Value ?? new GitHubSettings();
     }
 }
-
-internal sealed record GitDiffDetails(IReadOnlyList<string> ChangedFiles, string DiffStat);

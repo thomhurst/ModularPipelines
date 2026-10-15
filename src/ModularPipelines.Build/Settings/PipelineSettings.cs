@@ -16,11 +16,6 @@ public record PipelineSettings
     public string TestFramework { get; init; } = "net11.0";
 
     /// <summary>
-    /// The product header value used when creating GitHub API clients. Defaults to "ModularPipelinesBuild".
-    /// </summary>
-    public string GitHubProductHeader { get; init; } = "ModularPipelinesBuild";
-
-    /// <summary>
     /// The default number of retry attempts for modules. Defaults to 0 (no retries).
     /// </summary>
     public int DefaultRetryCount { get; init; }

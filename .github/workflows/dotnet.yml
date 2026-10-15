@@ -658,7 +658,8 @@ jobs:
           NuGet__ApiKey: ${{ steps.login.outputs.NUGET_API_KEY }}
           GitHub__Actor: ${{ github.actor }}
           GitHub__Repository__Id: ${{ github.repository_id }}
-          GitHub__StandardToken: ${{ matrix.instance == 0 && secrets.DOTNET_FORMAT_PUSH_TOKEN || '' }}
+          # Only PushVersionTagModule uses this write token, and it runs on main only.
+          GitHub__StandardToken: ${{ matrix.instance == 0 && github.ref == 'refs/heads/main' && secrets.DOTNET_FORMAT_PUSH_TOKEN || '' }}
           GitHub__AdminToken: ${{ matrix.instance == 0 && secrets.ADMIN_TOKEN || '' }}
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
           Publish__IsAlpha: ${{ github.event.inputs.is-alpha || true }}

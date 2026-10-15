@@ -11,8 +11,6 @@ using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Modules.UnitTests;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Extensions;
-using Octokit;
-using Octokit.Internal;
 
 if (args is ["--redis-info"])
 {
@@ -88,7 +86,6 @@ builder
     .AddModule<PackageFilesRemovalModule>()
     .AddModule<PackagePathsParserModule>()
     .AddModule<GenerateReadMeModule>()
-    .AddModule<FormatMarkdownModule>()
     .AddModule<PrintGitInformationModule>()
     .AddModule<PushVersionTagModule>();
 
@@ -104,22 +101,6 @@ if (!DistributedBuildConfiguration.Configure(builder, Environment.GetEnvironment
 {
     return;
 }
-
-builder.Services.AddSingleton<IGitHubClient>(sp =>
-{
-    var githubSettings = sp.GetRequiredService<IOptions<GitHubSettings>>();
-    var pipelineSettings = sp.GetRequiredService<IOptions<PipelineSettings>>();
-
-    var githubToken = githubSettings.Value.StandardToken;
-
-    if (string.IsNullOrEmpty(githubToken))
-    {
-        githubToken = "token";
-    }
-
-    return new GitHubClient(new ProductHeaderValue(pipelineSettings.Value.GitHubProductHeader),
-        new InMemoryCredentialStore(new Credentials(githubToken)));
-});
 
 BuildPipelineConfiguration.ConfigureEnvironmentSpecificModules(builder);
 
