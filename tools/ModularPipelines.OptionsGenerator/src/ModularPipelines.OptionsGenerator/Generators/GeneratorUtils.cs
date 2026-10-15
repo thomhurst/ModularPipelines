@@ -927,6 +927,8 @@ public static partial class GeneratorUtils
         "ApiKey",
         "PrivateKey",
         "AccessKey",
+        "AccountKey",
+        "ConnectionString",
         "SecretKey"
     ];
 

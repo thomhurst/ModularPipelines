@@ -758,6 +758,31 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("AccountKey", false, true)]
+    [Arguments("StorageAccountKey", false, true)]
+    [Arguments("ConnectionString", false, true)]
+    [Arguments("StorageConnectionString", false, true)]
+    [Arguments("accountkey", false, true)]
+    [Arguments("CONNECTIONSTRING", false, true)]
+    [Arguments("AccountKey", true, false)]
+    [Arguments("ConnectionString", true, false)]
+    [Arguments("AccountKeyName", false, false)]
+    [Arguments("ConnectionStringName", false, false)]
+    [Arguments("AccountKeyId", false, false)]
+    [Arguments("ConnectionStringIdentifier", false, false)]
+    [Arguments("AccountKeyFile", false, false)]
+    [Arguments("ConnectionStringPath", false, false)]
+    [Arguments("AccountKeyType", false, false)]
+    [Arguments("ConnectionStringFormat", false, false)]
+    [Arguments("AccountKeyCount", false, false)]
+    [Arguments("ConnectionStringLength", false, false)]
+    public async Task IsSecretOption_Distinguishes_Storage_Credentials_From_Metadata(
+        string propertyName, bool isFlag, bool expectedSecret)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, isFlag)).IsEqualTo(expectedSecret);
+    }
+
+    [Test]
     [Arguments("SecretKey")]
     [Arguments("AwsSecretKey")]
     public async Task IsSecretOption_Returns_True_For_SecretKey_Variants(string propertyName)
