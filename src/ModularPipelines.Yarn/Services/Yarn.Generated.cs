@@ -60,11 +60,11 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ConfigGetAsync(
-        YarnConfigGetOptions? options = null,
+        YarnConfigGetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnConfigGetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -78,20 +78,20 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ConfigSetAsync(
-        YarnConfigSetOptions? options = null,
+        YarnConfigSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnConfigSetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ConfigUnsetAsync(
-        YarnConfigUnsetOptions? options = null,
+        YarnConfigUnsetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnConfigUnsetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -105,11 +105,11 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ConstraintsQueryAsync(
-        YarnConstraintsQueryOptions? options = null,
+        YarnConstraintsQueryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnConstraintsQueryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -158,6 +158,15 @@ internal partial class Yarn : IYarn
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> ExplainPeerRequirementsAsync(
+        YarnExplainPeerRequirementsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnExplainPeerRequirementsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> InfoAsync(
         YarnInfoOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -191,6 +200,15 @@ internal partial class Yarn : IYarn
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new YarnLinkOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> NodeAsync(
+        YarnNodeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnNodeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -240,11 +258,11 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NpmStageApproveAsync(
-        YarnNpmStageApproveOptions? options = null,
+        YarnNpmStageApproveOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnNpmStageApproveOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -258,11 +276,20 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NpmStageRejectAsync(
-        YarnNpmStageRejectOptions? options = null,
+        YarnNpmStageRejectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnNpmStageRejectOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> NpmTagAddAsync(
+        YarnNpmTagAddOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -272,6 +299,15 @@ internal partial class Yarn : IYarn
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new YarnNpmTagListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> NpmTagRemoveAsync(
+        YarnNpmTagRemoveOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -321,20 +357,20 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginImportFromSourcesAsync(
-        YarnPluginImportFromSourcesOptions? options = null,
+        YarnPluginImportFromSourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnPluginImportFromSourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginImportAsync(
-        YarnPluginImportOptions? options = null,
+        YarnPluginImportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnPluginImportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -347,12 +383,30 @@ internal partial class Yarn : IYarn
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> PluginRemoveAsync(
+        YarnPluginRemoveOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> PluginRuntimeAsync(
         YarnPluginRuntimeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new YarnPluginRuntimeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> RebuildAsync(
+        YarnRebuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnRebuildOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -374,6 +428,24 @@ internal partial class Yarn : IYarn
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> SearchAsync(
+        YarnSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnSearchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> SetResolutionAsync(
+        YarnSetResolutionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> SetVersionFromSourcesAsync(
         YarnSetVersionFromSourcesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -384,11 +456,11 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SetVersionAsync(
-        YarnSetVersionOptions? options = null,
+        YarnSetVersionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnSetVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -455,6 +527,15 @@ internal partial class Yarn : IYarn
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        YarnVersionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> WhyAsync(
         YarnWhyOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -483,11 +564,11 @@ internal partial class Yarn : IYarn
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> WorkspacesForeachAsync(
-        YarnWorkspacesForeachOptions? options = null,
+        YarnWorkspacesForeachOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new YarnWorkspacesForeachOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

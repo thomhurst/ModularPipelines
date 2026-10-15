@@ -21,6 +21,23 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnSetVersionOptions : YarnOptions
 {
     /// <summary>
+    /// This command will set a specific release of Yarn to be used by Corepack:
+    /// </summary>
+    /// <param name="Version">The &lt;version&gt; operand.</param>
+    public YarnSetVersionOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
+    /// <summary>
     /// Set the yarnPath setting even if the version can be accessed by Corepack
     /// </summary>
     [CliFlag("--yarn-path")]
@@ -31,5 +48,11 @@ public record YarnSetVersionOptions : YarnOptions
     /// </summary>
     [CliFlag("--only-if-needed")]
     public bool? OnlyIfNeeded { get; set; }
+
+    /// <summary>
+    /// The &lt;version&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

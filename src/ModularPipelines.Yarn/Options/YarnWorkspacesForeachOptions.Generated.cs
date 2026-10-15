@@ -23,6 +23,34 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnWorkspacesForeachOptions : YarnOptions
 {
     /// <summary>
+    /// This command will run a given sub-command on current and all its descendant
+    /// </summary>
+    /// <param name="CommandName">The &lt;commandName&gt; operand.</param>
+    public YarnWorkspacesForeachOptions(
+        IEnumerable<string> CommandName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CommandName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CommandName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CommandName));
+            }
+
+            CommandName = materialized;
+        }
+        this.CommandName = CommandName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> CommandName)
+    {
+        CommandName = this.CommandName;
+    }
+
+    /// <summary>
     /// An array of glob pattern idents or paths from which to base any recursion
     /// </summary>
     [CliOption("--from")]
@@ -112,5 +140,11 @@ public record YarnWorkspacesForeachOptions : YarnOptions
     /// </summary>
     [CliFlag("--dry-run", ShortForm = "-n")]
     public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// The &lt;commandName&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> CommandName { get; private init; }
 
 }
