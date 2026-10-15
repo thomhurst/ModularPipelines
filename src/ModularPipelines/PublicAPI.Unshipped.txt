@@ -1,4 +1,6 @@
 #nullable enable
+ModularPipelines.Options.CommandExecutionOptions.OutputEncoding.get -> System.Text.Encoding!
+ModularPipelines.Options.CommandExecutionOptions.OutputEncoding.init -> void
 ModularPipelines.FileSystem.IFileSystemProvider.DirectorySeparatorChar.get -> char
 *REMOVED*Mediator.AssemblyReference
 *REMOVED*Mediator.Mediator

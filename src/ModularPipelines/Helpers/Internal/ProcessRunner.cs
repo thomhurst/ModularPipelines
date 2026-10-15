@@ -23,6 +23,7 @@ internal static class ProcessRunner
     /// <param name="command">The command to run.</param>
     /// <param name="standardOutput">Receives standard output.</param>
     /// <param name="standardError">Receives standard error.</param>
+    /// <param name="outputEncoding">The encoding used to decode both output streams.</param>
     /// <param name="onStarted">Called once the process has started, before its output is read.</param>
     /// <param name="interruptCancellationToken">
     /// Interrupts the process when canceled: SIGINT on Unix. The caller owns forceful termination.
@@ -32,6 +33,7 @@ internal static class ProcessRunner
         ProcessCommand command,
         CommandOutputTarget standardOutput,
         CommandOutputTarget standardError,
+        Encoding outputEncoding,
         Action<Process> onStarted,
         CancellationToken interruptCancellationToken)
     {
@@ -52,8 +54,8 @@ internal static class ProcessRunner
             throw;
         }
 
-        var outputTask = ReadOutputAsync(process, process.StandardOutput.BaseStream, standardOutput);
-        var errorTask = ReadOutputAsync(process, process.StandardError.BaseStream, standardError);
+        var outputTask = ReadOutputAsync(process, process.StandardOutput.BaseStream, standardOutput, outputEncoding);
+        var errorTask = ReadOutputAsync(process, process.StandardError.BaseStream, standardError, outputEncoding);
 
         var interruptRegistration = interruptCancellationToken.Register(
             static state => Interrupt((Process) state!),
@@ -93,13 +95,13 @@ internal static class ProcessRunner
         }
     }
 
-    private static async Task ReadOutputAsync(Process process, Stream stream, CommandOutputTarget target)
+    private static async Task ReadOutputAsync(Process process, Stream stream, CommandOutputTarget target, Encoding encoding)
     {
         try
         {
             using var reader = new StreamReader(
                 stream,
-                Encoding.Default,
+                encoding,
                 detectEncodingFromByteOrderMarks: true,
                 bufferSize: BufferSize,
                 leaveOpen: true);

@@ -625,6 +625,7 @@ internal sealed class Command : ICommandContext
                         standardErrorBuffer,
                         completeStandardErrorBuffer,
                         CreateStandardErrorLogger(deferredOutputLogger)),
+                    execOpts.OutputEncoding,
                     processTreeTerminator.Attach,
                     executionCancellationToken);
                 using var descendantCaptureRegistration =

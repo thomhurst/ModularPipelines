@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace ModularPipelines.Options;
 
 /// <summary>
@@ -18,6 +20,12 @@ public record CommandExecutionOptions
     /// Gets the working directory to run the command from.
     /// </summary>
     public string? WorkingDirectory { get; init; }
+
+    /// <summary>
+    /// Gets the encoding used to decode standard output and standard error. Defaults to UTF-8.
+    /// A byte order mark in either stream takes precedence over this encoding.
+    /// </summary>
+    public Encoding OutputEncoding { get; init; } = Encoding.UTF8;
 
     /// <summary>
     /// Gets the credentials used to start the command-line process.
