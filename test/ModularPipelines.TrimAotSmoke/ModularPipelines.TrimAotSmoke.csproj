@@ -9,7 +9,7 @@
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <EnableAotAnalyzer>true</EnableAotAnalyzer>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2046;IL2060;IL2070;IL2071;IL2075;IL2091;IL3050</WarningsAsErrors>
+    <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2036;IL2046;IL2060;IL2070;IL2071;IL2075;IL2091;IL3050</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <CompilerVisibleProperty Include="PublishAot" />

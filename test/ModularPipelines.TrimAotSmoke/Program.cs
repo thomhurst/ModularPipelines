@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Attributes;
@@ -38,6 +39,31 @@ if (SmokeState.HookInvocations != 3)
         $"Expected three generated hook invocations, got {SmokeState.HookInvocations}.");
 }
 
+// Replacing Spectre with a console provider exercises LoggerFactory's reflected
+// provider registrations when buffered logs are delivered to non-console providers.
+var recordingProvider = new SmokeLoggerProvider();
+var loggingBuilder = Pipeline.CreateBuilder(args);
+loggingBuilder.Logging.ClearProviders().AddConsole().AddProvider(recordingProvider);
+loggingBuilder.Logging.SetMinimumLevel(LogLevel.Information);
+loggingBuilder.Services.AddSingleton(recordingProvider);
+loggingBuilder.AddModule<LoggingModule>();
+loggingBuilder.ConfigureOptions(options => options with
+{
+    Console = options.Console with
+    {
+        ModuleOutputFlushInterval = TimeSpan.Zero,
+        ModuleOutputFlushThreshold = 0,
+    },
+});
+await using var loggingPipeline = await loggingBuilder.BuildAsync();
+await loggingPipeline.RunAsync();
+
+if (recordingProvider.MarkerCount != 1)
+{
+    throw new InvalidOperationException(
+        $"Expected one buffered module log, got {recordingProvider.MarkerCount}.");
+}
+
 var failureBuilder = Pipeline.CreateBuilder(args);
 failureBuilder
     .AddModule<FailingModule>()
@@ -72,11 +98,63 @@ internal static class SmokeState
 
     public const string OptionsMarker = "trim-aot-options-marker";
 
+    public const string BufferedLogMarker = "trim-aot-buffered-log-marker";
+
     public static int HookInvocations => Volatile.Read(ref _hookInvocations);
 
     public static void RecordHookInvocation()
     {
         Interlocked.Increment(ref _hookInvocations);
+    }
+}
+
+internal sealed class SmokeLoggerProvider : ILoggerProvider
+{
+    private int _markerCount;
+
+    public int MarkerCount => Volatile.Read(ref _markerCount);
+
+    public ILogger CreateLogger(string categoryName) => new SmokeLogger(this);
+
+    public void Dispose()
+    {
+    }
+
+    private sealed class SmokeLogger(SmokeLoggerProvider provider) : ILogger
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            if (formatter(state, exception) == SmokeState.BufferedLogMarker)
+            {
+                Interlocked.Increment(ref provider._markerCount);
+            }
+        }
+    }
+}
+
+internal sealed class LoggingModule(SmokeLoggerProvider provider) : Module<bool>
+{
+    protected override Task<bool> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation(SmokeState.BufferedLogMarker);
+        if (provider.MarkerCount != 0)
+        {
+            throw new InvalidOperationException("Module log was delivered before the buffer was flushed.");
+        }
+
+        return Task.FromResult(true);
     }
 }
 
