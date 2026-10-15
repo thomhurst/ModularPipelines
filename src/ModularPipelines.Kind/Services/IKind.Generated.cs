@@ -23,32 +23,32 @@ public partial interface IKind
     /// <summary>
     /// Gets the build sub-domain service.
     /// </summary>
-    IKindBuild Build => throw new System.NotSupportedException();
+    IKindBuild Build { get; }
 
     /// <summary>
     /// Gets the create sub-domain service.
     /// </summary>
-    IKindCreate Create => throw new System.NotSupportedException();
+    IKindCreate Create { get; }
 
     /// <summary>
     /// Gets the delete sub-domain service.
     /// </summary>
-    IKindDelete Delete => throw new System.NotSupportedException();
+    IKindDelete Delete { get; }
 
     /// <summary>
     /// Gets the export sub-domain service.
     /// </summary>
-    IKindExport Export => throw new System.NotSupportedException();
+    IKindExport Export { get; }
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    IKindGet Get => throw new System.NotSupportedException();
+    IKindGet Get { get; }
 
     /// <summary>
     /// Gets the load sub-domain service.
     /// </summary>
-    IKindLoad Load => throw new System.NotSupportedException();
+    IKindLoad Load { get; }
 
     #endregion
 
@@ -61,8 +61,7 @@ public partial interface IKind
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(KindVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(KindVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
