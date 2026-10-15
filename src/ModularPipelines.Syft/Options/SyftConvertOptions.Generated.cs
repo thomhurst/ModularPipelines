@@ -21,16 +21,44 @@ namespace ModularPipelines.Syft.Options;
 public record SyftConvertOptions : SyftOptions
 {
     /// <summary>
-    /// file to write the default report output to (default is STDOUT) (DEPRECATED: use: --output FORMAT=PATH)
+    /// [Experimental] Convert SBOM files to, and from, SPDX, CycloneDX and Syft's format. For more info about data loss between formats see https://github.com/anchore/syft/wiki/format-conversion
     /// </summary>
-    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    /// <param name="Output">report output format (&lt;format&gt;=&lt;file&gt; to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json purls spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])</param>
+    public SyftConvertOptions(
+        IEnumerable<string> Output
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Output);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Output));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Output));
+            }
+
+            Output = materialized;
+        }
+        this.Output = Output;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Output)
+    {
+        Output = this.Output;
+    }
 
     /// <summary>
     /// report output format (&lt;format&gt;=&lt;file&gt; to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json purls spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Output { get; set; }
+    public IEnumerable<string> Output { get; private init; }
+
+    /// <summary>
+    /// file to write the default report output to (default is STDOUT) (DEPRECATED: use: --output FORMAT=PATH)
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
 
     /// <summary>
     /// specify the path to a Go template file

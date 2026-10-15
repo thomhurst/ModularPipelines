@@ -58,11 +58,11 @@ internal partial class Syft : ISyft
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ConvertAsync(
-        SyftConvertOptions? options = null,
+        SyftConvertOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SyftConvertOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
