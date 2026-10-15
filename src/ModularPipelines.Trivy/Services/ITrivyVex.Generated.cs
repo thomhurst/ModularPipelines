@@ -24,7 +24,7 @@ public interface ITrivyVex
     /// <summary>
     /// trivy repo sub-commands.
     /// </summary>
-    TrivyVexRepo Repo => throw new System.NotSupportedException();
+    TrivyVexRepo Repo { get; }
 
     /// <summary>
     /// [EXPERIMENTAL] VEX utilities
@@ -33,7 +33,6 @@ public interface ITrivyVex
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(TrivyVexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(TrivyVexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
