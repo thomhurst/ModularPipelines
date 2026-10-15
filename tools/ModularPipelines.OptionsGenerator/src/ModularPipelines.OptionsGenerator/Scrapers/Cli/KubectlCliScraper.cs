@@ -89,23 +89,33 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
     }
 
     protected override IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
-        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups) =>
-        [.. groups.Select(group => NormalizeResourceInputs(group, command.Options,
-            command.CommandParts is ["annotate" or "label"]))];
+        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups)
+    {
+        string[] selectionSwitches = command.CommandParts switch
+        {
+            ["annotate" or "label"] => ["--all", "--selector", "--field-selector"],
+            ["scale"] => ["--all", "--selector"],
+            _ => [],
+        };
+        var selectionOptions = command.Options.Where(option =>
+            selectionSwitches.Contains(option.SwitchName, StringComparer.Ordinal)).ToArray();
+        return [.. groups.Select(group => NormalizeResourceInputs(group, command.Options, selectionOptions))];
+    }
 
     // Resource input can use TYPE NAME, TYPE/NAME, selectors, filenames, or a kustomization.
     // A bare TYPE still needs a name or selector; a combined TYPE/NAME supplies both.
     private static UsageRequiredAlternativeGroup NormalizeResourceInputs(
-        UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options, bool requireSelection)
+        UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options,
+        IReadOnlyList<CliOptionDefinition> selectionOptions)
     {
         var members = group.Members.Select(NormalizeCombinedResource).ToList();
-        var groups = group.Groups.Select(child => NormalizeResourceInputs(child, options, requireSelection)).ToList();
+        var groups = group.Groups.Select(child => NormalizeResourceInputs(child, options, selectionOptions)).ToList();
         if (!group.IsChoice
             && members.FirstOrDefault(member => member.PositionalPropertyName == "Type") is { } type
             && members.FirstOrDefault(member => member.PositionalPropertyName == "Name") is { } name)
         {
             members.Remove(name);
-            groups.Add(CreateResourceSelection(type, name, requireSelection ? options : []));
+            groups.Add(CreateResourceSelection(type, name, selectionOptions));
         }
 
         if (group.IsChoice && members.Any(member => member.OptionSwitch is "-f" or "--filename")
@@ -134,8 +144,7 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
             [
                 name,
                 type with { ValuePattern = CombinedResourcePattern },
-                .. options.Where(option => option.SwitchName is "--all" or "--selector" or "--field-selector")
-                    .Select(option => new UsageRequiredAlternativeMember
+                .. options.Select(option => new UsageRequiredAlternativeMember
                     {
                         OptionSwitch = option.SwitchName,
                         RequiredFlagValue = option.SwitchName == "--all" ? true : null,

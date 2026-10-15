@@ -147,6 +147,51 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
+    [Test]
+    public async Task Kubectl_Scale_Resource_Alternatives_Accept_Selection_Without_A_Name()
+    {
+        var command = await ScrapeResourceCommand("scale", """
+            Usage:
+              kubectl scale (-f FILENAME | TYPE NAME) --replicas=COUNT [options]
+
+            Options:
+              -f, --filename stringArray   Files identifying resources.
+                  --all=false: Select all resources of the specified types.
+              -l, --selector string       Label selector.
+                  --replicas int         Number of replicas.
+            """);
+        var options = Compile(await Generate([.. command.Options], command.PositionalArguments,
+            command.RequiredAlternativeGroups)).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        (string? Type, bool? All, string? Selector, bool Valid)[] cases =
+        [
+            ("deployment", true, null, true),
+            ("deployment", null, "app=web", true),
+            ("deployment", false, "app=web", true),
+            ("deployment", null, null, false),
+            ("deployment", false, null, false),
+            ("deployment", null, " ", false),
+            ("deployment", false, " ", false),
+            (null, true, null, false),
+            (null, null, "app=web", false),
+            (" ", true, null, false),
+        ];
+        foreach (var input in cases)
+        {
+            var instance = Activator.CreateInstance(options)!;
+            options.GetProperty("Type")!.SetValue(instance, input.Type);
+            options.GetProperty("All")!.SetValue(instance, input.All);
+            options.GetProperty("Selector")!.SetValue(instance, input.Selector);
+            options.GetProperty("Replicas")!.SetValue(instance, 3);
+            await Assert.That(!((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(input.Valid).Because(input.ToString());
+            if (input.Valid)
+            {
+                await Assert.That(RenderResourceOperands(instance)).IsEquivalentTo([input.Type!],
+                    TUnit.Assertions.Enums.CollectionOrdering.Matching);
+            }
+        }
+    }
+
     private static readonly string[] valueArray = ["manifest.yaml"];
 
     [Test]
@@ -204,7 +249,7 @@ public partial class RequiredConstructorValidationTests
     private sealed class ResourceFixtureExecutor(string commandName, string help) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            string? workingDirectory = null, CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,

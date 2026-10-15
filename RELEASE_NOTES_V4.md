@@ -1167,7 +1167,9 @@ Label and annotate options expose `Type` and `Name` for resource
 selection, alongside the existing file and selector options. Combined references such
 as `Type = "pod/example"` (or `TypeArgument` for patch) do not require a separate
 `Name`. For label and annotate, a bare `Type` requires `Name`, `All = true`, or a
-nonblank `Selector`/`FieldSelector`. `Kustomize = "overlay"` is also accepted as a
+nonblank `Selector`/`FieldSelector`. Scale accepts a bare `Type` with `All = true`
+or a nonblank `Selector`; `All = false` alone does not select resources.
+`Kustomize = "overlay"` is also accepted as a
 resource source. Kubectl validates the resource identity itself. Patch and scale recover
 their resource operands from the same generic alternative parser. `IKubernetes.PatchAsync` and `IKubernetes.ScaleAsync`
 now require a non-null `options` argument instead of defaulting it to null. Pass
