@@ -98,7 +98,7 @@ public interface IFileSystemProvider
     /// <returns>A task that completes when the file is written.</returns>
     /// <remarks>The default implementation writes to the stream returned by <see cref="Create"/>.</remarks>
     Task WriteAllTextAsync(string path, string contents, CancellationToken cancellationToken = default) =>
-        WriteTextAsync(Create(path), [contents], appendNewLines: false, cancellationToken);
+        WriteTextAsync(path, [contents], append: false, appendNewLines: false, cancellationToken);
 
     /// <summary>
     /// Creates or overwrites a file with the specified bytes.
@@ -110,6 +110,7 @@ public interface IFileSystemProvider
     /// <remarks>The default implementation writes to the stream returned by <see cref="Create"/>.</remarks>
     async Task WriteAllBytesAsync(string path, byte[] contents, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var stream = Create(path);
         await using (stream.ConfigureAwait(false))
         {
@@ -126,7 +127,7 @@ public interface IFileSystemProvider
     /// <returns>A task that completes when the file is written.</returns>
     /// <remarks>The default implementation writes to the stream returned by <see cref="Create"/>.</remarks>
     Task WriteAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default) =>
-        WriteTextAsync(Create(path), contents, appendNewLines: true, cancellationToken);
+        WriteTextAsync(path, contents, append: false, appendNewLines: true, cancellationToken);
 
     /// <summary>
     /// Appends UTF-8 text to a file, creating it when it does not exist.
@@ -137,7 +138,7 @@ public interface IFileSystemProvider
     /// <returns>A task that completes when the text is appended.</returns>
     /// <remarks>The default implementation writes to <see cref="Open"/> with <see cref="FileMode.Append"/>.</remarks>
     Task AppendAllTextAsync(string path, string contents, CancellationToken cancellationToken = default) =>
-        WriteTextAsync(Open(path, FileMode.Append, FileAccess.Write), [contents], appendNewLines: false, cancellationToken);
+        WriteTextAsync(path, [contents], append: true, appendNewLines: false, cancellationToken);
 
     /// <summary>
     /// Appends UTF-8 lines to a file, creating it when it does not exist.
@@ -148,7 +149,7 @@ public interface IFileSystemProvider
     /// <returns>A task that completes when the lines are appended.</returns>
     /// <remarks>The default implementation writes to <see cref="Open"/> with <see cref="FileMode.Append"/>.</remarks>
     Task AppendAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default) =>
-        WriteTextAsync(Open(path, FileMode.Append, FileAccess.Write), contents, appendNewLines: true, cancellationToken);
+        WriteTextAsync(path, contents, append: true, appendNewLines: true, cancellationToken);
 
     /// <summary>
     /// Opens an existing file for reading.
@@ -387,12 +388,15 @@ public interface IFileSystemProvider
     /// <remarks>The default implementation calls <see cref="System.IO.Path.GetRelativePath(string, string)"/>.</remarks>
     string GetRelativePath(string relativeTo, string path) => Path.GetRelativePath(relativeTo, path);
 
-    private static async Task WriteTextAsync(
-        Stream stream,
+    private async Task WriteTextAsync(
+        string path,
         IEnumerable<string> contents,
+        bool append,
         bool appendNewLines,
         CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+        var stream = append ? Open(path, FileMode.Append, FileAccess.Write) : Create(path);
         await using (stream.ConfigureAwait(false))
         {
             var writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
