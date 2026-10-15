@@ -24,56 +24,56 @@ public interface IAzBackup
     /// <summary>
     /// az container sub-commands.
     /// </summary>
-    AzBackupContainer Container => throw new System.NotSupportedException();
+    AzBackupContainer Container { get; }
 
     /// <summary>
     /// az deleted-vault sub-commands.
     /// </summary>
-    AzBackupDeletedVault DeletedVault => throw new System.NotSupportedException();
+    AzBackupDeletedVault DeletedVault { get; }
 
     /// <summary>
     /// az item sub-commands.
     /// </summary>
-    AzBackupItem Item => throw new System.NotSupportedException();
+    AzBackupItem Item { get; }
 
     /// <summary>
     /// az job sub-commands.
     /// </summary>
-    AzBackupJob Job => throw new System.NotSupportedException();
+    AzBackupJob Job { get; }
 
     /// <summary>
     /// az policy sub-commands.
     /// </summary>
-    AzBackupPolicy Policy => throw new System.NotSupportedException();
+    AzBackupPolicy Policy { get; }
 
     /// <summary>
     /// az protectable-item sub-commands.
     /// </summary>
-    AzBackupProtectableItem ProtectableItem => throw new System.NotSupportedException();
+    AzBackupProtectableItem ProtectableItem { get; }
 
     /// <summary>
     /// az protection sub-commands.
     /// </summary>
-    AzBackupProtection Protection => throw new System.NotSupportedException();
+    AzBackupProtection Protection { get; }
 
     /// <summary>
     /// az recoveryconfig sub-commands.
     /// </summary>
-    AzBackupRecoveryConfig RecoveryConfig => throw new System.NotSupportedException();
+    AzBackupRecoveryConfig RecoveryConfig { get; }
 
     /// <summary>
     /// az recoverypoint sub-commands.
     /// </summary>
-    AzBackupRecoveryPoint RecoveryPoint => throw new System.NotSupportedException();
+    AzBackupRecoveryPoint RecoveryPoint { get; }
 
     /// <summary>
     /// az restore sub-commands.
     /// </summary>
-    AzBackupRestore Restore => throw new System.NotSupportedException();
+    AzBackupRestore Restore { get; }
 
     /// <summary>
     /// az vault sub-commands.
     /// </summary>
-    AzBackupVault Vault => throw new System.NotSupportedException();
+    AzBackupVault Vault { get; }
 
 }

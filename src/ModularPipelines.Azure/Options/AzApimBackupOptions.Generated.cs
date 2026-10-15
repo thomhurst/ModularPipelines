@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -89,6 +90,7 @@ public record AzApimBackupOptions : AzOptions
     /// <summary>
     /// The access key of the storage account used to place the backup.
     /// </summary>
+    [SecretValue]
     [CliOption("--storage-account-key")]
     public string StorageAccountKey { get; private init; }
 

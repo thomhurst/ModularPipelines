@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageAccount
 {
     private readonly ICommandContext _command;
+    private AzStorageAccountBlobInventoryPolicy? _blobInventoryPolicy;
     private AzStorageAccountBlobServiceProperties? _blobServiceProperties;
     private AzStorageAccountEncryptionScope? _encryptionScope;
     private AzStorageAccountFileServiceProperties? _fileServiceProperties;
@@ -31,6 +32,8 @@ public class AzStorageAccount
     private AzStorageAccountNetworkRule? _networkRule;
     private AzStorageAccountNetworkSecurityPerimeterConfiguration? _networkSecurityPerimeterConfiguration;
     private AzStorageAccountOrPolicy? _orPolicy;
+    private AzStorageAccountPrivateEndpointConnection? _privateEndpointConnection;
+    private AzStorageAccountPrivateLinkResource? _privateLinkResource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageAccount"/> class.
@@ -41,6 +44,11 @@ public class AzStorageAccount
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az blob-inventory-policy sub-commands.
+    /// </summary>
+    public AzStorageAccountBlobInventoryPolicy BlobInventoryPolicy => _blobInventoryPolicy ??= new AzStorageAccountBlobInventoryPolicy(_command);
 
     /// <summary>
     /// az blob-service-properties sub-commands.
@@ -96,6 +104,16 @@ public class AzStorageAccount
     /// az or-policy sub-commands.
     /// </summary>
     public AzStorageAccountOrPolicy OrPolicy => _orPolicy ??= new AzStorageAccountOrPolicy(_command);
+
+    /// <summary>
+    /// az private-endpoint-connection sub-commands.
+    /// </summary>
+    public AzStorageAccountPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzStorageAccountPrivateEndpointConnection(_command);
+
+    /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    public AzStorageAccountPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzStorageAccountPrivateLinkResource(_command);
 
     #endregion
 

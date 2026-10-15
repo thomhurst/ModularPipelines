@@ -24,6 +24,7 @@ public class AzCosmosdb : IAzCosmosdb
     private AzCosmosdbFleet? _fleet;
     private AzCosmosdbFleetspace? _fleetspace;
     private AzCosmosdbGremlin? _gremlin;
+    private AzCosmosdbIdentity? _identity;
     private AzCosmosdbKeys? _keys;
     private AzCosmosdbLocations? _locations;
     private AzCosmosdbMongodb? _mongodb;
@@ -65,6 +66,11 @@ public class AzCosmosdb : IAzCosmosdb
     /// az gremlin sub-commands.
     /// </summary>
     public AzCosmosdbGremlin Gremlin => _gremlin ??= new AzCosmosdbGremlin(_command);
+
+    /// <summary>
+    /// az identity sub-commands.
+    /// </summary>
+    public AzCosmosdbIdentity Identity => _identity ??= new AzCosmosdbIdentity(_command);
 
     /// <summary>
     /// az keys sub-commands.

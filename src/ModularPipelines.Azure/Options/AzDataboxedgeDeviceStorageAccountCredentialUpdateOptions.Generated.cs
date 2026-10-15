@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -54,6 +55,7 @@ public record AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions : AzOptio
     /// <summary>
     /// Encrypted storage key.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key", GroupValues = true)]
     public IEnumerable<string>? AccountKey { get; set; }
 
@@ -78,6 +80,7 @@ public record AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions : AzOptio
     /// <summary>
     /// Connection string for the storage account. Use this string if username and account key are not specified.
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 

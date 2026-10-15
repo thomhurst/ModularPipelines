@@ -24,21 +24,26 @@ public interface IAzCognitiveservices
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzCognitiveservicesAccount Account => throw new System.NotSupportedException();
+    AzCognitiveservicesAccount Account { get; }
+
+    /// <summary>
+    /// az agent sub-commands.
+    /// </summary>
+    AzCognitiveservicesAgent Agent { get; }
 
     /// <summary>
     /// az commitment-tier sub-commands.
     /// </summary>
-    AzCognitiveservicesCommitmentTier CommitmentTier => throw new System.NotSupportedException();
+    AzCognitiveservicesCommitmentTier CommitmentTier { get; }
 
     /// <summary>
     /// az model sub-commands.
     /// </summary>
-    AzCognitiveservicesModel Model => throw new System.NotSupportedException();
+    AzCognitiveservicesModel Model { get; }
 
     /// <summary>
     /// az usage sub-commands.
     /// </summary>
-    AzCognitiveservicesUsage Usage => throw new System.NotSupportedException();
+    AzCognitiveservicesUsage Usage { get; }
 
 }

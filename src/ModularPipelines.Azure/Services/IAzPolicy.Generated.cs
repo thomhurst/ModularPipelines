@@ -24,51 +24,51 @@ public interface IAzPolicy
     /// <summary>
     /// az assignment sub-commands.
     /// </summary>
-    AzPolicyAssignment Assignment => throw new System.NotSupportedException();
+    AzPolicyAssignment Assignment { get; }
 
     /// <summary>
     /// az attestation sub-commands.
     /// </summary>
-    AzPolicyAttestation Attestation => throw new System.NotSupportedException();
+    AzPolicyAttestation Attestation { get; }
 
     /// <summary>
     /// az definition sub-commands.
     /// </summary>
-    AzPolicyDefinition Definition => throw new System.NotSupportedException();
+    AzPolicyDefinition Definition { get; }
 
     /// <summary>
     /// az enrollment sub-commands.
     /// </summary>
-    AzPolicyEnrollment Enrollment => throw new System.NotSupportedException();
+    AzPolicyEnrollment Enrollment { get; }
 
     /// <summary>
     /// az event sub-commands.
     /// </summary>
-    AzPolicyEvent Event => throw new System.NotSupportedException();
+    AzPolicyEvent Event { get; }
 
     /// <summary>
     /// az exemption sub-commands.
     /// </summary>
-    AzPolicyExemption Exemption => throw new System.NotSupportedException();
+    AzPolicyExemption Exemption { get; }
 
     /// <summary>
     /// az metadata sub-commands.
     /// </summary>
-    AzPolicyMetadata Metadata => throw new System.NotSupportedException();
+    AzPolicyMetadata Metadata { get; }
 
     /// <summary>
     /// az remediation sub-commands.
     /// </summary>
-    AzPolicyRemediation Remediation => throw new System.NotSupportedException();
+    AzPolicyRemediation Remediation { get; }
 
     /// <summary>
     /// az set-definition sub-commands.
     /// </summary>
-    AzPolicySetDefinition SetDefinition => throw new System.NotSupportedException();
+    AzPolicySetDefinition SetDefinition { get; }
 
     /// <summary>
     /// az state sub-commands.
     /// </summary>
-    AzPolicyState State => throw new System.NotSupportedException();
+    AzPolicyState State { get; }
 
 }

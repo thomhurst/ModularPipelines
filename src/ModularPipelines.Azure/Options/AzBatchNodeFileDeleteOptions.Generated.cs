@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -87,6 +88,7 @@ public record AzBatchNodeFileDeleteOptions : AzOptions
     /// <summary>
     /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 

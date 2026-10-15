@@ -24,11 +24,14 @@ public class AzNetworkDnsRecordSet
     private AzNetworkDnsRecordSetAaaa? _aaaa;
     private AzNetworkDnsRecordSetCaa? _caa;
     private AzNetworkDnsRecordSetCname? _cname;
+    private AzNetworkDnsRecordSetDs? _ds;
     private AzNetworkDnsRecordSetMx? _mx;
+    private AzNetworkDnsRecordSetNaptr? _naptr;
     private AzNetworkDnsRecordSetNs? _ns;
     private AzNetworkDnsRecordSetPtr? _ptr;
     private AzNetworkDnsRecordSetSoa? _soa;
     private AzNetworkDnsRecordSetSrv? _srv;
+    private AzNetworkDnsRecordSetTlsa? _tlsa;
     private AzNetworkDnsRecordSetTxt? _txt;
 
     /// <summary>
@@ -62,9 +65,19 @@ public class AzNetworkDnsRecordSet
     public AzNetworkDnsRecordSetCname Cname => _cname ??= new AzNetworkDnsRecordSetCname(_command);
 
     /// <summary>
+    /// az ds sub-commands.
+    /// </summary>
+    public AzNetworkDnsRecordSetDs Ds => _ds ??= new AzNetworkDnsRecordSetDs(_command);
+
+    /// <summary>
     /// az mx sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetMx Mx => _mx ??= new AzNetworkDnsRecordSetMx(_command);
+
+    /// <summary>
+    /// az naptr sub-commands.
+    /// </summary>
+    public AzNetworkDnsRecordSetNaptr Naptr => _naptr ??= new AzNetworkDnsRecordSetNaptr(_command);
 
     /// <summary>
     /// az ns sub-commands.
@@ -85,6 +98,11 @@ public class AzNetworkDnsRecordSet
     /// az srv sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetSrv Srv => _srv ??= new AzNetworkDnsRecordSetSrv(_command);
+
+    /// <summary>
+    /// az tlsa sub-commands.
+    /// </summary>
+    public AzNetworkDnsRecordSetTlsa Tlsa => _tlsa ??= new AzNetworkDnsRecordSetTlsa(_command);
 
     /// <summary>
     /// az txt sub-commands.

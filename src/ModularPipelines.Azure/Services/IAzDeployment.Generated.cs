@@ -24,26 +24,26 @@ public interface IAzDeployment
     /// <summary>
     /// az group sub-commands.
     /// </summary>
-    AzDeploymentGroup Group => throw new System.NotSupportedException();
+    AzDeploymentGroup Group { get; }
 
     /// <summary>
     /// az mg sub-commands.
     /// </summary>
-    AzDeploymentMg Mg => throw new System.NotSupportedException();
+    AzDeploymentMg Mg { get; }
 
     /// <summary>
     /// az operation sub-commands.
     /// </summary>
-    AzDeploymentOperation Operation => throw new System.NotSupportedException();
+    AzDeploymentOperation Operation { get; }
 
     /// <summary>
     /// az sub sub-commands.
     /// </summary>
-    AzDeploymentSub Sub => throw new System.NotSupportedException();
+    AzDeploymentSub Sub { get; }
 
     /// <summary>
     /// az tenant sub-commands.
     /// </summary>
-    AzDeploymentTenant Tenant => throw new System.NotSupportedException();
+    AzDeploymentTenant Tenant { get; }
 
 }

@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkDns
 {
     private readonly ICommandContext _command;
+    private AzNetworkDnsDnssecConfig? _dnssecConfig;
     private AzNetworkDnsRecordSet? _recordSet;
     private AzNetworkDnsZone? _zone;
 
@@ -32,6 +33,11 @@ public class AzNetworkDns
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az dnssec-config sub-commands.
+    /// </summary>
+    public AzNetworkDnsDnssecConfig DnssecConfig => _dnssecConfig ??= new AzNetworkDnsDnssecConfig(_command);
 
     /// <summary>
     /// az record-set sub-commands.

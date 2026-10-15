@@ -24,16 +24,16 @@ public interface IAzStackWhatif
     /// <summary>
     /// az group sub-commands.
     /// </summary>
-    AzStackWhatifGroup Group => throw new System.NotSupportedException();
+    AzStackWhatifGroup Group { get; }
 
     /// <summary>
     /// az mg sub-commands.
     /// </summary>
-    AzStackWhatifMg Mg => throw new System.NotSupportedException();
+    AzStackWhatifMg Mg { get; }
 
     /// <summary>
     /// az sub sub-commands.
     /// </summary>
-    AzStackWhatifSub Sub => throw new System.NotSupportedException();
+    AzStackWhatifSub Sub { get; }
 
 }

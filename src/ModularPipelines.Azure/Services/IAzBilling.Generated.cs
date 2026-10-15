@@ -22,23 +22,93 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzBilling
 {
     /// <summary>
+    /// az account sub-commands.
+    /// </summary>
+    AzBillingAccount Account { get; }
+
+    /// <summary>
+    /// az agreement sub-commands.
+    /// </summary>
+    AzBillingAgreement Agreement { get; }
+
+    /// <summary>
+    /// az balance sub-commands.
+    /// </summary>
+    AzBillingBalance Balance { get; }
+
+    /// <summary>
+    /// az customer sub-commands.
+    /// </summary>
+    AzBillingCustomer Customer { get; }
+
+    /// <summary>
     /// az enrollment-account sub-commands.
     /// </summary>
-    AzBillingEnrollmentAccount EnrollmentAccount => throw new System.NotSupportedException();
+    AzBillingEnrollmentAccount EnrollmentAccount { get; }
+
+    /// <summary>
+    /// az instruction sub-commands.
+    /// </summary>
+    AzBillingInstruction Instruction { get; }
 
     /// <summary>
     /// az invoice sub-commands.
     /// </summary>
-    AzBillingInvoice Invoice => throw new System.NotSupportedException();
+    AzBillingInvoice Invoice { get; }
 
     /// <summary>
     /// az period sub-commands.
     /// </summary>
-    AzBillingPeriod Period => throw new System.NotSupportedException();
+    AzBillingPeriod Period { get; }
+
+    /// <summary>
+    /// az permission sub-commands.
+    /// </summary>
+    AzBillingPermission Permission { get; }
+
+    /// <summary>
+    /// az policy sub-commands.
+    /// </summary>
+    AzBillingPolicy Policy { get; }
+
+    /// <summary>
+    /// az product sub-commands.
+    /// </summary>
+    AzBillingProduct Product { get; }
+
+    /// <summary>
+    /// az profile sub-commands.
+    /// </summary>
+    AzBillingProfile Profile { get; }
+
+    /// <summary>
+    /// az property sub-commands.
+    /// </summary>
+    AzBillingProperty Property { get; }
+
+    /// <summary>
+    /// az role-assignment sub-commands.
+    /// </summary>
+    AzBillingRoleAssignment RoleAssignment { get; }
+
+    /// <summary>
+    /// az role-definition sub-commands.
+    /// </summary>
+    AzBillingRoleDefinition RoleDefinition { get; }
+
+    /// <summary>
+    /// az subscription sub-commands.
+    /// </summary>
+    AzBillingSubscription Subscription { get; }
+
+    /// <summary>
+    /// az transaction sub-commands.
+    /// </summary>
+    AzBillingTransaction Transaction { get; }
 
     /// <summary>
     /// az transfer sub-commands.
     /// </summary>
-    AzBillingTransfer Transfer => throw new System.NotSupportedException();
+    AzBillingTransfer Transfer { get; }
 
 }

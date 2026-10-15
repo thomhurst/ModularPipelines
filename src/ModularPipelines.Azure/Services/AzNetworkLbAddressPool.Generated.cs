@@ -21,6 +21,7 @@ public class AzNetworkLbAddressPool
 {
     private readonly ICommandContext _command;
     private AzNetworkLbAddressPoolAddress? _address;
+    private AzNetworkLbAddressPoolTunnelInterface? _tunnelInterface;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkLbAddressPool"/> class.
@@ -36,6 +37,11 @@ public class AzNetworkLbAddressPool
     /// az address sub-commands.
     /// </summary>
     public AzNetworkLbAddressPoolAddress Address => _address ??= new AzNetworkLbAddressPoolAddress(_command);
+
+    /// <summary>
+    /// az tunnel-interface sub-commands.
+    /// </summary>
+    public AzNetworkLbAddressPoolTunnelInterface TunnelInterface => _tunnelInterface ??= new AzNetworkLbAddressPoolTunnelInterface(_command);
 
     #endregion
 

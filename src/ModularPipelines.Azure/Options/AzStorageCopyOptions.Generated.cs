@@ -145,6 +145,7 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Account key of copy source storage account. Must be used in conjunction with source storage account name.
     /// </summary>
+    [SecretValue]
     [CliOption("--source-account-key")]
     public string? SourceAccountKey { get; set; }
 
@@ -163,6 +164,7 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Connection string of source storage account.
     /// </summary>
+    [SecretValue]
     [CliOption("--source-connection-string")]
     public string? SourceConnectionString { get; set; }
 
@@ -193,6 +195,7 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
@@ -205,6 +208,7 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
@@ -232,5 +236,11 @@ public record AzStorageCopyOptions : AzOptions
     /// </summary>
     [CliOption("--subscription")]
     public string? Subscription { get; set; }
+
+    /// <summary>
+    /// Other options which will be passed through to azcopy as it is. Please put all the extra options after a `--`. WARNING: Positional argument '&lt;EXTRA_OPTIONS&gt;' is experimental and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? ExtraOptions { get; set; }
 
 }

@@ -24,47 +24,47 @@ public interface IAzPipelines
     /// <summary>
     /// az agent sub-commands.
     /// </summary>
-    AzPipelinesAgent Agent => throw new System.NotSupportedException();
+    AzPipelinesAgent Agent { get; }
 
     /// <summary>
     /// az build sub-commands.
     /// </summary>
-    AzPipelinesBuild Build => throw new System.NotSupportedException();
+    AzPipelinesBuild Build { get; }
 
     /// <summary>
     /// az folder sub-commands.
     /// </summary>
-    AzPipelinesFolder Folder => throw new System.NotSupportedException();
+    AzPipelinesFolder Folder { get; }
 
     /// <summary>
     /// az pool sub-commands.
     /// </summary>
-    AzPipelinesPool Pool => throw new System.NotSupportedException();
+    AzPipelinesPool Pool { get; }
 
     /// <summary>
     /// az queue sub-commands.
     /// </summary>
-    AzPipelinesQueue Queue => throw new System.NotSupportedException();
+    AzPipelinesQueue Queue { get; }
 
     /// <summary>
     /// az release sub-commands.
     /// </summary>
-    AzPipelinesRelease Release => throw new System.NotSupportedException();
+    AzPipelinesRelease Release { get; }
 
     /// <summary>
     /// az runs sub-commands.
     /// </summary>
-    AzPipelinesRuns Runs => throw new System.NotSupportedException();
+    AzPipelinesRuns Runs { get; }
 
     /// <summary>
     /// az variable sub-commands.
     /// </summary>
-    AzPipelinesVariable Variable => throw new System.NotSupportedException();
+    AzPipelinesVariable Variable { get; }
 
     /// <summary>
     /// az variable-group sub-commands.
     /// </summary>
-    AzPipelinesVariableGroup VariableGroup => throw new System.NotSupportedException();
+    AzPipelinesVariableGroup VariableGroup { get; }
 
     /// <summary>
     /// Create a new Azure Pipeline (YAML based). Requires the azure-devops extension (az extension add --name azure-devops).
@@ -73,8 +73,7 @@ public interface IAzPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzPipelinesCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzPipelinesCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a pipeline. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -83,8 +82,7 @@ public interface IAzPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzPipelinesDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzPipelinesDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List pipelines. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -93,8 +91,7 @@ public interface IAzPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzPipelinesListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzPipelinesListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queue (run) a pipeline. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -103,8 +100,7 @@ public interface IAzPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RunAsync(AzPipelinesRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RunAsync(AzPipelinesRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of a pipeline. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -113,8 +109,7 @@ public interface IAzPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzPipelinesShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzPipelinesShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a pipeline. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -123,7 +118,6 @@ public interface IAzPipelines
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzPipelinesUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzPipelinesUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

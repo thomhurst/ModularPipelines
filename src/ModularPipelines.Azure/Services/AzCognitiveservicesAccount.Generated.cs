@@ -21,10 +21,13 @@ public class AzCognitiveservicesAccount
 {
     private readonly ICommandContext _command;
     private AzCognitiveservicesAccountCommitmentPlan? _commitmentPlan;
+    private AzCognitiveservicesAccountCompute? _compute;
     private AzCognitiveservicesAccountConnection? _connection;
     private AzCognitiveservicesAccountDeployment? _deployment;
     private AzCognitiveservicesAccountIdentity? _identity;
     private AzCognitiveservicesAccountKeys? _keys;
+    private AzCognitiveservicesAccountManagedComputeDeployment? _managedComputeDeployment;
+    private AzCognitiveservicesAccountManagedNetwork? _managedNetwork;
     private AzCognitiveservicesAccountNetworkRule? _networkRule;
     private AzCognitiveservicesAccountProject? _project;
 
@@ -42,6 +45,11 @@ public class AzCognitiveservicesAccount
     /// az commitment-plan sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountCommitmentPlan CommitmentPlan => _commitmentPlan ??= new AzCognitiveservicesAccountCommitmentPlan(_command);
+
+    /// <summary>
+    /// az compute sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountCompute Compute => _compute ??= new AzCognitiveservicesAccountCompute(_command);
 
     /// <summary>
     /// az connection sub-commands.
@@ -62,6 +70,16 @@ public class AzCognitiveservicesAccount
     /// az keys sub-commands.
     /// </summary>
     public AzCognitiveservicesAccountKeys Keys => _keys ??= new AzCognitiveservicesAccountKeys(_command);
+
+    /// <summary>
+    /// az managed-compute-deployment sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountManagedComputeDeployment ManagedComputeDeployment => _managedComputeDeployment ??= new AzCognitiveservicesAccountManagedComputeDeployment(_command);
+
+    /// <summary>
+    /// az managed-network sub-commands.
+    /// </summary>
+    public AzCognitiveservicesAccountManagedNetwork ManagedNetwork => _managedNetwork ??= new AzCognitiveservicesAccountManagedNetwork(_command);
 
     /// <summary>
     /// az network-rule sub-commands.

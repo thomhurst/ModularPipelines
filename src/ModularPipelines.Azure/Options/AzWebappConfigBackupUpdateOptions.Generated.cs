@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -94,6 +95,7 @@ public record AzWebappConfigBackupUpdateOptions : AzOptions
     /// <summary>
     /// Connection string for the database in the backup.
     /// </summary>
+    [SecretValue]
     [CliOption("--db-connection-string")]
     public string? DbConnectionString { get; set; }
 

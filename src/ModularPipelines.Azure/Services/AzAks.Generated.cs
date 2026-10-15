@@ -22,6 +22,7 @@ public class AzAks : IAzAks
     private readonly ICommandContext _command;
     private AzAksApprouting? _approuting;
     private AzAksCommand? _commandSubGroup;
+    private AzAksConnection? _connection;
     private AzAksIdentityBinding? _identityBinding;
     private AzAksMachine? _machine;
     private AzAksMaintenanceconfiguration? _maintenanceconfiguration;
@@ -51,6 +52,11 @@ public class AzAks : IAzAks
     /// az command sub-commands.
     /// </summary>
     public AzAksCommand Command => _commandSubGroup ??= new AzAksCommand(_command);
+
+    /// <summary>
+    /// az connection sub-commands.
+    /// </summary>
+    public AzAksConnection Connection => _connection ??= new AzAksConnection(_command);
 
     /// <summary>
     /// az identity-binding sub-commands.
@@ -297,6 +303,21 @@ public class AzAks : IAzAks
     }
 
     /// <summary>
+    /// Remove Azure Dev Spaces from a managed Kubernetes cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveDevSpacesAsync(
+        AzAksRemoveDevSpacesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Rotate certificates and keys on a managed Kubernetes cluster.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -395,6 +416,21 @@ public class AzAks : IAzAks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
         AzAksUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Use Azure Dev Spaces with a managed Kubernetes cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UseDevSpacesAsync(
+        AzAksUseDevSpacesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

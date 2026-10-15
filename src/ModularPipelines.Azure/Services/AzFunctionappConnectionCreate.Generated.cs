@@ -242,6 +242,21 @@ public class AzFunctionappConnectionCreate
     }
 
     /// <summary>
+    /// Create a functionapp connection to mysql.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MysqlAsync(
+        AzFunctionappConnectionCreateMysqlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConnectionCreateMysqlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Create a functionapp connection to neon-
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -269,6 +284,21 @@ public class AzFunctionappConnectionCreate
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConnectionCreatePostgresFlexibleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Create a functionapp connection to postgres.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PostgresAsync(
+        AzFunctionappConnectionCreatePostgresOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConnectionCreatePostgresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -22,6 +22,7 @@ public class AzDevops : IAzDevops
     private readonly ICommandContext _command;
     private AzDevopsAdmin? _admin;
     private AzDevopsExtension? _extension;
+    private AzDevopsMigrations? _migrations;
     private AzDevopsProject? _project;
     private AzDevopsSecurity? _security;
     private AzDevopsServiceEndpoint? _serviceEndpoint;
@@ -48,6 +49,11 @@ public class AzDevops : IAzDevops
     /// az extension sub-commands.
     /// </summary>
     public AzDevopsExtension Extension => _extension ??= new AzDevopsExtension(_command);
+
+    /// <summary>
+    /// az migrations sub-commands.
+    /// </summary>
+    public AzDevopsMigrations Migrations => _migrations ??= new AzDevopsMigrations(_command);
 
     /// <summary>
     /// az project sub-commands.

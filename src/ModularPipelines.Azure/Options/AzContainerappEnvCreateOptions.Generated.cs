@@ -108,6 +108,7 @@ public record AzContainerappEnvCreateOptions : AzOptions
     /// <summary>
     /// Application Insights connection string used by Dapr to export service to service communication telemetry.
     /// </summary>
+    [SecretValue]
     [CliOption("--dapr-connection-string", ShortForm = "-d")]
     public string? DaprConnectionString { get; set; }
 

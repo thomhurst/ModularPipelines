@@ -21,6 +21,7 @@ public class AzVmMonitor
 {
     private readonly ICommandContext _command;
     private AzVmMonitorLog? _log;
+    private AzVmMonitorMetrics? _metrics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmMonitor"/> class.
@@ -36,6 +37,11 @@ public class AzVmMonitor
     /// az log sub-commands.
     /// </summary>
     public AzVmMonitorLog Log => _log ??= new AzVmMonitorLog(_command);
+
+    /// <summary>
+    /// az metrics sub-commands.
+    /// </summary>
+    public AzVmMonitorMetrics Metrics => _metrics ??= new AzVmMonitorMetrics(_command);
 
     #endregion
 }

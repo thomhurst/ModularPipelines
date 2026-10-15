@@ -27,6 +27,7 @@ public class AzSqlMidb
     private AzSqlMidbLtrBackup? _ltrBackup;
     private AzSqlMidbLtrPolicy? _ltrPolicy;
     private AzSqlMidbMove? _move;
+    private AzSqlMidbShortTermRetentionPolicy? _shortTermRetentionPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlMidb"/> class.
@@ -72,6 +73,11 @@ public class AzSqlMidb
     /// az move sub-commands.
     /// </summary>
     public AzSqlMidbMove Move => _move ??= new AzSqlMidbMove(_command);
+
+    /// <summary>
+    /// az short-term-retention-policy sub-commands.
+    /// </summary>
+    public AzSqlMidbShortTermRetentionPolicy ShortTermRetentionPolicy => _shortTermRetentionPolicy ??= new AzSqlMidbShortTermRetentionPolicy(_command);
 
     #endregion
 

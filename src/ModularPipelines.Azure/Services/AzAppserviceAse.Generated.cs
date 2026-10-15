@@ -32,6 +32,21 @@ public class AzAppserviceAse
     #region Commands
 
     /// <summary>
+    /// Private DNS Zone for Internal (ILB) App Service
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateInboundServicesAsync(
+        AzAppserviceAseCreateInboundServicesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Create App Service Environment.
     /// </summary>
     /// <param name="options">The command options.</param>
