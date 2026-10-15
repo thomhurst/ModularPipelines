@@ -63,8 +63,14 @@ internal sealed record ProcessCommand(
             }
         }
 
-        // KillOnParentExit is deliberately not set: on .NET 11 RC1 every Windows start fails with
-        // "Access is denied" when the pipeline itself runs inside a job object, as CI runners do.
+        // Linux can protect the direct child at process creation. macOS does not support this API.
+        // Windows uses pipeline-owned jobs: .NET 11 RC1 KillOnParentExit fails with "Access is denied"
+        // inside a job object. Re-test it when the pinned SDK moves to .NET 11 GA.
+        if (OperatingSystem.IsLinux())
+        {
+            startInfo.KillOnParentExit = true;
+        }
+
         if (Credentials is not null)
         {
             CommandLineCredentialsMapper.Apply(Credentials, startInfo);

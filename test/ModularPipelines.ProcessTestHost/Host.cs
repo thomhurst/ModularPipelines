@@ -1,5 +1,10 @@
 using System.Diagnostics;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
+using ModularPipelines.Extensions;
+using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.ProcessTestHost;
 
@@ -11,17 +16,22 @@ public static class Host
         {
             foreach (var line in args.Skip(1))
             {
-                Console.WriteLine(line);
+                System.Console.WriteLine(line);
             }
 
             return 0;
         }
 
-        Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
+        if (args[0] is "pipeline-host" or "pipeline-background-host")
+        {
+            return await RunPipelineHostAsync(args);
+        }
+
+        System.Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
         var role = args[0];
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" ? "parent" : role;
+        var name = role is "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
         // Every fixture process publishes its own identity. A parent killed between starting a
         // child and publishing its PID would otherwise leave an orphan that cleanup cannot find,
         // holding the command's output pipes open.
@@ -38,7 +48,7 @@ public static class Host
         catch (Exception exception)
         {
             Publish(directory, name + ".error", exception.ToString());
-            await Console.Error.WriteLineAsync(exception.ToString());
+            await System.Console.Error.WriteLineAsync(exception.ToString());
             return 1;
         }
     }
@@ -60,6 +70,13 @@ public static class Host
         Publish(directory, name + ".ready", "ready");
         switch (role)
         {
+            case "background-parent":
+                using (var backgroundChild = StartChild("child", directory, runtimeConfiguration, redirectOutput: true))
+                {
+                    await WaitForPublishedFile(directory, "child.ready");
+                }
+
+                break;
             case "orphaning-parent":
                 // Simulates a parent killed after starting a child but before publishing its PID.
                 CreateChildProcess("child", directory, runtimeConfiguration).Dispose();
@@ -112,13 +129,67 @@ public static class Host
         }
     }
 
-    private static Process CreateChildProcess(string role, string directory, string runtimeConfiguration)
+    private static async Task<int> RunPipelineHostAsync(string[] args)
+    {
+        var directory = args[1];
+        using (var host = Process.GetCurrentProcess())
+        {
+            Publish(directory, "host.pid", JsonSerializer.Serialize(ProcessIdentity.Capture(host)));
+        }
+
+        try
+        {
+            var builder = Pipeline.CreateBuilder([], sourceFilePath: string.Empty);
+            builder.AddModule<IdleModule>();
+            await using var pipeline = await builder.BuildAsync();
+            var command = pipeline.Services.GetRequiredService<ICommandContext>();
+            var childRole = args[0] == "pipeline-background-host" ? "background-parent" : "parent";
+            await command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(Environment.ProcessPath!)
+            {
+                Arguments = ["exec", "--runtimeconfig", args[2], typeof(Host).Assembly.Location, childRole, directory, args[2]],
+            });
+            Publish(directory, "command-completed.ready", "ready");
+            await WaitForTrigger(directory, "dispose-pipeline");
+            await pipeline.DisposeAsync();
+            Publish(directory, "pipeline-disposed.ready", "ready");
+            await WaitForTrigger(directory, "host-exit");
+            return 0;
+        }
+        catch (Exception exception)
+        {
+            Publish(directory, "host.error", exception.ToString());
+            return 1;
+        }
+    }
+
+    private sealed class IdleModule : Module
+    {
+        protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.CompletedTask;
+    }
+
+    private static async Task WaitForPublishedFile(string directory, string name)
+    {
+        while (!File.Exists(Path.Combine(directory, name)))
+        {
+            await Task.Delay(10);
+        }
+    }
+
+    private static Process CreateChildProcess(string role, string directory, string runtimeConfiguration, bool redirectOutput = false)
     {
         var startInfo = new ProcessStartInfo(Environment.ProcessPath!)
         {
             UseShellExecute = false,
+            RedirectStandardOutput = redirectOutput,
+            RedirectStandardError = redirectOutput,
             CreateNoWindow = true,
         };
+        if (redirectOutput && OperatingSystem.IsWindows())
+        {
+            // A background child must not inherit the command's original output pipe handles.
+            startInfo.InheritedHandles = [];
+        }
+
         foreach (var argument in new[] { "exec", "--runtimeconfig", runtimeConfiguration, typeof(Host).Assembly.Location, role, directory, runtimeConfiguration })
         {
             startInfo.ArgumentList.Add(argument);
@@ -127,9 +198,9 @@ public static class Host
         return Process.Start(startInfo)!;
     }
 
-    private static Process StartChild(string role, string directory, string runtimeConfiguration)
+    private static Process StartChild(string role, string directory, string runtimeConfiguration, bool redirectOutput = false)
     {
-        var child = CreateChildProcess(role, directory, runtimeConfiguration);
+        var child = CreateChildProcess(role, directory, runtimeConfiguration, redirectOutput);
         try
         {
             Publish(directory, role + ".pid", JsonSerializer.Serialize(ProcessIdentity.Capture(child)));
