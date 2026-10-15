@@ -171,6 +171,16 @@ public static partial class UsageSynopsisParser
     internal static bool IsCommandGroupPlaceholder(CliPositionalArgument argument) =>
         CommandGroupPlaceholderNames.Contains(argument.PropertyName);
 
+    internal static string NormalizeSubcommandChoices(string helpText, IReadOnlySet<string> subcommands) =>
+        subcommands.Count == 0 ? helpText : SubcommandChoicePattern().Replace(helpText, match =>
+            GetAlternatives(match.Groups["choices"].Value).All(subcommands.Contains)
+                ? "[command]"
+                : match.Value);
+
+    // Only discovered child names identify dispatch syntax; literal operand choices stay operands.
+    [GeneratedRegex(@"\((?<choices>[\w-]+(?:\s*\|\s*[\w-]+)+)\)|\[(?<choices>[\w-]+(?:\s*\|\s*[\w-]+)+)\]")]
+    private static partial Regex SubcommandChoicePattern();
+
     // Numbered endpoints describe one repeated operand, not two independent properties.
     private static List<string> CollapseNumberedRepeats(List<string> tokens)
     {
@@ -2361,6 +2371,12 @@ public static partial class UsageSynopsisParser
     private static IReadOnlyList<string> GetOptionSwitches(string token)
     {
         var content = TrimControlWrappers(token);
+        // Cobra can attach value choices to a parenthesized alias prefix: (-o|--output=)json|yaml.
+        var attachedAliases = GetAttachedOptionAliases(content);
+        if (attachedAliases.Count > 0)
+        {
+            return attachedAliases;
+        }
         var alternatives = SplitTopLevelAlternatives(content);
         if (alternatives.Count > 1
             && alternatives.Any(IsOptionAlternative)
@@ -2372,6 +2388,21 @@ public static partial class UsageSynopsisParser
         return [.. alternatives
             .SelectMany(GetOptionSwitchesFromAlternative)
             .Distinct(StringComparer.Ordinal)];
+    }
+
+    private static IReadOnlyList<string> GetAttachedOptionAliases(string content)
+    {
+        if (GetWrappedPrefixSuffix(content) is not { Length: > 0 } suffix
+            || !char.IsLetterOrDigit(suffix[0]))
+        {
+            return [];
+        }
+
+        var alternatives = SplitTopLevelAlternatives(TrimWrapper(content[..^suffix.Length]));
+        return alternatives.Count > 1
+               && alternatives.All(alternative => TryGetOptionSwitch(alternative.TrimEnd('='), out _))
+            ? [.. alternatives.Select(alternative => alternative.TrimEnd('='))]
+            : [];
     }
 
     private static IReadOnlyList<string> GetOptionSwitchesFromAlternative(string alternative)
@@ -2414,7 +2445,8 @@ public static partial class UsageSynopsisParser
     private static bool HasInlineOptionValue(string token)
     {
         var content = TrimControlWrappers(token);
-        return content.IndexOfAny([' ', '\t', '=']) > 1;
+        return content.IndexOfAny([' ', '\t', '=']) > 1
+               || GetAttachedOptionAliases(content).Count > 0;
     }
 
     private static bool HasMixedOptionOperandAlternatives(string content)

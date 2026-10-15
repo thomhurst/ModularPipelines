@@ -22,6 +22,33 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("(docker-registry | generic | tls)", true)]
+    [Arguments("[docker-registry|generic|tls]", true)]
+    [Arguments("(docker-registry | generic | NAME)", false)]
+    [Arguments("(TYPE | NAME)", false)]
+    public async Task Only_Discovered_Subcommand_Choices_Become_Dispatch_Placeholders(string choices, bool dispatch)
+    {
+        var help = $"Usage: tool secret {choices} [options]";
+        var normalized = UsageSynopsisParser.NormalizeSubcommandChoices(help,
+            new HashSet<string>(["docker-registry", "generic", "tls"], StringComparer.Ordinal));
+        await Assert.That(normalized).IsEqualTo(dispatch ? "Usage: tool secret [command] [options]" : help);
+    }
+
+    [Test]
+    [Arguments("[(-o|--output=)json|yaml|name]")]
+    [Arguments("[(-o|--output)FORMAT]")]
+    public async Task Option_Alias_Prefix_With_Attached_Values_Is_Not_An_Operand(string output)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool get {output} TYPE [NAME]", ["tool", "get"]);
+        var options = new[] { new CliOptionDefinition { SwitchName = "--output", ShortForm = "-o", PropertyName = "Output", CSharpType = "string?" } };
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage, options);
+        await Assert.That(resolved.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Type", "Name"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(resolved.PositionalArguments.All(argument => argument.AssociatedOptionSwitch is null)).IsTrue();
+        await Assert.That(resolved.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
     [Arguments("--file=FILE")]
     [Arguments("--file FILE")]
     public async Task Presence_Only_Flag_Alternative_Preserves_Its_Target(string fileBranch)
