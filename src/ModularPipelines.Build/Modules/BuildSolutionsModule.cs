@@ -4,10 +4,12 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Helpers;
 using ModularPipelines.Build.Modules.UnitTests;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -16,6 +18,12 @@ namespace ModularPipelines.Build.Modules;
 [ProducesArtifact("build-output", "../../_build-output.tar.gz")]
 public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult[]>
 {
+    // Hosted single-node compilation takes about 29 minutes before the remaining solutions and archive.
+    private static readonly TimeSpan BuildTimeout = TimeSpan.FromMinutes(60);
+
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithTimeout(BuildTimeout);
+
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
@@ -39,10 +47,13 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                     Configuration = "Release",
                     NoRestore = true,
                     // The combined generated integrations exhaust the shared compiler's memory in CI.
-                    // Bound concurrency without serializing every project; each compiler exits after its project.
+                    // Compile one project at a time; each compiler exits after its project.
                     Arguments = solution == "ModularPipelines.All.slnx"
-                        ? ["/m:2", "-p:UseSharedCompilation=false"]
+                        ? ["/m:1", "-p:UseSharedCompilation=false"]
                         : [],
+                }, new CommandExecutionOptions
+                {
+                    ExecutionTimeout = BuildTimeout,
                 }, cancellationToken: cancellationToken))
                 .ProcessOneAtATime();
         }
