@@ -1,0 +1,15 @@
+Get help on npm
+
+Usage:
+npm help <term> [<terms..>]
+
+Options:
+[--viewer <viewer>]
+
+  --viewer
+    The program to use to view help content.
+
+
+alias: hlep
+
+Run "npm help help" for more info

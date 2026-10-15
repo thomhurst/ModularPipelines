@@ -25,3 +25,10 @@ hosts are repeatable. HTTP proxy URLs may contain credentials and need secret me
 
 Read-only prefix/config probes also confirm explicit false, zero log retention, a
 fractional retry factor (1.5), and two repeated CA values on the installed parser.
+
+Additional command fixtures captured with npm 11.11.0:
+
+- `npm help --help` produces `npm-help-command.txt`; `npm-help.txt` remains root help.
+- `npm completion --help` produces `npm-completion.txt`.
+
+These fixtures preserve npm's usage text, including `<terms..>` in help.

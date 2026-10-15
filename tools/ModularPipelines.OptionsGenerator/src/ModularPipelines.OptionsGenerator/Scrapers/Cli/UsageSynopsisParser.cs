@@ -1448,7 +1448,9 @@ public static partial class UsageSynopsisParser
             var pathIndex = pathStart;
             for (var tokenIndex = 0; tokenIndex < tokens.Count; tokenIndex++)
             {
-                if (IsControlToken(tokens[tokenIndex]))
+                // A literal command may itself be named help or command; wrapped placeholders still skip.
+                if (IsControlToken(tokens[tokenIndex])
+                    && !tokens[tokenIndex].Equals(commandPath[pathIndex], StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }

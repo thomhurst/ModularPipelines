@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -9,6 +10,76 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class NpmCliScraperTests
 {
     private static readonly string[] OrgVerbs = ["set", "rm", "ls"];
+
+    [Test]
+    public async Task Traversal_Preserves_Help_And_Completion_Commands()
+    {
+        var scraper = new NpmCliScraper(
+            new HelpAndCompletionExecutor(),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<NpmCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["npm help", "npm completion"]);
+        var help = commands.Single(command => command.FullCommand == "npm help");
+        await Assert.That(help.ClassName).IsEqualTo("NpmHelpOptions");
+        await Assert.That(help.PositionalArguments[0].PropertyName).IsEqualTo("Term");
+        await Assert.That(help.PositionalArguments[0].IsRequired).IsTrue();
+        await Assert.That(help.PositionalArguments[1].PropertyName).IsEqualTo("Terms");
+        await Assert.That(help.PositionalArguments[1].IsRequired).IsFalse();
+        await Assert.That(help.PositionalArguments[1].IsVariadic).IsTrue();
+        await Assert.That(help.PositionalArguments[1].CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(help.Options.Single(option => option.SwitchName == "--viewer").CSharpType)
+            .IsEqualTo("string?");
+        var completion = commands.Single(command => command.FullCommand == "npm completion");
+        await Assert.That(completion.ClassName).IsEqualTo("NpmCompletionOptions");
+        await Assert.That(completion.Options).IsEmpty();
+        await Assert.That(completion.PositionalArguments).IsEmpty();
+
+        var outputDirectory = Directory.CreateTempSubdirectory("npm-command-coverage-");
+        try
+        {
+            var coverage = CommandCoverageGuard.Evaluate(
+                scraper.CreateToolDefinition() with
+                {
+                    Commands = commands,
+                    CommandCoverage = new CliCommandCoveragePolicy
+                    {
+                        SentinelCommands = ["npm help", "npm completion"],
+                    },
+                },
+                outputDirectory.FullName, approveShrinkage: false);
+            await Assert.That(coverage.Violations).IsEmpty();
+            await Assert.That(coverage.Manifest.Commands).IsEquivalentTo(["npm help", "npm completion"]);
+        }
+        finally
+        {
+            outputDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Pinned_Root_Help_Lists_Help_And_Completion()
+    {
+        var commands = CreateScraper().GetSubcommands(await ReadNpmFixture("help"));
+        await Assert.That(commands).Contains("help");
+        await Assert.That(commands).Contains("completion");
+    }
+
+    [Test]
+    [Arguments("__complete")]
+    [Arguments("__completeNoDesc")]
+    [Arguments("ll")]
+    [Arguments("--help")]
+    public async Task Keeps_Other_Command_Exclusions(string command)
+    {
+        await Assert.That(CreateScraper().Skips(command)).IsTrue();
+    }
 
     [Test]
     public async Task Discovers_Wrapped_Root_Commands()
@@ -301,6 +372,8 @@ public class NpmCliScraperTests
 
         public string[] GetSubcommands(string helpText) => [.. ExtractSubcommands(helpText)];
 
+        public bool Skips(string subcommand) => IsSkippableSubcommand(subcommand);
+
         public string[] GetSubcommands(string[] path, string helpText) => [.. ExtractSubcommands(path, helpText)];
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
@@ -321,5 +394,35 @@ public class NpmCliScraperTests
             string? workingDirectory = null,
             CancellationToken cancellationToken = default) =>
             throw new NotSupportedException();
+    }
+
+    private sealed class HelpAndCompletionExecutor : ICliCommandExecutor
+    {
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        public async Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) => new()
+            {
+                ExitCode = 0,
+                StandardError = string.Empty,
+                StandardOutput = arguments switch
+                {
+                    "--version" => "11.11.0",
+                    "--help" => """
+                        npm <command>
+                        All commands:
+                            help, completion
+
+                        Specify configs in the ini-formatted file:
+                        """,
+                    "help --help" => await ReadNpmFixture("help-command"),
+                    "completion --help" => await ReadNpmFixture("completion"),
+                    _ => throw new InvalidOperationException($"Unexpected npm invocation: {arguments}"),
+                },
+            };
     }
 }
