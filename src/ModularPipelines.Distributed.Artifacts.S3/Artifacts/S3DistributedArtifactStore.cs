@@ -1,4 +1,6 @@
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -8,7 +10,9 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
 /// <summary>
 /// S3-compatible implementation of <see cref="IDistributedArtifactStore"/>.
-/// Objects are keyed as {prefix}/artifacts/{runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}.
+/// Payloads are keyed as {prefix}/artifacts/{runId}/{escapedModuleId}/data/{escapedArtifactName}/{artifactId}.
+/// Names that exceed the remaining key budget use a bounded SHA256 segment instead.
+/// Metadata is stored under the same module prefix in meta/{artifactId}.json, separate from payloads.
 /// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO. Run cleanup deletes every object under
 /// the run's prefix.
 /// </summary>
@@ -274,7 +278,26 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
     public void Dispose() => _s3.Dispose();
 
     private string BuildObjectKey(ModuleId moduleId, string artifactName, string artifactId)
-        => $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}";
+    {
+        const int maxKeyBytes = 1024;
+        var prefix = $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/data/";
+        var nameBudget = maxKeyBytes - Encoding.UTF8.GetByteCount($"{prefix}/{artifactId}");
+        // The metadata key needs four more bytes than a payload key with an empty name.
+        if (nameBudget < 4)
+        {
+            throw new InvalidOperationException("The S3 artifact key prefix and identifier leave insufficient space within the 1,024-byte key limit.");
+        }
+
+        var nameSegment = Uri.EscapeDataString(artifactName);
+        if (nameSegment.Length > nameBudget)
+        {
+            var hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(artifactName)));
+            // The artifact ID provides uniqueness even when the name hash must be shortened.
+            nameSegment = hash[..Math.Min(hash.Length, nameBudget)];
+        }
+
+        return $"{prefix}{nameSegment}/{artifactId}";
+    }
 
     private string BuildMetaKey(ModuleId moduleId, string artifactId)
         => $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/meta/{artifactId}.json";
