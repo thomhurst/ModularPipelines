@@ -218,7 +218,7 @@ public class RedisStorageIntegrationTests
     [Arguments(16)]
     [Arguments(40)]
     [Arguments(4096)]
-    public async Task Master_Heartbeat_Renews_All_Artifact_Keys_In_Only_Its_Run(int length)
+    public async Task Artifact_Renewal_Refreshes_All_Keys_In_Only_Its_Run(int length)
     {
         await using var connection = await ConnectAsync();
         var options = new RedisOptions { ChunkSizeBytes = 16 };
@@ -226,7 +226,6 @@ public class RedisStorageIntegrationTests
         var otherKeys = new RedisKeyBuilder("modpipe-integration", Guid.NewGuid().ToString("N"));
         var store = new RedisDistributedArtifactStore(connection, keys, options);
         var otherStore = new RedisDistributedArtifactStore(connection, otherKeys, options);
-        await using var coordinator = new RedisDistributedCoordinator(connection, keys, options);
         using var source = new MemoryStream(new byte[length]);
         using var otherSource = new MemoryStream([1]);
         var reference = await store.UploadAsync(
@@ -250,8 +249,7 @@ public class RedisStorageIntegrationTests
 
         var otherKey = otherKeys.ArtifactData(otherReference.ArtifactId);
         await connection.ExpireAsync(otherKey, TimeSpan.FromSeconds(5));
-        // The master has its own coordinator, separate from the worker's artifact store.
-        await coordinator.SendMasterHeartbeatAsync(CancellationToken.None);
+        await RedisDistributedArtifactStore.RefreshTimeToLiveAsync(connection, keys, options.TimeToLive, CancellationToken.None);
 
         foreach (var key in artifactKeys)
         {
@@ -265,8 +263,8 @@ public class RedisStorageIntegrationTests
         await using var downloaded = await store.DownloadAsync(reference, CancellationToken.None);
         await Assert.That(downloaded.Length).IsEqualTo(length);
         await store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "retained", PipelineSucceeded = true }, CancellationToken.None);
-        // A later heartbeat cannot recreate deleted artifacts or indexes.
-        await coordinator.SendMasterHeartbeatAsync(CancellationToken.None);
+        // A later renewal cannot recreate deleted artifacts or indexes.
+        await RedisDistributedArtifactStore.RefreshTimeToLiveAsync(connection, keys, options.TimeToLive, CancellationToken.None);
         foreach (var key in artifactKeys)
         {
             await Assert.That(await connection.ExistsAsync(key)).IsFalse();
@@ -317,13 +315,12 @@ public class RedisStorageIntegrationTests
     }
 
     [Test]
-    public async Task Master_Heartbeat_Renews_Chunks_Of_Incomplete_Uploads()
+    public async Task Artifact_Renewal_Refreshes_Chunks_Of_Incomplete_Uploads()
     {
         await using var connection = await ConnectAsync();
         var options = new RedisOptions { ChunkSizeBytes = 16 };
         var keys = new RedisKeyBuilder("modpipe-integration", Guid.NewGuid().ToString("N"));
         var store = new RedisDistributedArtifactStore(connection, keys, options);
-        await using var coordinator = new RedisDistributedCoordinator(connection, keys, options);
         await using var source = new FailAfterStream(new byte[16]);
         await Assert.That(async () => await store.UploadAsync(
                 new ArtifactDescriptor { Name = "partial", ModuleId = "Integration.Partial" }, source, CancellationToken.None))
@@ -332,7 +329,7 @@ public class RedisStorageIntegrationTests
         var chunkKey = keys.ArtifactChunk(artifactId, 0);
         await connection.ExpireAsync(chunkKey, TimeSpan.FromSeconds(5));
 
-        await coordinator.SendMasterHeartbeatAsync(CancellationToken.None);
+        await RedisDistributedArtifactStore.RefreshTimeToLiveAsync(connection, keys, options.TimeToLive, CancellationToken.None);
 
         await Assert.That((await connection.Keys.ExpiryAsync(chunkKey)).TimeToLive!.Value)
             .IsGreaterThan(TimeSpan.FromMinutes(30));
