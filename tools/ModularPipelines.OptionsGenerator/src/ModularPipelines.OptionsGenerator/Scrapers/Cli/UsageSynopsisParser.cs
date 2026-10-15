@@ -1650,11 +1650,7 @@ public static partial class UsageSynopsisParser
         {
             if (GetOptionSwitches(token).Count > 0)
             {
-                var optionSwitch = SelectPreferredOptionSwitch(GetOptionSwitches(token));
-                var optionIndex = options is not null && optionSwitch is not null
-                    ? CliOptionDefinition.FindIndexBySwitch(options, optionSwitch) : -1;
-                consumesOptionValue = !HasInlineOptionValue(token) && !IsWrapped(token)
-                    && (optionIndex < 0 || !options![optionIndex].IsFlag);
+                consumesOptionValue = ConsumesOptionValue(token, options);
                 continue;
             }
             if (consumesOptionValue)
@@ -1668,6 +1664,18 @@ public static partial class UsageSynopsisParser
             }
         }
         return false;
+    }
+
+    private static bool ConsumesOptionValue(string token, IReadOnlyList<CliOptionDefinition>? options)
+    {
+        if (HasInlineOptionValue(token) || IsWrapped(token))
+        {
+            return false;
+        }
+        var optionSwitch = SelectPreferredOptionSwitch(GetOptionSwitches(token));
+        var optionIndex = options is not null && optionSwitch is not null
+            ? CliOptionDefinition.FindIndexBySwitch(options, optionSwitch) : -1;
+        return optionIndex < 0 || !options![optionIndex].IsFlag;
     }
 
     internal static string DeferDocumentedOptionGroups(string synopsis, IReadOnlyList<CliArgumentGroup> groups)
