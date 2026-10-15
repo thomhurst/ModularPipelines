@@ -112,6 +112,74 @@ public class FtpTests : TestBase
     }
 
     [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task Connection_Io_Failure_Preserves_Caller_Cancellation(bool requireEncryption, bool cancelConnection)
+    {
+        var ftp = await GetService<IFtp>();
+        using var cancellation = new CancellationTokenSource();
+        IAsyncFtpClient? captured = null;
+        var failure = new IOException("connection failed");
+        var options = CreateOptions(21) with
+        {
+            RequireEncryption = requireEncryption,
+            ClientConfigurator = client =>
+            {
+                captured = client;
+                // Fail inside FluentFTP's connection call without racing the socket scheduler.
+                client.LegacyLogger = (_, _) =>
+                {
+                    client.LegacyLogger = null;
+                    if (cancelConnection)
+                    {
+                        cancellation.Cancel();
+                    }
+
+                    throw failure;
+                };
+            },
+        };
+
+        if (cancelConnection)
+        {
+            var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => ftp.GetFtpClientAsync(options, cancellation.Token));
+            await Assert.That(exception!.CancellationToken).IsEqualTo(cancellation.Token);
+            await Assert.That(exception.InnerException).IsSameReferenceAs(failure);
+        }
+        else
+        {
+            var exception = await Assert.ThrowsAsync<IOException>(() => ftp.GetFtpClientAsync(options, cancellation.Token));
+            await Assert.That(exception).IsSameReferenceAs(failure);
+        }
+
+        await Assert.That(captured!.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task Canceled_Configuration_Io_Failure_Remains_Unchanged()
+    {
+        var ftp = await GetService<IFtp>();
+        using var cancellation = new CancellationTokenSource();
+        IAsyncFtpClient? captured = null;
+        var failure = new IOException("configuration failed");
+        var options = CreateOptions(21) with
+        {
+            ClientConfigurator = client =>
+            {
+                captured = client;
+                cancellation.Cancel();
+                throw failure;
+            },
+        };
+
+        var exception = await Assert.ThrowsAsync<IOException>(() => ftp.GetFtpClientAsync(options, cancellation.Token));
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        await Assert.That(captured!.IsDisposed).IsTrue();
+    }
+
+    [Test]
     public async Task PreCanceled_Connection_Does_Not_Configure_Client()
     {
         var ftp = await GetService<IFtp>();
