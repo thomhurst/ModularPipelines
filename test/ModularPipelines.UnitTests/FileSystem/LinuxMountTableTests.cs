@@ -31,6 +31,7 @@ public class LinuxMountTableTests
     public async Task RejectsAliasesIntoSource(string source, string target)
     {
         var exception = await Assert.That(() => CreateTable().ValidateCopyTarget(source, target)).Throws<ArgumentException>();
+        exception = await Assert.That(exception).IsNotNull();
         await Assert.That(exception.ParamName).IsEqualTo("targetPath");
     }
 

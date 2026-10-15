@@ -199,8 +199,9 @@ public class FileSystemProviderMetadataTests
         var folder = new FolderPath(source + Path.DirectorySeparatorChar, provider);
 
         // The fake provider snapshots enumeration, so this stays bounded even without the guard.
-        var exception = await Assert.That(() => CopyFolder(folder, target, useAsync, preserveTimestamps))
+        var exception = await Assert.That(() => (Task) CopyFolder(folder, target, useAsync, preserveTimestamps))
             .Throws<ArgumentException>();
+        exception = await Assert.That(exception).IsNotNull();
 
         using (Assert.Multiple())
         {
@@ -257,7 +258,7 @@ public class FileSystemProviderMetadataTests
 
         if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS())
         {
-            await Assert.That(() => CopyFolder(folder, target, useAsync, preserveTimestamps: false))
+            await Assert.That(() => (Task) CopyFolder(folder, target, useAsync, preserveTimestamps: false))
                 .Throws<ArgumentException>();
             await Assert.That(provider.DirectoryExists(target)).IsFalse();
         }
@@ -277,7 +278,7 @@ public class FileSystemProviderMetadataTests
         var root = Path.GetPathRoot(FakeFileSystemProvider.Root)!;
         var folder = new FolderPath(root, provider);
 
-        await Assert.That(() => CopyFolder(folder, FakeFileSystemProvider.Root, useAsync, preserveTimestamps: false))
+        await Assert.That(() => (Task) CopyFolder(folder, FakeFileSystemProvider.Root, useAsync, preserveTimestamps: false))
             .Throws<ArgumentException>();
     }
 
