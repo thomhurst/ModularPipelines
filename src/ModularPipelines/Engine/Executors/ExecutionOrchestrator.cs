@@ -90,15 +90,7 @@ internal class ExecutionOrchestrator(
 
     private async Task<PipelineSummary> ExecuteInternal(CancellationToken cancellationToken)
     {
-        lock (_lock)
-        {
-            if (_hasRun)
-            {
-                throw new InvalidOperationException("This pipeline has already been triggered.");
-            }
-
-            _hasRun = true;
-        }
+        EnsureSingleExecution();
 
         using var cancellationRegistration = cancellationToken.Register(
             () => _engineCancellationToken.CancelWithReason(
@@ -166,23 +158,9 @@ internal class ExecutionOrchestrator(
             caughtException = ex;
         }
 
-        if (_pipelineSetupExecutor.PipelineStartInvoked)
-        {
-            summary ??= _pipelineSummaryFactory.Create(allModules, stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
-            if (caughtException is not null)
-            {
-                summary = summary with { StatusOverride = ModuleStatus.Failed };
-            }
-
-            try
-            {
-                await InvokePipelineEndHandlersAsync(summary, caughtException is not null).ConfigureAwait(false);
-            }
-            catch (Exception exception)
-            {
-                caughtException = exception;
-            }
-        }
+        (summary, caughtException) = await CompletePipelineEventsAsync(
+                summary, caughtException, allModules, stopWatch.Elapsed, start)
+            .ConfigureAwait(false);
 
         // Step 2: Always print summary (exactly once)
         // Only an acknowledged registration owns a worker status that can be finalized.
@@ -209,6 +187,49 @@ internal class ExecutionOrchestrator(
         ThrowIfPipelineFailed(summary, caughtException);
 
         return summary;
+    }
+
+    private void EnsureSingleExecution()
+    {
+        lock (_lock)
+        {
+            if (_hasRun)
+            {
+                throw new InvalidOperationException("This pipeline has already been triggered.");
+            }
+
+            _hasRun = true;
+        }
+    }
+
+    private async Task<(PipelineSummary? Summary, Exception? Exception)> CompletePipelineEventsAsync(
+        PipelineSummary? summary,
+        Exception? caughtException,
+        IReadOnlyList<IModule> allModules,
+        TimeSpan elapsed,
+        DateTimeOffset start)
+    {
+        if (!_pipelineSetupExecutor.PipelineStartInvoked)
+        {
+            return (summary, caughtException);
+        }
+
+        summary ??= _pipelineSummaryFactory.Create(allModules, elapsed, start, DateTimeOffset.UtcNow);
+        if (caughtException is not null)
+        {
+            summary = summary with { StatusOverride = ModuleStatus.Failed };
+        }
+
+        try
+        {
+            await InvokePipelineEndHandlersAsync(summary, caughtException is not null).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            caughtException = exception;
+        }
+
+        return (summary, caughtException);
     }
 
     /// <summary>

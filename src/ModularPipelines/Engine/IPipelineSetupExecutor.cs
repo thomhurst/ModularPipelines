@@ -8,6 +8,9 @@ namespace ModularPipelines.Engine;
 /// </summary>
 internal interface IPipelineSetupExecutor
 {
+    /// <summary>
+    /// Gets whether start-handler invocation began, set before awaiting the handlers.
+    /// </summary>
     bool PipelineStartInvoked { get; }
 
     Task OnPipelineStartAsync(CancellationToken cancellationToken);

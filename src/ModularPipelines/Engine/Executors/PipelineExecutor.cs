@@ -124,26 +124,7 @@ internal class PipelineExecutor : IPipelineExecutor
                 RecordClaimedModuleMetrics(matchingModule, result);
             }
 
-            if (_executionBackendContext.TryApplyResult(matchingModule, result))
-            {
-                continue;
-            }
-
-            var resultTask = matchingModule.AsInternal().ResultTask;
-            if (!_executionBackend.OwnsEntirePlan && resultTask.IsCompletedSuccessfully)
-            {
-                // A partial backend may report a different outcome than the module's completed
-                // local result, for example a success it could not publish. The completed result
-                // stays as it is, and the summary follows the reported outcome.
-                continue;
-            }
-
-            if (!resultTask.IsCompletedSuccessfully
-                || !ReferenceEquals(resultTask.Result, result))
-            {
-                throw new InvalidOperationException(
-                    $"Execution backend returned a conflicting result for module '{matchingModule.GetType().FullName}'.");
-            }
+            ApplyBackendResult(matchingModule, result);
         }
 
         if (!_executionBackend.OwnsEntirePlan)
@@ -163,6 +144,30 @@ internal class PipelineExecutor : IPipelineExecutor
         }
 
         return executedModules;
+    }
+
+    private void ApplyBackendResult(IModule module, IModuleResult result)
+    {
+        if (_executionBackendContext.TryApplyResult(module, result))
+        {
+            return;
+        }
+
+        var resultTask = module.AsInternal().ResultTask;
+        if (!_executionBackend.OwnsEntirePlan && resultTask.IsCompletedSuccessfully)
+        {
+            // A partial backend may report a different outcome than the module's completed
+            // local result, for example a success it could not publish. The completed result
+            // stays as it is, and the summary follows the reported outcome.
+            return;
+        }
+
+        if (!resultTask.IsCompletedSuccessfully
+            || !ReferenceEquals(resultTask.Result, result))
+        {
+            throw new InvalidOperationException(
+                $"Execution backend returned a conflicting result for module '{module.GetType().FullName}'.");
+        }
     }
 
     /// <summary>
