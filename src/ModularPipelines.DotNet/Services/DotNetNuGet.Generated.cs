@@ -40,42 +40,42 @@ public class DotNetNuGet : IDotNetNuGet
     #region Sub-command Groups
 
     /// <summary>
-    /// dotnet add sub-commands.
+    /// dotnet nuget add sub-commands.
     /// </summary>
     public DotNetNuGetAdd Add => _add ??= new DotNetNuGetAdd(_command);
 
     /// <summary>
-    /// dotnet config sub-commands.
+    /// dotnet nuget config sub-commands.
     /// </summary>
     public DotNetNuGetConfig Config => _config ??= new DotNetNuGetConfig(_command);
 
     /// <summary>
-    /// dotnet disable sub-commands.
+    /// dotnet nuget disable sub-commands.
     /// </summary>
     public DotNetNuGetDisable Disable => _disable ??= new DotNetNuGetDisable(_command);
 
     /// <summary>
-    /// dotnet enable sub-commands.
+    /// dotnet nuget enable sub-commands.
     /// </summary>
     public DotNetNuGetEnable Enable => _enable ??= new DotNetNuGetEnable(_command);
 
     /// <summary>
-    /// dotnet list sub-commands.
+    /// dotnet nuget list sub-commands.
     /// </summary>
     public DotNetNuGetList List => _list ??= new DotNetNuGetList(_command);
 
     /// <summary>
-    /// dotnet remove sub-commands.
+    /// dotnet nuget remove sub-commands.
     /// </summary>
     public DotNetNuGetRemove Remove => _remove ??= new DotNetNuGetRemove(_command);
 
     /// <summary>
-    /// dotnet trust sub-commands.
+    /// dotnet nuget trust sub-commands.
     /// </summary>
     public DotNetNuGetTrust Trust => _trust ??= new DotNetNuGetTrust(_command);
 
     /// <summary>
-    /// dotnet update sub-commands.
+    /// dotnet nuget update sub-commands.
     /// </summary>
     public DotNetNuGetUpdate Update => _update ??= new DotNetNuGetUpdate(_command);
 

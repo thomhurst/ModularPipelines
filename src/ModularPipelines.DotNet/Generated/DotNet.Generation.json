@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "dotnet",
-  "toolVersion": "10.0.401",
-  "commandTreeSha256": "5a6ae5c35827884fff645cc37ecfe24e941dde2425778fae8feb055e1a0e1155",
-  "generatorSourceSha256": "902a96c9f7ef86e118623630409b428081dfc046a804a247f2f8cf3b419cddb0"
+  "toolVersion": "11.0.100-rc.1.26425.128",
+  "commandTreeSha256": "eed537b73d9d73bb7a6de99960f507f14cdb627e7e78c64ef4318fd828a9147e",
+  "generatorSourceSha256": "c595d3aedc2272704950ee80b0eaf9bd7d9df2099be545d06456541db088861e"
 }

@@ -13,7 +13,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Provides the details for specified template package.
+/// Provides the details for specified template package. The command checks if the package is installed locally, if it was not found, it searches the configured NuGet feeds.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetNewDetailsOptions : DotNetOptions
 {
     /// <summary>
-    /// Provides the details for specified template package.
+    /// Provides the details for specified template package. The command checks if the package is installed locally, if it was not found, it searches the configured NuGet feeds.
     /// </summary>
     /// <param name="PackageIdentifier">Package identifier</param>
     public DotNetNewDetailsOptions(

@@ -13,7 +13,7 @@ using ModularPipelines.DotNet.Options;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Modify or display workload configuration values.
+/// Modify or display workload configuration values. To display a value, specify the corresponding command-line option without providing a value.  For example: "dotnet workload config --update-mode"
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
