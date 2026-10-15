@@ -59,4 +59,26 @@ public class BoundedCommandOutputBufferTests
 
         await Assert.That(buffer.ToString()).IsEqualTo(output);
     }
+
+    [Test]
+    public async Task Transforms_Truncation_Edges_After_Chunking_And_Tail_Wrap()
+    {
+        var buffer = new BoundedCommandOutputBuffer(8);
+        foreach (var character in "0123456789abcdef")
+        {
+            buffer.Append(new ReadOnlySpan<char>(in character));
+        }
+
+        var fragments = new List<(string Value, bool Start, bool End)>();
+        var result = buffer.ToString((value, start, end) =>
+        {
+            fragments.Add((value, start, end));
+            return $"<{value}>";
+        });
+
+        await Assert.That(fragments).IsEquivalentTo(new[] { ("0123", false, true), ("cdef", true, false) });
+        await Assert.That(result).IsEqualTo($"<0123>{Environment.NewLine}... [truncated 8 characters] ...{Environment.NewLine}<cdef>");
+        await Assert.That(buffer.ToString()).StartsWith("0123");
+        await Assert.That(buffer.ToString()).EndsWith("cdef");
+    }
 }

@@ -25,11 +25,13 @@ namespace ModularPipelines.Secrets;
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
-internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
+internal class SecretObfuscator(
+    ISecretProvider secretProvider,
+    IOptions<SecretMaskingOptions> maskingOptions) : ITrackedSecretObfuscator, IInitializer
 {
-    private readonly ISecretProvider _secretProvider;
-    private readonly IOptions<SecretMaskingOptions> _maskingOptions;
-    private readonly object _secretCacheLock = new();
+    private readonly ISecretProvider _secretProvider = secretProvider;
+    private readonly IOptions<SecretMaskingOptions> _maskingOptions = maskingOptions;
+    private readonly Lock _secretCacheLock = new();
     private readonly ConditionalWeakTable<object, OptionsSecretCache> _optionsSecretCaches = [];
 
     private SecretCache? _secretCache;
@@ -45,14 +47,6 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
 
     internal bool CaseInsensitive => _maskingOptions.Value.CaseInsensitive;
 
-    public SecretObfuscator(
-        ISecretProvider secretProvider,
-        IOptions<SecretMaskingOptions> maskingOptions)
-    {
-        _secretProvider = secretProvider;
-        _maskingOptions = maskingOptions;
-    }
-
     public Task InitializeAsync()
     {
         // Build system masking is handled by SecretProvider:
@@ -65,6 +59,125 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
     public string Obfuscate(string? input, object? optionsObject)
     {
         return ObfuscateWithConsumption(input, optionsObject).Output;
+    }
+
+    public string ObfuscateTruncated(string input, object? optionsObject, bool truncatedStart, bool truncatedEnd)
+    {
+        var options = _maskingOptions.Value;
+        var cache = GetSecretCache(optionsObject, options, options.CaseInsensitive);
+        var comparison = options.CaseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        var startLength = 0;
+        var endLength = 0;
+        foreach (var secret in cache.Secrets)
+        {
+            var maximumLength = Math.Min(input.Length, secret.Length - 1);
+            if (truncatedStart)
+            {
+                for (var length = maximumLength; length > startLength; length--)
+                {
+                    if (input.AsSpan(0, length).Equals(secret.AsSpan(secret.Length - length), comparison))
+                    {
+                        startLength = length;
+                        break;
+                    }
+                }
+            }
+
+            if (truncatedEnd)
+            {
+                for (var length = maximumLength; length > endLength; length--)
+                {
+                    if (input.AsSpan(input.Length - length).Equals(secret.AsSpan(0, length), comparison))
+                    {
+                        endLength = length;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (startLength == 0 && endLength == 0)
+        {
+            return Obfuscate(input, optionsObject);
+        }
+
+        var output = ObfuscateTruncatedMatches(input, cache, comparison, GetMaskValue(options), startLength, endLength);
+        if (!output.AsSpan().ContainsAny(cache.SearchValues!))
+        {
+            return output;
+        }
+
+        return ObfuscateWithSafeFallbackMask(
+            cache.Secrets,
+            cache.SearchValues!,
+            comparison,
+            mask => ObfuscateTruncatedMatches(input, cache, comparison, mask, startLength, endLength),
+            static result => result);
+    }
+
+    private static string ObfuscateTruncatedMatches(
+        string input,
+        SecretCache cache,
+        StringComparison comparison,
+        string mask,
+        int startLength,
+        int endLength)
+    {
+        var result = new StringBuilder(input.Length);
+        var copiedLength = 0;
+        var maskStart = 0;
+        var maskEnd = startLength;
+        var searchOffset = 0;
+        while (searchOffset < input.Length && TryFindNextMatch(
+                   input, searchOffset, cache.Secrets, cache.SearchValues!, comparison,
+                   out var matchIndex, out var matchedSecret))
+        {
+            var matchEnd = matchIndex + matchedSecret.Length;
+            // Merge boundary fragments with full matches before replacing any source text.
+            // Replacing a fragment first could split a complete, overlapping secret.
+            if (endLength > 0 && matchEnd >= input.Length - endLength)
+            {
+                AddRange(Math.Min(matchIndex, input.Length - endLength), input.Length);
+            }
+            else
+            {
+                AddRange(matchIndex, matchEnd);
+            }
+
+            searchOffset = matchEnd;
+        }
+
+        if (endLength > 0)
+        {
+            AddRange(input.Length - endLength, input.Length);
+        }
+
+        FlushRange();
+        result.Append(input, copiedLength, input.Length - copiedLength);
+        return result.ToString();
+
+        void AddRange(int start, int end)
+        {
+            if (start > maskEnd)
+            {
+                FlushRange();
+                maskStart = start;
+            }
+
+            maskEnd = Math.Max(maskEnd, end);
+        }
+
+        void FlushRange()
+        {
+            if (maskEnd <= maskStart)
+            {
+                return;
+            }
+
+            result.Append(input, copiedLength, maskStart - copiedLength);
+            result.Append(mask);
+            copiedLength = maskEnd;
+        }
     }
 
     SecretObfuscationResult ITrackedSecretObfuscator.ObfuscateWithConsumption(

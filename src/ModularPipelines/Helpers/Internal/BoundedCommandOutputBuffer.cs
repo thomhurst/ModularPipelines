@@ -53,6 +53,23 @@ internal sealed class BoundedCommandOutputBuffer
         return result.ToString();
     }
 
+    public string ToString(Func<string, bool, bool, string> obfuscate)
+    {
+        if (TruncatedCharacters == 0)
+        {
+            return ToString();
+        }
+
+        var tail = new StringBuilder(_tailCount);
+        AppendTailTo(tail);
+        return string.Concat(
+            obfuscate(_head.ToString(), false, true),
+            Environment.NewLine,
+            $"... [truncated {TruncatedCharacters} characters] ...",
+            Environment.NewLine,
+            obfuscate(tail.ToString(), true, false));
+    }
+
     public void Append(ReadOnlySpan<char> value)
     {
         _totalLength += value.Length;

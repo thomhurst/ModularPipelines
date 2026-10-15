@@ -624,8 +624,8 @@ internal sealed class Command(
                     executionCancellationToken,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = standardOutputBuffer.ToString();
-                standardError = standardErrorBuffer.ToString();
+                standardOutput = GetDiagnosticOutput(standardOutputBuffer, execOpts);
+                standardError = GetDiagnosticOutput(standardErrorBuffer, execOpts);
             }
             catch (Exception e) when (e is not CommandException)
             {
@@ -634,8 +634,8 @@ internal sealed class Command(
                     executionCancellationToken,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = standardOutputBuffer.ToString();
-                standardError = standardErrorBuffer.ToString();
+                standardOutput = GetDiagnosticOutput(standardOutputBuffer, execOpts);
+                standardError = GetDiagnosticOutput(standardErrorBuffer, execOpts);
 
                 loggingFailures.Capture(
                     () => LogCommandCompletion(
@@ -714,8 +714,8 @@ internal sealed class Command(
             return new CommandResult(
                 commandInput: _secretObfuscator.Obfuscate(commandInput, execOpts),
                 workingDirectory: command.WorkingDirPath,
-                standardOutput: standardOutput,
-                standardError: standardError,
+                standardOutput: standardOutputBuffer.TruncatedCharacters > 0 ? standardOutputBuffer.ToString() : standardOutput,
+                standardError: standardErrorBuffer.TruncatedCharacters > 0 ? standardErrorBuffer.ToString() : standardError,
                 environmentVariables: ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts),
                 startTime: result.StartTime,
                 endTime: result.ExitTime,
@@ -726,6 +726,17 @@ internal sealed class Command(
                 StandardErrorTruncatedCharacters = standardErrorBuffer.TruncatedCharacters,
             };
         }
+    }
+
+    private string GetDiagnosticOutput(BoundedCommandOutputBuffer buffer, CommandExecutionOptions options)
+    {
+        if (buffer.TruncatedCharacters == 0)
+        {
+            return buffer.ToString();
+        }
+
+        return buffer.ToString((value, truncatedStart, truncatedEnd) =>
+            _secretObfuscator.ObfuscateTruncated(value, options, truncatedStart, truncatedEnd));
     }
 
     private static bool ShouldPreserveCallerCancellation(
