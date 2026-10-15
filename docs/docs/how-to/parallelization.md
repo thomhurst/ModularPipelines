@@ -4,11 +4,13 @@ title: Parallelization
 
 # Parallelization Disabling
 
-Modules run in parallel by default once their dependencies have completed, subject to the pipeline's concurrency limits.
+During normal scheduling, modules run in parallel by default once their dependencies have completed, subject to the pipeline's concurrency limits.
 
 Use `NotInParallel` when modules access a resource that cannot safely be shared. For example, application installers may need exclusive access to the machine.
 
-Without constraint keys, `[NotInParallel]` prevents a module from running alongside any other module. Its dependencies must still complete before it can run.
+Without constraint keys, `[NotInParallel]` prevents a module from running alongside any other module. Its dependencies must still complete before it can run during normal scheduling.
+
+`AlwaysRun` modules can start during failure cleanup without waiting for pending dependencies that may never complete. Do not rely on those dependencies having completed when writing cleanup work.
 
 ## Example
 
