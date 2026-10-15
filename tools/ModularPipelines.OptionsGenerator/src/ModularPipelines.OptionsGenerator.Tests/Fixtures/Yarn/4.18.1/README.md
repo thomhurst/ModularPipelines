@@ -6,6 +6,11 @@ Captured on Windows on 15 October 2026 with Node 24.14.1 and the exact
 
 - `yarn-help.txt`: `node <cli-dist>/bin/yarn.js --help`.
 - `yarn-install-help.txt`: `node <cli-dist>/bin/yarn.js install --help`.
+- `yarn-workspaces-foreach-help.txt`, `yarn-workspace-help.txt`, and
+  `yarn-dlx-help.txt`: the corresponding command's `--help`, captured with
+  the same exact CLI version on 15 October 2026. Proxy rendering tests retain
+  the root discovery lines and verify that Yarn options precede child arguments.
+  `workspace` has no local options; its workspace name stays before the child command.
 - `yarn-npm-tag-add-help.txt`, `yarn-npm-tag-remove-help.txt`,
   `yarn-plugin-remove-help.txt`, `yarn-set-resolution-help.txt`, and
   `yarn-explain-peer-requirements-help.txt`: the corresponding command's

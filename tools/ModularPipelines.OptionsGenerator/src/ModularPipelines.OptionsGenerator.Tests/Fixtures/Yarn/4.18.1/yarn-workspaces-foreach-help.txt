@@ -1,0 +1,94 @@
+Run a command on all workspaces
+
+Usage
+
+$ yarn workspaces foreach <commandName> ...
+
+Options
+
+  --from #0            An array of glob pattern idents or paths from which to base any recursion
+  -A,--all             Run the command on all workspaces of a project
+  -R,--recursive       Run the command on the current workspace and all of its recursive dependencies
+  -W,--worktree        Run the command on all workspaces of the current worktree
+  -v,--verbose         Increase level of logging verbosity up to 2 times
+  -p,--parallel        Run the commands in parallel
+  -i,--interlaced      Print the output of commands in real-time instead of buffering it
+  -j,--jobs #0         The maximum number of parallel tasks that the execution will be limited to; or `unlimited`
+  -t,--topological     Run the command after all workspaces it depends on (regular) have finished
+  --topological-dev    Run the command after all workspaces it depends on (regular + dev) have finished
+  --include #0         An array of glob pattern idents or paths; only matching workspaces will be traversed
+  --exclude #0         An array of glob pattern idents or paths; matching workspaces won't be traversed
+  --no-private         Avoid running the command on private workspaces
+  --since              Only include workspaces that have been changed since the specified ref.
+  -n,--dry-run         Print the commands that would be run, without actually running them
+
+Details
+
+This command will run a given sub-command on current and all its descendant
+workspaces. Various flags can alter the exact behavior of the command:
+
+- If `-p,--parallel` is set, the commands will be ran in parallel; they'll by
+  default be limited to a number of parallel tasks roughly equal to half your
+  core number, but that can be overridden via `-j,--jobs`, or disabled by
+  setting `-j unlimited`.
+
+- If `-p,--parallel` and `-i,--interlaced` are both set, Yarn will print the
+  lines from the output as it receives them. If `-i,--interlaced` wasn't set, it
+  would instead buffer the output from each process and print the resulting
+  buffers only after their source processes have exited.
+
+- If `-t,--topological` is set, Yarn will only run the command after all
+  workspaces that it depends on through the `dependencies` field have
+  successfully finished executing. If `--topological-dev` is set, both the
+  `dependencies` and `devDependencies` fields will be considered when figuring
+  out the wait points.
+
+- If `-A,--all` is set, Yarn will run the command on all the workspaces of a
+  project.
+
+- If `-R,--recursive` is set, Yarn will find workspaces to run the command on by
+  recursively evaluating `dependencies` and `devDependencies` fields, instead of
+  looking at the `workspaces` fields.
+
+- If `-W,--worktree` is set, Yarn will find workspaces to run the command on by
+  looking at the current worktree.
+
+- If `--from` is set, Yarn will use the packages matching the 'from' glob as the
+  starting point for any recursive search.
+
+- If `--since` is set, Yarn will only run the command on workspaces that have
+  been modified since the specified ref. By default Yarn will use the refs
+  specified by the `changesetBaseRefs` configuration option.
+
+- If `--dry-run` is set, Yarn will explain what it would do without actually
+  doing anything.
+
+- The command may apply to only some workspaces through the use of `--include`
+  which acts as a whitelist. The `--exclude` flag will do the opposite and will
+  be a list of packages that mustn't execute the script. Both flags accept glob
+  patterns (if valid Idents and supported by
+  [micromatch](https://github.com/micromatch/micromatch)). Make sure to escape
+  the patterns, to prevent your own shell from trying to expand them. You can
+  also use the `--no-private` flag to avoid running the command in private
+  workspaces.
+
+The `-v,--verbose` flag can be passed up to twice: once to prefix output lines
+with the originating workspace's name, and again to include start/finish/timing
+log lines. Maximum verbosity is enabled by default in terminal environments.
+
+If the command is `run` and the script being run does not exist the child
+workspace will be skipped without error.
+
+Examples
+
+Publish all packages
+  $ yarn workspaces foreach -A --no-private npm publish --tolerate-republish
+
+Run the build script on all descendant packages
+  $ yarn workspaces foreach -A run build
+
+Run the build script on current and all descendant packages in parallel, building package dependencies first
+  $ yarn workspaces foreach -Apt run build
+
+Run the build script on several packages and all their dependencies, building dependencies first
+  $ yarn workspaces foreach -Rpt --from '{workspace-a,workspace-b}' run build
