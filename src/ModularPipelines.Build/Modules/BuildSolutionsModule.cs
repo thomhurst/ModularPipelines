@@ -38,9 +38,8 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                     ProjectSolution = Path.Combine(gitRoot, solution),
                     Configuration = "Release",
                     NoRestore = true,
-                    // Match the platform build lanes: avoid a persistent compiler server
-                    // while compiling the large generated integrations.
-                    Arguments = ["-p:UseSharedCompilation=false"],
+                    // Compile large generated integrations sequentially to bound peak memory.
+                    Arguments = ["/m:1", "-p:BuildInParallel=false", "-p:UseSharedCompilation=false"],
                 }, cancellationToken: cancellationToken))
                 .ProcessOneAtATime();
         }

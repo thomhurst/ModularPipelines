@@ -59,6 +59,25 @@ test('overlapping runs and attempts keep independent artifacts during concurrent
   }));
 });
 
+test('dotted distributed run IDs support publication and download', async t => {
+  const { producer, consumer, client } = await fixture(t);
+  await transfer(client, 'upload', 'Run_1.2-3', producer);
+  await transfer(client, 'download', 'Run_1.2-3', consumer);
+  assert.equal(await readFile(path.join(consumer, archiveName), 'utf8'), 'complete build output');
+});
+
+for (const runId of ['', 'run/id', 'run\\id', 'run:id', 'run id', 'run\nid']) {
+  test(`rejects unsafe run ID ${JSON.stringify(runId)} before contacting storage`, async t => {
+    const { producer, consumer } = await fixture(t);
+    // An empty client makes any storage call fail with a different error.
+    for (const [operation, repository] of [['upload', producer], ['download', consumer]]) {
+      await assert.rejects(transfer({}, operation, runId, repository), /A safe, attempt-scoped run ID is required/);
+    }
+    assert.deepEqual(await readdir(producer), [archiveName]);
+    assert.deepEqual(await readdir(consumer), []);
+  });
+}
+
 for (const corruption of ['truncated', 'same-size', 'manifest-missing', 'digest-mismatch', 'download-failure']) {
   test(`rejects ${corruption} without exposing a partial archive`, async t => {
     const { producer, consumer, client } = await fixture(t);

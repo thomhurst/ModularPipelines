@@ -18,7 +18,7 @@ async function describe(file) {
 }
 
 export async function transfer(client, operation, runId, repositoryRoot) {
-  if (typeof runId !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(runId)) {
+  if (typeof runId !== 'string' || !/^[a-zA-Z0-9._-]+$/.test(runId)) {
     throw new ArtifactValidationError('A safe, attempt-scoped run ID is required.');
   }
   const name = `build-output-${runId}`;
