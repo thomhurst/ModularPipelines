@@ -60,6 +60,10 @@ public record SecretMaskingOptions
     /// A warning is logged, and native build-system masking is still requested when supported.
     /// </para>
     /// <para>
+    /// For multiline secrets, non-blank lines meeting this length are also masked separately,
+    /// including by the native build-system masker. Shorter lines are not registered separately.
+    /// </para>
+    /// <para>
     /// The default value of 1 ensures all non-empty secrets are masked, maintaining backward
     /// compatibility. Consider increasing to 3+ for production to avoid masking common short strings.
     /// </para>
