@@ -783,6 +783,20 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com .", false)]
+    [Arguments("The connection string in the form of a fully qualified domain name (FQDN).", false)]
+    [Arguments("a CONNECTION STRING in the form of a FULLY QUALIFIED DOMAIN NAME (FQDN).", false)]
+    [Arguments("Storage account connection string.", true)]
+    [Arguments("A connection string containing a password and a fully qualified domain name (FQDN).", true)]
+    [Arguments("The password-bearing connection string. Its host is a fully qualified domain name (FQDN).", true)]
+    [Arguments(null, true)]
+    public async Task IsSecretOption_Distinguishes_Domain_Aliases_From_Connection_Credentials(
+        string? description, bool expectedSecret)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption("ConnectionString", false, description)).IsEqualTo(expectedSecret);
+    }
+
+    [Test]
     [Arguments("SecretKey")]
     [Arguments("AwsSecretKey")]
     public async Task IsSecretOption_Returns_True_For_SecretKey_Variants(string propertyName)

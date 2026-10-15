@@ -1187,7 +1187,10 @@ public static partial class GeneratorUtils
 
     // The ID phrasings must open the description. Structured-value help can document a nested
     // field ("The ARN or ID of the VPC Lattice resource") inside a value that carries credentials.
+    // WorkSpaces calls its public domain alias a connection string; credential-bearing
+    // connection strings that merely mention a domain must keep their masking.
     [GeneratedRegex(@"\A\s*(?:ID\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+or\s+fully\s+qualified\s+identifier\b|the\s+[\w-]+(?:\s+[\w-]+)*?\s+id\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+resource\b)"
+        + @"|\A\s*(?:(?:a|the)\s+)?connection\s+string\s+in\s+the\s+form\s+of\s+a\s+fully\s+qualified\s+domain\s+name\b"
         + @"|^(?:the\s+)?name of (?:the\s+)?[\w -]+?\s+to (?:create|update|delete)\b"
         + @"|\A\s*(?:the\s+)?(?:(?:full\s+)?resource\s+name\s+of\b|(?:full\s+)?path\s+of\s+(?:the\s+)?secret\s+version\b|(?:Google\s+Cloud\s+Storage\s+)?URI\s+of\b|secret\s+manager\s+key\s+storing\b)"
         + @"|\bprovides\s+fallback\s+value\s+for\s+resource\s+[\w-]+\s+attribute\b"
