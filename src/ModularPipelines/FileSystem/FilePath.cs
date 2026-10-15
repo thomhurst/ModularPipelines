@@ -135,6 +135,7 @@ public class FilePath : IEquatable<FilePath>
 
     public async Task WriteAsync(ReadOnlyMemory<byte> contents, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         LogFileOperation("Writing to File: {Path}", this);
 
         var fileStream = _provider.Create(Path);
@@ -146,6 +147,7 @@ public class FilePath : IEquatable<FilePath>
 
     public async Task WriteAsync(Stream contents, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         LogFileOperation("Writing to File: {Path}", this);
 
         var fileStream = _provider.Create(Path);
@@ -360,6 +362,7 @@ public class FilePath : IEquatable<FilePath>
 #pragma warning disable RS0026 // The v4 type rename intentionally preserves path- and folder-specific overloads.
     public async Task<FilePath> CopyToAsync(string path, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, path);
 
         var sourceStream = _provider.OpenRead(Path);
@@ -383,9 +386,10 @@ public class FilePath : IEquatable<FilePath>
     /// <returns>A new FilePath instance representing the copied file.</returns>
     public async Task<FilePath> CopyToAsync(FolderPath folder, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, folder);
 
-        await folder.CreateAsync().ConfigureAwait(false);
+        await folder.CreateAsync(cancellationToken).ConfigureAwait(false);
         return await CopyToAsync(_provider.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
 #pragma warning restore RS0026
