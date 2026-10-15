@@ -155,5 +155,6 @@ Global options are rendered before the selected subcommand.
 | `dotnet workload repair`          | `DotNetWorkloadRepairOptions`        |
 | `dotnet workload restore`         | `DotNetWorkloadRestoreOptions`       |
 | `dotnet workload search`          | `DotNetWorkloadSearchOptions`        |
+| `dotnet workload search version`  | `DotNetWorkloadSearchVersionOptions` |
 | `dotnet workload uninstall`       | `DotNetWorkloadUninstallOptions`     |
 | `dotnet workload update`          | `DotNetWorkloadUpdateOptions`        |
