@@ -303,7 +303,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     public async Task<IReadOnlyList<ModuleLease>> GetActiveLeasesAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var entries = await _redis.Hashes.GetAllAsync(_keys.Leases, cancellationToken).ConfigureAwait(false);
+        var entries = await ReadHashAsync(_keys.Leases, cancellationToken).ConfigureAwait(false);
         return [.. entries.Values.Select(static entry => ToLease(JsonSerializer.Deserialize<LeaseRecord>(entry)!))];
     }
 
@@ -332,11 +332,10 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
-        using var batch = _redis.CreateBatch();
-        var registrations = batch.Hashes.GetAll(_keys.Workers);
-        var heartbeats = batch.Hashes.GetAll(_keys.WorkerHeartbeats);
-        var statuses = batch.Hashes.GetAll(_keys.WorkerStatuses);
-        await batch.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+        var registrations = ReadHashAsync(_keys.Workers, cancellationToken);
+        var heartbeats = ReadHashAsync(_keys.WorkerHeartbeats, cancellationToken);
+        var statuses = ReadHashAsync(_keys.WorkerStatuses, cancellationToken);
+        await Task.WhenAll(registrations, heartbeats, statuses).ConfigureAwait(false);
 
         // Heartbeat fields expire after the worker timeout, so only live workers have one.
         var finalStatuses = statuses.Result.Values
@@ -360,8 +359,20 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     public async Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken cancellationToken)
     {
-        var entries = await _redis.Hashes.GetAllAsync(_keys.WorkerStatuses, cancellationToken).ConfigureAwait(false);
+        var entries = await ReadHashAsync(_keys.WorkerStatuses, cancellationToken).ConfigureAwait(false);
         return [.. entries.Values.Select(static entry => JsonSerializer.Deserialize<WorkerStatus>(entry)!)];
+    }
+
+    private async Task<Dictionary<string, string>> ReadHashAsync(string key, CancellationToken cancellationToken)
+    {
+        var entries = new Dictionary<string, string>(StringComparer.Ordinal);
+        await foreach (var entry in _redis.Hashes.ScanAsync(key, cancellationToken: cancellationToken).ConfigureAwait(false))
+        {
+            // Cursor scans may return the same field more than once.
+            entries[entry.Key] = entry.Value;
+        }
+
+        return entries;
     }
 
     public async Task SignalCompletionAsync(CancellationToken cancellationToken)
@@ -379,7 +390,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 _keys.CancellationFlag,
                 (RespireValue) reason.ToString(),
                 _keyExpiration,
-                SetWhen.NotExists,
+                RespireSetWhen.NotExists,
                 cancellationToken)
             .ConfigureAwait(false);
         await NotifyAsync(_keys.CancellationChannel, cancellationToken).ConfigureAwait(false);
@@ -591,7 +602,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         CancellationToken cancellationToken,
         params string[] channels)
     {
-        var subscription = await _redis.SubscribeShardedAsync(channels.AsSpan(), cancellationToken).ConfigureAwait(false);
+        RespireChannel[] subscriptionChannels = [.. channels.Select(static channel => (RespireChannel) channel)];
+        var subscription = await _redis.SubscribeShardedAsync(subscriptionChannels, cancellationToken: cancellationToken).ConfigureAwait(false);
         return new Subscription(subscription, signal);
     }
 

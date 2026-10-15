@@ -141,7 +141,9 @@ public class RedisModuleCacheTests
             await chunkDelete.Matched.WaitAsync(TimeSpan.FromSeconds(5));
 
             // The paused connection holds later replies, so observe through a second connection.
+#pragma warning disable RESP010 // A separate test observer must bypass the deliberately paused connection.
             await using var observer = await RespireClient.ConnectAsync(_redis.Server.CreateOptions());
+#pragma warning restore RESP010
             metadataDeletedFirst = !await observer.ExistsAsync(MetadataKey);
             chunkPresentBeforeDelete = await observer.ExistsAsync(ChunkKey(0));
         }

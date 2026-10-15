@@ -75,9 +75,9 @@ internal sealed class RedisDiscoveryOptionsValidator : IValidateOptions<RedisDis
                 failures.Add("Redis discovery requires at least one TCP endpoint.");
             }
         }
-        catch (ArgumentException exception)
+        catch (Exception exception) when (exception is ArgumentException or Respire.RespireConfigurationException)
         {
-            // Respire rejects unknown or malformed connection string options, such as abortConnect.
+            // Respire wraps malformed connection strings in RespireConfigurationException.
             failures.Add($"{nameof(RedisDiscoveryOptions.ConnectionString)} is invalid: {exception.Message}");
         }
     }

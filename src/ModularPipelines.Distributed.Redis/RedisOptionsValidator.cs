@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Respire;
 
 namespace ModularPipelines.Distributed.Redis;
 
@@ -26,9 +27,9 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
                     $"{nameof(RedisOptions.ConfigureConnection)} must supply at least one endpoint after configuration.");
             }
         }
-        catch (ArgumentException exception)
+        catch (Exception exception) when (exception is ArgumentException or RespireConfigurationException)
         {
-            // Respire rejects unknown or malformed connection string options, such as abortConnect.
+            // Respire wraps malformed connection strings in RespireConfigurationException.
             failures.Add(
                 $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} is invalid: {exception.Message}");
         }

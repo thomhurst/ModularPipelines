@@ -72,7 +72,7 @@ public class RedisDiscoveryOptionsTests
     }
 
     [Test]
-    [Arguments("localhost:6379,abortConnect=false")]
+    [Arguments("localhost:6379,connectTimeout=-1")]
     [Arguments("localhost:6379,connectTimeout=soon")]
     public async Task HostBuildRejectsInvalidConnectionString(string connectionString)
     {
@@ -91,6 +91,7 @@ public class RedisDiscoveryOptionsTests
     [Test]
     [Arguments("localhost:6379")]
     [Arguments("redis.internal:6380")]
+    [Arguments("localhost:6379,abortConnect=false")]
     public async Task HostBuildAcceptsExplicitConnectionWithoutConnecting(string connectionString)
     {
         var builder = Pipeline.CreateBuilder();

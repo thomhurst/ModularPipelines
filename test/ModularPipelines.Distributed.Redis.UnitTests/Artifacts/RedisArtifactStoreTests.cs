@@ -1,7 +1,10 @@
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Coordination;
+using Moq;
 using Respire;
 using Respire.Testing;
+
+#pragma warning disable RESP011 // Fixed-size fixture assertions and the scan adapter use SMEMBERS because Respire.Testing 0.9.0 lacks SSCAN.
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Artifacts;
 
@@ -290,27 +293,44 @@ public class RedisArtifactStoreTests
     }
 
     [Test]
-    public async Task ListArtifacts_ReturnsStoredReferences()
+    [Arguments(1)]
+    [Arguments(600)]
+    public async Task ListArtifacts_ReturnsStoredReferences(int count)
     {
-        using var stream = new MemoryStream([1, 2, 3]);
-        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "art1", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+        var store = CreateScanningStore();
+        var expectedIds = new List<string>();
+        for (var index = 0; index < count; index++)
+        {
+            using var stream = new MemoryStream([1, 2, 3]);
+            var reference = await store.UploadAsync(new ArtifactDescriptor { Name = $"art{index}", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+            expectedIds.Add(reference.ArtifactId);
+        }
 
-        var results = await _store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+        var results = await store.ListArtifactsAsync("Test.Module", CancellationToken.None);
 
-        await Assert.That(results.Count).IsEqualTo(1);
-        await Assert.That(results[0].Name).IsEqualTo("art1");
-        await Assert.That(results[0].ArtifactId).IsEqualTo(reference.ArtifactId);
+        await Assert.That(results.Select(reference => reference.ArtifactId)).IsEquivalentTo(expectedIds);
+        await Assert.That(results.Select(reference => reference.Name))
+            .IsEquivalentTo(Enumerable.Range(0, count).Select(index => $"art{index}"));
+
+        await store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true }, CancellationToken.None);
+        await Assert.That(await store.ListArtifactsAsync("Test.Module", CancellationToken.None)).IsEmpty();
+        foreach (var artifactId in expectedIds)
+        {
+            await Assert.That(await _redis.Client.ExistsAsync(_keys.ArtifactMeta(artifactId))).IsFalse();
+            await Assert.That(await _redis.Client.ExistsAsync(_keys.ArtifactData(artifactId))).IsFalse();
+        }
     }
 
     [Test]
     public async Task ListArtifacts_Skips_Unreadable_Metadata()
     {
+        var store = CreateScanningStore();
         using var stream = new MemoryStream([1, 2, 3]);
-        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "good", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "good", ModuleId = "Test.Module" }, stream, CancellationToken.None);
         await _redis.Client.Sets.AddAsync(_keys.ArtifactIndex("Test.Module"), ["corrupt"]);
         await _redis.Client.SetAsync(_keys.ArtifactMeta("corrupt"), (RespireValue) "{not json");
 
-        var results = await _store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+        var results = await store.ListArtifactsAsync("Test.Module", CancellationToken.None);
 
         await Assert.That(results.Select(result => result.ArtifactId)).IsEquivalentTo([reference.ArtifactId]);
     }
@@ -338,12 +358,13 @@ public class RedisArtifactStoreTests
     [Test]
     public async Task Run_Cleanup_Deletes_Every_Artifact_And_Index()
     {
+        var store = CreateScanningStore();
         using var small = new MemoryStream([1, 2, 3]);
         using var chunked = new MemoryStream(new byte[120]);
-        var smallReference = await _store.UploadAsync(new ArtifactDescriptor { Name = "small", ModuleId = "Test.One" }, small, CancellationToken.None);
-        var chunkedReference = await _store.UploadAsync(new ArtifactDescriptor { Name = "chunked", ModuleId = "Test.Two" }, chunked, CancellationToken.None);
+        var smallReference = await store.UploadAsync(new ArtifactDescriptor { Name = "small", ModuleId = "Test.One" }, small, CancellationToken.None);
+        var chunkedReference = await store.UploadAsync(new ArtifactDescriptor { Name = "chunked", ModuleId = "Test.Two" }, chunked, CancellationToken.None);
 
-        await _store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true }, CancellationToken.None);
+        await store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true }, CancellationToken.None);
 
         string[] deletedKeys =
         [
@@ -432,6 +453,7 @@ public class RedisArtifactStoreTests
     [Test]
     public async Task ListArtifacts_ObservesCancellationWhileRedisReadIsPending()
     {
+        var store = CreateScanningStore();
         var gate = new RespireFakeGate();
         using var fault = _redis.Server.InjectFault("SMEMBERS", RespireFakeFault.Pause(gate));
         using var cancellation = new CancellationTokenSource();
@@ -443,7 +465,7 @@ public class RedisArtifactStoreTests
 
         try
         {
-            await Assert.That(async () => await _store
+            await Assert.That(async () => await store
                     .ListArtifactsAsync("Test.Module", cancellation.Token)
                     .WaitAsync(TimeSpan.FromSeconds(5)))
                 .Throws<OperationCanceledException>();
@@ -466,9 +488,39 @@ public class RedisArtifactStoreTests
         await Assert.That(keys.ArtifactIndex("My.Module")).IsEqualTo("modpipe:{abc123}:artifacts:index:My.Module");
     }
 
-    private RedisDistributedArtifactStore CreateStore(TimeSpan retryBaseDelay) =>
+    private RedisDistributedArtifactStore CreateScanningStore()
+    {
+        // Only scan-based tests need this adapter. Real Redis integration tests exercise cursor paging.
+        var sets = new Mock<IRespireSetCommands>(MockBehavior.Strict);
+        sets.Setup(commands => commands.ScanAsync(It.IsAny<RespireKey>(), It.IsAny<string?>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
+            .Returns((RespireKey key, string? _, int _, CancellationToken token) => ScanFakeSetAsync(key, token));
+        var client = new Mock<IRespireClient>(MockBehavior.Strict);
+        client.SetupGet(connection => connection.Sets).Returns(sets.Object);
+        client.SetupGet(connection => connection.Strings).Returns(_redis.Client.Strings);
+        client.SetupGet(connection => connection.Keys).Returns(_redis.Client.Keys);
+        client.Setup(connection => connection.CreateTransaction()).Returns(() => _redis.Client.CreateTransaction());
+        client.Setup(connection => connection.SetAsync(It.IsAny<RespireKey>(), It.IsAny<RespireValue>(), It.IsAny<RespireExpiry>(), It.IsAny<RespireSetWhen>(), It.IsAny<CancellationToken>()))
+            .Returns((RespireKey key, RespireValue value, RespireExpiry expiry, RespireSetWhen when, CancellationToken token) => _redis.Client.SetAsync(key, value, expiry, when, token));
+        client.Setup(connection => connection.GetStringAsync(It.IsAny<RespireKey>(), It.IsAny<CancellationToken>()))
+            .Returns((RespireKey key, CancellationToken token) => _redis.Client.GetStringAsync(key, token));
+        return CreateStore(RetryBaseDelay, client.Object);
+    }
+
+    private async IAsyncEnumerable<string> ScanFakeSetAsync(RespireKey key, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken token)
+    {
+        var members = await _redis.Client.Sets.MembersAsync(key, token);
+        foreach (var member in members)
+        {
+            token.ThrowIfCancellationRequested();
+            yield return member;
+            // Redis permits duplicate scan results; callers must not duplicate artifacts or cleanup.
+            yield return member;
+        }
+    }
+
+    private RedisDistributedArtifactStore CreateStore(TimeSpan retryBaseDelay, IRespireClient? client = null) =>
         new(
-            _redis.Client,
+            client ?? _redis.Client,
             _keys,
             new RedisOptions
             {

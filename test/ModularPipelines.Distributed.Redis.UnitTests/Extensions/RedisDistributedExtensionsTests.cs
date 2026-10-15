@@ -280,11 +280,13 @@ public class RedisDistributedExtensionsTests
     }
 
     [Test]
-    public async Task ConfigureConnection_Is_Applied_To_Parsed_Connection_String()
+    [Arguments("redis.example:6380")]
+    [Arguments("redis.example:6380,abortConnect=false")]
+    public async Task ConfigureConnection_Is_Applied_To_Parsed_Connection_String(string connectionString)
     {
         var options = new RedisOptions
         {
-            ConnectionString = "redis.example:6380",
+            ConnectionString = connectionString,
             ConfigureConnection = connection => connection with
             {
                 Password = "key,with=special;characters",
@@ -303,7 +305,7 @@ public class RedisDistributedExtensionsTests
     }
 
     [Test]
-    [Arguments("localhost:6379,abortConnect=false")]
+    [Arguments("localhost:6379,connectTimeout=-1")]
     [Arguments("localhost:6379,connectTimeout=soon")]
     public async Task Invalid_Connection_String_Fails_Validation_At_Startup(string connectionString)
     {
