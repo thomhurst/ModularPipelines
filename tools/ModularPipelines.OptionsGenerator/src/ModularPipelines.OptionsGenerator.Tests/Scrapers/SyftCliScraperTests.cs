@@ -101,7 +101,7 @@ public class SyftCliScraperTests
 
     private sealed class FixtureExecutor(Func<string, string>? mutateLoginHelp = null) : ICliCommandExecutor
     {
-        public async Task<CliCommandResult> ExecuteAsync(string command, string arguments, CancellationToken cancellationToken = default, string? workingDirectory = null)
+        public async Task<CliCommandResult> ExecuteAsync(string command, string arguments, string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var parts = arguments.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var path = parts.Where(part => part is not "--help" and not "-h").ToArray();

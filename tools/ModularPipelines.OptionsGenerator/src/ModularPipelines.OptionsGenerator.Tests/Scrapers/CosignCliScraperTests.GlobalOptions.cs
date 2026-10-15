@@ -93,7 +93,7 @@ public partial class CosignCliScraperTests
     private sealed class CosignFixtureExecutor : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var fixture = arguments is "version --help" ? "version-help"
                 : arguments is "version" or "--version" ? "version"

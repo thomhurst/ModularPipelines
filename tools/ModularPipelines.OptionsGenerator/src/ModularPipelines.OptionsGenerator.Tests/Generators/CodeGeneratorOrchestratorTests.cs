@@ -186,8 +186,8 @@ public class CodeGeneratorOrchestratorTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(respond?.Invoke(arguments) ?? new CliCommandResult
             {
                 StandardOutput = arguments == "--version"

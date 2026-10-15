@@ -90,7 +90,7 @@ public class GcloudDispatchTests
     private sealed class DispatchExecutor(IReadOnlyDictionary<string, string> help) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var path = "gcloud " + arguments.Replace("--help", "", StringComparison.Ordinal).Trim();
             path = path.TrimEnd();

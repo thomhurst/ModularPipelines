@@ -63,8 +63,8 @@ public class OptionTypeEnhancerTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             Calls.Add((command, arguments));
             var attemptTimedOut = timedOut && (!recovers || Calls.Count == 1);

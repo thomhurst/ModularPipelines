@@ -54,7 +54,7 @@ public class ProcessCliCommandExecutorTests
         var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
         const string command = "modularpipelines-missing-executable-4688";
 
-        await Assert.That(async () => { await executor.ExecuteAsync(command, "--help", source.Token); })
+        await Assert.That(async () => { await executor.ExecuteAsync(command, "--help", cancellationToken: source.Token); })
             .Throws<OperationCanceledException>();
         await Assert.That(() => executor.IsAvailableAsync(command, "--help", source.Token))
             .Throws<OperationCanceledException>();
@@ -442,7 +442,7 @@ public class ProcessCliCommandExecutorTests
                     throw new InvalidOperationException("readiness failed");
                 });
 
-            var execution = executor.ExecuteAsync(command, arguments, cancellationSource.Token);
+            var execution = executor.ExecuteAsync(command, arguments, cancellationToken: cancellationSource.Token);
             if (cancel)
             {
                 await Assert.That(async () => await execution).Throws<OperationCanceledException>();

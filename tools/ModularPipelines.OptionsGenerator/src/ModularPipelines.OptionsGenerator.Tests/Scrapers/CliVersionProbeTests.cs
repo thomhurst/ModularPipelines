@@ -120,8 +120,8 @@ public class CliVersionProbeTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             InvocationCount++;
             var success = command.Equals(expectedCommand, StringComparison.Ordinal)
@@ -143,6 +143,6 @@ public class CliVersionProbeTests
             string command,
             string arguments,
             CancellationToken cancellationToken = default) =>
-            (await ExecuteAsync(command, arguments, cancellationToken)).Success;
+            (await ExecuteAsync(command, arguments, cancellationToken: cancellationToken)).Success;
     }
 }

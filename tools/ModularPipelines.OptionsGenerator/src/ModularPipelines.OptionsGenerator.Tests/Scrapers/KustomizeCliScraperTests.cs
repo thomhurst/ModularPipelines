@@ -308,8 +308,8 @@ public class KustomizeCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             Arguments.Add(arguments);
             var helpText = arguments switch

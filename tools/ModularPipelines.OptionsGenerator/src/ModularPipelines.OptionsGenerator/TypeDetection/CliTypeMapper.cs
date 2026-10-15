@@ -111,14 +111,15 @@ public static class CliTypeMapper
     /// <summary>
     /// Known Cobra type hints that are valid.
     /// </summary>
-    public static readonly HashSet<string> KnownCobraTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    public static readonly HashSet<string> KnownCobraTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "string", "int", "int32", "int64", "uint", "uint32", "uint64",
         "float", "float32", "float64", "bool", "boolean",
         "list", "array", "strings", "stringarray", "stringslice",
         "map", "stringtostring",
         "duration", "bytes"
-    };
+    ];
 
     /// <summary>
     /// Checks if a type hint is a known Cobra type.

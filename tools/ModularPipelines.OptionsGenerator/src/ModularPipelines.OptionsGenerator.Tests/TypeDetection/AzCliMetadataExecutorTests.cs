@@ -77,7 +77,7 @@ public class AzCliMetadataExecutorTests
         var executor = new AzCliMetadataExecutor(inner);
         var first = executor.ExecuteAsync("az", "acr login --help");
         using var cancellation = new CancellationTokenSource();
-        var waiter = executor.ExecuteAsync("az", "account show --help", cancellation.Token);
+        var waiter = executor.ExecuteAsync("az", "account show --help", cancellationToken: cancellation.Token);
         cancellation.Cancel();
         async Task WaitForCancelledCaller() => _ = await waiter;
         await Assert.That(WaitForCancelledCaller).Throws<OperationCanceledException>();
@@ -98,7 +98,7 @@ public class AzCliMetadataExecutorTests
         };
         var executor = new AzCliMetadataExecutor(inner);
         using var cancellation = new CancellationTokenSource();
-        var first = executor.ExecuteAsync("az", "acr login --help", cancellation.Token);
+        var first = executor.ExecuteAsync("az", "acr login --help", cancellationToken: cancellation.Token);
         var observer = executor.ExecuteAsync("az", "account show --help");
         cancellation.Cancel();
         async Task WaitForFirst() => _ = await first;
@@ -128,7 +128,7 @@ public class AzCliMetadataExecutorTests
 
         public ConcurrentQueue<(string Command, string Arguments, string? Directory)> Calls { get; } = new();
 
-        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, CancellationToken cancellationToken = default, string? workingDirectory = null)
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             Calls.Enqueue((command, arguments, workingDirectory));
             if (arguments == "--version" && Discover is not null)

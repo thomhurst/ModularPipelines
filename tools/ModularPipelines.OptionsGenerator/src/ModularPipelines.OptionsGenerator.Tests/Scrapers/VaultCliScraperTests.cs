@@ -240,8 +240,8 @@ public class VaultCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             if (!Responses.TryGetValue(arguments, out var response))
             {

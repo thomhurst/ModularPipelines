@@ -81,7 +81,7 @@ public abstract class HelpTextTypeDetectorBase : IOptionTypeDetector
     {
         // Build the help command (e.g., "docker container run --help")
         var arguments = string.Join(" ", context.CommandPath.Skip(1)) + " --help";
-        var result = await Executor.ExecuteAsync(context.ToolName, arguments.Trim(), cancellationToken);
+        var result = await Executor.ExecuteAsync(context.ToolName, arguments.Trim(), cancellationToken: cancellationToken);
 
         if (result.Success || !string.IsNullOrEmpty(result.StandardOutput))
         {

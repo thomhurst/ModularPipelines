@@ -745,8 +745,8 @@ public class BrewCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var globalQuery = arguments.Contains("Parser.global_options", StringComparison.Ordinal);
             return Task.FromResult(new CliCommandResult
@@ -784,8 +784,8 @@ public class BrewCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 ExitCode = 1,
@@ -804,8 +804,8 @@ public class BrewCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             if (arguments == "commands --quiet" && inventoryResult is not null)
             {
@@ -839,8 +839,8 @@ public class BrewCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,

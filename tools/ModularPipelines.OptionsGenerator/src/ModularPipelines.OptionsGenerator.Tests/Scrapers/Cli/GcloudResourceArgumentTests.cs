@@ -593,7 +593,7 @@ public class GcloudResourceArgumentTests
     private sealed class FixtureExecutor(string[] path, string help) : UnusedExecutor
     {
         public override Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var prefix = arguments.Split(' ').TakeWhile(part => part != "--help").ToArray();
             if (!prefix.SequenceEqual(path.Take(prefix.Length)))
@@ -612,7 +612,7 @@ public class GcloudResourceArgumentTests
     private class UnusedExecutor : ICliCommandExecutor
     {
         public virtual Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            string? workingDirectory = null, CancellationToken cancellationToken = default) =>
             throw new InvalidOperationException("Execution was not expected.");
 
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>

@@ -308,13 +308,19 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
         }
 
         // Default to string
-        _logger.LogDebug("Defaulting {Option} to string (no patterns matched)", context.OptionName);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Defaulting {Option} to string (no patterns matched)", context.OptionName);
+        }
         return CreateResult(CliOptionType.String, "Default fallback to string");
     }
 
     private OptionTypeDetectionResult CreateResult(CliOptionType type, string reason, int confidence = 50)
     {
-        _logger.LogDebug("Heuristic detection: {Type} - {Reason} (confidence: {Confidence})", type, reason, confidence);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Heuristic detection: {Type} - {Reason} (confidence: {Confidence})", type, reason, confidence);
+        }
         return new OptionTypeDetectionResult
         {
             Type = type,
@@ -361,11 +367,14 @@ public partial class HeuristicTypeDetector : IOptionTypeDetector
         int confidence,
         bool acceptsMultipleValues)
     {
-        _logger.LogDebug(
-            "Heuristic detection: Enum - {Reason}: {Values} (confidence: {Confidence})",
-            reason,
-            string.Join(", ", values),
-            confidence);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug(
+                "Heuristic detection: Enum - {Reason}: {Values} (confidence: {Confidence})",
+                reason,
+                string.Join(", ", values),
+                confidence);
+        }
 
         return new OptionTypeDetectionResult
         {

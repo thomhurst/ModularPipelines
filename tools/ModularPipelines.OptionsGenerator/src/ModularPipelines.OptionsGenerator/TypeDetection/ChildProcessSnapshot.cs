@@ -8,7 +8,7 @@ internal interface IChildProcessSnapshot
     IEnumerable<int> GetChildProcessIds(int parentProcessId);
 }
 
-internal static class ChildProcessSnapshot
+internal static partial class ChildProcessSnapshot
 {
     public static bool IsSupported =>
         OperatingSystem.IsLinux()
@@ -59,7 +59,7 @@ internal static class ChildProcessSnapshot
                 : GetFallbackChildProcessIds(parentProcessId);
         }
 
-        private static IEnumerable<int> GetTargetedChildProcessIds(int parentProcessId)
+        private static HashSet<int> GetTargetedChildProcessIds(int parentProcessId)
         {
             var taskPath = $"/proc/{parentProcessId}/task";
             if (!Directory.Exists(taskPath))
@@ -104,7 +104,7 @@ internal static class ChildProcessSnapshot
                     _fallbackCapturedAt = now;
                 }
 
-                return _fallbackChildren[parentProcessId].ToArray();
+                return [.. _fallbackChildren[parentProcessId]];
             }
         }
 
@@ -148,7 +148,7 @@ internal static class ChildProcessSnapshot
         }
     }
 
-    private sealed class MacOsChildProcessSnapshot : IChildProcessSnapshot
+    private sealed partial class MacOsChildProcessSnapshot : IChildProcessSnapshot
     {
         public static MacOsChildProcessSnapshot Instance { get; } = new();
 
@@ -173,7 +173,7 @@ internal static class ChildProcessSnapshot
 
                 var processIds = new int[Math.Min(pidCount, pidCapacity)];
                 Marshal.Copy(buffer, processIds, 0, processIds.Length);
-                return processIds.Where(static processId => processId > 0).ToArray();
+                return [.. processIds.Where(static processId => processId > 0)];
             }
             finally
             {
@@ -181,14 +181,14 @@ internal static class ChildProcessSnapshot
             }
         }
 
-        [DllImport("/usr/lib/libproc.dylib", EntryPoint = "proc_listchildpids")]
-        private static extern int ProcListChildPids(
+        [LibraryImport("/usr/lib/libproc.dylib", EntryPoint = "proc_listchildpids")]
+        private static partial int ProcListChildPids(
             int parentProcessId,
             nint buffer,
             int bufferSize);
     }
 
-    private sealed class WindowsChildProcessSnapshot : IChildProcessSnapshot
+    private sealed partial class WindowsChildProcessSnapshot : IChildProcessSnapshot
     {
         private const uint SnapshotProcesses = 0x00000002;
         private readonly ILookup<int, int> _childrenByParent = CaptureProcesses()
@@ -197,7 +197,7 @@ internal static class ChildProcessSnapshot
         public IEnumerable<int> GetChildProcessIds(int parentProcessId) =>
             _childrenByParent[parentProcessId];
 
-        private static IReadOnlyList<(int ProcessId, int ParentProcessId)> CaptureProcesses()
+        private static List<(int ProcessId, int ParentProcessId)> CaptureProcesses()
         {
             var processes = new List<(int ProcessId, int ParentProcessId)>();
             using var snapshot = CreateToolhelp32Snapshot(SnapshotProcesses, 0);
@@ -209,7 +209,6 @@ internal static class ChildProcessSnapshot
             var entry = new ProcessEntry32
             {
                 Size = (uint) Marshal.SizeOf<ProcessEntry32>(),
-                ExecutableFile = string.Empty,
             };
             if (!Process32First(snapshot, ref entry))
             {
@@ -225,25 +224,25 @@ internal static class ChildProcessSnapshot
             return processes;
         }
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern SafeFileHandle CreateToolhelp32Snapshot(
+        [LibraryImport("kernel32.dll", SetLastError = true)]
+        private static partial SafeFileHandle CreateToolhelp32Snapshot(
             uint flags,
             uint processId);
 
-        [DllImport("kernel32.dll", EntryPoint = "Process32FirstW", SetLastError = true)]
+        [LibraryImport("kernel32.dll", EntryPoint = "Process32FirstW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool Process32First(
+        private static partial bool Process32First(
             SafeFileHandle snapshot,
             ref ProcessEntry32 entry);
 
-        [DllImport("kernel32.dll", EntryPoint = "Process32NextW", SetLastError = true)]
+        [LibraryImport("kernel32.dll", EntryPoint = "Process32NextW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool Process32Next(
+        private static partial bool Process32Next(
             SafeFileHandle snapshot,
             ref ProcessEntry32 entry);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct ProcessEntry32
+        private unsafe struct ProcessEntry32
         {
             public uint Size;
             public uint Usage;
@@ -255,8 +254,7 @@ internal static class ChildProcessSnapshot
             public int BasePriority;
             public uint Flags;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-            public string ExecutableFile;
+            public fixed char ExecutableFile[260];
         }
     }
 }

@@ -113,7 +113,7 @@ public class FluxGlobalOptionsTests
     {
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var path = arguments.Replace(" --help", "", StringComparison.Ordinal);
             var fixture = arguments == "--help" ? "root" : path.Replace(' ', '-');

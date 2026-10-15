@@ -210,8 +210,8 @@ public class ResilientCliCommandExecutorTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             ExecutionCount++;
             return Task.FromResult(_results.Dequeue());
@@ -230,8 +230,8 @@ public class ResilientCliCommandExecutorTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             ExecutionCount++;
             return Task.FromResult(new CliCommandResult

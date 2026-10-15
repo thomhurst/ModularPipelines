@@ -10,15 +10,10 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 ///   --framework, -f  &lt;FRAMEWORK&gt;       (string with placeholder)
 ///   --verbosity, -v  &lt;LEVEL&gt;           (string/enum)
 /// </summary>
-public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
+public partial class DotNetHelpTypeDetector(ICliCommandExecutor executor, ILogger<DotNetHelpTypeDetector> logger) : HelpTextTypeDetectorBase(executor, logger)
 {
     public override int Priority => 100;
     public override string Name => "DotNetHelp";
-
-    public DotNetHelpTypeDetector(ICliCommandExecutor executor, ILogger<DotNetHelpTypeDetector> logger)
-        : base(executor, logger)
-    {
-    }
 
     public override bool CanHandle(string toolName)
     {
@@ -34,7 +29,9 @@ public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
             // Find the line containing this option
             var optionLine = FindDotNetOptionLine(helpText, optionName);
             if (optionLine is null)
+            {
                 continue;
+            }
 
             // PRIORITY 1: Check for "Allowed values" pattern - indicates enum
             // Pattern: "Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]"
@@ -42,7 +39,10 @@ public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
             if (allowedValuesMatch.Success)
             {
                 var valuesText = allowedValuesMatch.Groups["values"].Value;
-                Logger.LogDebug("Detected {Option} as Enum (Allowed values: {Values})", optionName, valuesText);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("Detected {Option} as Enum (Allowed values: {Values})", optionName, valuesText);
+                }
                 return new OptionTypeDetectionResult
                 {
                     Type = CliOptionType.Enum,
@@ -56,7 +56,10 @@ public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
             // PRIORITY 2: Check for [default: False] or [default: True] - indicates boolean
             if (DefaultBoolPattern().IsMatch(optionLine))
             {
-                Logger.LogDebug("Detected {Option} as Bool (default value pattern)", optionName);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("Detected {Option} as Bool (default value pattern)", optionName);
+                }
                 return new OptionTypeDetectionResult
                 {
                     Type = CliOptionType.Bool,
@@ -73,8 +76,11 @@ public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
                 var placeholder = placeholderMatch.Groups["placeholder"].Value;
                 var detectedType = InferTypeFromPlaceholder(placeholder);
 
-                Logger.LogDebug("Detected {Option} as {Type} (placeholder: {Placeholder})",
-                    optionName, detectedType, placeholder);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("Detected {Option} as {Type} (placeholder: {Placeholder})",
+                        optionName, detectedType, placeholder);
+                }
 
                 return new OptionTypeDetectionResult
                 {
@@ -92,8 +98,11 @@ public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
                 var defaultValue = defaultMatch.Groups["value"].Value;
                 if (int.TryParse(defaultValue, out _))
                 {
-                    Logger.LogDebug("Detected {Option} as Int (numeric default: {Default})",
-                        optionName, defaultValue);
+                    if (Logger.IsEnabled(LogLevel.Debug))
+                    {
+                        Logger.LogDebug("Detected {Option} as Int (numeric default: {Default})",
+                            optionName, defaultValue);
+                    }
                     return new OptionTypeDetectionResult
                     {
                         Type = CliOptionType.Int,
@@ -108,7 +117,10 @@ public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
             // (options with no value placeholder and no default are usually flags)
             if (!optionLine.Contains('<') && !optionLine.Contains('['))
             {
-                Logger.LogDebug("Detected {Option} as Bool (no value placeholder)", optionName);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("Detected {Option} as Bool (no value placeholder)", optionName);
+                }
                 return new OptionTypeDetectionResult
                 {
                     Type = CliOptionType.Bool,
@@ -154,7 +166,7 @@ public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
             }
         }
 
-        return values.Distinct().ToArray();
+        return [.. values.Distinct()];
     }
 
     private static string? FindDotNetOptionLine(string helpText, string optionName)
@@ -196,8 +208,8 @@ public partial class DotNetHelpTypeDetector : HelpTextTypeDetectorBase
             "FORMAT" => CliOptionType.String, // Often enum, but string is safer default
 
             // Array-like indicators
-            _ when normalized.EndsWith("S") && normalized.Length > 2 => CliOptionType.String, // Could be array
-            _ when normalized.Contains(":") => CliOptionType.KeyValue, // key:value format
+            _ when normalized.EndsWith("S", StringComparison.CurrentCulture) && normalized.Length > 2 => CliOptionType.String, // Could be array
+            _ when normalized.Contains(':') => CliOptionType.KeyValue, // key:value format
 
             // Default to string
             _ => CliOptionType.String

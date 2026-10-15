@@ -143,8 +143,8 @@ public partial class GitCliScraper(
         var result = await Executor.ExecuteAsync(
             ToolName,
             "init --quiet",
-            CancellationToken.None,
-            directory).ConfigureAwait(false);
+            directory,
+            CancellationToken.None).ConfigureAwait(false);
         if (!result.Success)
         {
             throw new InvalidOperationException(

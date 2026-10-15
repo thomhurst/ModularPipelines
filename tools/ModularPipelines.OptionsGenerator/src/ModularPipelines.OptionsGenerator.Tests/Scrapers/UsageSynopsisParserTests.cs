@@ -2388,8 +2388,8 @@ public class UsageSynopsisParserTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,

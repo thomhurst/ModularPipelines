@@ -78,7 +78,7 @@ public class SpecialistGlobalOptionsTests
 
     private sealed class FixtureExecutor(string rootHelp, string commandHelp) : ICliCommandExecutor
     {
-        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, string? workingDirectory = null, CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 StandardOutput = arguments == "--help" ? rootHelp : commandHelp,

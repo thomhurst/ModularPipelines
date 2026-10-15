@@ -769,8 +769,8 @@ public partial class GoCliScraperTests
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             if (arguments.Contains(ProbeValue, StringComparison.Ordinal))
             {

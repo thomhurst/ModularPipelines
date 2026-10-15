@@ -203,7 +203,7 @@ public class KindCliScraperTests
             Task.FromResult(true);
 
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
-            CancellationToken cancellationToken = default, string? workingDirectory = null)
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var root = Fixture("root");
             var help = arguments switch

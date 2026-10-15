@@ -203,7 +203,7 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
         var result = await Executor.ExecuteAsync(
             ExecutablePath,
             $"ruby -e \"{escapedScript}\" -- {command}{subcommand}",
-            cancellationToken);
+            cancellationToken: cancellationToken);
         if (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput))
         {
             if (Logger.IsEnabled(LogLevel.Debug))

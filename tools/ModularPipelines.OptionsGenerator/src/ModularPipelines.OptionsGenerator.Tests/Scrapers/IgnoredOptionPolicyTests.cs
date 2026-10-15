@@ -413,7 +413,7 @@ public class IgnoredOptionPolicyTests
 
     private sealed class FixtureExecutor(IReadOnlyDictionary<string, string> help) : ICliCommandExecutor
     {
-        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, CancellationToken cancellationToken = default, string? workingDirectory = null)
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, string? workingDirectory = null, CancellationToken cancellationToken = default)
         {
             var found = help.TryGetValue(arguments, out var output);
             return Task.FromResult(new CliCommandResult { StandardOutput = output ?? "", StandardError = "", ExitCode = found ? 0 : 1 });

@@ -178,8 +178,8 @@ public class HelmKubectlGlobalOptionsTests
 
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
 
-        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, CancellationToken cancellationToken = default,
-            string? workingDirectory = null)
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, string? workingDirectory = null,
+            CancellationToken cancellationToken = default)
         {
             var fixture = arguments == "--help" ? "root" : arguments.Replace(" --help", "", StringComparison.Ordinal);
             if (fixture == "options")

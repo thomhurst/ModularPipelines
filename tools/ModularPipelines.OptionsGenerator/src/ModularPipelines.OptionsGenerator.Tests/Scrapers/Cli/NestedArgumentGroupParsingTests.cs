@@ -2015,8 +2015,8 @@ public partial class NestedArgumentGroupParsingTests
         public override Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,
@@ -2037,8 +2037,8 @@ public partial class NestedArgumentGroupParsingTests
         public override Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,
@@ -2052,8 +2052,8 @@ public partial class NestedArgumentGroupParsingTests
         public virtual Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
-            CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
+            string? workingDirectory = null,
+            CancellationToken cancellationToken = default) =>
             throw new InvalidOperationException("Execution was not expected.");
 
         public Task<bool> IsAvailableAsync(
