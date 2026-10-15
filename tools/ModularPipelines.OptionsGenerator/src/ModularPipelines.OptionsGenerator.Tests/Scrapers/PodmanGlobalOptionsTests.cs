@@ -94,7 +94,14 @@ public class PodmanGlobalOptionsTests
         var scraper = new TestScraper();
         var commands = await scraper.ScrapeAsync().ToListAsync();
         var tool = InheritedPropertyCollisionResolver.Resolve(scraper.CreateToolDefinition() with { Commands = commands });
-        await Assert.That(commands).Count().IsEqualTo(260);
+        await Assert.That(commands).Count().IsEqualTo(262);
+        foreach (var commandName in new[] { "podman system renumber", "podman volume reload" })
+        {
+            var command = commands.Single(command => command.FullCommand == commandName);
+            await Assert.That(command.Options).IsEmpty();
+            await Assert.That(command.PositionalArguments).IsEmpty();
+        }
+
         var version = tool.Commands.Single(command => command.FullCommand == "podman version");
         var format = version.Options.Single(option => option.SwitchName == "--format");
         await Assert.That(format.CSharpType).IsEqualTo("string?");
