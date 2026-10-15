@@ -24,17 +24,17 @@ public interface IKustomizeEdit
     /// <summary>
     /// kustomize add sub-commands.
     /// </summary>
-    KustomizeEditAdd Add => throw new System.NotSupportedException();
+    KustomizeEditAdd Add { get; }
 
     /// <summary>
     /// kustomize remove sub-commands.
     /// </summary>
-    KustomizeEditRemove Remove => throw new System.NotSupportedException();
+    KustomizeEditRemove Remove { get; }
 
     /// <summary>
     /// kustomize set sub-commands.
     /// </summary>
-    KustomizeEditSet Set => throw new System.NotSupportedException();
+    KustomizeEditSet Set { get; }
 
     /// <summary>
     /// Edits a kustomization file
@@ -43,8 +43,7 @@ public interface IKustomizeEdit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(KustomizeEditOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(KustomizeEditOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// [Alpha] List the builtin plugins
@@ -53,8 +52,7 @@ public interface IKustomizeEdit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlphaListBuiltinPluginAsync(KustomizeEditAlphaListBuiltinPluginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlphaListBuiltinPluginAsync(KustomizeEditAlphaListBuiltinPluginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fix the missing fields in kustomization file
@@ -63,7 +61,6 @@ public interface IKustomizeEdit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> FixAsync(KustomizeEditFixOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> FixAsync(KustomizeEditFixOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

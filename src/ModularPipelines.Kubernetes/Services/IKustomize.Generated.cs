@@ -23,17 +23,17 @@ public partial interface IKustomize
     /// <summary>
     /// Gets the cfg sub-domain service.
     /// </summary>
-    IKustomizeCfg Cfg => throw new System.NotSupportedException();
+    IKustomizeCfg Cfg { get; }
 
     /// <summary>
     /// Gets the edit sub-domain service.
     /// </summary>
-    IKustomizeEdit Edit => throw new System.NotSupportedException();
+    IKustomizeEdit Edit { get; }
 
     /// <summary>
     /// Gets the fn sub-domain service.
     /// </summary>
-    IKustomizeFn Fn => throw new System.NotSupportedException();
+    IKustomizeFn Fn { get; }
 
     #endregion
 
@@ -46,8 +46,7 @@ public partial interface IKustomize
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BuildAsync(KustomizeBuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BuildAsync(KustomizeBuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new kustomization in the current directory
@@ -56,8 +55,7 @@ public partial interface IKustomize
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(KustomizeCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(KustomizeCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// [Alpha] Creates copy of target kustomization directory or
@@ -66,8 +64,7 @@ public partial interface IKustomize
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LocalizeAsync(KustomizeLocalizeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LocalizeAsync(KustomizeLocalizeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prints the kustomize version
@@ -76,8 +73,7 @@ public partial interface IKustomize
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(KustomizeVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(KustomizeVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
