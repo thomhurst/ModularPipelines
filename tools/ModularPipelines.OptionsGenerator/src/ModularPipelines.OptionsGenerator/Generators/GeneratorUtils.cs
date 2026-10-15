@@ -970,8 +970,18 @@ public static partial class GeneratorUtils
         if (isFlag
             || propertyName.EndsWith("SecretsProvider", StringComparison.OrdinalIgnoreCase)
             || propertyName.EndsWith("Name", StringComparison.OrdinalIgnoreCase)
-            || IsFilePathOption(propertyName, description)
-            || IsResourceIdentifierOption(description))
+            || IsFilePathOption(propertyName, description))
+        {
+            return false;
+        }
+
+        // A signed resource URL carries the SAS credential, even when the help calls it a resource URI.
+        if (IsSasUrlOption(propertyName, description))
+        {
+            return true;
+        }
+
+        if (IsResourceIdentifierOption(description))
         {
             return false;
         }
@@ -1005,6 +1015,17 @@ public static partial class GeneratorUtils
 
         return DescriptionIdentifiesSecretValue(description);
     }
+
+    private static bool IsSasUrlOption(string propertyName, string? description) =>
+        (propertyName.EndsWith("Url", StringComparison.OrdinalIgnoreCase)
+         || propertyName.EndsWith("Uri", StringComparison.OrdinalIgnoreCase))
+        && (EndsWithIdentifierSegment(propertyName, "SasUrl")
+            || EndsWithIdentifierSegment(propertyName, "SasUri")
+            || (description is not null && SasDescriptionPattern().IsMatch(description)));
+
+    [GeneratedRegex(@"\b(?:SAS|shared[\s-]+access[\s-]+signature)\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SasDescriptionPattern();
 
     private static bool IsSecretIdentifier(string propertyName) =>
         IdentifierPropertySuffixes.Any(suffix =>

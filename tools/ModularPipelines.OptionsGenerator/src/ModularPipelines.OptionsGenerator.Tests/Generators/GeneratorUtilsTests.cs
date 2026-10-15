@@ -797,6 +797,32 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("SasUrl", null, false, true)]
+    [Arguments("SasUri", null, false, true)]
+    [Arguments("SourceSasUrl", null, false, true)]
+    [Arguments("SASURL", null, false, true)]
+    [Arguments("sasuri", null, false, true)]
+    [Arguments("SourceUri", "A URL that must be authenticated via a shared access signature.", false, true)]
+    [Arguments("SourceUrl", "A URL authenticated with a SAS.", false, true)]
+    [Arguments("SourceUri", "URI of a blob authenticated with a shared access signature.", false, true)]
+    [Arguments("SasUrl", "The SAS URL to use.", true, false)]
+    [Arguments("SasUrlName", "The name of a SAS URL.", false, false)]
+    [Arguments("SasUrlId", null, false, false)]
+    [Arguments("SasUrlFile", null, false, false)]
+    [Arguments("SasUrl", "Path to a file containing the SAS URL.", false, false)]
+    [Arguments("SasUrlExpiry", "Expiry time of the SAS URL.", false, false)]
+    [Arguments("SasUrlCount", null, false, false)]
+    [Arguments("KansasUrl", null, false, false)]
+    [Arguments("SourceUri", "A public URL of a blob.", false, false)]
+    [Arguments("BlobEndpoint", "Storage data service endpoint. Must be used with a SAS token.", false, false)]
+    [Arguments("ContentType", "Response content type for this shared access signature.", false, false)]
+    public async Task IsSecretOption_Distinguishes_Sas_Urls_From_Metadata(
+        string propertyName, string? description, bool isFlag, bool expectedSecret)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, isFlag, description)).IsEqualTo(expectedSecret);
+    }
+
+    [Test]
     [Arguments("SecretKey")]
     [Arguments("AwsSecretKey")]
     public async Task IsSecretOption_Returns_True_For_SecretKey_Variants(string propertyName)
