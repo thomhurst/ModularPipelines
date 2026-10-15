@@ -13,6 +13,7 @@ namespace ModularPipelines.Build.Modules;
 
 [RequiresCapability("ci-master")]
 [RunIf<ModularPipelines.OnLinux>]
+[ProducesArtifact("build-output", "../../" + BuildOutputArchive.FileName)]
 public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -37,6 +38,9 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                     ProjectSolution = Path.Combine(gitRoot, solution),
                     Configuration = "Release",
                     NoRestore = true,
+                    // Match the platform build lanes: avoid a persistent compiler server
+                    // while compiling the large generated integrations.
+                    Arguments = ["-p:UseSharedCompilation=false"],
                 }, cancellationToken: cancellationToken))
                 .ProcessOneAtATime();
         }
@@ -51,7 +55,7 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
             .OfType<RunUnitTestModule>()
             .Select(module => module.BuildOutputProjectFileName);
         await BuildOutputArchive.CreateAsync(gitRoot, testProjects, cancellationToken).ConfigureAwait(false);
-        await sharing.PublishAsync(context.Artifacts, gitRoot, cancellationToken).ConfigureAwait(false);
+        await sharing.PublishAsync(gitRoot, cancellationToken).ConfigureAwait(false);
         return results;
     }
 }

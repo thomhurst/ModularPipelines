@@ -1,6 +1,9 @@
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Helpers;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Build;
@@ -33,7 +36,8 @@ public class BuildOutputSharingTests
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2, InstanceIndex = 1 }),
             Mock.Of<IHostApplicationLifetime>(), transport);
 
-        await sharing.PublishAsync(artifacts.Object, RepositoryRoot, CancellationToken.None);
+        await sharing.PublishAsync(RepositoryRoot, CancellationToken.None);
+        await Assert.That(File.Exists(ArchivePath)).IsFalse();
         await Task.WhenAll(Enumerable.Range(0, 16).Select(_ =>
             sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, CancellationToken.None)));
 
@@ -65,6 +69,8 @@ public class BuildOutputSharingTests
 
     private sealed class RecordingTransport : IBuildOutputTransport
     {
+        private byte[]? _archive;
+
         public int Publications { get; private set; }
 
         public int Downloads { get; private set; }
@@ -73,39 +79,71 @@ public class BuildOutputSharingTests
 
         public Exception? DownloadFailure { get; init; }
 
-        public Task PublishAsync(string repositoryRoot, CancellationToken cancellationToken)
+        public async Task PublishAsync(string repositoryRoot, CancellationToken cancellationToken)
         {
             Publications++;
             RepositoryRoot = repositoryRoot;
-            return Task.CompletedTask;
+            _archive = await File.ReadAllBytesAsync(Path.Combine(repositoryRoot, BuildOutputArchive.FileName), cancellationToken);
         }
 
         public Task DownloadAsync(string repositoryRoot, CancellationToken cancellationToken)
         {
             Downloads++;
             RepositoryRoot = repositoryRoot;
-            return DownloadFailure is null ? Task.CompletedTask : Task.FromException(DownloadFailure);
+            return DownloadFailure is null
+                ? File.WriteAllBytesAsync(Path.Combine(repositoryRoot, BuildOutputArchive.FileName), _archive!, cancellationToken)
+                : Task.FromException(DownloadFailure);
         }
     }
 
     [Test]
-    public async Task Unconfigured_Transport_Publishes_Through_The_Pipeline_Artifact_Store()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Artifact_Lifecycle_Publishes_Only_The_Redis_Fallback(bool useTransport)
     {
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
-        artifacts.Setup(x => x.PublishFileAsync("build-output", ArchivePath, CancellationToken.None))
-            .ReturnsAsync(new ArtifactReference
-            {
-                ArtifactId = "archive",
-                Name = "build-output",
-                ModuleId = Producer,
-                SizeBytes = 0,
-                UploadedAt = DateTimeOffset.UtcNow,
-            });
+        var producer = ModuleId.FromType(typeof(ArchiveProducer));
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "archive",
+            Name = "build-output",
+            ModuleId = producer,
+            SizeBytes = new FileInfo(ArchivePath).Length,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
+        var store = new Mock<IDistributedArtifactStore>(MockBehavior.Strict);
+        store.Setup(x => x.UploadAsync(It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), CancellationToken.None))
+            .ReturnsAsync(reference);
+        store.Setup(x => x.DownloadAsync(reference, CancellationToken.None))
+            .Returns(() => Task.FromResult<Stream>(File.OpenRead(ArchivePath)));
+        var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2 });
+        var sharing = new BuildOutputSharing(options, Mock.Of<IHostApplicationLifetime>(),
+            useTransport ? new RecordingTransport() : null);
+        var lifecycle = new ArtifactLifecycleManager(store.Object, options,
+            NullLogger<ArtifactLifecycleManager>.Instance, RepositoryRoot);
 
-        await CreateSharing().PublishAsync(artifacts.Object, RepositoryRoot, CancellationToken.None);
+        await sharing.PublishAsync(RepositoryRoot, CancellationToken.None);
+        var references = await lifecycle.UploadProducedArtifactsAsync(typeof(ArchiveProducer), CancellationToken.None);
 
-        artifacts.Verify(x => x.PublishFileAsync("build-output", ArchivePath, CancellationToken.None), Times.Once);
+        await Assert.That(references.Count).IsEqualTo(useTransport ? 0 : 1);
+        if (!useTransport)
+        {
+            await Assert.That(references.Single()).IsEqualTo(reference);
+            // Workers treat this accepted list as authoritative, even when empty.
+            var accepted = new AcceptedArtifactRegistry();
+            accepted.Record(producer, references);
+            var worker = new ArtifactContextImpl(store.Object, options.Value, accepted);
+            var downloaded = Path.Combine(RepositoryRoot, "downloaded-output.tar.gz");
+            await worker.DownloadAsync(producer, "build-output", downloaded, CancellationToken.None);
+            await Assert.That(new FileInfo(downloaded).Length).IsEqualTo(reference.SizeBytes);
+        }
+        store.Verify(x => x.UploadAsync(It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), CancellationToken.None),
+            useTransport ? Times.Never() : Times.Once());
+        artifacts.VerifyNoOtherCalls();
     }
+
+    [ProducesArtifact("build-output", BuildOutputArchive.FileName)]
+    private sealed class ArchiveProducer;
 
     [Test]
     [Arguments(false)]
