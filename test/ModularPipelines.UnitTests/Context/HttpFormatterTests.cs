@@ -235,7 +235,7 @@ public class HttpFormatterTests
         return obfuscator.Object;
     }
 
-    private static HttpRequestFormatter CreateRequestFormatter(params string[] secrets)
+    internal static HttpRequestFormatter CreateRequestFormatter(params string[] secrets)
     {
         return new HttpRequestFormatter(
             CreateObfuscator(secrets),

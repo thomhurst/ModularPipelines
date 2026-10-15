@@ -1,4 +1,6 @@
 using System.Net;
+using ModularPipelines.Http;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Exceptions;
 
@@ -33,7 +35,7 @@ namespace ModularPipelines.Exceptions;
 /// catch (PipelineHttpResponseException ex)
 /// {
 ///     Console.WriteLine($"HTTP {(int)ex.StatusCode} {ex.StatusCode}");
-///     Console.WriteLine($"URI: {ex.RequestUri}");
+///     Console.WriteLine(ex.Message);
 ///     Console.WriteLine($"Response: {ex.ResponseContent}");
 ///
 ///     if (ex.StatusCode == HttpStatusCode.NotFound)
@@ -64,7 +66,8 @@ public class PipelineHttpResponseException : HttpRequestException
     public string? ResponseContent { get; }
 
     /// <summary>
-    /// Gets the request URI that produced the failed response.
+    /// Gets the original request URI that produced the failed response. This may contain credentials.
+    /// Use <see cref="Exception.Message"/> for a display with URI credentials masked.
     /// </summary>
     public Uri? RequestUri { get; }
 
@@ -76,11 +79,8 @@ public class PipelineHttpResponseException : HttpRequestException
     /// <param name="responseContent">The content of the response.</param>
     /// <param name="requestUri">The request URI.</param>
     public PipelineHttpResponseException(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri)
-        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri), null, statusCode)
+        : this(statusCode, reasonPhrase, responseContent, requestUri, null)
     {
-        ReasonPhrase = reasonPhrase;
-        ResponseContent = responseContent;
-        RequestUri = requestUri;
     }
 
     /// <summary>
@@ -92,14 +92,25 @@ public class PipelineHttpResponseException : HttpRequestException
     /// <param name="requestUri">The request URI.</param>
     /// <param name="innerException">The inner exception.</param>
     public PipelineHttpResponseException(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri, Exception? innerException)
-        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri), innerException, statusCode)
+        : this(statusCode, reasonPhrase, responseContent, requestUri, innerException, HttpLoggingOptions.Default)
+    {
+    }
+
+    internal PipelineHttpResponseException(
+        HttpStatusCode statusCode,
+        string? reasonPhrase,
+        string? responseContent,
+        Uri? requestUri,
+        Exception? innerException,
+        HttpLoggingOptions loggingOptions)
+        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri, loggingOptions), innerException, statusCode)
     {
         ReasonPhrase = reasonPhrase;
         ResponseContent = responseContent;
         RequestUri = requestUri;
     }
 
-    private static string FormatMessage(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri)
+    private static string FormatMessage(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri, HttpLoggingOptions loggingOptions)
     {
         var message = $"HTTP request failed with status code {(int) statusCode} ({statusCode})";
 
@@ -110,7 +121,7 @@ public class PipelineHttpResponseException : HttpRequestException
 
         if (requestUri is not null)
         {
-            message += $"\nRequest URI: {requestUri}";
+            message += $"\nRequest URI: {HttpUriRedactor.Redact(requestUri, loggingOptions)}";
         }
 
         if (!string.IsNullOrWhiteSpace(responseContent))

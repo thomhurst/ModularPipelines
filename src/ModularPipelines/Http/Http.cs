@@ -134,7 +134,7 @@ internal class Http : IHttpContext
                 return response;
             }
 
-            return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
+            return await response.EnsureSuccessStatusCodeWithContentAsync(loggingOptions, cancellationToken).ConfigureAwait(false);
         }
         catch
         {

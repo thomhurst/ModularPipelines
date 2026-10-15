@@ -23,6 +23,7 @@ namespace ModularPipelines.Options;
 public record HttpLoggingOptions
 {
     private IReadOnlyList<string> _sensitiveHeaderNames = DefaultSensitiveHeaders;
+    private IReadOnlyList<string> _sensitiveQueryParameterNames = DefaultSensitiveQueryParameters;
 
     /// <summary>
     /// Gets a value indicating whether to log request method, URL, and version. Default is true.
@@ -83,6 +84,30 @@ public record HttpLoggingOptions
         get => _sensitiveHeaderNames;
         init => _sensitiveHeaderNames = Array.AsReadOnly(value.ToArray());
     }
+
+    /// <summary>
+    /// Gets the query parameter names whose values are masked in displayed request URIs.
+    /// Names are percent-decoded and compared case-insensitively. This also applies to HTTP
+    /// failure messages and download logs. Userinfo and known webhook paths are always masked.
+    /// </summary>
+    public IReadOnlyList<string> SensitiveQueryParameterNames
+    {
+        get => _sensitiveQueryParameterNames;
+        init => _sensitiveQueryParameterNames = Array.AsReadOnly(value.ToArray());
+    }
+
+    private static IReadOnlyList<string> DefaultSensitiveQueryParameters { get; } = Array.AsReadOnly<string>(
+    [
+        "sig",
+        "X-Amz-Signature",
+        "X-Amz-Credential",
+        "X-Amz-Security-Token",
+        "X-Goog-Signature",
+        "X-Goog-Credential",
+        "token",
+        "access_token",
+        "code",
+    ]);
 
     /// <summary>
     /// Gets the default list of sensitive header names that should be obfuscated.

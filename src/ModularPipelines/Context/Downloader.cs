@@ -8,24 +8,16 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Downloader : IDownloaderContext
+internal class Downloader(
+    IModuleLoggerAccessor moduleLoggerAccessor,
+    IHttpContext http,
+    IFileSystemProvider fileSystemProvider,
+    PipelineWorkingDirectory workingDirectory) : IDownloaderContext
 {
-    private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
-    private readonly IHttpContext _http;
-    private readonly IFileSystemProvider _fileSystemProvider;
-    private readonly PipelineWorkingDirectory _workingDirectory;
-
-    public Downloader(
-        IModuleLoggerAccessor moduleLoggerAccessor,
-        IHttpContext http,
-        IFileSystemProvider fileSystemProvider,
-        PipelineWorkingDirectory workingDirectory)
-    {
-        _moduleLoggerAccessor = moduleLoggerAccessor;
-        _http = http;
-        _fileSystemProvider = fileSystemProvider;
-        _workingDirectory = workingDirectory;
-    }
+    private readonly IModuleLoggerAccessor _moduleLoggerAccessor = moduleLoggerAccessor;
+    private readonly IHttpContext _http = http;
+    private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
+    private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
     public async Task<string> DownloadStringAsync(DownloadOptions options,
         CancellationToken cancellationToken = default)
@@ -71,7 +63,11 @@ internal class Downloader : IDownloaderContext
                 }
             }
 
-            _moduleLoggerAccessor.Logger.LogInformation("Downloaded {Uri} to {SaveLocation}", options.DownloadUri, filePathToSave);
+            var logger = _moduleLoggerAccessor.Logger;
+            if (logger.IsEnabled(LogLevel.Information))
+            {
+                logger.LogInformation("Downloaded {Uri} to {SaveLocation}", HttpUriRedactor.Redact(options.DownloadUri, options.Logging), filePathToSave);
+            }
 
             return new FilePath(filePathToSave, _fileSystemProvider);
         }
@@ -92,7 +88,7 @@ internal class Downloader : IDownloaderContext
 
         try
         {
-            return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
+            return await response.EnsureSuccessStatusCodeWithContentAsync(options.Logging, cancellationToken).ConfigureAwait(false);
         }
         catch
         {

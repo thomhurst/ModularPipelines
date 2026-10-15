@@ -3559,3 +3559,5 @@ static ModularPipelines.Distributed.DistributedRunCleanupContext.operator !=(Mod
 static ModularPipelines.Distributed.DistributedRunCleanupContext.operator ==(ModularPipelines.Distributed.DistributedRunCleanupContext? left, ModularPipelines.Distributed.DistributedRunCleanupContext? right) -> bool
 ModularPipelines.Distributed.DistributedRunCompletedException
 ModularPipelines.Distributed.DistributedRunCompletedException.DistributedRunCompletedException() -> void
+ModularPipelines.Options.HttpLoggingOptions.SensitiveQueryParameterNames.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ModularPipelines.Options.HttpLoggingOptions.SensitiveQueryParameterNames.init -> void
