@@ -28,8 +28,7 @@ public interface ITerraformProviders
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(TerraformProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(TerraformProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Normally the dependency lock file (.terraform.lock.hcl) is updated
@@ -38,8 +37,7 @@ public interface ITerraformProviders
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LockAsync(TerraformProvidersLockOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LockAsync(TerraformProvidersLockOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Populates a local directory with copies of the provider plugins needed for
@@ -48,8 +46,7 @@ public interface ITerraformProviders
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MirrorAsync(TerraformProvidersMirrorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MirrorAsync(TerraformProvidersMirrorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prints out a json representation of the schemas for all providers used
@@ -58,7 +55,6 @@ public interface ITerraformProviders
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SchemaAsync(TerraformProvidersSchemaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SchemaAsync(TerraformProvidersSchemaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
