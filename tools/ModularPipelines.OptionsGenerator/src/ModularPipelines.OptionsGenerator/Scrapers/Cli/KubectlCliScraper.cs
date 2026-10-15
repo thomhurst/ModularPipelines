@@ -20,6 +20,22 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
     public override string TargetNamespace => "ModularPipelines.Kubernetes";
     public override string OutputDirectory => "src/ModularPipelines.Kubernetes";
 
+    /// <inheritdoc />
+    public override CliToolDefinition CreateToolDefinition() => base.CreateToolDefinition() with
+    {
+        CommandCoverage = new CliCommandCoveragePolicy
+        {
+            SentinelCommands =
+            [
+                "kubectl get",
+                "kubectl create",
+                "kubectl config current-context",
+                "kubectl config get-clusters",
+                "kubectl config get-users",
+            ],
+        },
+    };
+
     protected override string VersionArguments => "version --client";
 
     protected override bool GlobalOptionsBeforeSubcommands => false;

@@ -603,7 +603,9 @@ public abstract partial class CliScraperBase : ICliScraper
         string helpText,
         IReadOnlyCollection<string> subcommands,
         UsageSynopsisParseResult usage) =>
+        // Leaf commands can execute without any options or operands (for example, kubectl config current-context).
         (!HasOptions(helpText) && !usage.HasOperandTokens
+         && (path.Length == 1 || subcommands.Count > 0)
          && !(path.Length > 1 && path[^1].Equals("version", StringComparison.OrdinalIgnoreCase)))
         || (path.Length == 1 && subcommands.Count > 0);
 

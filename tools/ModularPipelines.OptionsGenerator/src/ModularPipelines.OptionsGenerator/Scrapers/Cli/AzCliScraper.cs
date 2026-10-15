@@ -95,6 +95,13 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         {
             CommandCoverage = definition.CommandCoverage with
             {
+                SentinelCommands =
+                [
+                    .. definition.CommandCoverage.SentinelCommands,
+                    "az storage blob upload",
+                    "az storage container create",
+                    "az storage queue create",
+                ],
                 Exclusions =
                 [
                     .. definition.CommandCoverage.Exclusions,
@@ -169,18 +176,10 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find Subgroups: and Commands: sections
-        var sections = new[] { "Subgroups:", "Commands:" };
-
-        foreach (var sectionHeader in sections)
+        // Match complete headers so description text such as "your commands:" is ignored.
+        foreach (Match sectionHeader in CommandSectionHeaderPattern().Matches(helpText))
         {
-            var sectionIndex = helpText.IndexOf(sectionHeader, StringComparison.OrdinalIgnoreCase);
-            if (sectionIndex < 0)
-            {
-                continue;
-            }
-
-            var sectionStart = sectionIndex + sectionHeader.Length;
+            var sectionStart = sectionHeader.Index + sectionHeader.Length;
 
             // Find where this section ends (next section header or end of text)
             var sectionEnd = helpText.Length;
@@ -237,7 +236,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
         // Check if this is a group (has Subgroups: or Commands: sections) rather than a leaf command
         // Only generate options for leaf commands
-        if (helpText.Contains("Subgroups:") || helpText.Contains("Commands:"))
+        if (CommandSectionHeaderPattern().IsMatch(helpText))
         {
             // This is a group, not a leaf command - still explore subcommands but don't generate options class
             if (!helpText.Contains("Arguments"))
@@ -818,10 +817,13 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     [GeneratedRegex(@"^(?<name>[A-Z][\w \t]*:?)[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
+    [GeneratedRegex(@"^(?:Subgroups|Commands):[ \t]*\r?$", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    private static partial Regex CommandSectionHeaderPattern();
+
     /// <summary>
-    /// Matches subcommand lines: "    command-name    : description"
+    /// Matches subcommand lines, including status annotations such as "queue [Preview] : description".
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s+:", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]{2,}(?<name>[\w-]+)[ \t]+(?:\[[^\]\r\n]+\][ \t]*)*:", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>

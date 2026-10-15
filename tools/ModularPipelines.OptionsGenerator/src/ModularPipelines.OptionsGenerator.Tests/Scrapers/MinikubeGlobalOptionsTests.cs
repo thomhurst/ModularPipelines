@@ -59,7 +59,18 @@ public class MinikubeGlobalOptionsTests
         var commands = await scraper.ScrapeAsync().ToListAsync();
         var globals = scraper.CreateToolDefinition().GlobalOptions;
 
-        await Assert.That(commands).Count().IsEqualTo(49);
+        await Assert.That(commands).Count().IsEqualTo(56);
+        foreach (var commandName in new[]
+        {
+            "minikube cache delete", "minikube cache reload", "minikube image pull", "minikube image push",
+            "minikube image tag", "minikube node list", "minikube update-context",
+        })
+        {
+            var command = commands.Single(command => command.FullCommand == commandName);
+            await Assert.That(command.Options).IsEmpty();
+            await Assert.That(command.PositionalArguments).IsEmpty();
+        }
+
         await Assert.That(globals.Select(option => option.SwitchName)).IsEquivalentTo(GlobalSwitches);
         await Assert.That(executor.OptionsCalls).IsEqualTo(1);
         await Assert.That(commands.SelectMany(command => command.Options)
