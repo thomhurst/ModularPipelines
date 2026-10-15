@@ -25,6 +25,7 @@ public class AzSecurity : IAzSecurity
     private AzSecurityAlert? _alert;
     private AzSecurityAlertsSuppressionRule? _alertsSuppressionRule;
     private AzSecurityAllowedConnections? _allowedConnections;
+    private AzSecurityApiCollection? _apiCollection;
     private AzSecurityAssessment? _assessment;
     private AzSecurityAssessmentMetadata? _assessmentMetadata;
     private AzSecurityAtp? _atp;
@@ -37,6 +38,7 @@ public class AzSecurity : IAzSecurity
     private AzSecurityAutomationScope? _automationScope;
     private AzSecurityAutomationSource? _automationSource;
     private AzSecurityAutoProvisioningSetting? _autoProvisioningSetting;
+    private AzSecurityContact? _contact;
     private AzSecurityDiscoveredSecuritySolution? _discoveredSecuritySolution;
     private AzSecurityExternalSecuritySolution? _externalSecuritySolution;
     private AzSecurityIotAlerts? _iotAlerts;
@@ -52,12 +54,14 @@ public class AzSecurity : IAzSecurity
     private AzSecuritySecureScoreControlDefinitions? _secureScoreControlDefinitions;
     private AzSecuritySecureScoreControls? _secureScoreControls;
     private AzSecuritySecureScores? _secureScores;
+    private AzSecuritySecurityConnector? _securityConnector;
     private AzSecuritySecuritySolutions? _securitySolutions;
     private AzSecuritySecuritySolutionsReferenceData? _securitySolutionsReferenceData;
     private AzSecuritySetting? _setting;
     private AzSecuritySubAssessment? _subAssessment;
     private AzSecurityTask? _task;
     private AzSecurityTopology? _topology;
+    private AzSecurityVa? _va;
     private AzSecurityWorkspaceSetting? _workspaceSetting;
 
     /// <summary>
@@ -94,6 +98,11 @@ public class AzSecurity : IAzSecurity
     /// az allowed_connections sub-commands.
     /// </summary>
     public AzSecurityAllowedConnections AllowedConnections => _allowedConnections ??= new AzSecurityAllowedConnections(_command);
+
+    /// <summary>
+    /// az api-collection sub-commands.
+    /// </summary>
+    public AzSecurityApiCollection ApiCollection => _apiCollection ??= new AzSecurityApiCollection(_command);
 
     /// <summary>
     /// az assessment sub-commands.
@@ -154,6 +163,11 @@ public class AzSecurity : IAzSecurity
     /// az auto-provisioning-setting sub-commands.
     /// </summary>
     public AzSecurityAutoProvisioningSetting AutoProvisioningSetting => _autoProvisioningSetting ??= new AzSecurityAutoProvisioningSetting(_command);
+
+    /// <summary>
+    /// az contact sub-commands.
+    /// </summary>
+    public AzSecurityContact Contact => _contact ??= new AzSecurityContact(_command);
 
     /// <summary>
     /// az discovered-security-solution sub-commands.
@@ -231,6 +245,11 @@ public class AzSecurity : IAzSecurity
     public AzSecuritySecureScores SecureScores => _secureScores ??= new AzSecuritySecureScores(_command);
 
     /// <summary>
+    /// az security-connector sub-commands.
+    /// </summary>
+    public AzSecuritySecurityConnector SecurityConnector => _securityConnector ??= new AzSecuritySecurityConnector(_command);
+
+    /// <summary>
     /// az security-solutions sub-commands.
     /// </summary>
     public AzSecuritySecuritySolutions SecuritySolutions => _securitySolutions ??= new AzSecuritySecuritySolutions(_command);
@@ -259,6 +278,11 @@ public class AzSecurity : IAzSecurity
     /// az topology sub-commands.
     /// </summary>
     public AzSecurityTopology Topology => _topology ??= new AzSecurityTopology(_command);
+
+    /// <summary>
+    /// az va sub-commands.
+    /// </summary>
+    public AzSecurityVa Va => _va ??= new AzSecurityVa(_command);
 
     /// <summary>
     /// az workspace-setting sub-commands.

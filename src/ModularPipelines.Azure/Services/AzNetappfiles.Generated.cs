@@ -26,6 +26,7 @@ public class AzNetappfiles : IAzNetappfiles
     private AzNetappfilesQuotaLimit? _quotaLimit;
     private AzNetappfilesResource? _resource;
     private AzNetappfilesSnapshot? _snapshot;
+    private AzNetappfilesSubvolume? _subvolume;
     private AzNetappfilesUsage? _usage;
     private AzNetappfilesVolume? _volume;
     private AzNetappfilesVolumeGroup? _volumeGroup;
@@ -69,6 +70,11 @@ public class AzNetappfiles : IAzNetappfiles
     /// az snapshot sub-commands.
     /// </summary>
     public AzNetappfilesSnapshot Snapshot => _snapshot ??= new AzNetappfilesSnapshot(_command);
+
+    /// <summary>
+    /// az subvolume sub-commands.
+    /// </summary>
+    public AzNetappfilesSubvolume Subvolume => _subvolume ??= new AzNetappfilesSubvolume(_command);
 
     /// <summary>
     /// az usage sub-commands.

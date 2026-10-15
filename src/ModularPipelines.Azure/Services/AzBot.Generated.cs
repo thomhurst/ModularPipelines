@@ -21,6 +21,15 @@ public class AzBot : IAzBot
 {
     private readonly ICommandContext _command;
     private AzBotAuthsetting? _authsetting;
+    private AzBotDirectline? _directline;
+    private AzBotEmail? _email;
+    private AzBotFacebook? _facebook;
+    private AzBotKik? _kik;
+    private AzBotMsteams? _msteams;
+    private AzBotSkype? _skype;
+    private AzBotSlack? _slack;
+    private AzBotSms? _sms;
+    private AzBotTelegram? _telegram;
     private AzBotWebchat? _webchat;
 
     /// <summary>
@@ -37,6 +46,51 @@ public class AzBot : IAzBot
     /// az authsetting sub-commands.
     /// </summary>
     public AzBotAuthsetting Authsetting => _authsetting ??= new AzBotAuthsetting(_command);
+
+    /// <summary>
+    /// az directline sub-commands.
+    /// </summary>
+    public AzBotDirectline Directline => _directline ??= new AzBotDirectline(_command);
+
+    /// <summary>
+    /// az email sub-commands.
+    /// </summary>
+    public AzBotEmail Email => _email ??= new AzBotEmail(_command);
+
+    /// <summary>
+    /// az facebook sub-commands.
+    /// </summary>
+    public AzBotFacebook Facebook => _facebook ??= new AzBotFacebook(_command);
+
+    /// <summary>
+    /// az kik sub-commands.
+    /// </summary>
+    public AzBotKik Kik => _kik ??= new AzBotKik(_command);
+
+    /// <summary>
+    /// az msteams sub-commands.
+    /// </summary>
+    public AzBotMsteams Msteams => _msteams ??= new AzBotMsteams(_command);
+
+    /// <summary>
+    /// az skype sub-commands.
+    /// </summary>
+    public AzBotSkype Skype => _skype ??= new AzBotSkype(_command);
+
+    /// <summary>
+    /// az slack sub-commands.
+    /// </summary>
+    public AzBotSlack Slack => _slack ??= new AzBotSlack(_command);
+
+    /// <summary>
+    /// az sms sub-commands.
+    /// </summary>
+    public AzBotSms Sms => _sms ??= new AzBotSms(_command);
+
+    /// <summary>
+    /// az telegram sub-commands.
+    /// </summary>
+    public AzBotTelegram Telegram => _telegram ??= new AzBotTelegram(_command);
 
     /// <summary>
     /// az webchat sub-commands.
@@ -78,6 +132,21 @@ public class AzBot : IAzBot
     }
 
     /// <summary>
+    /// Download an existing bot.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DownloadAsync(
+        AzBotDownloadOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Add scripts/config files for publishing with `az webapp deployment`.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -86,6 +155,36 @@ public class AzBot : IAzBot
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PrepareDeployAsync(
         AzBotPrepareDeployOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// (Maintenance mode) Add scripts to your local source code directory to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PreparePublishAsync(
+        AzBotPreparePublishOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Publish to a bot's associated app service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PublishAsync(
+        AzBotPublishOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

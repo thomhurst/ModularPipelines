@@ -21,6 +21,7 @@ public class AzMonitorLogAnalytics
 {
     private readonly ICommandContext _command;
     private AzMonitorLogAnalyticsCluster? _cluster;
+    private AzMonitorLogAnalyticsQueryPack? _queryPack;
     private AzMonitorLogAnalyticsWorkspace? _workspace;
 
     /// <summary>
@@ -37,6 +38,11 @@ public class AzMonitorLogAnalytics
     /// az cluster sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsCluster Cluster => _cluster ??= new AzMonitorLogAnalyticsCluster(_command);
+
+    /// <summary>
+    /// az query-pack sub-commands.
+    /// </summary>
+    public AzMonitorLogAnalyticsQueryPack QueryPack => _queryPack ??= new AzMonitorLogAnalyticsQueryPack(_command);
 
     /// <summary>
     /// az workspace sub-commands.

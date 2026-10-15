@@ -24,11 +24,11 @@ public interface IAzManagedCassandra
     /// <summary>
     /// az cluster sub-commands.
     /// </summary>
-    AzManagedCassandraCluster Cluster => throw new System.NotSupportedException();
+    AzManagedCassandraCluster Cluster { get; }
 
     /// <summary>
     /// az datacenter sub-commands.
     /// </summary>
-    AzManagedCassandraDatacenter Datacenter => throw new System.NotSupportedException();
+    AzManagedCassandraDatacenter Datacenter { get; }
 
 }

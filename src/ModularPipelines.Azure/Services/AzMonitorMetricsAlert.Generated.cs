@@ -20,6 +20,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzMonitorMetricsAlert
 {
     private readonly ICommandContext _command;
+    private AzMonitorMetricsAlertCondition? _condition;
+    private AzMonitorMetricsAlertDimension? _dimension;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorMetricsAlert"/> class.
@@ -28,6 +30,20 @@ public class AzMonitorMetricsAlert
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az condition sub-commands.
+    /// </summary>
+    public AzMonitorMetricsAlertCondition Condition => _condition ??= new AzMonitorMetricsAlertCondition(_command);
+
+    /// <summary>
+    /// az dimension sub-commands.
+    /// </summary>
+    public AzMonitorMetricsAlertDimension Dimension => _dimension ??= new AzMonitorMetricsAlertDimension(_command);
+
+    #endregion
 
     #region Commands
 

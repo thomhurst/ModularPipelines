@@ -21,6 +21,7 @@ public class AzStorage : IAzStorage
 {
     private readonly ICommandContext _command;
     private AzStorageAccount? _account;
+    private AzStorageAdvancedPlatformMetric? _advancedPlatformMetric;
     private AzStorageBlob? _blob;
     private AzStorageContainer? _container;
     private AzStorageContainerRm? _containerRm;
@@ -30,7 +31,9 @@ public class AzStorage : IAzStorage
     private AzStorageFile? _file;
     private AzStorageFs? _fs;
     private AzStorageLogging? _logging;
+    private AzStorageMessage? _message;
     private AzStorageMetrics? _metrics;
+    private AzStorageQueue? _queue;
     private AzStorageShare? _share;
     private AzStorageShareRm? _shareRm;
     private AzStorageSku? _sku;
@@ -50,6 +53,11 @@ public class AzStorage : IAzStorage
     /// az account sub-commands.
     /// </summary>
     public AzStorageAccount Account => _account ??= new AzStorageAccount(_command);
+
+    /// <summary>
+    /// az advanced-platform-metric sub-commands.
+    /// </summary>
+    public AzStorageAdvancedPlatformMetric AdvancedPlatformMetric => _advancedPlatformMetric ??= new AzStorageAdvancedPlatformMetric(_command);
 
     /// <summary>
     /// az blob sub-commands.
@@ -97,9 +105,19 @@ public class AzStorage : IAzStorage
     public AzStorageLogging Logging => _logging ??= new AzStorageLogging(_command);
 
     /// <summary>
+    /// az message sub-commands.
+    /// </summary>
+    public AzStorageMessage Message => _message ??= new AzStorageMessage(_command);
+
+    /// <summary>
     /// az metrics sub-commands.
     /// </summary>
     public AzStorageMetrics Metrics => _metrics ??= new AzStorageMetrics(_command);
+
+    /// <summary>
+    /// az queue sub-commands.
+    /// </summary>
+    public AzStorageQueue Queue => _queue ??= new AzStorageQueue(_command);
 
     /// <summary>
     /// az share sub-commands.

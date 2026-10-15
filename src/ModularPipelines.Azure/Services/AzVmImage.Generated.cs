@@ -42,6 +42,21 @@ public class AzVmImage
     #region Commands
 
     /// <summary>
+    /// Accept Azure Marketplace term so that the image can be used to create
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AcceptTermsAsync(
+        AzVmImageAcceptTermsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmImageAcceptTermsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List the VM image offers available in the Azure Marketplace.
     /// </summary>
     /// <param name="options">The command options.</param>

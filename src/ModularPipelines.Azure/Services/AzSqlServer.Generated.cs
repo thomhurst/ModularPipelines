@@ -25,6 +25,7 @@ public class AzSqlServer
     private AzSqlServerAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
     private AzSqlServerAuditPolicy? _auditPolicy;
     private AzSqlServerConnPolicy? _connPolicy;
+    private AzSqlServerDeletedServer? _deletedServer;
     private AzSqlServerDnsAlias? _dnsAlias;
     private AzSqlServerFirewallRule? _firewallRule;
     private AzSqlServerIpv6FirewallRule? _ipv6FirewallRule;
@@ -68,6 +69,11 @@ public class AzSqlServer
     /// az conn-policy sub-commands.
     /// </summary>
     public AzSqlServerConnPolicy ConnPolicy => _connPolicy ??= new AzSqlServerConnPolicy(_command);
+
+    /// <summary>
+    /// az deleted-server sub-commands.
+    /// </summary>
+    public AzSqlServerDeletedServer DeletedServer => _deletedServer ??= new AzSqlServerDeletedServer(_command);
 
     /// <summary>
     /// az dns-alias sub-commands.
@@ -186,6 +192,21 @@ public class AzSqlServer
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerRefreshExternalGovernanceStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Restore a deleted SQL server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RestoreAsync(
+        AzSqlServerRestoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

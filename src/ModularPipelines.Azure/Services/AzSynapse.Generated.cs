@@ -28,6 +28,7 @@ public class AzSynapse : IAzSynapse
     private AzSynapseIntegrationRuntimeNode? _integrationRuntimeNode;
     private AzSynapseKqlScript? _kqlScript;
     private AzSynapseKusto? _kusto;
+    private AzSynapseKustoOperation? _kustoOperation;
     private AzSynapseLinkConnection? _linkConnection;
     private AzSynapseLinkedService? _linkedService;
     private AzSynapseManagedPrivateEndpoints? _managedPrivateEndpoints;
@@ -93,6 +94,11 @@ public class AzSynapse : IAzSynapse
     /// az kusto sub-commands.
     /// </summary>
     public AzSynapseKusto Kusto => _kusto ??= new AzSynapseKusto(_command);
+
+    /// <summary>
+    /// az kusto-operation sub-commands.
+    /// </summary>
+    public AzSynapseKustoOperation KustoOperation => _kustoOperation ??= new AzSynapseKustoOperation(_command);
 
     /// <summary>
     /// az link-connection sub-commands.

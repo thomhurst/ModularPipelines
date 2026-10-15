@@ -29,6 +29,8 @@ public class AzMonitor : IAzMonitor
     private AzMonitorLogAnalytics? _logAnalytics;
     private AzMonitorLogProfiles? _logProfiles;
     private AzMonitorMetrics? _metrics;
+    private AzMonitorPrivateLinkScope? _privateLinkScope;
+    private AzMonitorSli? _sli;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitor"/> class.
@@ -84,6 +86,35 @@ public class AzMonitor : IAzMonitor
     /// az metrics sub-commands.
     /// </summary>
     public AzMonitorMetrics Metrics => _metrics ??= new AzMonitorMetrics(_command);
+
+    /// <summary>
+    /// az private-link-scope sub-commands.
+    /// </summary>
+    public AzMonitorPrivateLinkScope PrivateLinkScope => _privateLinkScope ??= new AzMonitorPrivateLinkScope(_command);
+
+    /// <summary>
+    /// az sli sub-commands.
+    /// </summary>
+    public AzMonitorSli Sli => _sli ??= new AzMonitorSli(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Clone metrics alert rules from one resource to another resource.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CloneAsync(
+        AzMonitorCloneOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
 
     #endregion
 }

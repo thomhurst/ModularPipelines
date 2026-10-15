@@ -20,6 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkWatcherConnectionMonitor
 {
     private readonly ICommandContext _command;
+    private AzNetworkWatcherConnectionMonitorEndpoint? _endpoint;
+    private AzNetworkWatcherConnectionMonitorOutput? _output;
+    private AzNetworkWatcherConnectionMonitorTestConfiguration? _testConfiguration;
+    private AzNetworkWatcherConnectionMonitorTestGroup? _testGroup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkWatcherConnectionMonitor"/> class.
@@ -28,6 +32,30 @@ public class AzNetworkWatcherConnectionMonitor
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az endpoint sub-commands.
+    /// </summary>
+    public AzNetworkWatcherConnectionMonitorEndpoint Endpoint => _endpoint ??= new AzNetworkWatcherConnectionMonitorEndpoint(_command);
+
+    /// <summary>
+    /// az output sub-commands.
+    /// </summary>
+    public AzNetworkWatcherConnectionMonitorOutput Output => _output ??= new AzNetworkWatcherConnectionMonitorOutput(_command);
+
+    /// <summary>
+    /// az test-configuration sub-commands.
+    /// </summary>
+    public AzNetworkWatcherConnectionMonitorTestConfiguration TestConfiguration => _testConfiguration ??= new AzNetworkWatcherConnectionMonitorTestConfiguration(_command);
+
+    /// <summary>
+    /// az test-group sub-commands.
+    /// </summary>
+    public AzNetworkWatcherConnectionMonitorTestGroup TestGroup => _testGroup ??= new AzNetworkWatcherConnectionMonitorTestGroup(_command);
+
+    #endregion
 
     #region Commands
 

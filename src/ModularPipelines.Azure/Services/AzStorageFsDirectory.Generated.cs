@@ -72,6 +72,21 @@ public class AzStorageFsDirectory
     }
 
     /// <summary>
+    /// Download files from the directory in ADLS Gen2 file system to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DownloadAsync(
+        AzStorageFsDirectoryDownloadOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Check for the existence of a directory in ADLS Gen2 file
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -140,6 +155,21 @@ public class AzStorageFsDirectory
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
         AzStorageFsDirectoryShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Upload files or subdirectories to a directory in ADLS Gen2 file
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UploadAsync(
+        AzStorageFsDirectoryUploadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

@@ -21,6 +21,7 @@ public class AzEventgridPartnerNamespace
 {
     private readonly ICommandContext _command;
     private AzEventgridPartnerNamespaceChannel? _channel;
+    private AzEventgridPartnerNamespaceEventChannel? _eventChannel;
     private AzEventgridPartnerNamespaceKey? _key;
 
     /// <summary>
@@ -37,6 +38,11 @@ public class AzEventgridPartnerNamespace
     /// az channel sub-commands.
     /// </summary>
     public AzEventgridPartnerNamespaceChannel Channel => _channel ??= new AzEventgridPartnerNamespaceChannel(_command);
+
+    /// <summary>
+    /// az event-channel sub-commands.
+    /// </summary>
+    public AzEventgridPartnerNamespaceEventChannel EventChannel => _eventChannel ??= new AzEventgridPartnerNamespaceEventChannel(_command);
 
     /// <summary>
     /// az key sub-commands.
