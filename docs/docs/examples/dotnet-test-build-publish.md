@@ -139,9 +139,8 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         return await packages
             .ToAsyncProcessorBuilder()
             .SelectAsync(package => context.Tools.DotNet.NuGet.PushAsync(
-                new DotNetNuGetPushOptions
+                new DotNetNuGetPushOptions([package.Path])
                 {
-                    Path = package.Path,
                     Source = "https://api.nuget.org/v3/index.json",
                     ApiKey = apiKey,
                 },
