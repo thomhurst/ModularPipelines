@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "nbgv",
   "toolVersion": "3.10.94+dea9a6c17c",
   "commandTreeSha256": "7a9c8d889f1ee1248bbdd066caabfaaf53477dea0c81e97ea9f405b33bda6b63",
-  "generatorSourceSha256": "33cc3bd3745a782172778ecb8cedd565b79d098cdbb82eb8883fd6f1a2ad52b2"
+  "generatorSourceSha256": "26dc19ffc905ce936a089de19341e00ebeb736eb7e4155122214624f75cde0f6"
 }
