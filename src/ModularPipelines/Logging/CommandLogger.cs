@@ -32,6 +32,20 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     private ILogger Logger => _moduleLoggerAccessor.Logger;
 
+    public void LogOutputDrainTimeout(CommandLineToolOptions? options, CommandExecutionOptions execOpts)
+    {
+        if (GetEffectiveLoggingOptions(options, execOpts).Verbosity < CommandLogVerbosity.Normal)
+        {
+            return;
+        }
+
+        Logger.LogWarning(
+            "Command exited, but output streams did not close within {OutputDrainTimeout}. "
+            + "A descendant may have kept stdout or stderr open. Captured output may be incomplete. "
+            + "Redirect descendant output or increase CommandExecutionOptions.OutputDrainTimeout before parsing complete output.",
+            execOpts.OutputDrainTimeout);
+    }
+
     public void LogOutputTruncation(CommandLineToolOptions? options, CommandExecutionOptions? execOpts, long standardOutputCharacters, long standardErrorCharacters, int maximumLength)
     {
         if (GetEffectiveLoggingOptions(options, execOpts).Verbosity < CommandLogVerbosity.Normal)

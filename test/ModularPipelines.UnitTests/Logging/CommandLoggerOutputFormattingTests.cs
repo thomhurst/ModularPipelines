@@ -9,6 +9,30 @@ namespace ModularPipelines.UnitTests.Logging;
 public class CommandLoggerOutputFormattingTests
 {
     [Test]
+    [Arguments(CommandLogVerbosity.Normal, true)]
+    [Arguments(CommandLogVerbosity.InputOnly, false)]
+    [Arguments(CommandLogVerbosity.Silent, false)]
+    public async Task DrainWarningNamesTheDeadlineAndPossibleIncompleteOutput(CommandLogVerbosity verbosity, bool expectWarning)
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        commandLogger.LogOutputDrainTimeout(null, new CommandExecutionOptions
+        {
+            OutputDrainTimeout = TimeSpan.FromSeconds(3),
+            Logging = new CommandLoggingOptions { Verbosity = verbosity },
+        });
+
+        var warnings = logger.Messages.Where(message => message.Level == LogLevel.Warning).ToList();
+        await Assert.That(warnings.Count).IsEqualTo(expectWarning ? 1 : 0);
+        if (expectWarning)
+        {
+            await Assert.That(warnings[0].Text).Contains("00:00:03");
+            await Assert.That(warnings[0].Text).Contains("descendant");
+            await Assert.That(warnings[0].Text).Contains("Captured output may be incomplete");
+            await Assert.That(warnings[0].Text).Contains("CommandExecutionOptions.OutputDrainTimeout");
+        }
+    }
+
+    [Test]
     public async Task TruncationWarningNamesTheCaptureLimitAndBothStreams()
     {
         var (commandLogger, logger) = CreateCommandLogger();

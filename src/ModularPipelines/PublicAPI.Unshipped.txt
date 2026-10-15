@@ -3561,3 +3561,7 @@ ModularPipelines.Distributed.DistributedRunCompletedException
 ModularPipelines.Distributed.DistributedRunCompletedException.DistributedRunCompletedException() -> void
 ModularPipelines.Options.HttpLoggingOptions.SensitiveQueryParameterNames.get -> System.Collections.Generic.IReadOnlyList<string!>!
 ModularPipelines.Options.HttpLoggingOptions.SensitiveQueryParameterNames.init -> void
+ModularPipelines.CommandResult.OutputMayBeIncomplete.get -> bool
+ModularPipelines.CommandResult.OutputMayBeIncomplete.init -> void
+ModularPipelines.Options.CommandExecutionOptions.OutputDrainTimeout.get -> System.TimeSpan
+ModularPipelines.Options.CommandExecutionOptions.OutputDrainTimeout.init -> void

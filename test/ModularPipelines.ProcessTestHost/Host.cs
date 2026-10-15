@@ -40,7 +40,7 @@ public static class Host
         var role = args[0];
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
+        var name = role is "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
         // Every fixture process publishes its own identity. A parent killed between starting a
         // child and publishing its PID would otherwise leave an orphan that cleanup cannot find,
         // holding the command's output pipes open.
@@ -52,7 +52,7 @@ public static class Host
         {
             await RunRoleAsync(role, name, directory, runtimeConfiguration);
 
-            return 0;
+            return role == "parent-error-exit" ? 23 : 0;
         }
         catch (Exception exception)
         {
@@ -95,19 +95,24 @@ public static class Host
                 break;
             case "parent":
             case "parent-exit":
+            case "parent-error-exit":
+            case "draining-parent":
             case "grace-parent":
             case "child-failure-parent":
                 var childRole = role switch
                 {
+                    "draining-parent" => "draining-child",
                     "grace-parent" => "intermediate",
                     "child-failure-parent" => "failing-child",
                     _ => "child",
                 };
                 using (var child = StartChild(childRole, directory, runtimeConfiguration))
                 {
-                    if (role == "parent-exit")
+                    if (role is "parent-exit" or "parent-error-exit" or "draining-parent")
                     {
                         await WaitForTrigger(directory, "parent-exit");
+                        Console.Out.Write("parent output");
+                        Console.Error.Write("parent error");
                     }
                     else
                     {
@@ -128,6 +133,11 @@ public static class Host
                     await Task.Delay(TimeSpan.FromMilliseconds(500));
                 }
 
+                break;
+            case "draining-child":
+                await WaitForTrigger(directory, "child-exit");
+                Console.Out.Write("child output");
+                Console.Error.Write("child error");
                 break;
             case "child":
             case "grandchild":

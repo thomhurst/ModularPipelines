@@ -18,6 +18,8 @@ namespace ModularPipelines.Logging;
 /// </remarks>
 internal interface ICommandLogger
 {
+    void LogOutputDrainTimeout(CommandLineToolOptions? options, CommandExecutionOptions execOpts);
+
     void LogOutputTruncation(CommandLineToolOptions? options, CommandExecutionOptions? execOpts, long standardOutputCharacters, long standardErrorCharacters, int maximumLength);
 
     /// <summary>

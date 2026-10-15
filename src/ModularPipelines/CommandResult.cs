@@ -68,6 +68,7 @@ public record CommandResult
         StandardError = standardError;
         StandardOutputTruncatedCharacters = 0;
         StandardErrorTruncatedCharacters = 0;
+        OutputMayBeIncomplete = false;
         EnvironmentVariables = environmentVariables;
         StartTime = startTime;
         EndTime = endTime;
@@ -90,6 +91,7 @@ public record CommandResult
         StandardError = string.Empty;
         StandardOutputTruncatedCharacters = 0;
         StandardErrorTruncatedCharacters = 0;
+        OutputMayBeIncomplete = false;
         ExitCode = 0;
         StartTime = completedAt;
         EndTime = completedAt;
@@ -117,6 +119,13 @@ public record CommandResult
     /// Zero means no captured characters were omitted. The truncation marker is not included in this count.
     /// </summary>
     public required long StandardErrorTruncatedCharacters { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether output reads stopped at the drain deadline after the direct child exited.
+    /// A descendant may still hold an output pipe open, so additional output may not have been captured.
+    /// This is independent of the character counts omitted by the capture limit.
+    /// </summary>
+    public required bool OutputMayBeIncomplete { get; init; }
 
     /// <summary>
     /// Gets exit code set by the underlying process.

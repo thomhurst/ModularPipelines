@@ -83,6 +83,14 @@ public record CommandExecutionOptions
     /// </summary>
     public int MaxCapturedOutputLength { get; init; } = DefaultMaxCapturedOutputLength;
 
+    /// <summary>
+    /// Gets the time allowed for standard output and error to reach EOF after the direct child exits.
+    /// Defaults to two seconds. When the deadline expires, remaining reads stop and the result's
+    /// <see cref="CommandResult.OutputMayBeIncomplete"/> is set. Descendants are not terminated.
+    /// Set to <see cref="Timeout.InfiniteTimeSpan"/> to wait for EOF without a drain deadline.
+    /// </summary>
+    public TimeSpan OutputDrainTimeout { get; init; } = TimeSpan.FromSeconds(2);
+
     internal bool InternalDryRun { get; set; }
 
     internal Task? InternalForcefulCancellationReady { get; init; }
