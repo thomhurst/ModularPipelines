@@ -894,6 +894,18 @@ kubectl's inherited settings now live on `KubernetesOptions`. Set `Namespace`, `
 
 `HelmVersionOptions` and `KubernetesVersionOptions` remain available through `VersionAsync`. See the generated [Helm reference](/ModularPipelines/docs/mp-packages/cli/helm.md) and [kubectl reference](/ModularPipelines/docs/mp-packages/cli/kubectl.md) for the complete global option lists.
 
+### Gcloud wide flags[​](#gcloud-wide-flags "Direct link to Gcloud wide flags")
+
+Gcloud commands inherit wide flags from `GcloudOptions`, including `Project`, `BillingProject`, `Account`, `Configuration`, and `Quiet`. Set these properties on the command options instead of adding the switches to `Arguments`. Inherited flags render after the complete command path. Reflection code using `BindingFlags.DeclaredOnly` must inspect the base record as well.
+
+`FlagsFile` accepts a collection and repeats `--flags-file` for each file. `Flatten` and `ImpersonateServiceAccount` also accept collections, but join their values with commas in one argument. Wrap an existing scalar value in a collection when migrating these properties. `Quiet` retains its `-q` alias; generated options render the long form by default.
+
+`UserOutputEnabled` is a nullable boolean: `true` emits `--user-output-enabled`, `false` emits `--no-user-output-enabled`, and `null` omits both. Replace manual negative switches with the single property. `TraceToken` is masked in command logs; `AccessTokenFile` is a file path and remains visible.
+
+Command-specific definitions with the same name retain their required inputs, descriptions, and validation. For example, `GcloudAssetAnalyzeMoveOptions` still requires its resource project in the constructor; setting `Project` through `GcloudOptions` does not replace that required input. Optional overrides share the base value and render once. Check the selected command's contract before moving a local setting into shared code.
+
+See the generated [Gcloud reference](/ModularPipelines/docs/mp-packages/cli/gcloud.md) for the complete wide-flag list.
+
 ### .NET test runner options[​](#net-test-runner-options "Direct link to .NET test runner options")
 
 `DotNetTestOptions` now follows the selected SDK's default VSTest help, independent of this repository's test-runner configuration. Use its `Filter`, `Logger`, `Collect`, `Settings`, and `Blame` properties for VSTest. The generated MTP-only `Project`, `Solution`, `TestModules`, `PlatformOptions`, and `ExtensionOptions` members are removed. For Microsoft.Testing.Platform, keep its `global.json` runner selection and pass runner-specific switches through the existing `Arguments` property:
