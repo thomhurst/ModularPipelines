@@ -103,6 +103,15 @@ public sealed record PipelineOptions
     public TimeSpan DefaultModuleTimeout { get; init; } = TimeSpan.FromMinutes(30);
 
     /// <summary>
+    /// Gets the maximum time to wait for a running module to finish after pipeline cancellation,
+    /// before disposing its resources and allowing dependent AlwaysRun modules to execute.
+    /// Defaults to 30 seconds. Set to zero to stop waiting immediately.
+    /// Must be non-negative and no greater than 4,294,967,294 milliseconds.
+    /// This does not change the one-second grace period after a module timeout.
+    /// </summary>
+    public TimeSpan ModuleCancellationGracePeriod { get; init; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
     /// Gets the maximum cumulative time to wait for scheduler progress before retrying deferred
     /// <c>AlwaysRun</c> modules. Set to <see cref="Timeout.InfiniteTimeSpan"/> to disable this watchdog.
     /// Zero and other negative durations are invalid.

@@ -549,7 +549,7 @@ internal class ModuleExecutionPipeline(
         logger.LogTrace("No module timeout configured. Using pipeline default timeout {Timeout}", timeout);
     }
 
-    private static async Task<T> ExecuteModuleAttemptAsync<T>(
+    private async Task<T> ExecuteModuleAttemptAsync<T>(
         Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
@@ -569,7 +569,8 @@ internal class ModuleExecutionPipeline(
             attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
             timeout == Timeout.InfiniteTimeSpan ? null : timeout,
             cancellationToken,
-            $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
+            $"Module {executionContext.ModuleType.Name} timed out after {timeout}",
+            _pipelineOptions.Value.ModuleCancellationGracePeriod).ConfigureAwait(false);
 
         if (!timeoutResult.TimedOut)
         {
