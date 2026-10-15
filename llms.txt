@@ -180,6 +180,7 @@
 - [Nerdbank.GitVersioning Package](/docs/mp-packages/nerdbank-gitversioning.md): ModularPipelines.NerdbankGitVersioning provides strongly typed access to the nbgv CLI.
 - [Newman Package](/docs/mp-packages/newman.md): Strongly typed Newman commands for Postman collections.
 - [Node.js Package](/docs/mp-packages/node.md): Node.js, npm, npx, nvm, and strongly typed pnpm helpers.
+- [Global options in package-manager CLIs](/docs/mp-packages/package-manager-cli-global-options.md): This audit completes #5710, including the remaining Yarn/npm/pnpm work consolidated
 - [Packer Package](/docs/mp-packages/packer.md): Strongly typed Packer machine-image build commands.
 - [Podman Package](/docs/mp-packages/podman.md): Strongly typed Podman container-management commands.
 - [Pulumi Package](/docs/mp-packages/pulumi.md): Strongly typed Pulumi infrastructure commands.
