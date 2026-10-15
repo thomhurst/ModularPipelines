@@ -50,12 +50,18 @@ internal static class CliCommandFactory
             AddCommandValue(environmentVariables, variableNames, $"{variablePrefix}ARG_{index}", argumentList[index]);
         }
 
-        var invocation = string.Join(" ", variableNames.Select(name => $"\"%{name}%\""));
+        // cmd's /c parser leaves references to empty environment variables unexpanded.
+        var invocation = string.Join(" ", variableNames.Select(name =>
+            environmentVariables[name] == string.Empty ? "\"\"" : $"\"%{name}%\""));
+
+        // cmd expands the entire line before running it. Clear the temporary values before the script
+        // starts so that neither the script nor its descendants inherit argument values as environment variables.
+        var clearVariables = string.Concat(variableNames.Select(name => $"set \"{name}=\"&"));
 
         var wrappedCommand = new ProcessCommand(
             Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe",
             ArgumentList: null,
-            $"/d /s /v:off /c \"{invocation}\"",
+            $"/d /s /v:off /c \"{clearVariables}{invocation}\"",
             ResolveWorkingDirectory(executionOptions),
             environmentVariables,
             executionOptions?.CommandLineCredentials);

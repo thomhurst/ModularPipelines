@@ -762,6 +762,69 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [Arguments(".cmd", true)]
+    [Arguments(".bat", true)]
+    [Arguments(".cmd", false)]
+    [Arguments(".bat", false)]
+    public async Task ExecuteCommandLineToolAsync_Clears_Windows_Command_Script_Internal_Environment(
+        string extension,
+        bool withArguments)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var tempDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDirectory);
+        var scriptPath = Path.Combine(tempDirectory, $"mp-runtime-environment-test{extension}");
+        const string argument = "secret & echo injected | more < input > output %PATH% ^ !PATH!";
+
+        try
+        {
+            await File.WriteAllTextAsync(
+                scriptPath,
+                "@echo off\r\nsetlocal DisableDelayedExpansion\r\n"
+                + "set \"first=%~1\"\r\nset \"second=%~2\"\r\nset \"third=%~3\"\r\n"
+                + "setlocal EnableDelayedExpansion\r\n"
+                + "echo first:!first!\r\necho second:!second!\r\necho third:!third!\r\n"
+                + "echo script environment:\r\nset MODULAR_PIPELINES_CMD_ 2>nul\r\n"
+                + "echo descendant environment:\r\n\"%ComSpec%\" /d /v:off /c \"set MODULAR_PIPELINES_CMD_ 2>nul\"\r\n"
+                + "echo public:!MP_TEST_PUBLIC!\r\nexit /b 23\r\n");
+            var command = await GetService<ICommandContext>();
+
+            var result = await command.ExecuteCommandLineToolAsync(
+                new CommandLineToolOptions(scriptPath)
+                {
+                    Arguments = withArguments ? [argument, "", "trailing value"] : [],
+                },
+                new CommandExecutionOptions
+                {
+                    ThrowOnNonZeroExitCode = false,
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["MP_TEST_PUBLIC"] = "public-value",
+                    },
+                });
+
+            var expectedOutput = $"first:{(withArguments ? argument : "")}\r\nsecond:\r\n"
+                + $"third:{(withArguments ? "trailing value" : "")}\r\n"
+                + "script environment:\r\ndescendant environment:\r\npublic:public-value";
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.StandardOutput.Trim()).IsEqualTo(expectedOutput);
+                await Assert.That(result.StandardError).IsEmpty();
+                await Assert.That(result.ExitCode).IsEqualTo(23);
+            }
+        }
+        finally
+        {
+            Directory.Delete(tempDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ExecuteCommandLineToolAsync_Rejects_Newlines_In_Windows_Command_Script_Arguments()
     {
         if (!OperatingSystem.IsWindows())
