@@ -49,6 +49,61 @@ public class AzPositionalArgumentTests
         await Assert.That(Act).Throws<InvalidOperationException>();
     }
 
+    [Test]
+    [Arguments("<KEY VALUE> : Unsupported placeholder.", false)]
+    [Arguments("<KEY> = Unsupported separator.", false)]
+    [Arguments("<KEY VALUE> : Unsupported placeholder.", true)]
+    [Arguments("<KEY> = Unsupported separator.", true)]
+    public async Task Malformed_Positional_Rows_Stop_Generation(string row, bool afterValidRow)
+    {
+        var help = "Command\n    az example : Demonstrate operands.\nArguments\n    --local : Use local settings.\nPositional\n";
+        if (afterValidRow)
+        {
+            help += "    <RESOURCE> : Resource name.\n                 " + row + "\n";
+        }
+        else
+        {
+            help += "    " + row + "\n";
+        }
+
+        help += AzCliMetadataExecutor.MetadataMarker
+            + "{\"--local\":{\"Nargs\":\"0\",\"IsInteger\":false,\"IsRepeated\":false},\"resource\":{\"Nargs\":\"1\",\"IsInteger\":false,\"IsRepeated\":false}}";
+        async Task Act() => _ = await new Scraper().Parse(["az", "example"], help);
+        await Assert.That(Act).Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Unrecognized Azure CLI positional row");
+    }
+
+    [Test]
+    [Arguments("Required")]
+    [Arguments("Experimental")]
+    [Arguments("Preview")]
+    public async Task Annotated_Positionals_Preserve_Verified_Arity(string annotation)
+    {
+        var help = $"Command\n    az example : Demonstrate operands.\nPositional\n    <KEY> [{annotation}] : Key name.\n"
+            + AzCliMetadataExecutor.MetadataMarker
+            + "{\"key\":{\"Nargs\":\"1\",\"IsInteger\":false,\"IsRepeated\":false}}";
+        var command = (await new Scraper().Parse(["az", "example"], help))!;
+        await Assert.That(command.PositionalArguments.Single().IsRequired).IsTrue();
+    }
+
+    [Test]
+    public async Task Storage_Passthrough_Positionals_Preserve_Delimiter_And_Phase()
+    {
+        var argument = (await ParseStorageFixture()).PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo("ExtraOptions");
+        await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(argument.IsRequired).IsFalse();
+        await Assert.That(argument.IsVariadic).IsTrue();
+        await Assert.That(argument.Phase).IsEqualTo(ModularPipelines.Attributes.CommandLinePhase.Passthrough);
+        await Assert.That(argument.PrependOptionTerminator).IsTrue();
+    }
+
+    internal static async Task<CliCommandDefinition> ParseStorageFixture()
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "AzCli", "az-2.84.0-storage-blob-sync.txt");
+        return (await new Scraper().Parse(["az", "storage", "blob", "sync"], await File.ReadAllTextAsync(path)))!;
+    }
+
     internal static async Task<CliCommandDefinition> ParseFixture(string command)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "AzCli",

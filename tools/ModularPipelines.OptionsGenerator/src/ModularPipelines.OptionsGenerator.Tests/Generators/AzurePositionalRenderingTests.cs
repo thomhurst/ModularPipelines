@@ -8,6 +8,42 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 
 public partial class RequiredConstructorValidationTests
 {
+    private static readonly string[] AzureStoragePassthroughValues = ["--cap-mbps=20", "--check-length=false"];
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Azure_Storage_Passthrough_Renders_After_Options_With_One_Delimiter(bool supplied)
+    {
+        var parsed = await AzPositionalArgumentTests.ParseStorageFixture();
+        var options = Compile(await Generate([], parsed.PositionalArguments))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = options.GetProperty("ExtraOptions")!;
+        if (supplied)
+        {
+            property.SetValue(instance, AzureStoragePassthroughValues);
+        }
+
+        var generatedAttribute = property.CustomAttributes.Single(item => item.AttributeType.Name == nameof(CliArgumentAttribute));
+        var phase = (CommandLinePhase) generatedAttribute.NamedArguments.Single(item => item.MemberName == nameof(CliArgumentAttribute.Phase)).TypedValue.Value!;
+        var terminator = generatedAttribute.NamedArguments.SingleOrDefault(item => item.MemberName == nameof(CliArgumentAttribute.PrependOptionTerminator)).TypedValue.Value is true;
+        PropertyCommandLinePart[] parts =
+        [
+            new ArgumentPart(property.Name, property.GetValue, new CliArgumentAttribute(0)
+            {
+                Phase = phase,
+                PrependOptionTerminator = terminator,
+            }),
+            new OptionPart("Source", _ => "directory with spaces", new CliOptionAttribute("--source")),
+        ];
+        string[] expected = supplied
+            ? ["--source", "directory with spaces", "--", "--cap-mbps=20", "--check-length=false"]
+            : ["--source", "directory with spaces"];
+        await Assert.That(new CommandArgumentBuilder().BuildArguments(parts, instance)).IsEquivalentTo(expected,
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
     [Test]
     [Arguments("set")]
     [Arguments("get")]

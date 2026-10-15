@@ -404,6 +404,11 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
                 var match = AzPositionalPattern().Match(lines[i]);
                 if (!match.Success)
                 {
+                    if (IsPositionalRow(lines[i]))
+                    {
+                        throw new InvalidOperationException($"Unrecognized Azure CLI positional row '{lines[i].Trim()}'.");
+                    }
+
                     continue;
                 }
 
@@ -418,7 +423,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
                 var propertyName = NormalizePropertyName(name)
                     ?? throw new InvalidOperationException($"Azure CLI positional '{name}' has no valid property name.");
                 var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"],
-                    line => AzPositionalPattern().IsMatch(line));
+                    IsPositionalRow);
+                var passthrough = AzPositionalTerminatorPattern().IsMatch(description);
                 var type = shape.IsInteger ? "int" : "string";
                 if (shape.IsCollection)
                 {
@@ -433,6 +439,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
                     PositionIndex = arguments.Count,
                     IsRequired = !shape.IsOptional,
                     IsVariadic = shape.IsCollection,
+                    Phase = passthrough ? CommandLinePhase.Passthrough : CommandLinePhase.EarlyOperand,
+                    PrependOptionTerminator = passthrough,
                     IsSecret = GeneratorUtils.IsSecretOption(propertyName, false, description),
                 });
             }
@@ -440,6 +448,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
         return arguments;
     }
+
+    private static bool IsPositionalRow(string line) => line.TrimStart().StartsWith('<');
 
     private static bool IsCommandArgumentsSection(string sectionName) =>
         sectionName.EndsWith("Arguments", StringComparison.OrdinalIgnoreCase)
@@ -898,8 +908,11 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?:(?<required>Required)|[^\]\r\n]+)\])*\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
-    [GeneratedRegex(@"^[ \t]+<(?<name>[\w-]+)>[ \t]*:[ \t]*(?<desc>.*)$")]
+    [GeneratedRegex(@"^[ \t]+<(?<name>[\w-]+)>(?:[ \t]+\[[^\]\r\n]+\])*[ \t]*:[ \t]*(?<desc>.*)$")]
     private static partial Regex AzPositionalPattern();
+
+    [GeneratedRegex(@"\bafter\s+(?:a\s+)?[`'"" ]*--(?:[`'""\s.]|$)", RegexOptions.IgnoreCase)]
+    private static partial Regex AzPositionalTerminatorPattern();
 
     [GeneratedRegex(@"^(?:do not\b|don't\b|force\b|reset\b|use the current time\b|show\b|list all\b|disable colou?r\b|(?:a |the )?(?:boolean )?flag\b|DenySettings apply to child scopes\b)", RegexOptions.IgnoreCase)]
     private static partial Regex PresenceOnlyDescriptionPattern();

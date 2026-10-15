@@ -26,7 +26,8 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
         parser = cli.invocation.parser
         command = ' '.join(sys.argv[1:-1])
         selected = parser.subparser_map.get(command, parser)
-        actions = list(selected._actions)
+        # Subparser actions select commands; they are not positional operands.
+        actions = [action for action in selected._actions if not isinstance(action, argparse._SubParsersAction)]
         if sys.argv[1:] == ['--help']:
             # Root help hides globals. Only root parser actions are universal;
             # subscription is registered separately by commands that support it.
