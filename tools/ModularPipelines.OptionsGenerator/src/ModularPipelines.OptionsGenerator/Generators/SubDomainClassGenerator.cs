@@ -168,7 +168,7 @@ public class SubDomainClassGenerator : ICodeGenerator
             sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");
             sb.AppendLine("    /// </summary>");
             sb.AppendLine(
-                $"    {child.ClassName} {child.PascalSegment} => throw new System.NotSupportedException();");
+                $"    {child.ClassName} {child.PascalSegment} {{ get; }}");
             sb.AppendLine();
         }
 

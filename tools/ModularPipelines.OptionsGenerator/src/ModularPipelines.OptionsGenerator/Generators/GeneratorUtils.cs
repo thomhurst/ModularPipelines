@@ -845,17 +845,7 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <returns>The command result.</returns>");
         }
 
-        AppendDefaultServiceMethod(sb, methodName, command, indent);
-    }
-
-    private static void AppendDefaultServiceMethod(
-        StringBuilder sb,
-        string methodName,
-        CliCommandDefinition command,
-        string indent)
-    {
-        sb.AppendLine($"{indent}public Task<CommandResult> {methodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default)");
-        sb.AppendLine($"{indent}    => throw new System.NotSupportedException();");
+        sb.AppendLine($"{indent}public Task<CommandResult> {methodName}({BuildOptionsParameter(command)}, {ExecutionOptionsParameter}, CancellationToken cancellationToken = default);");
     }
 
     /// <summary>
