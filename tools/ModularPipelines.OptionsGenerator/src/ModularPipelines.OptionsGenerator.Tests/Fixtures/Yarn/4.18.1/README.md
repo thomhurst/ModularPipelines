@@ -6,6 +6,12 @@ Captured on Windows on 15 October 2026 with Node 24.14.1 and the exact
 
 - `yarn-help.txt`: `node <cli-dist>/bin/yarn.js --help`.
 - `yarn-install-help.txt`: `node <cli-dist>/bin/yarn.js install --help`.
+- `yarn-npm-tag-add-help.txt`, `yarn-npm-tag-remove-help.txt`,
+  `yarn-plugin-remove-help.txt`, `yarn-set-resolution-help.txt`, and
+  `yarn-explain-peer-requirements-help.txt`: the corresponding command's
+  `--help`, captured with the same exact CLI version in an isolated installation.
+  These fixtures exercise discovery, required and optional operands, generated
+  constructors and service signatures, and operand rendering for nested commands.
 - A read-only probe, `node <cli-dist>/bin/yarn.js --cwd <directory> config get cacheFolder`,
   succeeds. The installed bundle's `checkCwd` dispatcher consumes leading `--cwd`.
   The [upstream dispatcher](https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-cli/sources/lib.ts)

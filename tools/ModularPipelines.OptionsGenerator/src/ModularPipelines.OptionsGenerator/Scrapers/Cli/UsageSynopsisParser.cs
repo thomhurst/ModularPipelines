@@ -65,6 +65,10 @@ public static partial class UsageSynopsisParser
         ArgumentNullException.ThrowIfNull(helpText);
         ArgumentNullException.ThrowIfNull(commandPath);
 
+        // Discovery can pack nested commands into one path entry (for example, "npm tag add").
+        var commandTokens = commandPath
+            .SelectMany(part => part.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries))
+            .ToArray();
         var suppliedSynopses = (additionalSynopses ?? [])
             .Where(synopsis => !string.IsNullOrWhiteSpace(synopsis))
             .Distinct(StringComparer.Ordinal)
@@ -77,7 +81,7 @@ public static partial class UsageSynopsisParser
             .ToList();
 
         var candidates = synopses
-            .Select(synopsis => ParseSynopsis(synopsis, commandPath))
+            .Select(synopsis => ParseSynopsis(synopsis, commandTokens))
             .Where(result => result.CommandMatched)
             .ToList();
         if (candidates.Count == 0)

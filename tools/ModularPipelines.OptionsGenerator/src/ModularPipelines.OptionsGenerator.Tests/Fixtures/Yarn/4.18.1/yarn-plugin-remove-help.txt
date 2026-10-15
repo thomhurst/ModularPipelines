@@ -1,0 +1,21 @@
+Remove a plugin
+
+Usage
+
+$ yarn plugin remove <name>
+
+Details
+
+This command deletes the specified plugin from the .yarn/plugins folder and
+removes it from the configuration.
+
+**Note:** The plugins have to be referenced by their name property, which can be
+obtained using the `yarn plugin runtime` command. Shorthands are not allowed.
+
+Examples
+
+Remove a plugin imported from the Yarn repository
+  $ yarn plugin remove @yarnpkg/plugin-typescript
+
+Remove a plugin imported from a local file
+  $ yarn plugin remove my-local-plugin
