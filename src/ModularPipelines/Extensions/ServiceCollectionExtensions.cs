@@ -83,15 +83,19 @@ internal static class ServiceCollectionExtensions
         GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
         if (!services.Any(descriptor =>
-                descriptor.ServiceType == typeof(IModule)
-                && ReferenceEquals(descriptor.ImplementationInstance, tModule)))
+                (descriptor.ServiceType == typeof(IModule)
+                 && ReferenceEquals(descriptor.ImplementationInstance, tModule))
+                || (descriptor.ImplementationInstance is RegisteredModuleInstance registration
+                    && ReferenceEquals(registration.Module, tModule))))
         {
             if (tModule is IPlanningModuleCopyProvider)
             {
                 services.AddSingleton(new ModulePlanningFactory(_ => tModule, tModule));
             }
 
-            services.AddSingleton<IModule>(tModule);
+            services.AddSingleton(new RegisteredModuleInstance(tModule));
+            // Factory registration transfers disposal ownership to the pipeline's host.
+            services.AddSingleton<IModule>(_ => tModule);
         }
 
         return services;
@@ -397,4 +401,6 @@ internal static class ServiceCollectionExtensions
         services.AddSingleton(holder);
         return holder;
     }
+
+    private sealed record RegisteredModuleInstance(IModule Module);
 }

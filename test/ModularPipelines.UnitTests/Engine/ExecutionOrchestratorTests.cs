@@ -48,7 +48,6 @@ public class ExecutionOrchestratorTests
         using var engineCancellationToken = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
         var orchestrator = new ExecutionOrchestrator(
             initializer.Object,
-            Mock.Of<IModuleDisposeExecutor>(),
             executor.Object,
             output.Object,
             registrar.Object,
@@ -111,8 +110,6 @@ public class ExecutionOrchestratorTests
             .Setup(x => x.FlushConsoleAsync())
             .Callback(() => consoleWasFlushed = true)
             .Returns(Task.CompletedTask);
-        var moduleDisposeExecutor = new Mock<IModuleDisposeExecutor>();
-        moduleDisposeExecutor.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
         var wasFlushedBeforeReport = false;
         var runReportService = new Mock<IRunReportService>();
         runReportService
@@ -126,7 +123,6 @@ public class ExecutionOrchestratorTests
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
         var orchestrator = new ExecutionOrchestrator(
             pipelineInitializer.Object,
-            moduleDisposeExecutor.Object,
             pipelineExecutor.Object,
             outputCoordinator.Object,
             ignoredModuleResultRegistrar.Object,
@@ -173,8 +169,6 @@ public class ExecutionOrchestratorTests
         outputCoordinator.SetupSequence(x => x.FlushConsoleAsync())
             .Returns(Task.FromException(new IOException("broken console")))
             .Returns(Task.CompletedTask);
-        var moduleDisposeExecutor = new Mock<IModuleDisposeExecutor>();
-        moduleDisposeExecutor.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
         var runReportService = new Mock<IRunReportService>();
         runReportService.Setup(x => x.CompleteAsync(
                 It.IsAny<PipelineSummary>(),
@@ -185,7 +179,6 @@ public class ExecutionOrchestratorTests
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
         var orchestrator = new ExecutionOrchestrator(
             pipelineInitializer.Object,
-            moduleDisposeExecutor.Object,
             pipelineExecutor.Object,
             outputCoordinator.Object,
             ignoredModuleResultRegistrar.Object,
@@ -245,11 +238,6 @@ public class ExecutionOrchestratorTests
             .Setup(x => x.InitializeAsync())
             .ReturnsAsync(outputScope.Object);
 
-        var moduleDisposeExecutor = new Mock<IModuleDisposeExecutor>();
-        moduleDisposeExecutor
-            .Setup(x => x.DisposeAsync())
-            .Returns(ValueTask.CompletedTask);
-
         var runReportCancellationToken = CancellationToken.None;
         var runReportService = new Mock<IRunReportService>();
         runReportService.Setup(x => x.CompleteAsync(
@@ -269,7 +257,6 @@ public class ExecutionOrchestratorTests
 
         var orchestrator = new ExecutionOrchestrator(
             pipelineInitializer.Object,
-            moduleDisposeExecutor.Object,
             pipelineExecutor.Object,
             outputCoordinator.Object,
             ignoredModuleResultRegistrar.Object,
@@ -333,11 +320,6 @@ public class ExecutionOrchestratorTests
             .Setup(x => x.InitializeAsync())
             .ReturnsAsync(outputScope.Object);
 
-        var moduleDisposeExecutor = new Mock<IModuleDisposeExecutor>();
-        moduleDisposeExecutor
-            .Setup(x => x.DisposeAsync())
-            .Returns(ValueTask.CompletedTask);
-
         var pipelineSummaryFactory = new Mock<IPipelineSummaryFactory>();
         pipelineSummaryFactory
             .Setup(x => x.Create(
@@ -360,7 +342,6 @@ public class ExecutionOrchestratorTests
             .Throws(loggingException);
         var orchestrator = new ExecutionOrchestrator(
             pipelineInitializer.Object,
-            moduleDisposeExecutor.Object,
             pipelineExecutor.Object,
             outputCoordinator.Object,
             ignoredModuleResultRegistrar.Object,
@@ -443,7 +424,6 @@ public class ExecutionOrchestratorTests
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
         var orchestrator = new ExecutionOrchestrator(
             pipelineInitializer.Object,
-            Mock.Of<IModuleDisposeExecutor>(),
             Mock.Of<IPipelineExecutor>(),
             outputCoordinator.Object,
             ignoredModuleResultRegistrar.Object,

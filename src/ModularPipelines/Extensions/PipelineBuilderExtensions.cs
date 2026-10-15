@@ -55,6 +55,9 @@ public static class PipelineBuilderExtensions
     /// <param name="module">The module instance to add.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>
+    /// The pipeline takes ownership of the instance and disposes it when the pipeline is disposed.
+    /// </remarks>
     public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, TModule module)
         where TModule : class, IModule
     {

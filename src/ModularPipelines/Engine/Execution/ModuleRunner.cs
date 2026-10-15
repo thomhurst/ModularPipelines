@@ -35,7 +35,6 @@ internal class ModuleRunner : IModuleRunner
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IMediator _mediator;
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
-    private readonly ModuleDisposer _moduleDisposer;
     private readonly IModuleResultRegistry _resultRegistry;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
@@ -66,7 +65,6 @@ internal class ModuleRunner : IModuleRunner
         IPipelineSetupExecutor pipelineSetupExecutor,
         [FromKeyedServices(typeof(global::Mediator.Mediator))] IMediator mediator,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
-        ModuleDisposer moduleDisposer,
         IModuleResultRegistry resultRegistry,
         EngineCancellationToken engineCancellationToken,
         IOptions<PipelineOptions> pipelineOptions,
@@ -90,7 +88,6 @@ internal class ModuleRunner : IModuleRunner
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _mediator = mediator;
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
-        _moduleDisposer = moduleDisposer;
         _resultRegistry = resultRegistry;
         _engineCancellationToken = engineCancellationToken;
         _pipelineOptions = pipelineOptions;
@@ -415,7 +412,7 @@ internal class ModuleRunner : IModuleRunner
             }
             finally
             {
-                await CompleteModuleLifecycleAsync(moduleState, executionContext).ConfigureAwait(false);
+                moduleState.TrySetSkipResult(executionContext.SkipResult);
             }
 
             throw;
@@ -1089,18 +1086,7 @@ internal class ModuleRunner : IModuleRunner
         }
         finally
         {
-            await CompleteModuleLifecycleAsync(moduleState, executionContext).ConfigureAwait(false);
-        }
-    }
-
-    private async Task CompleteModuleLifecycleAsync(
-        ModuleState moduleState,
-        ModuleExecutionContext executionContext)
-    {
-        moduleState.TrySetSkipResult(executionContext.SkipResult);
-        if (!_pipelineOptions.Value.Console.ShowProgress)
-        {
-            await _moduleDisposer.DisposeAsync(moduleState).ConfigureAwait(false);
+            moduleState.TrySetSkipResult(executionContext.SkipResult);
         }
     }
 

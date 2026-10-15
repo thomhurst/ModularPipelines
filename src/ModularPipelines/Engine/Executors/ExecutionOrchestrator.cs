@@ -31,7 +31,6 @@ namespace ModularPipelines.Engine.Executors;
 /// </remarks>
 internal class ExecutionOrchestrator(
     IPipelineInitializer pipelineInitializer,
-    IModuleDisposeExecutor moduleDisposeExecutor,
     IPipelineExecutor pipelineExecutor,
     IPipelineOutputCoordinator outputCoordinator,
     IIgnoredModuleResultRegistrar ignoredModuleResultRegistrar,
@@ -47,7 +46,6 @@ internal class ExecutionOrchestrator(
     IExecutionBackend? executionBackend = null) : IExecutionOrchestrator
 {
     private readonly IPipelineInitializer _pipelineInitializer = pipelineInitializer;
-    private readonly IModuleDisposeExecutor _moduleDisposeExecutor = moduleDisposeExecutor;
     private readonly IPipelineExecutor _pipelineExecutor = pipelineExecutor;
     private readonly IPipelineOutputCoordinator _outputCoordinator = outputCoordinator;
     private readonly IIgnoredModuleResultRegistrar _ignoredModuleResultRegistrar = ignoredModuleResultRegistrar;
@@ -370,41 +368,36 @@ internal class ExecutionOrchestrator(
 
     private async Task<PipelineSummary> ExecutePipeline(List<IModule> runnableModules, OrganizedModules organizedModules)
     {
-        // Dispose and flush on scope leave - So including success or if an exception is thrown
-        var moduleDisposeExecutor = _moduleDisposeExecutor;
-        await using (moduleDisposeExecutor.ConfigureAwait(false))
-        {
-            var outputScope = await _outputCoordinator.InitializeAsync().ConfigureAwait(false);
-            Exception? pipelineException = null;
+        var outputScope = await _outputCoordinator.InitializeAsync().ConfigureAwait(false);
+        Exception? pipelineException = null;
 
+        try
+        {
+            return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            pipelineException = exception;
+            throw;
+        }
+        finally
+        {
             try
             {
-                return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules).ConfigureAwait(false);
+                await outputScope.DisposeAsync().ConfigureAwait(false);
             }
-            catch (Exception exception)
-            {
-                pipelineException = exception;
-                throw;
-            }
-            finally
+            catch (Exception teardownException) when (pipelineException is not null)
             {
                 try
                 {
-                    await outputScope.DisposeAsync().ConfigureAwait(false);
+                    _logger.LogError(
+                        teardownException,
+                        "Pipeline output teardown failed while the pipeline was already failing with {ExceptionType}.",
+                        pipelineException.GetType().Name);
                 }
-                catch (Exception teardownException) when (pipelineException is not null)
+                catch
                 {
-                    try
-                    {
-                        _logger.LogError(
-                            teardownException,
-                            "Pipeline output teardown failed while the pipeline was already failing with {ExceptionType}.",
-                            pipelineException.GetType().Name);
-                    }
-                    catch
-                    {
-                        // Diagnostic providers must not replace the primary pipeline failure.
-                    }
+                    // Diagnostic providers must not replace the primary pipeline failure.
                 }
             }
         }
