@@ -38,18 +38,42 @@ public static class RedisDistributedExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configures the Redis connection, key prefix, chunking and expiry.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddRedisModuleCache(
+        this PipelineBuilder builder,
+        Func<RedisOptions, RedisOptions> configure) =>
+        builder.AddRedisModuleCache(configure, null);
+
+    /// <summary>
+    /// Enables a shareable Redis-backed module cache without enabling distributed execution.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="configure">Configures the Redis connection, key prefix, chunking and expiry.</param>
     /// <param name="configureCache">Optionally transforms the immutable <see cref="ModuleCacheOptions"/>.</param>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddRedisModuleCache(
         this PipelineBuilder builder,
         Func<RedisOptions, RedisOptions> configure,
-        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
         TransformOptionsFactory<RedisOptions>.Configure(builder.Services, configure, ModuleCacheOptionsName);
         return AddRedisModuleCacheServices(builder, configureCache);
     }
+
+    /// <summary>
+    /// Enables a shareable Redis-backed module cache from configuration without enabling distributed execution.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="section">The configuration section bound to <see cref="RedisOptions"/>.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    [RequiresUnreferencedCode("Configuration binding requires members of RedisOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddRedisModuleCache(
+        this PipelineBuilder builder,
+        IConfigurationSection section) =>
+        builder.AddRedisModuleCache(section, null);
 
     /// <summary>
     /// Enables a shareable Redis-backed module cache from configuration without enabling distributed execution.
@@ -63,7 +87,7 @@ public static class RedisDistributedExtensions
     public static PipelineBuilder AddRedisModuleCache(
         this PipelineBuilder builder,
         IConfigurationSection section,
-        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(section);

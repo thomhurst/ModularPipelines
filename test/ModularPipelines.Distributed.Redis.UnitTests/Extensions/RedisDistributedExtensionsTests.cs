@@ -2,10 +2,12 @@ using System.IO.Compression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Caching;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Distributed.Redis.Artifacts;
+using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Moq;
@@ -390,6 +392,63 @@ public class RedisDistributedExtensionsTests
             .Get("ModularPipelines.RedisModuleCache");
         await Assert.That(RedisConnectionProvider.CreateConfiguration(cache).Endpoints.Count).IsEqualTo(1);
         await Assert.That(cache.TimeToLive).IsEqualTo(TimeSpan.FromMinutes(1));
+    }
+
+    [Test]
+    [Arguments(false, "default")]
+    [Arguments(false, "null")]
+    [Arguments(false, "transform")]
+    [Arguments(true, "default")]
+    [Arguments(true, "null")]
+    [Arguments(true, "transform")]
+    public async Task ModuleCache_Overloads_Preserve_Registration_And_Cache_Options(
+        bool useConfigurationSection,
+        string cacheConfiguration)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        var section = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Redis:ConnectionString"] = "cache.invalid:6381",
+                ["Redis:KeyPrefix"] = "cache-only",
+            })
+            .Build()
+            .GetSection("Redis");
+        RedisOptions ConfigureRedis(RedisOptions options) => options with
+        {
+            ConnectionString = "cache.invalid:6381",
+            KeyPrefix = "cache-only",
+        };
+        ModuleCacheOptions ConfigureCache(ModuleCacheOptions options) => options with { MaxInputFiles = 42 };
+
+        var returnedBuilder = (useConfigurationSection, cacheConfiguration) switch
+        {
+            (false, "default") => builder.AddRedisModuleCache(ConfigureRedis),
+            (false, "null") => builder.AddRedisModuleCache(ConfigureRedis, null),
+            (false, "transform") => builder.AddRedisModuleCache(ConfigureRedis, ConfigureCache),
+            (true, "default") => builder.AddRedisModuleCache(section),
+            (true, "null") => builder.AddRedisModuleCache(section, null),
+            (true, "transform") => builder.AddRedisModuleCache(section, ConfigureCache),
+            _ => throw new ArgumentOutOfRangeException(nameof(cacheConfiguration)),
+        };
+
+        await using var pipeline = await builder.BuildAsync();
+        var redisOptions = pipeline.Services.GetRequiredService<IOptionsMonitor<RedisOptions>>()
+            .Get("ModularPipelines.RedisModuleCache");
+        var cacheOptions = pipeline.Services.GetRequiredService<IOptions<ModuleCacheOptions>>().Value;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(returnedBuilder).IsSameReferenceAs(builder);
+            await Assert.That(redisOptions.ConnectionString).IsEqualTo("cache.invalid:6381");
+            await Assert.That(redisOptions.KeyPrefix).IsEqualTo("cache-only");
+            await Assert.That(cacheOptions.MaxInputFiles)
+                .IsEqualTo(cacheConfiguration == "transform" ? 42 : new ModuleCacheOptions().MaxInputFiles);
+            await Assert.That(pipeline.Services.GetRequiredService<IModuleCacheStore>()).IsTypeOf<RedisModuleCache>();
+            await Assert.That(builder.Services.Any(descriptor =>
+                descriptor.ServiceType == typeof(IDistributedCoordinatorFactory))).IsFalse();
+        }
     }
 
     [Test]
