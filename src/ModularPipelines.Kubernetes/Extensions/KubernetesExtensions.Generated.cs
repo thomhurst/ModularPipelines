@@ -33,8 +33,10 @@ public static class KubernetesExtensions
         services.TryAddScoped<IKubernetesCertificate, KubernetesCertificate>();
         services.TryAddScoped<IKubernetesClusterInfo, KubernetesClusterInfo>();
         services.TryAddScoped<IKubernetesConfig, KubernetesConfig>();
+        services.TryAddScoped<IKubernetesCreate, KubernetesCreate>();
         services.TryAddScoped<IKubernetesKuberc, KubernetesKuberc>();
         services.TryAddScoped<IKubernetesRollout, KubernetesRollout>();
+        services.TryAddScoped<IKubernetesSet, KubernetesSet>();
         services.TryAddScoped<IKubernetesTop, KubernetesTop>();
         return services;
     }

@@ -30,8 +30,10 @@ internal partial class Kubernetes : IKubernetes
         IKubernetesCertificate certificate,
         IKubernetesClusterInfo clusterInfo,
         IKubernetesConfig config,
+        IKubernetesCreate create,
         IKubernetesKuberc kuberc,
         IKubernetesRollout rollout,
+        IKubernetesSet set,
         IKubernetesTop top,
         ICommandContext command
     )
@@ -41,8 +43,10 @@ internal partial class Kubernetes : IKubernetes
         Certificate = certificate;
         ClusterInfo = clusterInfo;
         Config = config;
+        Create = create;
         Kuberc = kuberc;
         Rollout = rollout;
+        Set = set;
         Top = top;
         _command = command;
     }
@@ -65,10 +69,16 @@ internal partial class Kubernetes : IKubernetes
     public IKubernetesConfig Config { get; }
 
     /// <inheritdoc />
+    public IKubernetesCreate Create { get; }
+
+    /// <inheritdoc />
     public IKubernetesKuberc Kuberc { get; }
 
     /// <inheritdoc />
     public IKubernetesRollout Rollout { get; }
+
+    /// <inheritdoc />
+    public IKubernetesSet Set { get; }
 
     /// <inheritdoc />
     public IKubernetesTop Top { get; }
@@ -132,6 +142,15 @@ internal partial class Kubernetes : IKubernetes
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> DeleteAsync(
+        KubernetesDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> DescribeAsync(
         KubernetesDescribeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -159,6 +178,15 @@ internal partial class Kubernetes : IKubernetes
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> EditAsync(
+        KubernetesEditOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> EventsAsync(
         KubernetesEventsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -174,6 +202,33 @@ internal partial class Kubernetes : IKubernetes
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> ExplainAsync(
+        KubernetesExplainOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> ExposeAsync(
+        KubernetesExposeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> GetAsync(
+        KubernetesGetOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesGetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -196,11 +251,11 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PatchAsync(
-        KubernetesPatchOptions? options = null,
+        KubernetesPatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesPatchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -231,12 +286,21 @@ internal partial class Kubernetes : IKubernetes
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ScaleAsync(
-        KubernetesScaleOptions? options = null,
+    public virtual async Task<CommandResult> RunAsync(
+        KubernetesRunOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesScaleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> ScaleAsync(
+        KubernetesScaleOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
