@@ -109,8 +109,105 @@ internal sealed record GeneratedShadowedCommandDerived : GeneratedShadowedComman
     }
 }
 
+[CliGlobalOptions]
+internal abstract record GeneratedReusableCommandBase : CommandLineToolOptions
+{
+    [CliOption("--project", ShortForm = "-p", CollectionSeparator = ",")]
+    public virtual string? Project { get; set; }
+
+    [CliFlag("--verbose", ShortForm = "-v", NegatedName = "--quiet")]
+    public virtual bool? Verbose { get; init; }
+
+    [CliArgument(1, Phase = CommandLinePhase.Terminal, Required = true)]
+    public string? Input { get; init; }
+}
+
+internal sealed record GeneratedReusableCommandFirst : GeneratedReusableCommandBase
+{
+    [CliOption("--first")]
+    public string? First { get; init; }
+
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
+
+    public override bool? Verbose { get; init; }
+}
+
+internal sealed record GeneratedReusableCommandSecond : GeneratedReusableCommandBase
+{
+    [CliOption("--local-project", Format = OptionFormat.EqualsSeparated)]
+    public new string? Project { get; init; }
+
+    [CliArgument(0)]
+    public string? Output { get; init; }
+}
+
 public class GeneratedRuntimeMetadataTests
 {
+    [Test]
+    public async Task CommandMetadata_ReusesInheritedGettersWithoutSharingMutableAttributes()
+    {
+        GeneratedCommandMetadata.TryGet(typeof(GeneratedReusableCommandBase), out var baseModel);
+        var found = GeneratedCommandMetadata.TryGet(typeof(GeneratedReusableCommandFirst), out var model);
+        var options = new GeneratedReusableCommandFirst
+        {
+            First = "first",
+            Project = "project",
+            Verbose = true,
+            Input = "input",
+        };
+
+        await Assert.That(found).IsTrue();
+        await Assert.That(string.Join(",", model.Select(static part => part.PropertyName)))
+            .IsEqualTo("First,Verbose,Project,Input");
+        var project = model.OfType<OptionPart>().Single(static part => part.Attribute.Name == "--project");
+        var baseProject = baseModel.OfType<OptionPart>().Single();
+        await Assert.That(project.Getter(options)).IsEqualTo("project");
+        await Assert.That(project.IsGlobalOption).IsTrue();
+        await Assert.That(project.Attribute.ShortForm).IsEqualTo("-p");
+        await Assert.That(project.Attribute.CollectionSeparator).IsEqualTo(",");
+        await Assert.That(ReferenceEquals(project.Getter, baseProject.Getter)).IsTrue();
+        await Assert.That(ReferenceEquals(project.Attribute, baseProject.Attribute)).IsFalse();
+        var verbose = model.OfType<FlagPart>().Single();
+        await Assert.That((bool) verbose.Getter(options)!).IsTrue();
+        await Assert.That(verbose.Attribute.NegatedName).IsEqualTo("--quiet");
+        var input = model.OfType<ArgumentPart>().Single();
+        await Assert.That(input.Getter(options)).IsEqualTo("input");
+        await Assert.That(input.Attribute.Position).IsEqualTo(1);
+        await Assert.That(input.Phase).IsEqualTo(CommandLinePhase.Terminal);
+        await Assert.That(input.Attribute.Required).IsTrue();
+    }
+
+    [Test]
+    public async Task CommandMetadata_PreservesAttributedShadowAndInheritedPropertyOrder()
+    {
+        var found = GeneratedCommandMetadata.TryGet(typeof(GeneratedReusableCommandSecond), out var model);
+        var options = new GeneratedReusableCommandSecond
+        {
+            Project = "local",
+            Output = "output",
+            Verbose = false,
+            Input = "input",
+        };
+        ((GeneratedReusableCommandBase) options).Project = "base";
+
+        await Assert.That(found).IsTrue();
+        await Assert.That(string.Join(",", model.Select(static part => part.PropertyName)))
+            .IsEqualTo("Project,Output,Verbose,Input");
+        var project = model.OfType<OptionPart>().Single();
+        await Assert.That(project.Getter(options)).IsEqualTo("local");
+        await Assert.That(project.Attribute.Name).IsEqualTo("--local-project");
+        await Assert.That(project.Attribute.Format).IsEqualTo(OptionFormat.EqualsSeparated);
+        await Assert.That(project.IsGlobalOption).IsFalse();
+        var verbose = model.OfType<FlagPart>().Single();
+        await Assert.That((bool) verbose.Getter(options)!).IsFalse();
+        var input = model.OfType<ArgumentPart>().Single(static part => part.Attribute.Position == 1);
+        await Assert.That(input.Getter(options)).IsEqualTo("input");
+    }
+
     [Test]
     public async Task SecretValueAttribute_IsSealed()
     {
