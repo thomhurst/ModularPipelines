@@ -28,8 +28,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelPracticeRunAsync(AwsArcZonalShiftCancelPracticeRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelPracticeRunAsync(AwsArcZonalShiftCancelPracticeRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancel a zonal shift in Amazon Application Recovery Controller. To can- cel the zonal shift, specify the zonal shift ID. A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelZonalShiftAsync(AwsArcZonalShiftCancelZonalShiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelZonalShiftAsync(AwsArcZonalShiftCancelZonalShiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A practice run configuration for zonal autoshift is required when you enable zonal autoshift. A practice run configuration includes specifi- cations for blocked dates and blocked time windows, and for Amazon CloudWatch alarms that you create to use with practice runs. The alarms that you specify are an outcome alarm , to monitor application health during practice runs and, optionally, a blocking alarm , to block prac- tice runs from starting. When a resource has a practice run configuration, ARC...
@@ -48,8 +46,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePracticeRunConfigurationAsync(AwsArcZonalShiftCreatePracticeRunConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePracticeRunConfigurationAsync(AwsArcZonalShiftCreatePracticeRunConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the practice run configuration for a resource. Before you can delete a practice run configuration for a resource., you must disable zonal autoshift for the resource. Practice runs must be configured for zonal autoshift to be enabled. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePracticeRunConfigurationAsync(AwsArcZonalShiftDeletePracticeRunConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePracticeRunConfigurationAsync(AwsArcZonalShiftDeletePracticeRunConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the status of the autoshift observer notification. Autoshift observer notifications notify you through Amazon EventBridge when there is an autoshift event for zonal autoshift. The status can be ENABLED or DISABLED . When ENABLED , a notification is sent when an autoshift is triggered. When DISABLED , notifications are not sent. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutoshiftObserverNotificationStatusAsync(AwsArcZonalShiftGetAutoshiftObserverNotificationStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutoshiftObserverNotificationStatusAsync(AwsArcZonalShiftGetAutoshiftObserverNotificationStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a resource that's been registered for zonal shifts with Amazon Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in ARC. You can start zonal shifts and configure zonal autoshift for managed resources. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedResourceAsync(AwsArcZonalShiftGetManagedResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedResourceAsync(AwsArcZonalShiftGetManagedResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the autoshifts for an Amazon Web Services Region. By default, the call returns only ACTIVE autoshifts. Optionally, you can specify the status parameter to return COMPLETED autoshifts. See also: AWS API Documentation list-autoshifts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
@@ -88,8 +82,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutoshiftsAsync(AwsArcZonalShiftListAutoshiftsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutoshiftsAsync(AwsArcZonalShiftListAutoshiftsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the resources in your Amazon Web Services account in this Amazon Web Services Region that are managed for zonal shifts in Amazon Application Recovery Controller, and information about them. The infor- mation includes the zonal autoshift status for the resource, as well as the Amazon Resource Name (ARN), the Availability Zones that each re- source is deployed in, and the resource name. See also: AWS API Documentation list-managed-resources is a paginated operation. Multiple API calls ma...
@@ -98,8 +91,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedResourcesAsync(AwsArcZonalShiftListManagedResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedResourcesAsync(AwsArcZonalShiftListManagedResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all active and completed zonal shifts in Amazon Application Re- covery Controller in your Amazon Web Services account in this Amazon Web Services Region. ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal shifts that ARC started on your behalf for zonal autoshift. For more information about listing autoshifts, see "&gt;ListAutoshifts . See also: AWS API Documentation list-zonal-shifts is a paginated operation. Multiple API calls may be issued in order to re...
@@ -108,8 +100,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListZonalShiftsAsync(AwsArcZonalShiftListZonalShiftsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListZonalShiftsAsync(AwsArcZonalShiftListZonalShiftsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start an on-demand practice run zonal shift in Amazon Application Re- covery Controller. With zonal autoshift enabled, you can start an on-demand practice run to verify preparedness at any time. Amazon Web Services also runs automated practice runs about weekly when you have enabled zonal autoshift. For more information, see Considerations when you configure zonal au- toshift in the Amazon Application Recovery Controller Developer Guide. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPracticeRunAsync(AwsArcZonalShiftStartPracticeRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPracticeRunAsync(AwsArcZonalShiftStartPracticeRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in an Amazon Web Services Region, to help your application recover immediately, for example, from a developer's bad code deployment or from an Amazon Web Services infrastructure fail- ure in a single Availability Zone. You can start a zonal shift in ARC only for managed resources in your Amazon Web Services account in an Amazon Web Services Region. Resources are automatically registered with ARC by A...
@@ -128,8 +118,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartZonalShiftAsync(AwsArcZonalShiftStartZonalShiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartZonalShiftAsync(AwsArcZonalShiftStartZonalShiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the status of autoshift observer notification. Autoshift ob- server notification enables you to be notified, through Amazon Event- Bridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED , ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see Notific...
@@ -138,8 +127,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutoshiftObserverNotificationStatusAsync(AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutoshiftObserverNotificationStatusAsync(AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a practice run configuration to change one or more of the fol- lowing: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePracticeRunConfigurationAsync(AwsArcZonalShiftUpdatePracticeRunConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePracticeRunConfigurationAsync(AwsArcZonalShiftUpdatePracticeRunConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The zonal autoshift configuration for a resource includes the practice run configuration and the status for running autoshifts, zonal au- toshift status. When a resource has a practice run configuration, ARC starts weekly zonal shifts for the resource, to shift traffic away from an Availability Zone. Weekly practice runs help you to make sure that your application can continue to operate normally with the loss of one Availability Zone. You can update the zonal autoshift status to enable or disab...
@@ -158,8 +145,7 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateZonalAutoshiftConfigurationAsync(AwsArcZonalShiftUpdateZonalAutoshiftConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateZonalAutoshiftConfigurationAsync(AwsArcZonalShiftUpdateZonalAutoshiftConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an active zonal shift in Amazon Application Recovery Controller in your Amazon Web Services account. You can update a zonal shift to set a new expiration, or edit or replace the comment for the zonal shift. See also: AWS API Documentation
@@ -168,7 +154,6 @@ public interface IAwsArcZonalShift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateZonalShiftAsync(AwsArcZonalShiftUpdateZonalShiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateZonalShiftAsync(AwsArcZonalShiftUpdateZonalShiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

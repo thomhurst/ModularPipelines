@@ -93,7 +93,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates an alias for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a dif- ferent version. You can also map an alias to split invocation requests between two ver- sions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
+    /// Creates an alias for a Lambda Event Function version. Use aliases to provide clients with a function identifier that you can update to in- voke a different version. You can also map an alias to split invocation requests between two ver- sions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -108,7 +108,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a capacity provider that manages compute resources for Lambda functions See also: AWS API Documentation
+    /// Creates a capacity provider that manages compute resources for Lambda Event Functions See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -138,7 +138,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics. o Amazon DynamoDB Streams o Amazon Kinesis o Amazon SQS o Amazon MQ and RabbitMQ o Amazon MSK o Apache Kafka o Amazon DocumentDB The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka): o BisectBatchOnFun...
+    /// Creates a mapping between an event source and an Lambda Event Function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics. o Amazon DynamoDB Streams o Amazon Kinesis o Amazon SQS o Amazon MQ and RabbitMQ o Amazon MSK o Apache Kafka o Amazon DocumentDB The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka): o BisectBatc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -153,7 +153,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a Lambda function. To create a function, you need a deployment package and an execution role . The deployment package is a .zip file archive or container image that contains your function code. The execu- tion role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. If the deployment package is a container image , then you set the pack- age type to Image . For a container image, the code prope...
+    /// Creates a Lambda Event Function. To create a function, you need a deployment package and an execution role . The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. If the deployment package is a container image , then you set the pack- age type to Image . For a container image, the code p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -183,7 +183,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Deletes a Lambda function alias . See also: AWS API Documentation
+    /// Deletes a Lambda Event Function alias . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -288,7 +288,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias . NOTE: A deleted Lambda function cannot be recovered. Ensure that you spec- ify the correct function name and version before deleting. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping . For Amazon Web Services services and re- sources th...
+    /// Deletes a Lambda Event Function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias . NOTE: A deleted Lambda function cannot be recovered. Ensure that you spec- ify the correct function name and version before deleting. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping . For Amazon Web Services services and re- sour...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -378,7 +378,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns details about a Lambda function alias . See also: AWS API Documentation
+    /// Returns details about a Lambda Event Function alias . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -513,7 +513,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns the version-specific settings of a Lambda function or version. The output includes only options that can vary between versions of a function. To modify these settings, use UpdateFunctionConfiguration . To get all of a function's details, including function-level settings, use GetFunction . See also: AWS API Documentation
+    /// Returns the version-specific settings of a Lambda Event Function or version. The output includes only options that can vary between ver- sions of a function. To modify these settings, use UpdateFunctionCon- figuration . To get all of a function's details, including function-level settings, use GetFunction . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -708,7 +708,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestRe- sponse ). To invoke a function asynchronously, set InvocationType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is ...
+    /// Invokes a Lambda Event Function. You can invoke a function synchro- nously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestResponse ). To invoke a function asynchronously, set Invoca- tionType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -723,7 +723,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns a list of aliases for a Lambda function. See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Aliases
+    /// Returns a list of aliases for a Lambda Event Function. See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Aliases
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -828,7 +828,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns a list of Lambda functions, with the version-specific configu- ration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. NOTE: The ListFunctions operation returns a subset of the FunctionConfig- uration fields. To get the additional fields (State, StateReason- Code, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUp- dateStatusReasonCode, RuntimeVersionConfig...
+    /// Returns a list of Lambda Event Functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. NOTE: The ListFunctions operation returns a subset of the FunctionConfig- uration fields. To get the additional fields (State, StateReason- Code, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUp- dateStatusReasonCode, RuntimeVersionCo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1218,7 +1218,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Updates the configuration of a Lambda function alias . See also: AWS API Documentation
+    /// Updates the configuration of a Lambda Event Function alias . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1278,7 +1278,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and key o...
+    /// Updates a Lambda Event Function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1293,7 +1293,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and the functi...
+    /// Modifies the version-specific settings of a Lambda Event Function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

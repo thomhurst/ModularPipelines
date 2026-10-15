@@ -28,8 +28,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEarthObservationJobAsync(AwsSagemakerGeospatialDeleteEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEarthObservationJobAsync(AwsSagemakerGeospatialDeleteEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to delete a Vector Enrichment job. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVectorEnrichmentJobAsync(AwsSagemakerGeospatialDeleteVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVectorEnrichmentJobAsync(AwsSagemakerGeospatialDeleteVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 loca- tion. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportEarthObservationJobAsync(AwsSagemakerGeospatialExportEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportEarthObservationJobAsync(AwsSagemakerGeospatialExportEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportVectorEnrichmentJobAsync(AwsSagemakerGeospatialExportVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportVectorEnrichmentJobAsync(AwsSagemakerGeospatialExportVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details for a previously initiated Earth Observation job. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEarthObservationJobAsync(AwsSagemakerGeospatialGetEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEarthObservationJobAsync(AwsSagemakerGeospatialGetEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to get details of a specific raster data collection. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRasterDataCollectionAsync(AwsSagemakerGeospatialGetRasterDataCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRasterDataCollectionAsync(AwsSagemakerGeospatialGetRasterDataCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a web mercator tile for the given Earth Observation job. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTileAsync(AwsSagemakerGeospatialGetTileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTileAsync(AwsSagemakerGeospatialGetTileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of a Vector Enrichment Job for a given job Amazon Re- source Name (ARN). See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVectorEnrichmentJobAsync(AwsSagemakerGeospatialGetVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVectorEnrichmentJobAsync(AwsSagemakerGeospatialGetVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to get a list of the Earth Observation jobs associ- ated with the calling Amazon Web Services account. See also: AWS API Documentation list-earth-observation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
@@ -108,8 +100,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEarthObservationJobsAsync(AwsSagemakerGeospatialListEarthObservationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEarthObservationJobsAsync(AwsSagemakerGeospatialListEarthObservationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to get raster data collections. See also: AWS API Documentation list-raster-data-collections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RasterDataCollectionSummaries
@@ -118,8 +109,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRasterDataCollectionsAsync(AwsSagemakerGeospatialListRasterDataCollectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRasterDataCollectionsAsync(AwsSagemakerGeospatialListRasterDataCollectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags attached to the resource. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsSagemakerGeospatialListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsSagemakerGeospatialListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of vector enrichment jobs. See also: AWS API Documentation list-vector-enrichment-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VectorEnrichmentJobSummaries
@@ -138,8 +127,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVectorEnrichmentJobsAsync(AwsSagemakerGeospatialListVectorEnrichmentJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVectorEnrichmentJobsAsync(AwsSagemakerGeospatialListVectorEnrichmentJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchRasterDataCollectionAsync(AwsSagemakerGeospatialSearchRasterDataCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchRasterDataCollectionAsync(AwsSagemakerGeospatialSearchRasterDataCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to create an Earth observation job. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEarthObservationJobAsync(AwsSagemakerGeospatialStartEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEarthObservationJobAsync(AwsSagemakerGeospatialStartEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartVectorEnrichmentJobAsync(AwsSagemakerGeospatialStartVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartVectorEnrichmentJobAsync(AwsSagemakerGeospatialStartVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to stop an existing earth observation job. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEarthObservationJobAsync(AwsSagemakerGeospatialStopEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopEarthObservationJobAsync(AwsSagemakerGeospatialStopEarthObservationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the Vector Enrichment job for a given job ARN. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopVectorEnrichmentJobAsync(AwsSagemakerGeospatialStopVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopVectorEnrichmentJobAsync(AwsSagemakerGeospatialStopVectorEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The resource you want to tag. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsSagemakerGeospatialTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsSagemakerGeospatialTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The resource you want to untag. See also: AWS API Documentation
@@ -208,7 +190,6 @@ public interface IAwsSagemakerGeospatial
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsSagemakerGeospatialUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsSagemakerGeospatialUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

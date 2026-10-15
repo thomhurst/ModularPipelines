@@ -28,7 +28,6 @@ public interface IAwsMarketplaceReporting
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBuyerDashboardAsync(AwsMarketplaceReportingGetBuyerDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBuyerDashboardAsync(AwsMarketplaceReportingGetBuyerDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

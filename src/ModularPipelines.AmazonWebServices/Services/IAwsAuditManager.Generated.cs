@@ -28,8 +28,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAssessmentReportEvidenceFolderAsync(AwsAuditManagerAssociateAssessmentReportEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAssessmentReportEvidenceFolderAsync(AwsAuditManagerAssociateAssessmentReportEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a list of evidence to an assessment report in an Audit Man- ager assessment. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAssociateAssessmentReportEvidenceAsync(AwsAuditManagerBatchAssociateAssessmentReportEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAssociateAssessmentReportEvidenceAsync(AwsAuditManagerBatchAssociateAssessmentReportEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a batch of delegations for an assessment in Audit Manager. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateDelegationByAssessmentAsync(AwsAuditManagerBatchCreateDelegationByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreateDelegationByAssessmentAsync(AwsAuditManagerBatchCreateDelegationByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a batch of delegations for an assessment in Audit Manager. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteDelegationByAssessmentAsync(AwsAuditManagerBatchDeleteDelegationByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteDelegationByAssessmentAsync(AwsAuditManagerBatchDeleteDelegationByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a list of evidence from an assessment report in Audit Manager. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDisassociateAssessmentReportEvidenceAsync(AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDisassociateAssessmentReportEvidenceAsync(AwsAuditManagerBatchDisassociateAssessmentReportEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or en- ter plain text in response to a risk assessment question. The following restrictions apply to this action: o manualEvidence can be only one of the following: evidenceFileName , s3ResourcePath , or textResponse o Maximum size of an individual evidence file: 100 MB o Number of ...
@@ -78,8 +73,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchImportEvidenceToAssessmentControlAsync(AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchImportEvidenceToAssessmentControlAsync(AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a custom framework in Audit Manager. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssessmentFrameworkAsync(AwsAuditManagerCreateAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssessmentFrameworkAsync(AwsAuditManagerCreateAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an assessment in Audit Manager. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssessmentAsync(AwsAuditManagerCreateAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssessmentAsync(AwsAuditManagerCreateAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an assessment report for the specified assessment. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssessmentReportAsync(AwsAuditManagerCreateAssessmentReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssessmentReportAsync(AwsAuditManagerCreateAssessmentReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom control in Audit Manager. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateControlAsync(AwsAuditManagerCreateControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateControlAsync(AwsAuditManagerCreateControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom framework in Audit Manager. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssessmentFrameworkAsync(AwsAuditManagerDeleteAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssessmentFrameworkAsync(AwsAuditManagerDeleteAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a share request for a custom framework in Audit Manager. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssessmentFrameworkShareAsync(AwsAuditManagerDeleteAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssessmentFrameworkShareAsync(AwsAuditManagerDeleteAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an assessment in Audit Manager. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssessmentAsync(AwsAuditManagerDeleteAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssessmentAsync(AwsAuditManagerDeleteAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager at- tempts to delete the following data: o The specified assessment report thats stored in your S3 bucket o The associated metadata thats stored in Audit Manager If Audit Manager cant access the assessment report in your S3 bucket, the report isnt deleted. In this event, the DeleteAssessmentReport op- eration doesnt fail. Instead, it proceeds to delete the associated metadata only. You...
@@ -158,8 +145,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssessmentReportAsync(AwsAuditManagerDeleteAssessmentReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssessmentReportAsync(AwsAuditManagerDeleteAssessmentReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom control in Audit Manager. WARNING: When you invoke this operation, the custom control is deleted from any frameworks or assessments that its currently part of. As a re- sult, Audit Manager will stop collecting evidence for that custom control in all of your assessments. This includes assessments that you previously created before you deleted the custom control. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteControlAsync(AwsAuditManagerDeleteControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteControlAsync(AwsAuditManagerDeleteControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters an account in Audit Manager. NOTE: Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By default, Audit Man- ager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see Data Protection in the Audit Manager User Guide . See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterAccountAsync(AwsAuditManagerDeregisterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterAccountAsync(AwsAuditManagerDeregisterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified Amazon Web Services account as a delegated admin- istrator for Audit Manager. When you remove a delegated administrator from your Audit Manager set- tings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to that delegated administrator account moving forward. WARNING: Keep in mind...
@@ -188,8 +172,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterOrganizationAdminAccountAsync(AwsAuditManagerDeregisterOrganizationAdminAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterOrganizationAdminAccountAsync(AwsAuditManagerDeregisterOrganizationAdminAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates an evidence folder from the specified assessment report in Audit Manager. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAssessmentReportEvidenceFolderAsync(AwsAuditManagerDisassociateAssessmentReportEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAssessmentReportEvidenceFolderAsync(AwsAuditManagerDisassociateAssessmentReportEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the registration status of an account in Audit Manager. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountStatusAsync(AwsAuditManagerGetAccountStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountStatusAsync(AwsAuditManagerGetAccountStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified framework. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssessmentFrameworkAsync(AwsAuditManagerGetAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssessmentFrameworkAsync(AwsAuditManagerGetAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified assessment. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssessmentAsync(AwsAuditManagerGetAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssessmentAsync(AwsAuditManagerGetAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the URL of an assessment report in Audit Manager. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssessmentReportUrlAsync(AwsAuditManagerGetAssessmentReportUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssessmentReportUrlAsync(AwsAuditManagerGetAssessmentReportUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of changelogs from Audit Manager. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetChangeLogsAsync(AwsAuditManagerGetChangeLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetChangeLogsAsync(AwsAuditManagerGetChangeLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified control. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetControlAsync(AwsAuditManagerGetControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetControlAsync(AwsAuditManagerGetControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of delegations from an audit owner to a delegate. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDelegationsAsync(AwsAuditManagerGetDelegationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDelegationsAsync(AwsAuditManagerGetDelegationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all evidence from a specified evidence folder in Audit Manager. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvidenceByEvidenceFolderAsync(AwsAuditManagerGetEvidenceByEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvidenceByEvidenceFolderAsync(AwsAuditManagerGetEvidenceByEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User Guide . The following restrictions apply to this operation: o Maximum size of an individual evidence file: 100 MB o Number of daily manual evidence uploads per control: 100 o Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide For more information about ...
@@ -288,8 +262,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvidenceFileUploadUrlAsync(AwsAuditManagerGetEvidenceFileUploadUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvidenceFileUploadUrlAsync(AwsAuditManagerGetEvidenceFileUploadUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an evidence folder from a specified assessment in Audit Manager. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvidenceFolderAsync(AwsAuditManagerGetEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvidenceFolderAsync(AwsAuditManagerGetEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of evidence folders that are associated with a specified control in an Audit Manager assessment. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvidenceFoldersByAssessmentControlAsync(AwsAuditManagerGetEvidenceFoldersByAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvidenceFoldersByAssessmentControlAsync(AwsAuditManagerGetEvidenceFoldersByAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the evidence folders from a specified assessment in Audit Manager. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvidenceFoldersByAssessmentAsync(AwsAuditManagerGetEvidenceFoldersByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvidenceFoldersByAssessmentAsync(AwsAuditManagerGetEvidenceFoldersByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified evidence item. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvidenceAsync(AwsAuditManagerGetEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvidenceAsync(AwsAuditManagerGetEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the latest analytics data for a specific active assessment. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInsightsByAssessmentAsync(AwsAuditManagerGetInsightsByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInsightsByAssessmentAsync(AwsAuditManagerGetInsightsByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the latest analytics data for all your current active assessments. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInsightsAsync(AwsAuditManagerGetInsightsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInsightsAsync(AwsAuditManagerGetInsightsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the name of the delegated Amazon Web Services administrator ac- count for a specified organization. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOrganizationAdminAccountAsync(AwsAuditManagerGetOrganizationAdminAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOrganizationAdminAccountAsync(AwsAuditManagerGetOrganizationAdminAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the Amazon Web Services services from which Audit Man- ager can collect evidence. Audit Manager defines which Amazon Web Services services are in scope for an assessment. Audit Manager infers this scope by examining the as- sessments controls and their data sources, and then mapping this infor- mation to one or more of the corresponding Amazon Web Services services that are in this list. NOTE: For information about why it's no longer possible to specify ser- vices in scope manuall...
@@ -368,8 +334,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServicesInScopeAsync(AwsAuditManagerGetServicesInScopeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServicesInScopeAsync(AwsAuditManagerGetServicesInScopeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the settings for a specified Amazon Web Services account. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSettingsAsync(AwsAuditManagerGetSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSettingsAsync(AwsAuditManagerGetSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment. NOTE: Control insights are listed only if the control belongs to the con- trol domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlIn- sightsByAssessment . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssessmentControlInsightsByControlDomainAsync(AwsAuditManagerListAssessmentControlInsightsByControlDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssessmentControlInsightsByControlDomainAsync(AwsAuditManagerListAssessmentControlInsightsByControlDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of sent or received share requests for custom frameworks in Audit Manager. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssessmentFrameworkShareRequestsAsync(AwsAuditManagerListAssessmentFrameworkShareRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssessmentFrameworkShareRequestsAsync(AwsAuditManagerListAssessmentFrameworkShareRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the frameworks that are available in the Audit Man- ager framework library. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssessmentFrameworksAsync(AwsAuditManagerListAssessmentFrameworksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssessmentFrameworksAsync(AwsAuditManagerListAssessmentFrameworksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of assessment reports created in Audit Manager. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssessmentReportsAsync(AwsAuditManagerListAssessmentReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssessmentReportsAsync(AwsAuditManagerListAssessmentReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of current and past assessments from Audit Manager. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssessmentsAsync(AwsAuditManagerListAssessmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssessmentsAsync(AwsAuditManagerListAssessmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists analytics data for control domains within a specified active as- sessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. NOTE: A control domain is listed only if at least one of the controls within that do...
@@ -438,8 +397,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListControlDomainInsightsByAssessmentAsync(AwsAuditManagerListControlDomainInsightsByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListControlDomainInsightsByAssessmentAsync(AwsAuditManagerListControlDomainInsightsByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the latest analytics data for control domains across all of your active assessments. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. NOTE: A control domain is listed only if at least one of the controls with...
@@ -448,8 +406,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListControlDomainInsightsAsync(AwsAuditManagerListControlDomainInsightsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListControlDomainInsightsAsync(AwsAuditManagerListControlDomainInsightsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the latest analytics data for controls within a specific control domain across all active assessments. NOTE: Control insights are listed only if the control belongs to the con- trol domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListControlInsightsByControlDomainAsync(AwsAuditManagerListControlInsightsByControlDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListControlInsightsByControlDomainAsync(AwsAuditManagerListControlInsightsByControlDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of controls from Audit Manager. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListControlsAsync(AwsAuditManagerListControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListControlsAsync(AwsAuditManagerListControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of keywords that are pre-mapped to the specified control data source. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListKeywordsForDataSourceAsync(AwsAuditManagerListKeywordsForDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListKeywordsForDataSourceAsync(AwsAuditManagerListKeywordsForDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all Audit Manager notifications. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNotificationsAsync(AwsAuditManagerListNotificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNotificationsAsync(AwsAuditManagerListNotificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags for the specified resource in Audit Manager. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsAuditManagerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsAuditManagerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables Audit Manager for the specified Amazon Web Services account. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterAccountAsync(AwsAuditManagerRegisterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterAccountAsync(AwsAuditManagerRegisterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables an Amazon Web Services account within the organization as the delegated administrator for Audit Manager. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterOrganizationAdminAccountAsync(AwsAuditManagerRegisterOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterOrganizationAdminAccountAsync(AwsAuditManagerRegisterOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a share request for a custom framework in Audit Manager. The share request specifies a recipient and notifies them that a custom framework is available. Recipients have 120 days to accept or decline the request. If no action is taken, the share request expires. When you create a share request, Audit Manager stores a snapshot of your custom framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup of the same snapshot in the US West (Oregon) Ama...
@@ -528,8 +478,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAssessmentFrameworkShareAsync(AwsAuditManagerStartAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAssessmentFrameworkShareAsync(AwsAuditManagerStartAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tags the specified resource in Audit Manager. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsAuditManagerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsAuditManagerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from a resource in Audit Manager. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsAuditManagerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsAuditManagerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a control within an assessment in Audit Manager. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssessmentControlAsync(AwsAuditManagerUpdateAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssessmentControlAsync(AwsAuditManagerUpdateAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a control set in an Audit Manager assessment. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssessmentControlSetStatusAsync(AwsAuditManagerUpdateAssessmentControlSetStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssessmentControlSetStatusAsync(AwsAuditManagerUpdateAssessmentControlSetStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a custom framework in Audit Manager. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssessmentFrameworkAsync(AwsAuditManagerUpdateAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssessmentFrameworkAsync(AwsAuditManagerUpdateAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a share request for a custom framework in Audit Manager. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssessmentFrameworkShareAsync(AwsAuditManagerUpdateAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssessmentFrameworkShareAsync(AwsAuditManagerUpdateAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Edits an Audit Manager assessment. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssessmentAsync(AwsAuditManagerUpdateAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssessmentAsync(AwsAuditManagerUpdateAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of an assessment in Audit Manager. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssessmentStatusAsync(AwsAuditManagerUpdateAssessmentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssessmentStatusAsync(AwsAuditManagerUpdateAssessmentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a custom control in Audit Manager. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateControlAsync(AwsAuditManagerUpdateControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateControlAsync(AwsAuditManagerUpdateControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates Audit Manager settings for the current account. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSettingsAsync(AwsAuditManagerUpdateSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSettingsAsync(AwsAuditManagerUpdateSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Validates the integrity of an assessment report in Audit Manager. See also: AWS API Documentation
@@ -638,7 +577,6 @@ public interface IAwsAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidateAssessmentReportIntegrityAsync(AwsAuditManagerValidateAssessmentReportIntegrityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidateAssessmentReportIntegrityAsync(AwsAuditManagerValidateAssessmentReportIntegrityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

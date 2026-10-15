@@ -28,8 +28,7 @@ public interface IAwsPricing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeServicesAsync(AwsPricingDescribeServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeServicesAsync(AwsPricingDescribeServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of attribute values. Attributes are similar to the de- tails in a Price List API offer file. For a list of available attrib- utes, see Offer File Definitions in the Billing and Cost Management User Guide . See also: AWS API Documentation get-attribute-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argum...
@@ -38,8 +37,7 @@ public interface IAwsPricing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAttributeValuesAsync(AwsPricingGetAttributeValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAttributeValuesAsync(AwsPricingGetAttributeValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsPricing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPriceListFileUrlAsync(AwsPricingGetPriceListFileUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPriceListFileUrlAsync(AwsPricingGetPriceListFileUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all products that match the filter criteria. See also: AWS API Documentation get-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: PriceList
@@ -58,8 +55,7 @@ public interface IAwsPricing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProductsAsync(AwsPricingGetProductsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProductsAsync(AwsPricingGetProductsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns a list of Price List references that the requester if au- thorized to view, given a ServiceCode , CurrencyCode , and an Effec- tiveDate . Use without a RegionCode filter to list Price List refer- ences from all available Am...
@@ -68,7 +64,6 @@ public interface IAwsPricing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPriceListsAsync(AwsPricingListPriceListsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPriceListsAsync(AwsPricingListPriceListsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

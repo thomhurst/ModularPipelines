@@ -28,8 +28,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddGroupMemberAsync(AwsDsDataAddGroupMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddGroupMemberAsync(AwsDsDataAddGroupMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new group. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGroupAsync(AwsDsDataCreateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGroupAsync(AwsDsDataCreateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new user. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserAsync(AwsDsDataCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserAsync(AwsDsDataCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a group. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGroupAsync(AwsDsDataDeleteGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGroupAsync(AwsDsDataDeleteGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserAsync(AwsDsDataDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserAsync(AwsDsDataDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific group. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGroupAsync(AwsDsDataDescribeGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeGroupAsync(AwsDsDataDescribeGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific user. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserAsync(AwsDsDataDescribeUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserAsync(AwsDsDataDescribeUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deactivates an active user account. For information about how to enable an inactive user account, see ResetUserPassword in the Directory Ser- vice API Reference . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableUserAsync(AwsDsDataDisableUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableUserAsync(AwsDsDataDisableUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns member information for the specified group. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- GroupMembers.NextToken member contains a token that you pass in the next call to ListGroupMembers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-group-members is a paginated operation. Mul...
@@ -108,8 +100,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGroupMembersAsync(AwsDsDataListGroupMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGroupMembersAsync(AwsDsDataListGroupMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns group information for the specified member. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- GroupsForMember.NextToken member contains a token that you pass in the next call to ListGroupsForMember . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-groups-for-member is a paginated oper...
@@ -118,8 +109,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGroupsForMemberAsync(AwsDsDataListGroupsForMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGroupsForMemberAsync(AwsDsDataListGroupsForMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns group information for the specified directory. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- Groups.NextToken member contains a token that you pass in the next call to ListGroups . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls ...
@@ -128,8 +118,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGroupsAsync(AwsDsDataListGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGroupsAsync(AwsDsDataListGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns user information for the specified directory. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the Lis- tUsers.NextToken member contains a token that you pass in the next call to ListUsers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may ...
@@ -138,8 +127,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsersAsync(AwsDsDataListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsersAsync(AwsDsDataListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a member from a group. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveGroupMemberAsync(AwsDsDataRemoveGroupMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveGroupMemberAsync(AwsDsDataRemoveGroupMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the specified directory for a group. You can find groups that match the SearchString parameter with the value of their attributes in- cluded in the SearchString parameter. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the SearchGroups.NextToken member contains a token that you pass in the next call to SearchGroups . This retrieves the next set of items. You can also specify a maximum number of return re...
@@ -158,8 +145,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchGroupsAsync(AwsDsDataSearchGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchGroupsAsync(AwsDsDataSearchGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the specified directory for a user. You can find users that match the SearchString parameter with the value of their attributes in- cluded in the SearchString parameter. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the SearchUsers.NextToken member contains a token that you pass in the next call to SearchUsers . This retrieves the next set of items. You can also specify a maximum number of return result...
@@ -168,8 +154,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchUsersAsync(AwsDsDataSearchUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchUsersAsync(AwsDsDataSearchUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates group information. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGroupAsync(AwsDsDataUpdateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGroupAsync(AwsDsDataUpdateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates user information. See also: AWS API Documentation
@@ -188,7 +172,6 @@ public interface IAwsDsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserAsync(AwsDsDataUpdateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserAsync(AwsDsDataUpdateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

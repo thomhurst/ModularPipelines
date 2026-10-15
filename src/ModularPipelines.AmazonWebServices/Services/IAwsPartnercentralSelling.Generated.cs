@@ -28,8 +28,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptEngagementInvitationAsync(AwsPartnercentralSellingAcceptEngagementInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptEngagementInvitationAsync(AwsPartnercentralSellingAcceptEngagementInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportu- nity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each op- portunity is handled by the right person. By default, the opportunity owner is the one...
@@ -38,8 +37,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssignOpportunityAsync(AwsPartnercentralSellingAssignOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssignOpportunityAsync(AwsPartnercentralSellingAssignOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the op- portunity for better collaboration and decision making. You can asso- ciate an opportunity with the following entity types: o Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services. o Amazon Web Services Products: Amazon We...
@@ -48,8 +46,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateOpportunityAsync(AwsPartnercentralSellingAssociateOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateOpportunityAsync(AwsPartnercentralSellingAssociateOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or docu- ments to an engagement, providing additional details that help facili- tate collaboration between engagement members. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEngagementContextAsync(AwsPartnercentralSellingCreateEngagementContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEngagementContextAsync(AwsPartnercentralSellingCreateEngagementContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action creates an invitation from a sender to a single receiver to join an engagement. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEngagementInvitationAsync(AwsPartnercentralSellingCreateEngagementInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEngagementInvitationAsync(AwsPartnercentralSellingCreateEngagementInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The CreateEngagement action allows you to create an Engagement , which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers. This action automatically adds the caller's AWS account as an active member of the newly created Engagement . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEngagementAsync(AwsPartnercentralSellingCreateEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEngagementAsync(AwsPartnercentralSellingCreateEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pend- ing Submission . To submit an opportunity, follow these steps: o To create the opportunity, use CreateOpportunity . o To associate a solution with the opportunity, use AssociateOpportu- nity . o To start the engagement with AWS, use StartEngagementFromOpportunity . After submission, you ...
@@ -88,8 +82,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOpportunityAsync(AwsPartnercentralSellingCreateOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOpportunityAsync(AwsPartnercentralSellingCreateOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and im- mutability rules as direct snapshot creation. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourceSnapshotJobAsync(AwsPartnercentralSellingCreateResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourceSnapshotJobAsync(AwsPartnercentralSellingCreateResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action allows you to create an immutable snapshot of a specific resource, such as an opportunity, within the context of an engagement. The snapshot captures a subset of the resource's data based on the schema defined by the provided template. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourceSnapshotAsync(AwsPartnercentralSellingCreateResourceSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourceSnapshotAsync(AwsPartnercentralSellingCreateResourceSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourceSnapshotJobAsync(AwsPartnercentralSellingDeleteResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourceSnapshotJobAsync(AwsPartnercentralSellingDeleteResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services prod- uct, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity , and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in er- ror. Ensuring accurate assoc...
@@ -128,8 +118,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateOpportunityAsync(AwsPartnercentralSellingDisassociateOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateOpportunityAsync(AwsPartnercentralSellingDisassociateOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAwsOpportunitySummaryAsync(AwsPartnercentralSellingGetAwsOpportunitySummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAwsOpportunitySummaryAsync(AwsPartnercentralSellingGetAwsOpportunitySummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project de- tails, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitations Payload.Project.Title with opportunity Project.Title . See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEngagementInvitationAsync(AwsPartnercentralSellingGetEngagementInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEngagementInvitationAsync(AwsPartnercentralSellingGetEngagementInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this action to retrieve the engagement record for a given Engage- mentIdentifier . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEngagementAsync(AwsPartnercentralSellingGetEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEngagementAsync(AwsPartnercentralSellingGetEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetches the Opportunity record from Partner Central by a given Identi- fier . Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOpportunityAsync(AwsPartnercentralSellingGetOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOpportunityAsync(AwsPartnercentralSellingGetOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details and current status of a prospecting task previ- ously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProspectingFromEngagementTaskAsync(AwsPartnercentralSellingGetProspectingFromEngagementTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProspectingFromEngagementTaskAsync(AwsPartnercentralSellingGetProspectingFromEngagementTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this action to retrieves information about a specific resource snapshot job. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceSnapshotJobAsync(AwsPartnercentralSellingGetResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceSnapshotJobAsync(AwsPartnercentralSellingGetResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this action to retrieve a specific snapshot record. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceSnapshotAsync(AwsPartnercentralSellingGetResourceSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceSnapshotAsync(AwsPartnercentralSellingGetResourceSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSellingSystemSettingsAsync(AwsPartnercentralSellingGetSellingSystemSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSellingSystemSettingsAsync(AwsPartnercentralSellingGetSellingSystemSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all in-progress, completed, or failed StartEngagementByAccepting- InvitationTask tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-by-accepting-invitation-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
@@ -218,8 +199,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEngagementByAcceptingInvitationTasksAsync(AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEngagementByAcceptingInvitationTasksAsync(AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-from-opportunity-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the...
@@ -228,8 +208,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEngagementFromOpportunityTasksAsync(AwsPartnercentralSellingListEngagementFromOpportunityTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEngagementFromOpportunityTasksAsync(AwsPartnercentralSellingListEngagementFromOpportunityTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS. See also: AWS API Documentation list-engagement-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respon...
@@ -238,8 +217,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEngagementInvitationsAsync(AwsPartnercentralSellingListEngagementInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEngagementInvitationsAsync(AwsPartnercentralSellingListEngagementInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of member partners in an Engagement. This opera- tion can only be invoked by members of the Engagement. The ListEngage- mentMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried. See also: AWS API Documentation list-engagement-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagina...
@@ -248,8 +226,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEngagementMembersAsync(AwsPartnercentralSellingListEngagementMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEngagementMembersAsync(AwsPartnercentralSellingListEngagementMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement. See also: AWS API Documentation list-engagement-resource-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract ...
@@ -258,8 +235,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEngagementResourceAssociationsAsync(AwsPartnercentralSellingListEngagementResourceAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEngagementResourceAssociationsAsync(AwsPartnercentralSellingListEngagementResourceAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process. See also: AWS API Documentation list-engagements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
@@ -268,8 +244,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEngagementsAsync(AwsPartnercentralSellingListEngagementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEngagementsAsync(AwsPartnercentralSellingListEngagementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This request accepts a list of filters that retrieve opportunity sub- sets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, list only the op- portunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services accounts Amazon EventBridge default event bus. You can also use the ListOpportu- nities action. W...
@@ -278,8 +253,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOpportunitiesAsync(AwsPartnercentralSellingListOpportunitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOpportunitiesAsync(AwsPartnercentralSellingListOpportunitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account. See also: AWS API Documentation list-opportunity-from-engagement-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract d...
@@ -288,8 +262,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOpportunityFromEngagementTasksAsync(AwsPartnercentralSellingListOpportunityFromEngagementTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOpportunityFromEngagementTasksAsync(AwsPartnercentralSellingListOpportunityFromEngagementTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is pagi- nated. Use the NextToken value from each response to retrieve subse- quent pages. See also: AWS API Documentation list-prospecting-from-engagement-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi...
@@ -298,8 +271,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProspectingFromEngagementTasksAsync(AwsPartnercentralSellingListProspectingFromEngagementTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProspectingFromEngagementTasksAsync(AwsPartnercentralSellingListProspectingFromEngagementTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists resource snapshot jobs owned by the customer. This operation sup- ports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific sta- tus, or any combination of these filters. See also: AWS API Documentation list-resource-snapshot-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. W...
@@ -308,8 +280,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceSnapshotJobsAsync(AwsPartnercentralSellingListResourceSnapshotJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceSnapshotJobsAsync(AwsPartnercentralSellingListResourceSnapshotJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of resource view snapshots based on specified crite- ria. This operation supports various use cases, including: o Fetching all snapshots associated with an engagement. o Retrieving snapshots of a specific resource type within an engage- ment. o Obtaining snapshots for a particular resource using a specified tem- plate. o Accessing the latest snapshot of a resource within an engagement. o Filtering snapshots by resource owner. See also: AWS API Documentation list-resource-snapsho...
@@ -318,8 +289,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceSnapshotsAsync(AwsPartnercentralSellingListResourceSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceSnapshotsAsync(AwsPartnercentralSellingListResourceSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity. See also: AWS API Documentation list-solutions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
@@ -328,8 +298,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSolutionsAsync(AwsPartnercentralSellingListSolutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSolutionsAsync(AwsPartnercentralSellingListSolutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags for a resource. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsPartnercentralSellingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsPartnercentralSellingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSellingSystemSettingsAsync(AwsPartnercentralSellingPutSellingSystemSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSellingSystemSettingsAsync(AwsPartnercentralSellingPutSellingSystemSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the op- portunity, and all related data will become inaccessible thereafter. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectEngagementInvitationAsync(AwsPartnercentralSellingRejectEngagementInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectEngagementInvitationAsync(AwsPartnercentralSellingRejectEngagementInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action starts the engagement by accepting an EngagementInvitation . The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partners account from the AWS opportunity, and copying details for tracking. When completed, an Opportunity Created event is generated, indicating that the opportu- nity has been successfully created in the partner's account. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEngagementByAcceptingInvitationTaskAsync(AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEngagementByAcceptingInvitationTaskAsync(AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Similar to StartEngagementByAcceptingInvitationTask , this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API opera- tions into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of opera- tions including GetOpportunity , CreateEngagement (if it doesn't ex- ist), CreateResourceSnapshot , CreateResourceSnapshotJob , CreateEn- gagementIn...
@@ -378,8 +343,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEngagementFromOpportunityTaskAsync(AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEngagementFromOpportunityTaskAsync(AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting en- gagement contextual information into a structured opportunity record within the partner's account. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartOpportunityFromEngagementTaskAsync(AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartOpportunityFromEngagementTaskAsync(AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask , or use ListProspectingFromEn- gagementTasks to monitor multiple tasks. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartProspectingFromEngagementTaskAsync(AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartProspectingFromEngagementTaskAsync(AwsPartnercentralSellingStartProspectingFromEngagementTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a resource snapshot job that has been previously created. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartResourceSnapshotJobAsync(AwsPartnercentralSellingStartResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartResourceSnapshotJobAsync(AwsPartnercentralSellingStartResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a resource snapshot job. The job must be started prior to being stopped. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopResourceSnapshotJobAsync(AwsPartnercentralSellingStopResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopResourceSnapshotJobAsync(AwsPartnercentralSellingStopResourceSnapshotJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has LifeCycle.Re- viewStatus as either Approved or Action Required . See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SubmitOpportunityAsync(AwsPartnercentralSellingSubmitOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SubmitOpportunityAsync(AwsPartnercentralSellingSubmitOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the specified resource. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsPartnercentralSellingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsPartnercentralSellingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag or tags from a resource. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsPartnercentralSellingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsPartnercentralSellingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the context information for an existing engagement with new or modified data. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEngagementContextAsync(AwsPartnercentralSellingUpdateEngagementContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEngagementContextAsync(AwsPartnercentralSellingUpdateEngagementContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the Opportunity record identified by a given Identifier . This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null . The best practice is to always perform a GetOpportunity to retrieve the latest values, then se...
@@ -468,7 +424,6 @@ public interface IAwsPartnercentralSelling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOpportunityAsync(AwsPartnercentralSellingUpdateOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOpportunityAsync(AwsPartnercentralSellingUpdateOpportunityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

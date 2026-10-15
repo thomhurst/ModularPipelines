@@ -28,8 +28,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationAsync(AwsMigrationHubRefactorSpacesCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationAsync(AwsMigrationHubRefactorSpacesCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces environ- ment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner . The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a CreateEnvironment:NetworkF...
@@ -38,8 +37,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEnvironmentAsync(AwsMigrationHubRefactorSpacesCreateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEnvironmentAsync(AwsMigrationHubRefactorSpacesCreateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces route. The account owner of the service resource is always the environment owner, regardless of which account creates the route. Routes target a service in the application. If an application does not have any routes, then the first route must be created as a DEFAULT RouteType . When created, the default route defaults to an active state so state is not a required input. However, like all other state values the state of the default rout...
@@ -48,8 +46,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouteAsync(AwsMigrationHubRefactorSpacesCreateRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouteAsync(AwsMigrationHubRefactorSpacesCreateRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, re- gardless of which account in the environment creates the service. Ser- vices have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. WARNING: If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environments services with VPCs and routes, apply the RefactorSpacesSec...
@@ -58,8 +55,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateServiceAsync(AwsMigrationHubRefactorSpacesCreateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateServiceAsync(AwsMigrationHubRefactorSpacesCreateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces applica- tion. Before you can delete an application, you must first delete any services or routes within the application. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationAsync(AwsMigrationHubRefactorSpacesDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationAsync(AwsMigrationHubRefactorSpacesDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces environ- ment. Before you can delete an environment, you must first delete any applications and services within the environment. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEnvironmentAsync(AwsMigrationHubRefactorSpacesDeleteEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEnvironmentAsync(AwsMigrationHubRefactorSpacesDeleteEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource policy set for the environment. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsMigrationHubRefactorSpacesDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsMigrationHubRefactorSpacesDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces route. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouteAsync(AwsMigrationHubRefactorSpacesDeleteRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouteAsync(AwsMigrationHubRefactorSpacesDeleteRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces service. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceAsync(AwsMigrationHubRefactorSpacesDeleteServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceAsync(AwsMigrationHubRefactorSpacesDeleteServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces application. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApplicationAsync(AwsMigrationHubRefactorSpacesGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApplicationAsync(AwsMigrationHubRefactorSpacesGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces environment. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEnvironmentAsync(AwsMigrationHubRefactorSpacesGetEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEnvironmentAsync(AwsMigrationHubRefactorSpacesGetEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the resource-based permission policy that is set for the given en- vironment. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsMigrationHubRefactorSpacesGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsMigrationHubRefactorSpacesGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces route. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouteAsync(AwsMigrationHubRefactorSpacesGetRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouteAsync(AwsMigrationHubRefactorSpacesGetRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces service. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceAsync(AwsMigrationHubRefactorSpacesGetServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceAsync(AwsMigrationHubRefactorSpacesGetServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces appli- cations within an environment. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: A...
@@ -168,8 +154,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationsAsync(AwsMigrationHubRefactorSpacesListApplicationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationsAsync(AwsMigrationHubRefactorSpacesListApplicationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a caller account or shared with the caller account. See also: AWS API Documentation list-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
@@ -178,8 +163,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEnvironmentsAsync(AwsMigrationHubRefactorSpacesListEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEnvironmentsAsync(AwsMigrationHubRefactorSpacesListEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the environment. See also: AWS API Documentation list-environment-vpcs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
@@ -188,8 +172,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEnvironmentVpcsAsync(AwsMigrationHubRefactorSpacesListEnvironmentVpcsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEnvironmentVpcsAsync(AwsMigrationHubRefactorSpacesListEnvironmentVpcsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application. See also: AWS API Documentation list-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: RouteSummar...
@@ -198,8 +181,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRoutesAsync(AwsMigrationHubRefactorSpacesListRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRoutesAsync(AwsMigrationHubRefactorSpacesListRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces ser- vices within an application. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Servi...
@@ -208,8 +190,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServicesAsync(AwsMigrationHubRefactorSpacesListServicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServicesAsync(AwsMigrationHubRefactorSpacesListServicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags of a resource. The caller account must be the same as the resources OwnerAccountId . Listing tags in other accounts is not supported. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsMigrationHubRefactorSpacesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsMigrationHubRefactorSpacesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permis- sion/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Re- source Access Manager. The policy must not contain new lines or blank lines. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsMigrationHubRefactorSpacesPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsMigrationHubRefactorSpacesPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the tags of a given resource. Tags are metadata which can be used to manage a resource. To tag a resource, the caller account must be the same as the resources OwnerAccountId . Tagging resources in other accounts is not supported. NOTE: Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to orchestrated resources, such as an environments transit gateway. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsMigrationHubRefactorSpacesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsMigrationHubRefactorSpacesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource. To untag a resource, the caller account must be the same as the resources OwnerAccountId . Untagging resources across accounts is not supported. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsMigrationHubRefactorSpacesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsMigrationHubRefactorSpacesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an Amazon Web Services Migration Hub Refactor Spaces route. See also: AWS API Documentation
@@ -258,7 +235,6 @@ public interface IAwsMigrationHubRefactorSpaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRouteAsync(AwsMigrationHubRefactorSpacesUpdateRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRouteAsync(AwsMigrationHubRefactorSpacesUpdateRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

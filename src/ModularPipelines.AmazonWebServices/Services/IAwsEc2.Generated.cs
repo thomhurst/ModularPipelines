@@ -24,7 +24,7 @@ public interface IAwsEc2
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsEc2Wait Wait => throw new System.NotSupportedException();
+    AwsEc2Wait Wait { get; }
 
     /// <summary>
     /// Accepts an Elastic IP address transfer. For more information, see Accept a transferred Elastic IP address in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptAddressTransferAsync(AwsEc2AcceptAddressTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptAddressTransferAsync(AwsEc2AcceptAddressTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Accepts a request to assign billing of the available capacity of a shared Capacity Reservation to your account. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptCapacityReservationBillingOwnershipAsync(AwsEc2AcceptCapacityReservationBillingOwnershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptCapacityReservationBillingOwnershipAsync(AwsEc2AcceptCapacityReservationBillingOwnershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptReservedInstancesExchangeQuoteAsync(AwsEc2AcceptReservedInstancesExchangeQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptReservedInstancesExchangeQuoteAsync(AwsEc2AcceptReservedInstancesExchangeQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Accepts a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner must accept the attachment request before the Client VPN endpoint can route traffic through the Transit Gateway. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptTransitGatewayClientVpnAttachmentAsync(AwsEc2AcceptTransitGatewayClientVpnAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptTransitGatewayClientVpnAttachmentAsync(AwsEc2AcceptTransitGatewayClientVpnAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Accepts a request to associate subnets with a transit gateway multicast domain. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptTransitGatewayMulticastDomainAssociationsAsync(AwsEc2AcceptTransitGatewayMulticastDomainAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptTransitGatewayMulticastDomainAssociationsAsync(AwsEc2AcceptTransitGatewayMulticastDomainAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Accepts a transit gateway peering attachment request. The peering at- tachment must be in the pendingAcceptance state. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptTransitGatewayPeeringAttachmentAsync(AwsEc2AcceptTransitGatewayPeeringAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptTransitGatewayPeeringAttachmentAsync(AwsEc2AcceptTransitGatewayPeeringAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Accepts a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use Descri- beTransitGatewayVpcAttachments to view your pending VPC attachment re- quests. Use RejectTransitGatewayVpcAttachment to reject a VPC attach- ment request. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptTransitGatewayVpcAttachmentAsync(AwsEc2AcceptTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptTransitGatewayVpcAttachmentAsync(AwsEc2AcceptTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Accepts connection requests to your VPC endpoint service. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptVpcEndpointConnectionsAsync(AwsEc2AcceptVpcEndpointConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptVpcEndpointConnectionsAsync(AwsEc2AcceptVpcEndpointConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use DescribeVpcPeeringConnections to view your outstanding VPC peering connection requests. For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptVpcPeeringConnectionAsync(AwsEc2AcceptVpcPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptVpcPeeringConnectionAsync(AwsEc2AcceptVpcPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP ad- dresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other loca- tions when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a ...
@@ -123,8 +114,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdvertiseByoipCidrAsync(AwsEc2AdvertiseByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdvertiseByoipCidrAsync(AwsEc2AdvertiseByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a differ- ent Amazon Web Services account. You can allocate an Elastic IP address from one of the following ad- dress pools: o Amazon's pool of IPv4 addresses o Public IPv4 address range that you own and bring to your Amazon W...
@@ -133,8 +123,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AllocateAddressAsync(AwsEc2AllocateAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AllocateAddressAsync(AwsEc2AllocateAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allocates a Dedicated Host to your account. At a minimum, specify the supported instance type or instance family, the Availability Zone in which to allocate the host, and the number of hosts to allocate. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AllocateHostsAsync(AwsEc2AllocateHostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AllocateHostsAsync(AwsEc2AllocateHostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allocate a CIDR from an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. In IPAM, an allocation is a CIDR assignment from an IPAM pool to an- other IPAM pool or to a resource. For more information, see Allocate CIDRs in the Amazon VPC IPAM User Guide . NOTE: This action creates an allocation with strong consistency. The re- turned CIDR will not overlap with any other allocations from the ...
@@ -153,8 +141,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AllocateIpamPoolCidrAsync(AwsEc2AllocateIpamPoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AllocateIpamPoolCidrAsync(AwsEc2AllocateIpamPoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies a security group to the association between the target network and the Client VPN endpoint. This action replaces the existing security groups with the specified security groups. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApplySecurityGroupsToClientVpnTargetNetworkAsync(AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApplySecurityGroupsToClientVpnTargetNetworkAsync(AwsEc2ApplySecurityGroupsToClientVpnTargetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the specified IPv6 addresses to the specified network inter- face. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a net- work interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegat...
@@ -173,8 +159,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssignIpv6AddressesAsync(AwsEc2AssignIpv6AddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssignIpv6AddressesAsync(AwsEc2AssignIpv6AddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more infor- mation about Elastic IP addresses, see Elastic IP Addresses in the Ama- zon EC2 User Guide . When you move a secondary private I...
@@ -183,8 +168,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssignPrivateIpAddressesAsync(AwsEc2AssignPrivateIpAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssignPrivateIpAddressesAsync(AwsEc2AssignPrivateIpAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns private IPv4 addresses to a private NAT gateway. For more in- formation, see Work with NAT gateways in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssignPrivateNatGatewayAddressAsync(AwsEc2AssignPrivateNatGatewayAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssignPrivateNatGatewayAddressAsync(AwsEc2AssignPrivateNatGatewayAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. If the Elastic IP address is already associated with a different in- stance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an in- stance that has an existing Elastic IP address, the exis...
@@ -203,8 +186,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAddressAsync(AwsEc2AssociateAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAddressAsync(AwsEc2AssociateAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an application status check with instances or tags . Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o You must own the application status check. The check must already ex- ist in your account. o You must not leave tag ...
@@ -213,8 +195,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateApplicationStatusCheckAsync(AwsEc2AssociateApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateApplicationStatusCheckAsync(AwsEc2AssociateApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a request to assign billing of the unused capacity of a shared Capacity Reservation to a consumer account that is consolidated under the same Amazon Web Services organizations payer account. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateCapacityReservationBillingOwnerAsync(AwsEc2AssociateCapacityReservationBillingOwnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateCapacityReservationBillingOwnerAsync(AwsEc2AssociateCapacityReservationBillingOwnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a target network with a Client VPN endpoint. A target net- work is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy. If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a...
@@ -233,8 +213,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateClientVpnTargetNetworkAsync(AwsEc2AssociateClientVpnTargetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateClientVpnTargetNetworkAsync(AwsEc2AssociateClientVpnTargetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease us- ing the operati...
@@ -243,8 +222,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDhcpOptionsAsync(AwsEc2AssociateDhcpOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDhcpOptionsAsync(AwsEc2AssociateDhcpOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an Identity and Access Management (IAM) role with an Cer- tificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide . When the IAM role is associated with the ACM certificate, the certifi- cate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the as...
@@ -253,8 +231,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateEnclaveCertificateIamRoleAsync(AwsEc2AssociateEnclaveCertificateIamRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateEnclaveCertificateIamRoleAsync(AwsEc2AssociateEnclaveCertificateIamRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an in- stance. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateIamInstanceProfileAsync(AwsEc2AssociateIamInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateIamInstanceProfileAsync(AwsEc2AssociateIamInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates one or more targets with an event window. Only one type of target (instance IDs, Dedicated Host IDs, or tags) can be specified with an event window. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateInstanceEventWindowAsync(AwsEc2AssociateInstanceEventWindowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateInstanceEventWindowAsync(AwsEc2AssociateInstanceEventWindowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates your Autonomous System Number (ASN) with a BYOIP CIDR that you own in the same Amazon Web Services Region. For more information, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . After the association succeeds, the ASN is eligible for advertisement. You can view the association with DescribeByoipCidrs . You can adver- tise the CIDR with AdvertiseByoipCidr . See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateIpamByoasnAsync(AwsEc2AssociateIpamByoasnOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateIpamByoasnAsync(AwsEc2AssociateIpamByoasnOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an IPAM resource discovery with an Amazon VPC IPAM. A re- source discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateIpamResourceDiscoveryAsync(AwsEc2AssociateIpamResourceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateIpamResourceDiscoveryAsync(AwsEc2AssociateIpamResourceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjust- ment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide . WARNING: When you associate an EIP or secondary EIPs with a public NAT gate- way, the network bord...
@@ -303,8 +276,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateNatGatewayAddressAsync(AwsEc2AssociateNatGatewayAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateNatGatewayAddressAsync(AwsEc2AssociateNatGatewayAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a route server with a VPC to enable dynamic route updates. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateRouteServerAsync(AwsEc2AssociateRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateRouteServerAsync(AwsEc2AssociateRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a subnet in your VPC or an internet gateway or virtual pri- vate gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed ac- cording to the routes in the route table. The action returns an associ- ation ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route tables in the Amazon VPC User Guide . See also: AWS API...
@@ -323,8 +294,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateRouteTableAsync(AwsEc2AssociateRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateRouteTableAsync(AwsEc2AssociateRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC. NOTE: o The VPC you want to associate the security group with must be in the same Region. o You can associate the security group with another VPC if your ac- count owns the VPC or if the VPC was shared with you. o You must own the security group. o You cannot use this feature with default security groups. o You cannot use thi...
@@ -333,8 +303,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSecurityGroupVpcAsync(AwsEc2AssociateSecurityGroupVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSecurityGroupVpcAsync(AwsEc2AssociateSecurityGroupVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a CIDR block with your subnet. You can only associate a sin- gle IPv6 CIDR block with your subnet. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSubnetCidrBlockAsync(AwsEc2AssociateSubnetCidrBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSubnetCidrBlockAsync(AwsEc2AssociateSubnetCidrBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified subnets and transit gateway attachments with the specified transit gateway multicast domain. The transit gateway attachment must be in the available state before you can add a resource. Use DescribeTransitGatewayAttachments to see the state of the attachment. See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTransitGatewayMulticastDomainAsync(AwsEc2AssociateTransitGatewayMulticastDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTransitGatewayMulticastDomainAsync(AwsEc2AssociateTransitGatewayMulticastDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified transit gateway attachment with a transit gateway policy table. See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTransitGatewayPolicyTableAsync(AwsEc2AssociateTransitGatewayPolicyTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTransitGatewayPolicyTableAsync(AwsEc2AssociateTransitGatewayPolicyTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified attachment with the specified transit gateway route table. You can associate only one route table with an attachment. See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTransitGatewayRouteTableAsync(AwsEc2AssociateTransitGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTransitGatewayRouteTableAsync(AwsEc2AssociateTransitGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a branch network interface with a trunk network interface. Before you create the association, use CreateNetworkInterface command and set the interface type to trunk . You must also create a network interface for each branch network interface that you want to associate with the trunk network interface. See also: AWS API Documentation
@@ -383,8 +348,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTrunkInterfaceAsync(AwsEc2AssociateTrunkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTrunkInterfaceAsync(AwsEc2AssociateTrunkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP ). You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see IP addressing for your VPCs and subnet...
@@ -393,8 +357,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateVpcCidrBlockAsync(AwsEc2AssociateVpcCidrBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateVpcCidrBlockAsync(AwsEc2AssociateVpcCidrBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC security groups. You cannot link an EC2-Classic in- stance to more than one VPC at a time. You can only link an instance that's in the running state. An instance is automatically unlinked from a VPC when it's stopped - you can link it to the VPC again when you restart it. After you've linked an instance, you cannot change the VPC security groups that are associated with it. ...
@@ -403,8 +366,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachClassicLinkVpcAsync(AwsEc2AttachClassicLinkVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachClassicLinkVpcAsync(AwsEc2AttachClassicLinkVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images cre- ated through CreateImage , and CopyImage . Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachImageWatermarkAsync(AwsEc2AttachImageWatermarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachImageWatermarkAsync(AwsEc2AttachImageWatermarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches an internet gateway or a virtual private gateway to a VPC, en- abling connectivity between the internet and the VPC. For more informa- tion, see Internet gateways in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachInternetGatewayAsync(AwsEc2AttachInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachInternetGatewayAsync(AwsEc2AttachInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a network interface to an instance. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachNetworkInterfaceAsync(AwsEc2AttachNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachNetworkInterfaceAsync(AwsEc2AttachNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachVerifiedAccessTrustProviderAsync(AwsEc2AttachVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachVerifiedAccessTrustProviderAsync(AwsEc2AttachVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches an Amazon EBS volume to a running or stopped instance, and ex- poses it to the instance with the specified device name. NOTE: The maximum number of Amazon EBS volumes that you can attach to an instance depends on the instance type. If you exceed the volume at- tachment limit for an instance type, the attachment request fails with the AttachmentLimitExceeded error. For more information, see Instance volume limits . After you attach an EBS volume, you must make it available for use. For m...
@@ -453,8 +411,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachVolumeAsync(AwsEc2AttachVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachVolumeAsync(AwsEc2AttachVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches an available virtual private gateway to a VPC. You can attach one virtual private gateway to one VPC at a time. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachVpnGatewayAsync(AwsEc2AttachVpnGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachVpnGatewayAsync(AwsEc2AttachVpnGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to net- works. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks. See also: AWS API Documentation
@@ -473,8 +429,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeClientVpnIngressAsync(AwsEc2AuthorizeClientVpnIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeClientVpnIngressAsync(AwsEc2AuthorizeClientVpnIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified outbound (egress) rules to a security group. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 address ranges, the IP address ranges specified by a pre- fix list, or the instances that are associated with a source security group. For more information, see Security group rules . You must specify exactly one of the following destinations: an IPv4 or IPv6 address range, a prefix list, or a security group. You must spec- ify a protocol for each rule ...
@@ -483,8 +438,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeSecurityGroupEgressAsync(AwsEc2AuthorizeSecurityGroupEgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeSecurityGroupEgressAsync(AwsEc2AuthorizeSecurityGroupEgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 address range, the IP address ranges that are specified by a prefix list, or the instances that are associated with a destination security group. For more information, see Security group rules . You must specify exactly one of the following sources: an IPv4 or IPv6 address range, a prefix list, or a security group. You must specify a protocol for ea...
@@ -493,8 +447,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeSecurityGroupIngressAsync(AwsEc2AuthorizeSecurityGroupIngressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeSecurityGroupIngressAsync(AwsEc2AuthorizeSecurityGroupIngressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies multiple routing policy registrations in a single operation. You can create, update, or delete Route Origin Authorizations (ROAs) in batch. See also: AWS API Documentation
@@ -503,8 +456,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchModifyIpamRoutingPolicyRegistrationsAsync(AwsEc2BatchModifyIpamRoutingPolicyRegistrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchModifyIpamRoutingPolicyRegistrationsAsync(AwsEc2BatchModifyIpamRoutingPolicyRegistrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:) is bundled. Data on other instance store volumes is not preserved. NOTE: BundleInstance is no longer supported. To create an AMI, use CreateImage instead. For more information about creating an Amazon EBS-backed AMI, see Create an Amazon EBS-backed AMI in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -513,8 +465,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BundleInstanceAsync(AwsEc2BundleInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BundleInstanceAsync(AwsEc2BundleInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a bundling operation for an instance store-backed Windows in- stance. NOTE: CancelBundleTask is no longer supported because BundleInstance , the operation it cancels, is no longer supported. See also: AWS API Documentation
@@ -523,8 +474,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelBundleTaskAsync(AwsEc2CancelBundleTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelBundleTaskAsync(AwsEc2CancelBundleTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels one or more Capacity Reservation Fleets. When you cancel a Ca- pacity Reservation Fleet, the following happens: o The Capacity Reservation Fleet's status changes to cancelled . o The individual Capacity Reservations in the Fleet are cancelled. In- stances running in the Capacity Reservations at the time of can- celling the Fleet continue to run in shared capacity. o The Fleet stops creating new Capacity Reservations. See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelCapacityReservationFleetsAsync(AwsEc2CancelCapacityReservationFleetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelCapacityReservationFleetsAsync(AwsEc2CancelCapacityReservationFleetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the specified Capacity Reservation, releases the reserved ca- pacity, and changes the Capacity Reservation's state to cancelled . You can cancel a Capacity Reservation that is in the following states: o assessing o scheduled requires a cancellation quote. Use CreateCapacityReserva- tionCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down . The can- cellation charge depends on how close the reservation is to its start date...
@@ -543,8 +492,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelCapacityReservationAsync(AwsEc2CancelCapacityReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelCapacityReservationAsync(AwsEc2CancelCapacityReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an active conversion task. The task can be the import of an in- stance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception. See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelConversionTaskAsync(AwsEc2CancelConversionTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelConversionTaskAsync(AwsEc2CancelConversionTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the generation of an account status report. You can only cancel a report while it has the running status. Reports with other statuses (complete , cancelled , or error ) can't be can- celed. For more information, see Generating the account status report for de- clarative policies in the Amazon Web Services Organizations User Guide . See also: AWS API Documentation
@@ -563,8 +510,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelDeclarativePoliciesReportAsync(AwsEc2CancelDeclarativePoliciesReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelDeclarativePoliciesReportAsync(AwsEc2CancelDeclarativePoliciesReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the ex- port task is complete or is in the process of transferring the final disk image, the command fails and returns an error. See also: AWS API Documentation
@@ -573,8 +519,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelExportTaskAsync(AwsEc2CancelExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelExportTaskAsync(AwsEc2CancelExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes your Amazon Web Services account from the launch permissions for the specified AMI. For more information, see Cancel having an AMI shared with your Amazon Web Services account in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -583,8 +528,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelImageLaunchPermissionAsync(AwsEc2CancelImageLaunchPermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelImageLaunchPermissionAsync(AwsEc2CancelImageLaunchPermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an in-process import virtual machine or import snapshot task. See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelImportTaskAsync(AwsEc2CancelImportTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelImportTaskAsync(AwsEc2CancelImportTaskOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the specified Reserved Instance listing in the Reserved In- stance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelReservedInstancesListingAsync(AwsEc2CancelReservedInstancesListingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelReservedInstancesListingAsync(AwsEc2CancelReservedInstancesListingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should ter- minate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the in- stances continue to run until they are interrupted or you terminate them manually. WARNING: Term...
@@ -613,8 +555,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelSpotFleetRequestsAsync(AwsEc2CancelSpotFleetRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelSpotFleetRequestsAsync(AwsEc2CancelSpotFleetRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels one or more Spot Instance requests. WARNING: Canceling a Spot Instance request does not terminate running Spot Instances associated with the request. See also: AWS API Documentation
@@ -623,8 +564,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelSpotInstanceRequestsAsync(AwsEc2CancelSpotInstanceRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelSpotInstanceRequestsAsync(AwsEc2CancelSpotInstanceRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Determines whether a product code is associated with an instance. This action can only be used by the owner of the product code. It is useful when a product code owner must verify whether another user's instance is eligible for support. See also: AWS API Documentation
@@ -633,8 +573,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConfirmProductInstanceAsync(AwsEc2ConfirmProductInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConfirmProductInstanceAsync(AwsEc2ConfirmProductInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Copies the specified Amazon FPGA Image (AFI) to the current Region. See also: AWS API Documentation
@@ -643,8 +582,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyFpgaImageAsync(AwsEc2CopyFpgaImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyFpgaImageAsync(AwsEc2CopyFpgaImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates an AMI copy operation. You must specify the source AMI ID and both the source and destination locations. The copy operation must be initiated in the destination Region. CopyImage supports the following source to destination copies: o Region to Region o Region to Outpost o Parent Region to Local Zone o Local Zone to parent Region o Between Local Zones with the same parent Region (only supported for certain Local Zones) CopyImage does not support the following source to destination copie...
@@ -653,8 +591,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyImageAsync(AwsEc2CopyImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyImageAsync(AwsEc2CopyImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an exact copy of an Amazon EBS snapshot. The location of the source snapshot determines whether you can copy it or not, and the allowed destinations for the snapshot copy. o If the source snapshot is in a Region, you can copy it within that Region, to another Region, to an Outpost associated with that Region, or to a Local Zone in that Region. o If the source snapshot is in a Local Zone, you can copy it within that Local Zone, to another Local Zone in the same zone group, or to the paren...
@@ -663,8 +600,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopySnapshotAsync(AwsEc2CopySnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopySnapshotAsync(AwsEc2CopySnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a crash-consistent, point-in-time copy of an existing Amazon EBS volume within the same Availability Zone. The volume copy can be attached to an Amazon EC2 instance once it reaches the available state. For more information, see Copy an Amazon EBS volume . See also: AWS API Documentation
@@ -673,8 +609,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyVolumesAsync(AwsEc2CopyVolumesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyVolumesAsync(AwsEc2CopyVolumesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an application status check for monitoring the health of appli- cations running on your instances. You can configure the protocol, port, path, and thresholds for the health check. The following rules apply: o You can create a maximum of 50 application status checks for each ac- count. o You must associate the check with instances or tags using Associ- ateApplicationStatusCheck before health checks start. o You must set the Timeout value to less than the Interval value. o You must start t...
@@ -683,8 +618,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationStatusCheckAsync(AwsEc2CreateApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationStatusCheckAsync(AwsEc2CreateApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new data export configuration for EC2 Capacity Manager. This allows you to automatically export capacity usage data to an S3 bucket on a scheduled basis. The exported data includes metrics for On-Demand, Spot, and Capacity Reservations usage across your organization. See also: AWS API Documentation
@@ -693,8 +627,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCapacityManagerDataExportAsync(AwsEc2CreateCapacityManagerDataExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCapacityManagerDataExportAsync(AwsEc2CreateCapacityManagerDataExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Capacity Reservation by splitting the capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account. See also: AWS API Documentation
@@ -703,8 +636,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCapacityReservationBySplittingAsync(AwsEc2CreateCapacityReservationBySplittingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCapacityReservationBySplittingAsync(AwsEc2CreateCapacityReservationBySplittingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a cancellation quote for a future-dated Capacity Reservation that is within its commitment duration. The quote includes the cancel- lation terms and a quote ID that you can pass to the CancelCapaci- tyReservation action. Cancellation quotes are valid for 24 hours. See also: AWS API Documentation
@@ -713,8 +645,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCapacityReservationCancellationQuoteAsync(AwsEc2CreateCapacityReservationCancellationQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCapacityReservationCancellationQuoteAsync(AwsEc2CreateCapacityReservationCancellationQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a quote for changing the start date of a future-dated Capac- ity Reservation that has not yet been delivered. The quote includes the new start date, the resulting commitment end date, and a quote ID. Pass the quote ID to ModifyCapacityReservation to apply the change. The cumulative pushout across all changes is limited to 30 days from the Capacity Reservation's original start date. Quotes are valid for 24 hours, and always expire at least one hour before the start date. See also: AWS A...
@@ -723,8 +654,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCapacityReservationDateChangeQuoteAsync(AwsEc2CreateCapacityReservationDateChangeQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCapacityReservationDateChangeQuoteAsync(AwsEc2CreateCapacityReservationDateChangeQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Capacity Reservation Fleet. For more information, see Create a Capacity Reservation Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -733,8 +663,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCapacityReservationFleetAsync(AwsEc2CreateCapacityReservationFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCapacityReservationFleetAsync(AwsEc2CreateCapacityReservationFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Capacity Reservation with the specified attributes. Ca- pacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. You can create a Capacity Reservation at any time, and you can choose when it starts. You can create a Capacity Reservation for immediate use or you can request a Capacity Reservation for a future date. For more information, see Reserve compute capacity with On-Demand Ca- pacity Reservations in the...
@@ -743,8 +672,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCapacityReservationAsync(AwsEc2CreateCapacityReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCapacityReservationAsync(AwsEc2CreateCapacityReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a carrier gateway. For more information about carrier gateways, see Carrier gateways in the Amazon Web Services Wavelength Developer Guide . See also: AWS API Documentation
@@ -753,8 +681,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCarrierGatewayAsync(AwsEc2CreateCarrierGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCarrierGatewayAsync(AwsEc2CreateCarrierGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions are termi- nated. See also: AWS API Documentation
@@ -763,8 +690,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClientVpnEndpointAsync(AwsEc2CreateClientVpnEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClientVpnEndpointAsync(AwsEc2CreateClientVpnEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has a route table that describes the available destination network routes. Each route in the route table specifies the path for trac to specic resources or networks. See also: AWS API Documentation
@@ -773,8 +699,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClientVpnRouteAsync(AwsEc2CreateClientVpnRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClientVpnRouteAsync(AwsEc2CreateClientVpnRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a range of customer-owned IP addresses. See also: AWS API Documentation
@@ -783,8 +708,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCoipCidrAsync(AwsEc2CreateCoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCoipCidrAsync(AwsEc2CreateCoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a pool of customer-owned IP (CoIP) addresses. See also: AWS API Documentation
@@ -793,8 +717,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCoipPoolAsync(AwsEc2CreateCoipPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCoipPoolAsync(AwsEc2CreateCoipPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information to Amazon Web Services about your customer gateway device. The customer gateway device is the appliance at your end of the VPN connection. You must provide the IP address of the customer gateway devices external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also pro- vide the device's BGP Autonomous System Number (ASN). You can use an existing ASN a...
@@ -803,8 +726,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomerGatewayAsync(AwsEc2CreateCustomerGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomerGatewayAsync(AwsEc2CreateCustomerGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a default subnet with a size /20 IPv4 CIDR block in the speci- fied Availability Zone in your default VPC. You can have only one de- fault subnet per Availability Zone. For more information, see Create a default subnet in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -813,8 +735,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDefaultSubnetAsync(AwsEc2CreateDefaultSubnetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDefaultSubnetAsync(AwsEc2CreateDefaultSubnetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a default VPC with a size /16 IPv4 CIDR block and a default subnet in each Availability Zone. For more information about the compo- nents of a default VPC, see Default VPCs in the Amazon VPC User Guide . You cannot specify the components of the default VPC yourself. If you deleted your previous default VPC, you can create a default VPC. You cannot have more than one default VPC per Region. See also: AWS API Documentation
@@ -823,8 +744,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDefaultVpcAsync(AwsEc2CreateDefaultVpcOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDefaultVpcAsync(AwsEc2CreateDefaultVpcOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delegates ownership of the Amazon EBS root volume for an Apple silicon Mac instance to an administrative user. See also: AWS API Documentation
@@ -833,8 +753,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDelegateMacVolumeOwnershipTaskAsync(AwsEc2CreateDelegateMacVolumeOwnershipTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDelegateMacVolumeOwnershipTaskAsync(AwsEc2CreateDelegateMacVolumeOwnershipTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a custom set of DHCP options. After you create a DHCP option set, you associate it with a VPC. After you associate a DHCP option set with a VPC, all existing and newly launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see DHCP option sets in the Amazon VPC User Guide . o domain-name - If you're using AmazonProvidedDNS in us-east-1 , spec- ify ec2.internal . If you're using AmazonProvidedDNS in ...
@@ -843,8 +762,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDhcpOptionsAsync(AwsEc2CreateDhcpOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDhcpOptionsAsync(AwsEc2CreateDhcpOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// [IPv6 only] Creates an egress-only internet gateway for your VPC. An egress-only internet gateway is used to enable outbound communication over IPv6 from instances in your VPC to the internet, and prevents hosts outside of your VPC from initiating an IPv6 connection with your instance. See also: AWS API Documentation
@@ -853,8 +771,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEgressOnlyInternetGatewayAsync(AwsEc2CreateEgressOnlyInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEgressOnlyInternetGatewayAsync(AwsEc2CreateEgressOnlyInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an EC2 Fleet that contains the configuration information for On-Demand Instances and Spot Instances. Instances are launched immedi- ately if there is available capacity. A single EC2 Fleet can include multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see EC2 Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -863,8 +780,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFleetAsync(AwsEc2CreateFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFleetAsync(AwsEc2CreateFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates one or more flow logs to capture information about IP traffic for a specific network interface, subnet, or VPC. Flow log data for a monitored network interface is recorded as flow log records, which are log events consisting of fields that describe the traffic flow. For more information, see Flow log records in the Amazon VPC User Guide . When publishing to CloudWatch Logs, flow log records are published to a log group, and each network interface has a unique log stream in the log group....
@@ -873,8 +789,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFlowLogsAsync(AwsEc2CreateFlowLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFlowLogsAsync(AwsEc2CreateFlowLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP). The create operation is asynchronous. To verify that the AFI was suc- cessfully created and is ready for use, check the output logs. An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely deploy an AFI on multiple FPGA-accelerated in- stances. For more information, see the Amazon Web Services FPGA Hard- ware Development Kit . See also: AWS API Documentation
@@ -883,8 +798,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFpgaImageAsync(AwsEc2CreateFpgaImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFpgaImageAsync(AwsEc2CreateFpgaImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. The location of the source instance determines where you can create the snapshots of the ...
@@ -893,8 +807,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateImageAsync(AwsEc2CreateImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateImageAsync(AwsEc2CreateImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a report that shows how your image is used across other Amazon Web Services accounts. The report provides visibility into which ac- counts are using the specified image, and how many resources (EC2 in- stances or launch templates) are referencing it. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -903,8 +816,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateImageUsageReportAsync(AwsEc2CreateImageUsageReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateImageUsageReportAsync(AwsEc2CreateImageUsageReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 or public IPv6 ad- dress. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -913,8 +825,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInstanceConnectEndpointAsync(AwsEc2CreateInstanceConnectEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInstanceConnectEndpointAsync(AwsEc2CreateInstanceConnectEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an event window in which scheduled events for the associated Amazon EC2 instances can run. You can define either a set of time ranges or a cron expression when creating the event window, but not both. All event window times are in UTC. You can create up to 200 event windows per Amazon Web Services Region. When you create the event window, targets (instance IDs, Dedicated Host IDs, or tags) are not yet associated with it. To ensure that the event window can be used, you must associate one...
@@ -923,8 +834,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInstanceEventWindowAsync(AwsEc2CreateInstanceEventWindowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInstanceEventWindowAsync(AwsEc2CreateInstanceEventWindowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the prerequisites for your Amazon S3 bucket, sup- ported operating systems, image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM Import/Export in the VM Import/Export User Guide . See also: AWS API Documentation
@@ -933,8 +843,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInstanceExportTaskAsync(AwsEc2CreateInstanceExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInstanceExportTaskAsync(AwsEc2CreateInstanceExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an internet gateway for use with a VPC. After creating the in- ternet gateway, you attach it to a VPC using AttachInternetGateway . For more information, see Internet gateways in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -943,8 +852,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInternetGatewayAsync(AwsEc2CreateInternetGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInternetGatewayAsync(AwsEc2CreateInternetGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an interruptible Capacity Reservation by specifying the number of unused instances you want to allocate from your source reservation. This helps you make unused capacity available for other workloads within your account while maintaining control to reclaim it. See also: AWS API Documentation
@@ -953,8 +861,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInterruptibleCapacityReservationAllocationAsync(AwsEc2CreateInterruptibleCapacityReservationAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInterruptibleCapacityReservationAllocationAsync(AwsEc2CreateInterruptibleCapacityReservationAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For exam- ple, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
@@ -963,8 +870,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamExternalResourceVerificationTokenAsync(AwsEc2CreateIpamExternalResourceVerificationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamExternalResourceVerificationTokenAsync(AwsEc2CreateIpamExternalResourceVerificationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an association between an IPAM and a Regional Internet Registry (RIR) for Resource Public Key Infrastructure (RPKI) management. You can use this association to create Route Origin Authorizations (ROAs) for IP address prefixes registered with the internet registry. Your IPAM must be in the Advanced tier to use this feature. See also: AWS API Documentation
@@ -973,8 +879,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamInternetRegistryAssociationAsync(AwsEc2CreateIpamInternetRegistryAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamInternetRegistryAssociationAsync(AwsEc2CreateIpamInternetRegistryAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an IPAM. Amazon VPC IP Address Manager (IPAM) is a VPC feature that you can use to automate your IP address management workflows in- cluding assigning, tracking, troubleshooting, and auditing IP addresses across Amazon Web Services Regions and accounts throughout your Amazon Web Services Organization. For more information, see Create an IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -983,8 +888,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamAsync(AwsEc2CreateIpamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamAsync(AwsEc2CreateIpamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual...
@@ -993,8 +897,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamPolicyAsync(AwsEc2CreateIpamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamPolicyAsync(AwsEc2CreateIpamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses according to your routing and security needs. For example, if you have separate routing and security needs for development and production applications, you can create a pool for each. For more information, see Create a top-level pool in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -1003,8 +906,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamPoolAsync(AwsEc2CreateIpamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamPoolAsync(AwsEc2CreateIpamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an IPAM prefix list resolver. An IPAM prefix list resolver is a component that manages the synchro- nization between IPAM's CIDR selection rules and customer-managed pre- fix lists. It automates connectivity configurations by selecting CIDRs from IPAM's database based on your business logic and synchronizing them with prefix lists used in resources such as VPC route tables and security groups. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with I...
@@ -1013,8 +915,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamPrefixListResolverAsync(AwsEc2CreateIpamPrefixListResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamPrefixListResolverAsync(AwsEc2CreateIpamPrefixListResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an IPAM prefix list resolver target. An IPAM prefix list resolver target is an association between a spe- cific customer-managed prefix list and an IPAM prefix list resolver. The target enables the resolver to synchronize CIDRs selected by its rules into the specified prefix list, which can then be referenced in Amazon Web Services resources. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AW...
@@ -1023,8 +924,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamPrefixListResolverTargetAsync(AwsEc2CreateIpamPrefixListResolverTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamPrefixListResolverTargetAsync(AwsEc2CreateIpamPrefixListResolverTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
@@ -1033,8 +933,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamResourceDiscoveryAsync(AwsEc2CreateIpamResourceDiscoveryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamResourceDiscoveryAsync(AwsEc2CreateIpamResourceDiscoveryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a routing policy registration and publishes Route Origin Autho- rizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs. See also: AWS API Documentation
@@ -1043,8 +942,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamRoutingPolicyRegistrationAsync(AwsEc2CreateIpamRoutingPolicyRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamRoutingPolicyRegistrationAsync(AwsEc2CreateIpamRoutingPolicyRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all pub- lic IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict. For more information, see Add a scope in the Amazon VPC IPAM User Guid...
@@ -1053,8 +951,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIpamScopeAsync(AwsEc2CreateIpamScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIpamScopeAsync(AwsEc2CreateIpamScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Ser- vices Region in which you...
@@ -1063,8 +960,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateKeyPairAsync(AwsEc2CreateKeyPairOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateKeyPairAsync(AwsEc2CreateKeyPairOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances , you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide . To clone an existing launch template as the basis for a new launch tem- plate, use the Amazon EC2 console. The API, SDKs, and CLI do not sup- por...
@@ -1073,8 +969,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLaunchTemplateAsync(AwsEc2CreateLaunchTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLaunchTemplateAsync(AwsEc2CreateLaunchTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new version of a launch template. You must specify an exist- ing launch template, either by name or ID. You can determine whether the new version inherits parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, y...
@@ -1083,8 +978,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLaunchTemplateVersionAsync(AwsEc2CreateLaunchTemplateVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLaunchTemplateVersionAsync(AwsEc2CreateLaunchTemplateVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a static route for the specified local gateway route table. You must specify one of the following targets: o LocalGatewayVirtualInterfaceGroupId o NetworkInterfaceId See also: AWS API Documentation
@@ -1093,8 +987,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocalGatewayRouteAsync(AwsEc2CreateLocalGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocalGatewayRouteAsync(AwsEc2CreateLocalGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a local gateway route table. See also: AWS API Documentation
@@ -1103,8 +996,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocalGatewayRouteTableAsync(AwsEc2CreateLocalGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocalGatewayRouteTableAsync(AwsEc2CreateLocalGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a local gateway route table virtual interface group associa- tion. See also: AWS API Documentation
@@ -1113,8 +1005,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationAsync(AwsEc2CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationAsync(AwsEc2CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified VPC with the specified local gateway route ta- ble. See also: AWS API Documentation
@@ -1123,8 +1014,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocalGatewayRouteTableVpcAssociationAsync(AwsEc2CreateLocalGatewayRouteTableVpcAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocalGatewayRouteTableVpcAssociationAsync(AwsEc2CreateLocalGatewayRouteTableVpcAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a local gateway virtual interface group. See also: AWS API Documentation
@@ -1133,8 +1023,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocalGatewayVirtualInterfaceGroupAsync(AwsEc2CreateLocalGatewayVirtualInterfaceGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocalGatewayVirtualInterfaceGroupAsync(AwsEc2CreateLocalGatewayVirtualInterfaceGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a virtual interface for a local gateway. See also: AWS API Documentation
@@ -1143,8 +1032,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLocalGatewayVirtualInterfaceAsync(AwsEc2CreateLocalGatewayVirtualInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLocalGatewayVirtualInterfaceAsync(AwsEc2CreateLocalGatewayVirtualInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a System Integrity Protection (SIP) modification task to con- figure the SIP settings for an x86 Mac instance or Apple silicon Mac instance. For more information, see Configure SIP for Amazon EC2 in- stances in the Amazon EC2 User Guide . When you configure the SIP settings for your instance, you can either enable or disable all SIP settings, or you can specify a custom SIP configuration that selectively enables or disables specific SIP set- tings. NOTE: If you implement a custom configu...
@@ -1153,8 +1041,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMacSystemIntegrityProtectionModificationTaskAsync(AwsEc2CreateMacSystemIntegrityProtectionModificationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMacSystemIntegrityProtectionModificationTaskAsync(AwsEc2CreateMacSystemIntegrityProtectionModificationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a managed prefix list. You can specify entries for the prefix list. Each entry consists of a CIDR block and an optional description. See also: AWS API Documentation
@@ -1163,8 +1050,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateManagedPrefixListAsync(AwsEc2CreateManagedPrefixListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateManagedPrefixListAsync(AwsEc2CreateManagedPrefixListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-p...
@@ -1173,8 +1059,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNatGatewayAsync(AwsEc2CreateNatGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNatGatewayAsync(AwsEc2CreateNatGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an entry (a rule) in a network ACL with the specified rule num- ber. Each network ACL has a set of numbered ingress rules and a sepa- rate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in as- cending order. Each network ACL has a set of ingress rules and a sepa- rate set of egress rules. We recommend that you leave room between the rule numbe...
@@ -1183,8 +1068,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkAclEntryAsync(AwsEc2CreateNetworkAclEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkAclEntryAsync(AwsEc2CreateNetworkAclEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a network ACL in a VPC. Network ACLs provide an optional layer of security (in addition to security groups) for the instances in your VPC. For more information, see Network ACLs in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -1193,8 +1077,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkAclAsync(AwsEc2CreateNetworkAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkAclAsync(AwsEc2CreateNetworkAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Network Access Scope. Amazon Web Services Network Access Analyzer enables cloud networking and cloud operations teams to verify that their networks on Amazon Web Services conform to their network security and governance objectives. For more information, see the Amazon Web Services Network Access Ana- lyzer Guide . See also: AWS API Documentation
@@ -1203,8 +1086,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkInsightsAccessScopeAsync(AwsEc2CreateNetworkInsightsAccessScopeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkInsightsAccessScopeAsync(AwsEc2CreateNetworkInsightsAccessScopeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reacha- bility between two resources in your virtual private cloud (VPC). For more information, see the Reachability Analyzer Guide . See also: AWS API Documentation
@@ -1213,8 +1095,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkInsightsPathAsync(AwsEc2CreateNetworkInsightsPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkInsightsPathAsync(AwsEc2CreateNetworkInsightsPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see Elastic network in- terfaces in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -1223,8 +1104,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkInterfaceAsync(AwsEc2CreateNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkInterfaceAsync(AwsEc2CreateNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Grants an Amazon Web Services-authorized account permission to attach the specified network interface to an instance in their account. You can grant permission to a single Amazon Web Services account only, and only one account at a time. See also: AWS API Documentation
@@ -1233,8 +1113,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkInterfacePermissionAsync(AwsEc2CreateNetworkInterfacePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkInterfacePermissionAsync(AwsEc2CreateNetworkInterfacePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group. A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on dis- tinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not sh...
@@ -1243,8 +1122,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePlacementGroupAsync(AwsEc2CreatePlacementGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePlacementGroupAsync(AwsEc2CreatePlacementGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP ad- dress pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the sta- tus of pool creation, use DescribePublicIpv4Pools . See also: AWS API Documentation
@@ -1253,8 +1131,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePublicIpv4PoolAsync(AwsEc2CreatePublicIpv4PoolOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePublicIpv4PoolAsync(AwsEc2CreatePublicIpv4PoolOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces the EBS-backed root volume for a running instance with a new volume that is restored to the original root volume's launch state, that is restored to a specific snapshot taken from the original root volume, that is restored from an AMI that has the same key characteris- tics as that of the instance, or that is replaced by a specified vol- ume. For more information, see Replace a root volume in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -1263,8 +1140,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReplaceRootVolumeTaskAsync(AwsEc2CreateReplaceRootVolumeTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReplaceRootVolumeTaskAsync(AwsEc2CreateReplaceRootVolumeTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Re- served Instance listing at a time. To get a list of your Standard Re- served Instances, you can use the DescribeReservedInstances operation. NOTE: Only Standard Reserved Instances can be sold in the Reserved In- stance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard R...
@@ -1273,8 +1149,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReservedInstancesListingAsync(AwsEc2CreateReservedInstancesListingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReservedInstancesListingAsync(AwsEc2CreateReservedInstancesListingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a task that restores an AMI from an Amazon S3 object that was previously created by using CreateStoreImageTask . To use this API, you must have the required permissions. For more in- formation, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Ama- zon EC2 User Guide . See also: AWS API Documentation
@@ -1283,8 +1158,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRestoreImageTaskAsync(AwsEc2CreateRestoreImageTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRestoreImageTaskAsync(AwsEc2CreateRestoreImageTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3 , and the route table includes the following two IPv4 routes: o 192.0.2.0/24 (goes to some target A) o 192.0.2.0/28 (goes to some target B) Both routes apply...
@@ -1293,8 +1167,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouteAsync(AwsEc2CreateRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouteAsync(AwsEc2CreateRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new endpoint for a route server in a specified subnet. A route server endpoint is an Amazon Web Services-managed component in- side a subnet that facilitates BGP (Border Gateway Protocol) connec- tions between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -1303,8 +1176,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouteServerEndpointAsync(AwsEc2CreateRouteServerEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouteServerEndpointAsync(AwsEc2CreateRouteServerEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new route server to manage dynamic routing in a VPC. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routi...
@@ -1313,8 +1185,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouteServerAsync(AwsEc2CreateRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouteServerAsync(AwsEc2CreateRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new BGP peer for a specified route server endpoint. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions For more information see Dynamic routing in your VPC with VPC Route Server...
@@ -1323,8 +1194,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouteServerPeerAsync(AwsEc2CreateRouteServerPeerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouteServerPeerAsync(AwsEc2CreateRouteServerPeerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a route table for the specified VPC. After you create a route table, you can add routes and associate the table with a subnet. For more information, see Route tables in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -1333,8 +1203,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouteTableAsync(AwsEc2CreateRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouteTableAsync(AwsEc2CreateRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a secondary network. The allowed size for a secondary network CIDR block is between /28 net- mask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). See also: AWS API Documentation
@@ -1343,8 +1212,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSecondaryNetworkAsync(AwsEc2CreateSecondaryNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSecondaryNetworkAsync(AwsEc2CreateSecondaryNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a secondary subnet in a secondary network. A secondary subnet CIDR block must not overlap with the CIDR block of an existing secondary subnet in the secondary network. After you create a secondary subnet, you can't change its CIDR block. The allowed size for a secondary subnet CIDR block is between /28 net- mask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). Amazon reserves the first four IP addresses and the last IP address in each secondary subnet for internal use. See als...
@@ -1353,8 +1221,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSecondarySubnetAsync(AwsEc2CreateSecondarySubnetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSecondarySubnetAsync(AwsEc2CreateSecondarySubnetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a security group. A security group acts as a virtual firewall for your instance to con- trol inbound and outbound traffic. For more information, see Amazon EC2 security groups in the Amazon EC2 User Guide and Security groups for your VPC in the Amazon VPC User Guide . When you create a security group, you specify a friendly name of your choice. You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't speci...
@@ -1363,8 +1230,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSecurityGroupAsync(AwsEc2CreateSecurityGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSecurityGroupAsync(AwsEc2CreateSecurityGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. The location of the source EBS volume determines where you can create the snapshot. o If the source volume is in a Region, you must create the snapshot in the same Region as the volume. o If the source volume is in a Local Zone, you can create the snapshot in the same Local Zone or in its parent Amazon Web Services Re...
@@ -1373,8 +1239,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSnapshotAsync(AwsEc2CreateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSnapshotAsync(AwsEc2CreateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance will produce one snap- shot that is crash-consistent across the instance. You can include all of the volumes currently attached to the instance, or you can exclude the root volume or specific data (non-root) volumes from the multi-vol- ume snapshot set. The location of the source instance determines where you c...
@@ -1383,8 +1248,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSnapshotsAsync(AwsEc2CreateSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSnapshotsAsync(AwsEc2CreateSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a data feed for Spot Instances, enabling you to view Spot In- stance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed in the Ama- zon EC2 User Guide . See also: AWS API Documentation
@@ -1393,8 +1257,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSpotDatafeedSubscriptionAsync(AwsEc2CreateSpotDatafeedSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSpotDatafeedSubscriptionAsync(AwsEc2CreateSpotDatafeedSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more in- formation, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Ama- zon EC2 User Guide . See also: AWS API Documentation
@@ -1403,8 +1266,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStoreImageTaskAsync(AwsEc2CreateStoreImageTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStoreImageTaskAsync(AwsEc2CreateStoreImageTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations in the Amazon VPC User Guide and Manage prefixes for your network interfaces in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -1413,8 +1275,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSubnetCidrReservationAsync(AwsEc2CreateSubnetCidrReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSubnetCidrReservationAsync(AwsEc2CreateSubnetCidrReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing sub- net in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an ...
@@ -1423,8 +1284,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSubnetAsync(AwsEc2CreateSubnetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSubnetAsync(AwsEc2CreateSubnetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or overwrites only the specified tags for the specified Amazon EC2 resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique per resource. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide . For more information about creating IAM policies that control users' access ...
@@ -1433,8 +1293,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTagsAsync(AwsEc2CreateTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTagsAsync(AwsEc2CreateTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that defines the traffic to mirror. By default, no traffic is mirrored. To mirror traffic, use CreateTrafficMirrorFilterRule to add Traffic Mirror rules to the fil- ter. The rules you add define what traffic gets mirrored. You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported net- work services. See also: AWS API Documentation
@@ -1443,8 +1302,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrafficMirrorFilterAsync(AwsEc2CreateTrafficMirrorFilterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrafficMirrorFilterAsync(AwsEc2CreateTrafficMirrorFilterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Traffic Mirror filter rule. A Traffic Mirror rule defines the Traffic Mirror source traffic to mir- ror. You need the Traffic Mirror filter ID when you create the rule. See also: AWS API Documentation
@@ -1453,8 +1311,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrafficMirrorFilterRuleAsync(AwsEc2CreateTrafficMirrorFilterRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrafficMirrorFilterRuleAsync(AwsEc2CreateTrafficMirrorFilterRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring ap- pliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway. By default, no traffic is mirrored. Use CreateTrafficMirror...
@@ -1463,8 +1320,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrafficMirrorSessionAsync(AwsEc2CreateTrafficMirrorSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrafficMirrorSessionAsync(AwsEc2CreateTrafficMirrorSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a target for your Traffic Mirror session. A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appli- ances) can be in the same VPC, or in different VPCs connected via VPC peering or a transit gateway. A Traffic Mirror target can be a network interface, a Network Load Bal- ancer, or a Gateway Load Balancer endpoint. To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession . See also: AWS ...
@@ -1473,8 +1329,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrafficMirrorTargetAsync(AwsEc2CreateTrafficMirrorTargetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrafficMirrorTargetAsync(AwsEc2CreateTrafficMirrorTargetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Connect attachment from a specified transit gateway attach- ment. A Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a transit gateway and an ap- pliance. A Connect attachment uses an existing VPC or Amazon Web Services Direct Connect attachment as the underlying transport mechanism. See also: AWS API Documentation
@@ -1483,8 +1338,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayConnectAsync(AwsEc2CreateTransitGatewayConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayConnectAsync(AwsEc2CreateTransitGatewayConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Connect peer for a specified transit gateway Connect attach- ment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP ad- dress family (IPv4 or IPv6). For more information, see Connect peers in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
@@ -1493,8 +1347,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayConnectPeerAsync(AwsEc2CreateTransitGatewayConnectPeerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayConnectPeerAsync(AwsEc2CreateTransitGatewayConnectPeerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an entry in a transit gateway metering policy to define traffic measurement rules. See also: AWS API Documentation
@@ -1503,8 +1356,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayMeteringPolicyEntryAsync(AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayMeteringPolicyEntryAsync(AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a metering policy for a transit gateway to track and measure network traffic. See also: AWS API Documentation
@@ -1513,8 +1365,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayMeteringPolicyAsync(AwsEc2CreateTransitGatewayMeteringPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayMeteringPolicyAsync(AwsEc2CreateTransitGatewayMeteringPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a multicast domain using the specified transit gateway. The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gate- way. See also: AWS API Documentation
@@ -1523,8 +1374,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayMulticastDomainAsync(AwsEc2CreateTransitGatewayMulticastDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayMulticastDomainAsync(AwsEc2CreateTransitGatewayMulticastDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use CreateTransitGatewayVpcAttachment . To attach a VPN connection, use CreateCustomerGateway to create a cus- tomer gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to CreateVp...
@@ -1533,8 +1383,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayAsync(AwsEc2CreateTransitGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayAsync(AwsEc2CreateTransitGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests a transit gateway peering attachment between the specified transit gateway (requester) and a peer transit gateway (accepter). The peer transit gateway can be in your account or a different Amazon Web Services account. After you create the peering attachment, the owner of the accepter transit gateway must accept the attachment request. See also: AWS API Documentation
@@ -1543,8 +1392,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayPeeringAttachmentAsync(AwsEc2CreateTransitGatewayPeeringAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayPeeringAttachmentAsync(AwsEc2CreateTransitGatewayPeeringAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an entry in a transit gateway policy table to route matching traffic to a specified route table. See also: AWS API Documentation
@@ -1553,8 +1401,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayPolicyTableEntryAsync(AwsEc2CreateTransitGatewayPolicyTableEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayPolicyTableEntryAsync(AwsEc2CreateTransitGatewayPolicyTableEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a transit gateway policy table. See also: AWS API Documentation
@@ -1563,8 +1410,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayPolicyTableAsync(AwsEc2CreateTransitGatewayPolicyTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayPolicyTableAsync(AwsEc2CreateTransitGatewayPolicyTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a reference (route) to a prefix list in a specified transit gateway route table. See also: AWS API Documentation
@@ -1573,8 +1419,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayPrefixListReferenceAsync(AwsEc2CreateTransitGatewayPrefixListReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayPrefixListReferenceAsync(AwsEc2CreateTransitGatewayPrefixListReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a static route for the specified transit gateway route table. See also: AWS API Documentation
@@ -1583,8 +1428,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayRouteAsync(AwsEc2CreateTransitGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayRouteAsync(AwsEc2CreateTransitGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Advertises a new transit gateway route table. See also: AWS API Documentation
@@ -1593,8 +1437,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayRouteTableAnnouncementAsync(AwsEc2CreateTransitGatewayRouteTableAnnouncementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayRouteTableAnnouncementAsync(AwsEc2CreateTransitGatewayRouteTableAnnouncementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a route table for the specified transit gateway. See also: AWS API Documentation
@@ -1603,8 +1446,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayRouteTableAsync(AwsEc2CreateTransitGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayRouteTableAsync(AwsEc2CreateTransitGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches the specified VPC to the specified transit gateway. If you attach a VPC with a CIDR range that overlaps the CIDR range of a VPC that is already attached, the new VPC CIDR range is not propagated to the default propagation route table. To send VPC traffic to an attached transit gateway, add a route to the VPC route table using CreateRoute . See also: AWS API Documentation
@@ -1613,8 +1455,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransitGatewayVpcAttachmentAsync(AwsEc2CreateTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransitGatewayVpcAttachmentAsync(AwsEc2CreateTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy. See also: AWS API Documentation
@@ -1623,8 +1464,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVerifiedAccessEndpointAsync(AwsEc2CreateVerifiedAccessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVerifiedAccessEndpointAsync(AwsEc2CreateVerifiedAccessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within a Verified Ac- cess group shares an Verified Access policy. For example, you can group all Verified Access instances associated with "sales" applications to- gether and use one common Verified Access policy. See also: AWS API Documentation
@@ -1633,8 +1473,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVerifiedAccessGroupAsync(AwsEc2CreateVerifiedAccessGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVerifiedAccessGroupAsync(AwsEc2CreateVerifiedAccessGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// An Amazon Web Services Verified Access instance is a regional entity that evaluates application requests and grants access only when your security requirements are met. See also: AWS API Documentation
@@ -1643,8 +1482,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVerifiedAccessInstanceAsync(AwsEc2CreateVerifiedAccessInstanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVerifiedAccessInstanceAsync(AwsEc2CreateVerifiedAccessInstanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider is evaluated by Verified Access before allowing or denying the application request. See also: AWS API Documentation
@@ -1653,8 +1491,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVerifiedAccessTrustProviderAsync(AwsEc2CreateVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVerifiedAccessTrustProviderAsync(AwsEc2CreateVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snap- shot. Any Amazon Web Services Marketplace product codes from the snap- shot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more in- formation, see Ama...
@@ -1663,8 +1500,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVolumeAsync(AwsEc2CreateVolumeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVolumeAsync(AwsEc2CreateVolumeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC ...
@@ -1673,8 +1509,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcBlockPublicAccessExclusionAsync(AwsEc2CreateVpcBlockPublicAccessExclusionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcBlockPublicAccessExclusionAsync(AwsEc2CreateVpcBlockPublicAccessExclusionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a VPC Encryption Control configuration for a specified VPC. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements for standards like HIPAA, FedRAMP, and PCI DSS. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -1683,8 +1518,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcEncryptionControlAsync(AwsEc2CreateVpcEncryptionControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcEncryptionControlAsync(AwsEc2CreateVpcEncryptionControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service. A connection notification notifies you of specific endpoint events. You must create an SNS topic to receive notifications. For more information, see Creating an Amazon SNS topic in the Amazon SNS Developer Guide . You can create a connection notification for interface endpoints only. See also: AWS API Documentation
@@ -1693,8 +1527,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcEndpointConnectionNotificationAsync(AwsEc2CreateVpcEndpointConnectionNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcEndpointConnectionNotificationAsync(AwsEc2CreateVpcEndpointConnectionNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a VPC endpoint. A VPC endpoint provides a private connection between the specified VPC and the specified endpoint service. You can use an endpoint service provided by Amazon Web Services, an Amazon Web Services Marketplace Partner, or another Amazon Web Services account. For more information, see the Amazon Web Services PrivateLink User Guide . See also: AWS API Documentation
@@ -1703,8 +1536,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcEndpointAsync(AwsEc2CreateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcEndpointAsync(AwsEc2CreateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the fol- lowing for your service: o A Network Load Balancer . Service consumers connect to your service using an interface endpoint. o A Gateway Load Balancer . Service consumers connect to your service using a Gateway Load Balancer endpoint. If you set the private DNS name, you must prove that you own the pri- v...
@@ -1713,8 +1545,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcEndpointServiceConfigurationAsync(AwsEc2CreateVpcEndpointServiceConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcEndpointServiceConfigurationAsync(AwsEc2CreateVpcEndpointServiceConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a VPC with the specified CIDR blocks. A VPC must have an associated IPv4 CIDR block. You can choose an IPv4 CIDR block or an IPAM-allocated IPv4 CIDR block. You can optionally as- sociate an IPv6 CIDR block with a VPC. You can choose an IPv6 CIDR block, an Amazon-provided IPv6 CIDR block, an IPAM-allocated IPv6 CIDR block, or an IPv6 CIDR block that you brought to Amazon Web Services. For more information, see IP addressing for your VPCs and subnets in the Amazon VPC User Guide . By defa...
@@ -1723,8 +1554,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcAsync(AwsEc2CreateVpcOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcAsync(AwsEc2CreateVpcOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests a VPC peering connection between two VPCs: a requester VPC that you own and an accepter VPC with which to create the connection. The accepter VPC can belong to another Amazon Web Services account and can be in a different Region to the requester VPC. The requester VPC and accepter VPC cannot have overlapping CIDR blocks. NOTE: Limitations and rules apply to a VPC peering connection. For more information, see the VPC peering limitations in the VPC Peering Guide . The owner of the accepte...
@@ -1733,8 +1563,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcPeeringConnectionAsync(AwsEc2CreateVpcPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcPeeringConnectionAsync(AwsEc2CreateVpcPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a VPN concentrator that aggregates multiple VPN connections to a transit gateway. See also: AWS API Documentation
@@ -1743,8 +1572,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpnConcentratorAsync(AwsEc2CreateVpnConcentratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpnConcentratorAsync(AwsEc2CreateVpnConcentratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a VPN connection between an existing virtual private gateway or transit gateway and a customer gateway. The supported connection type is ipsec.1 . The response includes information that you need to give to your network administrator to configure your customer gateway. WARNING: We strongly recommend that you use HTTPS when calling this operation because the response contains sensitive cryptographic information for configuring your customer gateway device. If you decide to shut down your V...
@@ -1753,8 +1581,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpnConnectionAsync(AwsEc2CreateVpnConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpnConnectionAsync(AwsEc2CreateVpnConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a static route associated with a VPN connection between an ex- isting virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
@@ -1763,8 +1590,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpnConnectionRouteAsync(AwsEc2CreateVpnConnectionRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpnConnectionRouteAsync(AwsEc2CreateVpnConnectionRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a virtual private gateway. A virtual private gateway is the endpoint on the VPC side of your VPN connection. You can create a vir- tual private gateway before creating the VPC itself. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
@@ -1773,8 +1599,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpnGatewayAsync(AwsEc2CreateVpnGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpnGatewayAsync(AwsEc2CreateVpnGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an application status check. The following rules apply: o Deleting a check automatically removes all of its associations. o Use DescribeApplicationStatusChecks to view existing checks before deleting. See also: AWS API Documentation
@@ -1783,8 +1608,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationStatusCheckAsync(AwsEc2DeleteApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationStatusCheckAsync(AwsEc2DeleteApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing Capacity Manager data export configuration. This stops future scheduled exports but does not delete previously exported files from S3. See also: AWS API Documentation
@@ -1793,8 +1617,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCapacityManagerDataExportAsync(AwsEc2DeleteCapacityManagerDataExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCapacityManagerDataExportAsync(AwsEc2DeleteCapacityManagerDataExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a carrier gateway. WARNING: If you do not delete the route that contains the carrier gateway as the Target, the route is a blackhole route. For information about how to delete a route, see DeleteRoute . See also: AWS API Documentation
@@ -1803,8 +1626,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCarrierGatewayAsync(AwsEc2DeleteCarrierGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCarrierGatewayAsync(AwsEc2DeleteCarrierGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the authorization policy for a Client VPN endpoint. See also: AWS API Documentation
@@ -1813,8 +1635,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClientVpnEndpointAuthorizationPolicyAsync(AwsEc2DeleteClientVpnEndpointAuthorizationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClientVpnEndpointAuthorizationPolicyAsync(AwsEc2DeleteClientVpnEndpointAuthorizationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Client VPN endpoint. You must disassociate all target networks before you can delete a Client VPN endpoint. See also: AWS API Documentation
@@ -1823,8 +1644,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClientVpnEndpointAsync(AwsEc2DeleteClientVpnEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClientVpnEndpointAsync(AwsEc2DeleteClientVpnEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a route from a Client VPN endpoint. You can only delete routes that you manually added using the CreateClientVpnRoute action. You can- not delete routes that were automatically added when associating a sub- net. To remove routes that have been automatically added, disassociate the target subnet from the Client VPN endpoint. See also: AWS API Documentation
@@ -1833,8 +1653,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClientVpnRouteAsync(AwsEc2DeleteClientVpnRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClientVpnRouteAsync(AwsEc2DeleteClientVpnRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a range of customer-owned IP addresses. See also: AWS API Documentation
@@ -1843,8 +1662,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCoipCidrAsync(AwsEc2DeleteCoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCoipCidrAsync(AwsEc2DeleteCoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a pool of customer-owned IP (CoIP) addresses. See also: AWS API Documentation
@@ -1853,8 +1671,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCoipPoolAsync(AwsEc2DeleteCoipPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCoipPoolAsync(AwsEc2DeleteCoipPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified customer gateway. You must delete the VPN connec- tion before you can delete the customer gateway. See also: AWS API Documentation
@@ -1863,8 +1680,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomerGatewayAsync(AwsEc2DeleteCustomerGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomerGatewayAsync(AwsEc2DeleteCustomerGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified set of DHCP options. You must disassociate the set of DHCP options before you can delete it. You can disassociate the set of DHCP options by associating either a new set of options or the default set of options with the VPC. See also: AWS API Documentation
@@ -1873,8 +1689,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDhcpOptionsAsync(AwsEc2DeleteDhcpOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDhcpOptionsAsync(AwsEc2DeleteDhcpOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an egress-only internet gateway. See also: AWS API Documentation
@@ -1883,8 +1698,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEgressOnlyInternetGatewayAsync(AwsEc2DeleteEgressOnlyInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEgressOnlyInternetGatewayAsync(AwsEc2DeleteEgressOnlyInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified EC2 Fleet request. After you delete an EC2 Fleet request, it launches no new instances. You must also specify whether a deleted EC2 Fleet request should termi- nate its instances. If you choose to terminate the instances, the EC2 Fleet request enters the deleted_terminating state. Otherwise, it en- ters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. A deleted instant fleet with running instances is not...
@@ -1893,8 +1707,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFleetsAsync(AwsEc2DeleteFleetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFleetsAsync(AwsEc2DeleteFleetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes one or more flow logs. See also: AWS API Documentation
@@ -1903,8 +1716,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFlowLogsAsync(AwsEc2DeleteFlowLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFlowLogsAsync(AwsEc2DeleteFlowLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Amazon FPGA Image (AFI). See also: AWS API Documentation
@@ -1913,8 +1725,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFpgaImageAsync(AwsEc2DeleteFpgaImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFpgaImageAsync(AwsEc2DeleteFpgaImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified image usage report. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -1923,8 +1734,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteImageUsageReportAsync(AwsEc2DeleteImageUsageReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteImageUsageReportAsync(AwsEc2DeleteImageUsageReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified EC2 Instance Connect Endpoint. See also: AWS API Documentation
@@ -1933,8 +1743,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInstanceConnectEndpointAsync(AwsEc2DeleteInstanceConnectEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInstanceConnectEndpointAsync(AwsEc2DeleteInstanceConnectEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified event window. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -1943,8 +1752,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInstanceEventWindowAsync(AwsEc2DeleteInstanceEventWindowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInstanceEventWindowAsync(AwsEc2DeleteInstanceEventWindowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified internet gateway. You must detach the internet gateway from the VPC before you can delete it. See also: AWS API Documentation
@@ -1953,8 +1761,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInternetGatewayAsync(AwsEc2DeleteInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInternetGatewayAsync(AwsEc2DeleteInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For exam- ple, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
@@ -1963,8 +1770,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamExternalResourceVerificationTokenAsync(AwsEc2DeleteIpamExternalResourceVerificationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamExternalResourceVerificationTokenAsync(AwsEc2DeleteIpamExternalResourceVerificationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the inter- net registry. See also: AWS API Documentation
@@ -1973,8 +1779,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamInternetRegistryAssociationAsync(AwsEc2DeleteIpamInternetRegistryAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamInternetRegistryAssociationAsync(AwsEc2DeleteIpamInternetRegistryAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an IPAM. Deleting an IPAM removes all monitored data associated with the IPAM including the historical data for CIDRs. For more information, see Delete an IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -1983,8 +1788,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamAsync(AwsEc2DeleteIpamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamAsync(AwsEc2DeleteIpamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual...
@@ -1993,8 +1797,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamPolicyAsync(AwsEc2DeleteIpamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamPolicyAsync(AwsEc2DeleteIpamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an IPAM pool. NOTE: You cannot delete an IPAM pool if there are allocations in it or CIDRs provisioned to it. To release allocations, see ReleaseIpamPoolAllocation . To deprovision pool CIDRs, see DeprovisionIpamPoolCidr . For more information, see Delete a pool in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -2003,8 +1806,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamPoolAsync(AwsEc2DeleteIpamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamPoolAsync(AwsEc2DeleteIpamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an IPAM prefix list resolver. Before deleting a resolver, you must first delete all resolver targets associated with it. See also: AWS API Documentation
@@ -2013,8 +1815,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamPrefixListResolverAsync(AwsEc2DeleteIpamPrefixListResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamPrefixListResolverAsync(AwsEc2DeleteIpamPrefixListResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an IPAM prefix list resolver target. This removes the associa- tion between the resolver and the managed prefix list, stopping auto- matic CIDR synchronization. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -2023,8 +1824,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamPrefixListResolverTargetAsync(AwsEc2DeleteIpamPrefixListResolverTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamPrefixListResolverTargetAsync(AwsEc2DeleteIpamPrefixListResolverTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
@@ -2033,8 +1833,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamResourceDiscoveryAsync(AwsEc2DeleteIpamResourceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamResourceDiscoveryAsync(AwsEc2DeleteIpamResourceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a routing policy registration for a specified CIDR prefix. See also: AWS API Documentation
@@ -2043,8 +1842,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamRoutingPolicyRegistrationAsync(AwsEc2DeleteIpamRoutingPolicyRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamRoutingPolicyRegistrationAsync(AwsEc2DeleteIpamRoutingPolicyRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the scope for an IPAM. You cannot delete the default scopes. For more information, see Delete a scope in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -2053,8 +1851,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIpamScopeAsync(AwsEc2DeleteIpamScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIpamScopeAsync(AwsEc2DeleteIpamScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified key pair, by removing the public key from Amazon EC2. See also: AWS API Documentation
@@ -2063,8 +1860,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteKeyPairAsync(AwsEc2DeleteKeyPairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteKeyPairAsync(AwsEc2DeleteKeyPairOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a launch template. Deleting a launch template deletes all of its versions. See also: AWS API Documentation
@@ -2073,8 +1869,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLaunchTemplateAsync(AwsEc2DeleteLaunchTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLaunchTemplateAsync(AwsEc2DeleteLaunchTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes one or more versions of a launch template. You can't delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using DeleteLaunchTemplate . You can delete up to 200 launch template versions in a single request. To delete more than 200 versions in a single request, use Delete- LaunchTemplate , which deletes the launch template and ...
@@ -2083,8 +1878,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLaunchTemplateVersionsAsync(AwsEc2DeleteLaunchTemplateVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLaunchTemplateVersionsAsync(AwsEc2DeleteLaunchTemplateVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified route from the specified local gateway route ta- ble. See also: AWS API Documentation
@@ -2093,8 +1887,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLocalGatewayRouteAsync(AwsEc2DeleteLocalGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLocalGatewayRouteAsync(AwsEc2DeleteLocalGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a local gateway route table. See also: AWS API Documentation
@@ -2103,8 +1896,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLocalGatewayRouteTableAsync(AwsEc2DeleteLocalGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLocalGatewayRouteTableAsync(AwsEc2DeleteLocalGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a local gateway route table virtual interface group associa- tion. See also: AWS API Documentation
@@ -2113,8 +1905,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationAsync(AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationAsync(AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified association between a VPC and local gateway route table. See also: AWS API Documentation
@@ -2123,8 +1914,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLocalGatewayRouteTableVpcAssociationAsync(AwsEc2DeleteLocalGatewayRouteTableVpcAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLocalGatewayRouteTableVpcAssociationAsync(AwsEc2DeleteLocalGatewayRouteTableVpcAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the specified local gateway interface group. See also: AWS API Documentation
@@ -2133,8 +1923,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLocalGatewayVirtualInterfaceGroupAsync(AwsEc2DeleteLocalGatewayVirtualInterfaceGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLocalGatewayVirtualInterfaceGroupAsync(AwsEc2DeleteLocalGatewayVirtualInterfaceGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified local gateway virtual interface. See also: AWS API Documentation
@@ -2143,8 +1932,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLocalGatewayVirtualInterfaceAsync(AwsEc2DeleteLocalGatewayVirtualInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLocalGatewayVirtualInterfaceAsync(AwsEc2DeleteLocalGatewayVirtualInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified managed prefix list. You must first remove all references to the prefix list in your resources. See also: AWS API Documentation
@@ -2153,8 +1941,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteManagedPrefixListAsync(AwsEc2DeleteManagedPrefixListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteManagedPrefixListAsync(AwsEc2DeleteManagedPrefixListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified NAT gateway. Deleting a public NAT gateway disas- sociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables. See also: AWS API Documentation
@@ -2163,8 +1950,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNatGatewayAsync(AwsEc2DeleteNatGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNatGatewayAsync(AwsEc2DeleteNatGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified ingress or egress entry (rule) from the specified network ACL. See also: AWS API Documentation
@@ -2173,8 +1959,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkAclEntryAsync(AwsEc2DeleteNetworkAclEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkAclEntryAsync(AwsEc2DeleteNetworkAclEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified network ACL. You can't delete the ACL if it's as- sociated with any subnets. You can't delete the default network ACL. See also: AWS API Documentation
@@ -2183,8 +1968,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkAclAsync(AwsEc2DeleteNetworkAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkAclAsync(AwsEc2DeleteNetworkAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Network Access Scope analysis. See also: AWS API Documentation
@@ -2193,8 +1977,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkInsightsAccessScopeAnalysisAsync(AwsEc2DeleteNetworkInsightsAccessScopeAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkInsightsAccessScopeAnalysisAsync(AwsEc2DeleteNetworkInsightsAccessScopeAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Network Access Scope. See also: AWS API Documentation
@@ -2203,8 +1986,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkInsightsAccessScopeAsync(AwsEc2DeleteNetworkInsightsAccessScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkInsightsAccessScopeAsync(AwsEc2DeleteNetworkInsightsAccessScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified network insights analysis. See also: AWS API Documentation
@@ -2213,8 +1995,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkInsightsAnalysisAsync(AwsEc2DeleteNetworkInsightsAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkInsightsAnalysisAsync(AwsEc2DeleteNetworkInsightsAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified path. See also: AWS API Documentation
@@ -2223,8 +2004,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkInsightsPathAsync(AwsEc2DeleteNetworkInsightsPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkInsightsPathAsync(AwsEc2DeleteNetworkInsightsPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified network interface. You must detach the network interface before you can delete it. See also: AWS API Documentation
@@ -2233,8 +2013,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkInterfaceAsync(AwsEc2DeleteNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkInterfaceAsync(AwsEc2DeleteNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the per- mission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment. See also: AWS API Documentation
@@ -2243,8 +2022,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkInterfacePermissionAsync(AwsEc2DeleteNetworkInterfacePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkInterfacePermissionAsync(AwsEc2DeleteNetworkInterfacePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. You cannot delete a placement group that is a parent of a cluster placement group. Delete the cluster placement groups first. For more information, see Placement groups in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -2253,8 +2031,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePlacementGroupAsync(AwsEc2DeletePlacementGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePlacementGroupAsync(AwsEc2DeletePlacementGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. See also: AWS API Documentation
@@ -2263,8 +2040,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePublicIpv4PoolAsync(AwsEc2DeletePublicIpv4PoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePublicIpv4PoolAsync(AwsEc2DeletePublicIpv4PoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the queued purchases for the specified Reserved Instances. See also: AWS API Documentation
@@ -2273,8 +2049,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQueuedReservedInstancesAsync(AwsEc2DeleteQueuedReservedInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQueuedReservedInstancesAsync(AwsEc2DeleteQueuedReservedInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified route from the specified route table. See also: AWS API Documentation
@@ -2283,8 +2058,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouteAsync(AwsEc2DeleteRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouteAsync(AwsEc2DeleteRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified route server endpoint. A route server endpoint is an Amazon Web Services-managed component in- side a subnet that facilitates BGP (Border Gateway Protocol) connec- tions between your route server and your BGP peers. See also: AWS API Documentation
@@ -2293,8 +2067,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouteServerEndpointAsync(AwsEc2DeleteRouteServerEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouteServerEndpointAsync(AwsEc2DeleteRouteServerEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified route server. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and interoperability wit...
@@ -2303,8 +2076,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouteServerAsync(AwsEc2DeleteRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouteServerAsync(AwsEc2DeleteRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions See also: AWS API Documentation
@@ -2313,8 +2085,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouteServerPeerAsync(AwsEc2DeleteRouteServerPeerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouteServerPeerAsync(AwsEc2DeleteRouteServerPeerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified route table. You must disassociate the route ta- ble from any subnets before you can delete it. You can't delete the main route table. See also: AWS API Documentation
@@ -2323,8 +2094,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouteTableAsync(AwsEc2DeleteRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouteTableAsync(AwsEc2DeleteRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a secondary network. You must delete all secondary subnets in the secondary network before you can delete the secondary network. See also: AWS API Documentation
@@ -2333,8 +2103,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSecondaryNetworkAsync(AwsEc2DeleteSecondaryNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSecondaryNetworkAsync(AwsEc2DeleteSecondaryNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a secondary subnet. A secondary subnet must not contain any secondary interfaces prior to deletion. See also: AWS API Documentation
@@ -2343,8 +2112,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSecondarySubnetAsync(AwsEc2DeleteSecondarySubnetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSecondarySubnetAsync(AwsEc2DeleteSecondarySubnetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface, is referenced by another security group in the same VPC, or has a VPC association, the operation fails with De- pendencyViolation . See also: AWS API Documentation
@@ -2353,8 +2121,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSecurityGroupAsync(AwsEc2DeleteSecurityGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSecurityGroupAsync(AwsEc2DeleteSecurityGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incre- mental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snap- shot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snap- shots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root...
@@ -2363,8 +2130,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSnapshotAsync(AwsEc2DeleteSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSnapshotAsync(AwsEc2DeleteSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the data feed for Spot Instances. See also: AWS API Documentation
@@ -2373,8 +2139,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSpotDatafeedSubscriptionAsync(AwsEc2DeleteSpotDatafeedSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSpotDatafeedSubscriptionAsync(AwsEc2DeleteSpotDatafeedSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a subnet CIDR reservation. See also: AWS API Documentation
@@ -2383,8 +2148,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSubnetCidrReservationAsync(AwsEc2DeleteSubnetCidrReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSubnetCidrReservationAsync(AwsEc2DeleteSubnetCidrReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified subnet. You must terminate all running instances in the subnet before you can delete the subnet. See also: AWS API Documentation
@@ -2393,8 +2157,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSubnetAsync(AwsEc2DeleteSubnetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSubnetAsync(AwsEc2DeleteSubnetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified set of tags from the specified set of resources. To list the current tags, use DescribeTags . For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
@@ -2403,8 +2166,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTagsAsync(AwsEc2DeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTagsAsync(AwsEc2DeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Traffic Mirror filter. You cannot delete a Traffic Mirror filter that is in use by a Traffic Mirror session. See also: AWS API Documentation
@@ -2413,8 +2175,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrafficMirrorFilterAsync(AwsEc2DeleteTrafficMirrorFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrafficMirrorFilterAsync(AwsEc2DeleteTrafficMirrorFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Traffic Mirror rule. See also: AWS API Documentation
@@ -2423,8 +2184,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrafficMirrorFilterRuleAsync(AwsEc2DeleteTrafficMirrorFilterRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrafficMirrorFilterRuleAsync(AwsEc2DeleteTrafficMirrorFilterRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Traffic Mirror session. See also: AWS API Documentation
@@ -2433,8 +2193,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrafficMirrorSessionAsync(AwsEc2DeleteTrafficMirrorSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrafficMirrorSessionAsync(AwsEc2DeleteTrafficMirrorSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Traffic Mirror target. You cannot delete a Traffic Mirror target that is in use by a Traffic Mirror session. See also: AWS API Documentation
@@ -2443,8 +2202,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrafficMirrorTargetAsync(AwsEc2DeleteTrafficMirrorTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrafficMirrorTargetAsync(AwsEc2DeleteTrafficMirrorTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Transit Gateway attachment for a Client VPN endpoint. The Transit Gateway owner can delete the attachment to remove the associa- tion between the Client VPN endpoint and the Transit Gateway. See also: AWS API Documentation
@@ -2453,8 +2211,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayClientVpnAttachmentAsync(AwsEc2DeleteTransitGatewayClientVpnAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayClientVpnAttachmentAsync(AwsEc2DeleteTransitGatewayClientVpnAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Connect attachment. You must first delete any Connect peers for the attachment. See also: AWS API Documentation
@@ -2463,8 +2220,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayConnectAsync(AwsEc2DeleteTransitGatewayConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayConnectAsync(AwsEc2DeleteTransitGatewayConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Connect peer. See also: AWS API Documentation
@@ -2473,8 +2229,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayConnectPeerAsync(AwsEc2DeleteTransitGatewayConnectPeerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayConnectPeerAsync(AwsEc2DeleteTransitGatewayConnectPeerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an entry from a transit gateway metering policy. See also: AWS API Documentation
@@ -2483,8 +2238,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayMeteringPolicyEntryAsync(AwsEc2DeleteTransitGatewayMeteringPolicyEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayMeteringPolicyEntryAsync(AwsEc2DeleteTransitGatewayMeteringPolicyEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a transit gateway metering policy. See also: AWS API Documentation
@@ -2493,8 +2247,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayMeteringPolicyAsync(AwsEc2DeleteTransitGatewayMeteringPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayMeteringPolicyAsync(AwsEc2DeleteTransitGatewayMeteringPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified transit gateway multicast domain. See also: AWS API Documentation
@@ -2503,8 +2256,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayMulticastDomainAsync(AwsEc2DeleteTransitGatewayMulticastDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayMulticastDomainAsync(AwsEc2DeleteTransitGatewayMulticastDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified transit gateway. See also: AWS API Documentation
@@ -2513,8 +2265,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayAsync(AwsEc2DeleteTransitGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayAsync(AwsEc2DeleteTransitGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a transit gateway peering attachment. See also: AWS API Documentation
@@ -2523,8 +2274,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayPeeringAttachmentAsync(AwsEc2DeleteTransitGatewayPeeringAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayPeeringAttachmentAsync(AwsEc2DeleteTransitGatewayPeeringAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified transit gateway policy table entry. See also: AWS API Documentation
@@ -2533,8 +2283,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayPolicyTableEntryAsync(AwsEc2DeleteTransitGatewayPolicyTableEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayPolicyTableEntryAsync(AwsEc2DeleteTransitGatewayPolicyTableEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified transit gateway policy table. See also: AWS API Documentation
@@ -2543,8 +2292,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayPolicyTableAsync(AwsEc2DeleteTransitGatewayPolicyTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayPolicyTableAsync(AwsEc2DeleteTransitGatewayPolicyTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a reference (route) to a prefix list in a specified transit gateway route table. See also: AWS API Documentation
@@ -2553,8 +2301,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayPrefixListReferenceAsync(AwsEc2DeleteTransitGatewayPrefixListReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayPrefixListReferenceAsync(AwsEc2DeleteTransitGatewayPrefixListReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified route from the specified transit gateway route table. See also: AWS API Documentation
@@ -2563,8 +2310,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayRouteAsync(AwsEc2DeleteTransitGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayRouteAsync(AwsEc2DeleteTransitGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Advertises to the transit gateway that a transit gateway route table is deleted. See also: AWS API Documentation
@@ -2573,8 +2319,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayRouteTableAnnouncementAsync(AwsEc2DeleteTransitGatewayRouteTableAnnouncementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayRouteTableAnnouncementAsync(AwsEc2DeleteTransitGatewayRouteTableAnnouncementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified transit gateway route table. If there are any route tables associated with the transit gateway route table, you must first run DisassociateRouteTable before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table. See also: AWS API Documentation
@@ -2583,8 +2328,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayRouteTableAsync(AwsEc2DeleteTransitGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayRouteTableAsync(AwsEc2DeleteTransitGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VPC attachment. See also: AWS API Documentation
@@ -2593,8 +2337,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTransitGatewayVpcAttachmentAsync(AwsEc2DeleteTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTransitGatewayVpcAttachmentAsync(AwsEc2DeleteTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an Amazon Web Services Verified Access endpoint. See also: AWS API Documentation
@@ -2603,8 +2346,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVerifiedAccessEndpointAsync(AwsEc2DeleteVerifiedAccessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVerifiedAccessEndpointAsync(AwsEc2DeleteVerifiedAccessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an Amazon Web Services Verified Access group. See also: AWS API Documentation
@@ -2613,8 +2355,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVerifiedAccessGroupAsync(AwsEc2DeleteVerifiedAccessGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVerifiedAccessGroupAsync(AwsEc2DeleteVerifiedAccessGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an Amazon Web Services Verified Access instance. See also: AWS API Documentation
@@ -2623,8 +2364,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVerifiedAccessInstanceAsync(AwsEc2DeleteVerifiedAccessInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVerifiedAccessInstanceAsync(AwsEc2DeleteVerifiedAccessInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an Amazon Web Services Verified Access trust provider. See also: AWS API Documentation
@@ -2633,8 +2373,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVerifiedAccessTrustProviderAsync(AwsEc2DeleteVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVerifiedAccessTrustProviderAsync(AwsEc2DeleteVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see Delete an Amazon EBS volume in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -2643,8 +2382,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVolumeAsync(AwsEc2DeleteVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVolumeAsync(AwsEc2DeleteVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC ...
@@ -2653,8 +2391,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcBlockPublicAccessExclusionAsync(AwsEc2DeleteVpcBlockPublicAccessExclusionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcBlockPublicAccessExclusionAsync(AwsEc2DeleteVpcBlockPublicAccessExclusionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a VPC Encryption Control configuration. This removes the en- cryption policy enforcement from the specified VPC. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -2663,8 +2400,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcEncryptionControlAsync(AwsEc2DeleteVpcEncryptionControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcEncryptionControlAsync(AwsEc2DeleteVpcEncryptionControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VPC endpoint connection notifications. See also: AWS API Documentation
@@ -2673,8 +2409,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcEndpointConnectionNotificationsAsync(AwsEc2DeleteVpcEndpointConnectionNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcEndpointConnectionNotificationsAsync(AwsEc2DeleteVpcEndpointConnectionNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VPC endpoint service configurations. Before you can delete an endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service. See also: AWS API Documentation
@@ -2683,8 +2418,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcEndpointServiceConfigurationsAsync(AwsEc2DeleteVpcEndpointServiceConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcEndpointServiceConfigurationsAsync(AwsEc2DeleteVpcEndpointServiceConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VPC endpoints. When you delete a gateway endpoint, we delete the endpoint routes in the route tables for the endpoint. When you delete a Gateway Load Balancer endpoint, we delete its end- point network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted. When you delete an interface endpoint, we delete its endpoint network interfaces. See also: AWS API Documentation
@@ -2693,8 +2427,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcEndpointsAsync(AwsEc2DeleteVpcEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcEndpointsAsync(AwsEc2DeleteVpcEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the de- fault one), and so on. When you delete the VPC, it deletes the default security group, network ACL, and route table for the VPC. If you created a flow log...
@@ -2703,8 +2436,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcAsync(AwsEc2DeleteVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcAsync(AwsEc2DeleteVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a VPC peering connection. Either the owner of the requester VPC or the owner of the accepter VPC can delete the VPC peering connection if it's in the active state. The owner of the requester VPC can delete a VPC peering connection in the pending-acceptance state. You cannot delete a VPC peering connection that's in the failed or rejected state. See also: AWS API Documentation
@@ -2713,8 +2445,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcPeeringConnectionAsync(AwsEc2DeleteVpcPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcPeeringConnectionAsync(AwsEc2DeleteVpcPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VPN concentrator. See also: AWS API Documentation
@@ -2723,8 +2454,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpnConcentratorAsync(AwsEc2DeleteVpnConcentratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpnConcentratorAsync(AwsEc2DeleteVpnConcentratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, with- out needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconf...
@@ -2733,8 +2463,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpnConnectionAsync(AwsEc2DeleteVpnConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpnConnectionAsync(AwsEc2DeleteVpnConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified static route associated with a VPN connection be- tween an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. See also: AWS API Documentation
@@ -2743,8 +2472,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpnConnectionRouteAsync(AwsEc2DeleteVpnConnectionRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpnConnectionRouteAsync(AwsEc2DeleteVpnConnectionRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified virtual private gateway. You must first detach the virtual private gateway from the VPC. Note that you don't need to delete the virtual private gateway if you plan to delete and recreate the VPN connection between your VPC and your network. See also: AWS API Documentation
@@ -2753,8 +2481,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpnGatewayAsync(AwsEc2DeleteVpnGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpnGatewayAsync(AwsEc2DeleteVpnGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Releases the specified address range that you provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it and you must not have any IP addresses allocated from its address range. See also: AWS API Documentation
@@ -2763,8 +2490,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeprovisionByoipCidrAsync(AwsEc2DeprovisionByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeprovisionByoipCidrAsync(AwsEc2DeprovisionByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deprovisions your Autonomous System Number (ASN) from your Amazon Web Services account. This action can only be called after any BYOIP CIDR associations are removed from your Amazon Web Services account with DisassociateIpamByoasn . For more information, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . See also: AWS API Documentation
@@ -2773,8 +2499,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeprovisionIpamByoasnAsync(AwsEc2DeprovisionIpamByoasnOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeprovisionIpamByoasnAsync(AwsEc2DeprovisionIpamByoasnOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool that has a source pool, the CIDR is recycled back into the source pool. For more information, see Deprovision pool CIDRs in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -2783,8 +2508,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeprovisionIpamPoolCidrAsync(AwsEc2DeprovisionIpamPoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeprovisionIpamPoolCidrAsync(AwsEc2DeprovisionIpamPoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deprovision a CIDR from a public IPv4 pool. See also: AWS API Documentation
@@ -2793,8 +2517,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeprovisionPublicIpv4PoolCidrAsync(AwsEc2DeprovisionPublicIpv4PoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeprovisionPublicIpv4PoolCidrAsync(AwsEc2DeprovisionPublicIpv4PoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters the specified AMI. A deregistered AMI can't be used to launch new instances. If a deregistered EBS-backed AMI matches a Recycle Bin retention rule, it moves to the Recycle Bin for the specified retention period. It can be restored before its retention period expires, after which it is per- manently deleted. If the deregistered AMI doesn't match a retention rule, it is permanently deleted immediately. For more information, see Recover deleted Amazon EBS snapshots and EBS-backed AMIs w...
@@ -2803,8 +2526,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterImageAsync(AwsEc2DeregisterImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterImageAsync(AwsEc2DeregisterImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region. See also: AWS API Documentation
@@ -2813,8 +2535,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterInstanceEventNotificationAttributesAsync(AwsEc2DeregisterInstanceEventNotificationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterInstanceEventNotificationAttributesAsync(AwsEc2DeregisterInstanceEventNotificationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters the specified members (network interfaces) from the transit gateway multicast group. See also: AWS API Documentation
@@ -2823,8 +2544,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterTransitGatewayMulticastGroupMembersAsync(AwsEc2DeregisterTransitGatewayMulticastGroupMembersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterTransitGatewayMulticastGroupMembersAsync(AwsEc2DeregisterTransitGatewayMulticastGroupMembersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters the specified sources (network interfaces) from the transit gateway multicast group. See also: AWS API Documentation
@@ -2833,8 +2553,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterTransitGatewayMulticastGroupSourcesAsync(AwsEc2DeregisterTransitGatewayMulticastGroupSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterTransitGatewayMulticastGroupSourcesAsync(AwsEc2DeregisterTransitGatewayMulticastGroupSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes attributes of your Amazon Web Services account. The following are the supported account attributes: o default-vpc : The ID of the default VPC for your account, or none . o max-instances : This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide . o max-elastic-ips : The maximum number of Elastic IP addresses that yo...
@@ -2843,8 +2562,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountAttributesAsync(AwsEc2DescribeAccountAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountAttributesAsync(AwsEc2DescribeAccountAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the account-level VPC Encryption Control configuration for your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance re- quirements. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -2853,8 +2571,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountVpcEncryptionControlAsync(AwsEc2DescribeAccountVpcEncryptionControlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountVpcEncryptionControlAsync(AwsEc2DescribeAccountVpcEncryptionControlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the attributes of the specified Elastic IP addresses. For re- quirements, see Using reverse DNS for email applications . See also: AWS API Documentation describe-addresses-attribute is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
@@ -2863,8 +2580,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAddressesAttributeAsync(AwsEc2DescribeAddressesAttributeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAddressesAttributeAsync(AwsEc2DescribeAddressesAttributeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Elastic IP addresses or all of your Elastic IP addresses. See also: AWS API Documentation
@@ -2873,8 +2589,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAddressesAsync(AwsEc2DescribeAddressesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAddressesAsync(AwsEc2DescribeAddressesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide . When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. Af- ter seven days...
@@ -2883,8 +2598,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAddressTransfersAsync(AwsEc2DescribeAddressTransfersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAddressTransfersAsync(AwsEc2DescribeAddressTransfersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the longer ID format settings for all resource types in a specific Region. This request is useful for performing a quick audit to determine whether a specific Region is fully opted in for longer IDs (17-character IDs). This request only returns information about resource types that support longer IDs. The following resource types support longer IDs: bundle | conver- sion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | i...
@@ -2893,8 +2607,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAggregateIdFormatAsync(AwsEc2DescribeAggregateIdFormatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAggregateIdFormatAsync(AwsEc2DescribeAggregateIdFormatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the associations for one or more application status checks. For more information, see Application status checks . To avoid timeouts and retrieve complete results, use the pagination parameters. NOTE: The order of the elements in the response, including those within nested structures, might vary. See also: AWS API Documentation
@@ -2903,8 +2616,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationStatusCheckAssociationsAsync(AwsEc2DescribeApplicationStatusCheckAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationStatusCheckAssociationsAsync(AwsEc2DescribeApplicationStatusCheckAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes application status checks, including configuration details such as protocol, port, path, thresholds, and associations. Results are paginated. Use the NextToken parameter to retrieve additional results. The following rules apply: o If you do not specify any application status check IDs, all checks in your account are returned. o Use DescribeApplicationStatus to see the actual health status of in- stances. See also: AWS API Documentation
@@ -2913,8 +2625,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationStatusChecksAsync(AwsEc2DescribeApplicationStatusChecksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationStatusChecksAsync(AwsEc2DescribeApplicationStatusChecksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the aggregated application health status for the specified instances. The following rules apply: o The instance-level status is derived from all application status checks with the aggregation setting set to included . o Use DescribeApplicationStatusChecks to view the configuration of in- dividual checks. o Use EnableApplicationStatusCheckSuppression to temporarily suppress health check results from affecting the instance-level status. See also: AWS API Documentation
@@ -2923,8 +2634,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationStatusAsync(AwsEc2DescribeApplicationStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationStatusAsync(AwsEc2DescribeApplicationStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. For more information about Availability Zones, Local Zones, and Wave- length Zones, see Regions and zones in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documentation
@@ -2933,8 +2643,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAvailabilityZonesAsync(AwsEc2DescribeAvailabilityZonesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAvailabilityZonesAsync(AwsEc2DescribeAvailabilityZonesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the current Infrastructure Performance metric subscriptions. See also: AWS API Documentation describe-aws-network-performance-metric-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query express...
@@ -2943,8 +2652,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAwsNetworkPerformanceMetricSubscriptionsAsync(AwsEc2DescribeAwsNetworkPerformanceMetricSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAwsNetworkPerformanceMetricSubscriptionsAsync(AwsEc2DescribeAwsNetworkPerformanceMetricSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified bundle tasks or all of your bundle tasks. NOTE: Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task. NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular ord...
@@ -2953,8 +2661,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBundleTasksAsync(AwsEc2DescribeBundleTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBundleTasksAsync(AwsEc2DescribeBundleTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the IP address ranges that were provisioned for use with Ama- zon Web Services resources through through bring your own IP addresses (BYOIP). See also: AWS API Documentation describe-byoip-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
@@ -2963,8 +2670,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeByoipCidrsAsync(AwsEc2DescribeByoipCidrsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeByoipCidrsAsync(AwsEc2DescribeByoipCidrsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the events for the specified Capacity Block extension during the specified time. See also: AWS API Documentation describe-capacity-block-extension-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following que...
@@ -2973,8 +2679,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityBlockExtensionHistoryAsync(AwsEc2DescribeCapacityBlockExtensionHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityBlockExtensionHistoryAsync(AwsEc2DescribeCapacityBlockExtensionHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-block-extension-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
@@ -2983,8 +2688,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityBlockExtensionOfferingsAsync(AwsEc2DescribeCapacityBlockExtensionOfferingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityBlockExtensionOfferingsAsync(AwsEc2DescribeCapacityBlockExtensionOfferingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can purchase a specific GPU instance type or EC2 UltraServer for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count. See also: AWS API Documentation describe-capacity-block-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data s...
@@ -2993,8 +2697,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityBlockOfferingsAsync(AwsEc2DescribeCapacityBlockOfferingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityBlockOfferingsAsync(AwsEc2DescribeCapacityBlockOfferingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes details about Capacity Blocks in the Amazon Web Services Re- gion that you're currently using. See also: AWS API Documentation describe-capacity-blocks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query ex...
@@ -3003,8 +2706,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityBlocksAsync(AwsEc2DescribeCapacityBlocksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityBlocksAsync(AwsEc2DescribeCapacityBlocksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks. See also: AWS API Documentation describe-capacity-block-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
@@ -3013,8 +2715,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityBlockStatusAsync(AwsEc2DescribeCapacityBlockStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityBlockStatusAsync(AwsEc2DescribeCapacityBlockStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Capacity Manager data export configurations. Re- turns information about export settings, delivery status, and recent export activity. See also: AWS API Documentation describe-capacity-manager-data-exports is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query...
@@ -3023,8 +2724,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityManagerDataExportsAsync(AwsEc2DescribeCapacityManagerDataExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityManagerDataExportsAsync(AwsEc2DescribeCapacityManagerDataExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a request to assign the billing of the unused capacity of a Capacity Reservation. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation describe-capacity-reservation-billing-requests is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a...
@@ -3033,8 +2733,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityReservationBillingRequestsAsync(AwsEc2DescribeCapacityReservationBillingRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityReservationBillingRequestsAsync(AwsEc2DescribeCapacityReservationBillingRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Capacity Reservation cancellation quotes. The re- sults describe only the quotes that you have previously generated by using the CreateCapacityReservationCancellationQuote action. See also: AWS API Documentation
@@ -3043,8 +2742,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityReservationCancellationQuotesAsync(AwsEc2DescribeCapacityReservationCancellationQuotesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityReservationCancellationQuotesAsync(AwsEc2DescribeCapacityReservationCancellationQuotesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Capacity Reservation date change quotes that you generated by using the CreateCapacityReservationDateChangeQuote opera- tion. See also: AWS API Documentation describe-capacity-reservation-date-change-quotes is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query ...
@@ -3053,8 +2751,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityReservationDateChangeQuotesAsync(AwsEc2DescribeCapacityReservationDateChangeQuotesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityReservationDateChangeQuotesAsync(AwsEc2DescribeCapacityReservationDateChangeQuotesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Capacity Reservation Fleets. See also: AWS API Documentation describe-capacity-reservation-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CapacityReservationFleets
@@ -3063,8 +2760,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityReservationFleetsAsync(AwsEc2DescribeCapacityReservationFleetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityReservationFleetsAsync(AwsEc2DescribeCapacityReservationFleetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your Capacity Reservations. The results de- scribe only the Capacity Reservations in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --qu...
@@ -3073,8 +2769,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityReservationsAsync(AwsEc2DescribeCapacityReservationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityReservationsAsync(AwsEc2DescribeCapacityReservationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a tree-based hierarchy that represents the physical host placement of your pending or active Capacity Reservations within an Availability Zone or Local Zone. You can use this information to deter- mine the relative proximity of your capacity within the Amazon Web Ser- vices network before it is launched and use this information to allo- cate capacity together to support your tightly coupled workloads. Capacity Reservation topology is supported for specific instance types only. For more...
@@ -3083,8 +2778,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCapacityReservationTopologyAsync(AwsEc2DescribeCapacityReservationTopologyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCapacityReservationTopologyAsync(AwsEc2DescribeCapacityReservationTopologyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your carrier gateways. See also: AWS API Documentation describe-carrier-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: CarrierGateways
@@ -3093,8 +2787,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCarrierGatewaysAsync(AwsEc2DescribeCarrierGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCarrierGatewaysAsync(AwsEc2DescribeCarrierGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Describes your linked EC2-Classic instances. This request only returns information about EC2-Classic instances linked to a VPC through Classi- cLink. You cannot use this request to return information about other instances. See also: AWS API Documentation describe-classic-link-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- me...
@@ -3103,8 +2796,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClassicLinkInstancesAsync(AwsEc2DescribeClassicLinkInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClassicLinkInstancesAsync(AwsEc2DescribeClassicLinkInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the authorization rules for a specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-authorization-rules is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Author...
@@ -3113,8 +2805,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClientVpnAuthorizationRulesAsync(AwsEc2DescribeClientVpnAuthorizationRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClientVpnAuthorizationRulesAsync(AwsEc2DescribeClientVpnAuthorizationRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes active client connections and connections that have been ter- minated within the last 60 minutes for the specified Client VPN end- point. See also: AWS API Documentation describe-client-vpn-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ext...
@@ -3123,8 +2814,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClientVpnConnectionsAsync(AwsEc2DescribeClientVpnConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClientVpnConnectionsAsync(AwsEc2DescribeClientVpnConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Client VPN endpoints in the account. See also: AWS API Documentation describe-client-vpn-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClientVpnEndpoints
@@ -3133,8 +2823,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClientVpnEndpointsAsync(AwsEc2DescribeClientVpnEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClientVpnEndpointsAsync(AwsEc2DescribeClientVpnEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the routes for the specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Routes
@@ -3143,8 +2832,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClientVpnRoutesAsync(AwsEc2DescribeClientVpnRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClientVpnRoutesAsync(AwsEc2DescribeClientVpnRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the target networks associated with the specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-target-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
@@ -3153,8 +2841,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClientVpnTargetNetworksAsync(AwsEc2DescribeClientVpnTargetNetworksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClientVpnTargetNetworksAsync(AwsEc2DescribeClientVpnTargetNetworksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified customer-owned address pools or all of your customer-owned address pools. See also: AWS API Documentation describe-coip-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Coi...
@@ -3163,8 +2850,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCoipPoolsAsync(AwsEc2DescribeCoipPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCoipPoolsAsync(AwsEc2DescribeCoipPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified conversion tasks or all your conversion tasks. For more information, see the VM Import/Export User Guide . For information about the import manifest referenced by this API ac- tion, see VM Import Manifest . See also: AWS API Documentation
@@ -3173,8 +2859,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConversionTasksAsync(AwsEc2DescribeConversionTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConversionTasksAsync(AwsEc2DescribeConversionTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your VPN customer gateways. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
@@ -3183,8 +2868,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCustomerGatewaysAsync(AwsEc2DescribeCustomerGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCustomerGatewaysAsync(AwsEc2DescribeCustomerGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the metadata of an account status report, including the sta- tus of the report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete sta- tus. Reports with other statuses (running , cancelled , or error ) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see Downloading objects in the Amazon Simple Storage Service User Guide . For more information, s...
@@ -3193,8 +2877,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDeclarativePoliciesReportsAsync(AwsEc2DescribeDeclarativePoliciesReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDeclarativePoliciesReportsAsync(AwsEc2DescribeDeclarativePoliciesReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your DHCP option sets. The default is to describe all your DHCP option sets. Alternatively, you can specify specific DHCP option set IDs or filter the results to include only the DHCP option sets that match specific criteria. For more information, see DHCP option sets in the Amazon VPC User Guide . See also: AWS API Documentation describe-dhcp-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginati...
@@ -3203,8 +2886,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDhcpOptionsAsync(AwsEc2DescribeDhcpOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDhcpOptionsAsync(AwsEc2DescribeDhcpOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your egress-only internet gateways. The default is to de- scribe all your egress-only internet gateways. Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to include only the egress-only internet gateways that match specific criteria. See also: AWS API Documentation describe-egress-only-internet-gateways is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable paginatio...
@@ -3213,8 +2895,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEgressOnlyInternetGatewaysAsync(AwsEc2DescribeEgressOnlyInternetGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEgressOnlyInternetGatewaysAsync(AwsEc2DescribeEgressOnlyInternetGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: Amazon Elastic Graphics reached end of life on January 8, 2024. Describes the Elastic Graphics accelerator associated with your in- stances. See also: AWS API Documentation
@@ -3223,8 +2904,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeElasticGpusAsync(AwsEc2DescribeElasticGpusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeElasticGpusAsync(AwsEc2DescribeElasticGpusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified export image tasks or all of your export image tasks. See also: AWS API Documentation describe-export-image-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ExportImage...
@@ -3233,8 +2913,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExportImageTasksAsync(AwsEc2DescribeExportImageTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExportImageTasksAsync(AwsEc2DescribeExportImageTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified export instance tasks or all of your export in- stance tasks. See also: AWS API Documentation
@@ -3243,8 +2922,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExportTasksAsync(AwsEc2DescribeExportTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExportTasksAsync(AwsEc2DescribeExportTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe details for Windows AMIs that are configured for Windows fast launch. See also: AWS API Documentation describe-fast-launch-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FastLaunch...
@@ -3253,8 +2931,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFastLaunchImagesAsync(AwsEc2DescribeFastLaunchImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFastLaunchImagesAsync(AwsEc2DescribeFastLaunchImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the state of fast snapshot restores for your snapshots. See also: AWS API Documentation describe-fast-snapshot-restores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FastSnapshotRestore...
@@ -3263,8 +2940,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFastSnapshotRestoresAsync(AwsEc2DescribeFastSnapshotRestoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFastSnapshotRestoresAsync(AwsEc2DescribeFastSnapshotRestoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be de- scribed. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -3273,8 +2949,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFleetHistoryAsync(AwsEc2DescribeFleetHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFleetHistoryAsync(AwsEc2DescribeFleetHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the running instances for the specified EC2 Fleet. NOTE: Currently, DescribeFleetInstances does not support fleets of type instant . Instead, use DescribeFleets , specifying the instant fleet ID in the request. For more information, see Describe your EC2 Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -3283,8 +2958,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFleetInstancesAsync(AwsEc2DescribeFleetInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFleetInstancesAsync(AwsEc2DescribeFleetInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified EC2 Fleet or all of your EC2 Fleets. WARNING: If a fleet is of type instant , you must specify the fleet ID in the request, otherwise the fleet does not appear in the response. For more information, see Describe your EC2 Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation describe-fleets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-pagin...
@@ -3293,8 +2967,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFleetsAsync(AwsEc2DescribeFleetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFleetsAsync(AwsEc2DescribeFleetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more flow logs. To view the published flow log records, you must view the log destina- tion. For example, the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream. See also: AWS API Documentation describe-flow-logs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
@@ -3303,8 +2976,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowLogsAsync(AwsEc2DescribeFlowLogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFlowLogsAsync(AwsEc2DescribeFlowLogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified attribute of the specified Amazon FPGA Image (AFI). See also: AWS API Documentation
@@ -3313,8 +2985,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFpgaImageAttributeAsync(AwsEc2DescribeFpgaImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFpgaImageAttributeAsync(AwsEc2DescribeFpgaImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs, private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load permissions. See also: AWS API Documentation describe-fpga-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated ...
@@ -3323,8 +2994,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFpgaImagesAsync(AwsEc2DescribeFpgaImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFpgaImagesAsync(AwsEc2DescribeFpgaImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Dedicated Host reservations that are available to pur- chase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedi- cated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts in the Amazon EC2 User ...
@@ -3333,8 +3003,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHostReservationOfferingsAsync(AwsEc2DescribeHostReservationOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHostReservationOfferingsAsync(AwsEc2DescribeHostReservationOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes reservations that are associated with Dedicated Hosts in your account. See also: AWS API Documentation describe-host-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: HostReserva...
@@ -3343,8 +3012,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHostReservationsAsync(AwsEc2DescribeHostReservationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHostReservationsAsync(AwsEc2DescribeHostReservationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results describe only the Dedicated Hosts in the Region you're cur- rently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released . See also: AWS API Documentation describe-hosts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by prov...
@@ -3353,8 +3021,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHostsAsync(AwsEc2DescribeHostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHostsAsync(AwsEc2DescribeHostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your IAM instance profile associations. See also: AWS API Documentation describe-iam-instance-profile-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: IamInstanceProfileAssoci...
@@ -3363,8 +3030,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIamInstanceProfileAssociationsAsync(AwsEc2DescribeIamInstanceProfileAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIamInstanceProfileAssociationsAsync(AwsEc2DescribeIamInstanceProfileAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns infor- mation about resource types whose ID formats can be modified; it does not return information about other resource types. For more informa- tion, see Resource IDs in the Amazon Elastic Compute Cloud User Guide . The following resource types support longer IDs: bundle | conver- sion-task | c...
@@ -3373,8 +3039,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIdentityIdFormatAsync(AwsEc2DescribeIdentityIdFormatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIdentityIdFormatAsync(AwsEc2DescribeIdentityIdFormatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the ID format settings for your resources on a per-Region ba- sis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: bundle | conver- sion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-...
@@ -3383,8 +3048,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIdFormatAsync(AwsEc2DescribeIdFormatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIdFormatAsync(AwsEc2DescribeIdFormatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time. NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documentation
@@ -3393,8 +3057,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImageAttributeAsync(AwsEc2DescribeImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImageAttributeAsync(AwsEc2DescribeImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your Amazon Web Services resources that are referencing the specified images. For more information, see Identify your resources referencing specified AMIs in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
@@ -3403,8 +3066,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImageReferencesAsync(AwsEc2DescribeImageReferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImageReferencesAsync(AwsEc2DescribeImageReferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that refer- ence a deregistered AMI are terminated, specifying the ...
@@ -3413,8 +3075,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImagesAsync(AwsEc2DescribeImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImagesAsync(AwsEc2DescribeImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the entries in image usage reports, showing how your images are used across other Amazon Web Services accounts. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-usage-report-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument...
@@ -3423,8 +3084,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImageUsageReportEntriesAsync(AwsEc2DescribeImageUsageReportEntriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImageUsageReportEntriesAsync(AwsEc2DescribeImageUsageReportEntriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the configuration and status of image usage reports, filtered by report IDs or image IDs. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-usage-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the...
@@ -3433,8 +3093,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImageUsageReportsAsync(AwsEc2DescribeImageUsageReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImageUsageReportsAsync(AwsEc2DescribeImageUsageReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays details about an import virtual machine or import snapshot tasks that are already created. See also: AWS API Documentation describe-import-image-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
@@ -3443,8 +3102,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImportImageTasksAsync(AwsEc2DescribeImportImageTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImportImageTasksAsync(AwsEc2DescribeImportImageTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your import snapshot tasks. See also: AWS API Documentation describe-import-snapshot-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ImportSnapshotTasks
@@ -3453,8 +3111,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImportSnapshotTasksAsync(AwsEc2DescribeImportSnapshotTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImportSnapshotTasksAsync(AwsEc2DescribeImportSnapshotTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified attribute of the specified instance. You can specify only one attribute at a time. Available attributes include SQL license exemption configuration for instances registered with the SQL LE service. See also: AWS API Documentation
@@ -3463,8 +3120,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceAttributeAsync(AwsEc2DescribeInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceAttributeAsync(AwsEc2DescribeInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified EC2 Instance Connect Endpoints or all EC2 In- stance Connect Endpoints. See also: AWS API Documentation describe-instance-connect-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
@@ -3473,8 +3129,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceConnectEndpointsAsync(AwsEc2DescribeInstanceConnectEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceConnectEndpointsAsync(AwsEc2DescribeInstanceConnectEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited . If you do not specify an instance ID, Amazon EC2 returns burstable per- formance instances with the unlimited credit option, as well as in- stances that were previously configured as T2, T3, and T3a with the un- limited credit option. For example, if you resize a T2 instance, while it is configured as unlimited , to an M4 instance, Amazon EC2 returns the M4 ...
@@ -3483,8 +3138,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceCreditSpecificationsAsync(AwsEc2DescribeInstanceCreditSpecificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceCreditSpecificationsAsync(AwsEc2DescribeInstanceCreditSpecificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the tag keys that are registered to appear in scheduled event notifications for resources in the current Region. See also: AWS API Documentation
@@ -3493,8 +3147,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceEventNotificationAttributesAsync(AwsEc2DescribeInstanceEventNotificationAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceEventNotificationAttributesAsync(AwsEc2DescribeInstanceEventNotificationAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified event windows or all event windows. If you specify event window IDs, the output includes information for only the specified event windows. If you specify filters, the output includes information for only those event windows that meet the filter criteria. If you do not specify event windows IDs or filters, the out- put includes information for all event windows, which can affect per- formance. We recommend that you use pagination to ensure that the oper- ation returns quic...
@@ -3503,8 +3156,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceEventWindowsAsync(AwsEc2DescribeInstanceEventWindowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceEventWindowsAsync(AwsEc2DescribeInstanceEventWindowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes infor- mation for all instances, which can affect...
@@ -3513,8 +3165,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceImageMetadataAsync(AwsEc2DescribeInstanceImageMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceImageMetadataAsync(AwsEc2DescribeInstanceImageMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes infor- mation for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. The respons...
@@ -3523,8 +3174,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstancesAsync(AwsEc2DescribeInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstancesAsync(AwsEc2DescribeInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the historical SQL Server High Availability states for Amazon EC2 instances that are enabled for Amazon EC2 High Availability for SQL Server monitoring. See also: AWS API Documentation
@@ -3533,8 +3183,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceSqlHaHistoryStatesAsync(AwsEc2DescribeInstanceSqlHaHistoryStatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceSqlHaHistoryStatesAsync(AwsEc2DescribeInstanceSqlHaHistoryStatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the SQL Server High Availability states for Amazon EC2 in- stances that are enabled for Amazon EC2 High Availability for SQL Server monitoring. See also: AWS API Documentation
@@ -3543,8 +3192,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceSqlHaStatesAsync(AwsEc2DescribeInstanceSqlHaStatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceSqlHaStatesAsync(AwsEc2DescribeInstanceSqlHaStatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the status of the specified instances or all of your in- stances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components: o Status checks - Amazon EC2 performs status checks on running EC2 in- stances to identify hardware and software issues. For more informa- tion, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC...
@@ -3553,8 +3201,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceStatusAsync(AwsEc2DescribeInstanceStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceStatusAsync(AwsEc2DescribeInstanceStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information, see Prerequisites for Amazon EC2 instance topology in the Amazon EC2 User Guide . NOTE: The Amazon EC2...
@@ -3563,8 +3210,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceTopologyAsync(AwsEc2DescribeInstanceTopologyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceTopologyAsync(AwsEc2DescribeInstanceTopologyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the instance types that are offered for the specified location. If no location is specified, the default is to list the instance types that are offered in the current Region. See also: AWS API Documentation describe-instance-type-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respo...
@@ -3573,8 +3219,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceTypeOfferingsAsync(AwsEc2DescribeInstanceTypeOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceTypeOfferingsAsync(AwsEc2DescribeInstanceTypeOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results. To include instance types that are not supported in the cur- rent Region, set IncludeUnsupportedInRegion to true . See also: AWS API Documentation describe-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
@@ -3583,8 +3228,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceTypesAsync(AwsEc2DescribeInstanceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceTypesAsync(AwsEc2DescribeInstanceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your internet gateways. The default is to describe all your internet gateways. Alternatively, you can specify specific internet gateway IDs or filter the results to include only the internet gateways that match specific criteria. See also: AWS API Documentation describe-internet-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output t...
@@ -3593,8 +3237,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInternetGatewaysAsync(AwsEc2DescribeInternetGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInternetGatewaysAsync(AwsEc2DescribeInternetGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your Autonomous System Numbers (ASNs), their provisioning statuses, and the BYOIP CIDRs with which they are associated. For more information, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . See also: AWS API Documentation
@@ -3603,8 +3246,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamByoasnAsync(AwsEc2DescribeIpamByoasnOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamByoasnAsync(AwsEc2DescribeIpamByoasnOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe verification tokens. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For exam- ple, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
@@ -3613,8 +3255,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamExternalResourceVerificationTokensAsync(AwsEc2DescribeIpamExternalResourceVerificationTokensOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamExternalResourceVerificationTokensAsync(AwsEc2DescribeIpamExternalResourceVerificationTokensOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more IPAM internet registry associations. We recommend using pagination to ensure that the operation returns quickly and suc- cessfully. See also: AWS API Documentation
@@ -3623,8 +3264,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamInternetRegistryAssociationsAsync(AwsEc2DescribeIpamInternetRegistryAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamInternetRegistryAssociationsAsync(AwsEc2DescribeIpamInternetRegistryAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more IPAM policies. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to ...
@@ -3633,8 +3273,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamPoliciesAsync(AwsEc2DescribeIpamPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamPoliciesAsync(AwsEc2DescribeIpamPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes IPAM pool allocations. You can describe all allocations owned by you across all pools, or you can describe specific allocations by ID. If you specify IpamPoolAllocationIds , the results include only the specified allocations. If you do not specify IpamPoolAllocationIds , the results include all allocations owned by you. You can use Filters to narrow the results. NOTE: This action returns only allocations directly owned by you. To view all allocations in a pool you own or that has been ...
@@ -3643,8 +3282,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamPoolAllocationsAsync(AwsEc2DescribeIpamPoolAllocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamPoolAllocationsAsync(AwsEc2DescribeIpamPoolAllocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about your IPAM pools. See also: AWS API Documentation describe-ipam-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpamPools
@@ -3653,8 +3291,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamPoolsAsync(AwsEc2DescribeIpamPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamPoolsAsync(AwsEc2DescribeIpamPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more IPAM prefix list resolvers. Use this operation to view the configuration, status, and properties of your resolvers. See also: AWS API Documentation describe-ipam-prefix-list-resolvers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
@@ -3663,8 +3300,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamPrefixListResolversAsync(AwsEc2DescribeIpamPrefixListResolversOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamPrefixListResolversAsync(AwsEc2DescribeIpamPrefixListResolversOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more IPAM prefix list resolver Targets. Use this oper- ation to view the configuration and status of resolver targets. See also: AWS API Documentation describe-ipam-prefix-list-resolver-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
@@ -3673,8 +3309,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamPrefixListResolverTargetsAsync(AwsEc2DescribeIpamPrefixListResolverTargetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamPrefixListResolverTargetsAsync(AwsEc2DescribeIpamPrefixListResolverTargetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation describe-ipam-resource-discoveries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
@@ -3683,8 +3318,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamResourceDiscoveriesAsync(AwsEc2DescribeIpamResourceDiscoveriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamResourceDiscoveriesAsync(AwsEc2DescribeIpamResourceDiscoveriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been as- sociated with an IPAM.. See also: AWS API Documentation describe-ipam-resource-discovery-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, ...
@@ -3693,8 +3327,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamResourceDiscoveryAssociationsAsync(AwsEc2DescribeIpamResourceDiscoveryAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamResourceDiscoveryAssociationsAsync(AwsEc2DescribeIpamResourceDiscoveryAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about your IPAM scopes. See also: AWS API Documentation describe-ipam-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpamScopes
@@ -3703,8 +3336,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamScopesAsync(AwsEc2DescribeIpamScopesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamScopesAsync(AwsEc2DescribeIpamScopesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about your IPAM pools. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide . See also: AWS API Documentation describe-ipams is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
@@ -3713,8 +3345,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpamsAsync(AwsEc2DescribeIpamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpamsAsync(AwsEc2DescribeIpamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your IPv6 address pools. See also: AWS API Documentation describe-ipv6-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Ipv6Pools
@@ -3723,8 +3354,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIpv6PoolsAsync(AwsEc2DescribeIpv6PoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIpv6PoolsAsync(AwsEc2DescribeIpv6PoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified key pairs or all of your key pairs. For more information about key pairs, see Amazon EC2 key pairs in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -3733,8 +3363,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeKeyPairsAsync(AwsEc2DescribeKeyPairsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeKeyPairsAsync(AwsEc2DescribeKeyPairsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more launch templates. See also: AWS API Documentation describe-launch-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: LaunchTemplates
@@ -3743,8 +3372,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLaunchTemplatesAsync(AwsEc2DescribeLaunchTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLaunchTemplatesAsync(AwsEc2DescribeLaunchTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account. See also: AWS API Documentation describe-launch-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu...
@@ -3753,8 +3381,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLaunchTemplateVersionsAsync(AwsEc2DescribeLaunchTemplateVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLaunchTemplateVersionsAsync(AwsEc2DescribeLaunchTemplateVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-local-gateway-route-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
@@ -3763,8 +3390,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocalGatewayRouteTablesAsync(AwsEc2DescribeLocalGatewayRouteTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocalGatewayRouteTablesAsync(AwsEc2DescribeLocalGatewayRouteTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified associations between VPCs and local gateway route tables. See also: AWS API Documentation describe-local-gateway-route-table-vpc-associations is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following ...
@@ -3773,8 +3399,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocalGatewayRouteTableVpcAssociationsAsync(AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocalGatewayRouteTableVpcAssociationsAsync(AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more local gateways. By default, all local gateways are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-local-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the...
@@ -3783,8 +3408,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocalGatewaysAsync(AwsEc2DescribeLocalGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocalGatewaysAsync(AwsEc2DescribeLocalGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified local gateway virtual interface groups. See also: AWS API Documentation describe-local-gateway-virtual-interface-groups is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: Local...
@@ -3793,8 +3417,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocalGatewayVirtualInterfaceGroupsAsync(AwsEc2DescribeLocalGatewayVirtualInterfaceGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocalGatewayVirtualInterfaceGroupsAsync(AwsEc2DescribeLocalGatewayVirtualInterfaceGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified local gateway virtual interfaces. See also: AWS API Documentation describe-local-gateway-virtual-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: LocalGatewayVirtu...
@@ -3803,8 +3426,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLocalGatewayVirtualInterfacesAsync(AwsEc2DescribeLocalGatewayVirtualInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLocalGatewayVirtualInterfacesAsync(AwsEc2DescribeLocalGatewayVirtualInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the lock status for a snapshot. See also: AWS API Documentation
@@ -3813,8 +3435,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLockedSnapshotsAsync(AwsEc2DescribeLockedSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLockedSnapshotsAsync(AwsEc2DescribeLockedSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts. See also: AWS API Documentation describe-mac-hosts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MacHosts
@@ -3823,8 +3444,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMacHostsAsync(AwsEc2DescribeMacHostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMacHostsAsync(AwsEc2DescribeMacHostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a System Integrity Protection (SIP) modification task or vol- ume ownership delegation task for an Amazon EC2 Mac instance. For more information, see Configure SIP for Amazon EC2 instances in the Amazon EC2 User Guide . See also: AWS API Documentation describe-mac-modification-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output te...
@@ -3833,8 +3453,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMacModificationTasksAsync(AwsEc2DescribeMacModificationTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMacModificationTasksAsync(AwsEc2DescribeMacModificationTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. See also: AWS API Documentation describe-managed-prefix-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: P...
@@ -3843,8 +3462,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeManagedPrefixListsAsync(AwsEc2DescribeManagedPrefixListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeManagedPrefixListsAsync(AwsEc2DescribeManagedPrefixListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Describes your Elastic IP addresses that are being moved from or being restored to the EC2-Classic platform. This request does not return in- formation about any other Elastic IP addresses in your account. See also: AWS API Documentation describe-moving-addresses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output tex...
@@ -3853,8 +3471,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMovingAddressesAsync(AwsEc2DescribeMovingAddressesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMovingAddressesAsync(AwsEc2DescribeMovingAddressesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your NAT gateways. The default is to describe all your NAT gateways. Alternatively, you can specify specific NAT gateway IDs or filter the results to include only the NAT gateways that match specific criteria. See also: AWS API Documentation describe-nat-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argum...
@@ -3863,8 +3480,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNatGatewaysAsync(AwsEc2DescribeNatGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNatGatewaysAsync(AwsEc2DescribeNatGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your network ACLs. The default is to describe all your net- work ACLs. Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see Network ACLs in the Amazon VPC User Guide . See also: AWS API Documentation describe-network-acls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing th...
@@ -3873,8 +3489,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNetworkAclsAsync(AwsEc2DescribeNetworkAclsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNetworkAclsAsync(AwsEc2DescribeNetworkAclsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Network Access Scope analyses. See also: AWS API Documentation describe-network-insights-access-scope-analyses is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsight...
@@ -3883,8 +3498,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNetworkInsightsAccessScopeAnalysesAsync(AwsEc2DescribeNetworkInsightsAccessScopeAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNetworkInsightsAccessScopeAnalysesAsync(AwsEc2DescribeNetworkInsightsAccessScopeAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Network Access Scopes. See also: AWS API Documentation describe-network-insights-access-scopes is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsAccessScopes
@@ -3893,8 +3507,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNetworkInsightsAccessScopesAsync(AwsEc2DescribeNetworkInsightsAccessScopesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNetworkInsightsAccessScopesAsync(AwsEc2DescribeNetworkInsightsAccessScopesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your network insights analyses. See also: AWS API Documentation describe-network-insights-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsAnalyses
@@ -3903,8 +3516,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNetworkInsightsAnalysesAsync(AwsEc2DescribeNetworkInsightsAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNetworkInsightsAnalysesAsync(AwsEc2DescribeNetworkInsightsAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your paths. See also: AWS API Documentation describe-network-insights-paths is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsPaths
@@ -3913,8 +3525,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNetworkInsightsPathsAsync(AwsEc2DescribeNetworkInsightsPathsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNetworkInsightsPathsAsync(AwsEc2DescribeNetworkInsightsPathsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a network interface attribute. You can specify only one at- tribute at a time. See also: AWS API Documentation
@@ -3923,8 +3534,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNetworkInterfaceAttributeAsync(AwsEc2DescribeNetworkInterfaceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNetworkInterfaceAttributeAsync(AwsEc2DescribeNetworkInterfaceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the permissions for your network interfaces. See also: AWS API Documentation describe-network-interface-permissions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: NetworkInterfacePermi...
@@ -3933,8 +3543,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNetworkInterfacePermissionsAsync(AwsEc2DescribeNetworkInterfacePermissionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNetworkInterfacePermissionsAsync(AwsEc2DescribeNetworkInterfacePermissionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified network interfaces or all your network inter- faces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: group-id , mac-address , private-dns-name , private-ip-address , subnet-id , or vpc-id . WARNING: We strongly recommend using only paginated requests. Unpaginated re- quests are susceptible to throttling and timeouts. See also: AWS API Documentation describe-network-interfaces is a paginated o...
@@ -3943,8 +3552,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNetworkInterfacesAsync(AwsEc2DescribeNetworkInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNetworkInterfacesAsync(AwsEc2DescribeNetworkInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Outposts link aggregation groups (LAGs). NOTE: LAGs are only available for second-generation Outposts racks at this time. See also: AWS API Documentation
@@ -3953,8 +3561,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOutpostLagsAsync(AwsEc2DescribeOutpostLagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOutpostLagsAsync(AwsEc2DescribeOutpostLagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified placement groups or all of your placement groups. NOTE: To describe a specific placement group that is shared with your ac- count, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see Placement groups in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -3963,8 +3570,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePlacementGroupsAsync(AwsEc2DescribePlacementGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePlacementGroupsAsync(AwsEc2DescribePlacementGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes available Amazon Web Services services in a prefix list for- mat, which includes the prefix list name and prefix list ID of the ser- vice and the IP address range for the service. See also: AWS API Documentation describe-prefix-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
@@ -3973,8 +3579,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePrefixListsAsync(AwsEc2DescribePrefixListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePrefixListsAsync(AwsEc2DescribePrefixListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference. By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conver- sion-task | customer-gatewa...
@@ -3983,8 +3588,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePrincipalIdFormatAsync(AwsEc2DescribePrincipalIdFormatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePrincipalIdFormatAsync(AwsEc2DescribePrincipalIdFormatOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified IPv4 address pools. See also: AWS API Documentation describe-public-ipv4-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: PublicIpv4Pools
@@ -3993,8 +3597,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePublicIpv4PoolsAsync(AwsEc2DescribePublicIpv4PoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePublicIpv4PoolsAsync(AwsEc2DescribePublicIpv4PoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Regions that are enabled for your account, or all Re- gions. For a list of the Regions supported by Amazon EC2, see Amazon EC2 ser- vice endpoints . For information about enabling and disabling Regions for your account, see Specify which Amazon Web Services Regions your account can use in the Amazon Web Services Account Management Reference Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume t...
@@ -4003,8 +3606,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRegionsAsync(AwsEc2DescribeRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRegionsAsync(AwsEc2DescribeRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a root volume replacement task. For more information, see Replace a root volume in the Amazon EC2 User Guide . See also: AWS API Documentation describe-replace-root-volume-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
@@ -4013,8 +3615,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplaceRootVolumeTasksAsync(AwsEc2DescribeReplaceRootVolumeTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplaceRootVolumeTasksAsync(AwsEc2DescribeReplaceRootVolumeTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your account's Reserved Instance listings in the Reserved In- stance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Re- served Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to recei...
@@ -4023,8 +3624,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedInstancesListingsAsync(AwsEc2DescribeReservedInstancesListingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedInstancesListingsAsync(AwsEc2DescribeReservedInstancesListingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the modifications made to your Reserved Instances. If no pa- rameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements...
@@ -4033,8 +3633,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedInstancesModificationsAsync(AwsEc2DescribeReservedInstancesModificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedInstancesModificationsAsync(AwsEc2DescribeReservedInstancesModificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insuffi- cient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that y...
@@ -4043,8 +3642,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedInstancesOfferingsAsync(AwsEc2DescribeReservedInstancesOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedInstancesOfferingsAsync(AwsEc2DescribeReservedInstancesOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved Instances in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documentation
@@ -4053,8 +3651,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedInstancesAsync(AwsEc2DescribeReservedInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedInstancesAsync(AwsEc2DescribeReservedInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more route server endpoints. A route server endpoint is an Amazon Web Services-managed component in- side a subnet that facilitates BGP (Border Gateway Protocol) connec- tions between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation describe-route-server-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire ...
@@ -4063,8 +3660,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRouteServerEndpointsAsync(AwsEc2DescribeRouteServerEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRouteServerEndpointsAsync(AwsEc2DescribeRouteServerEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more route server peers. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC U...
@@ -4073,8 +3669,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRouteServerPeersAsync(AwsEc2DescribeRouteServerPeersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRouteServerPeersAsync(AwsEc2DescribeRouteServerPeersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more route servers. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and interoperability wi...
@@ -4083,8 +3678,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRouteServersAsync(AwsEc2DescribeRouteServersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRouteServersAsync(AwsEc2DescribeRouteServersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your route tables. The default is to describe all your route tables. Alternatively, you can specify specific route table IDs or fil- ter the results to include only the route tables that match specific criteria. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implic- itly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see...
@@ -4093,8 +3687,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRouteTablesAsync(AwsEc2DescribeRouteTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRouteTablesAsync(AwsEc2DescribeRouteTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in ad- vance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseSched- uledInstances to purchase Scheduled Instances with that schedule. See also: AWS API D...
@@ -4103,8 +3696,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScheduledInstanceAvailabilityAsync(AwsEc2DescribeScheduledInstanceAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScheduledInstanceAvailabilityAsync(AwsEc2DescribeScheduledInstanceAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Scheduled Instances or all your Scheduled In- stances. See also: AWS API Documentation describe-scheduled-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Scheduled...
@@ -4113,8 +3705,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScheduledInstancesAsync(AwsEc2DescribeScheduledInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScheduledInstancesAsync(AwsEc2DescribeScheduledInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your secondary interfaces. See also: AWS API Documentation describe-secondary-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecondaryInterfaces
@@ -4123,8 +3714,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecondaryInterfacesAsync(AwsEc2DescribeSecondaryInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecondaryInterfacesAsync(AwsEc2DescribeSecondaryInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more secondary networks. See also: AWS API Documentation describe-secondary-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecondaryNetworks
@@ -4133,8 +3723,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecondaryNetworksAsync(AwsEc2DescribeSecondaryNetworksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecondaryNetworksAsync(AwsEc2DescribeSecondaryNetworksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your secondary subnets. See also: AWS API Documentation describe-secondary-subnets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SecondarySubnets
@@ -4143,8 +3732,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecondarySubnetsAsync(AwsEc2DescribeSecondarySubnetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecondarySubnetsAsync(AwsEc2DescribeSecondarySubnetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the VPCs on the other side of a VPC peering or Transit Gate- way connection that are referencing the security groups you've speci- fied in this request. See also: AWS API Documentation
@@ -4153,8 +3741,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecurityGroupReferencesAsync(AwsEc2DescribeSecurityGroupReferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecurityGroupReferencesAsync(AwsEc2DescribeSecurityGroupReferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your security group rules. See also: AWS API Documentation describe-security-group-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecurityGroupRules
@@ -4163,8 +3750,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecurityGroupRulesAsync(AwsEc2DescribeSecurityGroupRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecurityGroupRulesAsync(AwsEc2DescribeSecurityGroupRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified security groups or all of your security groups. See also: AWS API Documentation describe-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SecurityGroups
@@ -4173,8 +3759,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecurityGroupsAsync(AwsEc2DescribeSecurityGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecurityGroupsAsync(AwsEc2DescribeSecurityGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes security group VPC associations made with AssociateSecurityGroupVpc . See also: AWS API Documentation describe-security-group-vpc-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressio...
@@ -4183,8 +3768,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecurityGroupVpcAssociationsAsync(AwsEc2DescribeSecurityGroupVpcAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecurityGroupVpcAssociationsAsync(AwsEc2DescribeSecurityGroupVpcAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Outpost service link virtual interfaces. See also: AWS API Documentation
@@ -4193,8 +3777,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeServiceLinkVirtualInterfacesAsync(AwsEc2DescribeServiceLinkVirtualInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeServiceLinkVirtualInterfacesAsync(AwsEc2DescribeServiceLinkVirtualInterfacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -4203,8 +3786,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSnapshotAttributeAsync(AwsEc2DescribeSnapshotAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSnapshotAttributeAsync(AwsEc2DescribeSnapshotAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snap- shots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permis- sions. The create volume permissions fall into the following categories: o public : The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon We...
@@ -4213,8 +3795,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSnapshotsAsync(AwsEc2DescribeSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSnapshotsAsync(AwsEc2DescribeSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the storage tier status of one or more Amazon EBS snapshots. See also: AWS API Documentation describe-snapshot-tier-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SnapshotTierStat...
@@ -4223,8 +3804,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSnapshotTierStatusAsync(AwsEc2DescribeSnapshotTierStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSnapshotTierStatusAsync(AwsEc2DescribeSnapshotTierStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the data feed for Spot Instances. For more information, see Spot Instance data feed in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -4233,8 +3813,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpotDatafeedSubscriptionAsync(AwsEc2DescribeSpotDatafeedSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpotDatafeedSubscriptionAsync(AwsEc2DescribeSpotDatafeedSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the running instances for the specified Spot Fleet. See also: AWS API Documentation describe-spot-fleet-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActiveInstances
@@ -4243,8 +3822,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpotFleetInstancesAsync(AwsEc2DescribeSpotFleetInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpotFleetInstancesAsync(AwsEc2DescribeSpotFleetInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the events for the specified Spot Fleet request during the specified time. Spot Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. Spot Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -4253,8 +3831,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpotFleetRequestHistoryAsync(AwsEc2DescribeSpotFleetRequestHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpotFleetRequestHistoryAsync(AwsEc2DescribeSpotFleetRequestHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours after they are canceled and their instances are terminated. See also: AWS API Documentation describe-spot-fleet-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
@@ -4263,8 +3840,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpotFleetRequestsAsync(AwsEc2DescribeSpotFleetRequestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpotFleetRequestsAsync(AwsEc2DescribeSpotFleetRequestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot In- stance by examining the response. If the status of the Spot Instance is fulfilled , the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the in- stance lifecycle is spot . We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of ite...
@@ -4273,8 +3849,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpotInstanceRequestsAsync(AwsEc2DescribeSpotInstanceRequestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpotInstanceRequestsAsync(AwsEc2DescribeSpotInstanceRequestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Spot price history. For more information, see Spot In- stance pricing history in the Amazon EC2 User Guide . When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time. See also: AWS API Documentation describe-spot-price-history is a paginated operation. Multiple API calls may be issued in order to retrieve the ent...
@@ -4283,8 +3858,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpotPriceHistoryAsync(AwsEc2DescribeSpotPriceHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpotPriceHistoryAsync(AwsEc2DescribeSpotPriceHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the stale security group rules for security groups referenced across a VPC peering connection, transit gateway connection, or with a security group VPC association. Rules are stale when they reference a deleted security group. Rules can also be stale if they reference a se- curity group in a peer VPC for which the VPC peering connection has been deleted, across a transit gateway where the transit gateway has been deleted (or the transit gateway security group referencing feature has be...
@@ -4293,8 +3867,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStaleSecurityGroupsAsync(AwsEc2DescribeStaleSecurityGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStaleSecurityGroupsAsync(AwsEc2DescribeStaleSecurityGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress , Completed , or Failed . For tasks InProgress , the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you m...
@@ -4303,8 +3876,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStoreImageTasksAsync(AwsEc2DescribeStoreImageTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStoreImageTasksAsync(AwsEc2DescribeStoreImageTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your subnets. The default is to describe all your subnets. Alternatively, you can specify specific subnet IDs or filter the re- sults to include only the subnets that match specific criteria. For more information, see Subnets in the Amazon VPC User Guide . See also: AWS API Documentation describe-subnets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When...
@@ -4313,8 +3885,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSubnetsAsync(AwsEc2DescribeSubnetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSubnetsAsync(AwsEc2DescribeSubnetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide . WARNING: We strongly recommend using only paginated requests. Unpaginated re- quests are susceptible to throttling and timeouts. NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documen...
@@ -4323,8 +3894,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTagsAsync(AwsEc2DescribeTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTagsAsync(AwsEc2DescribeTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe traffic mirror filters that determine the traffic that is mir- rored. See also: AWS API Documentation
@@ -4333,8 +3903,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrafficMirrorFilterRulesAsync(AwsEc2DescribeTrafficMirrorFilterRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrafficMirrorFilterRulesAsync(AwsEc2DescribeTrafficMirrorFilterRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Traffic Mirror filters. See also: AWS API Documentation describe-traffic-mirror-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficMirrorFilters
@@ -4343,8 +3912,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrafficMirrorFiltersAsync(AwsEc2DescribeTrafficMirrorFiltersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrafficMirrorFiltersAsync(AwsEc2DescribeTrafficMirrorFiltersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the re- sults. See also: AWS API Documentation describe-traffic-mirror-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ext...
@@ -4353,8 +3921,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrafficMirrorSessionsAsync(AwsEc2DescribeTrafficMirrorSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrafficMirrorSessionsAsync(AwsEc2DescribeTrafficMirrorSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Information about one or more Traffic Mirror targets. See also: AWS API Documentation describe-traffic-mirror-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficMirrorTargets
@@ -4363,8 +3930,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrafficMirrorTargetsAsync(AwsEc2DescribeTrafficMirrorTargetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrafficMirrorTargetsAsync(AwsEc2DescribeTrafficMirrorTargetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more attachments between resources and transit gate- ways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner. See also: AWS API Documentation describe-transit-gateway-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --outpu...
@@ -4373,8 +3939,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayAttachmentsAsync(AwsEc2DescribeTransitGatewayAttachmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayAttachmentsAsync(AwsEc2DescribeTransitGatewayAttachmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Connect peers. See also: AWS API Documentation describe-transit-gateway-connect-peers is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayConnectPeers
@@ -4383,8 +3948,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayConnectPeersAsync(AwsEc2DescribeTransitGatewayConnectPeersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayConnectPeersAsync(AwsEc2DescribeTransitGatewayConnectPeersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Connect attachments. See also: AWS API Documentation describe-transit-gateway-connects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayConnects
@@ -4393,8 +3957,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayConnectsAsync(AwsEc2DescribeTransitGatewayConnectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayConnectsAsync(AwsEc2DescribeTransitGatewayConnectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more transit gateway metering policies. See also: AWS API Documentation
@@ -4403,8 +3966,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayMeteringPoliciesAsync(AwsEc2DescribeTransitGatewayMeteringPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayMeteringPoliciesAsync(AwsEc2DescribeTransitGatewayMeteringPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more transit gateway multicast domains. See also: AWS API Documentation describe-transit-gateway-multicast-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: TransitGatewayMul...
@@ -4413,8 +3975,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayMulticastDomainsAsync(AwsEc2DescribeTransitGatewayMulticastDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayMulticastDomainsAsync(AwsEc2DescribeTransitGatewayMulticastDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your transit gateway peering attachments. See also: AWS API Documentation describe-transit-gateway-peering-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: TransitGatewayPeerin...
@@ -4423,8 +3984,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayPeeringAttachmentsAsync(AwsEc2DescribeTransitGatewayPeeringAttachmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayPeeringAttachmentsAsync(AwsEc2DescribeTransitGatewayPeeringAttachmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more transit gateway route policy tables. See also: AWS API Documentation describe-transit-gateway-policy-tables is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayPol...
@@ -4433,8 +3993,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayPolicyTablesAsync(AwsEc2DescribeTransitGatewayPolicyTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayPolicyTablesAsync(AwsEc2DescribeTransitGatewayPolicyTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more transit gateway route table advertisements. See also: AWS API Documentation describe-transit-gateway-route-table-announcements is a paginated oper- ation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
@@ -4443,8 +4002,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayRouteTableAnnouncementsAsync(AwsEc2DescribeTransitGatewayRouteTableAnnouncementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayRouteTableAnnouncementsAsync(AwsEc2DescribeTransitGatewayRouteTableAnnouncementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can fil- ter the results. See also: AWS API Documentation describe-transit-gateway-route-tables is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query ...
@@ -4453,8 +4011,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayRouteTablesAsync(AwsEc2DescribeTransitGatewayRouteTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayRouteTablesAsync(AwsEc2DescribeTransitGatewayRouteTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more transit gateways. By default, all transit gate- ways are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
@@ -4463,8 +4020,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewaysAsync(AwsEc2DescribeTransitGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewaysAsync(AwsEc2DescribeTransitGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateway-vpc-attachments is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data ...
@@ -4473,8 +4029,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransitGatewayVpcAttachmentsAsync(AwsEc2DescribeTransitGatewayVpcAttachmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransitGatewayVpcAttachmentsAsync(AwsEc2DescribeTransitGatewayVpcAttachmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more network interface trunk associations. See also: AWS API Documentation describe-trunk-interface-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: InterfaceAssociat...
@@ -4483,8 +4038,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrunkInterfaceAssociationsAsync(AwsEc2DescribeTrunkInterfaceAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrunkInterfaceAssociationsAsync(AwsEc2DescribeTrunkInterfaceAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Amazon Web Services Verified Access endpoints. See also: AWS API Documentation describe-verified-access-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAcc...
@@ -4493,8 +4047,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVerifiedAccessEndpointsAsync(AwsEc2DescribeVerifiedAccessEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVerifiedAccessEndpointsAsync(AwsEc2DescribeVerifiedAccessEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Verified Access groups. See also: AWS API Documentation describe-verified-access-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAccessGroups
@@ -4503,8 +4056,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVerifiedAccessGroupsAsync(AwsEc2DescribeVerifiedAccessGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVerifiedAccessGroupsAsync(AwsEc2DescribeVerifiedAccessGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Amazon Web Services Verified Access instances. See also: AWS API Documentation describe-verified-access-instance-logging-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expr...
@@ -4513,8 +4065,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVerifiedAccessInstanceLoggingConfigurationsAsync(AwsEc2DescribeVerifiedAccessInstanceLoggingConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVerifiedAccessInstanceLoggingConfigurationsAsync(AwsEc2DescribeVerifiedAccessInstanceLoggingConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Amazon Web Services Verified Access instances. See also: AWS API Documentation describe-verified-access-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAcc...
@@ -4523,8 +4074,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVerifiedAccessInstancesAsync(AwsEc2DescribeVerifiedAccessInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVerifiedAccessInstancesAsync(AwsEc2DescribeVerifiedAccessInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Amazon Web Services Verified Access trust providers. See also: AWS API Documentation describe-verified-access-trust-providers is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions:...
@@ -4533,8 +4083,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVerifiedAccessTrustProvidersAsync(AwsEc2DescribeVerifiedAccessTrustProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVerifiedAccessTrustProvidersAsync(AwsEc2DescribeVerifiedAccessTrustProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -4543,8 +4092,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVolumeAttributeAsync(AwsEc2DescribeVolumeAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVolumeAttributeAsync(AwsEc2DescribeVolumeAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide . See also: AWS API Documentation describe-volumes-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated r...
@@ -4553,8 +4101,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVolumesModificationsAsync(AwsEc2DescribeVolumesModificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVolumesModificationsAsync(AwsEc2DescribeVolumesModificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more informa- tion, see Pagination . For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide . WARNING: We strongly recommend using only paginated requests. Unpaginated re- quests are susceptible to throttling and timeouts. NOTE: The order of the elements in the response, i...
@@ -4563,8 +4110,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVolumesAsync(AwsEc2DescribeVolumesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVolumesAsync(AwsEc2DescribeVolumesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data incon- sistencies on the volume. Volume events notify you if this occurs. Vol- ume actio...
@@ -4573,8 +4119,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVolumeStatusAsync(AwsEc2DescribeVolumeStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVolumeStatusAsync(AwsEc2DescribeVolumeStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified attribute of the specified VPC. You can specify only one attribute at a time. See also: AWS API Documentation
@@ -4583,8 +4128,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcAttributeAsync(AwsEc2DescribeVpcAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcAttributeAsync(AwsEc2DescribeVpcAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC...
@@ -4593,8 +4137,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcBlockPublicAccessExclusionsAsync(AwsEc2DescribeVpcBlockPublicAccessExclusionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcBlockPublicAccessExclusionsAsync(AwsEc2DescribeVpcBlockPublicAccessExclusionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -4603,8 +4146,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcBlockPublicAccessOptionsAsync(AwsEc2DescribeVpcBlockPublicAccessOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcBlockPublicAccessOptionsAsync(AwsEc2DescribeVpcBlockPublicAccessOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. See also: AWS API Documentation describe-vpc-classic-link-dns-support is a paginated operation. Multi...
@@ -4613,8 +4155,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcClassicLinkDnsSupportAsync(AwsEc2DescribeVpcClassicLinkDnsSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcClassicLinkDnsSupportAsync(AwsEc2DescribeVpcClassicLinkDnsSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Describes the ClassicLink status of the specified VPCs. See also: AWS API Documentation
@@ -4623,8 +4164,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcClassicLinkAsync(AwsEc2DescribeVpcClassicLinkOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcClassicLinkAsync(AwsEc2DescribeVpcClassicLinkOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more VPC Encryption Control configurations. VPC En- cryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements You can filter the results to return information about specific encryption con- trols or VPCs. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -4633,8 +4173,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEncryptionControlsAsync(AwsEc2DescribeVpcEncryptionControlsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEncryptionControlsAsync(AwsEc2DescribeVpcEncryptionControlsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the VPC resources, VPC endpoint services, Amazon Lattice ser- vices, or service networks associated with the VPC endpoint. See also: AWS API Documentation
@@ -4643,8 +4182,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointAssociationsAsync(AwsEc2DescribeVpcEndpointAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointAssociationsAsync(AwsEc2DescribeVpcEndpointAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the connection notifications for VPC endpoints and VPC end- point services. See also: AWS API Documentation describe-vpc-endpoint-connection-notifications is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following que...
@@ -4653,8 +4191,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointConnectionNotificationsAsync(AwsEc2DescribeVpcEndpointConnectionNotificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointConnectionNotificationsAsync(AwsEc2DescribeVpcEndpointConnectionNotificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance. See also: AWS API Documentation describe-vpc-endpoint-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
@@ -4663,8 +4200,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointConnectionsAsync(AwsEc2DescribeVpcEndpointConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointConnectionsAsync(AwsEc2DescribeVpcEndpointConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the VPC endpoint service configurations in your account (your services). See also: AWS API Documentation describe-vpc-endpoint-service-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query ex...
@@ -4673,8 +4209,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointServiceConfigurationsAsync(AwsEc2DescribeVpcEndpointServiceConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointServiceConfigurationsAsync(AwsEc2DescribeVpcEndpointServiceConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the principals (service consumers) that are permitted to dis- cover your VPC endpoint service. Principal ARNs with path components aren't supported. See also: AWS API Documentation describe-vpc-endpoint-service-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --quer...
@@ -4683,8 +4218,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointServicePermissionsAsync(AwsEc2DescribeVpcEndpointServicePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointServicePermissionsAsync(AwsEc2DescribeVpcEndpointServicePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes available services to which you can create a VPC endpoint. When the service provider and the consumer have different accounts in multiple Availability Zones, and the consumer views the VPC endpoint service information, the response only includes the common Availability Zones. For example, when the service provider account uses us-east-1a and us-east-1c and the consumer uses us-east-1a and us-east-1b , the response includes the VPC endpoint services in the common Availability Zone, us-e...
@@ -4693,8 +4227,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointServicesAsync(AwsEc2DescribeVpcEndpointServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointServicesAsync(AwsEc2DescribeVpcEndpointServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your VPC endpoints. The default is to describe all your VPC endpoints. Alternatively, you can specify specific VPC endpoint IDs or filter the results to include only the VPC endpoints that match spe- cific criteria. See also: AWS API Documentation describe-vpc-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
@@ -4703,8 +4236,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointsAsync(AwsEc2DescribeVpcEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointsAsync(AwsEc2DescribeVpcEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your VPC peering connections. The default is to describe all your VPC peering connections. Alternatively, you can specify specific VPC peering connection IDs or filter the results to include only the VPC peering connections that match specific criteria. See also: AWS API Documentation describe-vpc-peering-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate...
@@ -4713,8 +4245,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcPeeringConnectionsAsync(AwsEc2DescribeVpcPeeringConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcPeeringConnectionsAsync(AwsEc2DescribeVpcPeeringConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes your VPCs. The default is to describe all your VPCs. Alterna- tively, you can specify specific VPC IDs or filter the results to in- clude only the VPCs that match specific criteria. See also: AWS API Documentation describe-vpcs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
@@ -4723,8 +4254,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcsAsync(AwsEc2DescribeVpcsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcsAsync(AwsEc2DescribeVpcsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your VPN concentrators. See also: AWS API Documentation describe-vpn-concentrators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: VpnConcentrators
@@ -4733,8 +4263,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpnConcentratorsAsync(AwsEc2DescribeVpnConcentratorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpnConcentratorsAsync(AwsEc2DescribeVpnConcentratorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your VPN connections. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
@@ -4743,8 +4272,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpnConnectionsAsync(AwsEc2DescribeVpnConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpnConnectionsAsync(AwsEc2DescribeVpnConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your virtual private gateways. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
@@ -4753,8 +4281,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpnGatewaysAsync(AwsEc2DescribeVpnGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpnGatewaysAsync(AwsEc2DescribeVpnGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer asso- ciated with it. An instance is automatically unlinked from a VPC when it's stopped. See also: AWS API Documentation
@@ -4763,8 +4290,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachClassicLinkVpcAsync(AwsEc2DetachClassicLinkVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachClassicLinkVpcAsync(AwsEc2DetachClassicLinkVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a watermark from the specified AMI. This is an idempotent oper- ation. It succeeds even if the watermark does not exist on the image. Removing a watermark from an image does not affect derivative images that already carry the watermark. Only the AMI owner can detach watermarks. See also: AWS API Documentation
@@ -4773,8 +4299,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachImageWatermarkAsync(AwsEc2DetachImageWatermarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachImageWatermarkAsync(AwsEc2DetachImageWatermarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running in- stances with Elastic IP addresses or public IPv4 addresses. See also: AWS API Documentation
@@ -4783,8 +4308,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachInternetGatewayAsync(AwsEc2DetachInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachInternetGatewayAsync(AwsEc2DetachInternetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches a network interface from an instance. See also: AWS API Documentation
@@ -4793,8 +4317,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachNetworkInterfaceAsync(AwsEc2DetachNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachNetworkInterfaceAsync(AwsEc2DetachNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access in- stance. See also: AWS API Documentation
@@ -4803,8 +4326,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachVerifiedAccessTrustProviderAsync(AwsEc2DetachVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachVerifiedAccessTrustProviderAsync(AwsEc2DetachVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an in- stance, it can't be detached while the instance is running. To detach th...
@@ -4813,8 +4335,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachVolumeAsync(AwsEc2DetachVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachVolumeAsync(AwsEc2DetachVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches a virtual private gateway from a VPC. You do this if you're planning to turn off the VPC and not use it anymore. You can confirm a virtual private gateway has been completely detached from a VPC by de- scribing the virtual private gateway (any attachments to the virtual private gateway are also described). You must wait for the attachment's state to switch to detached before you can delete the VPC or attach a different VPC to the virtual private gateway. See also: AWS API Documentation
@@ -4823,8 +4344,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachVpnGatewayAsync(AwsEc2DetachVpnGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachVpnGatewayAsync(AwsEc2DetachVpnGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -4833,8 +4353,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableAddressTransferAsync(AwsEc2DisableAddressTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableAddressTransferAsync(AwsEc2DisableAddressTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables Allowed AMIs for your account in the specified Amazon Web Ser- vices Region. When set to disabled , the image criteria in your Allowed AMIs settings do not apply, and no restrictions are placed on AMI dis- coverability or usage. Users in your account can launch instances using any public AMI or AMI shared with your account. NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be ...
@@ -4843,8 +4362,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableAllowedImagesSettingsAsync(AwsEc2DisableAllowedImagesSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableAllowedImagesSettingsAsync(AwsEc2DisableAllowedImagesSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables suppression of application status checks for the specified in- stances. After suppression is disabled, health check results resume af- fecting the instance-level application status. You can specify a maxi- mum of 100 instance IDs for each request. See also: AWS API Documentation
@@ -4853,8 +4371,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableApplicationStatusCheckSuppressionAsync(AwsEc2DisableApplicationStatusCheckSuppressionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableApplicationStatusCheckSuppressionAsync(AwsEc2DisableApplicationStatusCheckSuppressionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables Infrastructure Performance metric subscriptions. See also: AWS API Documentation
@@ -4863,8 +4380,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableAwsNetworkPerformanceMetricSubscriptionAsync(AwsEc2DisableAwsNetworkPerformanceMetricSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableAwsNetworkPerformanceMetricSubscriptionAsync(AwsEc2DisableAwsNetworkPerformanceMetricSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables EC2 Capacity Manager for your account. This stops data inges- tion and removes access to capacity analytics and optimization recom- mendations. Previously collected data is retained but no new data will be processed. See also: AWS API Documentation
@@ -4873,8 +4389,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableCapacityManagerAsync(AwsEc2DisableCapacityManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableCapacityManagerAsync(AwsEc2DisableCapacityManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables EBS encryption by default for your account in the current Re- gion. After you disable encryption by default, you can still create encrypted volumes by enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -4883,8 +4398,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableEbsEncryptionByDefaultAsync(AwsEc2DisableEbsEncryptionByDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableEbsEncryptionByDefaultAsync(AwsEc2DisableEbsEncryptionByDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Discontinue Windows fast launch for a Windows AMI, and clean up exist- ing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. NOTE: You can only change these settings for Windows AMIs that you own or that have been shared with you. See also: AWS API Documentation
@@ -4893,8 +4407,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableFastLaunchAsync(AwsEc2DisableFastLaunchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableFastLaunchAsync(AwsEc2DisableFastLaunchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables fast snapshot restores for the specified snapshots in the specified Availability Zones. See also: AWS API Documentation
@@ -4903,8 +4416,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableFastSnapshotRestoresAsync(AwsEc2DisableFastSnapshotRestoresOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableFastSnapshotRestoresAsync(AwsEc2DisableFastSnapshotRestoresOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables block public access for AMIs at the account level in the spec- ified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. For more information, see Block public access to your AMIs in the Ama- zon EC2 User Guide . See also: AWS API Documentation
@@ -4913,8 +4425,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableImageBlockPublicAccessAsync(AwsEc2DisableImageBlockPublicAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableImageBlockPublicAccessAsync(AwsEc2DisableImageBlockPublicAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the deprecation of the specified AMI. For more information, see Deprecate an Amazon EC2 AMI in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -4923,8 +4434,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableImageDeprecationAsync(AwsEc2DisableImageDeprecationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableImageDeprecationAsync(AwsEc2DisableImageDeprecationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables deregistration protection for an AMI. When deregistration pro- tection is disabled, the AMI can be deregistered. If you chose to include a 24-hour cooldown period when you enabled deregistration protection for the AMI, then, when you disable deregis- tration protection, you wont immediately be able to deregister the AMI. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -4933,8 +4443,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableImageDeregistrationProtectionAsync(AwsEc2DisableImageDeregistrationProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableImageDeregistrationProtectionAsync(AwsEc2DisableImageDeregistrationProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose ac- cess to the disabled AMI. A disabled AMI does not appear in DescribeImages API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disable...
@@ -4943,8 +4452,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableImageAsync(AwsEc2DisableImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableImageAsync(AwsEc2DisableImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disable Amazon EC2 instances running in an SQL Server High Availability cluster from SQL Server High Availability instance standby detection monitoring. Once disabled, Amazon Web Services no longer monitors the metadata for the instances to determine whether they are active or standby nodes in the SQL Server High Availability cluster. See also: AWS API Documentation
@@ -4953,8 +4461,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableInstanceSqlHaStandbyDetectionsAsync(AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableInstanceSqlHaStandbyDetectionsAsync(AwsEc2DisableInstanceSqlHaStandbyDetectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disable the IPAM account. For more information, see Enable integration with Organizations in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -4963,8 +4470,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableIpamOrganizationAdminAccountAsync(AwsEc2DisableIpamOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableIpamOrganizationAdminAccountAsync(AwsEc2DisableIpamOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individua...
@@ -4973,8 +4479,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableIpamPolicyAsync(AwsEc2DisableIpamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableIpamPolicyAsync(AwsEc2DisableIpamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables route propagation from a route server to a specified route ta- ble. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 r...
@@ -4983,8 +4488,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableRouteServerPropagationAsync(AwsEc2DisableRouteServerPropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableRouteServerPropagationAsync(AwsEc2DisableRouteServerPropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables access to the EC2 serial console of all instances for your ac- count. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -4993,8 +4497,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableSerialConsoleAccessAsync(AwsEc2DisableSerialConsoleAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableSerialConsoleAccessAsync(AwsEc2DisableSerialConsoleAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you disable block public access for snapshots in a Region, users can publicly share snapshots in that Region. WARNING: Enabling block public access for snapshots in block-all-sharing mode does not change the permissions for snapshots that are already pub- licly shared. Instead, it prevents these snapshots from be publicly visible and publicly accessible. Therefore, the ...
@@ -5003,8 +4506,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableSnapshotBlockPublicAccessAsync(AwsEc2DisableSnapshotBlockPublicAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableSnapshotBlockPublicAccessAsync(AwsEc2DisableSnapshotBlockPublicAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the specified resource attachment from propagating routes to the specified propagation route table. See also: AWS API Documentation
@@ -5013,8 +4515,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableTransitGatewayRouteTablePropagationAsync(AwsEc2DisableTransitGatewayRouteTablePropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableTransitGatewayRouteTablePropagationAsync(AwsEc2DisableTransitGatewayRouteTablePropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables a virtual private gateway (VGW) from propagating routes to a specified route table of a VPC. See also: AWS API Documentation
@@ -5023,8 +4524,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableVgwRoutePropagationAsync(AwsEc2DisableVgwRoutePropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableVgwRoutePropagationAsync(AwsEc2DisableVgwRoutePropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to public IP addresses when addressed between a linked EC2-Classic instance and instances in the VPC to which it's linked. You must specify a VPC ID in the request. See also: AWS API Documentation
@@ -5033,8 +4533,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableVpcClassicLinkDnsSupportAsync(AwsEc2DisableVpcClassicLinkDnsSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableVpcClassicLinkDnsSupportAsync(AwsEc2DisableVpcClassicLinkDnsSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it. See also: AWS API Documentation
@@ -5043,8 +4542,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableVpcClassicLinkAsync(AwsEc2DisableVpcClassicLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableVpcClassicLinkAsync(AwsEc2DisableVpcClassicLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates an Elastic IP address from the instance or network inter- face it's associated with. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. An address cannot be disassociated if the all of the following condi- tions are met: o Network interface has a publicDualStackDnsName publicDnsName o Public IPv4 address is the primary public IPv4 address o Network interface only has one remaining public IPv4 address See also: AWS API D...
@@ -5053,8 +4551,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAddressAsync(AwsEc2DisassociateAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAddressAsync(AwsEc2DisassociateAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates an application status check from instances or tags . Af- ter disassociation, health monitoring stops for the affected instances. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o The application status check must already exist and belong to your account. o Tag keys must not be blank. See also: AWS API Documentation
@@ -5063,8 +4560,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateApplicationStatusCheckAsync(AwsEc2DisassociateApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateApplicationStatusCheckAsync(AwsEc2DisassociateApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a pending request to assign billing of the unused capacity of a Capacity Reservation to a consumer account, or revokes a request that has already been accepted. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation
@@ -5073,8 +4569,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateCapacityReservationBillingOwnerAsync(AwsEc2DisassociateCapacityReservationBillingOwnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateCapacityReservationBillingOwnerAsync(AwsEc2DisassociateCapacityReservationBillingOwnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens: o The route that was automatically added for the VPC is deleted o All active client connections are terminated o New client connections are disallowed o The Client VPN endpoint's status changes to pending-associate See also: AWS API Documentation
@@ -5083,8 +4578,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateClientVpnTargetNetworkAsync(AwsEc2DisassociateClientVpnTargetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateClientVpnTargetNetworkAsync(AwsEc2DisassociateClientVpnTargetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates an IAM role from an Certificate Manager (ACM) certifi- cate. Disassociating an IAM role from an ACM certificate removes the Amazon S3 object that contains the certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It also revokes the IAM role's permission to use the KMS key used to encrypt the private key. This effectively revokes the role's permission to use the certifi- cate. See also: AWS API Documentation
@@ -5093,8 +4587,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateEnclaveCertificateIamRoleAsync(AwsEc2DisassociateEnclaveCertificateIamRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateEnclaveCertificateIamRoleAsync(AwsEc2DisassociateEnclaveCertificateIamRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates an IAM instance profile from a running or stopped in- stance. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
@@ -5103,8 +4596,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateIamInstanceProfileAsync(AwsEc2DisassociateIamInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateIamInstanceProfileAsync(AwsEc2DisassociateIamInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates one or more targets from an event window. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5113,8 +4605,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateInstanceEventWindowAsync(AwsEc2DisassociateInstanceEventWindowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateInstanceEventWindowAsync(AwsEc2DisassociateInstanceEventWindowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove the association between your Autonomous System Number (ASN) and your BYOIP CIDR. You may want to use this action to disassociate an ASN from a CIDR or if you want to swap ASNs. For more information, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . See also: AWS API Documentation
@@ -5123,8 +4614,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateIpamByoasnAsync(AwsEc2DisassociateIpamByoasnOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateIpamByoasnAsync(AwsEc2DisassociateIpamByoasnOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a resource discovery from an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
@@ -5133,8 +4623,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateIpamResourceDiscoveryAsync(AwsEc2DisassociateIpamResourceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateIpamResourceDiscoveryAsync(AwsEc2DisassociateIpamResourceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more informa- tion, see Edit secondary IP address associations in the Amazon VPC User Guide . While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, how- ever, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports th...
@@ -5143,8 +4632,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateNatGatewayAddressAsync(AwsEc2DisassociateNatGatewayAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateNatGatewayAddressAsync(AwsEc2DisassociateNatGatewayAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a route server from a VPC. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -5153,8 +4641,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateRouteServerAsync(AwsEc2DisassociateRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateRouteServerAsync(AwsEc2DisassociateRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table. Instead, it uses the routes in the VPC's main route table. For more information about route tables, see Route tables in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -5163,8 +4650,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateRouteTableAsync(AwsEc2DisassociateRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateRouteTableAsync(AwsEc2DisassociateRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group. Note that the disassocia- tion is asynchronous and you can check the status of the request with DescribeSecurityGroupVpcAssociations . See also: AWS API Documentation
@@ -5173,8 +4659,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateSecurityGroupVpcAsync(AwsEc2DisassociateSecurityGroupVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateSecurityGroupVpcAsync(AwsEc2DisassociateSecurityGroupVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a CIDR block from a subnet. Currently, you can disassoci- ate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disas- sociate it. See also: AWS API Documentation
@@ -5183,8 +4668,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateSubnetCidrBlockAsync(AwsEc2DisassociateSubnetCidrBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateSubnetCidrBlockAsync(AwsEc2DisassociateSubnetCidrBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the specified subnets from the transit gateway multicast domain. See also: AWS API Documentation
@@ -5193,8 +4677,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTransitGatewayMulticastDomainAsync(AwsEc2DisassociateTransitGatewayMulticastDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTransitGatewayMulticastDomainAsync(AwsEc2DisassociateTransitGatewayMulticastDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between an an attachment and a policy table. See also: AWS API Documentation
@@ -5203,8 +4686,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTransitGatewayPolicyTableAsync(AwsEc2DisassociateTransitGatewayPolicyTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTransitGatewayPolicyTableAsync(AwsEc2DisassociateTransitGatewayPolicyTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a resource attachment from a transit gateway route table. See also: AWS API Documentation
@@ -5213,8 +4695,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTransitGatewayRouteTableAsync(AwsEc2DisassociateTransitGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTransitGatewayRouteTableAsync(AwsEc2DisassociateTransitGatewayRouteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an association between a branch network interface with a trunk network interface. See also: AWS API Documentation
@@ -5223,8 +4704,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTrunkInterfaceAsync(AwsEc2DisassociateTrunkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTrunkInterfaceAsync(AwsEc2DisassociateTrunkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must specify its association ID. You can get the association ID by using DescribeVpcs . You must detach or delete all gateways and re- sources that are associated with the CIDR block before you can disasso- ciate it. You cannot disassociate the CIDR block with which you originally cre- ated the VPC (the primary CIDR block). See also: AWS API Documentation
@@ -5233,8 +4713,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateVpcCidrBlockAsync(AwsEc2DisassociateVpcCidrBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateVpcCidrBlockAsync(AwsEc2DisassociateVpcCidrBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -5243,8 +4722,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableAddressTransferAsync(AwsEc2EnableAddressTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableAddressTransferAsync(AwsEc2EnableAddressTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables Allowed AMIs for your account in the specified Amazon Web Ser- vices Region. Two values are accepted: o enabled : The image criteria in your Allowed AMIs settings are ap- plied. As a result, only AMIs matching these criteria are discover- able and can be used by your account to launch instances. o audit-mode : The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any p...
@@ -5253,8 +4731,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableAllowedImagesSettingsAsync(AwsEc2EnableAllowedImagesSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableAllowedImagesSettingsAsync(AwsEc2EnableAllowedImagesSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Suppresses application status checks for the specified instances. While suppressed, health checks continue to run but do not affect the in- stance-level application status. The following rules apply: o You can specify a maximum of 100 instance IDs for each request. o Use DisableApplicationStatusCheckSuppression to resume normal health check reporting. o If you do not specify DurationSeconds , suppression continues indefi- nitely until you call DisableApplicationStatusCheckSuppression . See also:...
@@ -5263,8 +4740,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableApplicationStatusCheckSuppressionAsync(AwsEc2EnableApplicationStatusCheckSuppressionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableApplicationStatusCheckSuppressionAsync(AwsEc2EnableApplicationStatusCheckSuppressionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables Infrastructure Performance subscriptions. See also: AWS API Documentation
@@ -5273,8 +4749,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableAwsNetworkPerformanceMetricSubscriptionAsync(AwsEc2EnableAwsNetworkPerformanceMetricSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableAwsNetworkPerformanceMetricSubscriptionAsync(AwsEc2EnableAwsNetworkPerformanceMetricSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables EC2 Capacity Manager for your account. This starts data inges- tion for your EC2 capacity usage across On-Demand, Spot, and Capacity Reservations. Initial data processing may take several hours to com- plete. See also: AWS API Documentation
@@ -5283,8 +4758,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableCapacityManagerAsync(AwsEc2EnableCapacityManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableCapacityManagerAsync(AwsEc2EnableCapacityManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables EBS encryption by default for your account in the current Re- gion. After you enable encryption by default, the EBS volumes that you create are always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer ...
@@ -5293,8 +4767,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableEbsEncryptionByDefaultAsync(AwsEc2EnableEbsEncryptionByDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableEbsEncryptionByDefaultAsync(AwsEc2EnableEbsEncryptionByDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// When you enable Windows fast launch for a Windows AMI, images are pre-provisioned, using snapshots to launch instances up to 65% faster. To create the optimized Windows image, Amazon EC2 launches an instance and runs through Sysprep steps, rebooting as required. Then it creates a set of reserved snapshots that are used for subsequent launches. The reserved snapshots are automatically replenished as they are used, de- pending on your settings for launch frequency. NOTE: You can only change these ...
@@ -5303,8 +4776,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableFastLaunchAsync(AwsEc2EnableFastLaunchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableFastLaunchAsync(AwsEc2EnableFastLaunchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables fast snapshot restores for the specified snapshots in the spec- ified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. For more information, see Amazon EBS fast snapshot restore in the Ama- zon EBS User Guide . See also: AWS API Documentation
@@ -5313,8 +4785,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableFastSnapshotRestoresAsync(AwsEc2EnableFastSnapshotRestoresOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableFastSnapshotRestoresAsync(AwsEc2EnableFastSnapshotRestoresOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables block public access for AMIs at the account level in the speci- fied Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState , the response will be unblocked . When the API has completed the configuration, the response will be block-new-sharing . For more information, see ...
@@ -5323,8 +4794,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableImageBlockPublicAccessAsync(AwsEc2EnableImageBlockPublicAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableImageBlockPublicAccessAsync(AwsEc2EnableImageBlockPublicAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables deprecation of the specified AMI at the specified date and time. For more information, see Deprecate an AMI in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5333,8 +4803,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableImageDeprecationAsync(AwsEc2EnableImageDeprecationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableImageDeprecationAsync(AwsEc2EnableImageDeprecationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables deregistration protection for an AMI. When deregistration pro- tection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistra- tion protection. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5343,8 +4812,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableImageDeregistrationProtectionAsync(AwsEc2EnableImageDeregistrationProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableImageDeregistrationProtectionAsync(AwsEc2EnableImageDeregistrationProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Or- ganizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see Disable an Amazon EC2 AMI in the Amazon EC2 User...
@@ -5353,8 +4821,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableImageAsync(AwsEc2EnableImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableImageAsync(AwsEc2EnableImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable Amazon EC2 instances running in an SQL Server High Availability cluster for SQL Server High Availability instance standby detection monitoring. Once enabled, Amazon Web Services monitors the metadata for the instances to determine whether they are active or standby nodes in the SQL Server High Availability cluster. If the instances are deter- mined to be standby failover nodes, Amazon Web Services automatically applies SQL Server licensing fee waiver for those instances. To register an in...
@@ -5363,8 +4830,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableInstanceSqlHaStandbyDetectionsAsync(AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableInstanceSqlHaStandbyDetectionsAsync(AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastruc- ture (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry. See also: AWS API Documentation
@@ -5373,8 +4839,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableIpamInternetRegistryAssociationAsync(AwsEc2EnableIpamInternetRegistryAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableIpamInternetRegistryAssociationAsync(AwsEc2EnableIpamInternetRegistryAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organiza- tions in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -5383,8 +4848,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableIpamOrganizationAdminAccountAsync(AwsEc2EnableIpamOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableIpamOrganizationAdminAccountAsync(AwsEc2EnableIpamOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual...
@@ -5393,8 +4857,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableIpamPolicyAsync(AwsEc2EnableIpamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableIpamPolicyAsync(AwsEc2EnableIpamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Establishes a trust relationship between Reachability Analyzer and Or- ganizations. This operation must be performed by the management account for the organization. After you establish a trust relationship, a user in the management ac- count or a delegated administrator account can run a cross-account analysis using resources from the member accounts. See also: AWS API Documentation
@@ -5403,8 +4866,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableReachabilityAnalyzerOrganizationSharingAsync(AwsEc2EnableReachabilityAnalyzerOrganizationSharingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableReachabilityAnalyzerOrganizationSharingAsync(AwsEc2EnableReachabilityAnalyzerOrganizationSharingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines which route tables the route server can update with routes. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -5413,8 +4875,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableRouteServerPropagationAsync(AwsEc2EnableRouteServerPropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableRouteServerPropagationAsync(AwsEc2EnableRouteServerPropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables access to the EC2 serial console of all instances for your ac- count. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5423,8 +4884,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableSerialConsoleAccessAsync(AwsEc2EnableSerialConsoleAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableSerialConsoleAccessAsync(AwsEc2EnableSerialConsoleAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or modifies the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you enable block public access for snapshots in a Region, users can no longer request public sharing for snapshots in that Region. Snapshots that are already publicly shared are either treated as private or they remain publicly shared, depending on the State that you specify. WARNING: Enabling block public access for snapshots in block all sharing mode does n...
@@ -5433,8 +4893,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableSnapshotBlockPublicAccessAsync(AwsEc2EnableSnapshotBlockPublicAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableSnapshotBlockPublicAccessAsync(AwsEc2EnableSnapshotBlockPublicAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the specified attachment to propagate routes to the specified propagation route table. See also: AWS API Documentation
@@ -5443,8 +4902,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableTransitGatewayRouteTablePropagationAsync(AwsEc2EnableTransitGatewayRouteTablePropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableTransitGatewayRouteTablePropagationAsync(AwsEc2EnableTransitGatewayRouteTablePropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables a virtual private gateway (VGW) to propagate routes to the specified route table of a VPC. See also: AWS API Documentation
@@ -5453,8 +4911,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableVgwRoutePropagationAsync(AwsEc2EnableVgwRoutePropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableVgwRoutePropagationAsync(AwsEc2EnableVgwRoutePropagationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables I/O operations for a volume that had I/O operations disabled because the data on the volume was potentially inconsistent. See also: AWS API Documentation
@@ -5463,8 +4920,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableVolumeIoAsync(AwsEc2EnableVolumeIoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableVolumeIoAsync(AwsEc2EnableVolumeIoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. You must specify a VPC ID in the request. See also: AWS API Documentation
@@ -5473,8 +4929,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableVpcClassicLinkDnsSupportAsync(AwsEc2EnableVpcClassicLinkDnsSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableVpcClassicLinkDnsSupportAsync(AwsEc2EnableVpcClassicLinkDnsSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot enable your VPC for ClassicLink if any of your VPC route tables have existing routes for address ranges within the 10.0.0.0/8 IP address range, excluding local routes for VPCs in the 10.0.0.0/16 and 10.1.0.0/16 IP address ranges. See also: AWS API Documentation
@@ -5483,8 +4938,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableVpcClassicLinkAsync(AwsEc2EnableVpcClassicLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableVpcClassicLinkAsync(AwsEc2EnableVpcClassicLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Downloads the client certificate revocation list for the specified Client VPN endpoint. See also: AWS API Documentation
@@ -5493,8 +4947,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportClientVpnClientCertificateRevocationListAsync(AwsEc2ExportClientVpnClientCertificateRevocationListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportClientVpnClientCertificateRevocationListAsync(AwsEc2ExportClientVpnClientCertificateRevocationListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Downloads the contents of the Client VPN endpoint configuration file for the specified Client VPN endpoint. The Client VPN endpoint configu- ration file includes the Client VPN endpoint and certificate informa- tion clients need to establish a connection with the Client VPN end- point. See also: AWS API Documentation
@@ -5503,8 +4956,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportClientVpnClientConfigurationAsync(AwsEc2ExportClientVpnClientConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportClientVpnClientConfigurationAsync(AwsEc2ExportClientVpnClientConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports an Amazon Machine Image (AMI) to a VM file. For more informa- tion, see Exporting a VM directly from an Amazon Machine Image (AMI) in the VM Import/Export User Guide . See also: AWS API Documentation
@@ -5513,8 +4965,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportImageAsync(AwsEc2ExportImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportImageAsync(AwsEc2ExportImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alterna- tively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
@@ -5523,8 +4974,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportTransitGatewayRoutesAsync(AwsEc2ExportTransitGatewayRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportTransitGatewayRoutesAsync(AwsEc2ExportTransitGatewayRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports the client configuration for a Verified Access instance. See also: AWS API Documentation
@@ -5533,8 +4983,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportVerifiedAccessInstanceClientConfigurationAsync(AwsEc2ExportVerifiedAccessInstanceClientConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportVerifiedAccessInstanceClientConfigurationAsync(AwsEc2ExportVerifiedAccessInstanceClientConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the currently negotiated security parameters for an active VPN tunnel, including IKE version, DH groups, encryption algorithms, and integrity algorithms. See also: AWS API Documentation
@@ -5543,8 +4992,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetActiveVpnTunnelStatusAsync(AwsEc2GetActiveVpnTunnelStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetActiveVpnTunnelStatusAsync(AwsEc2GetActiveVpnTunnelStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the current state of the Allowed AMIs setting and the list of Al- lowed AMIs criteria at the account level in the specified Region. NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see Control the discovery and use of AMIs in Ama- zon EC2 with Allowed AMIs in Amazon EC2 User Guide . See also: AWS API Docum...
@@ -5553,8 +5001,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAllowedImagesSettingsAsync(AwsEc2GetAllowedImagesSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAllowedImagesSettingsAsync(AwsEc2GetAllowedImagesSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate, certificate chain, and en- crypted private key bundle are stored, and the ARN of the KMS key that's used to encrypt the private key. See also: AWS API Documentation
@@ -5563,8 +5010,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssociatedEnclaveCertificateIamRolesAsync(AwsEc2GetAssociatedEnclaveCertificateIamRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssociatedEnclaveCertificateIamRolesAsync(AwsEc2GetAssociatedEnclaveCertificateIamRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool. See also: AWS API Documentation get-associated-ipv6-pool-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
@@ -5573,8 +5019,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssociatedIpv6PoolCidrsAsync(AwsEc2GetAssociatedIpv6PoolCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssociatedIpv6PoolCidrsAsync(AwsEc2GetAssociatedIpv6PoolCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets network performance data. See also: AWS API Documentation get-aws-network-performance-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataResponses
@@ -5583,8 +5028,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAwsNetworkPerformanceDataAsync(AwsEc2GetAwsNetworkPerformanceDataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAwsNetworkPerformanceDataAsync(AwsEc2GetAwsNetworkPerformanceDataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current configuration and status of EC2 Capacity Manager for your account, including enablement status, Organizations access settings, and data ingestion status. See also: AWS API Documentation
@@ -5593,8 +5037,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCapacityManagerAttributesAsync(AwsEc2GetCapacityManagerAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCapacityManagerAttributesAsync(AwsEc2GetCapacityManagerAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family. See also: AWS API Documentation get-capacity-manager-metric-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginati...
@@ -5603,8 +5046,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCapacityManagerMetricDataAsync(AwsEc2GetCapacityManagerMetricDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCapacityManagerMetricDataAsync(AwsEc2GetCapacityManagerMetricDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the available dimension values for capacity metrics within a specified time range. This is useful for discovering what accounts, re- gions, instance families, and other dimensions have data available for filtering and grouping. See also: AWS API Documentation get-capacity-manager-metric-dimensions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When us...
@@ -5613,8 +5055,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCapacityManagerMetricDimensionsAsync(AwsEc2GetCapacityManagerMetricDimensionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCapacityManagerMetricDimensionsAsync(AwsEc2GetCapacityManagerMetricDimensionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the tag keys that are currently being monitored by EC2 Capac- ity Manager. Monitored tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values. See also: AWS API Documentation get-capacity-manager-monitored-tag-keys is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the -...
@@ -5623,8 +5064,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCapacityManagerMonitoredTagKeysAsync(AwsEc2GetCapacityManagerMonitoredTagKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCapacityManagerMonitoredTagKeysAsync(AwsEc2GetCapacityManagerMonitoredTagKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is cur- rently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage. See also: AWS API Documentation
@@ -5633,8 +5073,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCapacityReservationUsageAsync(AwsEc2GetCapacityReservationUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCapacityReservationUsageAsync(AwsEc2GetCapacityReservationUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the authorization policy for a Client VPN endpoint. See also: AWS API Documentation
@@ -5643,8 +5082,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClientVpnEndpointAuthorizationPolicyAsync(AwsEc2GetClientVpnEndpointAuthorizationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClientVpnEndpointAuthorizationPolicyAsync(AwsEc2GetClientVpnEndpointAuthorizationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the allocations from the specified customer-owned address pool. See also: AWS API Documentation
@@ -5653,8 +5091,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCoipPoolUsageAsync(AwsEc2GetCoipPoolUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCoipPoolUsageAsync(AwsEc2GetCoipPoolUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the console output for the specified instance. For Linux in- stances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. For more information, see Instance console output in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5663,8 +5100,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConsoleOutputAsync(AwsEc2GetConsoleOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConsoleOutputAsync(AwsEc2GetConsoleOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded. For more information, see Instance console output in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5673,8 +5109,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConsoleScreenshotAsync(AwsEc2GetConsoleScreenshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConsoleScreenshotAsync(AwsEc2GetConsoleScreenshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a summary of the account status report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete sta- tus. Reports with other statuses (running , cancelled , or error ) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see Downloading objects in the Amazon Simple Storage Service User Guide . For more information, see Generating the account status report ...
@@ -5683,8 +5118,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeclarativePoliciesReportSummaryAsync(AwsEc2GetDeclarativePoliciesReportSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeclarativePoliciesReportSummaryAsync(AwsEc2GetDeclarativePoliciesReportSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the default credit option for CPU usage of a burstable per- formance instance family. For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5693,8 +5127,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDefaultCreditSpecificationAsync(AwsEc2GetDefaultCreditSpecificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDefaultCreditSpecificationAsync(AwsEc2GetDefaultCreditSpecificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the default KMS key for EBS encryption by default for your account in this Region. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -5703,8 +5136,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEbsDefaultKmsKeyIdAsync(AwsEc2GetEbsDefaultKmsKeyIdOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEbsDefaultKmsKeyIdAsync(AwsEc2GetEbsDefaultKmsKeyIdOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes whether EBS encryption by default is enabled for your account in the current Region. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -5713,8 +5145,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEbsEncryptionByDefaultAsync(AwsEc2GetEbsEncryptionByDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEbsEncryptionByDefaultAsync(AwsEc2GetEbsEncryptionByDefaultOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the enabled IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an indi...
@@ -5723,8 +5154,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEnabledIpamPolicyAsync(AwsEc2GetEnabledIpamPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEnabledIpamPolicyAsync(AwsEc2GetEnabledIpamPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the tem- plate to do the following: o Create a table in Athena that maps fields to a custom log format o Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis o Create a table part...
@@ -5733,8 +5163,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFlowLogsIntegrationTemplateAsync(AwsEc2GetFlowLogsIntegrationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFlowLogsIntegrationTemplateAsync(AwsEc2GetFlowLogsIntegrationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the resource groups to which a Capacity Reservation has been added. See also: AWS API Documentation get-groups-for-capacity-reservation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Capacit...
@@ -5743,8 +5172,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGroupsForCapacityReservationAsync(AwsEc2GetGroupsForCapacityReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGroupsForCapacityReservationAsync(AwsEc2GetGroupsForCapacityReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your ac- count before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased. See also: AWS API Documentation
@@ -5753,8 +5181,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHostReservationPurchasePreviewAsync(AwsEc2GetHostReservationPurchasePreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHostReservationPurchasePreviewAsync(AwsEc2GetHostReservationPurchasePreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the ancestry chain of the specified AMI, tracing its lineage back to the root AMI. For more information, see AMI ancestry in Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5763,8 +5190,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImageAncestryAsync(AwsEc2GetImageAncestryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImageAncestryAsync(AwsEc2GetImageAncestryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. For more information, see Block public access to your AMIs in the Ama- zon EC2 User Guide . See also: AWS API Documentation
@@ -5773,8 +5199,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImageBlockPublicAccessStateAsync(AwsEc2GetImageBlockPublicAccessStateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImageBlockPublicAccessStateAsync(AwsEc2GetImageBlockPublicAccessStateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the default instance metadata service (IMDS) settings that are set at the account level in the specified Amazon Web Services Region. For more information, see Order of precedence for instance metadata op- tions in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -5783,8 +5208,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstanceMetadataDefaultsAsync(AwsEc2GetInstanceMetadataDefaultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstanceMetadataDefaultsAsync(AwsEc2GetInstanceMetadataDefaultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the public endorsement key associated with the Nitro Trusted Plat- form Module (NitroTPM) for the specified instance. See also: AWS API Documentation
@@ -5793,8 +5217,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstanceTpmEkPubAsync(AwsEc2GetInstanceTpmEkPubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstanceTpmEkPubAsync(AwsEc2GetInstanceTpmEkPubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of instance types with the specified instance attrib- utes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that sat- isfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the speci- fied values. For more information, see Preview instance types with specified at...
@@ -5803,8 +5226,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstanceTypesFromInstanceRequirementsAsync(AwsEc2GetInstanceTypesFromInstanceRequirementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstanceTypesFromInstanceRequirementsAsync(AwsEc2GetInstanceTypesFromInstanceRequirementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A binary representation of the UEFI variable store. Only non-volatile variables are stored. This is a base64 encoded and zlib compressed bi- nary value that must be properly encoded. When you use register-image to create an AMI, you can create an exact copy of your variable store by passing the UEFI data in the UefiData parameter. You can modify the UEFI data by using the python-uefivars tool on GitHub. You can use the tool to convert the UEFI data into a human-readable format (JSON), which you ...
@@ -5813,8 +5235,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstanceUefiDataAsync(AwsEc2GetInstanceUefiDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstanceUefiDataAsync(AwsEc2GetInstanceUefiDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the Amazon VPC IPAM User Guide . See also: AWS API Documentation get-ipam-address-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ...
@@ -5823,8 +5244,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamAddressHistoryAsync(AwsEc2GetIpamAddressHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamAddressHistoryAsync(AwsEc2GetIpamAddressHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all ac- counts in the organization are discovered accounts. Only the IPAM ac- count can get all discovered accounts in the organization. See also: AWS API Documentation get-ipam-discovered-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
@@ -5833,8 +5253,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamDiscoveredAccountsAsync(AwsEc2GetIpamDiscoveredAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamDiscoveredAccountsAsync(AwsEc2GetIpamDiscoveredAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the public IP addresses that have been discovered by IPAM. See also: AWS API Documentation
@@ -5843,8 +5262,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamDiscoveredPublicAddressesAsync(AwsEc2GetIpamDiscoveredPublicAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamDiscoveredPublicAddressesAsync(AwsEc2GetIpamDiscoveredPublicAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses. See also: AWS API Documentation get-ipam-discovered-resource-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-pagin...
@@ -5853,8 +5271,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamDiscoveredResourceCidrsAsync(AwsEc2GetIpamDiscoveredResourceCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamDiscoveredResourceCidrsAsync(AwsEc2GetIpamDiscoveredResourceCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves Border Gateway Protocol (BGP) routes discovered by IPAM re- source discovery for a specified Region. Use this operation to view the Bring Your Own IP (BYOIP) address ranges that are currently advertised through BGP. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
@@ -5863,8 +5280,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamDiscoveredRoutesAsync(AwsEc2GetIpamDiscoveredRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamDiscoveredRoutesAsync(AwsEc2GetIpamDiscoveredRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves Autonomous System Numbers (ASNs) registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation
@@ -5873,8 +5289,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamInternetRegistryAssociationAsnsAsync(AwsEc2GetIpamInternetRegistryAssociationAsnsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamInternetRegistryAssociationAsnsAsync(AwsEc2GetIpamInternetRegistryAssociationAsnsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves IP address CIDRs registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
@@ -5883,8 +5298,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamInternetRegistryAssociationCidrsAsync(AwsEc2GetIpamInternetRegistryAssociationCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamInternetRegistryAssociationCidrsAsync(AwsEc2GetIpamInternetRegistryAssociationCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the allocation rules for an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be ap...
@@ -5893,8 +5307,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamPolicyAllocationRulesAsync(AwsEc2GetIpamPolicyAllocationRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamPolicyAllocationRulesAsync(AwsEc2GetIpamPolicyAllocationRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the Amazon Web Services Organizations targets for an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addr...
@@ -5903,8 +5316,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamPolicyOrganizationTargetsAsync(AwsEc2GetIpamPolicyOrganizationTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamPolicyOrganizationTargetsAsync(AwsEc2GetIpamPolicyOrganizationTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a list of all the CIDR allocations in an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Ser- vices Region where this IPAM pool is available for allocations. NOTE: If you use this action after AllocateIpamPoolCidr or ReleaseIpamPoolAllocation , note that all EC2 API actions follow an eventual consistency model. See also: AWS API Documentation get-ipam-pool-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve th...
@@ -5913,8 +5325,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamPoolAllocationsAsync(AwsEc2GetIpamPoolAllocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamPoolAllocationsAsync(AwsEc2GetIpamPoolAllocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the CIDRs provisioned to an IPAM pool. See also: AWS API Documentation get-ipam-pool-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpamPoolCidrs
@@ -5923,8 +5334,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamPoolCidrsAsync(AwsEc2GetIpamPoolCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamPoolCidrsAsync(AwsEc2GetIpamPoolCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the CIDR selection rules for an IPAM prefix list resolver. Use this operation to view the business logic that determines which CIDRs are selected for synchronization with prefix lists. See also: AWS API Documentation get-ipam-prefix-list-resolver-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on ...
@@ -5933,8 +5343,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamPrefixListResolverRulesAsync(AwsEc2GetIpamPrefixListResolverRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamPrefixListResolverRulesAsync(AwsEc2GetIpamPrefixListResolverRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the CIDR entries for a specific version of an IPAM prefix list resolver. This shows the actual CIDRs that were selected and syn- chronized at a particular point in time. See also: AWS API Documentation get-ipam-prefix-list-resolver-version-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a pagin...
@@ -5943,8 +5352,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamPrefixListResolverVersionEntriesAsync(AwsEc2GetIpamPrefixListResolverVersionEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamPrefixListResolverVersionEntriesAsync(AwsEc2GetIpamPrefixListResolverVersionEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves version information for an IPAM prefix list resolver. Each version is a snapshot of what CIDRs matched your rules at that mo- ment in time. The version number increments every time the CIDR list changes due to infrastructure changes. Version example: Initial State (Version 1) Production environment: o vpc-prod-web (10.1.0.0/16) - tagged env=prod o vpc-prod-db (10.2.0.0/16) - tagged env=prod Resolver rule: Include all VPCs tagged env=prod Version 1 CIDRs: 10.1.0.0/16, 10.2.0.0/16 Infras...
@@ -5953,8 +5361,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamPrefixListResolverVersionsAsync(AwsEc2GetIpamPrefixListResolverVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamPrefixListResolverVersionsAsync(AwsEc2GetIpamPrefixListResolverVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discov- ery is an IPAM component that enables IPAM to manage and monitor re- sources that belong to the owning account. See also: AWS API Documentation get-ipam-resource-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can d...
@@ -5963,8 +5370,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamResourceCidrsAsync(AwsEc2GetIpamResourceCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamResourceCidrsAsync(AwsEc2GetIpamResourceCidrsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current Route Origin Authorizations (ROAs) published to the RPKI for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation
@@ -5973,8 +5379,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamRouteOriginAuthorizationsAsync(AwsEc2GetIpamRouteOriginAuthorizationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamRouteOriginAuthorizationsAsync(AwsEc2GetIpamRouteOriginAuthorizationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves route protection findings for an IPAM. Route protection find- ings show the Resource Public Key Infrastructure (RPKI) validation sta- tus of your Bring Your Own IP (BYOIP) routes. Findings identify routes that have valid, invalid, or unknown validation states. We recommend using pagination to ensure that the operation returns quickly and suc- cessfully. See also: AWS API Documentation
@@ -5983,8 +5388,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamRouteProtectionFindingsAsync(AwsEc2GetIpamRouteProtectionFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamRouteProtectionFindingsAsync(AwsEc2GetIpamRouteProtectionFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the history of routing policy registration changes for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
@@ -5993,8 +5397,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamRoutingPolicyRegistrationDeltasAsync(AwsEc2GetIpamRoutingPolicyRegistrationDeltasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamRoutingPolicyRegistrationDeltasAsync(AwsEc2GetIpamRoutingPolicyRegistrationDeltasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves routing policy registrations for an IPAM internet registry association. Each registration represents a Route Origin Authorization (ROA) that has been created or is pending publication to the RPKI. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
@@ -6003,8 +5406,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIpamRoutingPolicyRegistrationsAsync(AwsEc2GetIpamRoutingPolicyRegistrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIpamRoutingPolicyRegistrationsAsync(AwsEc2GetIpamRoutingPolicyRegistrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template. This action calls on other describe actions to get instance informa- tion. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests , DescribeInstanceCreditSpecifications , DescribeVolumes , and De- scribeInstanceAttribute . Or, you can allow describe* depending on your instance requirements. See also: AWS API...
@@ -6013,8 +5415,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLaunchTemplateDataAsync(AwsEc2GetLaunchTemplateDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLaunchTemplateDataAsync(AwsEc2GetLaunchTemplateDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the resources that are associated with the spec- ified managed prefix list. See also: AWS API Documentation get-managed-prefix-list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
@@ -6023,8 +5424,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedPrefixListAssociationsAsync(AwsEc2GetManagedPrefixListAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedPrefixListAssociationsAsync(AwsEc2GetManagedPrefixListAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the entries for a specified managed prefix list. See also: AWS API Documentation get-managed-prefix-list-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
@@ -6033,8 +5433,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedPrefixListEntriesAsync(AwsEc2GetManagedPrefixListEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedPrefixListEntriesAsync(AwsEc2GetManagedPrefixListEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the managed resource visibility configuration for the ac- count. The response indicates whether managed resources are hidden or visible by default. See also: AWS API Documentation
@@ -6043,8 +5442,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedResourceVisibilityAsync(AwsEc2GetManagedResourceVisibilityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedResourceVisibilityAsync(AwsEc2GetManagedResourceVisibilityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the findings for the specified Network Access Scope analysis. See also: AWS API Documentation get-network-insights-access-scope-analysis-findings is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressio...
@@ -6053,8 +5451,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNetworkInsightsAccessScopeAnalysisFindingsAsync(AwsEc2GetNetworkInsightsAccessScopeAnalysisFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNetworkInsightsAccessScopeAnalysisFindingsAsync(AwsEc2GetNetworkInsightsAccessScopeAnalysisFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the content for the specified Network Access Scope. See also: AWS API Documentation
@@ -6063,8 +5460,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNetworkInsightsAccessScopeContentAsync(AwsEc2GetNetworkInsightsAccessScopeContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNetworkInsightsAccessScopeContentAsync(AwsEc2GetNetworkInsightsAccessScopeContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the encrypted administrator password for a running Windows instance. The Windows password is generated at boot by the EC2Config service or EC2Launch scripts (Windows Server 2016 and later). This usually only happens the first time an instance is launched. For more information, see EC2Config and EC2Launch in the Amazon EC2 User Guide . For the EC2Config service, the password is not generated for rebundled AMIs unless Ec2SetPassword is enabled before bundling. The password is encrypted u...
@@ -6073,8 +5469,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPasswordDataAsync(AwsEc2GetPasswordDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPasswordDataAsync(AwsEc2GetPasswordDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a quote and exchange information for exchanging one or more specified Convertible Reserved Instances for a new Convertible Reserved Instance. If the exchange cannot be performed, the reason is returned in the response. Use AcceptReservedInstancesExchangeQuote to perform the exchange. See also: AWS API Documentation
@@ -6083,8 +5478,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReservedInstancesExchangeQuoteAsync(AwsEc2GetReservedInstancesExchangeQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReservedInstancesExchangeQuoteAsync(AwsEc2GetReservedInstancesExchangeQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the associations for the specified route server. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -6093,8 +5487,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouteServerAssociationsAsync(AwsEc2GetRouteServerAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouteServerAssociationsAsync(AwsEc2GetRouteServerAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the route propagations for the specified route server. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 ...
@@ -6103,8 +5496,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouteServerPropagationsAsync(AwsEc2GetRouteServerPropagationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouteServerPropagationsAsync(AwsEc2GetRouteServerPropagationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the routing database for the specified route server. The Routing Information Base (RIB) serves as a database that stores all the routing information and network topology data collected by a router or routing system, such as routes learned from BGP peers. The RIB is constantly updated as new routing information is received or existing routes change. This ensures that the route server always has the most current view of the network topology and can make optimal routing decisions. Amazon VPC R...
@@ -6113,8 +5505,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRouteServerRoutingDatabaseAsync(AwsEc2GetRouteServerRoutingDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRouteServerRoutingDatabaseAsync(AwsEc2GetRouteServerRoutingDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC. See also: AWS API Documentation get-security-groups-for-vpc is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract dat...
@@ -6123,8 +5514,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSecurityGroupsForVpcAsync(AwsEc2GetSecurityGroupsForVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSecurityGroupsForVpcAsync(AwsEc2GetSecurityGroupsForVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the access status of your account to the EC2 serial console of all instances. By default, access to the EC2 serial console is dis- abled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -6133,8 +5523,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSerialConsoleAccessStatusAsync(AwsEc2GetSerialConsoleAccessStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSerialConsoleAccessStatusAsync(AwsEc2GetSerialConsoleAccessStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the current state of block public access for snapshots setting for the account and Region. For more information, see Block public access for snapshots in the Ama- zon EBS User Guide . See also: AWS API Documentation
@@ -6143,8 +5532,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSnapshotBlockPublicAccessStateAsync(AwsEc2GetSnapshotBlockPublicAccessStateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSnapshotBlockPublicAccessStateAsync(AwsEc2GetSnapshotBlockPublicAccessStateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using In- stanceRequirementsWithMetadata and letting Amazon EC2 choose the opti- mal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes . For more information, see Spot placement score in the Amazon EC2 User Guide . See also: AWS API Documentation get-spot-p...
@@ -6153,8 +5541,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSpotPlacementScoresAsync(AwsEc2GetSpotPlacementScoresOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSpotPlacementScoresAsync(AwsEc2GetSpotPlacementScoresOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the subnet CIDR reservations. See also: AWS API Documentation
@@ -6163,8 +5550,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSubnetCidrReservationsAsync(AwsEc2GetSubnetCidrReservationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSubnetCidrReservationsAsync(AwsEc2GetSubnetCidrReservationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the route tables to which the specified resource attachment prop- agates routes. See also: AWS API Documentation get-transit-gateway-attachment-propagations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query...
@@ -6173,8 +5559,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransitGatewayAttachmentPropagationsAsync(AwsEc2GetTransitGatewayAttachmentPropagationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransitGatewayAttachmentPropagationsAsync(AwsEc2GetTransitGatewayAttachmentPropagationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the entries for a transit gateway metering policy. See also: AWS API Documentation
@@ -6183,8 +5568,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransitGatewayMeteringPolicyEntriesAsync(AwsEc2GetTransitGatewayMeteringPolicyEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransitGatewayMeteringPolicyEntriesAsync(AwsEc2GetTransitGatewayMeteringPolicyEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the associations for the transit gateway multi- cast domain. See also: AWS API Documentation get-transit-gateway-multicast-domain-associations is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following qu...
@@ -6193,8 +5577,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransitGatewayMulticastDomainAssociationsAsync(AwsEc2GetTransitGatewayMulticastDomainAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransitGatewayMulticastDomainAssociationsAsync(AwsEc2GetTransitGatewayMulticastDomainAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the transit gateway policy table associations. See also: AWS API Documentation get-transit-gateway-policy-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: Associati...
@@ -6203,8 +5586,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransitGatewayPolicyTableAssociationsAsync(AwsEc2GetTransitGatewayPolicyTableAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransitGatewayPolicyTableAssociationsAsync(AwsEc2GetTransitGatewayPolicyTableAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of transit gateway policy table entries. See also: AWS API Documentation get-transit-gateway-policy-table-entries is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayPolicy...
@@ -6213,8 +5595,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransitGatewayPolicyTableEntriesAsync(AwsEc2GetTransitGatewayPolicyTableEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransitGatewayPolicyTableEntriesAsync(AwsEc2GetTransitGatewayPolicyTableEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the prefix list references in a specified tran- sit gateway route table. See also: AWS API Documentation get-transit-gateway-prefix-list-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the followi...
@@ -6223,8 +5604,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransitGatewayPrefixListReferencesAsync(AwsEc2GetTransitGatewayPrefixListReferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransitGatewayPrefixListReferencesAsync(AwsEc2GetTransitGatewayPrefixListReferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the associations for the specified transit gate- way route table. See also: AWS API Documentation get-transit-gateway-route-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following qu...
@@ -6233,8 +5613,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransitGatewayRouteTableAssociationsAsync(AwsEc2GetTransitGatewayRouteTableAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransitGatewayRouteTableAssociationsAsync(AwsEc2GetTransitGatewayRouteTableAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the route table propagations for the specified transit gateway route table. See also: AWS API Documentation get-transit-gateway-route-table-propagations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the fo...
@@ -6243,8 +5622,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTransitGatewayRouteTablePropagationsAsync(AwsEc2GetTransitGatewayRouteTablePropagationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTransitGatewayRouteTablePropagationsAsync(AwsEc2GetTransitGatewayRouteTablePropagationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the Verified Access policy associated with the endpoint. See also: AWS API Documentation
@@ -6253,8 +5631,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVerifiedAccessEndpointPolicyAsync(AwsEc2GetVerifiedAccessEndpointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVerifiedAccessEndpointPolicyAsync(AwsEc2GetVerifiedAccessEndpointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the targets for the specified network CIDR endpoint for Verified Access. See also: AWS API Documentation
@@ -6263,8 +5640,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVerifiedAccessEndpointTargetsAsync(AwsEc2GetVerifiedAccessEndpointTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVerifiedAccessEndpointTargetsAsync(AwsEc2GetVerifiedAccessEndpointTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shows the contents of the Verified Access policy associated with the group. See also: AWS API Documentation
@@ -6273,8 +5649,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVerifiedAccessGroupPolicyAsync(AwsEc2GetVerifiedAccessGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVerifiedAccessGroupPolicyAsync(AwsEc2GetVerifiedAccessGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about resources in a VPC that are blocking encryption enforcement. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -6283,8 +5658,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpcResourcesBlockingEncryptionEnforcementAsync(AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpcResourcesBlockingEncryptionEnforcementAsync(AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download an Amazon Web Services-provided sample configuration file to be used with the customer gateway device specified for your Site-to-Site VPN connection. See also: AWS API Documentation
@@ -6293,8 +5667,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpnConnectionDeviceSampleConfigurationAsync(AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpnConnectionDeviceSampleConfigurationAsync(AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Obtain a list of customer gateway devices for which sample configura- tion files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under Your customer gateway device in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation get-vpn-connection-device-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
@@ -6303,8 +5676,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpnConnectionDeviceTypesAsync(AwsEc2GetVpnConnectionDeviceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpnConnectionDeviceTypesAsync(AwsEc2GetVpnConnectionDeviceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get details of available tunnel endpoint maintenance. See also: AWS API Documentation
@@ -6313,8 +5685,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpnTunnelReplacementStatusAsync(AwsEc2GetVpnTunnelReplacementStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpnTunnelReplacementStatusAsync(AwsEc2GetVpnTunnelReplacementStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads a client certificate revocation list to the specified Client VPN endpoint. Uploading a client certificate revocation list overwrites the existing client certificate revocation list. Uploading a client certificate revocation list resets existing client connections. See also: AWS API Documentation
@@ -6323,8 +5694,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportClientVpnClientCertificateRevocationListAsync(AwsEc2ImportClientVpnClientCertificateRevocationListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportClientVpnClientCertificateRevocationListAsync(AwsEc2ImportClientVpnClientCertificateRevocationListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: To import your virtual machines (VMs) with a console-based experi- ence, you can use the Import virtual machine images to Amazon Web Services template in the Migration Hub Orchestrator console . For more information, see the ` Migration Hub Orchestrator User Guide https://docs.aws.amazon.com/migrationhub-orchestrator/latest/userguide/import-vm-images.html`__ . Import single or multi-volume disk images or EBS snapshots into an Ama- zon Machine Image (AMI). WARNING: Amazon Web Services VM Im...
@@ -6333,8 +5703,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportImageAsync(AwsEc2ImportImageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportImageAsync(AwsEc2ImportImageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports the public key from an RSA or ED25519 key pair that you created using a third-party tool. You give Amazon Web Services only the public key. The private key is never transferred between you and Amazon Web Services. For more information about the requirements for importing a key pair, see Create a key pair and import the public key to Amazon EC2 in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -6343,8 +5712,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportKeyPairAsync(AwsEc2ImportKeyPairOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportKeyPairAsync(AwsEc2ImportKeyPairOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports a disk into an EBS snapshot. For more information, see Importing a disk as a snapshot using VM Im- port/Export in the VM Import/Export User Guide . See also: AWS API Documentation
@@ -6353,8 +5721,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportSnapshotAsync(AwsEc2ImportSnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportSnapshotAsync(AwsEc2ImportSnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists one or more AMIs that are currently in the Recycle Bin. For more information, see Recycle Bin in the Amazon EC2 User Guide . See also: AWS API Documentation list-images-in-recycle-bin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
@@ -6363,8 +5730,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListImagesInRecycleBinAsync(AwsEc2ListImagesInRecycleBinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListImagesInRecycleBinAsync(AwsEc2ListImagesInRecycleBinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists one or more snapshots that are currently in the Recycle Bin. See also: AWS API Documentation list-snapshots-in-recycle-bin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Snapshots
@@ -6373,8 +5739,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSnapshotsInRecycleBinAsync(AwsEc2ListSnapshotsInRecycleBinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSnapshotsInRecycleBinAsync(AwsEc2ListSnapshotsInRecycleBinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists one or more volumes that are currently in the Recycle Bin. See also: AWS API Documentation
@@ -6383,8 +5748,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVolumesInRecycleBinAsync(AwsEc2ListVolumesInRecycleBinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVolumesInRecycleBinAsync(AwsEc2ListVolumesInRecycleBinOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Locks an Amazon EBS snapshot in either governance or compliance mode to protect it against accidental or malicious deletions for a specific du- ration. A locked snapshot can't be deleted. You can also use this action to modify the lock settings for a snapshot that is already locked. The allowed modifications depend on the lock mode and lock state: o If the snapshot is locked in governance mode, you can modify the lock mode and the lock duration or lock expiration date. o If the snapshot is locke...
@@ -6393,8 +5757,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LockSnapshotAsync(AwsEc2LockSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LockSnapshotAsync(AwsEc2LockSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the account-level VPC Encryption Control configuration. This sets the encryption control mode and resource exclusions that apply to the VPCs in your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet com- pliance requirements. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -6403,8 +5766,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyAccountVpcEncryptionControlAsync(AwsEc2ModifyAccountVpcEncryptionControlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyAccountVpcEncryptionControlAsync(AwsEc2ModifyAccountVpcEncryptionControlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an attribute of the specified Elastic IP address. For require- ments, see Using reverse DNS for email applications . See also: AWS API Documentation
@@ -6413,8 +5775,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyAddressAttributeAsync(AwsEc2ModifyAddressAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyAddressAttributeAsync(AwsEc2ModifyAddressAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing application status check. You can update the pro- tocol, port, path, thresholds, and other configuration settings. The following rules apply: o The application status check must exist and belong to your account. o Changes take effect on the next health check interval. See also: AWS API Documentation
@@ -6423,8 +5784,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyApplicationStatusCheckAsync(AwsEc2ModifyApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyApplicationStatusCheckAsync(AwsEc2ModifyApplicationStatusCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the opt-in status of the specified zone group for your account. See also: AWS API Documentation
@@ -6433,8 +5793,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyAvailabilityZoneGroupAsync(AwsEc2ModifyAvailabilityZoneGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyAvailabilityZoneGroupAsync(AwsEc2ModifyAvailabilityZoneGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a Capacity Reservation Fleet. When you modify the total target capacity of a Capacity Reservation Fleet, the Fleet automatically creates new Capacity Reservations, or modifies or cancels existing Capacity Reservations in the Fleet to meet the new total target capacity. When you modify the end date for the Fleet, the end dates for all of the individual Capacity Reservations in the Fleet are updated accordingly. See also: AWS API Documentation
@@ -6443,8 +5802,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyCapacityReservationFleetAsync(AwsEc2ModifyCapacityReservationFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyCapacityReservationFleetAsync(AwsEc2ModifyCapacityReservationFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Ca- pacity Reservation's instance type, EBS optimization, platform, in- stance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capac- ity Reservation, and then create a new one with the required attrib- utes. For more information, see Modify an active Capacity Reservation . The allo...
@@ -6453,8 +5811,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyCapacityReservationAsync(AwsEc2ModifyCapacityReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyCapacityReservationAsync(AwsEc2ModifyCapacityReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates the authorization policy for a Client VPN endpoint. A Client VPN endpoint can have one authorization policy. If a policy already exists for the endpoint, the values that you specify replace the corresponding values in the existing policy, and values that you do not specify remain unchanged. See also: AWS API Documentation
@@ -6463,8 +5820,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClientVpnEndpointAuthorizationPolicyAsync(AwsEc2ModifyClientVpnEndpointAuthorizationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClientVpnEndpointAuthorizationPolicyAsync(AwsEc2ModifyClientVpnEndpointAuthorizationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified Client VPN endpoint. Modifying the DNS server resets existing client connections. See also: AWS API Documentation
@@ -6473,8 +5829,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClientVpnEndpointAsync(AwsEc2ModifyClientVpnEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClientVpnEndpointAsync(AwsEc2ModifyClientVpnEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the default credit option for CPU usage of burstable perfor- mance instances. The default credit option is set at the account level per Amazon Web Services Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option. ModifyDefaultCreditSpecification is an asynchronous operation, which works at an Amazon Web Services Region level and modifies the credit option for each Availability Zone. All zones in a Region...
@@ -6483,8 +5838,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyDefaultCreditSpecificationAsync(AwsEc2ModifyDefaultCreditSpecificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyDefaultCreditSpecificationAsync(AwsEc2ModifyDefaultCreditSpecificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the default KMS key for EBS encryption by default for your ac- count in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you speci- fied for use with encrypti...
@@ -6493,8 +5847,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyEbsDefaultKmsKeyIdAsync(AwsEc2ModifyEbsDefaultKmsKeyIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyEbsDefaultKmsKeyIdAsync(AwsEc2ModifyEbsDefaultKmsKeyIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified EC2 Fleet. You can only modify an EC2 Fleet request of type maintain . While the EC2 Fleet is being modified, it is in the modifying state. To scale up your EC2 Fleet, increase its target capacity. The EC2 Fleet launches the additional Spot Instances according to the allocation strategy for the EC2 Fleet request. If the allocation strategy is low- est-price , the EC2 Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is ...
@@ -6503,8 +5856,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyFleetAsync(AwsEc2ModifyFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyFleetAsync(AwsEc2ModifyFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified attribute of the specified Amazon FPGA Image (AFI). See also: AWS API Documentation
@@ -6513,8 +5865,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyFpgaImageAttributeAsync(AwsEc2ModifyFpgaImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyFpgaImageAttributeAsync(AwsEc2ModifyFpgaImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify the auto-placement setting of a Dedicated Host. When auto-place- ment is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-place- ment is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use...
@@ -6523,8 +5874,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyHostsAsync(AwsEc2ModifyHostsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyHostsAsync(AwsEc2ModifyHostsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should re- ceive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elas...
@@ -6533,8 +5883,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIdentityIdFormatAsync(AwsEc2ModifyIdentityIdFormatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIdentityIdFormatAsync(AwsEc2ModifyIdentityIdFormatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the ID format for the specified resource on a per-Region ba- sis. You can specify that resources should receive longer IDs (17-char- acter IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | ex- port-task | flow-log | image | import-task | ...
@@ -6543,8 +5892,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIdFormatAsync(AwsEc2ModifyIdFormatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIdFormatAsync(AwsEc2ModifyIdFormatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description , ImdsSupport , or LaunchPer- mission . Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an im- age, enable SriovNetSupport on an instance and create an AMI from the instance. See also: AWS A...
@@ -6553,8 +5901,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyImageAttributeAsync(AwsEc2ModifyImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyImageAttributeAsync(AwsEc2ModifyImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNet- workInterfaceAttribute action. To modify some attributes, the...
@@ -6563,8 +5910,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceAttributeAsync(AwsEc2ModifyInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceAttributeAsync(AwsEc2ModifyInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attrib- utes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
@@ -6573,8 +5919,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceCapacityReservationAttributesAsync(AwsEc2ModifyInstanceCapacityReservationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceCapacityReservationAttributesAsync(AwsEc2ModifyInstanceCapacityReservationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified EC2 Instance Connect Endpoint. For more information, see Modify an EC2 Instance Connect Endpoint in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -6583,8 +5928,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceConnectEndpointAsync(AwsEc2ModifyInstanceConnectEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceConnectEndpointAsync(AwsEc2ModifyInstanceConnectEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// By default, all vCPUs for the instance type are active when you launch an instance. When you configure the number of active vCPUs for the in- stance, it can help you save on licensing costs and optimize perfor- mance. The base cost of the instance remains unchanged. The number of active vCPUs equals the number of threads per CPU core multiplied by the number of cores. The instance must be in a Stopped state before you make changes. NOTE: Some instance type options do not support this capability....
@@ -6593,8 +5937,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceCpuOptionsAsync(AwsEc2ModifyInstanceCpuOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceCpuOptionsAsync(AwsEc2ModifyInstanceCpuOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and un- limited . For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -6603,8 +5946,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceCreditSpecificationAsync(AwsEc2ModifyInstanceCreditSpecificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceCreditSpecificationAsync(AwsEc2ModifyInstanceCreditSpecificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the start time for a scheduled Amazon EC2 instance event. See also: AWS API Documentation
@@ -6613,8 +5955,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceEventStartTimeAsync(AwsEc2ModifyInstanceEventStartTimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceEventStartTimeAsync(AwsEc2ModifyInstanceEventStartTimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the Asso- ciateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 Use...
@@ -6623,8 +5964,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceEventWindowAsync(AwsEc2ModifyInstanceEventWindowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceEventWindowAsync(AwsEc2ModifyInstanceEventWindowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an un- supported instance type. For more information, see Simplified automatic recovery . Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more infor- mation, see Enable or disable reboot migration . See also: AWS ...
@@ -6633,8 +5973,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceMaintenanceOptionsAsync(AwsEc2ModifyInstanceMaintenanceOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceMaintenanceOptionsAsync(AwsEc2ModifyInstanceMaintenanceOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services Region. NOTE: To remove a parameter's account-level default setting, specify no-preference . If an account-level setting is cleared with no-pref- erence , then the instance launch considers the other instance meta- data settings. For more information, see Order of precedence for in- stance metadata options in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -6643,8 +5982,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceMetadataDefaultsAsync(AwsEc2ModifyInstanceMetadataDefaultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceMetadataDefaultsAsync(AwsEc2ModifyInstanceMetadataDefaultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify the instance metadata parameters on a running or stopped in- stance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of pending. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from pending to applied in subse- quent describe-instances API calls. For more information, see Instance metadat...
@@ -6653,8 +5991,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceMetadataOptionsAsync(AwsEc2ModifyInstanceMetadataOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceMetadataOptionsAsync(AwsEc2ModifyInstanceMetadataOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Change the configuration of the network performance options for an ex- isting instance. See also: AWS API Documentation
@@ -6663,8 +6000,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceNetworkPerformanceOptionsAsync(AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceNetworkPerformanceOptionsAsync(AwsEc2ModifyInstanceNetworkPerformanceOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the placement attributes for a specified instance. You can do the following: o Modify the affinity between an instance and a Dedicated Host . When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the in- stance is restarted or rebooted, this relationship persists. o Change the Dedicated Host with which an instance is associated. o Change the...
@@ -6673,8 +6009,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstancePlacementAsync(AwsEc2ModifyInstancePlacementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstancePlacementAsync(AwsEc2ModifyInstancePlacementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify the configurations of an IPAM. See also: AWS API Documentation
@@ -6683,8 +6018,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamAsync(AwsEc2ModifyIpamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamAsync(AwsEc2ModifyIpamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the allocation rules in an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be...
@@ -6693,8 +6027,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamPolicyAllocationRulesAsync(AwsEc2ModifyIpamPolicyAllocationRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamPolicyAllocationRulesAsync(AwsEc2ModifyIpamPolicyAllocationRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the description of an IPAM pool allocation. For more informa- tion, see Modify an IPAM pool allocation in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -6703,8 +6036,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamPoolAllocationAsync(AwsEc2ModifyIpamPoolAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamPoolAllocationAsync(AwsEc2ModifyIpamPoolAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify the configurations of an IPAM pool. For more information, see Modify a pool in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -6713,8 +6045,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamPoolAsync(AwsEc2ModifyIpamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamPoolAsync(AwsEc2ModifyIpamPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an IPAM prefix list resolver. You can update the description and CIDR selection rules. Changes to rules will trigger re-evaluation and potential updates to associated prefix lists. See also: AWS API Documentation
@@ -6723,8 +6054,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamPrefixListResolverAsync(AwsEc2ModifyIpamPrefixListResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamPrefixListResolverAsync(AwsEc2ModifyIpamPrefixListResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an IPAM prefix list resolver target. You can update version tracking settings and the desired version of the target prefix list. See also: AWS API Documentation
@@ -6733,8 +6063,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamPrefixListResolverTargetAsync(AwsEc2ModifyIpamPrefixListResolverTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamPrefixListResolverTargetAsync(AwsEc2ModifyIpamPrefixListResolverTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify a resource CIDR. You can use this action to transfer resource CIDRs between scopes and ignore resource CIDRs that you do not want to manage. If set to false, the resource will not be tracked for overlap, it cannot be auto-imported into a pool, and it will be removed from any pool it has an allocation in. For more information, see Move resource CIDRs between scopes and Change the monitoring state of resource CIDRs in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -6743,8 +6072,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamResourceCidrAsync(AwsEc2ModifyIpamResourceCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamResourceCidrAsync(AwsEc2ModifyIpamResourceCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a resource discovery. A resource discovery is an IPAM compo- nent that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
@@ -6753,8 +6081,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamResourceDiscoveryAsync(AwsEc2ModifyIpamResourceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamResourceDiscoveryAsync(AwsEc2ModifyIpamResourceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing routing policy registration. You can update the authorized ASNs, maximum prefix length, and other properties of a Route Origin Authorization (ROA). See also: AWS API Documentation
@@ -6763,8 +6090,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamRoutingPolicyRegistrationAsync(AwsEc2ModifyIpamRoutingPolicyRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamRoutingPolicyRegistrationAsync(AwsEc2ModifyIpamRoutingPolicyRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify an IPAM scope. See also: AWS API Documentation
@@ -6773,8 +6099,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIpamScopeAsync(AwsEc2ModifyIpamScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIpamScopeAsync(AwsEc2ModifyIpamScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a launch template. You can specify which version of the launch template to set as the default version. When launching an instance, the default version applies when a launch template version is not speci- fied. See also: AWS API Documentation
@@ -6783,8 +6108,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyLaunchTemplateAsync(AwsEc2ModifyLaunchTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyLaunchTemplateAsync(AwsEc2ModifyLaunchTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified local gateway route. See also: AWS API Documentation
@@ -6793,8 +6117,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyLocalGatewayRouteAsync(AwsEc2ModifyLocalGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyLocalGatewayRouteAsync(AwsEc2ModifyLocalGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified managed prefix list. Adding or removing entries in a prefix list creates a new version of the prefix list. Changing the name of the prefix list does not affect the version. If you specify a current version number that does not match the true current version number, the request fails. See also: AWS API Documentation
@@ -6803,8 +6126,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyManagedPrefixListAsync(AwsEc2ModifyManagedPrefixListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyManagedPrefixListAsync(AwsEc2ModifyManagedPrefixListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the managed resource visibility configuration for the account. Use this operation to control whether managed resources are hidden or visible by default. Visibility settings are account-wide and affect all IAM principals uniformly. Hidden resources remain fully operational and billable. See also: AWS API Documentation
@@ -6813,8 +6135,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyManagedResourceVisibilityAsync(AwsEc2ModifyManagedResourceVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyManagedResourceVisibilityAsync(AwsEc2ModifyManagedResourceVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and de- tach security groups from an existing EC2 instance. See also: AWS API Documentation
@@ -6823,8 +6144,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyNetworkInterfaceAttributeAsync(AwsEc2ModifyNetworkInterfaceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyNetworkInterfaceAttributeAsync(AwsEc2ModifyNetworkInterfaceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the options for instance hostnames for the specified instance. See also: AWS API Documentation
@@ -6833,8 +6153,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyPrivateDnsNameOptionsAsync(AwsEc2ModifyPrivateDnsNameOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyPrivateDnsNameOptionsAsync(AwsEc2ModifyPrivateDnsNameOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify public hostname options for a network interface. For more infor- mation, see EC2 instance hostnames, DNS names, and domains in the Ama- zon EC2 User Guide . See also: AWS API Documentation
@@ -6843,8 +6162,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyPublicIpDnsNameOptionsAsync(AwsEc2ModifyPublicIpDnsNameOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyPublicIpDnsNameOptionsAsync(AwsEc2ModifyPublicIpDnsNameOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the configuration of your Reserved Instances, such as the Availability Zone, instance count, or instance type. The Reserved In- stances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -6853,8 +6171,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyReservedInstancesAsync(AwsEc2ModifyReservedInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyReservedInstancesAsync(AwsEc2ModifyReservedInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and ...
@@ -6863,8 +6180,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyRouteServerAsync(AwsEc2ModifyRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyRouteServerAsync(AwsEc2ModifyRouteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the rules of a security group. See also: AWS API Documentation
@@ -6873,8 +6189,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifySecurityGroupRulesAsync(AwsEc2ModifySecurityGroupRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifySecurityGroupRulesAsync(AwsEc2ModifySecurityGroupRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snap- shot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 mod- ifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be mad...
@@ -6883,8 +6198,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifySnapshotAttributeAsync(AwsEc2ModifySnapshotAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifySnapshotAttributeAsync(AwsEc2ModifySnapshotAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full snapshot that includes all of the blocks of data that were written to the volume at the time the snapshot was created, and moved from the standard tier to the archive tier. For more informa- tion, see Archive Amazon EBS snapshots in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -6893,8 +6207,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifySnapshotTierAsync(AwsEc2ModifySnapshotTierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifySnapshotTierAsync(AwsEc2ModifySnapshotTierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified Spot Fleet request. You can only modify a Spot Fleet request of type maintain . While the Spot Fleet request is being modified, it is in the modifying state. To scale up your Spot Fleet, increase its target capacity. The Spot Fleet launches the additional Spot Instances according to the alloca- tion strategy for the Spot Fleet request. If the allocation strategy is lowestPrice , the Spot Fleet launches instances using the Spot Instance pool with the lowest price. If the al...
@@ -6903,8 +6216,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifySpotFleetRequestAsync(AwsEc2ModifySpotFleetRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifySpotFleetRequestAsync(AwsEc2ModifySpotFleetRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts. o To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOn- Launch and CustomerOwnedIpv4Pool . These two parameters act as a sin- gle attribute. o To modify a subnet on an Outpost server, set either EnableLniAtDevi- ceIndex or DisableLniAtDeviceIndex . For more information about Amazon Web Services Outposts, see the fol- lowing: o Outpost server...
@@ -6913,8 +6225,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifySubnetAttributeAsync(AwsEc2ModifySubnetAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifySubnetAttributeAsync(AwsEc2ModifySubnetAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetwork- Services to remove the network services from the Traffic Mirror filter. See also: AWS API Documentation
@@ -6923,8 +6234,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyTrafficMirrorFilterNetworkServicesAsync(AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyTrafficMirrorFilterNetworkServicesAsync(AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified Traffic Mirror rule. DestinationCidrBlock and SourceCidrBlock must both be an IPv4 range or an IPv6 range. See also: AWS API Documentation
@@ -6933,8 +6243,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyTrafficMirrorFilterRuleAsync(AwsEc2ModifyTrafficMirrorFilterRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyTrafficMirrorFilterRuleAsync(AwsEc2ModifyTrafficMirrorFilterRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a Traffic Mirror session. See also: AWS API Documentation
@@ -6943,8 +6252,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyTrafficMirrorSessionAsync(AwsEc2ModifyTrafficMirrorSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyTrafficMirrorSessionAsync(AwsEc2ModifyTrafficMirrorSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a transit gateway metering policy. See also: AWS API Documentation
@@ -6953,8 +6261,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyTransitGatewayMeteringPolicyAsync(AwsEc2ModifyTransitGatewayMeteringPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyTransitGatewayMeteringPolicyAsync(AwsEc2ModifyTransitGatewayMeteringPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified transit gateway. When you modify a transit gate- way, the modified options are applied to new transit gateway attach- ments only. Your existing transit gateway attachments are not modified. See also: AWS API Documentation
@@ -6963,8 +6270,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyTransitGatewayAsync(AwsEc2ModifyTransitGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyTransitGatewayAsync(AwsEc2ModifyTransitGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified transit gateway policy table entry. See also: AWS API Documentation
@@ -6973,8 +6279,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyTransitGatewayPolicyTableEntryAsync(AwsEc2ModifyTransitGatewayPolicyTableEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyTransitGatewayPolicyTableEntryAsync(AwsEc2ModifyTransitGatewayPolicyTableEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a reference (route) to a prefix list in a specified transit gateway route table. See also: AWS API Documentation
@@ -6983,8 +6288,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyTransitGatewayPrefixListReferenceAsync(AwsEc2ModifyTransitGatewayPrefixListReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyTransitGatewayPrefixListReferenceAsync(AwsEc2ModifyTransitGatewayPrefixListReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified VPC attachment. See also: AWS API Documentation
@@ -6993,8 +6297,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyTransitGatewayVpcAttachmentAsync(AwsEc2ModifyTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyTransitGatewayVpcAttachmentAsync(AwsEc2ModifyTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access endpoint. See also: AWS API Documentation
@@ -7003,8 +6306,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVerifiedAccessEndpointAsync(AwsEc2ModifyVerifiedAccessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVerifiedAccessEndpointAsync(AwsEc2ModifyVerifiedAccessEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified Amazon Web Services Verified Access endpoint policy. See also: AWS API Documentation
@@ -7013,8 +6315,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVerifiedAccessEndpointPolicyAsync(AwsEc2ModifyVerifiedAccessEndpointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVerifiedAccessEndpointPolicyAsync(AwsEc2ModifyVerifiedAccessEndpointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified Amazon Web Services Verified Access group con- figuration. See also: AWS API Documentation
@@ -7023,8 +6324,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVerifiedAccessGroupAsync(AwsEc2ModifyVerifiedAccessGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVerifiedAccessGroupAsync(AwsEc2ModifyVerifiedAccessGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified Amazon Web Services Verified Access group pol- icy. See also: AWS API Documentation
@@ -7033,8 +6333,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVerifiedAccessGroupPolicyAsync(AwsEc2ModifyVerifiedAccessGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVerifiedAccessGroupPolicyAsync(AwsEc2ModifyVerifiedAccessGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the logging configuration for the specified Amazon Web Ser- vices Verified Access instance. See also: AWS API Documentation
@@ -7043,8 +6342,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVerifiedAccessInstanceLoggingConfigurationAsync(AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVerifiedAccessInstanceLoggingConfigurationAsync(AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access instance. See also: AWS API Documentation
@@ -7053,8 +6351,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVerifiedAccessInstanceAsync(AwsEc2ModifyVerifiedAccessInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVerifiedAccessInstanceAsync(AwsEc2ModifyVerifiedAccessInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access trust provider. See also: AWS API Documentation
@@ -7063,8 +6360,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVerifiedAccessTrustProviderAsync(AwsEc2ModifyVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVerifiedAccessTrustProviderAsync(AwsEc2ModifyVerifiedAccessTrustProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recom- mend that you change this only for boot volumes or for volumes that are stateless or dis...
@@ -7073,8 +6369,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVolumeAttributeAsync(AwsEc2ModifyVolumeAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVolumeAttributeAsync(AwsEc2ModifyVolumeAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is at- tached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the vol- ume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes in the Amazon EBS User Guide . When you complete a resize operation on your volume, you need to extend the volume's file-...
@@ -7083,8 +6378,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVolumeAsync(AwsEc2ModifyVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVolumeAsync(AwsEc2ModifyVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified attribute of the specified VPC. See also: AWS API Documentation
@@ -7093,8 +6387,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcAttributeAsync(AwsEc2ModifyVpcAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcAttributeAsync(AwsEc2ModifyVpcAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. See also: AWS API Documentation
@@ -7103,8 +6396,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcBlockPublicAccessExclusionAsync(AwsEc2ModifyVpcBlockPublicAccessExclusionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcBlockPublicAccessExclusionAsync(AwsEc2ModifyVpcBlockPublicAccessExclusionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -7113,8 +6405,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcBlockPublicAccessOptionsAsync(AwsEc2ModifyVpcBlockPublicAccessOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcBlockPublicAccessOptionsAsync(AwsEc2ModifyVpcBlockPublicAccessOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the encryption control configuration for a VPC. You can update the encryption mode and exclusion settings for various gateway types and peering connections. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
@@ -7123,8 +6414,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcEncryptionControlAsync(AwsEc2ModifyVpcEncryptionControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcEncryptionControlAsync(AwsEc2ModifyVpcEncryptionControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a connection notification for VPC endpoint or VPC endpoint service. You can change the SNS topic for the notification, or the events for which to be notified. See also: AWS API Documentation
@@ -7133,8 +6423,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcEndpointConnectionNotificationAsync(AwsEc2ModifyVpcEndpointConnectionNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcEndpointConnectionNotificationAsync(AwsEc2ModifyVpcEndpointConnectionNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies attributes of a specified VPC endpoint. The attributes that you can modify depend on the type of VPC endpoint (interface, gateway, or Gateway Load Balancer). For more information, see the Amazon Web Services PrivateLink Guide . See also: AWS API Documentation
@@ -7143,8 +6432,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcEndpointAsync(AwsEc2ModifyVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcEndpointAsync(AwsEc2ModifyVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the billing account for VPC endpoint usage/charges. See also: AWS API Documentation
@@ -7153,8 +6441,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcEndpointPayerResponsibilityAsync(AwsEc2ModifyVpcEndpointPayerResponsibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcEndpointPayerResponsibilityAsync(AwsEc2ModifyVpcEndpointPayerResponsibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the attributes of the specified VPC endpoint service configu- ration. If you set or modify the private DNS name, you must prove that you own the private DNS domain name. See also: AWS API Documentation
@@ -7163,8 +6450,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcEndpointServiceConfigurationAsync(AwsEc2ModifyVpcEndpointServiceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcEndpointServiceConfigurationAsync(AwsEc2ModifyVpcEndpointServiceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the payer responsibility for your VPC endpoint service. See also: AWS API Documentation
@@ -7173,8 +6459,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcEndpointServicePayerResponsibilityAsync(AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcEndpointServicePayerResponsibilityAsync(AwsEc2ModifyVpcEndpointServicePayerResponsibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to at- tach an endpoint. If the service does not require manual approval, at- tachments are automatically appr...
@@ -7183,8 +6468,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcEndpointServicePermissionsAsync(AwsEc2ModifyVpcEndpointServicePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcEndpointServicePermissionsAsync(AwsEc2ModifyVpcEndpointServicePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the VPC peering connection options on one side of a VPC peer- ing connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Se...
@@ -7193,8 +6477,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcPeeringConnectionOptionsAsync(AwsEc2ModifyVpcPeeringConnectionOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcPeeringConnectionOptionsAsync(AwsEc2ModifyVpcPeeringConnectionOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated . After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default , unless you specify oth- erwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see Dedicated Instances in the Amazon EC2 User Guide...
@@ -7203,8 +6486,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpcTenancyAsync(AwsEc2ModifyVpcTenancyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpcTenancyAsync(AwsEc2ModifyVpcTenancyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available: o An existing virtual private gateway to a new virtual private gateway o An existing virtual private gateway to a transit gateway o An existing transit gateway to a new transit gateway o An existing transit gateway to a virtual private gateway Before you perform the migration to the new gateway, you must configure ...
@@ -7213,8 +6495,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpnConnectionAsync(AwsEc2ModifyVpnConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpnConnectionAsync(AwsEc2ModifyVpnConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP ad- dresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavail- able for a brief period while the VPN connection is updated. See also: AWS API Documentation
@@ -7223,8 +6504,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpnConnectionOptionsAsync(AwsEc2ModifyVpnConnectionOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpnConnectionOptionsAsync(AwsEc2ModifyVpnConnectionOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the VPN tunnel endpoint certificate. See also: AWS API Documentation
@@ -7233,8 +6513,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpnTunnelCertificateAsync(AwsEc2ModifyVpnTunnelCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpnTunnelCertificateAsync(AwsEc2ModifyVpnTunnelCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the options for a VPN tunnel in an Amazon Web Services Site-to-Site VPN connection. You can modify multiple options for a tun- nel in a single request, but you can only modify one tunnel at a time. For more information, see Site-to-Site VPN tunnel options for your Site-to-Site VPN connection in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
@@ -7243,8 +6522,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyVpnTunnelOptionsAsync(AwsEc2ModifyVpnTunnelOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyVpnTunnelOptionsAsync(AwsEc2ModifyVpnTunnelOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled. For more information, see Monitor your instances using CloudWatch in the Amazon EC2 User Guide . To disable detailed monitoring, see UnmonitorInstances . See also: AWS API Documentation
@@ -7253,8 +6531,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MonitorInstancesAsync(AwsEc2MonitorInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MonitorInstancesAsync(AwsEc2MonitorInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your ac- count for more than 24 hours, and it must not be associated with an in- stance. After the Elastic IP address is moved, it is no longer avail- able for use in the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform. See also: AWS API ...
@@ -7263,8 +6540,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MoveAddressToVpcAsync(AwsEc2MoveAddressToVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MoveAddressToVpcAsync(AwsEc2MoveAddressToVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Move a BYOIPv4 CIDR to IPAM from a public IPv4 pool. If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Ser- vices for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM . See also: AWS API Documentation
@@ -7273,8 +6549,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MoveByoipCidrToIpamAsync(AwsEc2MoveByoipCidrToIpamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MoveByoipCidrToIpamAsync(AwsEc2MoveByoipCidrToIpamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Move available capacity from a source Capacity Reservation to a desti- nation Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active , owned by your Amazon Web Services account, and share the following: o Instance type o Platform o Availability Zone o Tenancy o Placement group o Capacity Reservation end time - At specific time or Manually . See also: AWS API Documentation
@@ -7283,8 +6558,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MoveCapacityReservationInstancesAsync(AwsEc2MoveCapacityReservationInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MoveCapacityReservationInstancesAsync(AwsEc2MoveCapacityReservationInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and cre- ates a corresponding address pool. After the address range is provi- sioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are au- thorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the ad...
@@ -7293,8 +6567,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProvisionByoipCidrAsync(AwsEc2ProvisionByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ProvisionByoipCidrAsync(AwsEc2ProvisionByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more in- formation, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . See also: AWS API Documentation
@@ -7303,8 +6576,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProvisionIpamByoasnAsync(AwsEc2ProvisionIpamByoasnOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ProvisionIpamByoasnAsync(AwsEc2ProvisionIpamByoasnOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provision a CIDR to an IPAM pool. You can use this action to provision new CIDRs to a top-level pool or to transfer a CIDR from a top-level pool to a pool within it. For more information, see Provision CIDRs to pools in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -7313,8 +6585,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProvisionIpamPoolCidrAsync(AwsEc2ProvisionIpamPoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ProvisionIpamPoolCidrAsync(AwsEc2ProvisionIpamPoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provision a CIDR to a public IPv4 pool. For more information about IPAM, see What is IPAM? in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
@@ -7323,8 +6594,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProvisionPublicIpv4PoolCidrAsync(AwsEc2ProvisionPublicIpv4PoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ProvisionPublicIpv4PoolCidrAsync(AwsEc2ProvisionPublicIpv4PoolCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Purchase the Capacity Block extension for use with your account. You must specify the ID of the Capacity Block extension offering you are purchasing. See also: AWS API Documentation
@@ -7333,8 +6603,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseCapacityBlockExtensionAsync(AwsEc2PurchaseCapacityBlockExtensionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseCapacityBlockExtensionAsync(AwsEc2PurchaseCapacityBlockExtensionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Purchase the Capacity Block for use with your account. With Capacity Blocks you ensure GPU capacity is available for machine learning (ML) workloads. You must specify the ID of the Capacity Block offering you are purchasing. See also: AWS API Documentation
@@ -7343,8 +6612,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseCapacityBlockAsync(AwsEc2PurchaseCapacityBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseCapacityBlockAsync(AwsEc2PurchaseCapacityBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Purchase a reservation with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This action results in the specified reservation being purchased and charged to your account. See also: AWS API Documentation
@@ -7353,8 +6621,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseHostReservationAsync(AwsEc2PurchaseHostReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseHostReservationAsync(AwsEc2PurchaseHostReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved In- stance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances . To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time...
@@ -7363,8 +6630,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseReservedInstancesOfferingAsync(AwsEc2PurchaseReservedInstancesOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseReservedInstancesOfferingAsync(AwsEc2PurchaseReservedInstancesOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: You can no longer purchase Scheduled Instances. Purchases the Scheduled Instances with the specified schedule. Scheduled Instances enable you to purchase Amazon EC2 compute capacity by the hour for a one-year term. Before you can purchase a Scheduled Instance, you must call DescribeScheduledInstanceAvailability to check for available schedules and obtain a purchase token. After you purchase a Scheduled Instance, you must call RunScheduledInstances during each scheduled time period. After y...
@@ -7373,8 +6639,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseScheduledInstancesAsync(AwsEc2PurchaseScheduledInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseScheduledInstancesAsync(AwsEc2PurchaseScheduledInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests a reboot of the specified instances. This operation is asyn- chronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Troubleshoot an un- reachable instance in the Amazon EC2 User Guide . See also: AWS API Doc...
@@ -7383,8 +6648,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RebootInstancesAsync(AwsEc2RebootInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RebootInstancesAsync(AwsEc2RebootInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see Create an AMI from a snapshot and Create an instance-store backed AMI in the Amazon EC2 User Guide . If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its reg- istration. If you make changes to an image, deregister the previous im- age an...
@@ -7393,8 +6657,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterImageAsync(AwsEc2RegisterImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterImageAsync(AwsEc2RegisterImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a set of tag keys to include in scheduled event notifications for your resources. To remove tags, use DeregisterInstanceEventNotificationAttributes . See also: AWS API Documentation
@@ -7403,8 +6666,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterInstanceEventNotificationAttributesAsync(AwsEc2RegisterInstanceEventNotificationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterInstanceEventNotificationAttributesAsync(AwsEc2RegisterInstanceEventNotificationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers members (network interfaces) with the transit gateway multi- cast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see Multicast on transit gateways in the Amazon Web Services Transit Gate- ways Guide . After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group. See also: AWS API Documentation
@@ -7413,8 +6675,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterTransitGatewayMulticastGroupMembersAsync(AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterTransitGatewayMulticastGroupMembersAsync(AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers sources (network interfaces) with the specified transit gate- way multicast group. A multicast source is a network interface attached to a supported in- stance that sends multicast traffic. For more information about sup- ported instances, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide . After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast group. See also: AWS API Documentation
@@ -7423,8 +6684,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterTransitGatewayMulticastGroupSourcesAsync(AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterTransitGatewayMulticastGroupSourcesAsync(AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a request to assign billing of the available capacity of a shared Capacity Reservation to your account. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation
@@ -7433,8 +6693,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectCapacityReservationBillingOwnershipAsync(AwsEc2RejectCapacityReservationBillingOwnershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectCapacityReservationBillingOwnershipAsync(AwsEc2RejectCapacityReservationBillingOwnershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner can reject the attachment request to prevent the Client VPN endpoint from routing traffic through the Transit Gate- way. See also: AWS API Documentation
@@ -7443,8 +6702,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectTransitGatewayClientVpnAttachmentAsync(AwsEc2RejectTransitGatewayClientVpnAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectTransitGatewayClientVpnAttachmentAsync(AwsEc2RejectTransitGatewayClientVpnAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a request to associate cross-account subnets with a transit gateway multicast domain. See also: AWS API Documentation
@@ -7453,8 +6711,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectTransitGatewayMulticastDomainAssociationsAsync(AwsEc2RejectTransitGatewayMulticastDomainAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectTransitGatewayMulticastDomainAssociationsAsync(AwsEc2RejectTransitGatewayMulticastDomainAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a transit gateway peering attachment request. See also: AWS API Documentation
@@ -7463,8 +6720,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectTransitGatewayPeeringAttachmentAsync(AwsEc2RejectTransitGatewayPeeringAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectTransitGatewayPeeringAttachmentAsync(AwsEc2RejectTransitGatewayPeeringAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use Descri- beTransitGatewayVpcAttachments to view your pending VPC attachment re- quests. Use AcceptTransitGatewayVpcAttachment to accept a VPC attach- ment request. See also: AWS API Documentation
@@ -7473,8 +6729,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectTransitGatewayVpcAttachmentAsync(AwsEc2RejectTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectTransitGatewayVpcAttachmentAsync(AwsEc2RejectTransitGatewayVpcAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects VPC endpoint connection requests to your VPC endpoint service. See also: AWS API Documentation
@@ -7483,8 +6738,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectVpcEndpointConnectionsAsync(AwsEc2RejectVpcEndpointConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectVpcEndpointConnectionsAsync(AwsEc2RejectVpcEndpointConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a VPC peering connection request. The VPC peering connection must be in the pending-acceptance state. Use the DescribeVpcPeering- Connections request to view your outstanding VPC peering connection re- quests. To delete an active VPC peering connection, or to delete a VPC peering connection request that you initiated, use DeleteVpcPeering- Connection . See also: AWS API Documentation
@@ -7493,8 +6747,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectVpcPeeringConnectionAsync(AwsEc2RejectVpcPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectVpcPeeringConnectionAsync(AwsEc2RejectVpcPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Releases the specified Elastic IP address. [Default VPC] Releasing an Elastic IP address automatically disassoci- ates it from any instance that it's associated with. Alternatively, you can disassociate an Elastic IP address without releasing it. [Nondefault VPC] You must disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidI- PAddress.InUse ). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update ...
@@ -7503,8 +6756,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReleaseAddressAsync(AwsEc2ReleaseAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReleaseAddressAsync(AwsEc2ReleaseAddressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand billing is stopped and the host goes into released state. The host ID of Dedicated Hosts that have been released can no longer be specified in another request, for example, to modify the host. You must stop or terminate all instances on a host before it can be released. When Dedicated Hosts are released, it may take some time for them to stop counting toward your limit and you may receive capacity errors whe...
@@ -7513,8 +6765,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReleaseHostsAsync(AwsEc2ReleaseHostsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReleaseHostsAsync(AwsEc2ReleaseHostsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Release an allocation within an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. You can only use this action to release manual allocations. To remove an allocation for a resource without deleting the resource, set its monitored state to false using ModifyIpamResourceCidr . For more information, see Release an allocation in the Amazon VPC IPAM User Guide . NOTE: All EC2 API actions follow...
@@ -7523,8 +6774,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReleaseIpamPoolAllocationAsync(AwsEc2ReleaseIpamPoolAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReleaseIpamPoolAllocationAsync(AwsEc2ReleaseIpamPoolAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's asso- ciated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
@@ -7533,8 +6783,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceIamInstanceProfileAssociationAsync(AwsEc2ReplaceIamInstanceProfileAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceIamInstanceProfileAssociationAsync(AwsEc2ReplaceIamInstanceProfileAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets or replaces the criteria for Allowed AMIs. The ImageCriteria can include up to: o 10 ImageCriterion NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see Control the discovery and use of AMIs in Ama- zon EC2 with Allowed AMIs in Amazon EC2 User Guide . See also: AWS API Documentation
@@ -7543,8 +6792,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceImageCriteriaInAllowedImagesSettingsAsync(AwsEc2ReplaceImageCriteriaInAllowedImagesSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceImageCriteriaInAllowedImagesSettingsAsync(AwsEc2ReplaceImageCriteriaInAllowedImagesSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces or removes the instance type specification for an AMI. The in- stance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances , Amazon EC2 validates the requested instance type against the AMI's instance type specifica- tion. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation lo...
@@ -7553,8 +6801,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceImageInstanceTypeSpecificationAsync(AwsEc2ReplaceImageInstanceTypeSpecificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceImageInstanceTypeSpecificationAsync(AwsEc2ReplaceImageInstanceTypeSpecificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default network ACL. For more information, see Network ACLs in the Amazon VPC User Guide . This is an idempotent operation. See also: AWS API Documentation
@@ -7563,8 +6810,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceNetworkAclAssociationAsync(AwsEc2ReplaceNetworkAclAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceNetworkAclAssociationAsync(AwsEc2ReplaceNetworkAclAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces an entry (rule) in a network ACL. For more information, see Network ACLs in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -7573,8 +6819,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceNetworkAclEntryAsync(AwsEc2ReplaceNetworkAclEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceNetworkAclEntryAsync(AwsEc2ReplaceNetworkAclEntryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces an existing route within a route table in a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list, or reset the local route to its default target. For more information, see Route tables in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -7583,8 +6828,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceRouteAsync(AwsEc2ReplaceRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceRouteAsync(AwsEc2ReplaceRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the route table associated with a given subnet, internet gate- way, or virtual private gateway in a VPC. After the operation com- pletes, the subnet or gateway uses the routes in the new route table. For more information about route tables, see Route tables in the Amazon VPC User Guide . You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table. See also: AWS A...
@@ -7593,8 +6837,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceRouteTableAssociationAsync(AwsEc2ReplaceRouteTableAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceRouteTableAssociationAsync(AwsEc2ReplaceRouteTableAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces the specified route in the specified transit gateway route ta- ble. See also: AWS API Documentation
@@ -7603,8 +6846,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceTransitGatewayRouteAsync(AwsEc2ReplaceTransitGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceTransitGatewayRouteAsync(AwsEc2ReplaceTransitGatewayRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Trigger replacement of specified VPN tunnel. See also: AWS API Documentation
@@ -7613,8 +6855,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplaceVpnTunnelAsync(AwsEc2ReplaceVpnTunnelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplaceVpnTunnelAsync(AwsEc2ReplaceVpnTunnelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus , use Re- portInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeIn- stanceStatus . See also: AWS API Documentation
@@ -7623,8 +6864,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReportInstanceStatusAsync(AwsEc2ReportInstanceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReportInstanceStatusAsync(AwsEc2ReportInstanceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifi- cations that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where the price per uni...
@@ -7633,8 +6873,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RequestSpotFleetAsync(AwsEc2RequestSpotFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RequestSpotFleetAsync(AwsEc2RequestSpotFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Spot Instance request. For more information, see Work with Spot Instance in the Amazon EC2 User Guide . WARNING: We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for request- ing Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -7643,8 +6882,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RequestSpotInstancesAsync(AwsEc2RequestSpotInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RequestSpotInstancesAsync(AwsEc2RequestSpotInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets the attribute of the specified IP address. For requirements, see Using reverse DNS for email applications . See also: AWS API Documentation
@@ -7653,8 +6891,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetAddressAttributeAsync(AwsEc2ResetAddressAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetAddressAttributeAsync(AwsEc2ResetAddressAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets the default KMS key for EBS encryption for your account in this Region to the Amazon Web Services managed KMS key for EBS. After resetting the default KMS key to the Amazon Web Services managed KMS key, you can continue to encrypt by a customer managed KMS key by specifying it when you create the volume. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -7663,8 +6900,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetEbsDefaultKmsKeyIdAsync(AwsEc2ResetEbsDefaultKmsKeyIdOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetEbsDefaultKmsKeyIdAsync(AwsEc2ResetEbsDefaultKmsKeyIdOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets the specified attribute of the specified Amazon FPGA Image (AFI) to its default value. You can only reset the load permission attribute. See also: AWS API Documentation
@@ -7673,8 +6909,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetFpgaImageAttributeAsync(AwsEc2ResetFpgaImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetFpgaImageAttributeAsync(AwsEc2ResetFpgaImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets an attribute of an AMI to its default value. See also: AWS API Documentation
@@ -7683,8 +6918,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetImageAttributeAsync(AwsEc2ResetImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetImageAttributeAsync(AwsEc2ResetImageAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets an attribute of an instance to its default value. To reset the kernel or ramdisk , the instance must be in a stopped state. To reset the sourceDestCheck , the instance can be either running or stopped. The sourceDestCheck attribute controls whether source/destination checking is enabled. The default value is true , which means checking is enabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT instances in the Amazon VPC User Guide . See also: AW...
@@ -7693,8 +6927,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetInstanceAttributeAsync(AwsEc2ResetInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetInstanceAttributeAsync(AwsEc2ResetInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets a network interface attribute. You can specify only one at- tribute at a time. See also: AWS API Documentation
@@ -7703,8 +6936,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetNetworkInterfaceAttributeAsync(AwsEc2ResetNetworkInterfaceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetNetworkInterfaceAttributeAsync(AwsEc2ResetNetworkInterfaceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see Share a snapshot in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -7713,8 +6945,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetSnapshotAttributeAsync(AwsEc2ResetSnapshotAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetSnapshotAttributeAsync(AwsEc2ResetSnapshotAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action is deprecated. Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elas- tic IP address must not be associated with an instance or network in- terface. See also: AWS API Documentation
@@ -7723,8 +6954,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreAddressToClassicAsync(AwsEc2RestoreAddressToClassicOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreAddressToClassicAsync(AwsEc2RestoreAddressToClassicOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores an AMI from the Recycle Bin. For more information, see Recover deleted Amazon EBS snapshots and EBS-back AMIs with Recycle Bin in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -7733,8 +6963,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreImageFromRecycleBinAsync(AwsEc2RestoreImageFromRecycleBinOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreImageFromRecycleBinAsync(AwsEc2RestoreImageFromRecycleBinOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores the entries from a previous version of a managed prefix list to a new version of the prefix list. See also: AWS API Documentation
@@ -7743,8 +6972,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreManagedPrefixListVersionAsync(AwsEc2RestoreManagedPrefixListVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreManagedPrefixListVersionAsync(AwsEc2RestoreManagedPrefixListVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores a snapshot from the Recycle Bin. For more information, see Restore snapshots from the Recycle Bin in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -7753,8 +6981,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreSnapshotFromRecycleBinAsync(AwsEc2RestoreSnapshotFromRecycleBinOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreSnapshotFromRecycleBinAsync(AwsEc2RestoreSnapshotFromRecycleBinOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores an archived Amazon EBS snapshot for use temporarily or perma- nently, or modifies the restore period or restore type for a snapshot that was previously temporarily restored. For more information see Restore an archived snapshot and modify the restore period or restore type for a temporarily restored snapshot in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -7763,8 +6990,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreSnapshotTierAsync(AwsEc2RestoreSnapshotTierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreSnapshotTierAsync(AwsEc2RestoreSnapshotTierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores a volume from the Recycle Bin. For more information, see Restore volumes from the Recycle Bin in the Amazon EBS User Guide . See also: AWS API Documentation
@@ -7773,8 +6999,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreVolumeFromRecycleBinAsync(AwsEc2RestoreVolumeFromRecycleBinOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreVolumeFromRecycleBinAsync(AwsEc2RestoreVolumeFromRecycleBinOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an ingress authorization rule from a Client VPN endpoint. See also: AWS API Documentation
@@ -7783,8 +7008,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeClientVpnIngressAsync(AwsEc2RevokeClientVpnIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeClientVpnIngressAsync(AwsEc2RevokeClientVpnIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified outbound (egress) rules from the specified secu- rity group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP p...
@@ -7793,8 +7017,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeSecurityGroupEgressAsync(AwsEc2RevokeSecurityGroupEgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeSecurityGroupEgressAsync(AwsEc2RevokeSecurityGroupEgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified inbound (ingress) rules from a security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and source (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must a...
@@ -7803,8 +7026,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeSecurityGroupIngressAsync(AwsEc2RevokeSecurityGroupIngressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeSecurityGroupIngressAsync(AwsEc2RevokeSecurityGroupIngressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply: o If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request. o All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range...
@@ -7813,8 +7035,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RunInstancesAsync(AwsEc2RunInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RunInstancesAsync(AwsEc2RunInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using PurchaseScheduledInstances . You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends, you can launch it again after a few min- utes. See also: AWS API Documentation
@@ -7823,8 +7044,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RunScheduledInstancesAsync(AwsEc2RunScheduledInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RunScheduledInstancesAsync(AwsEc2RunScheduledInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for routes in the specified local gateway route table. See also: AWS API Documentation search-local-gateway-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Routes
@@ -7833,8 +7053,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchLocalGatewayRoutesAsync(AwsEc2SearchLocalGatewayRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchLocalGatewayRoutesAsync(AwsEc2SearchLocalGatewayRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches one or more transit gateway multicast groups and returns the group membership information. See also: AWS API Documentation search-transit-gateway-multicast-groups is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the follow...
@@ -7843,8 +7062,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchTransitGatewayMulticastGroupsAsync(AwsEc2SearchTransitGatewayMulticastGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchTransitGatewayMulticastGroupsAsync(AwsEc2SearchTransitGatewayMulticastGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for routes in the specified transit gateway route table. See also: AWS API Documentation search-transit-gateway-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Routes
@@ -7853,8 +7071,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchTransitGatewayRoutesAsync(AwsEc2SearchTransitGatewayRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchTransitGatewayRoutesAsync(AwsEc2SearchTransitGatewayRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen /stop er- ror (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI). In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be con- figured to perform diagnostic tasks, such as generating a memory dump file, loadin...
@@ -7863,8 +7080,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendDiagnosticInterruptAsync(AwsEc2SendDiagnosticInterruptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendDiagnosticInterruptAsync(AwsEc2SendDiagnosticInterruptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates an account status report. The report is generated asynchro- nously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId , which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Orga- nization). The report is saved...
@@ -7873,8 +7089,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDeclarativePoliciesReportAsync(AwsEc2StartDeclarativePoliciesReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDeclarativePoliciesReportAsync(AwsEc2StartDeclarativePoliciesReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. How- ever, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your in- stance, Amazo...
@@ -7883,8 +7098,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartInstancesAsync(AwsEc2StartInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartInstancesAsync(AwsEc2StartInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts analyzing the specified Network Access Scope. See also: AWS API Documentation
@@ -7893,8 +7107,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartNetworkInsightsAccessScopeAnalysisAsync(AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartNetworkInsightsAccessScopeAnalysisAsync(AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts analyzing the specified path. If the path is reachable, the op- eration returns the shortest feasible path. See also: AWS API Documentation
@@ -7903,8 +7116,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartNetworkInsightsAnalysisAsync(AwsEc2StartNetworkInsightsAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartNetworkInsightsAnalysisAsync(AwsEc2StartNetworkInsightsAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates the verification process to prove that the service provider owns the private DNS name domain for the endpoint service. The service provider must successfully perform the verification before the consumer can use the name to access the service. Before the service provider runs this command, they must add a record to the DNS server. See also: AWS API Documentation
@@ -7913,8 +7125,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartVpcEndpointServicePrivateDnsVerificationAsync(AwsEc2StartVpcEndpointServicePrivateDnsVerificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartVpcEndpointServicePrivateDnsVerificationAsync(AwsEc2StartVpcEndpointServicePrivateDnsVerificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an Amazon EBS-backed instance. You can restart your instance at any time using the StartInstances API. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide . When you stop or hibernate an instance, we shut it down. By default, this includes a graceful operating system (OS) shutdown. To bypass the graceful shutdown, use the skipOsShutdown parameter; however, this might risk data integrity. You can use the StopInstances operation together with the Hibern...
@@ -7923,8 +7134,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopInstancesAsync(AwsEc2StopInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopInstancesAsync(AwsEc2StopInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connec- tions established by a specific user. See also: AWS API Documentation
@@ -7933,8 +7143,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateClientVpnConnectionsAsync(AwsEc2TerminateClientVpnConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateClientVpnConnectionsAsync(AwsEc2TerminateClientVpnConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates (deletes) the specified instances. This operation is idempotent ; if you terminate an instance more than once, each call succeeds. WARNING: Terminating an instance is permanent and irreversible. After you terminate an instance, you can no longer connect to it, and it can't be recovered. All attached Amazon EBS volumes that are configured to be deleted on termination are also permanently deleted and can't be recovered. All data stored on instance store volumes is permanently lost. For ...
@@ -7943,8 +7152,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateInstancesAsync(AwsEc2TerminateInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateInstancesAsync(AwsEc2TerminateInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unassigns the specified IPv6 addresses or Prefix Delegation prefixes from a network interface. See also: AWS API Documentation
@@ -7953,8 +7161,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnassignIpv6AddressesAsync(AwsEc2UnassignIpv6AddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UnassignIpv6AddressesAsync(AwsEc2UnassignIpv6AddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation prefixes from a network interface. See also: AWS API Documentation
@@ -7963,8 +7170,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnassignPrivateIpAddressesAsync(AwsEc2UnassignPrivateIpAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UnassignPrivateIpAddressesAsync(AwsEc2UnassignPrivateIpAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide . While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDura- tionSeconds. The private IP addresses ...
@@ -7973,8 +7179,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnassignPrivateNatGatewayAddressAsync(AwsEc2UnassignPrivateNatGatewayAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UnassignPrivateNatGatewayAddressAsync(AwsEc2UnassignPrivateNatGatewayAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unlocks a snapshot that is locked in governance mode or that is locked in compliance mode but still in the cooling-off period. You can't un- lock a snapshot that is locked in compliance mode after the cooling-off period has expired. See also: AWS API Documentation
@@ -7983,8 +7188,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnlockSnapshotAsync(AwsEc2UnlockSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UnlockSnapshotAsync(AwsEc2UnlockSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables detailed monitoring for a running instance. For more informa- tion, see Monitoring your instances and volumes in the Amazon EC2 User Guide . See also: AWS API Documentation
@@ -7993,8 +7197,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnmonitorInstancesAsync(AwsEc2UnmonitorInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UnmonitorInstancesAsync(AwsEc2UnmonitorInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Activates or deactivates tag keys for monitoring by EC2 Capacity Man- ager. Activated tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values. See also: AWS API Documentation
@@ -8003,8 +7206,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCapacityManagerMonitoredTagKeysAsync(AwsEc2UpdateCapacityManagerMonitoredTagKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCapacityManagerMonitoredTagKeysAsync(AwsEc2UpdateCapacityManagerMonitoredTagKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate data from all accounts in your Amazon Web Services Organization or only from the current ac- count. See also: AWS API Documentation
@@ -8013,8 +7215,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCapacityManagerOrganizationsAccessAsync(AwsEc2UpdateCapacityManagerOrganizationsAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCapacityManagerOrganizationsAccessAsync(AwsEc2UpdateCapacityManagerOrganizationsAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the number of instances allocated to an interruptible reserva- tion, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation. See also: AWS API Documentation
@@ -8023,8 +7224,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInterruptibleCapacityReservationAllocationAsync(AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInterruptibleCapacityReservationAllocationAsync(AwsEc2UpdateInterruptibleCapacityReservationAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the description of an egress (outbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the re- quest. See also: AWS API Documentation
@@ -8033,8 +7233,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSecurityGroupRuleDescriptionsEgressAsync(AwsEc2UpdateSecurityGroupRuleDescriptionsEgressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSecurityGroupRuleDescriptionsEgressAsync(AwsEc2UpdateSecurityGroupRuleDescriptionsEgressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the description of an ingress (inbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the re- quest. See also: AWS API Documentation
@@ -8043,8 +7242,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSecurityGroupRuleDescriptionsIngressAsync(AwsEc2UpdateSecurityGroupRuleDescriptionsIngressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSecurityGroupRuleDescriptionsIngressAsync(AwsEc2UpdateSecurityGroupRuleDescriptionsIngressOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas. It checks inbound or outbound rules per se- curity group and security groups per network interface. Only authorized Amazon Web Services services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide . See also: AWS API Documentation
@@ -8053,8 +7251,7 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidateSecurityGroupQuotasForInterfaceAsync(AwsEc2ValidateSecurityGroupQuotasForInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidateSecurityGroupQuotasForInterfaceAsync(AwsEc2ValidateSecurityGroupQuotasForInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of BGP propagation delays. See also: AWS API Documentation
@@ -8063,7 +7260,6 @@ public interface IAwsEc2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WithdrawByoipCidrAsync(AwsEc2WithdrawByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> WithdrawByoipCidrAsync(AwsEc2WithdrawByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

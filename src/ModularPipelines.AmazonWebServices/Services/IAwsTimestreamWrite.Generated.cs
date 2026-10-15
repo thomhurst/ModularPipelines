@@ -28,8 +28,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBatchLoadTaskAsync(AwsTimestreamWriteCreateBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBatchLoadTaskAsync(AwsTimestreamWriteCreateBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Timestream database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see Amazon Web Services managed keys . Service quotas apply . For details, see code sample . See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDatabaseAsync(AwsTimestreamWriteCreateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDatabaseAsync(AwsTimestreamWriteCreateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a new table to an existing database in your account. In an Amazon Web Services account, table names must be at least unique within each Region if they are in the same database. You might have identical table names in the same Region if the tables are in separate databases. While creating the table, you must specify the table name, database name, and the retention properties. Service quotas apply . See code sample for details. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTableAsync(AwsTimestreamWriteCreateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTableAsync(AwsTimestreamWriteCreateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time-series data from its tables can- not be recovered. NOTE: All tables in the database must be deleted first, or a ValidationEx- ception error will be thrown. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should con- sider them equivalent. See code sample for details. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDatabaseAsync(AwsTimestreamWriteDeleteDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDatabaseAsync(AwsTimestreamWriteDeleteDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a given Timestream table. This is an irreversible operation. After a Timestream database table is deleted, the time-series data stored in the table cannot be recovered. NOTE: Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should con- sider them equivalent. See code sample for details. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableAsync(AwsTimestreamWriteDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableAsync(AwsTimestreamWriteDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the batch load task, including configura- tions, mappings, progress, and other details. Service quotas apply . See code sample for details. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBatchLoadTaskAsync(AwsTimestreamWriteDescribeBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBatchLoadTaskAsync(AwsTimestreamWriteDescribeBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the database, including the database name, time that the database was created, and the total number of tables found within the database. Service quotas apply . See code sample for details. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDatabaseAsync(AwsTimestreamWriteDescribeDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDatabaseAsync(AwsTimestreamWriteDescribeDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of available endpoints to make Timestream API calls against. This API operation is available through both the Write and Query APIs. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the ser- vice endpoints, we don't recommend that you use this API operation un- less : o You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream o Your application uses a programming language that...
@@ -98,8 +91,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointsAsync(AwsTimestreamWriteDescribeEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEndpointsAsync(AwsTimestreamWriteDescribeEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the table, including the table name, database name, retention duration of the memory store and the magnetic store. Service quotas apply . See code sample for details. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTableAsync(AwsTimestreamWriteDescribeTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTableAsync(AwsTimestreamWriteDescribeTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of batch load tasks, along with the name, status, when the task is resumable until, and other details. See code sample for de- tails. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBatchLoadTasksAsync(AwsTimestreamWriteListBatchLoadTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBatchLoadTasksAsync(AwsTimestreamWriteListBatchLoadTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of your Timestream databases. Service quotas apply . See code sample for details. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDatabasesAsync(AwsTimestreamWriteListDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDatabasesAsync(AwsTimestreamWriteListDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of tables, along with the name, status, and retention properties of each table. See code sample for details. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTablesAsync(AwsTimestreamWriteListTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTablesAsync(AwsTimestreamWriteListTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all tags on a Timestream resource. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsTimestreamWriteListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsTimestreamWriteListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResumeBatchLoadTaskAsync(AwsTimestreamWriteResumeBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResumeBatchLoadTaskAsync(AwsTimestreamWriteResumeBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a set of tags with a Timestream resource. You can then acti- vate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsTimestreamWriteTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsTimestreamWriteTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association of tags from a Timestream resource. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsTimestreamWriteUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsTimestreamWriteUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the KMS key for an existing database. While updating the data- base, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId ). If there are any concurrent UpdateData- base requests, first writer wins. See code sample for details. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDatabaseAsync(AwsTimestreamWriteUpdateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDatabaseAsync(AwsTimestreamWriteUpdateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the retention duration of the memory store and magnetic store for your Timestream table. Note that the change in retention duration takes effect immediately. For example, if the retention period of the memory store was initially set to 2 hours and then changed to 24 hours, the memory store will be capable of holding 24 hours of data, but will be populated with 24 hours of data 22 hours after this change was made. Timestream does not retrieve data from the magnetic store to populate the ...
@@ -198,8 +181,7 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTableAsync(AwsTimestreamWriteUpdateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTableAsync(AwsTimestreamWriteUpdateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables you to write your time-series data into Timestream. You can specify a single data point or a batch of data points to be inserted into the system. Timestream offers you a flexible schema that auto de- tects the column names and data types for your Timestream tables based on the dimension names and data types of the data points you specify when invoking writes into the database. Timestream supports eventual consistency read semantics. This means that when you query data immediately after w...
@@ -208,7 +190,6 @@ public interface IAwsTimestreamWrite
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WriteRecordsAsync(AwsTimestreamWriteWriteRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> WriteRecordsAsync(AwsTimestreamWriteWriteRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

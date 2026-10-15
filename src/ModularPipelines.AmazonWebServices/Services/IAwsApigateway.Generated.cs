@@ -28,8 +28,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApiKeyAsync(AwsApigatewayCreateApiKeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApiKeyAsync(AwsApigatewayCreateApiKeyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a new Authorizer resource to an existing RestApi resource. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAuthorizerAsync(AwsApigatewayCreateAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAuthorizerAsync(AwsApigatewayCreateAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new BasePathMapping resource. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBasePathMappingAsync(AwsApigatewayCreateBasePathMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBasePathMappingAsync(AwsApigatewayCreateBasePathMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Deployment resource, which makes a specified RestApi callable over the internet. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeploymentAsync(AwsApigatewayCreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeploymentAsync(AwsApigatewayCreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a documentation part. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDocumentationPartAsync(AwsApigatewayCreateDocumentationPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDocumentationPartAsync(AwsApigatewayCreateDocumentationPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a documentation version See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDocumentationVersionAsync(AwsApigatewayCreateDocumentationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDocumentationVersionAsync(AwsApigatewayCreateDocumentationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a domain name access association resource between an access as- sociation source and a private custom domain name. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainNameAccessAssociationAsync(AwsApigatewayCreateDomainNameAccessAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainNameAccessAssociationAsync(AwsApigatewayCreateDomainNameAccessAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new domain name. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainNameAsync(AwsApigatewayCreateDomainNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainNameAsync(AwsApigatewayCreateDomainNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a new Model resource to an existing RestApi resource. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelAsync(AwsApigatewayCreateModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelAsync(AwsApigatewayCreateModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a RequestValidator of a given RestApi. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRequestValidatorAsync(AwsApigatewayCreateRequestValidatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRequestValidatorAsync(AwsApigatewayCreateRequestValidatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Resource resource. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourceAsync(AwsApigatewayCreateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourceAsync(AwsApigatewayCreateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new RestApi resource. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRestApiAsync(AwsApigatewayCreateRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRestApiAsync(AwsApigatewayCreateRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Stage resource that references a pre-existing Deployment for the API. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStageAsync(AwsApigatewayCreateStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStageAsync(AwsApigatewayCreateStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a usage plan key for adding an existing API key to a usage plan. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUsagePlanKeyAsync(AwsApigatewayCreateUsagePlanKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUsagePlanKeyAsync(AwsApigatewayCreateUsagePlanKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUsagePlanAsync(AwsApigatewayCreateUsagePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUsagePlanAsync(AwsApigatewayCreateUsagePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcLinkAsync(AwsApigatewayCreateVpcLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcLinkAsync(AwsApigatewayCreateVpcLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the ApiKey resource. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApiKeyAsync(AwsApigatewayDeleteApiKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApiKeyAsync(AwsApigatewayDeleteApiKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing Authorizer resource. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAuthorizerAsync(AwsApigatewayDeleteAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAuthorizerAsync(AwsApigatewayDeleteAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the BasePathMapping resource. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBasePathMappingAsync(AwsApigatewayDeleteBasePathMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBasePathMappingAsync(AwsApigatewayDeleteBasePathMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the ClientCertificate resource. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClientCertificateAsync(AwsApigatewayDeleteClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClientCertificateAsync(AwsApigatewayDeleteClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDeploymentAsync(AwsApigatewayDeleteDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDeploymentAsync(AwsApigatewayDeleteDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a documentation part See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDocumentationPartAsync(AwsApigatewayDeleteDocumentationPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDocumentationPartAsync(AwsApigatewayDeleteDocumentationPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a documentation version. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDocumentationVersionAsync(AwsApigatewayDeleteDocumentationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDocumentationVersionAsync(AwsApigatewayDeleteDocumentationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation re- source can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the Re- jectDomainNameAccessAssociation operation. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainNameAccessAssociationAsync(AwsApigatewayDeleteDomainNameAccessAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainNameAccessAssociationAsync(AwsApigatewayDeleteDomainNameAccessAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the DomainName resource. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainNameAsync(AwsApigatewayDeleteDomainNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainNameAsync(AwsApigatewayDeleteDomainNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayResponseAsync(AwsApigatewayDeleteGatewayResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGatewayResponseAsync(AwsApigatewayDeleteGatewayResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents a delete integration. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntegrationAsync(AwsApigatewayDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntegrationAsync(AwsApigatewayDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents a delete integration response. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntegrationResponseAsync(AwsApigatewayDeleteIntegrationResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntegrationResponseAsync(AwsApigatewayDeleteIntegrationResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing Method resource. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMethodAsync(AwsApigatewayDeleteMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMethodAsync(AwsApigatewayDeleteMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing MethodResponse resource. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMethodResponseAsync(AwsApigatewayDeleteMethodResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMethodResponseAsync(AwsApigatewayDeleteMethodResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a model. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelAsync(AwsApigatewayDeleteModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelAsync(AwsApigatewayDeleteModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a RequestValidator of a given RestApi. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRequestValidatorAsync(AwsApigatewayDeleteRequestValidatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRequestValidatorAsync(AwsApigatewayDeleteRequestValidatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Resource resource. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourceAsync(AwsApigatewayDeleteResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourceAsync(AwsApigatewayDeleteResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified API. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRestApiAsync(AwsApigatewayDeleteRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRestApiAsync(AwsApigatewayDeleteRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Stage resource. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStageAsync(AwsApigatewayDeleteStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStageAsync(AwsApigatewayDeleteStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a usage plan key and remove the underlying API key from the as- sociated usage plan. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUsagePlanKeyAsync(AwsApigatewayDeleteUsagePlanKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUsagePlanKeyAsync(AwsApigatewayDeleteUsagePlanKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a usage plan of a given plan Id. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUsagePlanAsync(AwsApigatewayDeleteUsagePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUsagePlanAsync(AwsApigatewayDeleteUsagePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing VpcLink of a specified identifier. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcLinkAsync(AwsApigatewayDeleteVpcLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcLinkAsync(AwsApigatewayDeleteVpcLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Flushes all authorizer cache entries on a stage. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> FlushStageAuthorizersCacheAsync(AwsApigatewayFlushStageAuthorizersCacheOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> FlushStageAuthorizersCacheAsync(AwsApigatewayFlushStageAuthorizersCacheOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Flushes a stage's cache. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> FlushStageCacheAsync(AwsApigatewayFlushStageCacheOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> FlushStageCacheAsync(AwsApigatewayFlushStageCacheOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a ClientCertificate resource. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateClientCertificateAsync(AwsApigatewayGenerateClientCertificateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateClientCertificateAsync(AwsApigatewayGenerateClientCertificateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the current Account resource. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountAsync(AwsApigatewayGetAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountAsync(AwsApigatewayGetAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the current ApiKey resource. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApiKeyAsync(AwsApigatewayGetApiKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApiKeyAsync(AwsApigatewayGetApiKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the current ApiKeys resource. See also: AWS API Documentation get-api-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
@@ -458,8 +415,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApiKeysAsync(AwsApigatewayGetApiKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApiKeysAsync(AwsApigatewayGetApiKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe an existing Authorizer resource. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAuthorizerAsync(AwsApigatewayGetAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAuthorizerAsync(AwsApigatewayGetAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe an existing Authorizers resource. See also: AWS API Documentation get-authorizers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -478,8 +433,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAuthorizersAsync(AwsApigatewayGetAuthorizersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAuthorizersAsync(AwsApigatewayGetAuthorizersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe a BasePathMapping resource. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBasePathMappingAsync(AwsApigatewayGetBasePathMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBasePathMappingAsync(AwsApigatewayGetBasePathMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents a collection of BasePathMapping resources. See also: AWS API Documentation get-base-path-mappings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -498,8 +451,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBasePathMappingsAsync(AwsApigatewayGetBasePathMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBasePathMappingsAsync(AwsApigatewayGetBasePathMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the current ClientCertificate resource. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClientCertificateAsync(AwsApigatewayGetClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClientCertificateAsync(AwsApigatewayGetClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a collection of ClientCertificate resources. See also: AWS API Documentation get-client-certificates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
@@ -518,8 +469,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClientCertificatesAsync(AwsApigatewayGetClientCertificatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClientCertificatesAsync(AwsApigatewayGetClientCertificatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a Deployment resource. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeploymentAsync(AwsApigatewayGetDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeploymentAsync(AwsApigatewayGetDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a Deployments collection. See also: AWS API Documentation get-deployments is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -538,8 +487,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeploymentsAsync(AwsApigatewayGetDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeploymentsAsync(AwsApigatewayGetDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a documentation part. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentationPartAsync(AwsApigatewayGetDocumentationPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDocumentationPartAsync(AwsApigatewayGetDocumentationPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets documentation parts. See also: AWS API Documentation get-documentation-parts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
@@ -558,8 +505,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentationPartsAsync(AwsApigatewayGetDocumentationPartsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDocumentationPartsAsync(AwsApigatewayGetDocumentationPartsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a documentation version. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentationVersionAsync(AwsApigatewayGetDocumentationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDocumentationVersionAsync(AwsApigatewayGetDocumentationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets documentation versions. See also: AWS API Documentation get-documentation-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
@@ -578,8 +523,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentationVersionsAsync(AwsApigatewayGetDocumentationVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDocumentationVersionsAsync(AwsApigatewayGetDocumentationVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents a collection on DomainNameAccessAssociations resources. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainNameAccessAssociationsAsync(AwsApigatewayGetDomainNameAccessAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainNameAccessAssociationsAsync(AwsApigatewayGetDomainNameAccessAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents a domain name that is contained in a simpler, more intuitive URL that can be called. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainNameAsync(AwsApigatewayGetDomainNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainNameAsync(AwsApigatewayGetDomainNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents a collection of DomainName resources. See also: AWS API Documentation get-domain-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -608,8 +550,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainNamesAsync(AwsApigatewayGetDomainNamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainNamesAsync(AwsApigatewayGetDomainNamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports a deployed version of a RestApi in a specified format. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExportAsync(AwsApigatewayGetExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExportAsync(AwsApigatewayGetExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a GatewayResponse of a specified response type on the given RestApi. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGatewayResponseAsync(AwsApigatewayGetGatewayResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGatewayResponseAsync(AwsApigatewayGetGatewayResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the re- sult will be the API Gateway-generated default GatewayResponses collec- tion for the supported response types. See also: AWS API Documentation get-gateway-responses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --ou...
@@ -638,8 +577,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGatewayResponsesAsync(AwsApigatewayGetGatewayResponsesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGatewayResponsesAsync(AwsApigatewayGetGatewayResponsesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the integration settings. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIntegrationAsync(AwsApigatewayGetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIntegrationAsync(AwsApigatewayGetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents a get integration response. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIntegrationResponseAsync(AwsApigatewayGetIntegrationResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIntegrationResponseAsync(AwsApigatewayGetIntegrationResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe an existing Method resource. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMethodAsync(AwsApigatewayGetMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMethodAsync(AwsApigatewayGetMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a MethodResponse resource. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMethodResponseAsync(AwsApigatewayGetMethodResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMethodResponseAsync(AwsApigatewayGetMethodResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an existing model defined for a RestApi resource. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelAsync(AwsApigatewayGetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelAsync(AwsApigatewayGetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes existing Models defined for a RestApi resource. See also: AWS API Documentation get-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
@@ -698,8 +631,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelsAsync(AwsApigatewayGetModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelsAsync(AwsApigatewayGetModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a sample mapping template that can be used to transform a payload into the structure of a model. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelTemplateAsync(AwsApigatewayGetModelTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelTemplateAsync(AwsApigatewayGetModelTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a RequestValidator of a given RestApi. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRequestValidatorAsync(AwsApigatewayGetRequestValidatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRequestValidatorAsync(AwsApigatewayGetRequestValidatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the RequestValidators collection of a given RestApi. See also: AWS API Documentation get-request-validators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -728,8 +658,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRequestValidatorsAsync(AwsApigatewayGetRequestValidatorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRequestValidatorsAsync(AwsApigatewayGetRequestValidatorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about a resource. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceAsync(AwsApigatewayGetResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceAsync(AwsApigatewayGetResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about a collection of Resource resources. See also: AWS API Documentation get-resources is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -748,8 +676,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcesAsync(AwsApigatewayGetResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcesAsync(AwsApigatewayGetResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the RestApi resource in the collection. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRestApiAsync(AwsApigatewayGetRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRestApiAsync(AwsApigatewayGetRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the RestApis resources for your collection. See also: AWS API Documentation get-rest-apis is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -768,8 +694,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRestApisAsync(AwsApigatewayGetRestApisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRestApisAsync(AwsApigatewayGetRestApisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a client SDK for a RestApi and Stage. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSdkAsync(AwsApigatewayGetSdkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSdkAsync(AwsApigatewayGetSdkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an SDK type. See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSdkTypeAsync(AwsApigatewayGetSdkTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSdkTypeAsync(AwsApigatewayGetSdkTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets SDK types See also: AWS API Documentation get-sdk-types is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -798,8 +721,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSdkTypesAsync(AwsApigatewayGetSdkTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSdkTypesAsync(AwsApigatewayGetSdkTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a Stage resource. See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStageAsync(AwsApigatewayGetStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStageAsync(AwsApigatewayGetStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about one or more Stage resources. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStagesAsync(AwsApigatewayGetStagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStagesAsync(AwsApigatewayGetStagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the Tags collection for a given resource. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTagsAsync(AwsApigatewayGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTagsAsync(AwsApigatewayGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the usage data of a usage plan in a specified time interval. See also: AWS API Documentation get-usage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: items
@@ -838,8 +757,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsageAsync(AwsApigatewayGetUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsageAsync(AwsApigatewayGetUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a usage plan key of a given key identifier. See also: AWS API Documentation
@@ -848,8 +766,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsagePlanKeyAsync(AwsApigatewayGetUsagePlanKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsagePlanKeyAsync(AwsApigatewayGetUsagePlanKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all the usage plan keys representing the API keys added to a spec- ified usage plan. See also: AWS API Documentation get-usage-plan-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -858,8 +775,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsagePlanKeysAsync(AwsApigatewayGetUsagePlanKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsagePlanKeysAsync(AwsApigatewayGetUsagePlanKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a usage plan of a given plan identifier. See also: AWS API Documentation
@@ -868,8 +784,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsagePlanAsync(AwsApigatewayGetUsagePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsagePlanAsync(AwsApigatewayGetUsagePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all the usage plans of the caller's account. See also: AWS API Documentation get-usage-plans is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -878,8 +793,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsagePlansAsync(AwsApigatewayGetUsagePlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsagePlansAsync(AwsApigatewayGetUsagePlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a specified VPC link under the caller's account in a region. See also: AWS API Documentation
@@ -888,8 +802,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpcLinkAsync(AwsApigatewayGetVpcLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpcLinkAsync(AwsApigatewayGetVpcLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the VpcLinks collection under the caller's account in a selected region. See also: AWS API Documentation get-vpc-links is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -898,8 +811,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpcLinksAsync(AwsApigatewayGetVpcLinksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpcLinksAsync(AwsApigatewayGetVpcLinksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Import API keys from an external source, such as a CSV-formatted file. See also: AWS API Documentation
@@ -908,8 +820,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportApiKeysAsync(AwsApigatewayImportApiKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportApiKeysAsync(AwsApigatewayImportApiKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports documentation parts See also: AWS API Documentation
@@ -918,8 +829,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportDocumentationPartsAsync(AwsApigatewayImportDocumentationPartsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportDocumentationPartsAsync(AwsApigatewayImportDocumentationPartsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A feature of the API Gateway control service for creating a new API from an external API definition file. See also: AWS API Documentation
@@ -928,8 +838,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportRestApiAsync(AwsApigatewayImportRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportRestApiAsync(AwsApigatewayImportRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi. See also: AWS API Documentation
@@ -938,8 +847,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutGatewayResponseAsync(AwsApigatewayPutGatewayResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutGatewayResponseAsync(AwsApigatewayPutGatewayResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets up a method's integration. See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutIntegrationAsync(AwsApigatewayPutIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutIntegrationAsync(AwsApigatewayPutIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents a put integration. See also: AWS API Documentation
@@ -958,8 +865,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutIntegrationResponseAsync(AwsApigatewayPutIntegrationResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutIntegrationResponseAsync(AwsApigatewayPutIntegrationResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add a method to an existing Resource resource. See also: AWS API Documentation
@@ -968,8 +874,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutMethodAsync(AwsApigatewayPutMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutMethodAsync(AwsApigatewayPutMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a MethodResponse to an existing Method resource. See also: AWS API Documentation
@@ -978,8 +883,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutMethodResponseAsync(AwsApigatewayPutMethodResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutMethodResponseAsync(AwsApigatewayPutMethodResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or over- writing the existing API. See also: AWS API Documentation
@@ -988,8 +892,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRestApiAsync(AwsApigatewayPutRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRestApiAsync(AwsApigatewayPutRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a domain name access association with a private custom domain name. To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation. See also: AWS API Documentation
@@ -998,8 +901,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectDomainNameAccessAssociationAsync(AwsApigatewayRejectDomainNameAccessAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectDomainNameAccessAssociationAsync(AwsApigatewayRejectDomainNameAccessAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates a tag on a given resource. See also: AWS API Documentation
@@ -1008,8 +910,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsApigatewayTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsApigatewayTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body. See also: AWS API Documentation
@@ -1018,8 +919,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestInvokeAuthorizerAsync(AwsApigatewayTestInvokeAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestInvokeAuthorizerAsync(AwsApigatewayTestInvokeAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Simulate the invocation of a Method in your RestApi with headers, para- meters, and an incoming request body. See also: AWS API Documentation
@@ -1028,8 +928,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestInvokeMethodAsync(AwsApigatewayTestInvokeMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestInvokeMethodAsync(AwsApigatewayTestInvokeMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from a given resource. See also: AWS API Documentation
@@ -1038,8 +937,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsApigatewayUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsApigatewayUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about the current Account resource. See also: AWS API Documentation
@@ -1048,8 +946,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAccountAsync(AwsApigatewayUpdateAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAccountAsync(AwsApigatewayUpdateAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about an ApiKey resource. See also: AWS API Documentation
@@ -1058,8 +955,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApiKeyAsync(AwsApigatewayUpdateApiKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApiKeyAsync(AwsApigatewayUpdateApiKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Authorizer resource. See also: AWS API Documentation
@@ -1068,8 +964,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAuthorizerAsync(AwsApigatewayUpdateAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAuthorizerAsync(AwsApigatewayUpdateAuthorizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about the BasePathMapping resource. See also: AWS API Documentation
@@ -1078,8 +973,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBasePathMappingAsync(AwsApigatewayUpdateBasePathMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBasePathMappingAsync(AwsApigatewayUpdateBasePathMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about an ClientCertificate resource. See also: AWS API Documentation
@@ -1088,8 +982,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateClientCertificateAsync(AwsApigatewayUpdateClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateClientCertificateAsync(AwsApigatewayUpdateClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about a Deployment resource. See also: AWS API Documentation
@@ -1098,8 +991,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDeploymentAsync(AwsApigatewayUpdateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDeploymentAsync(AwsApigatewayUpdateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a documentation part. See also: AWS API Documentation
@@ -1108,8 +1000,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDocumentationPartAsync(AwsApigatewayUpdateDocumentationPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDocumentationPartAsync(AwsApigatewayUpdateDocumentationPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a documentation version. See also: AWS API Documentation
@@ -1118,8 +1009,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDocumentationVersionAsync(AwsApigatewayUpdateDocumentationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDocumentationVersionAsync(AwsApigatewayUpdateDocumentationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about the DomainName resource. See also: AWS API Documentation
@@ -1128,8 +1018,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainNameAsync(AwsApigatewayUpdateDomainNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainNameAsync(AwsApigatewayUpdateDomainNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a GatewayResponse of a specified response type on the given RestApi. See also: AWS API Documentation
@@ -1138,8 +1027,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayResponseAsync(AwsApigatewayUpdateGatewayResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGatewayResponseAsync(AwsApigatewayUpdateGatewayResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents an update integration. See also: AWS API Documentation
@@ -1148,8 +1036,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIntegrationAsync(AwsApigatewayUpdateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIntegrationAsync(AwsApigatewayUpdateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents an update integration response. See also: AWS API Documentation
@@ -1158,8 +1045,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIntegrationResponseAsync(AwsApigatewayUpdateIntegrationResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIntegrationResponseAsync(AwsApigatewayUpdateIntegrationResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Method resource. See also: AWS API Documentation
@@ -1168,8 +1054,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMethodAsync(AwsApigatewayUpdateMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMethodAsync(AwsApigatewayUpdateMethodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing MethodResponse resource. See also: AWS API Documentation
@@ -1178,8 +1063,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMethodResponseAsync(AwsApigatewayUpdateMethodResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMethodResponseAsync(AwsApigatewayUpdateMethodResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about a model. The maximum size of the model is 400 KB. See also: AWS API Documentation
@@ -1188,8 +1072,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateModelAsync(AwsApigatewayUpdateModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateModelAsync(AwsApigatewayUpdateModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a RequestValidator of a given RestApi. See also: AWS API Documentation
@@ -1198,8 +1081,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRequestValidatorAsync(AwsApigatewayUpdateRequestValidatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRequestValidatorAsync(AwsApigatewayUpdateRequestValidatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about a Resource resource. See also: AWS API Documentation
@@ -1208,8 +1090,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceAsync(AwsApigatewayUpdateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceAsync(AwsApigatewayUpdateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about the specified API. See also: AWS API Documentation
@@ -1218,8 +1099,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRestApiAsync(AwsApigatewayUpdateRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRestApiAsync(AwsApigatewayUpdateRestApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about a Stage resource. See also: AWS API Documentation
@@ -1228,8 +1108,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateStageAsync(AwsApigatewayUpdateStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateStageAsync(AwsApigatewayUpdateStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Grants a temporary extension to the remaining quota of a usage plan as- sociated with a specified API key. See also: AWS API Documentation
@@ -1238,8 +1117,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUsageAsync(AwsApigatewayUpdateUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUsageAsync(AwsApigatewayUpdateUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a usage plan of a given plan Id. See also: AWS API Documentation
@@ -1248,8 +1126,7 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUsagePlanAsync(AwsApigatewayUpdateUsagePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUsagePlanAsync(AwsApigatewayUpdateUsagePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing VpcLink of a specified identifier. See also: AWS API Documentation
@@ -1258,7 +1135,6 @@ public interface IAwsApigateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVpcLinkAsync(AwsApigatewayUpdateVpcLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVpcLinkAsync(AwsApigatewayUpdateVpcLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

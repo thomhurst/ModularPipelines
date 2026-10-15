@@ -28,8 +28,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMonitorAsync(AwsNetworkflowmonitorCreateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMonitorAsync(AwsNetworkflowmonitorCreateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// In Network Flow Monitor, you specify a scope for the service to gener- ate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Moni- tor. A scope is a Region-account pair or multiple Region-account pairs. Net- work Flow Monitor uses your scope to determine all the resources (the topology) where Network Flow Monitor will gather network flow perfor- ma...
@@ -38,8 +37,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateScopeAsync(AwsNetworkflowmonitorCreateScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateScopeAsync(AwsNetworkflowmonitorCreateScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a monitor in Network Flow Monitor. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMonitorAsync(AwsNetworkflowmonitorDeleteMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMonitorAsync(AwsNetworkflowmonitorDeleteMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a scope that has been defined. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteScopeAsync(AwsNetworkflowmonitorDeleteScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteScopeAsync(AwsNetworkflowmonitorDeleteScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the moni- tor, and status information. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMonitorAsync(AwsNetworkflowmonitorGetMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMonitorAsync(AwsNetworkflowmonitorGetMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Return the data for a query with the Network Flow Monitor query inter- face. You specify the query that you want to return results for by pro- viding a query ID and a monitor name. This query returns the top con- tributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryMonitorTopContributors . Use the scope ID that was returned for your account by CreateScope . Top contributors in Network Flow Monitor are network flows ...
@@ -78,8 +73,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryResultsMonitorTopContributorsAsync(AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryResultsMonitorTopContributorsAsync(AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Return the data for a query with the Network Flow Monitor query inter- face. Specify the query that you want to return results for by provid- ing a query ID and a scope ID. This query returns the data for top contributors for workload insights for a specific scope. Workload insights provide a high level view of network flow performance data collected by agents for a scope. To re- turn just the top contributors, see GetQueryResultsWorkloadInsightsTop- Contributors . Create a query ID for this cal...
@@ -88,8 +82,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryResultsWorkloadInsightsTopContributorsDataAsync(AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryResultsWorkloadInsightsTopContributorsDataAsync(AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Return the data for a query with the Network Flow Monitor query inter- face. You specify the query that you want to return results for by pro- viding a query ID and a monitor name. This query returns the top contributors for a scope for workload in- sights. Workload insights provide a high level view of network flow performance data collected by agents. To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData . Create a query ID for this call by calling...
@@ -98,8 +91,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryResultsWorkloadInsightsTopContributorsAsync(AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryResultsWorkloadInsightsTopContributorsAsync(AwsNetworkflowmonitorGetQueryResultsWorkloadInsightsTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call re- turns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start (create) the query, StartQueryMonitorTopContributors . When you run a query, use th...
@@ -108,8 +100,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryStatusMonitorTopContributorsAsync(AwsNetworkflowmonitorGetQueryStatusMonitorTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryStatusMonitorTopContributorsAsync(AwsNetworkflowmonitorGetQueryStatusMonitorTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call re- turns the query status for the top contributors data for workload in- sights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData . Top contri...
@@ -118,8 +109,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryStatusWorkloadInsightsTopContributorsDataAsync(AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryStatusWorkloadInsightsTopContributorsDataAsync(AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Return the data for a query with the Network Flow Monitor query inter- face. Specify the query that you want to return results for by provid- ing a query ID and a monitor name. This query returns the top contribu- tors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopC...
@@ -128,8 +118,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryStatusWorkloadInsightsTopContributorsAsync(AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryStatusWorkloadInsightsTopContributorsAsync(AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetScopeAsync(AwsNetworkflowmonitorGetScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetScopeAsync(AwsNetworkflowmonitorGetScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the STATUS parameter. See also: AWS API Documentation list-monitors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
@@ -148,8 +136,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMonitorsAsync(AwsNetworkflowmonitorListMonitorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMonitorsAsync(AwsNetworkflowmonitorListMonitorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all the scopes for an account. See also: AWS API Documentation list-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: scopes
@@ -158,8 +145,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListScopesAsync(AwsNetworkflowmonitorListScopesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListScopesAsync(AwsNetworkflowmonitorListScopesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all the tags for a resource. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsNetworkflowmonitorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsNetworkflowmonitorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a query that you can use with the Network Flow Monitor query in- terface to return the top contributors for a monitor. Specify the moni- tor that you want to create the query for. The call returns a query ID that you can use with GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all worklo...
@@ -178,8 +163,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQueryMonitorTopContributorsAsync(AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQueryMonitorTopContributorsAsync(AwsNetworkflowmonitorStartQueryMonitorTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a query with the Network Flow Monitor query interface that you can run to return data for workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with GetQueryResultsWorkloadInsightsTopContributorsData to run the query and return the data for the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type....
@@ -188,8 +172,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQueryWorkloadInsightsTopContributorsDataAsync(AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQueryWorkloadInsightsTopContributorsDataAsync(AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with GetQueryResultsWorkloadInsightsTopContributors to run the query and re- turn the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be...
@@ -198,8 +181,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQueryWorkloadInsightsTopContributorsAsync(AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQueryWorkloadInsightsTopContributorsAsync(AwsNetworkflowmonitorStartQueryWorkloadInsightsTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stop a top contributors query for a monitor. Specify the query that you want to stop by providing a query ID and a monitor name. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific mon- itor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopQueryMonitorTopContributorsAsync(AwsNetworkflowmonitorStopQueryMonitorTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopQueryMonitorTopContributorsAsync(AwsNetworkflowmonitorStopQueryMonitorTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific mon- itor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopQueryWorkloadInsightsTopContributorsDataAsync(AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopQueryWorkloadInsightsTopContributorsDataAsync(AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stop a top contributors query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific mon- itor. Use the applicable call for the top contributors that you want to be returned. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopQueryWorkloadInsightsTopContributorsAsync(AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopQueryWorkloadInsightsTopContributorsAsync(AwsNetworkflowmonitorStopQueryWorkloadInsightsTopContributorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a tag to a resource. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsNetworkflowmonitorTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsNetworkflowmonitorTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from a resource. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsNetworkflowmonitorUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsNetworkflowmonitorUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a monitor to add or remove local or remote resources. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMonitorAsync(AwsNetworkflowmonitorUpdateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMonitorAsync(AwsNetworkflowmonitorUpdateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. See also: AWS API Documentation
@@ -268,7 +244,6 @@ public interface IAwsNetworkflowmonitor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateScopeAsync(AwsNetworkflowmonitorUpdateScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateScopeAsync(AwsNetworkflowmonitorUpdateScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

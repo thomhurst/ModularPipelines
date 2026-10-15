@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Removes locations from a multi-location fleet. When deleting a loca- tion, all game server process and all instances that are still active in the location are shut down. To delete fleet locations, identify the fleet ID and provide a list of the locations to be deleted. If successful, GameLift sets the location status to DELETING , and be- gins to shut down existing server processes and terminate instances in each location ...
+/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Removes locations from a multi-location fleet. When deleting a loca- tion, all game server processes and all instances that are still active in the location are shut down. To delete fleet locations, identify the fleet ID and provide a list of the locations to be deleted. If successful, GameLift sets the location status to DELETING , and be- gins to shut down existing server processes and terminate instances in each locatio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsGameliftDeleteFleetLocationsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Removes locations from a multi-location fleet. When deleting a loca- tion, all game server process and all instances that are still active in the location are shut down. To delete fleet locations, identify the fleet ID and provide a list of the locations to be deleted. If successful, GameLift sets the location status to DELETING , and be- gins to shut down existing server processes and terminate instances in each location ...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Removes locations from a multi-location fleet. When deleting a loca- tion, all game server processes and all instances that are still active in the location are shut down. To delete fleet locations, identify the fleet ID and provide a list of the locations to be deleted. If successful, GameLift sets the location status to DELETING , and be- gins to shut down existing server processes and terminate instances in each locatio...
     /// </summary>
     /// <param name="FleetId">A unique identifier for the fleet to delete locations for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     /// <param name="Locations">The list of fleet locations to delete. Specify locations in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Syntax: "string" "string" ...</param>

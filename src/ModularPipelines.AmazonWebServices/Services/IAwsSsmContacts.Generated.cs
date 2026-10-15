@@ -28,8 +28,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptPageAsync(AwsSsmContactsAcceptPageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptPageAsync(AwsSsmContactsAcceptPageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Activates a contact's contact channel. Incident Manager can't engage a contact until the contact channel has been activated. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ActivateContactChannelAsync(AwsSsmContactsActivateContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ActivateContactChannelAsync(AwsSsmContactsActivateContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A contact channel is the method that Incident Manager uses to engage your contact. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactChannelAsync(AwsSsmContactsCreateContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactChannelAsync(AwsSsmContactsCreateContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Contacts are either the contacts that Incident Manager engages during an incident or the escalation plans that Incident Manager uses to en- gage contacts in phases during an incident. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactAsync(AwsSsmContactsCreateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactAsync(AwsSsmContactsCreateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a rotation in an on-call schedule. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRotationAsync(AwsSsmContactsCreateRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRotationAsync(AwsSsmContactsCreateRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an override for a rotation in an on-call schedule. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRotationOverrideAsync(AwsSsmContactsCreateRotationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRotationOverrideAsync(AwsSsmContactsCreateRotationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// To no longer receive Incident Manager engagements to a contact channel, you can deactivate the channel. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeactivateContactChannelAsync(AwsSsmContactsDeactivateContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeactivateContactChannelAsync(AwsSsmContactsDeactivateContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// To stop receiving engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel does not remove it from the contact's engagement plan, but the stage that includes the channel will be ignored. If you delete the only contact channel for a contact, you'll no longer be able to engage that contact during an in- cident. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactChannelAsync(AwsSsmContactsDeleteContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactChannelAsync(AwsSsmContactsDeleteContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// To remove a contact from Incident Manager, you can delete the contact. However, deleting a contact does not remove it from escalation plans and related response plans. Deleting an escalation plan also does not remove it from all related response plans. To modify an escalation plan, we recommend using the UpdateContact action to specify a differ- ent existing contact. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactAsync(AwsSsmContactsDeleteContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactAsync(AwsSsmContactsDeleteContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a rotation from the system. If a rotation belongs to more than one on-call schedule, this operation deletes it from all of them. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRotationAsync(AwsSsmContactsDeleteRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRotationAsync(AwsSsmContactsDeleteRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing override for an on-call rotation. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRotationOverrideAsync(AwsSsmContactsDeleteRotationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRotationOverrideAsync(AwsSsmContactsDeleteRotationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Incident Manager uses engagements to engage contacts and escalation plans during an incident. Use this command to describe the engagement that occurred during an incident. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEngagementAsync(AwsSsmContactsDescribeEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEngagementAsync(AwsSsmContactsDescribeEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists details of the engagement to a contact channel. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePageAsync(AwsSsmContactsDescribePageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePageAsync(AwsSsmContactsDescribePageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List details about a specific contact channel. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactChannelAsync(AwsSsmContactsGetContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactChannelAsync(AwsSsmContactsGetContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified contact or escalation plan. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactAsync(AwsSsmContactsGetContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactAsync(AwsSsmContactsGetContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the resource policies attached to the specified contact or escalation plan. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactPolicyAsync(AwsSsmContactsGetContactPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactPolicyAsync(AwsSsmContactsGetContactPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an on-call rotation. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRotationAsync(AwsSsmContactsGetRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRotationAsync(AwsSsmContactsGetRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an override to an on-call rotation. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRotationOverrideAsync(AwsSsmContactsGetRotationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRotationOverrideAsync(AwsSsmContactsGetRotationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all contact channels for the specified contact. See also: AWS API Documentation list-contact-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContactChannels
@@ -208,8 +190,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactChannelsAsync(AwsSsmContactsListContactChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactChannelsAsync(AwsSsmContactsListContactChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all contacts and escalation plans in Incident Manager. See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Contacts
@@ -218,8 +199,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactsAsync(AwsSsmContactsListContactsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactsAsync(AwsSsmContactsListContactsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all engagements that have happened in an incident. See also: AWS API Documentation list-engagements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Engagements
@@ -228,8 +208,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEngagementsAsync(AwsSsmContactsListEngagementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEngagementsAsync(AwsSsmContactsListEngagementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the engagements to contact channels that have been ac- knowledged. See also: AWS API Documentation list-page-receipts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Receipts
@@ -238,8 +217,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPageReceiptsAsync(AwsSsmContactsListPageReceiptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPageReceiptsAsync(AwsSsmContactsListPageReceiptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the resolution path of an engagement. For example, the escala- tion plan engaged in an incident might target an on-call schedule that includes several contacts in a rotation, but just one contact on-call when the incident starts. The resolution path indicates the hierarchy of escalation plan &gt; on-call schedule &gt; contact . See also: AWS API Documentation list-page-resolutions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
@@ -248,8 +226,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPageResolutionsAsync(AwsSsmContactsListPageResolutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPageResolutionsAsync(AwsSsmContactsListPageResolutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the engagements to a contact's contact channels. See also: AWS API Documentation list-pages-by-contact is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Pages
@@ -258,8 +235,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPagesByContactAsync(AwsSsmContactsListPagesByContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPagesByContactAsync(AwsSsmContactsListPagesByContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the engagements to contact channels that occurred by engaging a contact. See also: AWS API Documentation list-pages-by-engagement is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Pages
@@ -268,8 +244,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPagesByEngagementAsync(AwsSsmContactsListPagesByEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPagesByEngagementAsync(AwsSsmContactsListPagesByEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of shifts based on rotation configuration parameters. NOTE: The Incident Manager primarily uses this operation to populate the Preview calendar. It is not typically run by end users. See also: AWS API Documentation list-preview-rotation-shifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pa...
@@ -278,8 +253,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPreviewRotationShiftsAsync(AwsSsmContactsListPreviewRotationShiftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPreviewRotationShiftsAsync(AwsSsmContactsListPreviewRotationShiftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of overrides currently specified for an on-call rota- tion. See also: AWS API Documentation list-rotation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RotationOverrides
@@ -288,8 +262,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRotationOverridesAsync(AwsSsmContactsListRotationOverridesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRotationOverridesAsync(AwsSsmContactsListRotationOverridesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of shifts generated by an existing rotation in the sys- tem. See also: AWS API Documentation list-rotation-shifts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RotationShifts
@@ -298,8 +271,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRotationShiftsAsync(AwsSsmContactsListRotationShiftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRotationShiftsAsync(AwsSsmContactsListRotationShiftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of on-call rotations. See also: AWS API Documentation list-rotations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Rotations
@@ -308,8 +280,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRotationsAsync(AwsSsmContactsListRotationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRotationsAsync(AwsSsmContactsListRotationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags of a contact, escalation plan, rotation, or on-call schedule. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsSsmContactsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsSsmContactsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a resource policy to the specified contact or escalation plan. The resource policy is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Setting up cross-account functionality . See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutContactPolicyAsync(AwsSsmContactsPutContactPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutContactPolicyAsync(AwsSsmContactsPutContactPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends an activation code to a contact channel. The contact can use this code to activate the contact channel in the console or with the Acti- vateChannel operation. Incident Manager can't engage a contact channel until it has been activated. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendActivationCodeAsync(AwsSsmContactsSendActivationCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendActivationCodeAsync(AwsSsmContactsSendActivationCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an engagement to a contact or escalation plan. The engagement engages each contact specified in the incident. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEngagementAsync(AwsSsmContactsStartEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEngagementAsync(AwsSsmContactsStartEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an engagement before it finishes the final stage of the escala- tion plan or engagement plan. Further contacts aren't engaged. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEngagementAsync(AwsSsmContactsStopEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopEngagementAsync(AwsSsmContactsStopEngagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tags a contact or escalation plan. You can tag only contacts and esca- lation plans in the first region of your replication set. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsSsmContactsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsSsmContactsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified resource. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsSsmContactsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsSsmContactsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a contact's contact channel. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactChannelAsync(AwsSsmContactsUpdateContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactChannelAsync(AwsSsmContactsUpdateContactChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the contact or escalation plan specified. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactAsync(AwsSsmContactsUpdateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactAsync(AwsSsmContactsUpdateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the information specified for an on-call rotation. See also: AWS API Documentation
@@ -408,7 +370,6 @@ public interface IAwsSsmContacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRotationAsync(AwsSsmContactsUpdateRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRotationAsync(AwsSsmContactsUpdateRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

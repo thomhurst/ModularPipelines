@@ -28,8 +28,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMicrovmAuthTokenAsync(AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMicrovmAuthTokenAsync(AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a MicroVM image from the specified code artifact and base im- age. The build is asynchronous the image transitions from CREATING to CREATED on success, or CREATE_FAILED on failure. Use GetMicrovmImage to poll for completion. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMicrovmImageAsync(AwsLambdaMicrovmsCreateMicrovmImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMicrovmImageAsync(AwsLambdaMicrovmsCreateMicrovmImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a shell authentication token for interactive shell access to a running MicroVM. The MicroVM must have been run with the SHELL_INGRESS network connector attached. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMicrovmShellAuthTokenAsync(AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMicrovmShellAuthTokenAsync(AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a MicroVM image. This operation is idempotent; deleting an im- age that has already been deleted succeeds without error. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMicrovmImageAsync(AwsLambdaMicrovmsDeleteMicrovmImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMicrovmImageAsync(AwsLambdaMicrovmsDeleteMicrovmImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific version of a MicroVM image. This operation is idem- potent; deleting a version that has already been deleted succeeds with- out error. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMicrovmImageVersionAsync(AwsLambdaMicrovmsDeleteMicrovmImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMicrovmImageVersionAsync(AwsLambdaMicrovmsDeleteMicrovmImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific MicroVM image build, including its state, target architecture, and snapshot information. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMicrovmImageBuildAsync(AwsLambdaMicrovmsGetMicrovmImageBuildOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMicrovmImageBuildAsync(AwsLambdaMicrovmsGetMicrovmImageBuildOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a MicroVM image, including its state, ver- sions, and configuration. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMicrovmImageAsync(AwsLambdaMicrovmsGetMicrovmImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMicrovmImageAsync(AwsLambdaMicrovmsGetMicrovmImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific version of a MicroVM image, includ- ing its configuration, state, and build information. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMicrovmImageVersionAsync(AwsLambdaMicrovmsGetMicrovmImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMicrovmImageVersionAsync(AwsLambdaMicrovmsGetMicrovmImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific MicroVM, including its state, end- point, image information, and configuration. The state field is eventu- ally consistent determine readiness by connecting to the endpoint. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMicrovmAsync(AwsLambdaMicrovmsGetMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMicrovmAsync(AwsLambdaMicrovmsGetMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists AWS managed MicroVM images available for use as base images. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument ...
@@ -118,8 +109,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedMicrovmImagesAsync(AwsLambdaMicrovmsListManagedMicrovmImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedMicrovmImagesAsync(AwsLambdaMicrovmsListManagedMicrovmImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists versions of a managed MicroVM image. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
@@ -128,8 +118,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedMicrovmImageVersionsAsync(AwsLambdaMicrovmsListManagedMicrovmImageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedMicrovmImageVersionsAsync(AwsLambdaMicrovmsListManagedMicrovmImageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists builds for a MicroVM image version with optional filtering by ar- chitecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
@@ -138,8 +127,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMicrovmImageBuildsAsync(AwsLambdaMicrovmsListMicrovmImageBuildsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMicrovmImageBuildsAsync(AwsLambdaMicrovmsListMicrovmImageBuildsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists MicroVM images in the account with optional name filtering. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
@@ -148,8 +136,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMicrovmImagesAsync(AwsLambdaMicrovmsListMicrovmImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMicrovmImagesAsync(AwsLambdaMicrovmsListMicrovmImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists versions of a MicroVM image. We recommend using pagination to en- sure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
@@ -158,8 +145,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMicrovmImageVersionsAsync(AwsLambdaMicrovmsListMicrovmImageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMicrovmImageVersionsAsync(AwsLambdaMicrovmsListMicrovmImageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists MicroVMs in the account with optional filtering by image and ver- sion. We recommend using pagination to ensure that the operation re- turns quickly and successfully. See also: AWS API Documentation list-microvms is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument m...
@@ -168,8 +154,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMicrovmsAsync(AwsLambdaMicrovmsListMicrovmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMicrovmsAsync(AwsLambdaMicrovmsListMicrovmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags associated with a Lambda MicroVM resource. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsAsync(AwsLambdaMicrovmsListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsAsync(AwsLambdaMicrovmsListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resumes a suspended MicroVM, restoring it to RUNNING state with all state intact. The MicroVM must be in SUSPENDED state. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResumeMicrovmAsync(AwsLambdaMicrovmsResumeMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResumeMicrovmAsync(AwsLambdaMicrovmsResumeMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthTo- ken. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RunMicrovmAsync(AwsLambdaMicrovmsRunMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RunMicrovmAsync(AwsLambdaMicrovmsRunMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Suspends a running MicroVM, preserving its full memory and disk state. The MicroVM transitions through SUSPENDING to SUSPENDED. To restore, call ResumeMicrovm or send traffic to the endpoint if autoResumeEnabled is true. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SuspendMicrovmAsync(AwsLambdaMicrovmsSuspendMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SuspendMicrovmAsync(AwsLambdaMicrovmsSuspendMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to a Lambda MicroVM resource. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsLambdaMicrovmsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsLambdaMicrovmsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates a MicroVM. This operation is idempotent; terminating a Mi- croVM that has already been terminated succeeds without error. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateMicrovmAsync(AwsLambdaMicrovmsTerminateMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateMicrovmAsync(AwsLambdaMicrovmsTerminateMicrovmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a Lambda MicroVM resource. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsLambdaMicrovmsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsLambdaMicrovmsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of a MicroVM image and triggers a new version build. This operation uses PUT semantics all required fields (codeArtifact, baseImageArn, buildRoleArn) must be provided with every request. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMicrovmImageAsync(AwsLambdaMicrovmsUpdateMicrovmImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMicrovmImageAsync(AwsLambdaMicrovmsUpdateMicrovmImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a specific MicroVM image version. See also: AWS API Documentation
@@ -258,7 +235,6 @@ public interface IAwsLambdaMicrovms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMicrovmImageVersionAsync(AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMicrovmImageVersionAsync(AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

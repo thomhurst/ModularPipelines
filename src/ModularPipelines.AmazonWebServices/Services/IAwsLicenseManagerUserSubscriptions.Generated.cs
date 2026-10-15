@@ -28,8 +28,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateUserAsync(AwsLicenseManagerUserSubscriptionsAssociateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateUserAsync(AwsLicenseManagerUserSubscriptionsAssociateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a network endpoint for the Remote Desktop Services (RDS) li- cense server. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLicenseServerEndpointAsync(AwsLicenseManagerUserSubscriptionsCreateLicenseServerEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLicenseServerEndpointAsync(AwsLicenseManagerUserSubscriptionsCreateLicenseServerEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a LicenseServerEndpoint resource. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLicenseServerEndpointAsync(AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLicenseServerEndpointAsync(AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters the Active Directory identity provider from License Manager user-based subscriptions. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterIdentityProviderAsync(AwsLicenseManagerUserSubscriptionsDeregisterIdentityProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterIdentityProviderAsync(AwsLicenseManagerUserSubscriptionsDeregisterIdentityProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the user from an EC2 instance providing user-based sub- scriptions. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateUserAsync(AwsLicenseManagerUserSubscriptionsDisassociateUserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateUserAsync(AwsLicenseManagerUserSubscriptionsDisassociateUserOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Active Directory identity providers for user-based subscrip- tions. See also: AWS API Documentation list-identity-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: IdentityProviderS...
@@ -78,8 +73,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdentityProvidersAsync(AwsLicenseManagerUserSubscriptionsListIdentityProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdentityProvidersAsync(AwsLicenseManagerUserSubscriptionsListIdentityProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the EC2 instances providing user-based subscriptions. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstanceSummaries
@@ -88,8 +82,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstancesAsync(AwsLicenseManagerUserSubscriptionsListInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstancesAsync(AwsLicenseManagerUserSubscriptionsListInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the Remote Desktop Services (RDS) License Server endpoints See also: AWS API Documentation list-license-server-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseServerEndpoints
@@ -98,8 +91,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseServerEndpointsAsync(AwsLicenseManagerUserSubscriptionsListLicenseServerEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseServerEndpointsAsync(AwsLicenseManagerUserSubscriptionsListLicenseServerEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the user-based subscription products available from an identity provider. See also: AWS API Documentation list-product-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ProductUserS...
@@ -108,8 +100,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProductSubscriptionsAsync(AwsLicenseManagerUserSubscriptionsListProductSubscriptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProductSubscriptionsAsync(AwsLicenseManagerUserSubscriptionsListProductSubscriptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of tags for the specified resource. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsLicenseManagerUserSubscriptionsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsLicenseManagerUserSubscriptionsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists user associations for an identity provider. See also: AWS API Documentation list-user-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstanceUserSummaries
@@ -128,8 +118,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserAssociationsAsync(AwsLicenseManagerUserSubscriptionsListUserAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserAssociationsAsync(AwsLicenseManagerUserSubscriptionsListUserAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers an identity provider for user-based subscriptions. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterIdentityProviderAsync(AwsLicenseManagerUserSubscriptionsRegisterIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterIdentityProviderAsync(AwsLicenseManagerUserSubscriptionsRegisterIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a product subscription for a user with the specified identity provider. NOTE: Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide . See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartProductSubscriptionAsync(AwsLicenseManagerUserSubscriptionsStartProductSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartProductSubscriptionAsync(AwsLicenseManagerUserSubscriptionsStartProductSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a product subscription for a user with the specified identity provider. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopProductSubscriptionAsync(AwsLicenseManagerUserSubscriptionsStopProductSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopProductSubscriptionAsync(AwsLicenseManagerUserSubscriptionsStopProductSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to a resource. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsLicenseManagerUserSubscriptionsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsLicenseManagerUserSubscriptionsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a resource. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsLicenseManagerUserSubscriptionsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsLicenseManagerUserSubscriptionsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates additional product configuration settings for the registered identity provider. See also: AWS API Documentation
@@ -188,7 +172,6 @@ public interface IAwsLicenseManagerUserSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIdentityProviderSettingsAsync(AwsLicenseManagerUserSubscriptionsUpdateIdentityProviderSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIdentityProviderSettingsAsync(AwsLicenseManagerUserSubscriptionsUpdateIdentityProviderSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -24,7 +24,7 @@ public interface IAwsRtbfabric
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsRtbfabricWait Wait => throw new System.NotSupportedException();
+    AwsRtbfabricWait Wait { get; }
 
     /// <summary>
     /// Accepts a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and estab- lish the connection. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptLinkAsync(AwsRtbfabricAcceptLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptLinkAsync(AwsRtbfabricAcceptLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an ACM certificate with a responder gateway. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateCertificateAsync(AwsRtbfabricAssociateCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateCertificateAsync(AwsRtbfabricAssociateCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an inbound external link. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInboundExternalLinkAsync(AwsRtbfabricCreateInboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInboundExternalLinkAsync(AwsRtbfabricCreateInboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new link between gateways. Establishes a connection that allows gateways to communicate and ex- change bid requests and responses. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLinkAsync(AwsRtbfabricCreateLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLinkAsync(AwsRtbfabricCreateLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority num- bers are evaluated first. Each rule specifies conditions that must all match for the rule to apply. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLinkRoutingRuleAsync(AwsRtbfabricCreateLinkRoutingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLinkRoutingRuleAsync(AwsRtbfabricCreateLinkRoutingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an outbound external link. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOutboundExternalLinkAsync(AwsRtbfabricCreateOutboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOutboundExternalLinkAsync(AwsRtbfabricCreateOutboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a requester gateway. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRequesterGatewayAsync(AwsRtbfabricCreateRequesterGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRequesterGatewayAsync(AwsRtbfabricCreateRequesterGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a responder gateway. WARNING: A domain name or managed endpoint is required. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResponderGatewayAsync(AwsRtbfabricCreateResponderGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResponderGatewayAsync(AwsRtbfabricCreateResponderGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an inbound external link. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInboundExternalLinkAsync(AwsRtbfabricDeleteInboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInboundExternalLinkAsync(AwsRtbfabricDeleteInboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a link between gateways. Permanently removes the connection between gateways. This action cannot be undone. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLinkAsync(AwsRtbfabricDeleteLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLinkAsync(AwsRtbfabricDeleteLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a routing rule from a link. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLinkRoutingRuleAsync(AwsRtbfabricDeleteLinkRoutingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLinkRoutingRuleAsync(AwsRtbfabricDeleteLinkRoutingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an outbound external link. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOutboundExternalLinkAsync(AwsRtbfabricDeleteOutboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOutboundExternalLinkAsync(AwsRtbfabricDeleteOutboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a requester gateway. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRequesterGatewayAsync(AwsRtbfabricDeleteRequesterGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRequesterGatewayAsync(AwsRtbfabricDeleteRequesterGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a responder gateway. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResponderGatewayAsync(AwsRtbfabricDeleteResponderGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResponderGatewayAsync(AwsRtbfabricDeleteResponderGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a certificate association from a responder gateway. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateCertificateAsync(AwsRtbfabricDisassociateCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateCertificateAsync(AwsRtbfabricDisassociateCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a certificate association with a responder gateway. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCertificateAssociationAsync(AwsRtbfabricGetCertificateAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCertificateAssociationAsync(AwsRtbfabricGetCertificateAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an inbound external link. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInboundExternalLinkAsync(AwsRtbfabricGetInboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInboundExternalLinkAsync(AwsRtbfabricGetInboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a link between gateways. Returns detailed information about the link configuration, status, and associated gateways. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLinkAsync(AwsRtbfabricGetLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLinkAsync(AwsRtbfabricGetLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a routing rule for a link. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLinkRoutingRuleAsync(AwsRtbfabricGetLinkRoutingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLinkRoutingRuleAsync(AwsRtbfabricGetLinkRoutingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an outbound external link. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOutboundExternalLinkAsync(AwsRtbfabricGetOutboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOutboundExternalLinkAsync(AwsRtbfabricGetOutboundExternalLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a requester gateway. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRequesterGatewayAsync(AwsRtbfabricGetRequesterGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRequesterGatewayAsync(AwsRtbfabricGetRequesterGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a responder gateway. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResponderGatewayAsync(AwsRtbfabricGetResponderGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResponderGatewayAsync(AwsRtbfabricGetResponderGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the certificate associations for a responder gateway. See also: AWS API Documentation list-certificate-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: certificateAssociations
@@ -253,8 +231,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCertificateAssociationsAsync(AwsRtbfabricListCertificateAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCertificateAssociationsAsync(AwsRtbfabricListCertificateAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the routing rules for a link. See also: AWS API Documentation list-link-routing-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: rules
@@ -263,8 +240,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLinkRoutingRulesAsync(AwsRtbfabricListLinkRoutingRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLinkRoutingRulesAsync(AwsRtbfabricListLinkRoutingRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists links associated with gateways. Returns a list of all links for the specified gateways, including their status and configuration details. See also: AWS API Documentation list-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results ...
@@ -273,8 +249,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLinksAsync(AwsRtbfabricListLinksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLinksAsync(AwsRtbfabricListLinksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists requester gateways. See also: AWS API Documentation list-requester-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: gatewayIds
@@ -283,8 +258,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRequesterGatewaysAsync(AwsRtbfabricListRequesterGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRequesterGatewaysAsync(AwsRtbfabricListRequesterGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists reponder gateways. See also: AWS API Documentation list-responder-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: gatewayIds
@@ -293,8 +267,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResponderGatewaysAsync(AwsRtbfabricListResponderGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResponderGatewaysAsync(AwsRtbfabricListResponderGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags for a resource. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsRtbfabricListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsRtbfabricListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to decline the link request. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectLinkAsync(AwsRtbfabricRejectLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectLinkAsync(AwsRtbfabricRejectLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the specified resource. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsRtbfabricTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsRtbfabricTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag or tags from a resource. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsRtbfabricUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsRtbfabricUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a link module flow. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLinkModuleFlowAsync(AwsRtbfabricUpdateLinkModuleFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLinkModuleFlowAsync(AwsRtbfabricUpdateLinkModuleFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of a link between gateways. Allows you to modify settings and parameters for an existing link. See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLinkAsync(AwsRtbfabricUpdateLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLinkAsync(AwsRtbfabricUpdateLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a routing rule for a link. See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLinkRoutingRuleAsync(AwsRtbfabricUpdateLinkRoutingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLinkRoutingRuleAsync(AwsRtbfabricUpdateLinkRoutingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a requester gateway. See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRequesterGatewayAsync(AwsRtbfabricUpdateRequesterGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRequesterGatewayAsync(AwsRtbfabricUpdateRequesterGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the description, Auto Scaling group managed endpoint configura- tion, trust store configuration, and client routing policy of a respon- der gateway. This operation also updates the protocols list in the lis- tener configuration. You cannot change the domainName , port , and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one. See also: AWS API Documentation
@@ -383,7 +348,6 @@ public interface IAwsRtbfabric
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResponderGatewayAsync(AwsRtbfabricUpdateResponderGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResponderGatewayAsync(AwsRtbfabricUpdateResponderGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

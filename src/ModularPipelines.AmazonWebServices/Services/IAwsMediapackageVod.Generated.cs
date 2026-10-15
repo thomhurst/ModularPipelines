@@ -28,8 +28,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConfigureLogsAsync(AwsMediapackageVodConfigureLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConfigureLogsAsync(AwsMediapackageVodConfigureLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new MediaPackage VOD Asset resource. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssetAsync(AwsMediapackageVodCreateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssetAsync(AwsMediapackageVodCreateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new MediaPackage VOD PackagingConfiguration resource. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePackagingConfigurationAsync(AwsMediapackageVodCreatePackagingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePackagingConfigurationAsync(AwsMediapackageVodCreatePackagingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new MediaPackage VOD PackagingGroup resource. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePackagingGroupAsync(AwsMediapackageVodCreatePackagingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePackagingGroupAsync(AwsMediapackageVodCreatePackagingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing MediaPackage VOD Asset resource. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetAsync(AwsMediapackageVodDeleteAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetAsync(AwsMediapackageVodDeleteAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a MediaPackage VOD PackagingConfiguration resource. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePackagingConfigurationAsync(AwsMediapackageVodDeletePackagingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePackagingConfigurationAsync(AwsMediapackageVodDeletePackagingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a MediaPackage VOD PackagingGroup resource. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePackagingGroupAsync(AwsMediapackageVodDeletePackagingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePackagingGroupAsync(AwsMediapackageVodDeletePackagingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a MediaPackage VOD Asset resource. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAssetAsync(AwsMediapackageVodDescribeAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAssetAsync(AwsMediapackageVodDescribeAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a MediaPackage VOD PackagingConfiguration re- source. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePackagingConfigurationAsync(AwsMediapackageVodDescribePackagingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePackagingConfigurationAsync(AwsMediapackageVodDescribePackagingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a MediaPackage VOD PackagingGroup resource. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePackagingGroupAsync(AwsMediapackageVodDescribePackagingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePackagingGroupAsync(AwsMediapackageVodDescribePackagingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a collection of MediaPackage VOD Asset resources. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Assets
@@ -128,8 +118,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetsAsync(AwsMediapackageVodListAssetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetsAsync(AwsMediapackageVodListAssetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a collection of MediaPackage VOD PackagingConfiguration re- sources. See also: AWS API Documentation list-packaging-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PackagingC...
@@ -138,8 +127,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackagingConfigurationsAsync(AwsMediapackageVodListPackagingConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPackagingConfigurationsAsync(AwsMediapackageVodListPackagingConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a collection of MediaPackage VOD PackagingGroup resources. See also: AWS API Documentation list-packaging-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PackagingGroups
@@ -148,8 +136,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackagingGroupsAsync(AwsMediapackageVodListPackagingGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPackagingGroupsAsync(AwsMediapackageVodListPackagingGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the tags assigned to the specified resource. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsMediapackageVodListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsMediapackageVodListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to the specified resource. You can specify one or more tags to add. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsMediapackageVodTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsMediapackageVodTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified resource. You can specify one or more tags to remove. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsMediapackageVodUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsMediapackageVodUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes. See also: AWS API Documentation
@@ -188,7 +172,6 @@ public interface IAwsMediapackageVod
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePackagingGroupAsync(AwsMediapackageVodUpdatePackagingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePackagingGroupAsync(AwsMediapackageVodUpdatePackagingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

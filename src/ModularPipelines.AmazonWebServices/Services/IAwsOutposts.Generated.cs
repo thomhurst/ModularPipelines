@@ -28,8 +28,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelCapacityTaskAsync(AwsOutpostsCancelCapacityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelCapacityTaskAsync(AwsOutpostsCancelCapacityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the specified order for an Outpost. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelOrderAsync(AwsOutpostsCancelOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelOrderAsync(AwsOutpostsCancelOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an order for an Outpost. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOrderAsync(AwsOutpostsCreateOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOrderAsync(AwsOutpostsCreateOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Outpost. You can specify either an Availability one or an AZ ID. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOutpostAsync(AwsOutpostsCreateOutpostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOutpostAsync(AwsOutpostsCreateOutpostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the private connectivity configuration for the specified Out- post. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePrivateConnectivityConfigAsync(AwsOutpostsCreatePrivateConnectivityConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePrivateConnectivityConfigAsync(AwsOutpostsCreatePrivateConnectivityConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a quote for an Outpost. A quote provides pricing and configura- tion options based on the requested capacity. You can optionally asso- ciate the quote with an existing Outpost or create a standalone quote by specifying only the country code and requested capacities. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQuoteAsync(AwsOutpostsCreateQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQuoteAsync(AwsOutpostsCreateQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a renewal contract for the specified Outpost. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRenewalAsync(AwsOutpostsCreateRenewalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRenewalAsync(AwsOutpostsCreateRenewalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a site for an Outpost. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSiteAsync(AwsOutpostsCreateSiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSiteAsync(AwsOutpostsCreateSiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Outpost. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOutpostAsync(AwsOutpostsDeleteOutpostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOutpostAsync(AwsOutpostsDeleteOutpostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified quote. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQuoteAsync(AwsOutpostsDeleteQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQuoteAsync(AwsOutpostsDeleteQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified site. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSiteAsync(AwsOutpostsDeleteSiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSiteAsync(AwsOutpostsDeleteSiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details of the specified capacity task. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCapacityTaskAsync(AwsOutpostsGetCapacityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCapacityTaskAsync(AwsOutpostsGetCapacityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified catalog item. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCatalogItemAsync(AwsOutpostsGetCatalogItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCatalogItemAsync(AwsOutpostsGetCatalogItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: AWS API Docum...
@@ -158,8 +145,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionAsync(AwsOutpostsGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionAsync(AwsOutpostsGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified order. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOrderAsync(AwsOutpostsGetOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOrderAsync(AwsOutpostsGetOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets current and historical billing information about the specified Outpost. See also: AWS API Documentation get-outpost-billing-information is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscrip...
@@ -178,8 +163,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOutpostBillingInformationAsync(AwsOutpostsGetOutpostBillingInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOutpostBillingInformationAsync(AwsOutpostsGetOutpostBillingInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the instance types for the specified Outpost. See also: AWS API Documentation get-outpost-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InstanceTypes
@@ -188,8 +172,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOutpostInstanceTypesAsync(AwsOutpostsGetOutpostInstanceTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOutpostInstanceTypesAsync(AwsOutpostsGetOutpostInstanceTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified Outpost. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOutpostAsync(AwsOutpostsGetOutpostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOutpostAsync(AwsOutpostsGetOutpostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the instance types that an Outpost can support in InstanceTypeCa- pacity . This will generally include instance types that are not cur- rently configured and therefore cannot be launched with the current Outpost capacity configuration. See also: AWS API Documentation get-outpost-supported-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When u...
@@ -208,8 +190,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOutpostSupportedInstanceTypesAsync(AwsOutpostsGetOutpostSupportedInstanceTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOutpostSupportedInstanceTypesAsync(AwsOutpostsGetOutpostSupportedInstanceTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the private connectivity configuration for the specified Outpost. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPrivateConnectivityConfigAsync(AwsOutpostsGetPrivateConnectivityConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPrivateConnectivityConfigAsync(AwsOutpostsGetPrivateConnectivityConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified quote. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQuoteAsync(AwsOutpostsGetQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQuoteAsync(AwsOutpostsGetQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all available renewal pricing options for the specified Outpost. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRenewalPricingAsync(AwsOutpostsGetRenewalPricingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRenewalPricingAsync(AwsOutpostsGetRenewalPricingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the site address of the specified site. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSiteAddressAsync(AwsOutpostsGetSiteAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSiteAddressAsync(AwsOutpostsGetSiteAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified Outpost site. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSiteAsync(AwsOutpostsGetSiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSiteAsync(AwsOutpostsGetSiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost. Does not include Amazon EBS or Amazon S3 in- stances. See also: AWS API Documentation list-asset-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
@@ -268,8 +244,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetInstancesAsync(AwsOutpostsListAssetInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetInstancesAsync(AwsOutpostsListAssetInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of resul...
@@ -278,8 +253,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetsAsync(AwsOutpostsListAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetsAsync(AwsOutpostsListAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task. See also: AWS API Documentation list-blocking-instances-for-capacity-task is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text a...
@@ -288,8 +262,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBlockingInstancesForCapacityTaskAsync(AwsOutpostsListBlockingInstancesForCapacityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBlockingInstancesForCapacityTaskAsync(AwsOutpostsListBlockingInstancesForCapacityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-capacity-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire...
@@ -298,8 +271,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCapacityTasksAsync(AwsOutpostsListCapacityTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCapacityTasksAsync(AwsOutpostsListCapacityTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-catalog-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can di...
@@ -308,8 +280,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCatalogItemsAsync(AwsOutpostsListCatalogItemsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCatalogItemsAsync(AwsOutpostsListCatalogItemsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the instance types that can be ordered for an Outpost. You can filter the results by Outpost generation. See also: AWS API Documentation list-orderable-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
@@ -318,8 +289,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrderableInstanceTypesAsync(AwsOutpostsListOrderableInstanceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrderableInstanceTypesAsync(AwsOutpostsListOrderableInstanceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Outpost orders for your Amazon Web Services account. See also: AWS API Documentation list-orders is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Orders
@@ -328,8 +298,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrdersAsync(AwsOutpostsListOrdersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrdersAsync(AwsOutpostsListOrdersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-outposts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set ...
@@ -338,8 +307,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOutpostsAsync(AwsOutpostsListOutpostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOutpostsAsync(AwsOutpostsListOutpostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the quotes for your Amazon Web Services account. See also: AWS API Documentation list-quotes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Quotes
@@ -348,8 +316,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQuotesAsync(AwsOutpostsListQuotesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQuotesAsync(AwsOutpostsListQuotesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Outpost sites for your Amazon Web Services account. Use fil- ters to return specific results. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-sites is a paginated operation. Multiple API calls may be issued...
@@ -358,8 +325,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSitesAsync(AwsOutpostsListSitesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSitesAsync(AwsOutpostsListSitesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for the specified resource. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsOutpostsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsOutpostsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCapacityTaskAsync(AwsOutpostsStartCapacityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCapacityTaskAsync(AwsOutpostsStartCapacityTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also...
@@ -388,8 +352,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartConnectionAsync(AwsOutpostsStartConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartConnectionAsync(AwsOutpostsStartConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the decommission process to return the Outposts racks or servers. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartOutpostDecommissionAsync(AwsOutpostsStartOutpostDecommissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartOutpostDecommissionAsync(AwsOutpostsStartOutpostDecommissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to the specified resource. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsOutpostsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsOutpostsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified resource. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsOutpostsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsOutpostsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an Outpost. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOutpostAsync(AwsOutpostsUpdateOutpostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOutpostAsync(AwsOutpostsUpdateOutpostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified quote. You can modify the requested capacities, constraints, payment options, payment terms, or Outpost association. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQuoteAsync(AwsOutpostsUpdateQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQuoteAsync(AwsOutpostsUpdateQuoteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order to complete or cancel the order. You can update the operating address before you place an order at the site, or after all Outposts that belong to the site have been deacti- vated. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSiteAddressAsync(AwsOutpostsUpdateSiteAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSiteAddressAsync(AwsOutpostsUpdateSiteAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified site. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSiteAsync(AwsOutpostsUpdateSiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSiteAsync(AwsOutpostsUpdateSiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the physical and logistical details for a rack at a site. For more information about hardware requirements for racks, see Network readiness checklist in the Amazon Web Services Outposts User Guide. To update a rack at a site with an order of IN_PROGRESS , you must wait for the order to complete or cancel the order. See also: AWS API Documentation
@@ -468,7 +424,6 @@ public interface IAwsOutposts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSiteRackPhysicalPropertiesAsync(AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSiteRackPhysicalPropertiesAsync(AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

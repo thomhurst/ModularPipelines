@@ -4181,6 +4181,7 @@ var aws = context.Tools.Aws;
 | `aws connect create-auth-code` | `AwsConnectCreateAuthCodeOptions` |
 | `aws connect create-contact` | `AwsConnectCreateContactOptions` |
 | `aws connect create-contact-flow` | `AwsConnectCreateContactFlowOptions` |
+| `aws connect create-contact-flow-alias` | `AwsConnectCreateContactFlowAliasOptions` |
 | `aws connect create-contact-flow-module` | `AwsConnectCreateContactFlowModuleOptions` |
 | `aws connect create-contact-flow-module-alias` | `AwsConnectCreateContactFlowModuleAliasOptions` |
 | `aws connect create-contact-flow-module-version` | `AwsConnectCreateContactFlowModuleVersionOptions` |
@@ -4222,6 +4223,7 @@ var aws = context.Tools.Aws;
 | `aws connect delete-contact-data` | `AwsConnectDeleteContactDataOptions` |
 | `aws connect delete-contact-evaluation` | `AwsConnectDeleteContactEvaluationOptions` |
 | `aws connect delete-contact-flow` | `AwsConnectDeleteContactFlowOptions` |
+| `aws connect delete-contact-flow-alias` | `AwsConnectDeleteContactFlowAliasOptions` |
 | `aws connect delete-contact-flow-module` | `AwsConnectDeleteContactFlowModuleOptions` |
 | `aws connect delete-contact-flow-module-alias` | `AwsConnectDeleteContactFlowModuleAliasOptions` |
 | `aws connect delete-contact-flow-module-version` | `AwsConnectDeleteContactFlowModuleVersionOptions` |
@@ -4264,6 +4266,7 @@ var aws = context.Tools.Aws;
 | `aws connect describe-contact` | `AwsConnectDescribeContactOptions` |
 | `aws connect describe-contact-evaluation` | `AwsConnectDescribeContactEvaluationOptions` |
 | `aws connect describe-contact-flow` | `AwsConnectDescribeContactFlowOptions` |
+| `aws connect describe-contact-flow-alias` | `AwsConnectDescribeContactFlowAliasOptions` |
 | `aws connect describe-contact-flow-module` | `AwsConnectDescribeContactFlowModuleOptions` |
 | `aws connect describe-contact-flow-module-alias` | `AwsConnectDescribeContactFlowModuleAliasOptions` |
 | `aws connect describe-data-table` | `AwsConnectDescribeDataTableOptions` |
@@ -4342,6 +4345,7 @@ var aws = context.Tools.Aws;
 | `aws connect list-bots` | `AwsConnectListBotsOptions` |
 | `aws connect list-child-hours-of-operations` | `AwsConnectListChildHoursOfOperationsOptions` |
 | `aws connect list-contact-evaluations` | `AwsConnectListContactEvaluationsOptions` |
+| `aws connect list-contact-flow-aliases` | `AwsConnectListContactFlowAliasesOptions` |
 | `aws connect list-contact-flow-module-aliases` | `AwsConnectListContactFlowModuleAliasesOptions` |
 | `aws connect list-contact-flow-module-versions` | `AwsConnectListContactFlowModuleVersionsOptions` |
 | `aws connect list-contact-flow-modules` | `AwsConnectListContactFlowModulesOptions` |
@@ -4478,6 +4482,7 @@ var aws = context.Tools.Aws;
 | `aws connect update-contact` | `AwsConnectUpdateContactOptions` |
 | `aws connect update-contact-attributes` | `AwsConnectUpdateContactAttributesOptions` |
 | `aws connect update-contact-evaluation` | `AwsConnectUpdateContactEvaluationOptions` |
+| `aws connect update-contact-flow-alias` | `AwsConnectUpdateContactFlowAliasOptions` |
 | `aws connect update-contact-flow-content` | `AwsConnectUpdateContactFlowContentOptions` |
 | `aws connect update-contact-flow-metadata` | `AwsConnectUpdateContactFlowMetadataOptions` |
 | `aws connect update-contact-flow-module-alias` | `AwsConnectUpdateContactFlowModuleAliasOptions` |
@@ -5283,6 +5288,7 @@ var aws = context.Tools.Aws;
 | `aws deadline list-jobs` | `AwsDeadlineListJobsOptions` |
 | `aws deadline list-license-endpoints` | `AwsDeadlineListLicenseEndpointsOptions` |
 | `aws deadline list-limits` | `AwsDeadlineListLimitsOptions` |
+| `aws deadline list-memberships` | `AwsDeadlineListMembershipsOptions` |
 | `aws deadline list-metered-products` | `AwsDeadlineListMeteredProductsOptions` |
 | `aws deadline list-monitors` | `AwsDeadlineListMonitorsOptions` |
 | `aws deadline list-queue-environments` | `AwsDeadlineListQueueEnvironmentsOptions` |
@@ -7663,6 +7669,35 @@ var aws = context.Tools.Aws;
 | `aws emr-serverless terminate-session` | `AwsEmrServerlessTerminateSessionOptions` |
 | `aws emr-serverless untag-resource` | `AwsEmrServerlessUntagResourceOptions` |
 | `aws emr-serverless update-application` | `AwsEmrServerlessUpdateApplicationOptions` |
+| `aws endusermessaging create-brand-profile` | `AwsEndusermessagingCreateBrandProfileOptions` |
+| `aws endusermessaging create-brand-profile-attributes` | `AwsEndusermessagingCreateBrandProfileAttributesOptions` |
+| `aws endusermessaging create-brand-profile-from-registration` | `AwsEndusermessagingCreateBrandProfileFromRegistrationOptions` |
+| `aws endusermessaging create-notify-code-configuration` | `AwsEndusermessagingCreateNotifyCodeConfigurationOptions` |
+| `aws endusermessaging create-registrations-from-brand-profile` | `AwsEndusermessagingCreateRegistrationsFromBrandProfileOptions` |
+| `aws endusermessaging delete-brand-profile` | `AwsEndusermessagingDeleteBrandProfileOptions` |
+| `aws endusermessaging delete-brand-profile-attribute` | `AwsEndusermessagingDeleteBrandProfileAttributeOptions` |
+| `aws endusermessaging delete-notify-code-configuration` | `AwsEndusermessagingDeleteNotifyCodeConfigurationOptions` |
+| `aws endusermessaging get-brand-profile` | `AwsEndusermessagingGetBrandProfileOptions` |
+| `aws endusermessaging get-brand-profile-attribute` | `AwsEndusermessagingGetBrandProfileAttributeOptions` |
+| `aws endusermessaging get-job` | `AwsEndusermessagingGetJobOptions` |
+| `aws endusermessaging get-notify-code-configuration` | `AwsEndusermessagingGetNotifyCodeConfigurationOptions` |
+| `aws endusermessaging list-brand-profile-attributes` | `AwsEndusermessagingListBrandProfileAttributesOptions` |
+| `aws endusermessaging list-brand-profiles` | `AwsEndusermessagingListBrandProfilesOptions` |
+| `aws endusermessaging list-jobs` | `AwsEndusermessagingListJobsOptions` |
+| `aws endusermessaging list-notify-code-configurations` | `AwsEndusermessagingListNotifyCodeConfigurationsOptions` |
+| `aws endusermessaging list-registrations-from-brand-profile` | `AwsEndusermessagingListRegistrationsFromBrandProfileOptions` |
+| `aws endusermessaging list-tags-for-resource` | `AwsEndusermessagingListTagsForResourceOptions` |
+| `aws endusermessaging send-notify-code-verification` | `AwsEndusermessagingSendNotifyCodeVerificationOptions` |
+| `aws endusermessaging tag-resource` | `AwsEndusermessagingTagResourceOptions` |
+| `aws endusermessaging untag-resource` | `AwsEndusermessagingUntagResourceOptions` |
+| `aws endusermessaging update-brand-profile` | `AwsEndusermessagingUpdateBrandProfileOptions` |
+| `aws endusermessaging update-brand-profile-attribute` | `AwsEndusermessagingUpdateBrandProfileAttributeOptions` |
+| `aws endusermessaging update-brand-profile-from-registration` | `AwsEndusermessagingUpdateBrandProfileFromRegistrationOptions` |
+| `aws endusermessaging update-notify-code-configuration` | `AwsEndusermessagingUpdateNotifyCodeConfigurationOptions` |
+| `aws endusermessaging update-registrations-from-brand-profile` | `AwsEndusermessagingUpdateRegistrationsFromBrandProfileOptions` |
+| `aws endusermessaging validate-notify-code-verification` | `AwsEndusermessagingValidateNotifyCodeVerificationOptions` |
+| `aws endusermessaging wait brand-profile-active` | `AwsEndusermessagingWaitBrandProfileActiveOptions` |
+| `aws endusermessaging wait job-success` | `AwsEndusermessagingWaitJobSuccessOptions` |
 | `aws entityresolution add-policy-statement` | `AwsEntityresolutionAddPolicyStatementOptions` |
 | `aws entityresolution batch-delete-unique-id` | `AwsEntityresolutionBatchDeleteUniqueIdOptions` |
 | `aws entityresolution create-id-mapping-workflow` | `AwsEntityresolutionCreateIdMappingWorkflowOptions` |
@@ -8453,6 +8488,7 @@ var aws = context.Tools.Aws;
 | `aws glue batch-get-crawlers` | `AwsGlueBatchGetCrawlersOptions` |
 | `aws glue batch-get-custom-entity-types` | `AwsGlueBatchGetCustomEntityTypesOptions` |
 | `aws glue batch-get-data-quality-result` | `AwsGlueBatchGetDataQualityResultOptions` |
+| `aws glue batch-get-data-quality-result-v2` | `AwsGlueBatchGetDataQualityResultV2Options` |
 | `aws glue batch-get-data-quality-ruleset-evaluation-run` | `AwsGlueBatchGetDataQualityRulesetEvaluationRunOptions` |
 | `aws glue batch-get-dev-endpoints` | `AwsGlueBatchGetDevEndpointsOptions` |
 | `aws glue batch-get-iterable-forms` | `AwsGlueBatchGetIterableFormsOptions` |
@@ -8572,6 +8608,7 @@ var aws = context.Tools.Aws;
 | `aws glue get-data-quality-model` | `AwsGlueGetDataQualityModelOptions` |
 | `aws glue get-data-quality-model-result` | `AwsGlueGetDataQualityModelResultOptions` |
 | `aws glue get-data-quality-result` | `AwsGlueGetDataQualityResultOptions` |
+| `aws glue get-data-quality-result-v2` | `AwsGlueGetDataQualityResultV2Options` |
 | `aws glue get-data-quality-rule-recommendation-run` | `AwsGlueGetDataQualityRuleRecommendationRunOptions` |
 | `aws glue get-data-quality-ruleset` | `AwsGlueGetDataQualityRulesetOptions` |
 | `aws glue get-data-quality-ruleset-evaluation-run` | `AwsGlueGetDataQualityRulesetEvaluationRunOptions` |
@@ -8614,6 +8651,8 @@ var aws = context.Tools.Aws;
 | `aws glue get-session` | `AwsGlueGetSessionOptions` |
 | `aws glue get-session-endpoint` | `AwsGlueGetSessionEndpointOptions` |
 | `aws glue get-statement` | `AwsGlueGetStatementOptions` |
+| `aws glue get-system-logs-for-job-run` | `AwsGlueGetSystemLogsForJobRunOptions` |
+| `aws glue get-system-logs-for-session` | `AwsGlueGetSystemLogsForSessionOptions` |
 | `aws glue get-table` | `AwsGlueGetTableOptions` |
 | `aws glue get-table-optimizer` | `AwsGlueGetTableOptimizerOptions` |
 | `aws glue get-table-version` | `AwsGlueGetTableVersionOptions` |
@@ -8641,6 +8680,7 @@ var aws = context.Tools.Aws;
 | `aws glue list-crawls` | `AwsGlueListCrawlsOptions` |
 | `aws glue list-custom-entity-types` | `AwsGlueListCustomEntityTypesOptions` |
 | `aws glue list-data-quality-results` | `AwsGlueListDataQualityResultsOptions` |
+| `aws glue list-data-quality-results-v2` | `AwsGlueListDataQualityResultsV2Options` |
 | `aws glue list-data-quality-rule-recommendation-runs` | `AwsGlueListDataQualityRuleRecommendationRunsOptions` |
 | `aws glue list-data-quality-ruleset-evaluation-runs` | `AwsGlueListDataQualityRulesetEvaluationRunsOptions` |
 | `aws glue list-data-quality-rulesets` | `AwsGlueListDataQualityRulesetsOptions` |
@@ -8667,6 +8707,7 @@ var aws = context.Tools.Aws;
 | `aws glue list-usage-profiles` | `AwsGlueListUsageProfilesOptions` |
 | `aws glue list-workflows` | `AwsGlueListWorkflowsOptions` |
 | `aws glue modify-integration` | `AwsGlueModifyIntegrationOptions` |
+| `aws glue publish-data-quality-result-v2` | `AwsGluePublishDataQualityResultV2Options` |
 | `aws glue put-asset` | `AwsGluePutAssetOptions` |
 | `aws glue put-asset-type` | `AwsGluePutAssetTypeOptions` |
 | `aws glue put-attachment` | `AwsGluePutAttachmentOptions` |
@@ -9042,6 +9083,7 @@ var aws = context.Tools.Aws;
 | `aws health describe-events` | `AwsHealthDescribeEventsOptions` |
 | `aws health describe-events-for-organization` | `AwsHealthDescribeEventsForOrganizationOptions` |
 | `aws health describe-health-service-status-for-organization` | `AwsHealthDescribeHealthServiceStatusForOrganizationOptions` |
+| `aws health describe-service-lifecycle` | `AwsHealthDescribeServiceLifecycleOptions` |
 | `aws health disable-health-service-access-for-organization` | `AwsHealthDisableHealthServiceAccessForOrganizationOptions` |
 | `aws health enable-health-service-access-for-organization` | `AwsHealthEnableHealthServiceAccessForOrganizationOptions` |
 | `aws healthlake create-data-transformation-profile` | `AwsHealthlakeCreateDataTransformationProfileOptions` |
@@ -10765,6 +10807,7 @@ var aws = context.Tools.Aws;
 | `aws kms verify-mac` | `AwsKmsVerifyMacOptions` |
 | `aws lakeformation add-lf-tags-to-resource` | `AwsLakeformationAddLfTagsToResourceOptions` |
 | `aws lakeformation assume-decorated-role-with-saml` | `AwsLakeformationAssumeDecoratedRoleWithSamlOptions` |
+| `aws lakeformation attach-rls-policy` | `AwsLakeformationAttachRlsPolicyOptions` |
 | `aws lakeformation batch-grant-permissions` | `AwsLakeformationBatchGrantPermissionsOptions` |
 | `aws lakeformation batch-revoke-permissions` | `AwsLakeformationBatchRevokePermissionsOptions` |
 | `aws lakeformation cancel-transaction` | `AwsLakeformationCancelTransactionOptions` |
@@ -10774,16 +10817,19 @@ var aws = context.Tools.Aws;
 | `aws lakeformation create-lake-formation-opt-in` | `AwsLakeformationCreateLakeFormationOptInOptions` |
 | `aws lakeformation create-lf-tag` | `AwsLakeformationCreateLfTagOptions` |
 | `aws lakeformation create-lf-tag-expression` | `AwsLakeformationCreateLfTagExpressionOptions` |
+| `aws lakeformation create-rls-policy` | `AwsLakeformationCreateRlsPolicyOptions` |
 | `aws lakeformation delete-data-cells-filter` | `AwsLakeformationDeleteDataCellsFilterOptions` |
 | `aws lakeformation delete-lake-formation-identity-center-configuration` | `AwsLakeformationDeleteLakeFormationIdentityCenterConfigurationOptions` |
 | `aws lakeformation delete-lake-formation-opt-in` | `AwsLakeformationDeleteLakeFormationOptInOptions` |
 | `aws lakeformation delete-lf-tag` | `AwsLakeformationDeleteLfTagOptions` |
 | `aws lakeformation delete-lf-tag-expression` | `AwsLakeformationDeleteLfTagExpressionOptions` |
 | `aws lakeformation delete-objects-on-cancel` | `AwsLakeformationDeleteObjectsOnCancelOptions` |
+| `aws lakeformation delete-rls-policy` | `AwsLakeformationDeleteRlsPolicyOptions` |
 | `aws lakeformation deregister-resource` | `AwsLakeformationDeregisterResourceOptions` |
 | `aws lakeformation describe-lake-formation-identity-center-configuration` | `AwsLakeformationDescribeLakeFormationIdentityCenterConfigurationOptions` |
 | `aws lakeformation describe-resource` | `AwsLakeformationDescribeResourceOptions` |
 | `aws lakeformation describe-transaction` | `AwsLakeformationDescribeTransactionOptions` |
+| `aws lakeformation detach-rls-policy` | `AwsLakeformationDetachRlsPolicyOptions` |
 | `aws lakeformation extend-transaction` | `AwsLakeformationExtendTransactionOptions` |
 | `aws lakeformation get-data-cells-filter` | `AwsLakeformationGetDataCellsFilterOptions` |
 | `aws lakeformation get-data-lake-principal` | `AwsLakeformationGetDataLakePrincipalOptions` |
@@ -10794,6 +10840,7 @@ var aws = context.Tools.Aws;
 | `aws lakeformation get-query-state` | `AwsLakeformationGetQueryStateOptions` |
 | `aws lakeformation get-query-statistics` | `AwsLakeformationGetQueryStatisticsOptions` |
 | `aws lakeformation get-resource-lf-tags` | `AwsLakeformationGetResourceLfTagsOptions` |
+| `aws lakeformation get-rls-policy` | `AwsLakeformationGetRlsPolicyOptions` |
 | `aws lakeformation get-table-objects` | `AwsLakeformationGetTableObjectsOptions` |
 | `aws lakeformation get-temporary-data-location-credentials` | `AwsLakeformationGetTemporaryDataLocationCredentialsOptions` |
 | `aws lakeformation get-temporary-glue-partition-credentials` | `AwsLakeformationGetTemporaryGluePartitionCredentialsOptions` |
@@ -10807,6 +10854,8 @@ var aws = context.Tools.Aws;
 | `aws lakeformation list-lf-tags` | `AwsLakeformationListLfTagsOptions` |
 | `aws lakeformation list-permissions` | `AwsLakeformationListPermissionsOptions` |
 | `aws lakeformation list-resources` | `AwsLakeformationListResourcesOptions` |
+| `aws lakeformation list-rls-policies` | `AwsLakeformationListRlsPoliciesOptions` |
+| `aws lakeformation list-rls-policy-attachments` | `AwsLakeformationListRlsPolicyAttachmentsOptions` |
 | `aws lakeformation list-table-storage-optimizers` | `AwsLakeformationListTableStorageOptimizersOptions` |
 | `aws lakeformation list-transactions` | `AwsLakeformationListTransactionsOptions` |
 | `aws lakeformation put-data-lake-settings` | `AwsLakeformationPutDataLakeSettingsOptions` |
@@ -10822,6 +10871,7 @@ var aws = context.Tools.Aws;
 | `aws lakeformation update-lf-tag` | `AwsLakeformationUpdateLfTagOptions` |
 | `aws lakeformation update-lf-tag-expression` | `AwsLakeformationUpdateLfTagExpressionOptions` |
 | `aws lakeformation update-resource` | `AwsLakeformationUpdateResourceOptions` |
+| `aws lakeformation update-rls-policy` | `AwsLakeformationUpdateRlsPolicyOptions` |
 | `aws lakeformation update-table-objects` | `AwsLakeformationUpdateTableObjectsOptions` |
 | `aws lakeformation update-table-storage-optimizer` | `AwsLakeformationUpdateTableStorageOptimizerOptions` |
 | `aws lambda add-layer-version-permission` | `AwsLambdaAddLayerVersionPermissionOptions` |
@@ -10921,6 +10971,7 @@ var aws = context.Tools.Aws;
 | `aws lambda-core create-network-connector` | `AwsLambdaCoreCreateNetworkConnectorOptions` |
 | `aws lambda-core delete-network-connector` | `AwsLambdaCoreDeleteNetworkConnectorOptions` |
 | `aws lambda-core get-network-connector` | `AwsLambdaCoreGetNetworkConnectorOptions` |
+| `aws lambda-core list-network-connector-versions` | `AwsLambdaCoreListNetworkConnectorVersionsOptions` |
 | `aws lambda-core list-network-connectors` | `AwsLambdaCoreListNetworkConnectorsOptions` |
 | `aws lambda-core update-network-connector` | `AwsLambdaCoreUpdateNetworkConnectorOptions` |
 | `aws lambda-microvms create-microvm-auth-token` | `AwsLambdaMicrovmsCreateMicrovmAuthTokenOptions` |
@@ -10947,6 +10998,33 @@ var aws = context.Tools.Aws;
 | `aws lambda-microvms untag-resource` | `AwsLambdaMicrovmsUntagResourceOptions` |
 | `aws lambda-microvms update-microvm-image` | `AwsLambdaMicrovmsUpdateMicrovmImageOptions` |
 | `aws lambda-microvms update-microvm-image-version` | `AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions` |
+| `aws lambda-web create-web-function` | `AwsLambdaWebCreateWebFunctionOptions` |
+| `aws lambda-web create-web-function-endpoint` | `AwsLambdaWebCreateWebFunctionEndpointOptions` |
+| `aws lambda-web create-web-function-revision` | `AwsLambdaWebCreateWebFunctionRevisionOptions` |
+| `aws lambda-web delete-resource-policy` | `AwsLambdaWebDeleteResourcePolicyOptions` |
+| `aws lambda-web delete-web-function` | `AwsLambdaWebDeleteWebFunctionOptions` |
+| `aws lambda-web delete-web-function-endpoint` | `AwsLambdaWebDeleteWebFunctionEndpointOptions` |
+| `aws lambda-web delete-web-function-revision` | `AwsLambdaWebDeleteWebFunctionRevisionOptions` |
+| `aws lambda-web deploy` | `AwsLambdaWebDeployOptions` |
+| `aws lambda-web get-resource-policy` | `AwsLambdaWebGetResourcePolicyOptions` |
+| `aws lambda-web get-web-account-settings` | `AwsLambdaWebGetWebAccountSettingsOptions` |
+| `aws lambda-web get-web-function` | `AwsLambdaWebGetWebFunctionOptions` |
+| `aws lambda-web get-web-function-endpoint` | `AwsLambdaWebGetWebFunctionEndpointOptions` |
+| `aws lambda-web get-web-function-revision` | `AwsLambdaWebGetWebFunctionRevisionOptions` |
+| `aws lambda-web list-tags` | `AwsLambdaWebListTagsOptions` |
+| `aws lambda-web list-web-function-endpoints` | `AwsLambdaWebListWebFunctionEndpointsOptions` |
+| `aws lambda-web list-web-function-revisions` | `AwsLambdaWebListWebFunctionRevisionsOptions` |
+| `aws lambda-web list-web-functions` | `AwsLambdaWebListWebFunctionsOptions` |
+| `aws lambda-web put-resource-policy` | `AwsLambdaWebPutResourcePolicyOptions` |
+| `aws lambda-web tag-resource` | `AwsLambdaWebTagResourceOptions` |
+| `aws lambda-web untag-resource` | `AwsLambdaWebUntagResourceOptions` |
+| `aws lambda-web update-web-function-endpoint` | `AwsLambdaWebUpdateWebFunctionEndpointOptions` |
+| `aws lambda-web wait web-function-active` | `AwsLambdaWebWaitWebFunctionActiveOptions` |
+| `aws lambda-web wait web-function-deleted` | `AwsLambdaWebWaitWebFunctionDeletedOptions` |
+| `aws lambda-web wait web-function-endpoint-active` | `AwsLambdaWebWaitWebFunctionEndpointActiveOptions` |
+| `aws lambda-web wait web-function-endpoint-deleted` | `AwsLambdaWebWaitWebFunctionEndpointDeletedOptions` |
+| `aws lambda-web wait web-function-endpoint-updated` | `AwsLambdaWebWaitWebFunctionEndpointUpdatedOptions` |
+| `aws lambda-web wait web-function-revision-active` | `AwsLambdaWebWaitWebFunctionRevisionActiveOptions` |
 | `aws launch-wizard create-deployment` | `AwsLaunchWizardCreateDeploymentOptions` |
 | `aws launch-wizard delete-deployment` | `AwsLaunchWizardDeleteDeploymentOptions` |
 | `aws launch-wizard get-deployment` | `AwsLaunchWizardGetDeploymentOptions` |
@@ -15530,38 +15608,38 @@ var aws = context.Tools.Aws;
 | `aws resiliencehubv2 wait report-succeeded` | `AwsResiliencehubv2WaitReportSucceededOptions` |
 | `aws resiliencehubv2 wait service-assessment-completed` | `AwsResiliencehubv2WaitServiceAssessmentCompletedOptions` |
 | `aws resiliencehubv2 wait service-resource-discovery-completed` | `AwsResiliencehubv2WaitServiceResourceDiscoveryCompletedOptions` |
-| `aws resource-explorer-2 associate-default-view` | `AwsResourceExplorer_2AssociateDefaultViewOptions` |
-| `aws resource-explorer-2 batch-get-view` | `AwsResourceExplorer_2BatchGetViewOptions` |
-| `aws resource-explorer-2 create-index` | `AwsResourceExplorer_2CreateIndexOptions` |
-| `aws resource-explorer-2 create-resource-explorer-setup` | `AwsResourceExplorer_2CreateResourceExplorerSetupOptions` |
-| `aws resource-explorer-2 create-view` | `AwsResourceExplorer_2CreateViewOptions` |
-| `aws resource-explorer-2 delete-index` | `AwsResourceExplorer_2DeleteIndexOptions` |
-| `aws resource-explorer-2 delete-resource-explorer-setup` | `AwsResourceExplorer_2DeleteResourceExplorerSetupOptions` |
-| `aws resource-explorer-2 delete-view` | `AwsResourceExplorer_2DeleteViewOptions` |
-| `aws resource-explorer-2 disassociate-default-view` | `AwsResourceExplorer_2DisassociateDefaultViewOptions` |
-| `aws resource-explorer-2 get-account-level-service-configuration` | `AwsResourceExplorer_2GetAccountLevelServiceConfigurationOptions` |
-| `aws resource-explorer-2 get-default-view` | `AwsResourceExplorer_2GetDefaultViewOptions` |
-| `aws resource-explorer-2 get-index` | `AwsResourceExplorer_2GetIndexOptions` |
-| `aws resource-explorer-2 get-managed-view` | `AwsResourceExplorer_2GetManagedViewOptions` |
-| `aws resource-explorer-2 get-resource-explorer-setup` | `AwsResourceExplorer_2GetResourceExplorerSetupOptions` |
-| `aws resource-explorer-2 get-service-index` | `AwsResourceExplorer_2GetServiceIndexOptions` |
-| `aws resource-explorer-2 get-service-view` | `AwsResourceExplorer_2GetServiceViewOptions` |
-| `aws resource-explorer-2 get-view` | `AwsResourceExplorer_2GetViewOptions` |
-| `aws resource-explorer-2 list-indexes` | `AwsResourceExplorer_2ListIndexesOptions` |
-| `aws resource-explorer-2 list-indexes-for-members` | `AwsResourceExplorer_2ListIndexesForMembersOptions` |
-| `aws resource-explorer-2 list-managed-views` | `AwsResourceExplorer_2ListManagedViewsOptions` |
-| `aws resource-explorer-2 list-resources` | `AwsResourceExplorer_2ListResourcesOptions` |
-| `aws resource-explorer-2 list-service-indexes` | `AwsResourceExplorer_2ListServiceIndexesOptions` |
-| `aws resource-explorer-2 list-service-views` | `AwsResourceExplorer_2ListServiceViewsOptions` |
-| `aws resource-explorer-2 list-streaming-access-for-services` | `AwsResourceExplorer_2ListStreamingAccessForServicesOptions` |
-| `aws resource-explorer-2 list-supported-resource-types` | `AwsResourceExplorer_2ListSupportedResourceTypesOptions` |
-| `aws resource-explorer-2 list-tags-for-resource` | `AwsResourceExplorer_2ListTagsForResourceOptions` |
-| `aws resource-explorer-2 list-views` | `AwsResourceExplorer_2ListViewsOptions` |
-| `aws resource-explorer-2 search` | `AwsResourceExplorer_2SearchOptions` |
-| `aws resource-explorer-2 tag-resource` | `AwsResourceExplorer_2TagResourceOptions` |
-| `aws resource-explorer-2 untag-resource` | `AwsResourceExplorer_2UntagResourceOptions` |
-| `aws resource-explorer-2 update-index-type` | `AwsResourceExplorer_2UpdateIndexTypeOptions` |
-| `aws resource-explorer-2 update-view` | `AwsResourceExplorer_2UpdateViewOptions` |
+| `aws resource-explorer-2 associate-default-view` | `AwsResourceExplorerNumber2AssociateDefaultViewOptions` |
+| `aws resource-explorer-2 batch-get-view` | `AwsResourceExplorerNumber2BatchGetViewOptions` |
+| `aws resource-explorer-2 create-index` | `AwsResourceExplorerNumber2CreateIndexOptions` |
+| `aws resource-explorer-2 create-resource-explorer-setup` | `AwsResourceExplorerNumber2CreateResourceExplorerSetupOptions` |
+| `aws resource-explorer-2 create-view` | `AwsResourceExplorerNumber2CreateViewOptions` |
+| `aws resource-explorer-2 delete-index` | `AwsResourceExplorerNumber2DeleteIndexOptions` |
+| `aws resource-explorer-2 delete-resource-explorer-setup` | `AwsResourceExplorerNumber2DeleteResourceExplorerSetupOptions` |
+| `aws resource-explorer-2 delete-view` | `AwsResourceExplorerNumber2DeleteViewOptions` |
+| `aws resource-explorer-2 disassociate-default-view` | `AwsResourceExplorerNumber2DisassociateDefaultViewOptions` |
+| `aws resource-explorer-2 get-account-level-service-configuration` | `AwsResourceExplorerNumber2GetAccountLevelServiceConfigurationOptions` |
+| `aws resource-explorer-2 get-default-view` | `AwsResourceExplorerNumber2GetDefaultViewOptions` |
+| `aws resource-explorer-2 get-index` | `AwsResourceExplorerNumber2GetIndexOptions` |
+| `aws resource-explorer-2 get-managed-view` | `AwsResourceExplorerNumber2GetManagedViewOptions` |
+| `aws resource-explorer-2 get-resource-explorer-setup` | `AwsResourceExplorerNumber2GetResourceExplorerSetupOptions` |
+| `aws resource-explorer-2 get-service-index` | `AwsResourceExplorerNumber2GetServiceIndexOptions` |
+| `aws resource-explorer-2 get-service-view` | `AwsResourceExplorerNumber2GetServiceViewOptions` |
+| `aws resource-explorer-2 get-view` | `AwsResourceExplorerNumber2GetViewOptions` |
+| `aws resource-explorer-2 list-indexes` | `AwsResourceExplorerNumber2ListIndexesOptions` |
+| `aws resource-explorer-2 list-indexes-for-members` | `AwsResourceExplorerNumber2ListIndexesForMembersOptions` |
+| `aws resource-explorer-2 list-managed-views` | `AwsResourceExplorerNumber2ListManagedViewsOptions` |
+| `aws resource-explorer-2 list-resources` | `AwsResourceExplorerNumber2ListResourcesOptions` |
+| `aws resource-explorer-2 list-service-indexes` | `AwsResourceExplorerNumber2ListServiceIndexesOptions` |
+| `aws resource-explorer-2 list-service-views` | `AwsResourceExplorerNumber2ListServiceViewsOptions` |
+| `aws resource-explorer-2 list-streaming-access-for-services` | `AwsResourceExplorerNumber2ListStreamingAccessForServicesOptions` |
+| `aws resource-explorer-2 list-supported-resource-types` | `AwsResourceExplorerNumber2ListSupportedResourceTypesOptions` |
+| `aws resource-explorer-2 list-tags-for-resource` | `AwsResourceExplorerNumber2ListTagsForResourceOptions` |
+| `aws resource-explorer-2 list-views` | `AwsResourceExplorerNumber2ListViewsOptions` |
+| `aws resource-explorer-2 search` | `AwsResourceExplorerNumber2SearchOptions` |
+| `aws resource-explorer-2 tag-resource` | `AwsResourceExplorerNumber2TagResourceOptions` |
+| `aws resource-explorer-2 untag-resource` | `AwsResourceExplorerNumber2UntagResourceOptions` |
+| `aws resource-explorer-2 update-index-type` | `AwsResourceExplorerNumber2UpdateIndexTypeOptions` |
+| `aws resource-explorer-2 update-view` | `AwsResourceExplorerNumber2UpdateViewOptions` |
 | `aws resource-groups cancel-tag-sync-task` | `AwsResourceGroupsCancelTagSyncTaskOptions` |
 | `aws resource-groups create-group` | `AwsResourceGroupsCreateGroupOptions` |
 | `aws resource-groups delete-group` | `AwsResourceGroupsDeleteGroupOptions` |
@@ -15777,6 +15855,7 @@ var aws = context.Tools.Aws;
 | `aws route53domains enable-domain-transfer-lock` | `AwsRoute53domainsEnableDomainTransferLockOptions` |
 | `aws route53domains get-contact-reachability-status` | `AwsRoute53domainsGetContactReachabilityStatusOptions` |
 | `aws route53domains get-domain-detail` | `AwsRoute53domainsGetDomainDetailOptions` |
+| `aws route53domains get-domain-prices` | `AwsRoute53domainsGetDomainPricesOptions` |
 | `aws route53domains get-domain-suggestions` | `AwsRoute53domainsGetDomainSuggestionsOptions` |
 | `aws route53domains get-operation-detail` | `AwsRoute53domainsGetOperationDetailOptions` |
 | `aws route53domains list-domains` | `AwsRoute53domainsListDomainsOptions` |
@@ -16398,6 +16477,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker create-studio-lifecycle-config` | `AwsSagemakerCreateStudioLifecycleConfigOptions` |
 | `aws sagemaker create-training-job` | `AwsSagemakerCreateTrainingJobOptions` |
 | `aws sagemaker create-training-plan` | `AwsSagemakerCreateTrainingPlanOptions` |
+| `aws sagemaker create-training-session` | `AwsSagemakerCreateTrainingSessionOptions` |
 | `aws sagemaker create-transform-job` | `AwsSagemakerCreateTransformJobOptions` |
 | `aws sagemaker create-trial` | `AwsSagemakerCreateTrialOptions` |
 | `aws sagemaker create-trial-component` | `AwsSagemakerCreateTrialComponentOptions` |
@@ -16461,6 +16541,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker delete-studio-lifecycle-config` | `AwsSagemakerDeleteStudioLifecycleConfigOptions` |
 | `aws sagemaker delete-tags` | `AwsSagemakerDeleteTagsOptions` |
 | `aws sagemaker delete-training-job` | `AwsSagemakerDeleteTrainingJobOptions` |
+| `aws sagemaker delete-training-session` | `AwsSagemakerDeleteTrainingSessionOptions` |
 | `aws sagemaker delete-trial` | `AwsSagemakerDeleteTrialOptions` |
 | `aws sagemaker delete-trial-component` | `AwsSagemakerDeleteTrialComponentOptions` |
 | `aws sagemaker delete-user-profile` | `AwsSagemakerDeleteUserProfileOptions` |
@@ -16537,6 +16618,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker describe-training-job` | `AwsSagemakerDescribeTrainingJobOptions` |
 | `aws sagemaker describe-training-plan` | `AwsSagemakerDescribeTrainingPlanOptions` |
 | `aws sagemaker describe-training-plan-extension-history` | `AwsSagemakerDescribeTrainingPlanExtensionHistoryOptions` |
+| `aws sagemaker describe-training-session` | `AwsSagemakerDescribeTrainingSessionOptions` |
 | `aws sagemaker describe-transform-job` | `AwsSagemakerDescribeTransformJobOptions` |
 | `aws sagemaker describe-trial` | `AwsSagemakerDescribeTrialOptions` |
 | `aws sagemaker describe-trial-component` | `AwsSagemakerDescribeTrialComponentOptions` |
@@ -16638,6 +16720,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker list-training-jobs` | `AwsSagemakerListTrainingJobsOptions` |
 | `aws sagemaker list-training-jobs-for-hyper-parameter-tuning-job` | `AwsSagemakerListTrainingJobsForHyperParameterTuningJobOptions` |
 | `aws sagemaker list-training-plans` | `AwsSagemakerListTrainingPlansOptions` |
+| `aws sagemaker list-training-sessions` | `AwsSagemakerListTrainingSessionsOptions` |
 | `aws sagemaker list-transform-jobs` | `AwsSagemakerListTransformJobsOptions` |
 | `aws sagemaker list-trial-components` | `AwsSagemakerListTrialComponentsOptions` |
 | `aws sagemaker list-trials` | `AwsSagemakerListTrialsOptions` |
@@ -16680,6 +16763,7 @@ var aws = context.Tools.Aws;
 | `aws sagemaker stop-pipeline-execution` | `AwsSagemakerStopPipelineExecutionOptions` |
 | `aws sagemaker stop-processing-job` | `AwsSagemakerStopProcessingJobOptions` |
 | `aws sagemaker stop-training-job` | `AwsSagemakerStopTrainingJobOptions` |
+| `aws sagemaker stop-training-session` | `AwsSagemakerStopTrainingSessionOptions` |
 | `aws sagemaker stop-transform-job` | `AwsSagemakerStopTransformJobOptions` |
 | `aws sagemaker update-action` | `AwsSagemakerUpdateActionOptions` |
 | `aws sagemaker update-app-image-config` | `AwsSagemakerUpdateAppImageConfigOptions` |
@@ -16781,6 +16865,12 @@ var aws = context.Tools.Aws;
 | `aws sagemakerjobruntime sample` | `AwsSagemakerjobruntimeSampleOptions` |
 | `aws sagemakerjobruntime sample-with-response-stream` | `AwsSagemakerjobruntimeSampleWithResponseStreamOptions` |
 | `aws sagemakerjobruntime update-reward` | `AwsSagemakerjobruntimeUpdateRewardOptions` |
+| `aws sagemakertrainingsessionruntime execute-sampling-operation` | `AwsSagemakertrainingsessionruntimeExecuteSamplingOperationOptions` |
+| `aws sagemakertrainingsessionruntime execute-training-operation` | `AwsSagemakertrainingsessionruntimeExecuteTrainingOperationOptions` |
+| `aws sagemakertrainingsessionruntime get-sampling-operation-result` | `AwsSagemakertrainingsessionruntimeGetSamplingOperationResultOptions` |
+| `aws sagemakertrainingsessionruntime get-training-operation-result` | `AwsSagemakertrainingsessionruntimeGetTrainingOperationResultOptions` |
+| `aws sagemakertrainingsessionruntime sample-training-session` | `AwsSagemakertrainingsessionruntimeSampleTrainingSessionOptions` |
+| `aws sagemakertrainingsessionruntime sample-training-session-with-response-stream` | `AwsSagemakertrainingsessionruntimeSampleTrainingSessionWithResponseStreamOptions` |
 | `aws savingsplans create-savings-plan` | `AwsSavingsplansCreateSavingsPlanOptions` |
 | `aws savingsplans delete-queued-savings-plan` | `AwsSavingsplansDeleteQueuedSavingsPlanOptions` |
 | `aws savingsplans describe-savings-plan-rates` | `AwsSavingsplansDescribeSavingsPlanRatesOptions` |
@@ -16877,6 +16967,7 @@ var aws = context.Tools.Aws;
 | `aws security-ir get-case` | `AwsSecurityIrGetCaseOptions` |
 | `aws security-ir get-case-attachment-download-url` | `AwsSecurityIrGetCaseAttachmentDownloadUrlOptions` |
 | `aws security-ir get-case-attachment-upload-url` | `AwsSecurityIrGetCaseAttachmentUploadUrlOptions` |
+| `aws security-ir get-finding-metrics` | `AwsSecurityIrGetFindingMetricsOptions` |
 | `aws security-ir get-membership` | `AwsSecurityIrGetMembershipOptions` |
 | `aws security-ir list-case-edits` | `AwsSecurityIrListCaseEditsOptions` |
 | `aws security-ir list-cases` | `AwsSecurityIrListCasesOptions` |
@@ -16898,6 +16989,8 @@ var aws = context.Tools.Aws;
 | `aws securityagent batch-delete-pentests` | `AwsSecurityagentBatchDeletePentestsOptions` |
 | `aws securityagent batch-delete-security-requirements` | `AwsSecurityagentBatchDeleteSecurityRequirementsOptions` |
 | `aws securityagent batch-delete-threat-models` | `AwsSecurityagentBatchDeleteThreatModelsOptions` |
+| `aws securityagent batch-disassociate-finding-issue` | `AwsSecurityagentBatchDisassociateFindingIssueOptions` |
+| `aws securityagent batch-export-findings` | `AwsSecurityagentBatchExportFindingsOptions` |
 | `aws securityagent batch-get-agent-spaces` | `AwsSecurityagentBatchGetAgentSpacesOptions` |
 | `aws securityagent batch-get-artifact-metadata` | `AwsSecurityagentBatchGetArtifactMetadataOptions` |
 | `aws securityagent batch-get-code-review-job-tasks` | `AwsSecurityagentBatchGetCodeReviewJobTasksOptions` |
@@ -16999,6 +17092,7 @@ var aws = context.Tools.Aws;
 | `aws securityhub batch-update-findings` | `AwsSecurityhubBatchUpdateFindingsOptions` |
 | `aws securityhub batch-update-findings-v2` | `AwsSecurityhubBatchUpdateFindingsV2Options` |
 | `aws securityhub batch-update-standards-control-associations` | `AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions` |
+| `aws securityhub cancel-export-job-v2` | `AwsSecurityhubCancelExportJobV2Options` |
 | `aws securityhub create-action-target` | `AwsSecurityhubCreateActionTargetOptions` |
 | `aws securityhub create-aggregator-v2` | `AwsSecurityhubCreateAggregatorV2Options` |
 | `aws securityhub create-automation-rule` | `AwsSecurityhubCreateAutomationRuleOptions` |
@@ -17050,6 +17144,7 @@ var aws = context.Tools.Aws;
 | `aws securityhub get-connector` | `AwsSecurityhubGetConnectorOptions` |
 | `aws securityhub get-connector-v2` | `AwsSecurityhubGetConnectorV2Options` |
 | `aws securityhub get-enabled-standards` | `AwsSecurityhubGetEnabledStandardsOptions` |
+| `aws securityhub get-export-job-v2` | `AwsSecurityhubGetExportJobV2Options` |
 | `aws securityhub get-finding-aggregator` | `AwsSecurityhubGetFindingAggregatorOptions` |
 | `aws securityhub get-finding-history` | `AwsSecurityhubGetFindingHistoryOptions` |
 | `aws securityhub get-finding-statistics-v2` | `AwsSecurityhubGetFindingStatisticsV2Options` |
@@ -17061,6 +17156,7 @@ var aws = context.Tools.Aws;
 | `aws securityhub get-invitations-count` | `AwsSecurityhubGetInvitationsCountOptions` |
 | `aws securityhub get-members` | `AwsSecurityhubGetMembersOptions` |
 | `aws securityhub get-recommended-policy-v2` | `AwsSecurityhubGetRecommendedPolicyV2Options` |
+| `aws securityhub get-remediations-v2` | `AwsSecurityhubGetRemediationsV2Options` |
 | `aws securityhub get-resources-statistics-v2` | `AwsSecurityhubGetResourcesStatisticsV2Options` |
 | `aws securityhub get-resources-trends-v2` | `AwsSecurityhubGetResourcesTrendsV2Options` |
 | `aws securityhub get-resources-v2` | `AwsSecurityhubGetResourcesV2Options` |
@@ -17074,6 +17170,8 @@ var aws = context.Tools.Aws;
 | `aws securityhub list-connectors` | `AwsSecurityhubListConnectorsOptions` |
 | `aws securityhub list-connectors-v2` | `AwsSecurityhubListConnectorsV2Options` |
 | `aws securityhub list-enabled-products-for-import` | `AwsSecurityhubListEnabledProductsForImportOptions` |
+| `aws securityhub list-export-jobs-v2` | `AwsSecurityhubListExportJobsV2Options` |
+| `aws securityhub list-exposures-by-remediation-v2` | `AwsSecurityhubListExposuresByRemediationV2Options` |
 | `aws securityhub list-finding-aggregators` | `AwsSecurityhubListFindingAggregatorsOptions` |
 | `aws securityhub list-free-trial-statuses-v2` | `AwsSecurityhubListFreeTrialStatusesV2Options` |
 | `aws securityhub list-invitations` | `AwsSecurityhubListInvitationsOptions` |
@@ -17085,6 +17183,7 @@ var aws = context.Tools.Aws;
 | `aws securityhub register-connector-v2` | `AwsSecurityhubRegisterConnectorV2Options` |
 | `aws securityhub start-configuration-policy-association` | `AwsSecurityhubStartConfigurationPolicyAssociationOptions` |
 | `aws securityhub start-configuration-policy-disassociation` | `AwsSecurityhubStartConfigurationPolicyDisassociationOptions` |
+| `aws securityhub start-export-job-v2` | `AwsSecurityhubStartExportJobV2Options` |
 | `aws securityhub tag-resource` | `AwsSecurityhubTagResourceOptions` |
 | `aws securityhub untag-resource` | `AwsSecurityhubUntagResourceOptions` |
 | `aws securityhub update-action-target` | `AwsSecurityhubUpdateActionTargetOptions` |

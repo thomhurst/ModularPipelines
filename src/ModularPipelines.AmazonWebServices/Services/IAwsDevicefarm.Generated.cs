@@ -28,8 +28,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDevicePoolAsync(AwsDevicefarmCreateDevicePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDevicePoolAsync(AwsDevicefarmCreateDevicePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a profile that can be applied to one or more private fleet de- vice instances. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInstanceProfileAsync(AwsDevicefarmCreateInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInstanceProfileAsync(AwsDevicefarmCreateInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a network profile. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkProfileAsync(AwsDevicefarmCreateNetworkProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkProfileAsync(AwsDevicefarmCreateNetworkProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a project. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProjectAsync(AwsDevicefarmCreateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProjectAsync(AwsDevicefarmCreateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies and starts a remote access session. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRemoteAccessSessionAsync(AwsDevicefarmCreateRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRemoteAccessSessionAsync(AwsDevicefarmCreateRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Selenium testing project. Projects are used to track Test- GridSession instances. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTestGridProjectAsync(AwsDevicefarmCreateTestGridProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTestGridProjectAsync(AwsDevicefarmCreateTestGridProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a signed, short-term URL that can be passed to a Selenium Re- moteWebDriver constructor. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTestGridUrlAsync(AwsDevicefarmCreateTestGridUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTestGridUrlAsync(AwsDevicefarmCreateTestGridUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads an app or test scripts. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUploadAsync(AwsDevicefarmCreateUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUploadAsync(AwsDevicefarmCreateUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpceConfigurationAsync(AwsDevicefarmCreateVpceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpceConfigurationAsync(AwsDevicefarmCreateVpceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDevicePoolAsync(AwsDevicefarmDeleteDevicePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDevicePoolAsync(AwsDevicefarmDeleteDevicePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a profile that can be applied to one or more private device in- stances. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInstanceProfileAsync(AwsDevicefarmDeleteInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInstanceProfileAsync(AwsDevicefarmDeleteInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a network profile. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkProfileAsync(AwsDevicefarmDeleteNetworkProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkProfileAsync(AwsDevicefarmDeleteNetworkProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it has an active run or session. WARNING: You cannot undo this operation. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProjectAsync(AwsDevicefarmDeleteProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProjectAsync(AwsDevicefarmDeleteProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a completed remote access session and its results. You cannot delete a remote access session if it is still active. WARNING: You cannot undo this operation. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRemoteAccessSessionAsync(AwsDevicefarmDeleteRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRemoteAccessSessionAsync(AwsDevicefarmDeleteRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the run, given the run ARN. You cannot delete a run if it is still active. WARNING: You cannot undo this operation. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRunAsync(AwsDevicefarmDeleteRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRunAsync(AwsDevicefarmDeleteRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions. WARNING: You cannot undo this operation. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTestGridProjectAsync(AwsDevicefarmDeleteTestGridProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTestGridProjectAsync(AwsDevicefarmDeleteTestGridProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an upload given the upload ARN. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUploadAsync(AwsDevicefarmDeleteUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUploadAsync(AwsDevicefarmDeleteUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpceConfigurationAsync(AwsDevicefarmDeleteVpceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpceConfigurationAsync(AwsDevicefarmDeleteVpceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountSettingsAsync(AwsDevicefarmGetAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountSettingsAsync(AwsDevicefarmGetAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a device instance that belongs to a private device fleet. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeviceInstanceAsync(AwsDevicefarmGetDeviceInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeviceInstanceAsync(AwsDevicefarmGetDeviceInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a unique device type. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeviceAsync(AwsDevicefarmGetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeviceAsync(AwsDevicefarmGetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about compatibility with a device pool. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDevicePoolCompatibilityAsync(AwsDevicefarmGetDevicePoolCompatibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDevicePoolCompatibilityAsync(AwsDevicefarmGetDevicePoolCompatibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a device pool. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDevicePoolAsync(AwsDevicefarmGetDevicePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDevicePoolAsync(AwsDevicefarmGetDevicePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified instance profile. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstanceProfileAsync(AwsDevicefarmGetInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstanceProfileAsync(AwsDevicefarmGetInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a job. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobAsync(AwsDevicefarmGetJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobAsync(AwsDevicefarmGetJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a network profile. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNetworkProfileAsync(AwsDevicefarmGetNetworkProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNetworkProfileAsync(AwsDevicefarmGetNetworkProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to in- voke the operation. If you must be able to invoke this operation, con- tact aws-devicefarm-support@amazon.com . See also: AWS API Documentation get-offering-status is a paginated operation. Multiple API calls may ...
@@ -288,8 +262,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOfferingStatusAsync(AwsDevicefarmGetOfferingStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOfferingStatusAsync(AwsDevicefarmGetOfferingStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a project. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProjectAsync(AwsDevicefarmGetProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProjectAsync(AwsDevicefarmGetProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a link to a currently running remote access session. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRemoteAccessSessionAsync(AwsDevicefarmGetRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRemoteAccessSessionAsync(AwsDevicefarmGetRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a run. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRunAsync(AwsDevicefarmGetRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRunAsync(AwsDevicefarmGetRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a suite. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSuiteAsync(AwsDevicefarmGetSuiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSuiteAsync(AwsDevicefarmGetSuiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a Selenium testing project. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTestGridProjectAsync(AwsDevicefarmGetTestGridProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTestGridProjectAsync(AwsDevicefarmGetTestGridProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult . You can use the following to look up sessions: o The session ARN. o The project ARN and a session ID. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTestGridSessionAsync(AwsDevicefarmGetTestGridSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTestGridSessionAsync(AwsDevicefarmGetTestGridSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a test. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTestAsync(AwsDevicefarmGetTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTestAsync(AwsDevicefarmGetTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an upload. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUploadAsync(AwsDevicefarmGetUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUploadAsync(AwsDevicefarmGetUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpceConfigurationAsync(AwsDevicefarmGetVpceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpceConfigurationAsync(AwsDevicefarmGetVpceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applica- tions, the file must be in .ipa format. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InstallToRemoteAccessSessionAsync(AwsDevicefarmInstallToRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InstallToRemoteAccessSessionAsync(AwsDevicefarmInstallToRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about artifacts. See also: AWS API Documentation list-artifacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: artifacts
@@ -398,8 +361,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListArtifactsAsync(AwsDevicefarmListArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListArtifactsAsync(AwsDevicefarmListArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the private device instances associated with one or more AWS accounts. See also: AWS API Documentation list-device-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: de...
@@ -408,8 +370,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeviceInstancesAsync(AwsDevicefarmListDeviceInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeviceInstancesAsync(AwsDevicefarmListDeviceInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about device pools. See also: AWS API Documentation list-device-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: devicePools
@@ -418,8 +379,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevicePoolsAsync(AwsDevicefarmListDevicePoolsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDevicePoolsAsync(AwsDevicefarmListDevicePoolsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about unique device types. See also: AWS API Documentation list-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: devices
@@ -428,8 +388,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevicesAsync(AwsDevicefarmListDevicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDevicesAsync(AwsDevicefarmListDevicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about all the instance profiles in an AWS account. See also: AWS API Documentation list-instance-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: instanceProfiles
@@ -438,8 +397,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstanceProfilesAsync(AwsDevicefarmListInstanceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstanceProfilesAsync(AwsDevicefarmListInstanceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about jobs for a given test run. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: jobs
@@ -448,8 +406,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJobsAsync(AwsDevicefarmListJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJobsAsync(AwsDevicefarmListJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of available network profiles. See also: AWS API Documentation list-network-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: networkProfiles
@@ -458,8 +415,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNetworkProfilesAsync(AwsDevicefarmListNetworkProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNetworkProfilesAsync(AwsDevicefarmListNetworkProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the opera- tion. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation. See also: AWS API Documentation list-offering-promotions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by...
@@ -468,8 +424,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOfferingPromotionsAsync(AwsDevicefarmListOfferingPromotionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOfferingPromotionsAsync(AwsDevicefarmListOfferingPromotionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire d...
@@ -478,8 +433,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOfferingsAsync(AwsDevicefarmListOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOfferingsAsync(AwsDevicefarmListOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all historical purchases, renewals, and system re- newal transactions for an AWS account. The list is paginated and or- dered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to in- voke the operation. If you must be able to invoke this operation, con- tact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offering-transactions is a paginated operation. Multiple API calls may ...
@@ -488,8 +442,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOfferingTransactionsAsync(AwsDevicefarmListOfferingTransactionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOfferingTransactionsAsync(AwsDevicefarmListOfferingTransactionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about projects. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projects
@@ -498,8 +451,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProjectsAsync(AwsDevicefarmListProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProjectsAsync(AwsDevicefarmListProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all currently running remote access sessions. See also: AWS API Documentation list-remote-access-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: remoteAccessSessions
@@ -508,8 +460,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRemoteAccessSessionsAsync(AwsDevicefarmListRemoteAccessSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRemoteAccessSessionsAsync(AwsDevicefarmListRemoteAccessSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about runs, given an AWS Device Farm project ARN. See also: AWS API Documentation list-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: runs
@@ -518,8 +469,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRunsAsync(AwsDevicefarmListRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRunsAsync(AwsDevicefarmListRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about samples, given an AWS Device Farm job ARN. WARNING: Device Farm does not support performance data samples during test executions. See also: AWS API Documentation list-samples is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from t...
@@ -528,8 +478,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSamplesAsync(AwsDevicefarmListSamplesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSamplesAsync(AwsDevicefarmListSamplesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about test suites for a given job. See also: AWS API Documentation list-suites is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: suites
@@ -538,8 +487,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSuitesAsync(AwsDevicefarmListSuitesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSuitesAsync(AwsDevicefarmListSuitesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the tags for an AWS Device Farm resource. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsDevicefarmListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsDevicefarmListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of all Selenium testing projects in your account. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestGridProjectsAsync(AwsDevicefarmListTestGridProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestGridProjectsAsync(AwsDevicefarmListTestGridProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the actions taken in a TestGridSession . See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestGridSessionActionsAsync(AwsDevicefarmListTestGridSessionActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestGridSessionActionsAsync(AwsDevicefarmListTestGridSessionActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of artifacts created during the session. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestGridSessionArtifactsAsync(AwsDevicefarmListTestGridSessionArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestGridSessionArtifactsAsync(AwsDevicefarmListTestGridSessionArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of sessions for a TestGridProject . See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestGridSessionsAsync(AwsDevicefarmListTestGridSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestGridSessionsAsync(AwsDevicefarmListTestGridSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about tests in a given test suite. See also: AWS API Documentation list-tests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: tests
@@ -598,8 +541,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestsAsync(AwsDevicefarmListTestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestsAsync(AwsDevicefarmListTestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consis- tently raises an exception (OutOfBoundsException in MyActivity.java:386 ), ListUniqueProblems returns a single entry instead of many individual entries for that exception. See also: AWS API Documentation list-unique-problems is a paginated operation. Multiple API calls may be issued in o...
@@ -608,8 +550,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUniqueProblemsAsync(AwsDevicefarmListUniqueProblemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUniqueProblemsAsync(AwsDevicefarmListUniqueProblemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about uploads, given an AWS Device Farm project ARN. See also: AWS API Documentation list-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: uploads
@@ -618,8 +559,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUploadsAsync(AwsDevicefarmListUploadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUploadsAsync(AwsDevicefarmListUploadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about all Amazon Virtual Private Cloud (VPC) end- point configurations in the AWS account. See also: AWS API Documentation list-vpce-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing qu...
@@ -628,8 +568,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpceConfigurationsAsync(AwsDevicefarmListVpceConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpceConfigurationsAsync(AwsDevicefarmListVpceConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseOfferingAsync(AwsDevicefarmPurchaseOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseOfferingAsync(AwsDevicefarmPurchaseOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RenewOfferingAsync(AwsDevicefarmRenewOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RenewOfferingAsync(AwsDevicefarmRenewOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules a run. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ScheduleRunAsync(AwsDevicefarmScheduleRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ScheduleRunAsync(AwsDevicefarmScheduleRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a stop request for the current job. AWS Device Farm immedi- ately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopJobAsync(AwsDevicefarmStopJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopJobAsync(AwsDevicefarmStopJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ends a specified remote access session. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRemoteAccessSessionAsync(AwsDevicefarmStopRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopRemoteAccessSessionAsync(AwsDevicefarmStopRemoteAccessSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a stop request for the current test run. AWS Device Farm im- mediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRunAsync(AwsDevicefarmStopRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopRunAsync(AwsDevicefarmStopRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource are not specified in the re- quest parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsDevicefarmTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsDevicefarmTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified tags from a resource. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsDevicefarmUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsDevicefarmUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates information about a private device instance. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDeviceInstanceAsync(AwsDevicefarmUpdateDeviceInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDeviceInstanceAsync(AwsDevicefarmUpdateDeviceInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all). See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDevicePoolAsync(AwsDevicefarmUpdateDevicePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDevicePoolAsync(AwsDevicefarmUpdateDevicePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates information about an existing private device instance profile. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInstanceProfileAsync(AwsDevicefarmUpdateInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInstanceProfileAsync(AwsDevicefarmUpdateInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the network profile. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNetworkProfileAsync(AwsDevicefarmUpdateNetworkProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNetworkProfileAsync(AwsDevicefarmUpdateNetworkProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified project name, given the project ARN and a new name. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProjectAsync(AwsDevicefarmUpdateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProjectAsync(AwsDevicefarmUpdateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Change details of a project. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTestGridProjectAsync(AwsDevicefarmUpdateTestGridProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTestGridProjectAsync(AwsDevicefarmUpdateTestGridProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an uploaded test spec. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUploadAsync(AwsDevicefarmUpdateUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUploadAsync(AwsDevicefarmUpdateUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates information about an Amazon Virtual Private Cloud (VPC) end- point configuration. See also: AWS API Documentation
@@ -788,7 +712,6 @@ public interface IAwsDevicefarm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVpceConfigurationAsync(AwsDevicefarmUpdateVpceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVpceConfigurationAsync(AwsDevicefarmUpdateVpceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

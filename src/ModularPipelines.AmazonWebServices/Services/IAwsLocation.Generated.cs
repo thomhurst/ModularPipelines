@@ -24,7 +24,7 @@ public interface IAwsLocation
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsLocationWait Wait => throw new System.NotSupportedException();
+    AwsLocationWait Wait { get; }
 
     /// <summary>
     /// Creates an association between a geofence collection and a tracker re- source. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker re- source. NOTE: Currently not supported Cross-account configurations, such as cre- ating associations between a tracker resource in one account and a geofence collection in another account. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTrackerConsumerAsync(AwsLocationAssociateTrackerConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTrackerConsumerAsync(AwsLocationAssociateTrackerConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the position history of one or more devices from a tracker re- source. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteDevicePositionHistoryAsync(AwsLocationBatchDeleteDevicePositionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteDevicePositionHistoryAsync(AwsLocationBatchDeleteDevicePositionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a batch of geofences from a geofence collection. NOTE: This operation deletes the resource permanently. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteGeofenceAsync(AwsLocationBatchDeleteGeofenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteGeofenceAsync(AwsLocationBatchDeleteGeofenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the fol- lowing events to Amazon EventBridge: o ENTER if Amazon Location determines that the tracked device has en- tered a geofenced area. o EXIT if Amazon Location determines that the tracked device has ...
@@ -63,8 +60,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchEvaluateGeofencesAsync(AwsLocationBatchEvaluateGeofencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchEvaluateGeofencesAsync(AwsLocationBatchEvaluateGeofencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the latest device positions for requested devices. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetDevicePositionAsync(AwsLocationBatchGetDevicePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetDevicePositionAsync(AwsLocationBatchGetDevicePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a ge- ofence ID is included in the request. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutGeofenceAsync(AwsLocationBatchPutGeofenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchPutGeofenceAsync(AwsLocationBatchPutGeofenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads position update data for one or more devices to a tracker re- source (up to 10 devices per batch). Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 days. NOTE: Position updates are handled based on the PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased , updates are evaluated against linked geofence collections, and location data is stored at a maximum of one ...
@@ -93,8 +87,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateDevicePositionAsync(AwsLocationBatchUpdateDevicePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateDevicePositionAsync(AwsLocationBatchUpdateDevicePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the V2 ``CalculateRouteM- atrix` /location/latest/APIReference/API_CalculateRouteM- atrix.html`__ unless you require Grab data. o This version of CalculateRouteMatrix is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 CalculateRouteMatrix operation gives better re- sul...
@@ -103,8 +96,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CalculateRouteMatrixAsync(AwsLocationCalculateRouteMatrixOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CalculateRouteMatrixAsync(AwsLocationCalculateRouteMatrixOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` CalculateRoutes /loca- tion/latest/APIReference/API_CalculateRoutes.html`__ or ` Calcu- lateIsolines /location/latest/APIReference/API_CalculateIso- lines.html`__ unless you require Grab data. o CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 Calc...
@@ -113,8 +105,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CalculateRouteAsync(AwsLocationCalculateRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CalculateRouteAsync(AwsLocationCalculateRouteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed , Failed , or Can- celled ), the operation returns successfully with the current sta- tus. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelJobAsync(AwsLocationCancelJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelJobAsync(AwsLocationCancelJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a geofence collection, which manages and stores geofences. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGeofenceCollectionAsync(AwsLocationCreateGeofenceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGeofenceCollectionAsync(AwsLocationCreateGeofenceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateKeyAsync(AwsLocationCreateKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateKeyAsync(AwsLocationCreateKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o CreateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
@@ -153,8 +141,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMapAsync(AwsLocationCreateMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMapAsync(AwsLocationCreateMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
@@ -163,8 +150,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePlaceIndexAsync(AwsLocationCreatePlaceIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePlaceIndexAsync(AwsLocationCreatePlaceIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o CreateRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
@@ -173,8 +159,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRouteCalculatorAsync(AwsLocationCreateRouteCalculatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRouteCalculatorAsync(AwsLocationCreateRouteCalculatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrackerAsync(AwsLocationCreateTrackerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrackerAsync(AwsLocationCreateTrackerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a geofence collection from your Amazon Web Services account. NOTE: This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGeofenceCollectionAsync(AwsLocationDeleteGeofenceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGeofenceCollectionAsync(AwsLocationDeleteGeofenceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteKeyAsync(AwsLocationDeleteKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteKeyAsync(AwsLocationDeleteKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o DeleteMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
@@ -213,8 +195,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMapAsync(AwsLocationDeleteMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMapAsync(AwsLocationDeleteMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o DeletePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
@@ -223,8 +204,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePlaceIndexAsync(AwsLocationDeletePlaceIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePlaceIndexAsync(AwsLocationDeletePlaceIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o DeleteRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
@@ -233,8 +213,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRouteCalculatorAsync(AwsLocationDeleteRouteCalculatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRouteCalculatorAsync(AwsLocationDeleteRouteCalculatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a tracker resource from your Amazon Web Services account. NOTE: This operation deletes the resource permanently. If the tracker re- source is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrackerAsync(AwsLocationDeleteTrackerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrackerAsync(AwsLocationDeleteTrackerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the geofence collection details. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGeofenceCollectionAsync(AwsLocationDescribeGeofenceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeGeofenceCollectionAsync(AwsLocationDescribeGeofenceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the API key resource details. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeKeyAsync(AwsLocationDescribeKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeKeyAsync(AwsLocationDescribeKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o DescribeMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the M...
@@ -273,8 +249,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMapAsync(AwsLocationDescribeMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMapAsync(AwsLocationDescribeMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o DescribePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Ser...
@@ -283,8 +258,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePlaceIndexAsync(AwsLocationDescribePlaceIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePlaceIndexAsync(AwsLocationDescribePlaceIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o DescribeRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amaz...
@@ -293,8 +267,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRouteCalculatorAsync(AwsLocationDescribeRouteCalculatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRouteCalculatorAsync(AwsLocationDescribeRouteCalculatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the tracker resource details. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrackerAsync(AwsLocationDescribeTrackerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrackerAsync(AwsLocationDescribeTrackerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between a tracker resource and a geofence col- lection. NOTE: Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTrackerConsumerAsync(AwsLocationDisassociateTrackerConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTrackerConsumerAsync(AwsLocationDisassociateTrackerConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action forecasts future geofence events that are likely to occur within a specified time horizon if a device continues moving at its current speed. Each forecasted event is associated with a geofence from a provided geofence collection. A forecast event can have one of the following states: ENTER : The device position is outside the referenced geofence, but the device may cross into the geofence during the forecasting time horizon if it maintains its current speed. EXIT : The device positio...
@@ -323,8 +294,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ForecastGeofenceEventsAsync(AwsLocationForecastGeofenceEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ForecastGeofenceEventsAsync(AwsLocationForecastGeofenceEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the device position history from a tracker resource within a specified range of time. NOTE: Device positions are deleted after 30 days. See also: AWS API Documentation get-device-position-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
@@ -333,8 +303,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDevicePositionHistoryAsync(AwsLocationGetDevicePositionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDevicePositionHistoryAsync(AwsLocationGetDevicePositionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a device's most recent position according to its sample time. NOTE: Device positions are deleted after 30 days. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDevicePositionAsync(AwsLocationGetDevicePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDevicePositionAsync(AwsLocationGetDevicePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the geofence details from a geofence collection. NOTE: The returned geometry will always match the geometry format used when the geofence was created. See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGeofenceAsync(AwsLocationGetGeofenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGeofenceAsync(AwsLocationGetGeofenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GetJob retrieves detailed information about a specific job, includ- ing its current status, configuration, and error information if the job failed. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobAsync(AwsLocationGetJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobAsync(AwsLocationGetJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetGlyphs https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetGlyphs.html`__ unless you require Grab data. o GetMapGlyphs is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 GetGlyphs operation gives a better user experience and is compatible with th...
@@ -373,8 +339,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMapGlyphsAsync(AwsLocationGetMapGlyphsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMapGlyphsAsync(AwsLocationGetMapGlyphsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetSprites https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html`__ unless you require Grab data. o GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 GetSprites operation gives a better user experience and is compatible wit...
@@ -383,8 +348,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMapSpritesAsync(AwsLocationGetMapSpritesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMapSpritesAsync(AwsLocationGetMapSpritesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetStyleDescriptor https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html`__ unless you require Grab data. o GetMapStyleDescriptor is part of a previous Amazon Location Ser- vice Maps API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 GetStyleDescriptor operation gives a better u...
@@ -393,8 +357,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMapStyleDescriptorAsync(AwsLocationGetMapStyleDescriptorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMapStyleDescriptorAsync(AwsLocationGetMapStyleDescriptorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetTile https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html`__ unless you require Grab data. o GetMapTile is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The version 2 GetTile operation gives a better user experience and is compatible with the rema...
@@ -403,8 +366,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMapTileAsync(AwsLocationGetMapTileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMapTileAsync(AwsLocationGetMapTileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the V2 ``GetPlace` /location/lat- est/APIReference/API_geoplaces_GetPlace.html`__ operation unless you require Grab data. o This version of GetPlace is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o Version 2 of the GetPlace operation interoperates with the rest of the Places V2 ...
@@ -413,8 +375,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPlaceAsync(AwsLocationGetPlaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPlaceAsync(AwsLocationGetPlaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A batch request to retrieve all device positions. See also: AWS API Documentation list-device-positions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
@@ -423,8 +384,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevicePositionsAsync(AwsLocationListDevicePositionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDevicePositionsAsync(AwsLocationListDevicePositionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists geofence collections in your Amazon Web Services account. See also: AWS API Documentation list-geofence-collections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Entries
@@ -433,8 +393,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGeofenceCollectionsAsync(AwsLocationListGeofenceCollectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGeofenceCollectionsAsync(AwsLocationListGeofenceCollectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists geofences stored in a given geofence collection. See also: AWS API Documentation list-geofences is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
@@ -443,8 +402,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGeofencesAsync(AwsLocationListGeofencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGeofencesAsync(AwsLocationListGeofencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// ListJobs retrieves a list of jobs with optional filtering and pagi- nation support. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must e...
@@ -453,8 +411,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJobsAsync(AwsLocationListJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJobsAsync(AwsLocationListJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists API key resources in your Amazon Web Services account. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation list-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract ...
@@ -463,8 +420,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListKeysAsync(AwsLocationListKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListKeysAsync(AwsLocationListKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o ListMaps is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Maps...
@@ -473,8 +429,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMapsAsync(AwsLocationListMapsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMapsAsync(AwsLocationListMapsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o ListPlaceIndexes is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
@@ -483,8 +438,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPlaceIndexesAsync(AwsLocationListPlaceIndexesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPlaceIndexesAsync(AwsLocationListPlaceIndexesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o ListRouteCalculators is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon ...
@@ -493,8 +447,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRouteCalculatorsAsync(AwsLocationListRouteCalculatorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRouteCalculatorsAsync(AwsLocationListRouteCalculatorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags that are applied to the specified Amazon Loca- tion resource. See also: AWS API Documentation
@@ -503,8 +456,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsLocationListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsLocationListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists geofence collections currently associated to the given tracker resource. See also: AWS API Documentation list-tracker-consumers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConsumerArns
@@ -513,8 +465,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrackerConsumersAsync(AwsLocationListTrackerConsumersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrackerConsumersAsync(AwsLocationListTrackerConsumersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tracker resources in your Amazon Web Services account. See also: AWS API Documentation list-trackers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
@@ -523,8 +474,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrackersAsync(AwsLocationListTrackersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrackersAsync(AwsLocationListTrackersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request. See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutGeofenceAsync(AwsLocationPutGeofenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutGeofenceAsync(AwsLocationPutGeofenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` ReverseGeocode /location/lat- est/APIReference/API_geoplaces_ReverseGeocode.html`__ or ` SearchN- earby /location/latest/APIReference/API_geoplaces_SearchN- earby.html`__ unless you require Grab data. o SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2)....
@@ -543,8 +492,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchPlaceIndexForPositionAsync(AwsLocationSearchPlaceIndexForPositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchPlaceIndexForPositionAsync(AwsLocationSearchPlaceIndexForPositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` Suggest /location/latest/APIRef- erence/API_geoplaces_Suggest.html`__ or ` Autocomplete /loca- tion/latest/APIReference/API_geoplaces_Autocomplete.html`__ unless you require Grab data. o SearchPlaceIndexForSuggestions is part of a previous Amazon Loca- tion Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The vers...
@@ -553,8 +501,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchPlaceIndexForSuggestionsAsync(AwsLocationSearchPlaceIndexForSuggestionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchPlaceIndexForSuggestionsAsync(AwsLocationSearchPlaceIndexForSuggestionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` Geocode /location/latest/APIRef- erence/API_geoplaces_Geocode.html`__ or ` SearchText /location/lat- est/APIReference/API_geoplaces_SearchText.html`__ unless you require Grab data. o SearchPlaceIndexForText is part of a previous Amazon Location Ser- vice Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 Geoco...
@@ -563,8 +510,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchPlaceIndexForTextAsync(AwsLocationSearchPlaceIndexForTextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchPlaceIndexForTextAsync(AwsLocationSearchPlaceIndexForTextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// StartJob starts a new asynchronous bulk processing job. You specify the input data location in Amazon S3, the action to perform, and the output location where results are written. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -573,8 +519,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartJobAsync(AwsLocationStartJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartJobAsync(AwsLocationStartJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Lo- cation Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with t...
@@ -583,8 +528,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsLocationTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsLocationTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from the specified Amazon Location resource. See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsLocationUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsLocationUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified properties of a given geofence collection. See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGeofenceCollectionAsync(AwsLocationUpdateGeofenceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGeofenceCollectionAsync(AwsLocationUpdateGeofenceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified properties of a given API key resource. See also: AWS API Documentation
@@ -613,8 +555,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateKeyAsync(AwsLocationUpdateKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateKeyAsync(AwsLocationUpdateKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o UpdateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
@@ -623,8 +564,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMapAsync(AwsLocationUpdateMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMapAsync(AwsLocationUpdateMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o UpdatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
@@ -633,8 +573,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePlaceIndexAsync(AwsLocationUpdatePlaceIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePlaceIndexAsync(AwsLocationUpdatePlaceIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o UpdateRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
@@ -643,8 +582,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRouteCalculatorAsync(AwsLocationUpdateRouteCalculatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRouteCalculatorAsync(AwsLocationUpdateRouteCalculatorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified properties of a given tracker resource. See also: AWS API Documentation
@@ -653,8 +591,7 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrackerAsync(AwsLocationUpdateTrackerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrackerAsync(AwsLocationUpdateTrackerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred posi- tion estimated based on the device's state. NOTE: The Location Integrity SDK provides enhanced features related to de- vice verification, and it is available for use by request. To get access to the SDK, contact Sales Support . See also: AWS API Documentation
@@ -663,7 +600,6 @@ public interface IAwsLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyDevicePositionAsync(AwsLocationVerifyDevicePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyDevicePositionAsync(AwsLocationVerifyDevicePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

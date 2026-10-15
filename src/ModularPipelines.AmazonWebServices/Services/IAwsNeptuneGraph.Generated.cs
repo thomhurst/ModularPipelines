@@ -24,7 +24,7 @@ public interface IAwsNeptuneGraph
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsNeptuneGraphWait Wait => throw new System.NotSupportedException();
+    AwsNeptuneGraphWait Wait { get; }
 
     /// <summary>
     /// Cancel the specified export task. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelExportTaskAsync(AwsNeptuneGraphCancelExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelExportTaskAsync(AwsNeptuneGraphCancelExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified import task. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelImportTaskAsync(AwsNeptuneGraphCancelImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelImportTaskAsync(AwsNeptuneGraphCancelImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a specified query. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelQueryAsync(AwsNeptuneGraphCancelQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelQueryAsync(AwsNeptuneGraphCancelQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Neptune Analytics graph. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGraphAsync(AwsNeptuneGraphCreateGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGraphAsync(AwsNeptuneGraphCreateGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a snapshot of the specific graph. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGraphSnapshotAsync(AwsNeptuneGraphCreateGraphSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGraphSnapshotAsync(AwsNeptuneGraphCreateGraphSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the Gremlin CSV format or the openCypher load format . See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGraphUsingImportTaskAsync(AwsNeptuneGraphCreateGraphUsingImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGraphUsingImportTaskAsync(AwsNeptuneGraphCreateGraphUsingImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a private graph endpoint to allow private access to the graph from within a VPC. You can attach security groups to the private graph endpoint. NOTE: VPC endpoint charges apply. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePrivateGraphEndpointAsync(AwsNeptuneGraphCreatePrivateGraphEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePrivateGraphEndpointAsync(AwsNeptuneGraphCreatePrivateGraphEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified graph. Graphs cannot be deleted if delete-protec- tion is enabled. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGraphAsync(AwsNeptuneGraphDeleteGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGraphAsync(AwsNeptuneGraphDeleteGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified graph snapshot. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGraphSnapshotAsync(AwsNeptuneGraphDeleteGraphSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGraphSnapshotAsync(AwsNeptuneGraphDeleteGraphSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a private graph endpoint. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePrivateGraphEndpointAsync(AwsNeptuneGraphDeletePrivateGraphEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePrivateGraphEndpointAsync(AwsNeptuneGraphDeletePrivateGraphEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query: o neptune-graph:ReadDataViaQuery o neptune-graph:WriteDataViaQuery o neptune-graph:DeleteDataViaQuery See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, number...
@@ -133,8 +123,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteQueryAsync(AwsNeptuneGraphExecuteQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteQueryAsync(AwsNeptuneGraphExecuteQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specified export task. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExportTaskAsync(AwsNeptuneGraphGetExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExportTaskAsync(AwsNeptuneGraphGetExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified graph. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGraphAsync(AwsNeptuneGraphGetGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGraphAsync(AwsNeptuneGraphGetGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specified graph snapshot. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGraphSnapshotAsync(AwsNeptuneGraphGetGraphSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGraphSnapshotAsync(AwsNeptuneGraphGetGraphSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a graph summary for a property graph. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGraphSummaryAsync(AwsNeptuneGraphGetGraphSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGraphSummaryAsync(AwsNeptuneGraphGetGraphSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specified import task. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImportTaskAsync(AwsNeptuneGraphGetImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImportTaskAsync(AwsNeptuneGraphGetImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specified private endpoint. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPrivateGraphEndpointAsync(AwsNeptuneGraphGetPrivateGraphEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPrivateGraphEndpointAsync(AwsNeptuneGraphGetPrivateGraphEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status of a specified query. NOTE: When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:Get- QueryStatus IAM action attached. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryAsync(AwsNeptuneGraphGetQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryAsync(AwsNeptuneGraphGetQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of export tasks. See also: AWS API Documentation list-export-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tasks
@@ -213,8 +195,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExportTasksAsync(AwsNeptuneGraphListExportTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExportTasksAsync(AwsNeptuneGraphListExportTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists available snapshots of a specified Neptune Analytics graph. See also: AWS API Documentation list-graph-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: graphSnapshots
@@ -223,8 +204,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGraphSnapshotsAsync(AwsNeptuneGraphListGraphSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGraphSnapshotsAsync(AwsNeptuneGraphListGraphSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists available Neptune Analytics graphs. See also: AWS API Documentation list-graphs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: graphs
@@ -233,8 +213,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGraphsAsync(AwsNeptuneGraphListGraphsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGraphsAsync(AwsNeptuneGraphListGraphsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists import tasks. See also: AWS API Documentation list-import-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tasks
@@ -243,8 +222,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListImportTasksAsync(AwsNeptuneGraphListImportTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListImportTasksAsync(AwsNeptuneGraphListImportTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists private endpoints for a specified Neptune Analytics graph. See also: AWS API Documentation list-private-graph-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: privateGraphEndpoints
@@ -253,8 +231,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPrivateGraphEndpointsAsync(AwsNeptuneGraphListPrivateGraphEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPrivateGraphEndpointsAsync(AwsNeptuneGraphListPrivateGraphEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists active openCypher queries. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQueriesAsync(AwsNeptuneGraphListQueriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQueriesAsync(AwsNeptuneGraphListQueriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags associated with a specified resource. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsNeptuneGraphListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsNeptuneGraphListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Empties the data from a specified Neptune Analytics graph. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetGraphAsync(AwsNeptuneGraphResetGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetGraphAsync(AwsNeptuneGraphResetGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores a graph from a snapshot. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreGraphFromSnapshotAsync(AwsNeptuneGraphRestoreGraphFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreGraphFromSnapshotAsync(AwsNeptuneGraphRestoreGraphFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be AVAILABLE . See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartExportTaskAsync(AwsNeptuneGraphStartExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartExportTaskAsync(AwsNeptuneGraphStartExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the specific graph. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartGraphAsync(AwsNeptuneGraphStartGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartGraphAsync(AwsNeptuneGraphStartGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartImportTaskAsync(AwsNeptuneGraphStartImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartImportTaskAsync(AwsNeptuneGraphStartImportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the specific graph. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopGraphAsync(AwsNeptuneGraphStopGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopGraphAsync(AwsNeptuneGraphStopGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to the specified resource. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsNeptuneGraphTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsNeptuneGraphTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the specified resource. See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsNeptuneGraphUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsNeptuneGraphUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of a specified Neptune Analytics graph See also: AWS API Documentation
@@ -363,7 +330,6 @@ public interface IAwsNeptuneGraph
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGraphAsync(AwsNeptuneGraphUpdateGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGraphAsync(AwsNeptuneGraphUpdateGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

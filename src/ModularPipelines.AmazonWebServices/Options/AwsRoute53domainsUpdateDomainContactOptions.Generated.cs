@@ -80,7 +80,7 @@ public record AwsRoute53domainsUpdateDomainContactOptions : AwsOptions, IValidat
     public string? TechContact { get; set; }
 
     /// <summary>
-    /// Customer's consent for the owner change request. Required if the do- main is not free (consent price is more than $0.00). MaxPrice -&gt; (double) [required] Maximum amount the customer agreed to accept. Constraints: o min: 0.0 Currency -&gt; (string) [required] Currency for the MaxPrice . Constraints: o min: 3 o max: 3 Shorthand Syntax: MaxPrice=double,Currency=string JSON Syntax: { "MaxPrice": double, "Currency": "string" }
+    /// The maximum amount that you agree to pay for the owner change. Re- quired if the domain is not free (consent price is more than USD $0.00). MaxPrice -&gt; (double) [required] The maximum amount that you agree to accept. Constraints: o min: 0.0 o max: 2000000000.0 Currency -&gt; (string) [required] The currency for the MaxPrice . Constraints: o min: 3 o max: 3 Shorthand Syntax: MaxPrice=double,Currency=string JSON Syntax: { "MaxPrice": double, "Currency": "string" }
     /// </summary>
     [CliOption("--consent")]
     public string? Consent { get; set; }

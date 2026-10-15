@@ -28,8 +28,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BulkPublishAsync(AwsCognitoSyncBulkPublishOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BulkPublishAsync(AwsCognitoSyncBulkPublishOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specific dataset. The dataset will be deleted permanently, and the action can't be undone. Datasets that this dataset was merged with will no longer report the merge. Any subsequent operation on this dataset will result in a ResourceNotFoundException. This API can be called with temporary user credentials provided by Cog- nito Identity or with developer credentials. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSetAsync(AwsCognitoSyncDeleteDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataSetAsync(AwsCognitoSyncDeleteDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets meta data about a dataset by identity and dataset name. With Ama- zon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. This API can be called with temporary user credentials provided by Cog- nito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSetAsync(AwsCognitoSyncDescribeDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSetAsync(AwsCognitoSyncDescribeDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets usage details (for example, data storage) about a particular iden- tity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIdentityPoolUsageAsync(AwsCognitoSyncDescribeIdentityPoolUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIdentityPoolUsageAsync(AwsCognitoSyncDescribeIdentityPoolUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets usage information for an identity, including number of datasets and data usage. This API can be called with temporary user credentials provided by Cog- nito Identity or with developer credentials. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIdentityUsageAsync(AwsCognitoSyncDescribeIdentityUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIdentityUsageAsync(AwsCognitoSyncDescribeIdentityUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the status of the last BulkPublish operation for an identity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBulkPublishDetailsAsync(AwsCognitoSyncGetBulkPublishDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBulkPublishDetailsAsync(AwsCognitoSyncGetBulkPublishDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the events and the corresponding Lambda functions associated with an identity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCognitoEventsAsync(AwsCognitoSyncGetCognitoEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCognitoEventsAsync(AwsCognitoSyncGetCognitoEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the configuration settings of an identity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityPoolConfigurationAsync(AwsCognitoSyncGetIdentityPoolConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityPoolConfigurationAsync(AwsCognitoSyncGetIdentityPoolConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists datasets for an identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. ListDatasets can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use the Cog- nito Identity credentials to make this API call. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDatasetsAsync(AwsCognitoSyncListDatasetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDatasetsAsync(AwsCognitoSyncListDatasetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of identity pools registered with Cognito. ListIdentityPoolUsage can only be called with developer credentials. You cannot make this API call with the temporary user credentials pro- vided by Cognito Identity. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdentityPoolUsageAsync(AwsCognitoSyncListIdentityPoolUsageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdentityPoolUsageAsync(AwsCognitoSyncListIdentityPoolUsageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets paginated records, optionally changed after a particular sync count for a dataset and identity. With Amazon Cognito Sync, each iden- tity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. ListRecords can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecordsAsync(AwsCognitoSyncListRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecordsAsync(AwsCognitoSyncListRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a device to receive push sync notifications. This API can only be called with temporary credentials provided by Cog- nito Identity. You cannot call this API with developer credentials. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterDeviceAsync(AwsCognitoSyncRegisterDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterDeviceAsync(AwsCognitoSyncRegisterDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetCognitoEventsAsync(AwsCognitoSyncSetCognitoEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetCognitoEventsAsync(AwsCognitoSyncSetCognitoEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the necessary configuration for push sync. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetIdentityPoolConfigurationAsync(AwsCognitoSyncSetIdentityPoolConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetIdentityPoolConfigurationAsync(AwsCognitoSyncSetIdentityPoolConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Subscribes to receive notifications when a dataset is modified by an- other device. This API can only be called with temporary credentials provided by Cog- nito Identity. You cannot call this API with developer credentials. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SubscribeToDataSetAsync(AwsCognitoSyncSubscribeToDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SubscribeToDataSetAsync(AwsCognitoSyncSubscribeToDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unsubscribes from receiving notifications when a dataset is modified by another device. This API can only be called with temporary credentials provided by Cog- nito Identity. You cannot call this API with developer credentials. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnsubscribeFromDataSetAsync(AwsCognitoSyncUnsubscribeFromDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UnsubscribeFromDataSetAsync(AwsCognitoSyncUnsubscribeFromDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Posts updates to records and adds and deletes records for a dataset and user. The sync count in the record patch is your last known sync count for that record. The server will reject an UpdateRecords request with a Re- sourceConflictException if you try to patch a record with a new value but a stale sync count. For example, if the sync count on the server is 5 for a key called highScore and you try and submit a new highScore with sync count of 4, the request will be rejected. To obtain the curre...
@@ -188,7 +172,6 @@ public interface IAwsCognitoSync
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecordsAsync(AwsCognitoSyncUpdateRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecordsAsync(AwsCognitoSyncUpdateRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

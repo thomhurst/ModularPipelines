@@ -24,7 +24,7 @@ public interface IAwsSes
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsSesWait Wait => throw new System.NotSupportedException();
+    AwsSesWait Wait { get; }
 
     /// <summary>
     /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CloneReceiptRuleSetAsync(AwsSesCloneReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CloneReceiptRuleSetAsync(AwsSesCloneReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a configuration set event destination. NOTE: When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Ama- zon SNS). An event destination is the Amazon Web Services service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the Amazon SES Developer Guide . You...
@@ -43,8 +42,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationSetEventDestinationAsync(AwsSesCreateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfigurationSetEventDestinationAsync(AwsSesCreateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a configuration set. Configuration sets enable you to publish email sending events. For in- formation about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationSetAsync(AwsSesCreateConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfigurationSetAsync(AwsSesCreateConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationSetTrackingOptionsAsync(AwsSesCreateConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfigurationSetTrackingOptionsAsync(AwsSesCreateConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomVerificationEmailTemplateAsync(AwsSesCreateCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomVerificationEmailTemplateAsync(AwsSesCreateCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new IP address filter. For information about setting up IP address filters, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReceiptFilterAsync(AwsSesCreateReceiptFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReceiptFilterAsync(AwsSesCreateReceiptFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a receipt rule. For information about setting up receipt rules, see the Amazon SES De- veloper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReceiptRuleAsync(AwsSesCreateReceiptRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReceiptRuleAsync(AwsSesCreateReceiptRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an empty receipt rule set. For information about setting up receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReceiptRuleSetAsync(AwsSesCreateReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReceiptRuleSetAsync(AwsSesCreateReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTemplateAsync(AwsSesCreateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTemplateAsync(AwsSesCreateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configura- tion sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationSetEventDestinationAsync(AwsSesDeleteConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfigurationSetEventDestinationAsync(AwsSesDeleteConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationSetAsync(AwsSesDeleteConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfigurationSetAsync(AwsSesDeleteConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . NOTE: Deleting this kind of association results in emails sent using the specified configuration set to capture open and click eve...
@@ -143,8 +132,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationSetTrackingOptionsAsync(AwsSesDeleteConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfigurationSetTrackingOptionsAsync(AwsSesDeleteConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomVerificationEmailTemplateAsync(AwsSesDeleteCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomVerificationEmailTemplateAsync(AwsSesDeleteCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified identity (an email address or a domain) from the list of verified identities. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIdentityAsync(AwsSesDeleteIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIdentityAsync(AwsSesDeleteIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This operation returns success- fully even if a policy with the specified name does not exist. NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon ...
@@ -173,8 +159,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIdentityPolicyAsync(AwsSesDeleteIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIdentityPolicyAsync(AwsSesDeleteIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified IP address filter. For information about managing IP address filters, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReceiptFilterAsync(AwsSesDeleteReceiptFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReceiptFilterAsync(AwsSesDeleteReceiptFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified receipt rule. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReceiptRuleAsync(AwsSesDeleteReceiptRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReceiptRuleAsync(AwsSesDeleteReceiptRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified receipt rule set and all of the receipt rules it contains. NOTE: The currently active rule set cannot be deleted. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReceiptRuleSetAsync(AwsSesDeleteReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReceiptRuleSetAsync(AwsSesDeleteReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an email template. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTemplateAsync(AwsSesDeleteTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTemplateAsync(AwsSesDeleteTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the metadata and receipt rules for the receipt rule set that is currently active. For information about setting up receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeActiveReceiptRuleSetAsync(AwsSesDescribeActiveReceiptRuleSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeActiveReceiptRuleSetAsync(AwsSesDescribeActiveReceiptRuleSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the details of the specified configuration set. For information about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConfigurationSetAsync(AwsSesDescribeConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConfigurationSetAsync(AwsSesDescribeConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the details of the specified receipt rule. For information about setting up receipt rules, see the Amazon SES De- veloper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReceiptRuleAsync(AwsSesDescribeReceiptRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReceiptRuleAsync(AwsSesDescribeReceiptRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the details of the specified receipt rule set. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReceiptRuleSetAsync(AwsSesDescribeReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReceiptRuleSetAsync(AwsSesDescribeReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the email sending status of the Amazon SES account for the cur- rent Region. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountSendingEnabledAsync(AwsSesGetAccountSendingEnabledOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountSendingEnabledAsync(AwsSesGetAccountSendingEnabledOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCustomVerificationEmailTemplateAsync(AwsSesGetCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCustomVerificationEmailTemplateAsync(AwsSesGetCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current status of Easy DKIM signing for an entity. For do- main name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has success- fully verified that these tokens have been published. This operation takes a list of identities as input and returns the fol- lowing information for each: o Whether Easy DKIM signing is enabled or disabled. o A set of DKIM tokens that represent the identity. If the identity is an email...
@@ -283,8 +258,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityDkimAttributesAsync(AwsSesGetIdentityDkimAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityDkimAttributesAsync(AwsSesGetIdentityDkimAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the custom MAIL FROM attributes for a list of identities (email addresses : domains). This operation is throttled at one request per second and can only get custom MAIL FROM attributes for up to 100 identities at a time. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityMailFromDomainAttributesAsync(AwsSesGetIdentityMailFromDomainAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityMailFromDomainAttributesAsync(AwsSesGetIdentityMailFromDomainAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a list of verified identities (email addresses and/or domains), returns a structure describing identity notification attributes. This operation is throttled at one request per second and can only get notification attributes for up to 100 identities at a time. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityNotificationAttributesAsync(AwsSesGetIdentityNotificationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityNotificationAttributesAsync(AwsSesGetIdentityNotificationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending a...
@@ -313,8 +285,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityPoliciesAsync(AwsSesGetIdentityPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityPoliciesAsync(AwsSesGetIdentityPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a list of identities (email addresses and/or domains), returns the verification status and (for domain identities) the verification token for each identity. The verification status of an email address is "Pending" until the email address owner clicks the link within the verification email that Amazon SES sent to that address. If the email address owner clicks the link within 24 hours, the verification status of the email address changes to "Success". If the link is not clicked within 24 ho...
@@ -323,8 +294,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityVerificationAttributesAsync(AwsSesGetIdentityVerificationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityVerificationAttributesAsync(AwsSesGetIdentityVerificationAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the sending limits for the Amazon SES account. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSendQuotaAsync(AwsSesGetSendQuotaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSendQuotaAsync(AwsSesGetSendQuotaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides sending statistics for the current Amazon Web Services Region. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSendStatisticsAsync(AwsSesGetSendStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSendStatisticsAsync(AwsSesGetSendStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the template object (which includes the Subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTemplateAsync(AwsSesGetTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTemplateAsync(AwsSesGetTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of the configuration sets associated with your Amazon SES account in the current Amazon Web Services Region. For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide. You can execute this operation no more than once per second. This oper- ation returns up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation also returns NextToken ....
@@ -363,8 +330,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConfigurationSetsAsync(AwsSesListConfigurationSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConfigurationSetsAsync(AwsSesListConfigurationSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation list-custom-verification-email-templates is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of ...
@@ -373,8 +339,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCustomVerificationEmailTemplatesAsync(AwsSesListCustomVerificationEmailTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCustomVerificationEmailTemplatesAsync(AwsSesListCustomVerificationEmailTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list containing all of the identities (email addresses and domains) for your Amazon Web Services account in the current Amazon Web Services Region, regardless of verification status. You can execute this operation no more than once per second. NOTE: It's recommended that for successive pagination calls of this API, you continue to the use the same parameter/value pairs as used in the original call, e.g., if you used IdentityType=Domain in the the original call and received a NextToken ...
@@ -383,8 +348,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdentitiesAsync(AwsSesListIdentitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdentitiesAsync(AwsSesListIdentitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This operation re- turns only a list. To get the actual policy content, use GetIdentity- Policies . NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorizatio...
@@ -393,8 +357,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdentityPoliciesAsync(AwsSesListIdentityPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdentityPoliciesAsync(AwsSesListIdentityPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the IP address filters associated with your Amazon Web Services account in the current Amazon Web Services Region. For information about managing IP address filters, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -403,8 +366,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReceiptFiltersAsync(AwsSesListReceiptFiltersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReceiptFiltersAsync(AwsSesListReceiptFiltersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the receipt rule sets that exist under your Amazon Web Services account in the current Amazon Web Services Region. If there are addi- tional receipt rule sets to be retrieved, you receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation list-receipt-rule...
@@ -413,8 +375,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReceiptRuleSetsAsync(AwsSesListReceiptRuleSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReceiptRuleSetsAsync(AwsSesListReceiptRuleSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
@@ -423,8 +384,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTemplatesAsync(AwsSesListTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTemplatesAsync(AwsSesListTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates the delivery options for a configuration set. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfigurationSetDeliveryOptionsAsync(AwsSesPutConfigurationSetDeliveryOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfigurationSetDeliveryOptionsAsync(AwsSesPutConfigurationSetDeliveryOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates a sending authorization policy for the specified iden- tity (an email address or a domain). NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AW...
@@ -443,8 +402,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutIdentityPolicyAsync(AwsSesPutIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutIdentityPolicyAsync(AwsSesPutIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reorders the receipt rules within a receipt rule set. NOTE: All of the rules in the rule set must be represented in this re- quest. That is, it is error if the reorder request doesn't explic- itly position all of the rules. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReorderReceiptRuleSetAsync(AwsSesReorderReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReorderReceiptRuleSetAsync(AwsSesReorderReceiptRuleSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates and sends a bounce message to the sender of an email you re- ceived through Amazon SES. You can only use this operation on an email up to 24 hours after you receive it. NOTE: You cannot use this operation to send generic bounces for mail that was not received by Amazon SES. For information about receiving email through Amazon SES, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendBounceAsync(AwsSesSendBounceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendBounceAsync(AwsSesSendBounceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Composes an email message to multiple destinations. The message body is created using an email template. To send email using this operation, your call must meet the following requirements: o The call must refer to an existing email template. You can create email templates using CreateTemplate . o The message must be sent from a verified email address or domain. o If your account is still in the Amazon SES sandbox, you may send only to verified addresses or domains, or to email addresses associat...
@@ -473,8 +429,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendBulkTemplatedEmailAsync(AwsSesSendBulkTemplatedEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendBulkTemplatedEmailAsync(AwsSesSendBulkTemplatedEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an email address to the list of identities for your Amazon SES ac- count in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Tem- plates in the Amazon SES Developer Guid...
@@ -483,8 +438,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendCustomVerificationEmailAsync(AwsSesSendCustomVerificationEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendCustomVerificationEmailAsync(AwsSesSendCustomVerificationEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Composes an email message and immediately queues it for sending. To send email using this operation, your message must meet the following requirements: o The message must be sent from a verified email address or domain. If you attempt to send email using a non-verified address or domain, the operation results in an "Email address not verified" error. o If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated with the...
@@ -493,8 +447,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendEmailAsync(AwsSesSendEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendEmailAsync(AwsSesSendEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Composes an email message and immediately queues it for sending. This operation is more flexible than the SendEmail operation. When you use the SendRawEmail operation, you can specify the headers of the mes- sage as well as its content. This flexibility is useful, for example, when you need to send a multipart MIME email (such a message that con- tains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the f...
@@ -503,8 +456,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendRawEmailAsync(AwsSesSendRawEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendRawEmailAsync(AwsSesSendRawEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements: o The call must refer to an existing email template. You can create email templates using the CreateTemplate operation. o The message must be sent from a verified email address or domain. o If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated ...
@@ -513,8 +465,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendTemplatedEmailAsync(AwsSesSendTemplatedEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendTemplatedEmailAsync(AwsSesSendTemplatedEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the specified receipt rule set as the active receipt rule set. NOTE: To disable your email-receiving through Amazon SES completely, you can call this operation with RuleSetName set to null. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -523,8 +474,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetActiveReceiptRuleSetAsync(AwsSesSetActiveReceiptRuleSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetActiveReceiptRuleSetAsync(AwsSesSetActiveReceiptRuleSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from addresses on that domain. If Easy DKIM signing is enabled for an email address, then Amazon SES uses DKIM to sign all email it sends from that address. NOTE: For email addresses (for example, user@example.com ), you can only enable DKIM signing if the corresponding domain (in this case, exam- ple.com ) has been set up t...
@@ -533,8 +483,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetIdentityDkimEnabledAsync(AwsSesSetIdentityDkimEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetIdentityDkimEnabledAsync(AwsSesSetIdentityDkimEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple No- tification Service (Amazon SNS) topics are specified for both bounces and complaints. NOTE: Feedback forwarding does not apply to delivery notifications. Deliv- ery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more infor...
@@ -543,8 +492,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetIdentityFeedbackForwardingEnabledAsync(AwsSesSetIdentityFeedbackForwardingEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetIdentityFeedbackForwardingEnabledAsync(AwsSesSetIdentityFeedbackForwardingEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notifica- tion Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetIdentityHeadersInNotificationsEnabledAsync(AwsSesSetIdentityHeadersInNotificationsEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetIdentityHeadersInNotificationsEnabledAsync(AwsSesSetIdentityHeadersInNotificationsEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables the custom MAIL FROM domain setup for a verified identity (an email address or a domain). WARNING: To send emails using the specified MAIL FROM domain, you must add an MX record to your MAIL FROM domain's DNS settings. To ensure that your emails pass Sender Policy Framework (SPF) checks, you must also add or update an SPF record. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentat...
@@ -563,8 +510,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetIdentityMailFromDomainAsync(AwsSesSetIdentityMailFromDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetIdentityMailFromDomainAsync(AwsSesSetIdentityMailFromDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use this operation, you specify a verified identity, such as an email address or domain. When you send an email that uses the chosen identity in the Source field, Amazon SES sends notifications to the topic you specified. You can send bounce, complaint, or delivery notifications (or any combination of the three) to the Amazon SNS topic that you specify. You can execute this operation no m...
@@ -573,8 +519,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetIdentityNotificationTopicAsync(AwsSesSetIdentityNotificationTopicOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetIdentityNotificationTopicAsync(AwsSesSetIdentityNotificationTopicOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -583,8 +528,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetReceiptRulePositionAsync(AwsSesSetReceiptRulePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetReceiptRulePositionAsync(AwsSesSetReceiptRulePositionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestRenderTemplateAsync(AwsSesTestRenderTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestRenderTemplateAsync(AwsSesTestRenderTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables email sending across your entire Amazon SES account in the current Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given Amazon Web Services Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAccountSendingEnabledAsync(AwsSesUpdateAccountSendingEnabledOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAccountSendingEnabledAsync(AwsSesUpdateAccountSendingEnabledOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the event destination of a configuration set. Event destina- tions are associated with configuration sets, which enable you to pub- lish email sending events to Amazon CloudWatch, Amazon Kinesis Fire- hose, or Amazon Simple Notification Service (Amazon SNS). For informa- tion about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide. NOTE: When you create or update an event destination, you must provide one, and only one, destinatio...
@@ -613,8 +555,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationSetEventDestinationAsync(AwsSesUpdateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConfigurationSetEventDestinationAsync(AwsSesUpdateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresh- olds. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -623,8 +564,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationSetReputationMetricsEnabledAsync(AwsSesUpdateConfigurationSetReputationMetricsEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConfigurationSetReputationMetricsEnabledAsync(AwsSesUpdateConfigurationSetReputationMetricsEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to tem- porarily pause email sending for a configuration set when the reputa- tion metrics for that configuration set (such as your bounce on com- plaint rate) exceed certain thresholds. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -633,8 +573,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationSetSendingEnabledAsync(AwsSesUpdateConfigurationSetSendingEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConfigurationSetSendingEnabledAsync(AwsSesUpdateConfigurationSetSendingEnabledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . See also: AWS API Documentation
@@ -643,8 +582,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationSetTrackingOptionsAsync(AwsSesUpdateConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConfigurationSetTrackingOptionsAsync(AwsSesUpdateConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -653,8 +591,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCustomVerificationEmailTemplateAsync(AwsSesUpdateCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCustomVerificationEmailTemplateAsync(AwsSesUpdateCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a receipt rule. For information about managing receipt rules, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -663,8 +600,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReceiptRuleAsync(AwsSesUpdateReceiptRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReceiptRuleAsync(AwsSesUpdateReceiptRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -673,8 +609,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTemplateAsync(AwsSesUpdateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTemplateAsync(AwsSesUpdateTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a set of DKIM tokens for a domain identity. WARNING: When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity oper- ation. However, you can't send email from the domain until you ei- ther successfully verify it or you successfully set up DKIM for it . You use the tokens that are gen...
@@ -683,8 +618,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyDomainDkimAsync(AwsSesVerifyDomainDkimOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyDomainDkimAsync(AwsSesVerifyDomainDkimOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a domain to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. For more information about verifying domains, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -693,8 +627,7 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyDomainIdentityAsync(AwsSesVerifyDomainIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyDomainIdentityAsync(AwsSesVerifyDomainIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an email address to the list of identities for your Amazon SES ac- count in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -703,7 +636,6 @@ public interface IAwsSes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyEmailIdentityAsync(AwsSesVerifyEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyEmailIdentityAsync(AwsSesVerifyEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

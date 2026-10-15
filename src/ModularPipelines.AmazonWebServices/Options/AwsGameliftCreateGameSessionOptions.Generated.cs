@@ -86,7 +86,7 @@ public record AwsGameliftCreateGameSessionOptions : AwsOptions, IValidatableObje
     public IEnumerable<string>? GameProperties { get; set; }
 
     /// <summary>
-    /// A unique identifier for a player or entity creating the game ses- sion. If you add a resource creation limit policy to a fleet, the Cre- ateGameSession operation requires a CreatorId . Amazon GameLift Servers limits the number of game session creation requests with the same CreatorId in a specified time period. If you your fleet doesn't have a resource creation limit policy and you provide a CreatorId in your CreateGameSession requests, Amazon GameLift Servers limits requests to one request per CreatorId per second. To not limit CreateGameSession requests with the same CreatorId , don't provide a CreatorId in your CreateGameSession request. Constraints: o min: 1 o max: 1024
+    /// A unique identifier for a player or entity creating the game ses- sion. If you add a resource creation limit policy to a fleet, the Cre- ateGameSession operation requires a CreatorId . Amazon GameLift Servers limits the number of game session creation requests with the same CreatorId in a specified time period. If your fleet doesn't have a resource creation limit policy and you provide a CreatorId in your CreateGameSession requests, Amazon GameLift Servers limits requests to one request per CreatorId per second. To not limit CreateGameSession requests with the same CreatorId , don't provide a CreatorId in your CreateGameSession request. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--creator-id")]
     public string? CreatorId { get; set; }

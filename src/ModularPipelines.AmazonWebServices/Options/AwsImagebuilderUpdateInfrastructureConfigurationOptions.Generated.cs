@@ -116,6 +116,12 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     public bool? TerminateInstanceOnFailure { get; set; }
 
     /// <summary>
+    /// tion (boolean) Specifies whether Image Builder terminates build and test instances when image creation ends without a failure (success, cancellation, or expiration). Defaults to true .
+    /// </summary>
+    [CliFlag("--terminate-instance-on-completion", NegatedName = "--no-terminate-instance-on-completion")]
+    public bool? TerminateInstanceOnCompletion { get; set; }
+
+    /// <summary>
     /// The Amazon Resource Name (ARN) of the SNS topic to which Image Builder sends image build event notifications. Specify a standard topic. Image Builder doesn't support FIFO topics. Image Builder val- idates the topic when you create or update the configuration. You must have permission to publish to the topic. NOTE: EC2 Image Builder can't send notifications to SNS topics that are encrypted using keys from other accounts. If your SNS topic is encrypted, the key must be owned by the same account that owns your Image Builder resources. Constraints: o pattern: ^arn:aws[^:]*:sns:[^:]+:[0-9]{12}:[a-zA-Z0-9-_]{1,256}$
     /// </summary>
     [CliOption("--sns-topic-arn")]
@@ -138,6 +144,12 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     /// </summary>
     [CliOption("--placement")]
     public string? Placement { get; set; }
+
+    /// <summary>
+    /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of launching a new instance. This applies only to the build phase. To use this feature, the execution role for the build must have per- missions to describe the Auto Scaling group, tag the instance while it's still in the group, and detach it from the group. For more in- formation, see Build on an instance from an Auto Scaling group in the EC2 Image Builder User Guide . autoScalingGroup -&gt; (structure) [required] The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from. This is required when you specify parentIn- stance . name -&gt; (string) [required] The name of the Auto Scaling group, in the same account and Amazon Web Services Region as the infrastructure configura- tion. To specify a group, you must have permissions to de- scribe it. Constraints: o min: 1 o max: 1024 capacityWaitTimeoutSeconds -&gt; (integer) The number of seconds that Image Builder waits for an in- stance to become available in the group before the build fails. If you set this value to 0 or omit it, the build fails as soon as the group has no instance available. Constraints: o min: 0 o max: 3600 Shorthand Syntax: autoScalingGroup={name=string,capacityWaitTimeoutSeconds=integer} JSON Syntax: { "autoScalingGroup": { "name": "string", "capacityWaitTimeoutSeconds": integer } }
+    /// </summary>
+    [CliOption("--parent-instance")]
+    public string? ParentInstance { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64

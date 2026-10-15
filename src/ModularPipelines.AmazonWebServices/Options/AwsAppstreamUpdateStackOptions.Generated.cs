@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -98,7 +99,7 @@ public record AwsAppstreamUpdateStackOptions : AwsOptions, IValidatableObject
     public string? FeedbackUrl { get; set; }
 
     /// <summary>
-    /// The stack attributes to delete. (string) The stack attributes to delete. o STORAGE_CONNECTORS o STORAGE_CONNECTOR_HOMEFOLDERS o STORAGE_CONNECTOR_GOOGLE_DRIVE o STORAGE_CONNECTOR_ONE_DRIVE o REDIRECT_URL o FEEDBACK_URL o THEME_NAME o USER_SETTINGS o EMBED_HOST_DOMAINS o IAM_ROLE_ARN o ACCESS_ENDPOINTS o STREAMING_EXPERIENCE_SETTINGS o AGENT_ACCESS_CONFIG Possible values: o STORAGE_CONNECTORS o STORAGE_CONNECTOR_HOMEFOLDERS o STORAGE_CONNECTOR_GOOGLE_DRIVE o STORAGE_CONNECTOR_ONE_DRIVE o REDIRECT_URL o FEEDBACK_URL o THEME_NAME o USER_SETTINGS o EMBED_HOST_DOMAINS o IAM_ROLE_ARN o ACCESS_ENDPOINTS o STREAMING_EXPERIENCE_SETTINGS o CONTENT_REDIRECTION o AGENT_ACCESS_CONFIG Syntax: "string" "string" ...
+    /// The stack attributes to delete. (string) The stack attributes to delete. o STORAGE_CONNECTORS o STORAGE_CONNECTOR_HOMEFOLDERS o STORAGE_CONNECTOR_GOOGLE_DRIVE o STORAGE_CONNECTOR_ONE_DRIVE o REDIRECT_URL o FEEDBACK_URL o THEME_NAME o USER_SETTINGS o EMBED_HOST_DOMAINS o IAM_ROLE_ARN o ACCESS_ENDPOINTS o STREAMING_EXPERIENCE_SETTINGS o AGENT_ACCESS_CONFIG o STORAGE_CONNECTOR_AUTHENTICATION Possible values: o STORAGE_CONNECTORS o STORAGE_CONNECTOR_HOMEFOLDERS o STORAGE_CONNECTOR_GOOGLE_DRIVE o STORAGE_CONNECTOR_ONE_DRIVE o REDIRECT_URL o FEEDBACK_URL o THEME_NAME o USER_SETTINGS o EMBED_HOST_DOMAINS o IAM_ROLE_ARN o ACCESS_ENDPOINTS o STREAMING_EXPERIENCE_SETTINGS o CONTENT_REDIRECTION o AGENT_ACCESS_CONFIG o STORAGE_CONNECTOR_AUTHENTICATION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attributes-to-delete", GroupValues = true)]
     public IEnumerable<string>? AttributesToDelete { get; set; }
@@ -144,6 +145,12 @@ public record AwsAppstreamUpdateStackOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliOption("--agent-access-config")]
     public string? AgentAccessConfig { get; set; }
+
+    /// <summary>
+    /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next ses- sion. To clear this attribute, add STORAGE_CONNECTOR_AUTHENTICATION to AttributesToDelete. Possible values: o FORCE_REAUTHENTICATION o REUSE_CREDENTIALS
+    /// </summary>
+    [CliOption("--storage-connector-authentication")]
+    public AwsAppstreamUpdateStackStorageConnectorAuthentication? StorageConnectorAuthentication { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

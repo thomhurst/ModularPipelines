@@ -28,8 +28,7 @@ public interface IAwsSso
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRoleCredentialsAsync(AwsSsoGetRoleCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRoleCredentialsAsync(AwsSsoGetRoleCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all roles that are assigned to the user for a given AWS account. See also: AWS API Documentation list-account-roles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: roleList
@@ -38,8 +37,7 @@ public interface IAwsSso
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccountRolesAsync(AwsSsoListAccountRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccountRolesAsync(AwsSsoListAccountRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all AWS accounts assigned to the user. These AWS accounts are as- signed by the administrator of the account. For more information, see Assign User Access in the IAM Identity Center User Guide . This opera- tion returns a paginated response. See also: AWS API Documentation list-accounts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output te...
@@ -48,8 +46,7 @@ public interface IAwsSso
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccountsAsync(AwsSsoListAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccountsAsync(AwsSsoListAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves and caches an AWS IAM Identity Center access token to ex- change for AWS credentials. To login, the requested profile must have first been setup using aws configure sso. Each time the login command is called, a new SSO access token will be retrieved. Please note that only one login session can be active for a given SSO Session and creat- ing multiple profiles does not allow for multiple users to be authenti- cated against the same SSO Session.
@@ -58,8 +55,7 @@ public interface IAwsSso
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LoginAsync(AwsSsoLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LoginAsync(AwsSsoLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes all cached AWS IAM Identity Center access tokens and any cached temporary AWS credentials retrieved with SSO access tokens across all profiles. To use these profiles again, run: aws sso login
@@ -68,7 +64,6 @@ public interface IAwsSso
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LogoutAsync(AwsSsoLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LogoutAsync(AwsSsoLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -78,7 +78,7 @@ public record AwsLambdaPutRuntimeManagementConfigOptions : AwsOptions, IValidata
     public string? Qualifier { get; set; }
 
     /// <summary>
-    /// The ARN of the runtime version you want the function to use. NOTE: This is only required if you're using the Manual runtime update mode. Constraints: o min: 26 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}::run- time:.+
+    /// The ARN of the runtime version you want the function to use. NOTE: This is only required if you're using the Manual runtime update mode. Constraints: o min: 26 o max: 2048 o pattern: ((arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}::run- time:.+)|(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:run- time/[A-Za-z0-9_.-]{1,128}/version/[A-Za-z0-9_.-]{1,128}))
     /// </summary>
     [CliOption("--runtime-version-arn")]
     public string? RuntimeVersionArn { get; set; }

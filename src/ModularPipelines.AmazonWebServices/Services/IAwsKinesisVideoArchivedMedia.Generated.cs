@@ -28,8 +28,7 @@ public interface IAwsKinesisVideoArchivedMedia
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClipAsync(AwsKinesisVideoArchivedMediaGetClipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClipAsync(AwsKinesisVideoArchivedMediaGetClipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream. You can then open the URL in a media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for pro- viding data through MPEG-DASH: o The media must contain h.264 or h.265 encoded video and, optionally, AAC or G.711 en...
@@ -38,8 +37,7 @@ public interface IAwsKinesisVideoArchivedMedia
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDashStreamingSessionUrlAsync(AwsKinesisVideoArchivedMediaGetDashStreamingSessionUrlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDashStreamingSessionUrlAsync(AwsKinesisVideoArchivedMediaGetDashStreamingSessionUrlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the URL in a browser or media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for pro- viding data through HLS: o For streaming video, the media must contain H.264 or H.265 encoded video and, optionally, AAC encoded ...
@@ -48,8 +46,7 @@ public interface IAwsKinesisVideoArchivedMedia
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHlsStreamingSessionUrlAsync(AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHlsStreamingSessionUrlAsync(AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration. See also: AWS API Documentation get-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
@@ -58,8 +55,7 @@ public interface IAwsKinesisVideoArchivedMedia
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImagesAsync(AwsKinesisVideoArchivedMediaGetImagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImagesAsync(AwsKinesisVideoArchivedMediaGetImagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter . For limits, see Kinesis Video Streams Limits . WARNING: If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the re- sponse body, it incl...
@@ -68,8 +64,7 @@ public interface IAwsKinesisVideoArchivedMedia
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMediaForFragmentListAsync(AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMediaForFragmentListAsync(AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Fragment objects from the specified stream and time- stamp range within the archived data. Listing fragments is eventually consistent. This means that even if the producer receives an acknowledgment that a fragment is persisted, the result might not be returned immediately from a request to ListFrag- ments . However, results are typically available in less than one sec- ond. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the ListFragments reques...
@@ -78,7 +73,6 @@ public interface IAwsKinesisVideoArchivedMedia
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFragmentsAsync(AwsKinesisVideoArchivedMediaListFragmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFragmentsAsync(AwsKinesisVideoArchivedMediaListFragmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

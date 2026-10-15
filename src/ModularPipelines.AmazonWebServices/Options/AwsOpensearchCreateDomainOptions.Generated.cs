@@ -112,7 +112,7 @@ public record AwsOpensearchCreateDomainOptions : AwsOptions, IValidatableObject
     public string? CognitoOptions { get; set; }
 
     /// <summary>
-    /// Key-value pairs to enable encryption at rest. Enabled -&gt; (boolean) True to enable encryption at rest. KmsKeyId -&gt; (string) The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a . Constraints: o min: 1 o max: 500 o pattern: .* Shorthand Syntax: Enabled=boolean,KmsKeyId=string JSON Syntax: { "Enabled": true|false, "KmsKeyId": "string" }
+    /// Key-value pairs to enable encryption at rest. Enabled -&gt; (boolean) True to enable encryption at rest. KmsKeyId -&gt; (string) The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a . Constraints: o min: 1 o max: 500 o pattern: .* EncryptionMode -&gt; (string) The type of encryption at rest applied to the domain's data. Valid values are DISK and NATIVE . DISK is the default and uses volume-level encryption. NATIVE uses engine-native, index-level encryption and requires encryption at rest to be enabled and OpenSearch version 3.3 or later. After the mode is set to NATIVE , it can't be changed back to DISK . Possible values: o DISK o NATIVE Shorthand Syntax: Enabled=boolean,KmsKeyId=string,EncryptionMode=string JSON Syntax: { "Enabled": true|false, "KmsKeyId": "string", "EncryptionMode": "DISK"|"NATIVE" }
     /// </summary>
     [CliOption("--encryption-at-rest-options")]
     public string? EncryptionAtRestOptions { get; set; }

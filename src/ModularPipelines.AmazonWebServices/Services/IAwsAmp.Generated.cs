@@ -24,7 +24,7 @@ public interface IAwsAmp
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsAmpWait Wait => throw new System.NotSupportedException();
+    AwsAmpWait Wait { get; }
 
     /// <summary>
     /// The CreateAlertManagerDefinition operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use PutAlertManagerDefinition . See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAlertManagerDefinitionAsync(AwsAmpCreateAlertManagerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAlertManagerDefinitionAsync(AwsAmpCreateAlertManagerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector ana- lyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAnomalyDetectorAsync(AwsAmpCreateAnomalyDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAnomalyDetectorAsync(AwsAmpCreateAnomalyDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The CreateLoggingConfiguration operation creates rules and alerting logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLoggingConfigurationAsync(AwsAmpCreateLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLoggingConfigurationAsync(AwsAmpCreateLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQueryLoggingConfigurationAsync(AwsAmpCreateQueryLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQueryLoggingConfigurationAsync(AwsAmpCreateQueryLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. WARNING: The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace . See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRuleGroupsNamespaceAsync(AwsAmpCreateRuleGroupsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRuleGroupsNamespaceAsync(AwsAmpCreateRuleGroupsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Ser- vice for Prometheus workspaces or CloudWatch datasets. You can config- ure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service dis- covery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transfor- mations to ...
@@ -83,8 +78,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateScraperAsync(AwsAmpCreateScraperOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateScraperAsync(AwsAmpCreateScraperOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Prometheus workspace. A workspace is a logical space dedi- cated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkspaceAsync(AwsAmpCreateWorkspaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkspaceAsync(AwsAmpCreateWorkspaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the alert manager definition from a workspace. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAlertManagerDefinitionAsync(AwsAmpDeleteAlertManagerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAlertManagerDefinitionAsync(AwsAmpDeleteAlertManagerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an anomaly detector from a workspace. This operation is idempo- tent. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAnomalyDetectorAsync(AwsAmpDeleteAnomalyDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAnomalyDetectorAsync(AwsAmpDeleteAnomalyDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the rules and alerting logging configuration for a workspace. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLoggingConfigurationAsync(AwsAmpDeleteLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLoggingConfigurationAsync(AwsAmpDeleteLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the query logging configuration for the specified workspace. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQueryLoggingConfigurationAsync(AwsAmpDeleteQueryLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQueryLoggingConfigurationAsync(AwsAmpDeleteQueryLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsAmpDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsAmpDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes one rule groups namespace and its associated rule groups defin- ition. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRuleGroupsNamespaceAsync(AwsAmpDeleteRuleGroupsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRuleGroupsNamespaceAsync(AwsAmpDeleteRuleGroupsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteScraperLoggingConfigurationAsync(AwsAmpDeleteScraperLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteScraperLoggingConfigurationAsync(AwsAmpDeleteScraperLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The DeleteScraper operation deletes one scraper, and stops any metrics collection that the scraper performs. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteScraperAsync(AwsAmpDeleteScraperOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteScraperAsync(AwsAmpDeleteScraperOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing workspace. NOTE: When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkspaceAsync(AwsAmpDeleteWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkspaceAsync(AwsAmpDeleteWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the full information about the alert manager definition for a workspace. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAlertManagerDefinitionAsync(AwsAmpDescribeAlertManagerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAlertManagerDefinitionAsync(AwsAmpDescribeAlertManagerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific anomaly detector, in- cluding its status and configuration. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAnomalyDetectorAsync(AwsAmpDescribeAnomalyDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAnomalyDetectorAsync(AwsAmpDescribeAnomalyDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns complete information about the current rules and alerting log- ging configuration of the workspace. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLoggingConfigurationAsync(AwsAmpDescribeLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLoggingConfigurationAsync(AwsAmpDescribeLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of the query logging configuration for the speci- fied workspace. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeQueryLoggingConfigurationAsync(AwsAmpDescribeQueryLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeQueryLoggingConfigurationAsync(AwsAmpDescribeQueryLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the resource-based policy attached to an Ama- zon Managed Service for Prometheus workspace. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourcePolicyAsync(AwsAmpDescribeResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourcePolicyAsync(AwsAmpDescribeResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns complete information about one rule groups namespace. To re- trieve a list of rule groups namespaces, use ListRuleGroupsNamespaces . See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRuleGroupsNamespaceAsync(AwsAmpDescribeRuleGroupsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRuleGroupsNamespaceAsync(AwsAmpDescribeRuleGroupsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the logging configuration for a Amazon Managed Service for Prometheus scraper. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScraperLoggingConfigurationAsync(AwsAmpDescribeScraperLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScraperLoggingConfigurationAsync(AwsAmpDescribeScraperLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The DescribeScraper operation displays information about an existing scraper. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScraperAsync(AwsAmpDescribeScraperOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScraperAsync(AwsAmpDescribeScraperOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace config- uration status, label set limits, and retention period. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWorkspaceConfigurationAsync(AwsAmpDescribeWorkspaceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWorkspaceConfigurationAsync(AwsAmpDescribeWorkspaceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an existing workspace. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWorkspaceAsync(AwsAmpDescribeWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWorkspaceAsync(AwsAmpDescribeWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The GetDefaultScraperConfiguration operation returns the default scraper configuration used when Amazon EKS creates a scraper for you. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDefaultScraperConfigurationAsync(AwsAmpGetDefaultScraperConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDefaultScraperConfigurationAsync(AwsAmpGetDefaultScraperConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of anomaly detectors for a workspace with op- tional filtering by alias. See also: AWS API Documentation list-anomaly-detectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
@@ -303,8 +276,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnomalyDetectorsAsync(AwsAmpListAnomalyDetectorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnomalyDetectorsAsync(AwsAmpListAnomalyDetectorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of rule groups namespaces in a workspace. See also: AWS API Documentation list-rule-groups-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ruleGroupsNamespaces
@@ -313,8 +285,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRuleGroupsNamespacesAsync(AwsAmpListRuleGroupsNamespacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRuleGroupsNamespacesAsync(AwsAmpListRuleGroupsNamespacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list. See also: AWS API Documentation list-scrapers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
@@ -323,8 +294,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListScrapersAsync(AwsAmpListScrapersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListScrapersAsync(AwsAmpListScrapersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsAmpListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsAmpListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
@@ -343,8 +312,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkspacesAsync(AwsAmpListWorkspacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkspacesAsync(AwsAmpListWorkspacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use CreateAlertManagerDefinition . See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAlertManagerDefinitionAsync(AwsAmpPutAlertManagerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAlertManagerDefinitionAsync(AwsAmpPutAlertManagerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// When you call PutAnomalyDetector , the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the de- tector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the sin- gle ...
@@ -363,8 +330,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAnomalyDetectorAsync(AwsAmpPutAnomalyDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAnomalyDetectorAsync(AwsAmpPutAnomalyDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates a resource-based policy for an Amazon Managed Ser- vice for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace. Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-Prometheus-compatible APIs to the policy, but they will be ignored. For more information, see Prometheus-compatible APIs in the Amazon Managed Service for Prometheus User Guide . If your workspace uses custo...
@@ -373,8 +339,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsAmpPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsAmpPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. WARNING: The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace . You can't use this operation to add tags to an existing rule groups nam...
@@ -383,8 +348,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRuleGroupsNamespaceAsync(AwsAmpPutRuleGroupsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRuleGroupsNamespaceAsync(AwsAmpPutRuleGroupsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The TagResource operation associates tags with an Amazon Managed Ser- vice for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource . See a...
@@ -393,8 +357,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsAmpTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsAmpTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. See also: AWS API Documentation
@@ -403,8 +366,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsAmpUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsAmpUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the log group ARN or the workspace ID of the current rules and alerting logging configuration. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLoggingConfigurationAsync(AwsAmpUpdateLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLoggingConfigurationAsync(AwsAmpUpdateLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the query logging configuration for the specified workspace. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQueryLoggingConfigurationAsync(AwsAmpUpdateQueryLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQueryLoggingConfigurationAsync(AwsAmpUpdateQueryLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the logging configuration for a Amazon Managed Service for Prometheus scraper. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateScraperLoggingConfigurationAsync(AwsAmpUpdateScraperLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateScraperLoggingConfigurationAsync(AwsAmpUpdateScraperLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing scraper. You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateScraperAsync(AwsAmpUpdateScraperOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateScraperAsync(AwsAmpUpdateScraperOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the alias of an existing workspace. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkspaceAliasAsync(AwsAmpUpdateWorkspaceAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkspaceAliasAsync(AwsAmpUpdateWorkspaceAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to create or update the label sets, label set lim- its, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeri- odInDays for the request to be valid. See also: AWS API Documentation
@@ -463,7 +420,6 @@ public interface IAwsAmp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkspaceConfigurationAsync(AwsAmpUpdateWorkspaceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkspaceConfigurationAsync(AwsAmpUpdateWorkspaceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

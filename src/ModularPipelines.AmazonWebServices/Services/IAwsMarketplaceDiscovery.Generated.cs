@@ -28,8 +28,7 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetListingAsync(AwsMarketplaceDiscoveryGetListingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetListingAsync(AwsMarketplaceDiscoveryGetListingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about an offer, such as the pricing model, seller of record, availability dates, badges, and associated products. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOfferAsync(AwsMarketplaceDiscoveryGetOfferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOfferAsync(AwsMarketplaceDiscoveryGetOfferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about an offer set, which is a bundle of offers across multiple products. Includes the seller, availability dates, buyer notes, and associated product-offer pairs. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOfferSetAsync(AwsMarketplaceDiscoveryGetOfferSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOfferSetAsync(AwsMarketplaceDiscoveryGetOfferSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the terms attached to an offer, such as pricing terms (us- age-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms. See also: AWS API Documentation get-offer-terms is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
@@ -58,8 +55,7 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOfferTermsAsync(AwsMarketplaceDiscoveryGetOfferTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOfferTermsAsync(AwsMarketplaceDiscoveryGetOfferTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about a product, such as descriptions, highlights, categories, fulfillment option summaries, promotional media, and seller engagement options. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProductAsync(AwsMarketplaceDiscoveryGetProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProductAsync(AwsMarketplaceDiscoveryGetProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the fulfillment options available for a product, including de- ployment details such as version information, operating systems, usage instructions, and release notes. See also: AWS API Documentation list-fulfillment-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
@@ -78,8 +73,7 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFulfillmentOptionsAsync(AwsMarketplaceDiscoveryListFulfillmentOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFulfillmentOptionsAsync(AwsMarketplaceDiscoveryListFulfillmentOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the purchase options (offers and offer sets) available to the buyer. You can filter results by product, seller, purchase option type, visibility scope, and availability status. NOTE: You must include at least one of the following filters in the re- quest: a PRODUCT_ID filter to specify the product for which to re- trieve purchase options, or a VISIBILITY_SCOPE filter to retrieve purchase options by visibility. See also: AWS API Documentation list-purchase-options is a paginated operation...
@@ -88,8 +82,7 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPurchaseOptionsAsync(AwsMarketplaceDiscoveryListPurchaseOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPurchaseOptionsAsync(AwsMarketplaceDiscoveryListPurchaseOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns available facet values for filtering listings, such as cate- gories, pricing models, fulfillment option types, publishers, and cus- tomer ratings. Each facet value includes a count of matching listings. See also: AWS API Documentation search-facets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
@@ -98,8 +91,7 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchFacetsAsync(AwsMarketplaceDiscoverySearchFacetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchFacetsAsync(AwsMarketplaceDiscoverySearchFacetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of product listings based on search criteria and fil- ters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating. See also: AWS API Documentation search-listings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query ...
@@ -108,7 +100,6 @@ public interface IAwsMarketplaceDiscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchListingsAsync(AwsMarketplaceDiscoverySearchListingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchListingsAsync(AwsMarketplaceDiscoverySearchListingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -28,8 +28,7 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApprovePaidSubscriptionAsync(AwsPricingPlanManagerApprovePaidSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApprovePaidSubscriptionAsync(AwsPricingPlanManagerApprovePaidSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more resources to an existing subscription. The subscrip- tion must be in an active state that is not pending other changes. NOTE: For subscriptions in the CloudFront plan family, the associated re- sources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateResourcesToSubscriptionAsync(AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateResourcesToSubscriptionAsync(AwsPricingPlanManagerAssociateResourcesToSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a pending scheduled change on a subscription, such as a pending downgrade or cancellation. The subscription returns to its state before the change was scheduled. NOTE: You cannot cancel a scheduled change close to its effective date. If the change is within the processing window, this operation returns an error. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelSubscriptionChangeAsync(AwsPricingPlanManagerCancelSubscriptionChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelSubscriptionChangeAsync(AwsPricingPlanManagerCancelSubscriptionChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a flat-rate pricing subscription. NOTE: For active subscriptions, the cancellation is scheduled to take ef- fect at the end of the current billing period. The subscription re- mains active until that date. To revert a pending cancellation, use CancelSubscriptionChange . For subscriptions in PENDING_APPROVAL status, the subscription is deleted immediately without scheduling. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelSubscriptionAsync(AwsPricingPlanManagerCancelSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelSubscriptionAsync(AwsPricingPlanManagerCancelSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a flat-rate pricing subscription for the specified resources. NOTE: When approvalMode is set to MANUAL , paid-tier subscriptions are created in PENDING_APPROVAL status and require a separate Approve- PaidSubscription call before billing starts. Free-tier subscriptions are always activated immediately regardless of approval mode. When approvalMode is set to IMMEDIATE or is not specified, the sub- scription is activated immediately. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSubscriptionAsync(AwsPricingPlanManagerCreateSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSubscriptionAsync(AwsPricingPlanManagerCreateSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more resources from an existing subscription. NOTE: For subscriptions in the CloudFront plan family, the associated re- sources must always include exactly one Amazon CloudFront distribu- tion and exactly one WAF web ACL. You cannot remove these required resources. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateResourcesFromSubscriptionAsync(AwsPricingPlanManagerDisassociateResourcesFromSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateResourcesFromSubscriptionAsync(AwsPricingPlanManagerDisassociateResourcesFromSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the details of a flat-rate pricing subscription, including its current status, associated resources, and any pending scheduled changes. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSubscriptionAsync(AwsPricingPlanManagerGetSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSubscriptionAsync(AwsPricingPlanManagerGetSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a summary of all flat-rate pricing subscriptions in the calling account. See also: AWS API Documentation list-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: subscriptionSummaries
@@ -98,8 +91,7 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSubscriptionsAsync(AwsPricingPlanManagerListSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSubscriptionsAsync(AwsPricingPlanManagerListSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the plan tier of an existing subscription. NOTE: Upgrades take effect immediately. Downgrades are scheduled and the current tier remains unchanged until the end of the billing cycle (calendar month). You cannot update a subscription while a scheduled change is pending. To make a new change, first cancel the pending change using CancelSubscriptionChange . This operation replaces the plan tier value. If you omit the op- tional usageLevel field, it is reset to the default. See also: AWS API...
@@ -108,7 +100,6 @@ public interface IAwsPricingPlanManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSubscriptionAsync(AwsPricingPlanManagerUpdateSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSubscriptionAsync(AwsPricingPlanManagerUpdateSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

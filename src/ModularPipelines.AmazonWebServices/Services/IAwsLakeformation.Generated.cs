@@ -28,8 +28,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddLfTagsToResourceAsync(AwsLakeformationAddLfTagsToResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddLfTagsToResourceAsync(AwsLakeformationAddLfTagsToResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows a caller to assume an IAM role decorated as the SAML user speci- fied in the SAML assertion included in the request. This decoration al- lows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the callers account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be in...
@@ -38,8 +37,16 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssumeDecoratedRoleWithSamlAsync(AwsLakeformationAssumeDecoratedRoleWithSamlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssumeDecoratedRoleWithSamlAsync(AwsLakeformationAssumeDecoratedRoleWithSamlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Attaches a row-level security policy to a resource for a principal. When the principal queries the resource, Lake Formation applies the policy's filter expression so that only the permitted rows are re- turned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> AttachRlsPolicyAsync(AwsLakeformationAttachRlsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Batch operation to grant permissions to the principal. See also: AWS API Documentation
@@ -48,8 +55,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGrantPermissionsAsync(AwsLakeformationBatchGrantPermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGrantPermissionsAsync(AwsLakeformationBatchGrantPermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Batch operation to revoke permissions from the principal. See also: AWS API Documentation
@@ -58,8 +64,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchRevokePermissionsAsync(AwsLakeformationBatchRevokePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchRevokePermissionsAsync(AwsLakeformationBatchRevokePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed. See also: AWS API Documentation
@@ -68,8 +73,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelTransactionAsync(AwsLakeformationCancelTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelTransactionAsync(AwsLakeformationCancelTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction. See also: AWS API Documentation
@@ -78,8 +82,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CommitTransactionAsync(AwsLakeformationCommitTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CommitTransactionAsync(AwsLakeformationCommitTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a data cell filter to allow one to grant access to certain columns on certain rows. See also: AWS API Documentation
@@ -88,8 +91,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataCellsFilterAsync(AwsLakeformationCreateDataCellsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataCellsFilterAsync(AwsLakeformationCreateDataCellsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources. See also: AWS API Documentation
@@ -98,8 +100,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLakeFormationIdentityCenterConfigurationAsync(AwsLakeformationCreateLakeFormationIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLakeFormationIdentityCenterConfigurationAsync(AwsLakeformationCreateLakeFormationIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enforce Lake Formation permissions for the given databases, tables, and principals. See also: AWS API Documentation
@@ -108,8 +109,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLakeFormationOptInAsync(AwsLakeformationCreateLakeFormationOptInOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLakeFormationOptInAsync(AwsLakeformationCreateLakeFormationOptInOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the callers account or if the un- derlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression. See also: AWS API Docu...
@@ -118,8 +118,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLfTagExpressionAsync(AwsLakeformationCreateLfTagExpressionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLfTagExpressionAsync(AwsLakeformationCreateLfTagExpressionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an LF-tag with the specified name and values. See also: AWS API Documentation
@@ -128,8 +127,16 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLfTagAsync(AwsLakeformationCreateLfTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLfTagAsync(AwsLakeformationCreateLfTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates a row-level security (RLS) policy. A row-level security policy defines a filter expression that Lake Formation evaluates to determine which rows of a table a principal is allowed to see. The policy is cre- ated independently of any resource, and is later associated with a re- source and principal using AttachRLSPolicy . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateRlsPolicyAsync(AwsLakeformationCreateRlsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a data cell filter. See also: AWS API Documentation
@@ -138,8 +145,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataCellsFilterAsync(AwsLakeformationDeleteDataCellsFilterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataCellsFilterAsync(AwsLakeformationDeleteDataCellsFilterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an IAM Identity Center connection with Lake Formation. See also: AWS API Documentation
@@ -148,8 +154,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLakeFormationIdentityCenterConfigurationAsync(AwsLakeformationDeleteLakeFormationIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLakeFormationIdentityCenterConfigurationAsync(AwsLakeformationDeleteLakeFormationIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove the Lake Formation permissions enforcement of the given data- bases, tables, and principals. See also: AWS API Documentation
@@ -158,8 +163,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLakeFormationOptInAsync(AwsLakeformationDeleteLakeFormationOptInOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLakeFormationOptInAsync(AwsLakeformationDeleteLakeFormationOptInOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the LF-Tag expression. The caller must be a data lake admin or have DROP permissions on the LF-Tag expression. Deleting a LF-Tag ex- pression will also delete all LFTagPolicy permissions referencing the LF-Tag expression. See also: AWS API Documentation
@@ -168,8 +172,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLfTagExpressionAsync(AwsLakeformationDeleteLfTagExpressionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLfTagExpressionAsync(AwsLakeformationDeleteLfTagExpressionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an LF-tag by its key name. The operation fails if the specified tag key doesn't exist. When you delete an LF-Tag: o The associated LF-Tag policy becomes invalid. o Resources that had this tag assigned will no longer have the tag pol- icy applied to them. See also: AWS API Documentation
@@ -178,8 +181,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLfTagAsync(AwsLakeformationDeleteLfTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLfTagAsync(AwsLakeformationDeleteLfTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be au- tomatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction can- cels. The Glue ETL library function write_dynamic_frame.from_catalog() in- cludes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see Rolling Back Amazon S3 Writes . See also:...
@@ -188,8 +190,16 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteObjectsOnCancelAsync(AwsLakeformationDeleteObjectsOnCancelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteObjectsOnCancelAsync(AwsLakeformationDeleteObjectsOnCancelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes a row-level security policy. Any active attachments of the pol- icy are automatically removed as part of the deletion, so you do not need to detach the policy first. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteRlsPolicyAsync(AwsLakeformationDeleteRlsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role. See also: AWS API Documentation
@@ -198,8 +208,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterResourceAsync(AwsLakeformationDeregisterResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterResourceAsync(AwsLakeformationDeregisterResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the instance ARN and application ARN for the connection. See also: AWS API Documentation
@@ -208,8 +217,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLakeFormationIdentityCenterConfigurationAsync(AwsLakeformationDescribeLakeFormationIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLakeFormationIdentityCenterConfigurationAsync(AwsLakeformationDescribeLakeFormationIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current data access role for the given resource regis- tered in Lake Formation. See also: AWS API Documentation
@@ -218,8 +226,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourceAsync(AwsLakeformationDescribeResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourceAsync(AwsLakeformationDescribeResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the details of a single transaction. See also: AWS API Documentation
@@ -228,8 +235,16 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransactionAsync(AwsLakeformationDescribeTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransactionAsync(AwsLakeformationDescribeTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Detaches a row-level security policy from a resource for a principal. After the policy is detached, its filter expression is no longer ap- plied to the principal's queries on that resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DetachRlsPolicyAsync(AwsLakeformationDetachRlsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted. Write transactions that remain idle for a long period are automatically aborted unless explicitly extended. See also: AWS API Documentation
@@ -238,8 +253,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExtendTransactionAsync(AwsLakeformationExtendTransactionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExtendTransactionAsync(AwsLakeformationExtendTransactionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a data cells filter. See also: AWS API Documentation
@@ -248,8 +262,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataCellsFilterAsync(AwsLakeformationGetDataCellsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataCellsFilterAsync(AwsLakeformationGetDataCellsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the identity of the invoking principal. See also: AWS API Documentation
@@ -258,8 +271,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataLakePrincipalAsync(AwsLakeformationGetDataLakePrincipalOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataLakePrincipalAsync(AwsLakeformationGetDataLakePrincipalOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of the data lake administrators of a Lake Forma- tion-managed data lake. See also: AWS API Documentation
@@ -268,8 +280,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataLakeSettingsAsync(AwsLakeformationGetDataLakeSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataLakeSettingsAsync(AwsLakeformationGetDataLakeSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the Lake Formation permissions for a specified table or data- base resource located at a path in Amazon S3. GetEffectivePermissions- ForPath will not return databases and tables if the catalog is en- crypted. See also: AWS API Documentation
@@ -278,8 +289,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEffectivePermissionsForPathAsync(AwsLakeformationGetEffectivePermissionsForPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEffectivePermissionsForPathAsync(AwsLakeformationGetEffectivePermissionsForPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have DESCRIBE permission on the LF-Tag expres- sion resource. See also: AWS API Documentation
@@ -288,8 +298,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLfTagExpressionAsync(AwsLakeformationGetLfTagExpressionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLfTagExpressionAsync(AwsLakeformationGetLfTagExpressionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an LF-tag definition. See also: AWS API Documentation
@@ -298,8 +307,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLfTagAsync(AwsLakeformationGetLfTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLfTagAsync(AwsLakeformationGetLfTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning be- fore retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning . See also: AWS API Documentation
@@ -308,8 +316,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryStateAsync(AwsLakeformationGetQueryStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryStateAsync(AwsLakeformationGetQueryStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves statistics on the planning and execution of a query. See also: AWS API Documentation
@@ -318,8 +325,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryStatisticsAsync(AwsLakeformationGetQueryStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryStatisticsAsync(AwsLakeformationGetQueryStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the LF-tags applied to a resource. See also: AWS API Documentation
@@ -328,8 +334,16 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceLfTagsAsync(AwsLakeformationGetResourceLfTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceLfTagsAsync(AwsLakeformationGetResourceLfTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns the definition of a row-level security policy, including its attachment columns and filter expression. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetRlsPolicyAsync(AwsLakeformationGetRlsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the set of Amazon S3 objects that make up the specified gov- erned table. A transaction ID or timestamp can be specified for time-travel queries. See also: AWS API Documentation
@@ -338,8 +352,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableObjectsAsync(AwsLakeformationGetTableObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableObjectsAsync(AwsLakeformationGetTableObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by provid- ing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. GetDataAccess is logged in CloudTrail whenever a principal requests temporary data location credentials to access data in a data lake location that is registered with Lake Formation. The API operation returns an error in the following...
@@ -348,8 +361,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTemporaryDataLocationCredentialsAsync(AwsLakeformationGetTemporaryDataLocationCredentialsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTemporaryDataLocationCredentialsAsync(AwsLakeformationGetTemporaryDataLocationCredentialsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix. See also: AWS API Documentation
@@ -358,8 +370,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTemporaryGluePartitionCredentialsAsync(AwsLakeformationGetTemporaryGluePartitionCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTemporaryGluePartitionCredentialsAsync(AwsLakeformationGetTemporaryGluePartitionCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows a caller in a secure environment to assume a role with permis- sion to access Amazon S3. In order to vend such credentials, Lake For- mation assumes the role associated with a registered location, for ex- ample an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakefor- mation:GetDataAccess permission on the resource. See also: AWS API Documentation
@@ -368,8 +379,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTemporaryGlueTableCredentialsAsync(AwsLakeformationGetTemporaryGlueTableCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTemporaryGlueTableCredentialsAsync(AwsLakeformationGetTemporaryGlueTableCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the work units resulting from the query. Work units can be exe- cuted in any order and in parallel. See also: AWS API Documentation
@@ -378,8 +388,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkUnitResultsAsync(AwsLakeformationGetWorkUnitResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkUnitResultsAsync(AwsLakeformationGetWorkUnitResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the work units generated by the StartQueryPlanning operation. See also: AWS API Documentation get-work-units is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkUnitRanges
@@ -388,8 +397,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkUnitsAsync(AwsLakeformationGetWorkUnitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkUnitsAsync(AwsLakeformationGetWorkUnitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Grants permissions to the principal to access metadata in the Data Cat- alog and data organized in underlying data storage such as Amazon S3. For information about permissions, see Security and Access Control to Metadata and Data . See also: AWS API Documentation
@@ -398,8 +406,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GrantPermissionsAsync(AwsLakeformationGrantPermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GrantPermissionsAsync(AwsLakeformationGrantPermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the data cell filters on a table. See also: AWS API Documentation list-data-cells-filter is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataCellsFilters
@@ -408,8 +415,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataCellsFilterAsync(AwsLakeformationListDataCellsFilterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataCellsFilterAsync(AwsLakeformationListDataCellsFilterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions. See also: AWS API Documentation
@@ -418,8 +424,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLakeFormationOptInsAsync(AwsLakeformationListLakeFormationOptInsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLakeFormationOptInsAsync(AwsLakeformationListLakeFormationOptInsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the LF-Tag expressions in callers account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE per- missions on tag expression. See also: AWS API Documentation list-lf-tag-expressions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text a...
@@ -428,8 +433,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLfTagExpressionsAsync(AwsLakeformationListLfTagExpressionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLfTagExpressionsAsync(AwsLakeformationListLfTagExpressionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists LF-tags that the requester has permission to view. See also: AWS API Documentation list-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: LFTags
@@ -438,8 +442,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLfTagsAsync(AwsLakeformationListLfTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLfTagsAsync(AwsLakeformationListLfTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. If both Principal and Resource parameters are provided, the response returns effective permissions rather than the explicitly granted permissions. For information about permissions, see Security and A...
@@ -448,8 +451,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPermissionsAsync(AwsLakeformationListPermissionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPermissionsAsync(AwsLakeformationListPermissionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the resources registered to be managed by the Data Catalog. See also: AWS API Documentation
@@ -458,8 +460,25 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourcesAsync(AwsLakeformationListResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourcesAsync(AwsLakeformationListResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists the row-level security policies in the Data Catalog. See also: AWS API Documentation list-rls-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RLSPolicies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListRlsPoliciesAsync(AwsLakeformationListRlsPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists the row-level security policy attachments in the Data Catalog. You can filter the results by resource, principal, or policy name. See also: AWS API Documentation list-rls-policy-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListRlsPolicyAttachmentsAsync(AwsLakeformationListRlsPolicyAttachmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the configuration of all storage optimizers associated with a specified table. See also: AWS API Documentation
@@ -468,8 +487,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTableStorageOptimizersAsync(AwsLakeformationListTableStorageOptimizersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTableStorageOptimizersAsync(AwsLakeformationListTableStorageOptimizersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned. This operation can help you identify uncommitted transactions or to get information about transactions. See also: AWS API Documentation
@@ -478,8 +496,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTransactionsAsync(AwsLakeformationListTransactionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTransactionsAsync(AwsLakeformationListTransactionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see Granting Lake Formation Permissions . This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API. See also: AWS API Documentation
@@ -488,8 +505,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDataLakeSettingsAsync(AwsLakeformationPutDataLakeSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDataLakeSettingsAsync(AwsLakeformationPutDataLakeSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess ser- vice-linked role. When you register the first Amazon S3 path, the ser- vice-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role....
@@ -498,8 +514,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterResourceAsync(AwsLakeformationRegisterResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterResourceAsync(AwsLakeformationRegisterResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an LF-tag from the resource. Only database, table, or table- WithColumns resource are allowed. To tag columns, use the column inclu- sion list in tableWithColumns to specify column input. See also: AWS API Documentation
@@ -508,8 +523,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveLfTagsFromResourceAsync(AwsLakeformationRemoveLfTagsFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveLfTagsFromResourceAsync(AwsLakeformationRemoveLfTagsFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. See also: AWS API Documentation
@@ -518,8 +532,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokePermissionsAsync(AwsLakeformationRevokePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokePermissionsAsync(AwsLakeformationRevokePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation allows a search on DATABASE resources by TagCondition . This operation is used by admins who want to grant user permissions on certain TagConditions . Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagCondi- tions are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-databases-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire ...
@@ -528,8 +541,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchDatabasesByLfTagsAsync(AwsLakeformationSearchDatabasesByLfTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchDatabasesByLfTagsAsync(AwsLakeformationSearchDatabasesByLfTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation allows a search on TABLE resources by LFTag s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTag s are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-tables-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disa...
@@ -538,8 +550,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchTablesByLfTagsAsync(AwsLakeformationSearchTablesByLfTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchTablesByLfTagsAsync(AwsLakeformationSearchTablesByLfTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the Get- WorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED. See also: AWS API Documentation
@@ -548,8 +559,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQueryPlanningAsync(AwsLakeformationStartQueryPlanningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQueryPlanningAsync(AwsLakeformationStartQueryPlanningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction. See also: AWS API Documentation
@@ -558,8 +568,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTransactionAsync(AwsLakeformationStartTransactionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTransactionAsync(AwsLakeformationStartTransactionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a data cell filter. See also: AWS API Documentation
@@ -568,8 +577,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataCellsFilterAsync(AwsLakeformationUpdateDataCellsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataCellsFilterAsync(AwsLakeformationUpdateDataCellsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the IAM Identity Center connection parameters. See also: AWS API Documentation
@@ -578,8 +586,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLakeFormationIdentityCenterConfigurationAsync(AwsLakeformationUpdateLakeFormationIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLakeFormationIdentityCenterConfigurationAsync(AwsLakeformationUpdateLakeFormationIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permis- sion grants that reference the given LF-Tag expression. See also: AWS API Documentation
@@ -588,8 +595,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLfTagExpressionAsync(AwsLakeformationUpdateLfTagExpressionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLfTagExpressionAsync(AwsLakeformationUpdateLfTagExpressionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundExcep- tion. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not al- lowed". Untag the attribute before deleting the LF-tag key's value. See also: AWS API Documentation
@@ -598,8 +604,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLfTagAsync(AwsLakeformationUpdateLfTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLfTagAsync(AwsLakeformationUpdateLfTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the data access role used for vending access to the given (reg- istered) resource in Lake Formation. See also: AWS API Documentation
@@ -608,8 +613,16 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceAsync(AwsLakeformationUpdateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceAsync(AwsLakeformationUpdateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Updates the filter expression of an existing row-level security policy. The change applies to all attachments of the policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateRlsPolicyAsync(AwsLakeformationUpdateRlsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the manifest of Amazon S3 objects that make up the specified governed table. See also: AWS API Documentation
@@ -618,8 +631,7 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTableObjectsAsync(AwsLakeformationUpdateTableObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTableObjectsAsync(AwsLakeformationUpdateTableObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of the storage optimizers for a table. See also: AWS API Documentation
@@ -628,7 +640,6 @@ public interface IAwsLakeformation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTableStorageOptimizerAsync(AwsLakeformationUpdateTableStorageOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTableStorageOptimizerAsync(AwsLakeformationUpdateTableStorageOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

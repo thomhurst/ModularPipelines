@@ -28,8 +28,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcknowledgeJobAsync(AwsCodepipelineAcknowledgeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcknowledgeJobAsync(AwsCodepipelineAcknowledgeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Confirms a job worker has received the specified job. Used for partner actions only. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcknowledgeThirdPartyJobAsync(AwsCodepipelineAcknowledgeThirdPartyJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcknowledgeThirdPartyJobAsync(AwsCodepipelineAcknowledgeThirdPartyJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom action that can be used in all pipelines associ- ated with the Amazon Web Services account. Only used for custom ac- tions. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomActionTypeAsync(AwsCodepipelineCreateCustomActionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomActionTypeAsync(AwsCodepipelineCreateCustomActionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a pipeline. NOTE: In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use arti- factStores . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePipelineAsync(AwsCodepipelineCreatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePipelineAsync(AwsCodepipelineCreatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only. WARNING: To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field. See als...
@@ -68,8 +64,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomActionTypeAsync(AwsCodepipelineDeleteCustomActionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomActionTypeAsync(AwsCodepipelineDeleteCustomActionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified pipeline. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePipelineAsync(AwsCodepipelineDeletePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePipelineAsync(AwsCodepipelineDeletePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a web- hook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWebhookAsync(AwsCodepipelineDeleteWebhookOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWebhookAsync(AwsCodepipelineDeleteWebhookOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the connection between the webhook that was created by Code- Pipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterWebhookWithThirdPartyAsync(AwsCodepipelineDeregisterWebhookWithThirdPartyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterWebhookWithThirdPartyAsync(AwsCodepipelineDeregisterWebhookWithThirdPartyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableStageTransitionAsync(AwsCodepipelineDisableStageTransitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableStageTransitionAsync(AwsCodepipelineDisableStageTransitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables artifacts in a pipeline to transition to a stage in a pipeline. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableStageTransitionAsync(AwsCodepipelineEnableStageTransitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableStageTransitionAsync(AwsCodepipelineEnableStageTransitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetActionTypeAsync(AwsCodepipelineGetActionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetActionTypeAsync(AwsCodepipelineGetActionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a job. Used for custom actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. This API also returns any secret values defined for the ac- tion. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobDetailsAsync(AwsCodepipelineGetJobDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobDetailsAsync(AwsCodepipelineGetJobDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPipelineExecutionAsync(AwsCodepipelineGetPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPipelineExecutionAsync(AwsCodepipelineGetPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with UpdatePipeline . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPipelineAsync(AwsCodepipelineGetPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPipelineAsync(AwsCodepipelineGetPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the state of a pipeline, including the stages and actions. NOTE: Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the cur- rent state. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPipelineStateAsync(AwsCodepipelineGetPipelineStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPipelineStateAsync(AwsCodepipelineGetPipelineStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests the details of a job for a third party action. Used for part- ner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. This API also returns any secret values defined for the ac- tion. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetThirdPartyJobDetailsAsync(AwsCodepipelineGetThirdPartyJobDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetThirdPartyJobDetailsAsync(AwsCodepipelineGetThirdPartyJobDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the action executions that have occurred in a pipeline. See also: AWS API Documentation list-action-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: actionExecutionDetails
@@ -188,8 +172,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListActionExecutionsAsync(AwsCodepipelineListActionExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListActionExecutionsAsync(AwsCodepipelineListActionExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a summary of all CodePipeline action types associated with your account. See also: AWS API Documentation list-action-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: actionTypes
@@ -198,8 +181,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListActionTypesAsync(AwsCodepipelineListActionTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListActionTypesAsync(AwsCodepipelineListActionTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the targets for the deploy action. See also: AWS API Documentation list-deploy-action-execution-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targets
@@ -208,8 +190,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeployActionExecutionTargetsAsync(AwsCodepipelineListDeployActionExecutionTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeployActionExecutionTargetsAsync(AwsCodepipelineListDeployActionExecutionTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a summary of the most recent executions for a pipeline. NOTE: When applying the filter for pipeline executions that have succeeded in the stage, the operation returns all executions in the current pipeline version beginning on February 1, 2024. See also: AWS API Documentation list-pipeline-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --...
@@ -218,8 +199,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelineExecutionsAsync(AwsCodepipelineListPipelineExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelineExecutionsAsync(AwsCodepipelineListPipelineExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a summary of all of the pipelines associated with your account. See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pipelines
@@ -228,8 +208,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelinesAsync(AwsCodepipelineListPipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelinesAsync(AwsCodepipelineListPipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the rule executions that have occurred in a pipeline configured for conditions with rules. See also: AWS API Documentation list-rule-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: rul...
@@ -238,8 +217,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRuleExecutionsAsync(AwsCodepipelineListRuleExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRuleExecutionsAsync(AwsCodepipelineListRuleExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the rules for the condition. For more information about condi- tions, see Stage conditions and How do stage conditions work? .For more information about rules, see the CodePipeline rule reference . See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRuleTypesAsync(AwsCodepipelineListRuleTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRuleTypesAsync(AwsCodepipelineListRuleTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tags
@@ -258,8 +235,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCodepipelineListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCodepipelineListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the web- hook URL and ARN and the configuration for each webhook. NOTE: If a secret token was provided, it will be redacted in the response. See also: AWS API Documentation list-webhooks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument...
@@ -268,8 +244,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWebhooksAsync(AwsCodepipelineListWebhooksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWebhooksAsync(AwsCodepipelineListWebhooksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to override a stage condition. For more information about condi- tions, see Stage conditions and How do stage conditions work? . See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> OverrideStageConditionAsync(AwsCodepipelineOverrideStageConditionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> OverrideStageConditionAsync(AwsCodepipelineOverrideStageConditionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about any jobs for CodePipeline to act on. PollFor- Jobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. This API also returns any secret ...
@@ -288,8 +262,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PollForJobsAsync(AwsCodepipelinePollForJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PollForJobsAsync(AwsCodepipelinePollForJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PollForThirdPartyJobsAsync(AwsCodepipelinePollForThirdPartyJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PollForThirdPartyJobsAsync(AwsCodepipelinePollForThirdPartyJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information to CodePipeline about new revisions to a source. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutActionRevisionAsync(AwsCodepipelinePutActionRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutActionRevisionAsync(AwsCodepipelinePutActionRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the response to a manual approval request to CodePipeline. Valid responses include Approved and Rejected. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutApprovalResultAsync(AwsCodepipelinePutApprovalResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutApprovalResultAsync(AwsCodepipelinePutApprovalResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutJobFailureResultAsync(AwsCodepipelinePutJobFailureResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutJobFailureResultAsync(AwsCodepipelinePutJobFailureResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents the success of a job as returned to the pipeline by a job worker. Used for custom actions only. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutJobSuccessResultAsync(AwsCodepipelinePutJobSuccessResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutJobSuccessResultAsync(AwsCodepipelinePutJobSuccessResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents the failure of a third party job as returned to the pipeline by a job worker. Used for partner actions only. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutThirdPartyJobFailureResultAsync(AwsCodepipelinePutThirdPartyJobFailureResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutThirdPartyJobFailureResultAsync(AwsCodepipelinePutThirdPartyJobFailureResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Represents the success of a third party job as returned to the pipeline by a job worker. Used for partner actions only. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutThirdPartyJobSuccessResultAsync(AwsCodepipelinePutThirdPartyJobSuccessResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutThirdPartyJobSuccessResultAsync(AwsCodepipelinePutThirdPartyJobSuccessResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines a webhook and returns a unique webhook URL generated by Code- Pipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the web- hook is started as long as the POST request satisfied the authentica- tion and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to a...
@@ -368,8 +334,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutWebhookAsync(AwsCodepipelinePutWebhookOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutWebhookAsync(AwsCodepipelinePutWebhookOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Configures a connection between the webhook that was created and the external tool with events to be detected. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterWebhookWithThirdPartyAsync(AwsCodepipelineRegisterWebhookWithThirdPartyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterWebhookWithThirdPartyAsync(AwsCodepipelineRegisterWebhookWithThirdPartyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed ac- tions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress....
@@ -388,8 +352,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetryStageExecutionAsync(AwsCodepipelineRetryStageExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetryStageExecutionAsync(AwsCodepipelineRetryStageExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rolls back a stage execution. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RollbackStageAsync(AwsCodepipelineRollbackStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RollbackStageAsync(AwsCodepipelineRollbackStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPipelineExecutionAsync(AwsCodepipelineStartPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPipelineExecutionAsync(AwsCodepipelineStartPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While com- pleting or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or aban- doned, the pipeline execution is in a Stopped state. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopPipelineExecutionAsync(AwsCodepipelineStopPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopPipelineExecutionAsync(AwsCodepipelineStopPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCodepipelineTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCodepipelineTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from an Amazon Web Services resource. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCodepipelineUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCodepipelineUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an action type that was created with any supported integration model, where the action type is to be used by customers of the action type provider. Use a JSON file with the action definition and UpdateAc- tionType to provide the full structure. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateActionTypeAsync(AwsCodepipelineUpdateActionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateActionTypeAsync(AwsCodepipelineUpdateActionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to pro- vide the full structure of the pipeline. Updating the pipeline in- creases the version number of the pipeline by 1. See also: AWS API Documentation
@@ -458,7 +415,6 @@ public interface IAwsCodepipeline
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePipelineAsync(AwsCodepipelineUpdatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePipelineAsync(AwsCodepipelineUpdatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

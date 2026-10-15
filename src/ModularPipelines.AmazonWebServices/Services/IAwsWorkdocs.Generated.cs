@@ -28,8 +28,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AbortDocumentVersionUploadAsync(AwsWorkdocsAbortDocumentVersionUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AbortDocumentVersionUploadAsync(AwsWorkdocsAbortDocumentVersionUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Activates the specified user. Only active users can access Amazon Work- Docs. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ActivateUserAsync(AwsWorkdocsActivateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ActivateUserAsync(AwsWorkdocsActivateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddResourcePermissionsAsync(AwsWorkdocsAddResourcePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddResourcePermissionsAsync(AwsWorkdocsAddResourcePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a new comment to the specified document version. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCommentAsync(AwsWorkdocsCreateCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCommentAsync(AwsWorkdocsCreateCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more custom properties to the specified resource (a folder, document, or version). See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomMetadataAsync(AwsWorkdocsCreateCustomMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomMetadataAsync(AwsWorkdocsCreateCustomMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a folder with the specified name and parent folder. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFolderAsync(AwsWorkdocsCreateFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFolderAsync(AwsWorkdocsCreateFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified list of labels to the given resource (a document or folder) See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLabelsAsync(AwsWorkdocsCreateLabelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLabelsAsync(AwsWorkdocsCreateLabelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer Guide . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNotificationSubscriptionAsync(AwsWorkdocsCreateNotificationSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNotificationSubscriptionAsync(AwsWorkdocsCreateNotificationSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserAsync(AwsWorkdocsCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserAsync(AwsWorkdocsCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deactivates the specified user, which revokes the user's access to Ama- zon WorkDocs. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeactivateUserAsync(AwsWorkdocsDeactivateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeactivateUserAsync(AwsWorkdocsDeactivateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified comment from the document version. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCommentAsync(AwsWorkdocsDeleteCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCommentAsync(AwsWorkdocsDeleteCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes custom metadata from the specified resource. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomMetadataAsync(AwsWorkdocsDeleteCustomMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomMetadataAsync(AwsWorkdocsDeleteCustomMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently deletes the specified document and its associated metadata. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDocumentAsync(AwsWorkdocsDeleteDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDocumentAsync(AwsWorkdocsDeleteDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific version of a document. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDocumentVersionAsync(AwsWorkdocsDeleteDocumentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDocumentVersionAsync(AwsWorkdocsDeleteDocumentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the contents of the specified folder. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFolderContentsAsync(AwsWorkdocsDeleteFolderContentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFolderContentsAsync(AwsWorkdocsDeleteFolderContentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently deletes the specified folder and its contents. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFolderAsync(AwsWorkdocsDeleteFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFolderAsync(AwsWorkdocsDeleteFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified list of labels from a resource. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLabelsAsync(AwsWorkdocsDeleteLabelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLabelsAsync(AwsWorkdocsDeleteLabelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified subscription from the specified organization. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNotificationSubscriptionAsync(AwsWorkdocsDeleteNotificationSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNotificationSubscriptionAsync(AwsWorkdocsDeleteNotificationSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified user from a Simple AD or Microsoft AD directory. WARNING: Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserAsync(AwsWorkdocsDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserAsync(AwsWorkdocsDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the user activities in a specified time period. See also: AWS API Documentation describe-activities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UserActivities
@@ -218,8 +199,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeActivitiesAsync(AwsWorkdocsDescribeActivitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeActivitiesAsync(AwsWorkdocsDescribeActivitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all the comments for the specified document version. See also: AWS API Documentation describe-comments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Comments
@@ -228,8 +208,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCommentsAsync(AwsWorkdocsDescribeCommentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCommentsAsync(AwsWorkdocsDescribeCommentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the document versions for the specified document. By default, only active versions are returned. See also: AWS API Documentation describe-document-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing quer...
@@ -238,8 +217,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDocumentVersionsAsync(AwsWorkdocsDescribeDocumentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDocumentVersionsAsync(AwsWorkdocsDescribeDocumentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents. See also: AWS API Documentation describe-folder-contents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of resu...
@@ -248,8 +226,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFolderContentsAsync(AwsWorkdocsDescribeFolderContentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFolderContentsAsync(AwsWorkdocsDescribeFolderContentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory. See also: AWS API Documentation describe-groups is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: G...
@@ -258,8 +235,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGroupsAsync(AwsWorkdocsDescribeGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeGroupsAsync(AwsWorkdocsDescribeGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the specified notification subscriptions. See also: AWS API Documentation describe-notification-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscriptions
@@ -268,8 +244,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNotificationSubscriptionsAsync(AwsWorkdocsDescribeNotificationSubscriptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNotificationSubscriptionsAsync(AwsWorkdocsDescribeNotificationSubscriptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the permissions of a specified resource. See also: AWS API Documentation describe-resource-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Principals
@@ -278,8 +253,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourcePermissionsAsync(AwsWorkdocsDescribeResourcePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourcePermissionsAsync(AwsWorkdocsDescribeResourcePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the current user's special folders; the RootFolder and the RecycleBin . RootFolder is the root of user's files and folders and Re- cycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more informa- tion, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide . See...
@@ -288,8 +262,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRootFoldersAsync(AwsWorkdocsDescribeRootFoldersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRootFoldersAsync(AwsWorkdocsDescribeRootFoldersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by ...
@@ -298,8 +271,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUsersAsync(AwsWorkdocsDescribeUsersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUsersAsync(AwsWorkdocsDescribeUsersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more informa- tion, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide . See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCurrentUserAsync(AwsWorkdocsGetCurrentUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCurrentUserAsync(AwsWorkdocsGetCurrentUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of a document. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentAsync(AwsWorkdocsGetDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDocumentAsync(AwsWorkdocsGetDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentPathAsync(AwsWorkdocsGetDocumentPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDocumentPathAsync(AwsWorkdocsGetDocumentPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves version metadata for the specified document. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentVersionAsync(AwsWorkdocsGetDocumentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDocumentVersionAsync(AwsWorkdocsGetDocumentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata of the specified folder. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFolderAsync(AwsWorkdocsGetFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFolderAsync(AwsWorkdocsGetFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent fold- ers in the path. You can limit the maximum number of levels. You can also request the parent folder names. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFolderPathAsync(AwsWorkdocsGetFolderPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFolderPathAsync(AwsWorkdocsGetFolderPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME . See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcesAsync(AwsWorkdocsGetResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcesAsync(AwsWorkdocsGetResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call UpdateDocumentVersion . To cancel the document upload, call AbortDocumentVersionUpload . See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InitiateDocumentVersionUploadAsync(AwsWorkdocsInitiateDocumentVersionUploadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InitiateDocumentVersionUploadAsync(AwsWorkdocsInitiateDocumentVersionUploadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes all the permissions from the specified resource. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveAllResourcePermissionsAsync(AwsWorkdocsRemoveAllResourcePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveAllResourcePermissionsAsync(AwsWorkdocsRemoveAllResourcePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the permission for the specified principal from the specified resource. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveResourcePermissionAsync(AwsWorkdocsRemoveResourcePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveResourcePermissionAsync(AwsWorkdocsRemoveResourcePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Recovers a deleted version of an Amazon WorkDocs document. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreDocumentVersionsAsync(AwsWorkdocsRestoreDocumentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreDocumentVersionsAsync(AwsWorkdocsRestoreDocumentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches metadata and the content of folders, documents, document ver- sions, and comments. See also: AWS API Documentation search-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -418,8 +379,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchResourcesAsync(AwsWorkdocsSearchResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchResourcesAsync(AwsWorkdocsSearchResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified attributes of a document. The user must have ac- cess to both the document and its parent folder, if applicable. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDocumentAsync(AwsWorkdocsUpdateDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDocumentAsync(AwsWorkdocsUpdateDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by InitiateDocumentVersionUpload . See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDocumentVersionAsync(AwsWorkdocsUpdateDocumentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDocumentVersionAsync(AwsWorkdocsUpdateDocumentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFolderAsync(AwsWorkdocsUpdateFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFolderAsync(AwsWorkdocsUpdateFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site. See also: AWS API Documentation
@@ -458,7 +415,6 @@ public interface IAwsWorkdocs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserAsync(AwsWorkdocsUpdateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserAsync(AwsWorkdocsUpdateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

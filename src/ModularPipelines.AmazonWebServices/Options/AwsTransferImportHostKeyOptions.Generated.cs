@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -82,6 +83,18 @@ public record AwsTransferImportHostKeyOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Specifies whether the host key is stored by Transfer Family (SER- VICE_MANAGED ) or in Secrets Manager (SECRETS_MANAGER ). When you specify SECRETS_MANAGER , Transfer Family stores the private host key material in an Secrets Manager secret. Possible values: o SERVICE_MANAGED o SECRETS_MANAGER
+    /// </summary>
+    [CliOption("--storage-type")]
+    public AwsTransferImportHostKeyStorageType? StorageType { get; set; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRole- ForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services man- aged key for Secrets Manager. Constraints: o min: 20 o max: 1600 o pattern: arn:\S+
+    /// </summary>
+    [CliOption("--kms-key")]
+    public string? KmsKey { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -28,8 +28,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAccountsAsync(AwsComputeOptimizerAutomationAssociateAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAccountsAsync(AwsComputeOptimizerAutomationAssociateAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new automation rule to apply recommended actions to resources based on specified criteria. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutomationRuleAsync(AwsComputeOptimizerAutomationCreateAutomationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutomationRuleAsync(AwsComputeOptimizerAutomationCreateAutomationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing automation rule. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAutomationRuleAsync(AwsComputeOptimizerAutomationDeleteAutomationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAutomationRuleAsync(AwsComputeOptimizerAutomationDeleteAutomationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates member accounts from your organization's management ac- count, removing centralized automation capabilities. Once disassoci- ated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automa- tion rules for that account. NOTE: Only the management account or a delegated administrator can perform this action. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAccountsAsync(AwsComputeOptimizerAutomationDisassociateAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAccountsAsync(AwsComputeOptimizerAutomationDisassociateAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a specific automation event. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomationEventAsync(AwsComputeOptimizerAutomationGetAutomationEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomationEventAsync(AwsComputeOptimizerAutomationGetAutomationEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a specific automation rule. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomationRuleAsync(AwsComputeOptimizerAutomationGetAutomationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomationRuleAsync(AwsComputeOptimizerAutomationGetAutomationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current enrollment configuration for Compute Optimizer Automation. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEnrollmentConfigurationAsync(AwsComputeOptimizerAutomationGetEnrollmentConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEnrollmentConfigurationAsync(AwsComputeOptimizerAutomationGetEnrollmentConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the accounts in your organization that are enrolled in Compute Optimizer and whether they have enabled Automation. NOTE: Only the management account or a delegated administrator can perform this action. See also: AWS API Documentation list-accounts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
@@ -98,8 +91,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccountsAsync(AwsComputeOptimizerAutomationListAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccountsAsync(AwsComputeOptimizerAutomationListAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists automation events based on specified filters. You can retrieve events that were created within the past year. See also: AWS API Documentation list-automation-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
@@ -108,8 +100,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomationEventsAsync(AwsComputeOptimizerAutomationListAutomationEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomationEventsAsync(AwsComputeOptimizerAutomationListAutomationEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the steps for a specific automation event. You can only list steps for events created within the past year. See also: AWS API Documentation list-automation-event-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
@@ -118,8 +109,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomationEventStepsAsync(AwsComputeOptimizerAutomationListAutomationEventStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomationEventStepsAsync(AwsComputeOptimizerAutomationListAutomationEventStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a summary of automation events based on specified filters. Only events created within the past year will be included in the sum- mary. See also: AWS API Documentation list-automation-event-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract...
@@ -128,8 +118,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomationEventSummariesAsync(AwsComputeOptimizerAutomationListAutomationEventSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomationEventSummariesAsync(AwsComputeOptimizerAutomationListAutomationEventSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a preview of the recommended actions that match your Automation rule's configuration and criteria. See also: AWS API Documentation list-automation-rule-preview is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
@@ -138,8 +127,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomationRulePreviewAsync(AwsComputeOptimizerAutomationListAutomationRulePreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomationRulePreviewAsync(AwsComputeOptimizerAutomationListAutomationRulePreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a summary of the recommended actions that match your rule pre- view configuration and criteria. See also: AWS API Documentation list-automation-rule-preview-summaries is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the f...
@@ -148,8 +136,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomationRulePreviewSummariesAsync(AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomationRulePreviewSummariesAsync(AwsComputeOptimizerAutomationListAutomationRulePreviewSummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the automation rules that match specified filters. See also: AWS API Documentation list-automation-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: automationRules
@@ -158,8 +145,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomationRulesAsync(AwsComputeOptimizerAutomationListAutomationRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomationRulesAsync(AwsComputeOptimizerAutomationListAutomationRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the recommended actions based that match specified filters. NOTE: Management accounts and delegated administrators can retrieve recom- mended actions that include associated member accounts. You can as- sociate a member account using AssociateAccounts . See also: AWS API Documentation list-recommended-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Whe...
@@ -168,8 +154,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendedActionsAsync(AwsComputeOptimizerAutomationListRecommendedActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendedActionsAsync(AwsComputeOptimizerAutomationListRecommendedActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a summary of recommended actions based on specified filters. NOTE: Management accounts and delegated administrators can retrieve recom- mended actions that include associated member accounts. You can as- sociate a member account using AssociateAccounts . See also: AWS API Documentation list-recommended-action-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginat...
@@ -178,8 +163,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendedActionSummariesAsync(AwsComputeOptimizerAutomationListRecommendedActionSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendedActionSummariesAsync(AwsComputeOptimizerAutomationListRecommendedActionSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for a specified resource. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsComputeOptimizerAutomationListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsComputeOptimizerAutomationListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a rollback for a completed automation event. NOTE: Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using AssociateAccounts . See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RollbackAutomationEventAsync(AwsComputeOptimizerAutomationRollbackAutomationEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RollbackAutomationEventAsync(AwsComputeOptimizerAutomationRollbackAutomationEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a one-time, on-demand automation for the specified recom- mended action. NOTE: Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can asso- ciate a member account using AssociateAccounts . See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAutomationEventAsync(AwsComputeOptimizerAutomationStartAutomationEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAutomationEventAsync(AwsComputeOptimizerAutomationStartAutomationEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to the specified resource. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsComputeOptimizerAutomationTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsComputeOptimizerAutomationTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified resource. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsComputeOptimizerAutomationUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsComputeOptimizerAutomationUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing automation rule. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutomationRuleAsync(AwsComputeOptimizerAutomationUpdateAutomationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutomationRuleAsync(AwsComputeOptimizerAutomationUpdateAutomationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates your accounts Compute Optimizer Automation enrollment configu- ration. See also: AWS API Documentation
@@ -248,7 +226,6 @@ public interface IAwsComputeOptimizerAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEnrollmentConfigurationAsync(AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEnrollmentConfigurationAsync(AwsComputeOptimizerAutomationUpdateEnrollmentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

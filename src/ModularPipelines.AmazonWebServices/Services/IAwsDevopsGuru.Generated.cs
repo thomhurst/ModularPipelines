@@ -28,8 +28,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddNotificationChannelAsync(AwsDevopsGuruAddNotificationChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddNotificationChannelAsync(AwsDevopsGuruAddNotificationChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the insight along with the associated anomalies, events and recommendations. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInsightAsync(AwsDevopsGuruDeleteInsightOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInsightAsync(AwsDevopsGuruDeleteInsightOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the number of open reactive insights, the number of open proac- tive insights, and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the health of operations in your Amazon Web Services account. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountHealthAsync(AwsDevopsGuruDescribeAccountHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountHealthAsync(AwsDevopsGuruDescribeAccountHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// For the time range passed in, returns the number of open reactive in- sight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reac- tive insights. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountOverviewAsync(AwsDevopsGuruDescribeAccountOverviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountOverviewAsync(AwsDevopsGuruDescribeAccountOverviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details about an anomaly that you specify using its ID. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAnomalyAsync(AwsDevopsGuruDescribeAnomalyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAnomalyAsync(AwsDevopsGuruDescribeAnomalyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the integration status of services that are integrated with De- vOps Guru as Consumer via EventBridge. The one service that can be in- tegrated with DevOps Guru is Amazon CodeGuru Profiler, which can pro- duce proactive recommendations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventSourcesConfigAsync(AwsDevopsGuruDescribeEventSourcesConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventSourcesConfigAsync(AwsDevopsGuruDescribeEventSourcesConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the most recent feedback submitted in the current Amazon Web Services account and Region. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFeedbackAsync(AwsDevopsGuruDescribeFeedbackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFeedbackAsync(AwsDevopsGuruDescribeFeedbackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details about an insight that you specify using its ID. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInsightAsync(AwsDevopsGuruDescribeInsightOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInsightAsync(AwsDevopsGuruDescribeInsightOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns active insights, predictive insights, and resource hours ana- lyzed in last hour. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOrganizationHealthAsync(AwsDevopsGuruDescribeOrganizationHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOrganizationHealthAsync(AwsDevopsGuruDescribeOrganizationHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an overview of your organization's history based on the speci- fied time range. The overview includes the total reactive and proactive insights. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOrganizationOverviewAsync(AwsDevopsGuruDescribeOrganizationOverviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOrganizationOverviewAsync(AwsDevopsGuruDescribeOrganizationOverviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides an overview of your system's health. If additional member ac- counts are part of your organization, you can filter those accounts us- ing the AccountIds field. See also: AWS API Documentation describe-organization-resource-collection-health is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated r...
@@ -128,8 +118,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOrganizationResourceCollectionHealthAsync(AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOrganizationResourceCollectionHealthAsync(AwsDevopsGuruDescribeOrganizationResourceCollectionHealthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of Amazon Web Ser- vices resources collection. The two types of Amazon Web Services re- source collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Service...
@@ -138,8 +127,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourceCollectionHealthAsync(AwsDevopsGuruDescribeResourceCollectionHealthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourceCollectionHealthAsync(AwsDevopsGuruDescribeResourceCollectionHealthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the integration status of services that are integrated with De- vOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an Op- sItem for each generated insight. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeServiceIntegrationAsync(AwsDevopsGuruDescribeServiceIntegrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeServiceIntegrationAsync(AwsDevopsGuruDescribeServiceIntegrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources. For more information, see Estimate your Amazon DevOps Guru costs and Amazon DevOps Guru pricing . See also: AWS API Documentation get-cost-estimation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
@@ -158,8 +145,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCostEstimationAsync(AwsDevopsGuruGetCostEstimationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCostEstimationAsync(AwsDevopsGuruGetCostEstimationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns lists Amazon Web Services resources that are of the specified resource collection type. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFor- mat...
@@ -168,8 +154,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceCollectionAsync(AwsDevopsGuruGetResourceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceCollectionAsync(AwsDevopsGuruGetResourceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the anomalies that belong to an insight that you specify using its ID. See also: AWS API Documentation list-anomalies-for-insight is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Rea...
@@ -178,8 +163,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnomaliesForInsightAsync(AwsDevopsGuruListAnomaliesForInsightOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnomaliesForInsightAsync(AwsDevopsGuruListAnomaliesForInsightOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of log groups that contain log anomalies. See also: AWS API Documentation list-anomalous-log-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InsightId, AnomalousLogGroups
@@ -188,8 +172,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnomalousLogGroupsAsync(AwsDevopsGuruListAnomalousLogGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnomalousLogGroupsAsync(AwsDevopsGuruListAnomalousLogGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the events emitted by the resources that are evalu- ated by DevOps Guru. You can use filters to specify which events are returned. See also: AWS API Documentation list-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the re...
@@ -198,8 +181,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEventsAsync(AwsDevopsGuruListEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEventsAsync(AwsDevopsGuruListEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time and status (ON- GOING , CLOSED , or ANY ). See also: AWS API Documentation list-insights is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mus...
@@ -208,8 +190,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInsightsAsync(AwsDevopsGuruListInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInsightsAsync(AwsDevopsGuruListInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of all log groups that are being monitored and tagged by DevOps Guru. See also: AWS API Documentation list-monitored-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Monitor...
@@ -218,8 +199,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMonitoredResourcesAsync(AwsDevopsGuruListMonitoredResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMonitoredResourcesAsync(AwsDevopsGuruListMonitoredResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of notification channels configured for DevOps Guru. Each notification channel is used to notify you when DevOps Guru gener- ates an insight that contains information about how to improve your op- erations. The one supported notification channel is Amazon Simple Noti- fication Service (Amazon SNS). See also: AWS API Documentation list-notification-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disabl...
@@ -228,8 +208,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNotificationChannelsAsync(AwsDevopsGuruListNotificationChannelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNotificationChannelsAsync(AwsDevopsGuruListNotificationChannelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of insights associated with the account or OU Id. See also: AWS API Documentation list-organization-insights is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ProactiveInsights, Reactive...
@@ -238,8 +217,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrganizationInsightsAsync(AwsDevopsGuruListOrganizationInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrganizationInsightsAsync(AwsDevopsGuruListOrganizationInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of a specified insight's recommendations. Each recommen- dation includes a list of related metrics and a list of related events. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
@@ -248,8 +226,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationsAsync(AwsDevopsGuruListRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationsAsync(AwsDevopsGuruListRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Collects customer feedback about the specified insight. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutFeedbackAsync(AwsDevopsGuruPutFeedbackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutFeedbackAsync(AwsDevopsGuruPutFeedbackOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a notification channel from DevOps Guru. A notification channel is used to notify you when DevOps Guru generates an insight that con- tains information about how to improve your operations. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveNotificationChannelAsync(AwsDevopsGuruRemoveNotificationChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveNotificationChannelAsync(AwsDevopsGuruRemoveNotificationChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time, one or more statuses (ONGOING or CLOSED ), one or more severities (LOW , MEDIUM , and HIGH ), and type (REACTIVE or PROACTIVE ). Use the Filters parameter to specify status and severity search parame- ters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search. See also: AWS API Documentation search-insights is a paginated operation. Multiple API calls...
@@ -278,8 +253,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchInsightsAsync(AwsDevopsGuruSearchInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchInsightsAsync(AwsDevopsGuruSearchInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of insights in your organization. You can specify which insights are returned by their start time, one or more statuses (ONGO- ING , CLOSED , and CLOSED ), one or more severities (LOW , MEDIUM , and HIGH ), and type (REACTIVE or PROACTIVE ). Use the Filters parameter to specify status and severity search parame- ters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search. See also: AWS API Documentation search-organization-insights is a paginated operation. Multip...
@@ -288,8 +262,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchOrganizationInsightsAsync(AwsDevopsGuruSearchOrganizationInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchOrganizationInsightsAsync(AwsDevopsGuruSearchOrganizationInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services resources. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCostEstimationAsync(AwsDevopsGuruStartCostEstimationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCostEstimationAsync(AwsDevopsGuruStartCostEstimationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommen- dations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEventSourcesConfigAsync(AwsDevopsGuruUpdateEventSourcesConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEventSourcesConfigAsync(AwsDevopsGuruUpdateEventSourcesConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be con- figured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can spec- ify up to 500 Amazon Web Services CloudFormation stacks. This method also cr...
@@ -318,8 +289,7 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceCollectionAsync(AwsDevopsGuruUpdateResourceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceCollectionAsync(AwsDevopsGuruUpdateResourceCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to cre- ate an OpsItem for each generated insight. See also: AWS API Documentation
@@ -328,7 +298,6 @@ public interface IAwsDevopsGuru
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceIntegrationAsync(AwsDevopsGuruUpdateServiceIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceIntegrationAsync(AwsDevopsGuruUpdateServiceIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

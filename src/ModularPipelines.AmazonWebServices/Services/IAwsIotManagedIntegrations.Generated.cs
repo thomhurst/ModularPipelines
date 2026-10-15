@@ -28,8 +28,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccountAssociationAsync(AwsIotManagedIntegrationsCreateAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccountAssociationAsync(AwsIotManagedIntegrationsCreateAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a C2C (cloud-to-cloud) connector. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCloudConnectorAsync(AwsIotManagedIntegrationsCreateCloudConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCloudConnectorAsync(AwsIotManagedIntegrationsCreateCloudConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConnectorDestinationAsync(AwsIotManagedIntegrationsCreateConnectorDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConnectorDestinationAsync(AwsIotManagedIntegrationsCreateConnectorDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a credential locker. NOTE: This operation will not trigger the creation of all the manufactur- ing resources. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCredentialLockerAsync(AwsIotManagedIntegrationsCreateCredentialLockerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCredentialLockerAsync(AwsIotManagedIntegrationsCreateCredentialLockerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a notification destination such as Kinesis Data Streams that re- ceive events and notifications from Managed integrations. Managed inte- grations uses the destination to determine where to deliver notifica- tions. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDestinationAsync(AwsIotManagedIntegrationsCreateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDestinationAsync(AwsIotManagedIntegrationsCreateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set the event log configuration for the account, resource type, or spe- cific resource. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEventLogConfigurationAsync(AwsIotManagedIntegrationsCreateEventLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEventLogConfigurationAsync(AwsIotManagedIntegrationsCreateEventLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a managed thing. A managed thing contains the device identi- fier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. ...
@@ -88,8 +82,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateManagedThingAsync(AwsIotManagedIntegrationsCreateManagedThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateManagedThingAsync(AwsIotManagedIntegrationsCreateManagedThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNotificationConfigurationAsync(AwsIotManagedIntegrationsCreateNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNotificationConfigurationAsync(AwsIotManagedIntegrationsCreateNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a configuraiton for the over-the-air (OTA) task. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOtaTaskConfigurationAsync(AwsIotManagedIntegrationsCreateOtaTaskConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOtaTaskConfigurationAsync(AwsIotManagedIntegrationsCreateOtaTaskConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an over-the-air (OTA) task to target a device. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOtaTaskAsync(AwsIotManagedIntegrationsCreateOtaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOtaTaskAsync(AwsIotManagedIntegrationsCreateOtaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of re- sources and policies applied to a device during the provisioning process. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProvisioningProfileAsync(AwsIotManagedIntegrationsCreateProvisioningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProvisioningProfileAsync(AwsIotManagedIntegrationsCreateProvisioningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a third-party account association for an end user. NOTE: You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account be- fore calling the DeleteAccountAssociation API. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccountAssociationAsync(AwsIotManagedIntegrationsDeleteAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccountAssociationAsync(AwsIotManagedIntegrationsDeleteAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a cloud connector. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCloudConnectorAsync(AwsIotManagedIntegrationsDeleteCloudConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCloudConnectorAsync(AwsIotManagedIntegrationsDeleteCloudConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a connector destination linked to a cloud-to-cloud (C2C) connec- tor. NOTE: Deletion can't be done if the account association has used this con- nector destination. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectorDestinationAsync(AwsIotManagedIntegrationsDeleteConnectorDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectorDestinationAsync(AwsIotManagedIntegrationsDeleteConnectorDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a credential locker. NOTE: This operation can't be undone and any existing device won't be able to use IoT managed integrations. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCredentialLockerAsync(AwsIotManagedIntegrationsDeleteCredentialLockerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCredentialLockerAsync(AwsIotManagedIntegrationsDeleteCredentialLockerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a notification destination specified by name. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDestinationAsync(AwsIotManagedIntegrationsDeleteDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDestinationAsync(AwsIotManagedIntegrationsDeleteDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an event log configuration. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEventLogConfigurationAsync(AwsIotManagedIntegrationsDeleteEventLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEventLogConfigurationAsync(AwsIotManagedIntegrationsDeleteEventLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the de- vices connected to it will have their status changed to PENDING . It is not possible to remove a cloud-to-cloud device. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteManagedThingAsync(AwsIotManagedIntegrationsDeleteManagedThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteManagedThingAsync(AwsIotManagedIntegrationsDeleteManagedThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a notification configuration. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNotificationConfigurationAsync(AwsIotManagedIntegrationsDeleteNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNotificationConfigurationAsync(AwsIotManagedIntegrationsDeleteNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the over-the-air (OTA) task configuration. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOtaTaskConfigurationAsync(AwsIotManagedIntegrationsDeleteOtaTaskConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOtaTaskConfigurationAsync(AwsIotManagedIntegrationsDeleteOtaTaskConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the over-the-air (OTA) task. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOtaTaskAsync(AwsIotManagedIntegrationsDeleteOtaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOtaTaskAsync(AwsIotManagedIntegrationsDeleteOtaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a provisioning profile. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProvisioningProfileAsync(AwsIotManagedIntegrationsDeleteProvisioningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProvisioningProfileAsync(AwsIotManagedIntegrationsDeleteProvisioningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregister an account association from a managed thing. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterAccountAssociationAsync(AwsIotManagedIntegrationsDeregisterAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterAccountAssociationAsync(AwsIotManagedIntegrationsDeregisterAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get an account association for an Amazon Web Services account linked to a customer-managed destination. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountAssociationAsync(AwsIotManagedIntegrationsGetAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountAssociationAsync(AwsIotManagedIntegrationsGetAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get configuration details for a cloud connector. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCloudConnectorAsync(AwsIotManagedIntegrationsGetCloudConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCloudConnectorAsync(AwsIotManagedIntegrationsGetCloudConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get connector destination details linked to a cloud-to-cloud (C2C) con- nector. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectorDestinationAsync(AwsIotManagedIntegrationsGetConnectorDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectorDestinationAsync(AwsIotManagedIntegrationsGetConnectorDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information on an existing credential locker See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCredentialLockerAsync(AwsIotManagedIntegrationsGetCredentialLockerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCredentialLockerAsync(AwsIotManagedIntegrationsGetCredentialLockerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the IoT managed integrations custom endpoint. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCustomEndpointAsync(AwsIotManagedIntegrationsGetCustomEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCustomEndpointAsync(AwsIotManagedIntegrationsGetCustomEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the AWS IoT SiteWise User Guide . See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDefaultEncryptionConfigurationAsync(AwsIotManagedIntegrationsGetDefaultEncryptionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDefaultEncryptionConfigurationAsync(AwsIotManagedIntegrationsGetDefaultEncryptionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a destination by name. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDestinationAsync(AwsIotManagedIntegrationsGetDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDestinationAsync(AwsIotManagedIntegrationsGetDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the current state of a device discovery. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeviceDiscoveryAsync(AwsIotManagedIntegrationsGetDeviceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeviceDiscoveryAsync(AwsIotManagedIntegrationsGetDeviceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get an event log configuration. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEventLogConfigurationAsync(AwsIotManagedIntegrationsGetEventLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEventLogConfigurationAsync(AwsIotManagedIntegrationsGetEventLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a hub configuration. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHubConfigurationAsync(AwsIotManagedIntegrationsGetHubConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHubConfigurationAsync(AwsIotManagedIntegrationsGetHubConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the capabilities for a managed thing using the device ID. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedThingCapabilitiesAsync(AwsIotManagedIntegrationsGetManagedThingCapabilitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedThingCapabilitiesAsync(AwsIotManagedIntegrationsGetManagedThingCapabilitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the certificate PEM for a managed IoT thing. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedThingCertificateAsync(AwsIotManagedIntegrationsGetManagedThingCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedThingCertificateAsync(AwsIotManagedIntegrationsGetManagedThingCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the connectivity status of a managed thing. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedThingConnectivityDataAsync(AwsIotManagedIntegrationsGetManagedThingConnectivityDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedThingConnectivityDataAsync(AwsIotManagedIntegrationsGetManagedThingConnectivityDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the metadata information for a managed thing. NOTE: The managedThing metadata parameter is used for associating attrib- utes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTar- getQueryString parameter for the CreateOtaTask API operation. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedThingMetaDataAsync(AwsIotManagedIntegrationsGetManagedThingMetaDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedThingMetaDataAsync(AwsIotManagedIntegrationsGetManagedThingMetaDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get details of a managed thing including its attributes and capabili- ties. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedThingAsync(AwsIotManagedIntegrationsGetManagedThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedThingAsync(AwsIotManagedIntegrationsGetManagedThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the managed thing state for the given device Id. See also: AWS API Documentation get-managed-thing-state uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
@@ -408,8 +370,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedThingStateAsync(AwsIotManagedIntegrationsGetManagedThingStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedThingStateAsync(AwsIotManagedIntegrationsGetManagedThingStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a notification configuration for a specified event type. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNotificationConfigurationAsync(AwsIotManagedIntegrationsGetNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNotificationConfigurationAsync(AwsIotManagedIntegrationsGetNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a configuraiton for the over-the-air (OTA) task. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOtaTaskConfigurationAsync(AwsIotManagedIntegrationsGetOtaTaskConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOtaTaskConfigurationAsync(AwsIotManagedIntegrationsGetOtaTaskConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get details of the over-the-air (OTA) task by its task id. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOtaTaskAsync(AwsIotManagedIntegrationsGetOtaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOtaTaskAsync(AwsIotManagedIntegrationsGetOtaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get details of a provisioning profile. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProvisioningProfileAsync(AwsIotManagedIntegrationsGetProvisioningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProvisioningProfileAsync(AwsIotManagedIntegrationsGetProvisioningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the runtime log configuration for a specific managed thing. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRuntimeLogConfigurationAsync(AwsIotManagedIntegrationsGetRuntimeLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRuntimeLogConfigurationAsync(AwsIotManagedIntegrationsGetRuntimeLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a schema version with the provided information. See also: AWS API Documentation get-schema-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -468,8 +424,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSchemaVersionAsync(AwsIotManagedIntegrationsGetSchemaVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSchemaVersionAsync(AwsIotManagedIntegrationsGetSchemaVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all account associations, with optional filtering by connector destination ID. See also: AWS API Documentation list-account-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
@@ -478,8 +433,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccountAssociationsAsync(AwsIotManagedIntegrationsListAccountAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccountAssociationsAsync(AwsIotManagedIntegrationsListAccountAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and type . See also: AWS API Documentation list-cloud-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -488,8 +442,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCloudConnectorsAsync(AwsIotManagedIntegrationsListCloudConnectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCloudConnectorsAsync(AwsIotManagedIntegrationsListCloudConnectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all connector destinations, with optional filtering by cloud con- nector ID. See also: AWS API Documentation list-connector-destinations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connec...
@@ -498,8 +451,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConnectorDestinationsAsync(AwsIotManagedIntegrationsListConnectorDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConnectorDestinationsAsync(AwsIotManagedIntegrationsListConnectorDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List information on an existing credential locker. See also: AWS API Documentation list-credential-lockers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
@@ -508,8 +460,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCredentialLockersAsync(AwsIotManagedIntegrationsListCredentialLockersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCredentialLockersAsync(AwsIotManagedIntegrationsListCredentialLockersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all notification destinations. See also: AWS API Documentation list-destinations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DestinationList
@@ -518,8 +469,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDestinationsAsync(AwsIotManagedIntegrationsListDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDestinationsAsync(AwsIotManagedIntegrationsListDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all device discovery tasks, with optional filtering by type and status. See also: AWS API Documentation list-device-discoveries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
@@ -528,8 +478,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeviceDiscoveriesAsync(AwsIotManagedIntegrationsListDeviceDiscoveriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeviceDiscoveriesAsync(AwsIotManagedIntegrationsListDeviceDiscoveriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all devices discovered during a specific device discovery task. See also: AWS API Documentation list-discovered-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
@@ -538,8 +487,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDiscoveredDevicesAsync(AwsIotManagedIntegrationsListDiscoveredDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDiscoveredDevicesAsync(AwsIotManagedIntegrationsListDiscoveredDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all event log configurations for an account. See also: AWS API Documentation list-event-log-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventLogConfigurationList
@@ -548,8 +496,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEventLogConfigurationsAsync(AwsIotManagedIntegrationsListEventLogConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEventLogConfigurationsAsync(AwsIotManagedIntegrationsListEventLogConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all account associations for a specific managed thing. See also: AWS API Documentation list-managed-thing-account-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -558,8 +505,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedThingAccountAssociationsAsync(AwsIotManagedIntegrationsListManagedThingAccountAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedThingAccountAssociationsAsync(AwsIotManagedIntegrationsListManagedThingAccountAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List schemas associated with a managed thing. See also: AWS API Documentation list-managed-thing-schemas uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types. list-managed-thing-schemas is a paginated operation. Multiple API calls may be i...
@@ -568,8 +514,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedThingSchemasAsync(AwsIotManagedIntegrationsListManagedThingSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedThingSchemasAsync(AwsIotManagedIntegrationsListManagedThingSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Listing all managed things with provision for filters. See also: AWS API Documentation list-managed-things is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -578,8 +523,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedThingsAsync(AwsIotManagedIntegrationsListManagedThingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedThingsAsync(AwsIotManagedIntegrationsListManagedThingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all notification configurations. See also: AWS API Documentation list-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NotificationConfigurationList
@@ -588,8 +532,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNotificationConfigurationsAsync(AwsIotManagedIntegrationsListNotificationConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNotificationConfigurationsAsync(AwsIotManagedIntegrationsListNotificationConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all of the over-the-air (OTA) task configurations. See also: AWS API Documentation list-ota-task-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -598,8 +541,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOtaTaskConfigurationsAsync(AwsIotManagedIntegrationsListOtaTaskConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOtaTaskConfigurationsAsync(AwsIotManagedIntegrationsListOtaTaskConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all of the over-the-air (OTA) task executions. See also: AWS API Documentation list-ota-task-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ExecutionSummaries
@@ -608,8 +550,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOtaTaskExecutionsAsync(AwsIotManagedIntegrationsListOtaTaskExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOtaTaskExecutionsAsync(AwsIotManagedIntegrationsListOtaTaskExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all of the over-the-air (OTA) tasks. See also: AWS API Documentation list-ota-tasks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tasks
@@ -618,8 +559,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOtaTasksAsync(AwsIotManagedIntegrationsListOtaTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOtaTasksAsync(AwsIotManagedIntegrationsListOtaTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the provisioning profiles within the Amazon Web Services account. See also: AWS API Documentation list-provisioning-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
@@ -628,8 +568,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProvisioningProfilesAsync(AwsIotManagedIntegrationsListProvisioningProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProvisioningProfilesAsync(AwsIotManagedIntegrationsListProvisioningProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists schema versions with the provided information. See also: AWS API Documentation list-schema-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -638,8 +577,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSchemaVersionsAsync(AwsIotManagedIntegrationsListSchemaVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSchemaVersionsAsync(AwsIotManagedIntegrationsListSchemaVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for a specified resource. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsIotManagedIntegrationsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsIotManagedIntegrationsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT Site- Wise User Guide. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDefaultEncryptionConfigurationAsync(AwsIotManagedIntegrationsPutDefaultEncryptionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDefaultEncryptionConfigurationAsync(AwsIotManagedIntegrationsPutDefaultEncryptionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a hub configuration. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutHubConfigurationAsync(AwsIotManagedIntegrationsPutHubConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutHubConfigurationAsync(AwsIotManagedIntegrationsPutHubConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set the runtime log configuration for a specific managed thing. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRuntimeLogConfigurationAsync(AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRuntimeLogConfigurationAsync(AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers an account association with a managed thing, establishing a connection between a device and a third-party account. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterAccountAssociationAsync(AwsIotManagedIntegrationsRegisterAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterAccountAssociationAsync(AwsIotManagedIntegrationsRegisterAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterCustomEndpointAsync(AwsIotManagedIntegrationsRegisterCustomEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterCustomEndpointAsync(AwsIotManagedIntegrationsRegisterCustomEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reset a runtime log configuration for a specific managed thing. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetRuntimeLogConfigurationAsync(AwsIotManagedIntegrationsResetRuntimeLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetRuntimeLogConfigurationAsync(AwsIotManagedIntegrationsResetRuntimeLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Relays third-party device events for a connector such as a new device or a device state change event. See also: AWS API Documentation send-connector-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -718,8 +649,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendConnectorEventAsync(AwsIotManagedIntegrationsSendConnectorEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendConnectorEventAsync(AwsIotManagedIntegrationsSendConnectorEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Send the command to the device represented by the managed thing. See also: AWS API Documentation send-managed-thing-command uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
@@ -728,8 +658,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendManagedThingCommandAsync(AwsIotManagedIntegrationsSendManagedThingCommandOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendManagedThingCommandAsync(AwsIotManagedIntegrationsSendManagedThingCommandOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a refresh of an existing account association to update its authorization and connection status. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAccountAssociationRefreshAsync(AwsIotManagedIntegrationsStartAccountAssociationRefreshOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAccountAssociationRefreshAsync(AwsIotManagedIntegrationsStartAccountAssociationRefreshOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDeviceDiscoveryAsync(AwsIotManagedIntegrationsStartDeviceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDeviceDiscoveryAsync(AwsIotManagedIntegrationsStartDeviceDiscoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to a specified resource. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsIotManagedIntegrationsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsIotManagedIntegrationsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a specified resource. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsIotManagedIntegrationsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsIotManagedIntegrationsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of an existing account association. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAccountAssociationAsync(AwsIotManagedIntegrationsUpdateAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAccountAssociationAsync(AwsIotManagedIntegrationsUpdateAccountAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an existing cloud connector. See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCloudConnectorAsync(AwsIotManagedIntegrationsUpdateCloudConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCloudConnectorAsync(AwsIotManagedIntegrationsUpdateCloudConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of an existing connector destination. See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConnectorDestinationAsync(AwsIotManagedIntegrationsUpdateConnectorDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConnectorDestinationAsync(AwsIotManagedIntegrationsUpdateConnectorDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a destination specified by name. See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDestinationAsync(AwsIotManagedIntegrationsUpdateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDestinationAsync(AwsIotManagedIntegrationsUpdateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an event log configuration by log configuration ID. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEventLogConfigurationAsync(AwsIotManagedIntegrationsUpdateEventLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEventLogConfigurationAsync(AwsIotManagedIntegrationsUpdateEventLogConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the attributes and capabilities associated with a managed thing. See also: AWS API Documentation update-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -828,8 +748,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateManagedThingAsync(AwsIotManagedIntegrationsUpdateManagedThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateManagedThingAsync(AwsIotManagedIntegrationsUpdateManagedThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a notification configuration. See also: AWS API Documentation
@@ -838,8 +757,7 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNotificationConfigurationAsync(AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNotificationConfigurationAsync(AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an over-the-air (OTA) task. See also: AWS API Documentation
@@ -848,7 +766,6 @@ public interface IAwsIotManagedIntegrations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOtaTaskAsync(AwsIotManagedIntegrationsUpdateOtaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOtaTaskAsync(AwsIotManagedIntegrationsUpdateOtaTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

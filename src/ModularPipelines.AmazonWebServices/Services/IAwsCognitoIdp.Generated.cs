@@ -28,8 +28,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddCustomAttributesAsync(AwsCognitoIdpAddCustomAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddCustomAttributesAsync(AwsCognitoIdpAddCustomAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new client secret for an existing confidential user pool app client. Supports up to 2 active secrets per app client for zero-down- time credential rotation workflows. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddUserPoolClientSecretAsync(AwsCognitoIdpAddUserPoolClientSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddUserPoolClientSecretAsync(AwsCognitoIdpAddUserPoolClientSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a user to a group. A user who is in a group can present a pre- ferred-role claim to an identity pool, and populates a cognito:groups claim to their access and identity tokens. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Us...
@@ -48,8 +46,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminAddUserToGroupAsync(AwsCognitoIdpAdminAddUserToGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminAddUserToGroupAsync(AwsCognitoIdpAdminAddUserToGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Confirms user sign-up as an administrator. This request sets a user account active in a user pool that requires confirmation of new user accounts before they can sign in. You can con- figure your user pool to not send confirmation codes to new users and instead confirm them with this API operation on the back end. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize request...
@@ -58,8 +55,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminConfirmSignUpAsync(AwsCognitoIdpAdminConfirmSignUpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminConfirmSignUpAsync(AwsCognitoIdpAdminConfirmSignUpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new user in the specified user pool. If MessageAction isn't set, the default is to send a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to create or update a user pool. This template includes your custom sign-up instructions and placeholders for user name and temporary pass- word. Alternatively, you can call AdminCreateUser with SUPPRESS for the Mes- sageAction parameter, and Amazon Cognito won't send any email. In either...
@@ -68,8 +64,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminCreateUserAsync(AwsCognitoIdpAdminCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminCreateUserAsync(AwsCognitoIdpAdminCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user's registered time-based one-time password (TOTP) multi-factor authentication (MFA) factor, also known as a software to- ken. After this operation, the user can no longer sign in with TOTP MFA, and can register a new TOTP factor with AssociateSoftwareToken . Use this operation when a user loses access to their TOTP-generating device, for example, a lost or reset phone, and needs to register a new one. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in...
@@ -78,8 +73,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminDeleteSoftwareTokenAsync(AwsCognitoIdpAdminDeleteSoftwareTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminDeleteSoftwareTokenAsync(AwsCognitoIdpAdminDeleteSoftwareTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes attribute values from a user. This operation doesn't affect to- kens for existing user sessions. The next ID token that the user re- ceives will no longer have the deleted attributes. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Re...
@@ -88,8 +82,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminDeleteUserAttributesAsync(AwsCognitoIdpAdminDeleteUserAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminDeleteUserAttributesAsync(AwsCognitoIdpAdminDeleteUserAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user profile in your user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminDeleteUserAsync(AwsCognitoIdpAdminDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminDeleteUserAsync(AwsCognitoIdpAdminDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prevents the user from signing in with the specified external (SAML or social) identity provider (IdP). If the user that you want to deacti- vate is a Amazon Cognito user pools native username + password user, they can't use their password to sign in. If the user to deactivate is a linked external IdP user, any link between that user and an existing user is removed. When the external user signs in again, and the user is no longer attached to the previously linked DestinationUser , the user must ...
@@ -108,8 +100,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminDisableProviderForUserAsync(AwsCognitoIdpAdminDisableProviderForUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminDisableProviderForUserAsync(AwsCognitoIdpAdminDisableProviderForUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deactivates a user profile and revokes all access tokens for the user. A deactivated user can't sign in, but still appears in the responses to ListUsers API requests. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon...
@@ -118,8 +109,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminDisableUserAsync(AwsCognitoIdpAdminDisableUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminDisableUserAsync(AwsCognitoIdpAdminDisableUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Activates sign-in for a user profile that previously had sign-in access disabled. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminEnableUserAsync(AwsCognitoIdpAdminEnableUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminEnableUserAsync(AwsCognitoIdpAdminEnableUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Forgets, or deletes, a remembered device from a user's profile. After you forget the device, the user can no longer complete device authenti- cation with that device and when applicable, must submit MFA codes again. For more information, see Working with devices . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IA...
@@ -138,8 +127,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminForgetDeviceAsync(AwsCognitoIdpAdminForgetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminForgetDeviceAsync(AwsCognitoIdpAdminForgetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given the device key, returns details for a user's device. For more in- formation, see Working with devices . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also:...
@@ -148,8 +136,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminGetDeviceAsync(AwsCognitoIdpAdminGetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminGetDeviceAsync(AwsCognitoIdpAdminGetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the authentication options for a user in a user pool. Returns the following: o The user's multi-factor authentication (MFA) preferences. o The user's options for choice-based authentication with the USER_AUTH flow. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signi...
@@ -158,8 +145,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminGetUserAuthFactorsAsync(AwsCognitoIdpAdminGetUserAuthFactorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminGetUserAuthFactorsAsync(AwsCognitoIdpAdminGetUserAuthFactorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a username, returns details about a user profile in a user pool. You can specify alias attributes in the Username request parameter. This operation contributes to your monthly active user (MAU) count for the purpose of billing. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn...
@@ -168,8 +154,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminGetUserAsync(AwsCognitoIdpAdminGetUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminGetUserAsync(AwsCognitoIdpAdminGetUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts sign-in for applications with a server-side component, for exam- ple a traditional web application. This operation specifies the authen- tication flow that you'd like to begin. The authentication flow that you specify must be supported in your app client configuration. For more information about authentication flows, see Authentication flows . NOTE: This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone numbe...
@@ -178,8 +163,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminInitiateAuthAsync(AwsCognitoIdpAdminInitiateAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminInitiateAuthAsync(AwsCognitoIdpAdminInitiateAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Links an existing user account in a user pool, or DestinationUser , to an identity from an external IdP, or SourceUser , based on a specified attribute name and value from the external IdP. This operation connects a local user profile with a user identity who hasn't yet signed in from their third-party IdP. When the user signs in with their IdP, they get access-control configuration from the local user profile. Linked local users can also sign in with SDK-based API operations like InitiateAuth a...
@@ -188,8 +172,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminLinkProviderForUserAsync(AwsCognitoIdpAdminLinkProviderForUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminLinkProviderForUserAsync(AwsCognitoIdpAdminLinkProviderForUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists a user's registered devices. Remembered devices are used in au- thentication services where you offer a "Remember me" option for users who you want to permit to sign in without MFA from a trusted device. Users can bypass MFA while your application performs device SRP authen- tication on the back end. For more information, see Working with de- vices . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you mu...
@@ -198,8 +181,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminListDevicesAsync(AwsCognitoIdpAdminListDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminListDevicesAsync(AwsCognitoIdpAdminListDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the groups that a user belongs to. User pool groups are identi- fiers that you can reference from the contents of ID and access tokens, and set preferred IAM roles for identity-pool authentication. For more information, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM pe...
@@ -208,8 +190,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminListGroupsForUserAsync(AwsCognitoIdpAdminListGroupsForUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminListGroupsForUserAsync(AwsCognitoIdpAdminListGroupsForUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests a history of user activity and any risks detected as part of Amazon Cognito threat protection. For more information, see Viewing user event history . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito...
@@ -218,8 +199,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminListUserAuthEventsAsync(AwsCognitoIdpAdminListUserAuthEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminListUserAuthEventsAsync(AwsCognitoIdpAdminListUserAuthEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a username and a group name, removes them from the group. User pool groups are identifiers that you can reference from the contents of ID and access tokens, and set preferred IAM roles for identity-pool au- thentication. For more information, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself t...
@@ -228,8 +208,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminRemoveUserFromGroupAsync(AwsCognitoIdpAdminRemoveUserFromGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminRemoveUserFromGroupAsync(AwsCognitoIdpAdminRemoveUserFromGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Begins the password reset process. Sets the requested users account into a RESET_REQUIRED status, and sends them a password-reset code. Your user pool also sends the user a notification with a reset code and the information that their password has been reset. At sign-in, your application or the managed login session receives a challenge to com- plete the reset by confirming the code and setting a new password. To use this API operation, your user pool must have self-service ac- count recovery co...
@@ -238,8 +217,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminResetUserPasswordAsync(AwsCognitoIdpAdminResetUserPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminResetUserPasswordAsync(AwsCognitoIdpAdminResetUserPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Some API operations in a user pool generate a challenge, like a prompt for an MFA code, for device authentication that bypasses MFA, or for a custom authentication challenge. An AdminRespondToAuthChallenge API re- quest provides the answer to that challenge, like a code or a secure remote password (SRP). The parameters of a response to an authentica- tion challenge vary with the type of challenge. For more information about custom authentication challenges, see Custom authentication challenge La...
@@ -248,8 +226,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminRespondToAuthChallengeAsync(AwsCognitoIdpAdminRespondToAuthChallengeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminRespondToAuthChallengeAsync(AwsCognitoIdpAdminRespondToAuthChallengeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API...
@@ -258,8 +235,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminSetUserMfaPreferenceAsync(AwsCognitoIdpAdminSetUserMfaPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminSetUserMfaPreferenceAsync(AwsCognitoIdpAdminSetUserMfaPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the specified user's password in a user pool. This operation ad- ministratively sets a temporary or permanent password for a user. With this operation, you can bypass self-service password changes and permit immediate sign-in with the password that you set. To do this, set Per- manent to true . You can also set a new temporary password in this request, send it to a user, and require them to choose a new password on their next sign-in. To do this, set Permanent to false . If the password is ...
@@ -268,8 +244,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminSetUserPasswordAsync(AwsCognitoIdpAdminSetUserPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminSetUserPasswordAsync(AwsCognitoIdpAdminSetUserPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token MFA. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Co...
@@ -278,8 +253,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminSetUserSettingsAsync(AwsCognitoIdpAdminSetUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminSetUserSettingsAsync(AwsCognitoIdpAdminSetUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the feedback for an authentication event generated by threat protection features. Your response indicates that you think that the event either was from a valid user or was an unwanted authentication attempt. This feedback improves the risk evaluation decision for the user pool as part of Amazon Cognito threat protection. To activate this setting, your user pool must be on the Plus tier . To train the threat-protection model to recognize trusted and untrusted sign-in characteristics, con...
@@ -288,8 +262,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminUpdateAuthEventFeedbackAsync(AwsCognitoIdpAdminUpdateAuthEventFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminUpdateAuthEventFeedbackAsync(AwsCognitoIdpAdminUpdateAuthEventFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a user's device so that it is marked as remem- bered or not remembered for the purpose of device authentication. De- vice authentication is a "remember me" mechanism that silently com- pletes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more infor- mation about device authentication, see Working with devices . NOTE: Amazon Cognito e...
@@ -298,8 +271,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminUpdateDeviceStatusAsync(AwsCognitoIdpAdminUpdateDeviceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminUpdateDeviceStatusAsync(AwsCognitoIdpAdminUpdateDeviceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified user's attributes. To delete an attribute from your user, submit the attribute in your API request with a blank value. For custom attributes, you must add a custom: prefix to the attribute name, for example custom:department . This operation can set a user's email address or phone number as veri- fied and permit immediate sign-in in user pools that require verifica- tion of these attributes. To do this, set the email_verified or phone_number_verified attribute to true . NOT...
@@ -308,8 +280,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminUpdateUserAttributesAsync(AwsCognitoIdpAdminUpdateUserAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminUpdateUserAttributesAsync(AwsCognitoIdpAdminUpdateUserAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Invalidates the identity, access, and refresh tokens that Amazon Cog- nito issued to a user. Call this operation with your administrative credentials when your user signs out of your app. This results in the following behavior. o Amazon Cognito no longer accepts token-authorized user operations that you authorize with a signed-out user's access tokens. For more information, see Using the Amazon Cognito user pools API and user pool endpoints . Amazon Cognito returns an Access Token has been re- v...
@@ -318,8 +289,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AdminUserGlobalSignOutAsync(AwsCognitoIdpAdminUserGlobalSignOutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AdminUserGlobalSignOutAsync(AwsCognitoIdpAdminUserGlobalSignOutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Begins setup of time-based one-time password (TOTP) multi-factor au- thentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Ama- zon Cognito. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operat...
@@ -328,8 +298,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSoftwareTokenAsync(AwsCognitoIdpAssociateSoftwareTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSoftwareTokenAsync(AwsCognitoIdpAssociateSoftwareTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the password for the currently signed-in user. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tion models in Amazon Cognito, see Using the ...
@@ -338,8 +307,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ChangePasswordAsync(AwsCognitoIdpChangePasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ChangePasswordAsync(AwsCognitoIdpChangePasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Completes registration of a passkey authenticator for the currently signed-in user. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . See also: AWS API Documentation complete-web-authn-registration uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type do...
@@ -348,8 +316,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CompleteWebAuthnRegistrationAsync(AwsCognitoIdpCompleteWebAuthnRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CompleteWebAuthnRegistrationAsync(AwsCognitoIdpCompleteWebAuthnRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Confirms a device that a user wants to remember. A remembered device is a "Remember me on this device" option for user pools that perform au- thentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see Working with user devices in your user pool . Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't ev...
@@ -358,8 +325,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConfirmDeviceAsync(AwsCognitoIdpConfirmDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConfirmDeviceAsync(AwsCognitoIdpConfirmDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This public API operation accepts a confirmation code that Amazon Cog- nito sent to a user and accepts a new password for that user. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tion models in Amazon Cognito, see Using the Amazon Cognito user pools API and user poo...
@@ -368,8 +334,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConfirmForgotPasswordAsync(AwsCognitoIdpConfirmForgotPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConfirmForgotPasswordAsync(AwsCognitoIdpConfirmForgotPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Confirms the account of a new user. This public API operation submits a code that Amazon Cognito sent to your user when they signed up in your user pool. After your user enters their code, they confirm ownership of the email address or phone number that they provided, and their user account becomes active. Depending on your user pool configuration, your users will receive their confirmation code in an email or SMS message. Local users who signed up in your user pool are the only type of user who...
@@ -378,8 +343,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConfirmSignUpAsync(AwsCognitoIdpConfirmSignUpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConfirmSignUpAsync(AwsCognitoIdpConfirmSignUpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new group in the specified user pool. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool e...
@@ -388,8 +352,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGroupAsync(AwsCognitoIdpCreateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGroupAsync(AwsCognitoIdpCreateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a configuration and trust relationship between a third-party iden- tity provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through managed login and OIDC re- lying-party libraries. For more information, see Third-party IdP sign-in . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself...
@@ -398,8 +361,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIdentityProviderAsync(AwsCognitoIdpCreateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIdentityProviderAsync(AwsCognitoIdpCreateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new set of branding settings for a user pool style and asso- ciates it with an app client. This operation is the programmatic option for the creation of a new style in the branding editor. Provides values for UI customization in a Settings JSON object and im- age files in an Assets array. To send the JSON object Document type pa- rameter in Settings , you might need to update to the most recent ver- sion of your Amazon Web Services SDK. To create a new style with de- fault settings, se...
@@ -408,8 +370,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateManagedLoginBrandingAsync(AwsCognitoIdpCreateManagedLoginBrandingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateManagedLoginBrandingAsync(AwsCognitoIdpCreateManagedLoginBrandingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new OAuth2.0 resource server and defines custom scopes within it. Resource servers are associated with custom scopes and ma- chine-to-machine (M2M) authorization. For more information, see Access control with resource servers . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. L...
@@ -418,8 +379,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourceServerAsync(AwsCognitoIdpCreateResourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourceServerAsync(AwsCognitoIdpCreateResourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates terms documents for the requested app client. When Terms and conditions and Privacy policy documents are configured, the app client displays links to them in the sign-up page of managed login for the app client. You can provide URLs for terms documents in the languages that are sup- ported by managed login localization . Amazon Cognito directs users to the terms documents for their current language, with fallback to de- fault if no document exists for the language. Each request accepts o...
@@ -428,8 +388,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTermsAsync(AwsCognitoIdpCreateTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTermsAsync(AwsCognitoIdpCreateTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user import job. You can import users into user pools from a comma-separated values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Usin...
@@ -438,8 +397,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserImportJobAsync(AwsCognitoIdpCreateUserImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserImportJobAsync(AwsCognitoIdpCreateUserImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an app client in a user pool. This operation sets basic and ad- vanced configuration options. Unlike app clients created in the console, Amazon Cognito doesn't auto- matically assign a branding style to app clients that you configure with this API operation. Managed login and classic hosted UI pages aren't available for your client until after you apply a branding style. WARNING: If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. NOTE: Amazon Cogn...
@@ -448,8 +406,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserPoolClientAsync(AwsCognitoIdpCreateUserPoolClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserPoolClientAsync(AwsCognitoIdpCreateUserPoolClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A user pool domain hosts managed login, an authorization server and web server for authentication in your application. This operation creates a new user pool prefix domain or custom domain and sets the managed login branding version. Set the branding version to 1 for hosted UI (classic) or 2 for managed login. When you choose a custom domain, you must pro- vide an SSL certificate in the US East (N. Virginia) Amazon Web Ser- vices Region in your request. Your prefix domain might take up to one mi...
@@ -458,8 +415,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserPoolDomainAsync(AwsCognitoIdpCreateUserPoolDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserPoolDomainAsync(AwsCognitoIdpCreateUserPoolDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Amazon Cognito user pool. This operation sets basic and advanced configuration options. WARNING: If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. NOTE: This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon P...
@@ -468,8 +424,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserPoolAsync(AwsCognitoIdpCreateUserPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserPoolAsync(AwsCognitoIdpCreateUserPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a replica of an existing user pool in a specified Amazon Web Services Region. The replica enables multi-region replication for high availability and disaster recovery. To create a replica, you must have permissions to create user pools in the target Region. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding I...
@@ -478,8 +433,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserPoolReplicaAsync(AwsCognitoIdpCreateUserPoolReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserPoolReplicaAsync(AwsCognitoIdpCreateUserPoolReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a group from the specified user pool. When you delete a group, that group no longer contributes to users' cognito:preferred_group or cognito:groups claims, and no longer influence access-control decision that are based on group membership. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to autho...
@@ -488,8 +442,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGroupAsync(AwsCognitoIdpDeleteGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGroupAsync(AwsCognitoIdpDeleteGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user pool identity provider (IdP). After you delete an IdP, users can no longer sign in to your user pool through that IdP. For more information about user pool IdPs, see Third-party IdP sign-in . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web ...
@@ -498,8 +451,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIdentityProviderAsync(AwsCognitoIdpDeleteIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIdentityProviderAsync(AwsCognitoIdpDeleteIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a managed login branding style. When you delete a style, you delete the branding association for an app client. When an app client doesn't have a style assigned, your managed login pages for that app client are nonfunctional until you create a new style or switch the do- main branding version. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you mu...
@@ -508,8 +460,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteManagedLoginBrandingAsync(AwsCognitoIdpDeleteManagedLoginBrandingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteManagedLoginBrandingAsync(AwsCognitoIdpDeleteManagedLoginBrandingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a resource server. After you delete a resource server, users can no longer generate access tokens with scopes that are associate with that resource server. Resource servers are associated with custom scopes and machine-to-ma- chine (M2M) authorization. For more information, see Access control with resource servers . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authori...
@@ -518,8 +469,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourceServerAsync(AwsCognitoIdpDeleteResourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourceServerAsync(AwsCognitoIdpDeleteResourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the terms documents with the requested ID from your app client. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTermsAsync(AwsCognitoIdpDeleteTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTermsAsync(AwsCognitoIdpDeleteTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes attributes from the currently signed-in user. For example, your application can submit a request to this operation when a user wants to remove their birthdate attribute value. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and...
@@ -538,8 +487,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserAttributesAsync(AwsCognitoIdpDeleteUserAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserAttributesAsync(AwsCognitoIdpDeleteUserAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the profile of the currently signed-in user. A deleted user profile can no longer be used to sign in and can't be restored. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For mo...
@@ -548,8 +496,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserAsync(AwsCognitoIdpDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserAsync(AwsCognitoIdpDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user pool app client. After you delete an app client, users can no longer sign in to the associated application. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserPoolClientAsync(AwsCognitoIdpDeleteUserPoolClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserPoolClientAsync(AwsCognitoIdpDeleteUserPoolClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific client secret from a user pool app client. You can- not delete the last remaining secret for an app client. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserPoolClientSecretAsync(AwsCognitoIdpDeleteUserPoolClientSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserPoolClientSecretAsync(AwsCognitoIdpDeleteUserPoolClientSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID and domain identifier, deletes a user pool domain. After you delete a user pool domain, your managed login pages and au- thorization server are no longer available. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserPoolDomainAsync(AwsCognitoIdpDeleteUserPoolDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserPoolDomainAsync(AwsCognitoIdpDeleteUserPoolDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user pool. After you delete a user pool, users can no longer sign in to any associated applications. When you delete a user pool, it's no longer visible or operational in your Amazon Web Services account. Amazon Cognito retains deleted user pools in an inactive state for 14 days, then begins a cleanup process that fully removes them from Amazon Web Services systems. In case of accidental deletion, contact Amazon Web Services Support within 14 days for restoration assistance. Amazon Cog...
@@ -588,8 +532,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserPoolAsync(AwsCognitoIdpDeleteUserPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserPoolAsync(AwsCognitoIdpDeleteUserPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a secondary replica user pool. You can only delete replicas that are in the INACTIVE status. This operation must be called from the primary Region. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito us...
@@ -598,8 +541,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserPoolReplicaAsync(AwsCognitoIdpDeleteUserPoolReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserPoolReplicaAsync(AwsCognitoIdpDeleteUserPoolReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a registered passkey, or WebAuthn, authenticator for the cur- rently signed-in user. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tion mo...
@@ -608,8 +550,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWebAuthnCredentialAsync(AwsCognitoIdpDeleteWebAuthnCredentialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWebAuthnCredentialAsync(AwsCognitoIdpDeleteWebAuthnCredentialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID and identity provider (IdP) name, returns details about the IdP. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIdentityProviderAsync(AwsCognitoIdpDescribeIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIdentityProviderAsync(AwsCognitoIdpDescribeIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given the ID of a user pool app client, returns detailed information about the style assigned to the app client. See also: AWS API Documentation describe-managed-login-branding-by-client uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command in- put, options and nested parameters that are labeled with the type docu- ment must be provided as JSON. Shorthand syntax does not support docu- ment t...
@@ -628,8 +568,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeManagedLoginBrandingByClientAsync(AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeManagedLoginBrandingByClientAsync(AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given the ID of a managed login branding style, returns detailed infor- mation about the style. See also: AWS API Documentation describe-managed-login-branding uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -638,8 +577,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeManagedLoginBrandingAsync(AwsCognitoIdpDescribeManagedLoginBrandingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeManagedLoginBrandingAsync(AwsCognitoIdpDescribeManagedLoginBrandingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a resource server. For more information about resource servers, see Access control with resource servers . See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourceServerAsync(AwsCognitoIdpDescribeResourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourceServerAsync(AwsCognitoIdpDescribeResourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given an app client or user pool ID where threat protection is config- ured, describes the risk configuration. This operation returns details about adaptive authentication, compromised credentials, and IP-address allow- and denylists. For more information about threat protection, see Threat protection . See also: AWS API Documentation
@@ -658,18 +595,16 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRiskConfigurationAsync(AwsCognitoIdpDescribeRiskConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRiskConfigurationAsync(AwsCognitoIdpDescribeRiskConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:Descri- beTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:De- scribeTerms , the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also den...
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents . To call DescribeTermsByClient , you must have the cognito-idp:Descri- beTermsByClient Identity and Access Management (IAM) permission. An IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTermsByClientAsync(AwsCognitoIdpDescribeTermsByClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTermsByClientAsync(AwsCognitoIdpDescribeTermsByClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details for the requested terms documents ID. For more informa- tion, see Terms documents . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API D...
@@ -678,8 +613,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTermsAsync(AwsCognitoIdpDescribeTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTermsAsync(AwsCognitoIdpDescribeTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a user import job. For more information about user CSV im- port, see Importing users from a CSV file . See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserImportJobAsync(AwsCognitoIdpDescribeUserImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserImportJobAsync(AwsCognitoIdpDescribeUserImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given an app client ID, returns configuration information. This opera- tion is useful when you want to inspect an existing app client and pro- grammatically replicate the configuration to another app client. For more information about app clients, see App clients . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding I...
@@ -698,8 +631,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserPoolClientAsync(AwsCognitoIdpDescribeUserPoolClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserPoolClientAsync(AwsCognitoIdpDescribeUserPoolClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool domain name, returns information about the domain configuration. NOTE: This operation doesn't return results when you query a prefix domain in a secondary Region. Prefix domains are Region-specific and can only be described in the Region where they were created. To describe a prefix domain for a replica user pool, make the request to the primary Region's endpoint. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. ...
@@ -708,8 +640,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserPoolDomainAsync(AwsCognitoIdpDescribeUserPoolDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserPoolDomainAsync(AwsCognitoIdpDescribeUserPoolDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns configuration information. This operation is useful when you want to inspect an existing user pool and program- matically replicate the configuration to another user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Servi...
@@ -718,8 +649,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserPoolAsync(AwsCognitoIdpDescribeUserPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserPoolAsync(AwsCognitoIdpDescribeUserPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a device key, deletes a remembered device as the currently signed-in user. For more information about device authentication, see Working with user devices in your user pool . Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and yo...
@@ -728,8 +658,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ForgetDeviceAsync(AwsCognitoIdpForgetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ForgetDeviceAsync(AwsCognitoIdpForgetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a password-reset confirmation code to the email address or phone number of the requested username. The message delivery method is deter- mined by the user's available attributes and the AccountRecoverySetting configuration of the user pool. For the Username parameter, you can use the username or an email, phone, or preferred username alias. If neither a verified phone number nor a verified email exists, Amazon Cognito responds with an InvalidParameterException error . If your app client ha...
@@ -738,18 +667,16 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ForgotPasswordAsync(AwsCognitoIdpForgotPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ForgotPasswordAsync(AwsCognitoIdpForgotPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH...
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authenti- cation flows. It must be the only authentication flow that you config- ure for the app cl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClientTokenAsync(AwsCognitoIdpGetClientTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClientTokenAsync(AwsCognitoIdpGetClientTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, generates a comma-separated value (CSV) list pop- ulated with available user attributes in the user pool. This list is the header for the CSV file that determines the users in a user import job. Save the content of CSVHeader in the response as a .csv file and populate it with the usernames and attributes of users that you want to import. For more information about CSV user import, see Importing users from a CSV file . NOTE: Amazon Cognito evaluates Identity and Access Manag...
@@ -758,8 +685,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCsvHeaderAsync(AwsCognitoIdpGetCsvHeaderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCsvHeaderAsync(AwsCognitoIdpGetCsvHeaderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a device key, returns information about a remembered device for the current user. For more information about device authentication, see Working with user devices in your user pool . Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests,...
@@ -768,8 +694,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeviceAsync(AwsCognitoIdpGetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeviceAsync(AwsCognitoIdpGetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID and a group name, returns information about the user group. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cogni...
@@ -778,8 +703,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGroupAsync(AwsCognitoIdpGetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGroupAsync(AwsCognitoIdpGetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given the identifier of an identity provider (IdP), for example exam- plecorp , returns information about the user pool configuration for that IdP. For more information about IdPs, see Third-party IdP sign-in . See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityProviderByIdentifierAsync(AwsCognitoIdpGetIdentityProviderByIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityProviderByIdentifierAsync(AwsCognitoIdpGetIdentityProviderByIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns the logging configuration. User pools can export message-delivery error and threat-protection activity logs to external Amazon Web Services services. For more information, see Exporting user pool logs . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn ...
@@ -798,8 +721,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLogDeliveryConfigurationAsync(AwsCognitoIdpGetLogDeliveryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLogDeliveryConfigurationAsync(AwsCognitoIdpGetLogDeliveryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current provisioned limit for a specific API category. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProvisionedLimitAsync(AwsCognitoIdpGetProvisionedLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProvisionedLimitAsync(AwsCognitoIdpGetProvisionedLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns the signing certificate for SAML 2.0 fed- eration. Issued certificates are valid for 10 years from the date of issue. Ama- zon Cognito issues and assigns a new signing certificate annually. This renewal process returns a new value in the response to GetSigningCer- tificate , but doesn't invalidate the original certificate. For more information, see Signing SAML requests . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for ...
@@ -818,8 +739,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSigningCertificateAsync(AwsCognitoIdpGetSigningCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSigningCertificateAsync(AwsCognitoIdpGetSigningCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If re- fresh token rotation is disabled, issues new ID and access tokens only. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTokensFromRefreshTokenAsync(AwsCognitoIdpGetTokensFromRefreshTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTokensFromRefreshTokenAsync(AwsCognitoIdpGetTokensFromRefreshTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID or app client, returns information about classic hosted UI branding that you applied, if any. Returns user-pool level branding information if no app client branding is applied, or if you don't specify an app client ID. Returns an empty object if you haven't applied hosted UI branding to either the client or the user pool. For more information, see Hosted UI (classic) branding . See also: AWS API Documentation
@@ -838,8 +757,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUiCustomizationAsync(AwsCognitoIdpGetUiCustomizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUiCustomizationAsync(AwsCognitoIdpGetUiCustomizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given an attribute name, sends a user attribute verification code for the specified attribute name to the currently signed-in user. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For mo...
@@ -848,8 +766,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserAttributeVerificationCodeAsync(AwsCognitoIdpGetUserAttributeVerificationCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserAttributeVerificationCodeAsync(AwsCognitoIdpGetUserAttributeVerificationCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the authentication options for the currently signed-in user. Re- turns the following: o The user's multi-factor authentication (MFA) preferences. o The user's options for choice-based authentication with the USER_AUTH flow. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't ...
@@ -858,8 +775,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserAuthFactorsAsync(AwsCognitoIdpGetUserAuthFactorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserAuthFactorsAsync(AwsCognitoIdpGetUserAuthFactorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets user attributes and and MFA settings for the currently signed-in user. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tion models in Amazon Co...
@@ -868,8 +784,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserAsync(AwsCognitoIdpGetUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserAsync(AwsCognitoIdpGetUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators and for multi-factor authentication (MFA). This opera- tion describes the following: o The WebAuthn relying party (RP) ID and user-verification settings. o The required, optional, or disabled state of MFA for all user pool users. o The message templates for email and SMS MFA. o The enabled or disabled state of time-based one-time password (TOTP) MFA. NOTE: Amazon Cognito evaluates Identity and Access Management ...
@@ -878,8 +793,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserPoolMfaConfigAsync(AwsCognitoIdpGetUserPoolMfaConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserPoolMfaConfigAsync(AwsCognitoIdpGetUserPoolMfaConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Invalidates the identity, access, and refresh tokens that Amazon Cog- nito issued to a user. Call this operation when your user signs out of your app. This results in the following behavior. o Amazon Cognito no longer accepts token-authorized user operations that you authorize with a signed-out user's access tokens. For more information, see Using the Amazon Cognito user pools API and user pool endpoints . Amazon Cognito returns an Access Token has been re- voked error when your app attempts to ...
@@ -888,8 +802,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GlobalSignOutAsync(AwsCognitoIdpGlobalSignOutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GlobalSignOutAsync(AwsCognitoIdpGlobalSignOutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Declares an authentication flow and initiates sign-in for a user in the Amazon Cognito user directory. Amazon Cognito might respond with an ad- ditional challenge or an AuthenticationResult that contains the outcome of a successful authentication. You can't sign in a user with a feder- ated IdP with InitiateAuth . For more information, see Authentication . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, y...
@@ -898,8 +811,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InitiateAuthAsync(AwsCognitoIdpInitiateAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InitiateAuthAsync(AwsCognitoIdpInitiateAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the devices that Amazon Cognito has registered to the currently signed-in user. For more information about device authentication, see Working with user devices in your user pool . Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, a...
@@ -908,8 +820,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevicesAsync(AwsCognitoIdpListDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDevicesAsync(AwsCognitoIdpListDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns user pool groups and their details. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation list-groups is a pagi...
@@ -918,8 +829,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGroupsAsync(AwsCognitoIdpListGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGroupsAsync(AwsCognitoIdpListGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns information about configured identity providers (IdPs). For more information about IdPs, see Third-party IdP sign-in . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pool...
@@ -928,8 +838,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdentityProvidersAsync(AwsCognitoIdpListIdentityProvidersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdentityProvidersAsync(AwsCognitoIdpListIdentityProvidersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns all resource servers and their details. For more information about resource servers, see Access control with resource servers . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito ...
@@ -938,8 +847,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceServersAsync(AwsCognitoIdpListResourceServersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceServersAsync(AwsCognitoIdpListResourceServersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags that are assigned to an Amazon Cognito user pool. For more information, see Tagging resources . See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCognitoIdpListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCognitoIdpListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details about all terms documents for the requested user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation
@@ -958,8 +865,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTermsAsync(AwsCognitoIdpListTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTermsAsync(AwsCognitoIdpListTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns user import jobs and their details. Im- port jobs are retained in user pool configuration so that you can stage, stop, start, review, and delete them. For more information about user import, see Importing users from a CSV file . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM perm...
@@ -968,8 +874,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserImportJobsAsync(AwsCognitoIdpListUserImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserImportJobsAsync(AwsCognitoIdpListUserImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all client secrets associated with a user pool app client. Re- turns metadata about the secrets. The response does not include pagina- tion tokens as there are only 2 secrets at any given time and we return both with every ListUserPoolClientSecrets call. For security reasons, the response never reveals the actual secret value in ClientSecret- Value. See also: AWS API Documentation
@@ -978,8 +883,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserPoolClientSecretsAsync(AwsCognitoIdpListUserPoolClientSecretsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserPoolClientSecretsAsync(AwsCognitoIdpListUserPoolClientSecretsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, lists app clients. App clients are sets of rules for the access that you want a user pool to grant to one application. For more information, see App clients . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Us...
@@ -988,8 +892,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserPoolClientsAsync(AwsCognitoIdpListUserPoolClientsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserPoolClientsAsync(AwsCognitoIdpListUserPoolClientsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all replicas for a user pool, including both primary and sec- ondary replicas. We recommend using pagination to ensure that the oper- ation returns quickly and successfully. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Usi...
@@ -998,8 +901,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserPoolReplicasAsync(AwsCognitoIdpListUserPoolReplicasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserPoolReplicasAsync(AwsCognitoIdpListUserPoolReplicasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists user pools and their details in the current Amazon Web Services account. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito user pools API and user pool endpoints See also: AWS API Documentation list-use...
@@ -1008,8 +910,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserPoolsAsync(AwsCognitoIdpListUserPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserPoolsAsync(AwsCognitoIdpListUserPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID and a group name, returns a list of users in the group. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cognito u...
@@ -1018,8 +919,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsersInGroupAsync(AwsCognitoIdpListUsersInGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsersInGroupAsync(AwsCognitoIdpListUsersInGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool ID, returns a list of users and their basic details in a user pool. This operation is eventually consistent. You might experience a delay before results are up-to-date. To validate the existence or configura- tion of an individual user, use AdminGetUser . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresp...
@@ -1028,8 +928,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsersAsync(AwsCognitoIdpListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsersAsync(AwsCognitoIdpListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a list of the currently signed-in user's registered passkey, or WebAuthn, credentials. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tio...
@@ -1038,8 +937,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWebAuthnCredentialsAsync(AwsCognitoIdpListWebAuthnCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWebAuthnCredentialsAsync(AwsCognitoIdpListWebAuthnCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resends the code that confirms a new account for a user who has signed up in your user pool. Amazon Cognito sends confirmation codes to the user attribute in the AutoVerifiedAttributes property of your user pool. When you prompt new users for the confirmation code, include a "Resend code" option that generates a call to this API operation. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM ...
@@ -1048,8 +946,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResendConfirmationCodeAsync(AwsCognitoIdpResendConfirmationCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResendConfirmationCodeAsync(AwsCognitoIdpResendConfirmationCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Some API operations in a user pool generate a challenge, like a prompt for an MFA code, for device authentication that bypasses MFA, or for a custom authentication challenge. A RespondToAuthChallenge API request provides the answer to that challenge, like a code or a secure remote password (SRP). The parameters of a response to an authentication chal- lenge vary with the type of challenge. For more information about custom authentication challenges, see Custom authentication challenge Lambda tri...
@@ -1058,8 +955,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RespondToAuthChallengeAsync(AwsCognitoIdpRespondToAuthChallengeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RespondToAuthChallengeAsync(AwsCognitoIdpRespondToAuthChallengeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes all of the access tokens generated by, and at the same time as, the specified refresh token. After a token is revoked, you can't use the revoked token to access Amazon Cognito user APIs, or to authorize access to your resource server. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more inform...
@@ -1068,8 +964,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeTokenAsync(AwsCognitoIdpRevokeTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeTokenAsync(AwsCognitoIdpRevokeTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets up or modifies the logging configuration of a user pool. User pools can export user notification logs and, when threat protection is active, user-activity logs. For more information, see Exporting user pool logs . See also: AWS API Documentation
@@ -1078,8 +973,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetLogDeliveryConfigurationAsync(AwsCognitoIdpSetLogDeliveryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetLogDeliveryConfigurationAsync(AwsCognitoIdpSetLogDeliveryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Configures threat protection for a user pool or app client. Sets con- figuration for the following. o Responses to risks with adaptive authentication o Responses to vulnerable passwords with compromised-credentials detec- tion o Notifications to users who have had risky activity detected o IP-address denylist and allowlist To set the risk configuration for the user pool to defaults, send this request with only the UserPoolId parameter. To reset the threat protec- tion settings of an app client t...
@@ -1088,8 +982,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetRiskConfigurationAsync(AwsCognitoIdpSetRiskConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetRiskConfigurationAsync(AwsCognitoIdpSetRiskConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Configures UI branding settings for domains with the hosted UI (clas- sic) branding version. Your user pool must have a domain. Configure a domain with . Set the default configuration for all clients with a ClientId of ALL . When the ClientId value is an app client ID, the settings you pass in this request apply to that app client and override the default ALL con- figuration. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For th...
@@ -1098,8 +991,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetUiCustomizationAsync(AwsCognitoIdpSetUiCustomizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetUiCustomizationAsync(AwsCognitoIdpSetUiCustomizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set the user's multi-factor authentication (MFA) method preference, in- cluding which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If mul- tiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in a...
@@ -1108,8 +1000,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetUserMfaPreferenceAsync(AwsCognitoIdpSetUserMfaPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetUserMfaPreferenceAsync(AwsCognitoIdpSetUserMfaPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets user pool multi-factor authentication (MFA) and passkey configura- tion. For more information about user pool MFA, see Adding MFA . For more information about WebAuthn passkeys see Authentication flows . NOTE: This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Am...
@@ -1118,8 +1009,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetUserPoolMfaConfigAsync(AwsCognitoIdpSetUserPoolMfaConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetUserPoolMfaConfigAsync(AwsCognitoIdpSetUserPoolMfaConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token or email MFA. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't ...
@@ -1128,8 +1018,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetUserSettingsAsync(AwsCognitoIdpSetUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetUserSettingsAsync(AwsCognitoIdpSetUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a user with an app client and requests a user name, password, and user attributes in the user pool. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tion models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints . NOTE: Thi...
@@ -1138,8 +1027,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SignUpAsync(AwsCognitoIdpSignUpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SignUpAsync(AwsCognitoIdpSignUpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Instructs your user pool to start importing users from a CSV file that contains their usernames and attributes. For more information about im- porting users from a CSV file, see Importing users from a CSV file . See also: AWS API Documentation
@@ -1148,8 +1036,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartUserImportJobAsync(AwsCognitoIdpStartUserImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartUserImportJobAsync(AwsCognitoIdpStartUserImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests credential creation options from your user pool for the cur- rently signed-in user. Returns information about the user pool, the user profile, and authentication requirements. Users must provide this information in their request to enroll your application with their passkey provider. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . See also: AWS API Documentation start-web-authn-registration uses document type values...
@@ -1158,8 +1045,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartWebAuthnRegistrationAsync(AwsCognitoIdpStartWebAuthnRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartWebAuthnRegistrationAsync(AwsCognitoIdpStartWebAuthnRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Instructs your user pool to stop a running job that's importing users from a CSV file that contains their usernames and attributes. For more information about importing users from a CSV file, see Importing users from a CSV file . See also: AWS API Documentation
@@ -1168,8 +1054,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopUserImportJobAsync(AwsCognitoIdpStopUserImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopUserImportJobAsync(AwsCognitoIdpStopUserImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of a user pool, one for testing and another for pro- duction, you might assign an Environment tag key to both user pools. The value of this ke...
@@ -1178,8 +1063,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCognitoIdpTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCognitoIdpTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given tag IDs that you previously assigned to a user pool, removes them. See also: AWS API Documentation
@@ -1188,8 +1072,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCognitoIdpUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCognitoIdpUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the feedback for an authentication event generated by threat protection features. The user's response indicates that you think that the event either was from a valid user or was an unwanted authentica- tion attempt. This feedback improves the risk evaluation decision for the user pool as part of Amazon Cognito threat protection. To activate this setting, your user pool must be on the Plus tier . This operation requires a FeedbackToken that Amazon Cognito generates and adds to notificati...
@@ -1198,8 +1081,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAuthEventFeedbackAsync(AwsCognitoIdpUpdateAuthEventFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAuthEventFeedbackAsync(AwsCognitoIdpUpdateAuthEventFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a the currently signed-in user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key in- stead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see Working with devices . Auth...
@@ -1208,8 +1090,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDeviceStatusAsync(AwsCognitoIdpUpdateDeviceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDeviceStatusAsync(AwsCognitoIdpUpdateDeviceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given the name of a user pool group, updates any of the properties for precedence, IAM role, or description. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Reque...
@@ -1218,8 +1099,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGroupAsync(AwsCognitoIdpUpdateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGroupAsync(AwsCognitoIdpUpdateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the configuration and trust relationship between a third-party identity provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through managed login and OIDC re- lying-party libraries. For more information, see Third-party IdP sign-in . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant your...
@@ -1228,8 +1108,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIdentityProviderAsync(AwsCognitoIdpUpdateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIdentityProviderAsync(AwsCognitoIdpUpdateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Configures the branding settings for a user pool style. This operation is the programmatic option for the configuration of a style in the branding editor. Provides values for UI customization in a Settings JSON object and im- age files in an Assets array. This operation has a 2-megabyte request-size limit and include the CSS settings and image assets for your app client. Your branding settings might exceed 2MB in size. Amazon Cognito doesn't require that you pass all parameters in one request an...
@@ -1238,8 +1117,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateManagedLoginBrandingAsync(AwsCognitoIdpUpdateManagedLoginBrandingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateManagedLoginBrandingAsync(AwsCognitoIdpUpdateManagedLoginBrandingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the provisioned limit for a specific API category. The value must be between the default limit and your account-level maximum limit in Service Quotas. Managed login user pools don't support adjustments to the UserAuthenti- cation or UserFederation categories. To increase these limits, submit a Service Quotas increase request. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to ...
@@ -1248,8 +1126,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProvisionedLimitAsync(AwsCognitoIdpUpdateProvisionedLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProvisionedLimitAsync(AwsCognitoIdpUpdateProvisionedLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name and scopes of a resource server. All other fields are read-only. For more information about resource servers, see Access con- trol with resource servers . WARNING: If you don't provide a value for an attribute, it is set to the de- fault value. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM p...
@@ -1258,8 +1135,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceServerAsync(AwsCognitoIdpUpdateResourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceServerAsync(AwsCognitoIdpUpdateResourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies existing terms documents for the requested app client. When Terms and conditions and Privacy policy documents are configured, the app client displays links to them in the sign-up page of managed login for the app client. You can provide URLs for terms documents in the languages that are sup- ported by managed login localization . Amazon Cognito directs users to the terms documents for their current language, with fallback to de- fault if no document exists for the language. Each request...
@@ -1268,8 +1144,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTermsAsync(AwsCognitoIdpUpdateTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTermsAsync(AwsCognitoIdpUpdateTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the currently signed-in user's attributes. To delete an at- tribute from the user, submit the attribute in your API request with a blank value. For custom attributes, you must add a custom: prefix to the attribute name, for example custom:department . Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. ...
@@ -1278,8 +1153,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserAttributesAsync(AwsCognitoIdpUpdateUserAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserAttributesAsync(AwsCognitoIdpUpdateUserAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Given a user pool app client ID, updates the configuration. To avoid setting parameters to Amazon Cognito defaults, construct this API re- quest to pass the existing configuration of your app client, modified to include the changes that you want to make. WARNING: If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. Unlike app clients created in the console, Amazon Cognito doesn't auto- matically assign a branding style to app clients that you configure with...
@@ -1288,8 +1162,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserPoolClientAsync(AwsCognitoIdpUpdateUserPoolClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserPoolClientAsync(AwsCognitoIdpUpdateUserPoolClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A user pool domain hosts managed login, an authorization server and web server for authentication in your application. This operation updates the branding version for user pool domains between 1 for hosted UI (classic) and 2 for managed login. It also updates the SSL certificate for user pool custom domains. Changes to the domain branding version take up to one minute to take effect for a prefix domain and up to five minutes for a custom domain. This operation doesn't change the name of your use...
@@ -1298,8 +1171,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserPoolDomainAsync(AwsCognitoIdpUpdateUserPoolDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserPoolDomainAsync(AwsCognitoIdpUpdateUserPoolDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the ex- isting configuration of your user pool, modified to include the changes that you want to make. WARNING: If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. In secondary regions for user pools with multi-region replication, re- gional configurations for email, SMS, Lambda functions, and tags can be updated. Both global...
@@ -1308,8 +1180,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserPoolAsync(AwsCognitoIdpUpdateUserPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserPoolAsync(AwsCognitoIdpUpdateUserPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates replica-specific settings for a user pool replica. You can mod- ify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web ...
@@ -1318,8 +1189,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserPoolReplicaAsync(AwsCognitoIdpUpdateUserPoolReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserPoolReplicaAsync(AwsCognitoIdpUpdateUserPoolReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers the current user's time-based one-time password (TOTP) au- thenticator with a code generated in their authenticator app from a private key that's supplied by your user pool. Marks the user's soft- ware token MFA status as "verified" if successful. The request takes an access token or a session string, but not both. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to ...
@@ -1328,8 +1198,7 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifySoftwareTokenAsync(AwsCognitoIdpVerifySoftwareTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifySoftwareTokenAsync(AwsCognitoIdpVerifySoftwareTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a verification code for a signed-in user who has added or changed a value of an auto-verified attribute. When successful, the user's attribute becomes verified and the attribute email_verified or phone_number_verified becomes true . If your user pool requires verification before Amazon Cognito updates the attribute value, this operation updates the affected attribute to its pending value. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito....
@@ -1338,7 +1207,6 @@ public interface IAwsCognitoIdp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyUserAttributeAsync(AwsCognitoIdpVerifyUserAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyUserAttributeAsync(AwsCognitoIdpVerifyUserAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

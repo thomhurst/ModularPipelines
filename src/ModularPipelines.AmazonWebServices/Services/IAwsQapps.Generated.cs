@@ -28,8 +28,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateLibraryItemReviewAsync(AwsQappsAssociateLibraryItemReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateLibraryItemReviewAsync(AwsQappsAssociateLibraryItemReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a favorite for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateQAppWithUserAsync(AwsQappsAssociateQAppWithUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateQAppWithUserAsync(AwsQappsAssociateQAppWithUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateCategoryAsync(AwsQappsBatchCreateCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreateCategoryAsync(AwsQappsBatchCreateCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteCategoryAsync(AwsQappsBatchDeleteCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteCategoryAsync(AwsQappsBatchDeleteCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateCategoryAsync(AwsQappsBatchUpdateCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateCategoryAsync(AwsQappsBatchUpdateCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new library item for an Amazon Q App, allowing it to be dis- covered and used by other allowed users. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLibraryItemAsync(AwsQappsCreateLibraryItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLibraryItemAsync(AwsQappsCreateLibraryItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope para- meter determines how the file will be used, either at the app defini- tion level or the app session level. NOTE: The IAM permissions are derived from the qapps:ImportDocument ac- tion. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps...
@@ -88,8 +82,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePresignedUrlAsync(AwsQappsCreatePresignedUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePresignedUrlAsync(AwsQappsCreatePresignedUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts. See also: AWS API Documentation create-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with ...
@@ -98,8 +91,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQAppAsync(AwsQappsCreateQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQAppAsync(AwsQappsCreateQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a library item for an Amazon Q App, removing it from the li- brary so it can no longer be discovered or used by other users. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLibraryItemAsync(AwsQappsDeleteLibraryItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLibraryItemAsync(AwsQappsDeleteLibraryItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQAppAsync(AwsQappsDeleteQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQAppAsync(AwsQappsDeleteQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes read permissions for a Amazon Q App in Amazon Q Business ap- plication environment instance. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeQAppPermissionsAsync(AwsQappsDescribeQAppPermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeQAppPermissionsAsync(AwsQappsDescribeQAppPermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a rating or review previously submitted by the user for a li- brary item. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateLibraryItemReviewAsync(AwsQappsDisassociateLibraryItemReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateLibraryItemReviewAsync(AwsQappsDisassociateLibraryItemReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a Q App from a user removing the user's access to run the Q App. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateQAppFromUserAsync(AwsQappsDisassociateQAppFromUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateQAppFromUserAsync(AwsQappsDisassociateQAppFromUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports the collected data of a Q App data collection session. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportQAppSessionDataAsync(AwsQappsExportQAppSessionDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportQAppSessionDataAsync(AwsQappsExportQAppSessionDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLibraryItemAsync(AwsQappsGetLibraryItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLibraryItemAsync(AwsQappsGetLibraryItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the full details of an Q App, including its definition speci- fying the cards and flow. See also: AWS API Documentation get-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -178,8 +163,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQAppAsync(AwsQappsGetQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQAppAsync(AwsQappsGetQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current configuration of a Q App session. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQAppSessionMetadataAsync(AwsQappsGetQAppSessionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQAppSessionMetadataAsync(AwsQappsGetQAppSessionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current state and results for an active session of an Amazon Q App. See also: AWS API Documentation get-q-app-session uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -198,8 +181,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQAppSessionAsync(AwsQappsGetQAppSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQAppSessionAsync(AwsQappsGetQAppSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads a file that can then be used either as a default in a FileU- ploadCard from Q App definition or as a file that is used inside a sin- gle Q App run. The purpose of the document is determined by a scope pa- rameter that indicates whether it is at the app definition level or at the app session level. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportDocumentAsync(AwsQappsImportDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportDocumentAsync(AwsQappsImportDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the categories of a Amazon Q Business application environment in- stance. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCategoriesAsync(AwsQappsListCategoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCategoriesAsync(AwsQappsListCategoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the library items for Amazon Q Apps that are published and avail- able for users in your Amazon Web Services account. See also: AWS API Documentation list-library-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
@@ -228,8 +208,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLibraryItemsAsync(AwsQappsListLibraryItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLibraryItemsAsync(AwsQappsListLibraryItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the collected data of a Q App data collection session. See also: AWS API Documentation list-q-app-session-data uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
@@ -238,8 +217,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQAppSessionDataAsync(AwsQappsListQAppSessionDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQAppSessionDataAsync(AwsQappsListQAppSessionDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon Q Apps owned by or associated with the user either be- cause they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to in- voke this operation.. See also: AWS API Documentation list-q-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query...
@@ -248,8 +226,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQAppsAsync(AwsQappsListQAppsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQAppsAsync(AwsQappsListQAppsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags associated with an Amazon Q Apps resource. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsQappsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsQappsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp . This API doesn't create Amazon Q Apps di- rectly. See also: AWS API Documentation predict-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docum...
@@ -268,8 +244,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PredictQAppAsync(AwsQappsPredictQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PredictQAppAsync(AwsQappsPredictQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a new session for an Amazon Q App, allowing inputs to be pro- vided and the app to be run. NOTE: Each Q App session will be condensed into a single conversation in the web experience. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQAppSessionAsync(AwsQappsStartQAppSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQAppSessionAsync(AwsQappsStartQAppSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an active session for an Amazon Q App.This deletes all data re- lated to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopQAppSessionAsync(AwsQappsStopQAppSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopQAppSessionAsync(AwsQappsStopQAppSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates tags with an Amazon Q Apps resource. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsQappsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsQappsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates tags from an Amazon Q Apps resource. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsQappsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsQappsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the verification status of a library item for an Amazon Q App. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLibraryItemMetadataAsync(AwsQappsUpdateLibraryItemMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLibraryItemMetadataAsync(AwsQappsUpdateLibraryItemMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the library item for an Amazon Q App. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLibraryItemAsync(AwsQappsUpdateLibraryItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLibraryItemAsync(AwsQappsUpdateLibraryItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Amazon Q App, allowing modifications to its title, description, and definition. See also: AWS API Documentation update-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -338,8 +307,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQAppAsync(AwsQappsUpdateQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQAppAsync(AwsQappsUpdateQAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates read permissions for a Amazon Q App in Amazon Q Business appli- cation environment instance. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQAppPermissionsAsync(AwsQappsUpdateQAppPermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQAppPermissionsAsync(AwsQappsUpdateQAppPermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration metadata of a session for a given Q App ses- sionId . See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQAppSessionMetadataAsync(AwsQappsUpdateQAppSessionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQAppSessionMetadataAsync(AwsQappsUpdateQAppSessionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the session for a given Q App sessionId . This is only valid when at least one card of the session is in the WAITING state. Data for each WAITING card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the WAITING status will be ignored. See also: AWS API Documentation
@@ -368,7 +334,6 @@ public interface IAwsQapps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQAppSessionAsync(AwsQappsUpdateQAppSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQAppSessionAsync(AwsQappsUpdateQAppSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

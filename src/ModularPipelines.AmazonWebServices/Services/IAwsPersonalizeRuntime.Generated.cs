@@ -28,8 +28,7 @@ public interface IAwsPersonalizeRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetActionRecommendationsAsync(AwsPersonalizeRuntimeGetActionRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetActionRecommendationsAsync(AwsPersonalizeRuntimeGetActionRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user. NOTE: The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPersonalizeRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPersonalizedRankingAsync(AwsPersonalizeRuntimeGetPersonalizedRankingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPersonalizedRankingAsync(AwsPersonalizeRuntimeGetPersonalizedRankingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of recommended items. For campaigns, the campaign's Ama- zon Resource Name (ARN) is required and the required user and item in- put depends on the recipe type used to create the solution backing the campaign as follows: o USER_PERSONALIZATION - userId required, itemId not used o RELATED_ITEMS - itemId required, userId not used NOTE: Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. For recommenders, the recommender's ARN is re...
@@ -48,7 +46,6 @@ public interface IAwsPersonalizeRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommendationsAsync(AwsPersonalizeRuntimeGetRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommendationsAsync(AwsPersonalizeRuntimeGetRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

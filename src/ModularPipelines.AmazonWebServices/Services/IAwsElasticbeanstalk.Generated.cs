@@ -24,7 +24,7 @@ public interface IAwsElasticbeanstalk
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsElasticbeanstalkWait Wait => throw new System.NotSupportedException();
+    AwsElasticbeanstalkWait Wait { get; }
 
     /// <summary>
     /// Cancels in-progress environment configuration update or application version deployment. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AbortEnvironmentUpdateAsync(AwsElasticbeanstalkAbortEnvironmentUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AbortEnvironmentUpdateAsync(AwsElasticbeanstalkAbortEnvironmentUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies a scheduled managed action immediately. A managed action can be applied only if its status is Scheduled . Get the status and action ID of a managed action with DescribeEnvironmentManagedActions . See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApplyEnvironmentManagedActionAsync(AwsElasticbeanstalkApplyEnvironmentManagedActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApplyEnvironmentManagedActionAsync(AwsElasticbeanstalkApplyEnvironmentManagedActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateEnvironmentOperationsRoleAsync(AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateEnvironmentOperationsRoleAsync(AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks if the specified CNAME is available. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckDnsAvailabilityAsync(AwsElasticbeanstalkCheckDnsAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckDnsAvailabilityAsync(AwsElasticbeanstalkCheckDnsAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create or update a group of environments that each run a separate com- ponent of a single application. Takes a list of version labels that specify application source bundles for each of the environments to cre- ate or update. The name of each environment and other required informa- tion must be included in the source bundles in an environment manifest named env.yaml . See Compose Environments for details. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ComposeEnvironmentsAsync(AwsElasticbeanstalkComposeEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ComposeEnvironmentsAsync(AwsElasticbeanstalkComposeEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an application that has one configuration template named de- fault and no application versions. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationAsync(AwsElasticbeanstalkCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationAsync(AwsElasticbeanstalkCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a com- mit in CodeCommit, or the output of an CodeBuild build as follows: Specify a commit in an CodeCommit repository with SourceBuildInforma- tion . Specify a build in an CodeBuild with SourceBuildInformation and Build- Configuration . Specify a source bundle in Amazon S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sam...
@@ -93,8 +87,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationVersionAsync(AwsElasticbeanstalkCreateApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationVersionAsync(AwsElasticbeanstalkCreateApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configu- ration settings in a configuration template. You can then use the con- figuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null . Related Topics o DescribeConfigurationOptions o DescribeConfigurationSetting...
@@ -103,8 +96,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationTemplateAsync(AwsElasticbeanstalkCreateConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfigurationTemplateAsync(AwsElasticbeanstalkCreateConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Launches an Elastic Beanstalk environment for the specified application using the specified configuration. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEnvironmentAsync(AwsElasticbeanstalkCreateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEnvironmentAsync(AwsElasticbeanstalkCreateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new version of your custom platform. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePlatformVersionAsync(AwsElasticbeanstalkCreatePlatformVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePlatformVersionAsync(AwsElasticbeanstalkCreatePlatformVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a bucket in Amazon S3 to store application versions, logs, and other files used by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the first time you create an environment in a region. If the storage location already exists, Cre- ateStorageLocation still returns the bucket name but does not create a new bucket. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStorageLocationAsync(AwsElasticbeanstalkCreateStorageLocationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStorageLocationAsync(AwsElasticbeanstalkCreateStorageLocationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified application along with all associated versions and configurations. The application versions will not be deleted from your Amazon S3 bucket. NOTE: You cannot delete an application that has a running environment. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationAsync(AwsElasticbeanstalkDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationAsync(AwsElasticbeanstalkDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified version from the specified application. NOTE: You cannot delete an application version that is associated with a running environment. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationVersionAsync(AwsElasticbeanstalkDeleteApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationVersionAsync(AwsElasticbeanstalkDeleteApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified configuration template. NOTE: When you launch an environment using a configuration template, the environment gets a copy of the template. You can delete or modify the environment's copy of the template without affecting the running environment. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationTemplateAsync(AwsElasticbeanstalkDeleteConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfigurationTemplateAsync(AwsElasticbeanstalkDeleteConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the draft configuration associated with the running environ- ment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using De- scribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indi- cates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this ac- tion. ...
@@ -173,8 +159,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEnvironmentConfigurationAsync(AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEnvironmentConfigurationAsync(AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified version of a custom platform. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePlatformVersionAsync(AwsElasticbeanstalkDeletePlatformVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePlatformVersionAsync(AwsElasticbeanstalkDeletePlatformVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns attributes related to Elastic Beanstalk that are associated with the calling Amazon Web Services account. The result currently has one set of attributesresource quotas. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to...
@@ -193,8 +177,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountAttributesAsync(AwsElasticbeanstalkDescribeAccountAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountAttributesAsync(AwsElasticbeanstalkDescribeAccountAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the descriptions of existing applications. This action only returns information about applications that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applica- tions. When the user calls the DescribeApplications action, the re- sponse will only include the two applications that the user has permis- sion to access instead of all three applications. If the user doesnt have access to any of the appl...
@@ -203,8 +186,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationsAsync(AwsElasticbeanstalkDescribeApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationsAsync(AwsElasticbeanstalkDescribeApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a list of application versions. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesnt have access to any of the resources an empty result is returned. NOTE: The AW...
@@ -213,8 +195,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationVersionsAsync(AwsElasticbeanstalkDescribeApplicationVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationVersionsAsync(AwsElasticbeanstalkDescribeApplicationVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the configuration options that are used in a particular con- figuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environ- ment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to acc...
@@ -223,8 +204,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConfigurationOptionsAsync(AwsElasticbeanstalkDescribeConfigurationOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConfigurationOptionsAsync(AwsElasticbeanstalkDescribeConfigurationOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. ...
@@ -233,8 +213,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConfigurationSettingsAsync(AwsElasticbeanstalkDescribeConfigurationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConfigurationSettingsAsync(AwsElasticbeanstalkDescribeConfigurationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the overall health of the specified environ- ment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permis...
@@ -243,8 +222,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEnvironmentHealthAsync(AwsElasticbeanstalkDescribeEnvironmentHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEnvironmentHealthAsync(AwsElasticbeanstalkDescribeEnvironmentHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists an environment's completed and failed managed actions. See also: AWS API Documentation describe-environment-managed-action-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: ManagedActio...
@@ -253,8 +231,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEnvironmentManagedActionHistoryAsync(AwsElasticbeanstalkDescribeEnvironmentManagedActionHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEnvironmentManagedActionHistoryAsync(AwsElasticbeanstalkDescribeEnvironmentManagedActionHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists an environment's upcoming and in-progress managed actions. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesnt have access to any of the environments an...
@@ -263,8 +240,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEnvironmentManagedActionsAsync(AwsElasticbeanstalkDescribeEnvironmentManagedActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEnvironmentManagedActionsAsync(AwsElasticbeanstalkDescribeEnvironmentManagedActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Amazon Web Services resources for this environment. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEnvironmentResourcesAsync(AwsElasticbeanstalkDescribeEnvironmentResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEnvironmentResourcesAsync(AwsElasticbeanstalkDescribeEnvironmentResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns descriptions for existing environments. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls the DescribeEnvironments action, the re- sponse will only include the one environment that the user has permis- sion to access instead of all three environments. If the user doesnt have access to any of the environm...
@@ -283,8 +258,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEnvironmentsAsync(AwsElasticbeanstalkDescribeEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEnvironmentsAsync(AwsElasticbeanstalkDescribeEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of a...
@@ -293,8 +267,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventsAsync(AwsElasticbeanstalkDescribeEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventsAsync(AwsElasticbeanstalkDescribeEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting . This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permission to access instead...
@@ -303,8 +276,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstancesHealthAsync(AwsElasticbeanstalkDescribeInstancesHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstancesHealthAsync(AwsElasticbeanstalkDescribeInstancesHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a platform version. Provides full details. Compare to List- PlatformVersions , which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls t...
@@ -313,8 +285,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePlatformVersionAsync(AwsElasticbeanstalkDescribePlatformVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePlatformVersionAsync(AwsElasticbeanstalkDescribePlatformVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permis- sions to downstream services during subsequent calls acting on this en- vironment. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateEnvironmentOperationsRoleAsync(AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateEnvironmentOperationsRoleAsync(AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user ...
@@ -333,8 +303,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAvailableSolutionStacksAsync(AwsElasticbeanstalkListAvailableSolutionStacksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAvailableSolutionStacksAsync(AwsElasticbeanstalkListAvailableSolutionStacksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the platform branches available for your account in an Amazon Web Services Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see Elastic Beanstalk Platforms Glossary . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action...
@@ -343,8 +312,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPlatformBranchesAsync(AwsElasticbeanstalkListPlatformBranchesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPlatformBranchesAsync(AwsElasticbeanstalkListPlatformBranchesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform ver- sion. Compare to DescribePlatformVersion , which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlat...
@@ -353,8 +321,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPlatformVersionsAsync(AwsElasticbeanstalkListPlatformVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPlatformVersionsAsync(AwsElasticbeanstalkListPlatformVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Return the tags applied to an Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response ...
@@ -363,8 +330,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsElasticbeanstalkListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsElasticbeanstalkListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes and recreates all of the Amazon Web Services resources (for ex- ample: the Auto Scaling group, load balancer, etc.) for a specified en- vironment and forces a restart. See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RebuildEnvironmentAsync(AwsElasticbeanstalkRebuildEnvironmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RebuildEnvironmentAsync(AwsElasticbeanstalkRebuildEnvironmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the applica- tion server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Setting the InfoType to analyze collects recent events, instance health, and logs fro...
@@ -383,8 +348,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RequestEnvironmentInfoAsync(AwsElasticbeanstalkRequestEnvironmentInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RequestEnvironmentInfoAsync(AwsElasticbeanstalkRequestEnvironmentInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Causes the environment to restart the application container server run- ning on each Amazon EC2 instance. See also: AWS API Documentation
@@ -393,8 +357,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestartAppServerAsync(AwsElasticbeanstalkRestartAppServerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestartAppServerAsync(AwsElasticbeanstalkRestartAppServerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the compiled information from a RequestEnvironmentInfo re- quest. Related Topics o RequestEnvironmentInfo See also: AWS API Documentation
@@ -403,8 +366,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetrieveEnvironmentInfoAsync(AwsElasticbeanstalkRetrieveEnvironmentInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetrieveEnvironmentInfoAsync(AwsElasticbeanstalkRetrieveEnvironmentInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Swaps the CNAMEs of two environments. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SwapEnvironmentCnamesAsync(AwsElasticbeanstalkSwapEnvironmentCnamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SwapEnvironmentCnamesAsync(AwsElasticbeanstalkSwapEnvironmentCnamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates the specified environment. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateEnvironmentAsync(AwsElasticbeanstalkTerminateEnvironmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateEnvironmentAsync(AwsElasticbeanstalkTerminateEnvironmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified application to have the specified properties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear these properties, specify an empty string. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationAsync(AwsElasticbeanstalkUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationAsync(AwsElasticbeanstalkUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies lifecycle settings for an application. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationResourceLifecycleAsync(AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationResourceLifecycleAsync(AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified application version to have the specified proper- ties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear properties, specify an empty string. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationVersionAsync(AwsElasticbeanstalkUpdateApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationVersionAsync(AwsElasticbeanstalkUpdateApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified configuration template to have the specified properties or configuration option values. NOTE: If a property (for example, ApplicationName ) is not provided, its value remains unchanged. To clear such properties, specify an empty string. Related Topics o DescribeConfigurationOptions See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationTemplateAsync(AwsElasticbeanstalkUpdateConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConfigurationTemplateAsync(AwsElasticbeanstalkUpdateConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individ- ual settings, a draft configuration is created and DescribeConfigu...
@@ -473,8 +429,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEnvironmentAsync(AwsElasticbeanstalkUpdateEnvironmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEnvironmentAsync(AwsElasticbeanstalkUpdateEnvironmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRe- move . Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call U...
@@ -483,8 +438,7 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTagsForResourceAsync(AwsElasticbeanstalkUpdateTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTagsForResourceAsync(AwsElasticbeanstalkUpdateTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Takes a set of configuration settings and either a configuration tem- plate or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warn- ings associated with the selection of option values. See also: AWS API Documentation
@@ -493,7 +447,6 @@ public interface IAwsElasticbeanstalk
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidateConfigurationSettingsAsync(AwsElasticbeanstalkValidateConfigurationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidateConfigurationSettingsAsync(AwsElasticbeanstalkValidateConfigurationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

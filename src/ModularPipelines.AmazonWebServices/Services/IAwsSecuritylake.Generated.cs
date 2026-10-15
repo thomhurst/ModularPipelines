@@ -28,8 +28,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAwsLogSourceAsync(AwsSecuritylakeCreateAwsLogSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAwsLogSourceAsync(AwsSecuritylakeCreateAwsLogSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a third-party custom source in Amazon Security Lake, from the Ama- zon Web Services Region where you want to create a custom source. Secu- rity Lake can collect logs and events from third-party custom sources. After creating the appropriate IAM role to invoke Glue crawler, use this API to add a custom source name in Security Lake. This operation creates a partition in the Amazon S3 bucket for Security Lake as the target location for log files from the custom source. In addition, this operat...
@@ -38,8 +37,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomLogSourceAsync(AwsSecuritylakeCreateCustomLogSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomLogSourceAsync(AwsSecuritylakeCreateCustomLogSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify. The notification subscription is cre- ated for exceptions that cannot be resolved by Security Lake automati- cally. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataLakeExceptionSubscriptionAsync(AwsSecuritylakeCreateDataLakeExceptionSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataLakeExceptionSubscriptionAsync(AwsSecuritylakeCreateDataLakeExceptionSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initializes an Amazon Security Lake instance with the provided (or de- fault) configuration. You can enable Security Lake in Amazon Web Ser- vices Regions with customized settings before enabling log collection in Regions. To specify particular Regions, configure these Regions us- ing the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not alread...
@@ -58,8 +55,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataLakeAsync(AwsSecuritylakeCreateDataLakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataLakeAsync(AwsSecuritylakeCreateDataLakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Automatically enables Amazon Security Lake for new member accounts in your organization. Security Lake is not automatically enabled for any existing member accounts in your organization. This operation merges the new data lake organization configuration with the existing configuration for Security Lake in your organization. If you want to create a new data lake organization configuration, you must delete the existing one using DeleteDataLakeOrganizationConfiguration . See also: AWS API Documenta...
@@ -68,8 +64,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataLakeOrganizationConfigurationAsync(AwsSecuritylakeCreateDataLakeOrganizationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataLakeOrganizationConfigurationAsync(AwsSecuritylakeCreateDataLakeOrganizationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Notifies the subscriber when new data is written to the data lake for the sources that the subscriber consumes in Security Lake. You can cre- ate only one subscriber notification per subscriber. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSubscriberNotificationAsync(AwsSecuritylakeCreateSubscriberNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSubscriberNotificationAsync(AwsSecuritylakeCreateSubscriberNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a subscriber for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSubscriberAsync(AwsSecuritylakeCreateSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSubscriberAsync(AwsSecuritylakeCreateSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a natively supported Amazon Web Services service as an Amazon Security Lake source. You can remove a source for one or more Regions. When you remove the source, Security Lake stops collecting data from that source in the specified Regions and accounts, and subscribers can no longer consume new data from the source. However, subscribers can still consume data that Security Lake collected from the source before removal. You can choose any source type in any Amazon Web Services Region for e...
@@ -98,8 +91,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAwsLogSourceAsync(AwsSecuritylakeDeleteAwsLogSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAwsLogSourceAsync(AwsSecuritylakeDeleteAwsLogSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a custom log source from Amazon Security Lake, to stop sending data from the custom source to Security Lake. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomLogSourceAsync(AwsSecuritylakeDeleteCustomLogSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomLogSourceAsync(AwsSecuritylakeDeleteCustomLogSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataLakeExceptionSubscriptionAsync(AwsSecuritylakeDeleteDataLakeExceptionSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataLakeExceptionSubscriptionAsync(AwsSecuritylakeDeleteDataLakeExceptionSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API automatically takes steps to re- move the account from Security Lake. However, Security Lake retains all of your existing settings and the resources that it created in your Amazon Web Services account in the current Amazon Web Services Region. The DeleteDataLake operation does not delete the data that is stored in you...
@@ -128,8 +118,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataLakeAsync(AwsSecuritylakeDeleteDataLakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataLakeAsync(AwsSecuritylakeDeleteDataLakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Turns off automatic enablement of Amazon Security Lake for member ac- counts that are added to an organization in Organizations. Only the delegated Security Lake administrator for an organization can perform this operation. If the delegated Security Lake administrator performs this operation, new member accounts won't automatically contribute data to the data lake. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataLakeOrganizationConfigurationAsync(AwsSecuritylakeDeleteDataLakeOrganizationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataLakeOrganizationConfigurationAsync(AwsSecuritylakeDeleteDataLakeOrganizationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified subscription notification in Amazon Security Lake for the organization you specify. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSubscriberNotificationAsync(AwsSecuritylakeDeleteSubscriberNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSubscriberNotificationAsync(AwsSecuritylakeDeleteSubscriberNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the subscription permission and all notification settings for accounts that are already enabled in Amazon Security Lake. When you run DeleteSubscriber , the subscriber will no longer consume data from Se- curity Lake and the subscriber is removed. This operation deletes the subscriber and removes access to data in the current Amazon Web Ser- vices Region. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSubscriberAsync(AwsSecuritylakeDeleteSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSubscriberAsync(AwsSecuritylakeDeleteSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization man- agement account. The organization management account cannot be the del- egated administrator account. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterDataLakeDelegatedAdministratorAsync(AwsSecuritylakeDeregisterDataLakeDelegatedAdministratorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterDataLakeDelegatedAdministratorAsync(AwsSecuritylakeDeregisterDataLakeDelegatedAdministratorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataLakeExceptionSubscriptionAsync(AwsSecuritylakeGetDataLakeExceptionSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataLakeExceptionSubscriptionAsync(AwsSecuritylakeGetDataLakeExceptionSubscriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the configuration that will be automatically set up for ac- counts added to the organization after the organization has onboarded to Amazon Security Lake. This API does not take input parameters. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataLakeOrganizationConfigurationAsync(AwsSecuritylakeGetDataLakeOrganizationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataLakeOrganizationConfigurationAsync(AwsSecuritylakeGetDataLakeOrganizationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from. See also: AWS API Documentation get-data-lake-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument ...
@@ -198,8 +181,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataLakeSourcesAsync(AwsSecuritylakeGetDataLakeSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataLakeSourcesAsync(AwsSecuritylakeGetDataLakeSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the subscription information for the specified subscription ID. You can get information about a specific subscriber. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSubscriberAsync(AwsSecuritylakeGetSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSubscriberAsync(AwsSecuritylakeGetSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them. See also: AWS API Documentation list-data-lake-exceptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query ex...
@@ -218,8 +199,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataLakeExceptionsAsync(AwsSecuritylakeListDataLakeExceptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataLakeExceptionsAsync(AwsSecuritylakeListDataLakeExceptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the Amazon Security Lake configuration object for the speci- fied Amazon Web Services Regions. You can use this operation to deter- mine whether Security Lake is enabled for a Region. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataLakesAsync(AwsSecuritylakeListDataLakesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataLakesAsync(AwsSecuritylakeListDataLakesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the log sources. See also: AWS API Documentation list-log-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sources
@@ -238,8 +217,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLogSourcesAsync(AwsSecuritylakeListLogSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLogSourcesAsync(AwsSecuritylakeListLogSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific or- ganization or Amazon Web Services account. See also: AWS API Documentation list-subscribers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --que...
@@ -248,8 +226,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSubscribersAsync(AwsSecuritylakeListSubscribersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSubscribersAsync(AwsSecuritylakeListSubscribersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the tags (keys and values) that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Ser- vices Region. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsSecuritylakeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsSecuritylakeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization man- agement account. The organization management account cannot be the del- egated administrator account. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterDataLakeDelegatedAdministratorAsync(AwsSecuritylakeRegisterDataLakeDelegatedAdministratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterDataLakeDelegatedAdministratorAsync(AwsSecuritylakeRegisterDataLakeDelegatedAdministratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates one or more tags that are associated with an Amazon Se- curity Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region. A tag is a label that you can define and associate with Amazon Web Services resources. Each tag consists of a required tag key and an associated tag value . A tag key is a general label that acts as a cat- egory for a more specific tag value. A tag value acts as a descriptor for ...
@@ -278,8 +253,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsSecuritylakeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsSecuritylakeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags (keys and values) from an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsSecuritylakeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsSecuritylakeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified notification subscription in Amazon Security Lake for the organization you specify. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataLakeExceptionSubscriptionAsync(AwsSecuritylakeUpdateDataLakeExceptionSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataLakeExceptionSubscriptionAsync(AwsSecuritylakeUpdateDataLakeExceptionSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// You can use UpdateDataLake to specify where to store your security data, how it should be encrypted at rest and for how long. You can add a Rollup Region to consolidate data from multiple Amazon Web Services Regions, replace default encryption (SSE-S3) with Customer Manged Key , or specify transition and expiration actions through storage Lifecycle management . The UpdateDataLake API works as an "upsert" operation that performs an insert if the specified item or record does not exist, or an upda...
@@ -308,8 +280,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataLakeAsync(AwsSecuritylakeUpdateDataLakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataLakeAsync(AwsSecuritylakeUpdateDataLakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing notification method for the subscription (SQS or HTTPs endpoint) or switches the notification subscription endpoint for a subscriber. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSubscriberNotificationAsync(AwsSecuritylakeUpdateSubscriberNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSubscriberNotificationAsync(AwsSecuritylakeUpdateSubscriberNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing subscription for the given Amazon Security Lake ac- count ID. You can update a subscriber by changing the sources that the subscriber consumes data from. See also: AWS API Documentation
@@ -328,7 +298,6 @@ public interface IAwsSecuritylake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSubscriberAsync(AwsSecuritylakeUpdateSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSubscriberAsync(AwsSecuritylakeUpdateSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

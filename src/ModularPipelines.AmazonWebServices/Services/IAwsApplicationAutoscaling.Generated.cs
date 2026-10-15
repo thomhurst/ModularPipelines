@@ -28,8 +28,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteScalingPolicyAsync(AwsApplicationAutoscalingDeleteScalingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteScalingPolicyAsync(AwsApplicationAutoscalingDeleteScalingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified scheduled action for an Application Auto Scaling scalable target. For more information, see Delete a scheduled action in the Application Auto Scaling User Guide . See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteScheduledActionAsync(AwsApplicationAutoscalingDeleteScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteScheduledActionAsync(AwsApplicationAutoscalingDeleteScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters an Application Auto Scaling scalable target when you have finished using it. To see which resources have been registered, use DescribeScalableTargets . NOTE: Deregistering a scalable target deletes the scaling policies and the scheduled actions that are associated with it. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterScalableTargetAsync(AwsApplicationAutoscalingDeregisterScalableTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterScalableTargetAsync(AwsApplicationAutoscalingDeregisterScalableTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the scalable targets in the specified namespace. You can filter the results using ResourceIds and ScalableDimension . See also: AWS API Documentation describe-scalable-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
@@ -58,8 +55,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScalableTargetsAsync(AwsApplicationAutoscalingDescribeScalableTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScalableTargetsAsync(AwsApplicationAutoscalingDescribeScalableTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using ResourceId and ScalableDimension . For information about viewing scaling activities using the Amazon Web Services CLI, see Scaling activities for Application Auto Scaling . See also: AWS API Documentation describe-scaling-activities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. Yo...
@@ -68,8 +64,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScalingActivitiesAsync(AwsApplicationAutoscalingDescribeScalingActivitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScalingActivitiesAsync(AwsApplicationAutoscalingDescribeScalingActivitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Application Auto Scaling scaling policies for the speci- fied service namespace. You can filter the results using ResourceId , ScalableDimension , and PolicyNames . For more information, see Target tracking scaling policies and Step scaling policies in the Application Auto Scaling User Guide . See also: AWS API Documentation describe-scaling-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagin...
@@ -78,8 +73,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScalingPoliciesAsync(AwsApplicationAutoscalingDescribeScalingPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScalingPoliciesAsync(AwsApplicationAutoscalingDescribeScalingPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Application Auto Scaling scheduled actions for the speci- fied service namespace. You can filter the results using the ResourceId , ScalableDimension , and ScheduledActionNames parameters. For more information, see Scheduled scaling in the Application Auto Scaling User Guide . See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providi...
@@ -88,8 +82,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScheduledActionsAsync(AwsApplicationAutoscalingDescribeScheduledActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScheduledActionsAsync(AwsApplicationAutoscalingDescribeScheduledActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using histori- cal load data from CloudWatch and an analysis of historical trends. Ca- pacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial fore- casts. However, having a full 14 days of historical data results in more accu...
@@ -98,8 +91,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPredictiveScalingForecastAsync(AwsApplicationAutoscalingGetPredictiveScalingForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPredictiveScalingForecastAsync(AwsApplicationAutoscalingGetPredictiveScalingForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see Tagging your Amazon Web Services resources in the Amazon Web Ser- vices General Reference . See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsApplicationAutoscalingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsApplicationAutoscalingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates a scaling policy for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scaling policy applies to the scalable target identified by those three attributes. You cannot create a scaling pol- icy until you have registered the resource as a scalable target. Multiple scaling policies can be in force at the same time for the same scalable target. You can have one or more target tracking scali...
@@ -118,8 +109,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutScalingPolicyAsync(AwsApplicationAutoscalingPutScalingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutScalingPolicyAsync(AwsApplicationAutoscalingPutScalingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates a scheduled action for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scheduled action applies to the scalable tar- get identified by those three attributes. You cannot create a scheduled action until you have registered the resource as a scalable target. When you specify start and end times with a recurring schedule using a cron expression or rates, they form the boundaries for whe...
@@ -128,8 +118,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutScheduledActionAsync(AwsApplicationAutoscalingPutScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutScheduledActionAsync(AwsApplicationAutoscalingPutScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers or updates a scalable target, which is the resource that you want to scale. Scalable targets are uniquely identified by the combination of resource ID, scalable dimension, and namespace, which represents some capacity dimension of the underlying service. When you register a new scalable target, you must specify values for the minimum and maximum capacity. If the specified resource is not ac- tive in the target service, this operation does not change the re- source's current capacity. O...
@@ -138,8 +127,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterScalableTargetAsync(AwsApplicationAutoscalingRegisterScalableTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterScalableTargetAsync(AwsApplicationAutoscalingRegisterScalableTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or edits tags on an Application Auto Scaling scalable target. Each tag consists of a tag key and a tag value, which are both case-sensitive strings. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can use this operation to tag an Application Auto Scaling scalable target, but you cannot tag a scaling policy or scheduled action. You can also add tags to an Application Auto Scaling scalable target while creating it (Regis...
@@ -148,8 +136,7 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsApplicationAutoscalingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsApplicationAutoscalingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes tags from an Application Auto Scaling scalable target. To delete a tag, specify the tag key and the Application Auto Scaling scalable target. See also: AWS API Documentation
@@ -158,7 +145,6 @@ public interface IAwsApplicationAutoscaling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsApplicationAutoscalingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsApplicationAutoscalingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

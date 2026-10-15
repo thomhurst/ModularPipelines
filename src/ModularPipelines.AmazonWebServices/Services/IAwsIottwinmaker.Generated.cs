@@ -28,8 +28,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutPropertyValuesAsync(AwsIottwinmakerBatchPutPropertyValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchPutPropertyValuesAsync(AwsIottwinmakerBatchPutPropertyValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the metadata transfer job. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelMetadataTransferJobAsync(AwsIottwinmakerCancelMetadataTransferJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelMetadataTransferJobAsync(AwsIottwinmakerCancelMetadataTransferJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a component type. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateComponentTypeAsync(AwsIottwinmakerCreateComponentTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateComponentTypeAsync(AwsIottwinmakerCreateComponentTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an entity. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEntityAsync(AwsIottwinmakerCreateEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEntityAsync(AwsIottwinmakerCreateEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new metadata transfer job. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMetadataTransferJobAsync(AwsIottwinmakerCreateMetadataTransferJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMetadataTransferJobAsync(AwsIottwinmakerCreateMetadataTransferJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a scene. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSceneAsync(AwsIottwinmakerCreateSceneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSceneAsync(AwsIottwinmakerCreateSceneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action creates a SyncJob. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSyncJobAsync(AwsIottwinmakerCreateSyncJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSyncJobAsync(AwsIottwinmakerCreateSyncJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a workplace. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkspaceAsync(AwsIottwinmakerCreateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkspaceAsync(AwsIottwinmakerCreateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a component type. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteComponentTypeAsync(AwsIottwinmakerDeleteComponentTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteComponentTypeAsync(AwsIottwinmakerDeleteComponentTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an entity. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEntityAsync(AwsIottwinmakerDeleteEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEntityAsync(AwsIottwinmakerDeleteEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a scene. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSceneAsync(AwsIottwinmakerDeleteSceneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSceneAsync(AwsIottwinmakerDeleteSceneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the SyncJob. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSyncJobAsync(AwsIottwinmakerDeleteSyncJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSyncJobAsync(AwsIottwinmakerDeleteSyncJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a workspace. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkspaceAsync(AwsIottwinmakerDeleteWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkspaceAsync(AwsIottwinmakerDeleteWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run queries to access information from your knowledge graph of entities within individual workspaces. NOTE: The ExecuteQuery action only works with Amazon Web Services Java SDK2 . ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x. See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested paramete...
@@ -158,8 +145,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteQueryAsync(AwsIottwinmakerExecuteQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteQueryAsync(AwsIottwinmakerExecuteQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a component type. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetComponentTypeAsync(AwsIottwinmakerGetComponentTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetComponentTypeAsync(AwsIottwinmakerGetComponentTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an entity. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEntityAsync(AwsIottwinmakerGetEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEntityAsync(AwsIottwinmakerGetEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a nmetadata transfer job. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMetadataTransferJobAsync(AwsIottwinmakerGetMetadataTransferJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMetadataTransferJobAsync(AwsIottwinmakerGetMetadataTransferJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the pricing plan. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPricingPlanAsync(AwsIottwinmakerGetPricingPlanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPricingPlanAsync(AwsIottwinmakerGetPricingPlanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId . For entity-specific queries, specify values for componentName and entityId . For cross-entity quries, specify a value for componentTypeId . See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPropertyValueHistoryAsync(AwsIottwinmakerGetPropertyValueHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPropertyValueHistoryAsync(AwsIottwinmakerGetPropertyValueHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName , componentTypeId , entityId , or workspaceId . See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPropertyValueAsync(AwsIottwinmakerGetPropertyValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPropertyValueAsync(AwsIottwinmakerGetPropertyValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a scene. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSceneAsync(AwsIottwinmakerGetSceneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSceneAsync(AwsIottwinmakerGetSceneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the SyncJob. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSyncJobAsync(AwsIottwinmakerGetSyncJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSyncJobAsync(AwsIottwinmakerGetSyncJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a workspace. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkspaceAsync(AwsIottwinmakerGetWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkspaceAsync(AwsIottwinmakerGetWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API lists the components of an entity. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComponentsAsync(AwsIottwinmakerListComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComponentsAsync(AwsIottwinmakerListComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all component types in a workspace. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComponentTypesAsync(AwsIottwinmakerListComponentTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComponentTypesAsync(AwsIottwinmakerListComponentTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all entities in a workspace. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntitiesAsync(AwsIottwinmakerListEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntitiesAsync(AwsIottwinmakerListEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the metadata transfer jobs. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMetadataTransferJobsAsync(AwsIottwinmakerListMetadataTransferJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMetadataTransferJobsAsync(AwsIottwinmakerListMetadataTransferJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API lists the properties of a component. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPropertiesAsync(AwsIottwinmakerListPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPropertiesAsync(AwsIottwinmakerListPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all scenes in a workspace. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListScenesAsync(AwsIottwinmakerListScenesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListScenesAsync(AwsIottwinmakerListScenesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all SyncJobs. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSyncJobsAsync(AwsIottwinmakerListSyncJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSyncJobsAsync(AwsIottwinmakerListSyncJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the sync resources. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSyncResourcesAsync(AwsIottwinmakerListSyncResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSyncResourcesAsync(AwsIottwinmakerListSyncResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all tags associated with a resource. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsIottwinmakerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsIottwinmakerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about workspaces in the current account. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkspacesAsync(AwsIottwinmakerListWorkspacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkspacesAsync(AwsIottwinmakerListWorkspacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to a resource. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsIottwinmakerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsIottwinmakerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a resource. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsIottwinmakerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsIottwinmakerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates information in a component type. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateComponentTypeAsync(AwsIottwinmakerUpdateComponentTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateComponentTypeAsync(AwsIottwinmakerUpdateComponentTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an entity. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEntityAsync(AwsIottwinmakerUpdateEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEntityAsync(AwsIottwinmakerUpdateEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the pricing plan. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePricingPlanAsync(AwsIottwinmakerUpdatePricingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePricingPlanAsync(AwsIottwinmakerUpdatePricingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a scene. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSceneAsync(AwsIottwinmakerUpdateSceneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSceneAsync(AwsIottwinmakerUpdateSceneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a workspace. See also: AWS API Documentation
@@ -418,7 +379,6 @@ public interface IAwsIottwinmaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkspaceAsync(AwsIottwinmakerUpdateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkspaceAsync(AwsIottwinmakerUpdateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

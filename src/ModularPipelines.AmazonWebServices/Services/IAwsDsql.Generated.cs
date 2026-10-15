@@ -24,7 +24,7 @@ public interface IAwsDsql
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsDsqlWait Wait => throw new System.NotSupportedException();
+    AwsDsqlWait Wait { get; }
 
     /// <summary>
     /// The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the multiRegionProper- ties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation. NOTE: Creating multi-Region clusters requires additional IAM permis- sions beyond those needed for single-Region clusters, as de- tailed in the Required permissions section below. Required permissions dsql:Cr...
@@ -33,8 +33,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClusterAsync(AwsDsqlCreateClusterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClusterAsync(AwsDsqlCreateClusterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination. Required permissions dsql:CreateStream Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id iam:PassRole Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kine- sis.roleArn kms:Decrypt Required when the cluste...
@@ -43,8 +42,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStreamAsync(AwsDsqlCreateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStreamAsync(AwsDsqlCreateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a cluster in Amazon Aurora DSQL. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterAsync(AwsDsqlDeleteClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterAsync(AwsDsqlDeleteClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default ac- cess controls. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterPolicyAsync(AwsDsqlDeleteClusterPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterPolicyAsync(AwsDsqlDeleteClusterPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a stream from a cluster. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStreamAsync(AwsDsqlDeleteStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStreamAsync(AwsDsqlDeleteStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates an Admin authorization token used to connect to a DSQL data- base with IAM credentials.
@@ -83,8 +78,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateDbConnectAdminAuthTokenAsync(AwsDsqlGenerateDbConnectAdminAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateDbConnectAdminAuthTokenAsync(AwsDsqlGenerateDbConnectAdminAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates an authorization token used to connect to a DSQL database with IAM credentials.
@@ -93,8 +87,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateDbConnectAuthTokenAsync(AwsDsqlGenerateDbConnectAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateDbConnectAuthTokenAsync(AwsDsqlGenerateDbConnectAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a cluster. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClusterAsync(AwsDsqlGetClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClusterAsync(AwsDsqlGetClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the clus- ter. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClusterPolicyAsync(AwsDsqlGetClusterPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClusterPolicyAsync(AwsDsqlGetClusterPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a stream. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStreamAsync(AwsDsqlGetStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStreamAsync(AwsDsqlGetStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the VPC endpoint service name. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpcEndpointServiceNameAsync(AwsDsqlGetVpcEndpointServiceNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpcEndpointServiceNameAsync(AwsDsqlGetVpcEndpointServiceNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a list of clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clusters
@@ -143,8 +132,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListClustersAsync(AwsDsqlListClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListClustersAsync(AwsDsqlListClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a list of streams for a cluster. See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: streams
@@ -153,8 +141,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStreamsAsync(AwsDsqlListStreamsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStreamsAsync(AwsDsqlListStreamsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the tags for a resource. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsDsqlListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsDsqlListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a resource-based policy to a cluster. This policy defines ac- cess permissions and conditions for the cluster, allowing you to con- trol which principals can perform actions on the cluster. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutClusterPolicyAsync(AwsDsqlPutClusterPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutClusterPolicyAsync(AwsDsqlPutClusterPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tags a resource with a map of key and value pairs. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsDsqlTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsDsqlTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from a resource. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsDsqlUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsDsqlUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties pa- rameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. NOTE: Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL clust...
@@ -203,7 +186,6 @@ public interface IAwsDsql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateClusterAsync(AwsDsqlUpdateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateClusterAsync(AwsDsqlUpdateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

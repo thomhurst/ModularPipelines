@@ -28,8 +28,7 @@ public interface IAwsAgentRegistry
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetDiscoverableRegistryRecordAsync(AwsAgentRegistryBatchGetDiscoverableRegistryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetDiscoverableRegistryRecordAsync(AwsAgentRegistryBatchGetDiscoverableRegistryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the discoverable registry records in a registry. You can option- ally filter and paginate the results. See also: AWS API Documentation list-discoverable-registry-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
@@ -38,8 +37,7 @@ public interface IAwsAgentRegistry
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDiscoverableRegistryRecordsAsync(AwsAgentRegistryListDiscoverableRegistryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDiscoverableRegistryRecordsAsync(AwsAgentRegistryListDiscoverableRegistryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the discoverable registry records in a registry using a nat- ural language query. Returns metadata for the matching records ordered by relevance. See also: AWS API Documentation search-discoverable-registry-records uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand...
@@ -48,7 +46,6 @@ public interface IAwsAgentRegistry
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchDiscoverableRegistryRecordsAsync(AwsAgentRegistrySearchDiscoverableRegistryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchDiscoverableRegistryRecordsAsync(AwsAgentRegistrySearchDiscoverableRegistryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

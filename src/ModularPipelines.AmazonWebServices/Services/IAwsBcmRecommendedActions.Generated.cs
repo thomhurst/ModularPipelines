@@ -28,7 +28,6 @@ public interface IAwsBcmRecommendedActions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendedActionsAsync(AwsBcmRecommendedActionsListRecommendedActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendedActionsAsync(AwsBcmRecommendedActionsListRecommendedActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

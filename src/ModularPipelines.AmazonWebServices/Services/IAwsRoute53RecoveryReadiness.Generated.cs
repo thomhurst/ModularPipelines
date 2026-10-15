@@ -28,8 +28,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCellAsync(AwsRoute53RecoveryReadinessCreateCellOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCellAsync(AwsRoute53RecoveryReadinessCreateCellOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a cross-account readiness authorization. This lets you autho- rize another account to work with Route 53 Application Recovery Con- troller, for example, to check the readiness status of resources in a separate account. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCrossAccountAuthorizationAsync(AwsRoute53RecoveryReadinessCreateCrossAccountAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCrossAccountAuthorizationAsync(AwsRoute53RecoveryReadinessCreateCrossAccountAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora in- stances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReadinessCheckAsync(AwsRoute53RecoveryReadinessCreateReadinessCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReadinessCheckAsync(AwsRoute53RecoveryReadinessCreateReadinessCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the appli- cation. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRecoveryGroupAsync(AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRecoveryGroupAsync(AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourceSetAsync(AwsRoute53RecoveryReadinessCreateResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourceSetAsync(AwsRoute53RecoveryReadinessCreateResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a cell. When successful, the response code is 204, with no re- sponse body. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCellAsync(AwsRoute53RecoveryReadinessDeleteCellOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCellAsync(AwsRoute53RecoveryReadinessDeleteCellOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes cross account readiness authorization. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCrossAccountAuthorizationAsync(AwsRoute53RecoveryReadinessDeleteCrossAccountAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCrossAccountAuthorizationAsync(AwsRoute53RecoveryReadinessDeleteCrossAccountAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a readiness check. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReadinessCheckAsync(AwsRoute53RecoveryReadinessDeleteReadinessCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReadinessCheckAsync(AwsRoute53RecoveryReadinessDeleteReadinessCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a recovery group. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecoveryGroupAsync(AwsRoute53RecoveryReadinessDeleteRecoveryGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecoveryGroupAsync(AwsRoute53RecoveryReadinessDeleteRecoveryGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a resource set. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourceSetAsync(AwsRoute53RecoveryReadinessDeleteResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourceSetAsync(AwsRoute53RecoveryReadinessDeleteResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets recommendations about architecture designs for improving re- siliency for an application, based on a recovery group. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetArchitectureRecommendationsAsync(AwsRoute53RecoveryReadinessGetArchitectureRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetArchitectureRecommendationsAsync(AwsRoute53RecoveryReadinessGetArchitectureRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCellAsync(AwsRoute53RecoveryReadinessGetCellOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCellAsync(AwsRoute53RecoveryReadinessGetCellOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets readiness for a cell. Aggregates the readiness of all the re- sources that are associated with the cell into a single value. See also: AWS API Documentation get-cell-readiness-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
@@ -148,8 +136,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCellReadinessSummaryAsync(AwsRoute53RecoveryReadinessGetCellReadinessSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCellReadinessSummaryAsync(AwsRoute53RecoveryReadinessGetCellReadinessSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about a readiness check. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReadinessCheckAsync(AwsRoute53RecoveryReadinessGetReadinessCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReadinessCheckAsync(AwsRoute53RecoveryReadinessGetReadinessCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary. See also: AWS API Documentation get-readiness-check-resource-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When usi...
@@ -168,8 +154,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReadinessCheckResourceStatusAsync(AwsRoute53RecoveryReadinessGetReadinessCheckResourceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReadinessCheckResourceStatusAsync(AwsRoute53RecoveryReadinessGetReadinessCheckResourceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary. See also: AWS API Documentation get-readiness-check-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --outpu...
@@ -178,8 +163,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReadinessCheckStatusAsync(AwsRoute53RecoveryReadinessGetReadinessCheckStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReadinessCheckStatusAsync(AwsRoute53RecoveryReadinessGetReadinessCheckStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about a recovery group, including a list of the cells that are included in it. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecoveryGroupAsync(AwsRoute53RecoveryReadinessGetRecoveryGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecoveryGroupAsync(AwsRoute53RecoveryReadinessGetRecoveryGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one. See also: AWS API Documentation get-recovery-group-readiness-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated r...
@@ -198,8 +181,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecoveryGroupReadinessSummaryAsync(AwsRoute53RecoveryReadinessGetRecoveryGroupReadinessSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecoveryGroupReadinessSummaryAsync(AwsRoute53RecoveryReadinessGetRecoveryGroupReadinessSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the details about a resource set, including a list of the re- sources in the set. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceSetAsync(AwsRoute53RecoveryReadinessGetResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceSetAsync(AwsRoute53RecoveryReadinessGetResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the cells for an account. See also: AWS API Documentation list-cells is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Cells
@@ -218,8 +199,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCellsAsync(AwsRoute53RecoveryReadinessListCellsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCellsAsync(AwsRoute53RecoveryReadinessListCellsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the cross-account readiness authorizations that are in place for an account. See also: AWS API Documentation list-cross-account-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
@@ -228,8 +208,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCrossAccountAuthorizationsAsync(AwsRoute53RecoveryReadinessListCrossAccountAuthorizationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCrossAccountAuthorizationsAsync(AwsRoute53RecoveryReadinessListCrossAccountAuthorizationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the readiness checks for an account. See also: AWS API Documentation list-readiness-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReadinessChecks
@@ -238,8 +217,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReadinessChecksAsync(AwsRoute53RecoveryReadinessListReadinessChecksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReadinessChecksAsync(AwsRoute53RecoveryReadinessListReadinessChecksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the recovery groups in an account. See also: AWS API Documentation list-recovery-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RecoveryGroups
@@ -248,8 +226,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecoveryGroupsAsync(AwsRoute53RecoveryReadinessListRecoveryGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecoveryGroupsAsync(AwsRoute53RecoveryReadinessListRecoveryGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the resource sets in an account. See also: AWS API Documentation list-resource-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ResourceSets
@@ -258,8 +235,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceSetsAsync(AwsRoute53RecoveryReadinessListResourceSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceSetsAsync(AwsRoute53RecoveryReadinessListResourceSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all readiness rules, or lists the readiness rules for a specific resource type. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Rules
@@ -268,8 +244,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRulesAsync(AwsRoute53RecoveryReadinessListRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRulesAsync(AwsRoute53RecoveryReadinessListRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for a resource. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourcesAsync(AwsRoute53RecoveryReadinessListTagsForResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourcesAsync(AwsRoute53RecoveryReadinessListTagsForResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a tag to a resource. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsRoute53RecoveryReadinessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsRoute53RecoveryReadinessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from a resource. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsRoute53RecoveryReadinessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsRoute53RecoveryReadinessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a cell to replace the list of nested cells with a new list of nested cells. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCellAsync(AwsRoute53RecoveryReadinessUpdateCellOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCellAsync(AwsRoute53RecoveryReadinessUpdateCellOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a readiness check. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReadinessCheckAsync(AwsRoute53RecoveryReadinessUpdateReadinessCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReadinessCheckAsync(AwsRoute53RecoveryReadinessUpdateReadinessCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a recovery group. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecoveryGroupAsync(AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecoveryGroupAsync(AwsRoute53RecoveryReadinessUpdateRecoveryGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a resource set. See also: AWS API Documentation
@@ -338,7 +307,6 @@ public interface IAwsRoute53RecoveryReadiness
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceSetAsync(AwsRoute53RecoveryReadinessUpdateResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceSetAsync(AwsRoute53RecoveryReadinessUpdateResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

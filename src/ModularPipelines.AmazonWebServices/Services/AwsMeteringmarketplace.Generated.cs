@@ -32,7 +32,7 @@ public class AwsMeteringmarketplace : IAwsMeteringmarketplace
     #region Commands
 
     /// <summary>
-    /// WARNING: Amazon Web Services Marketplace is introducing Concurrent Agree- ments, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use CustomerAWSAccountId (instead of CustomerIdentifier ), LicenseArn (instead of ProductCode ) to support this feature. BatchMeterUsage does not support CustomerIdentifier for new integrations. Existing integrations continue to work. Review the new integration for Con- current Agreements here . ...
+    /// NOTE: The Amazon Web Services Marketplace AI Metering Agent Skill (aws-marketplace-metering ) helps an AI coding agent integrate your SaaS product's usage reporting with the BatchMeterUsage API. The skill is a curated package of instructions and reference material that guides your AI coding agent through building, deploying, and testing the metering integration. To get the skill on demand without checking it out locally, install the Amazon Web Services MCP Server in your coding agent; the agent ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

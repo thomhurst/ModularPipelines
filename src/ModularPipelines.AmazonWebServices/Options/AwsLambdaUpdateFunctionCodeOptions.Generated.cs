@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and key o...
+/// Updates a Lambda Event Function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsLambdaUpdateFunctionCodeOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and key o...
+    /// Updates a Lambda Event Function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and...
     /// </summary>
     /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
     public AwsLambdaUpdateFunctionCodeOptions(

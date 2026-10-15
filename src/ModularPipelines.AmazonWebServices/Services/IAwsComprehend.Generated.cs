@@ -28,8 +28,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDetectDominantLanguageAsync(AwsComprehendBatchDetectDominantLanguageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDetectDominantLanguageAsync(AwsComprehendBatchDetectDominantLanguageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects the text of a batch of documents for named entities and re- turns information about them. For more information about named enti- ties, see Entities in the Comprehend Developer Guide. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDetectEntitiesAsync(AwsComprehendBatchDetectEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDetectEntitiesAsync(AwsComprehendBatchDetectEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detects the key noun phrases found in a batch of documents. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDetectKeyPhrasesAsync(AwsComprehendBatchDetectKeyPhrasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDetectKeyPhrasesAsync(AwsComprehendBatchDetectKeyPhrasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects a batch of documents and returns an inference of the prevail- ing sentiment, POSITIVE , NEUTRAL , MIXED , or NEGATIVE , in each one. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDetectSentimentAsync(AwsComprehendBatchDetectSentimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDetectSentimentAsync(AwsComprehendBatchDetectSentimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects the text of a batch of documents for the syntax and part of speech of the words in the document and returns information about them. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDetectSyntaxAsync(AwsComprehendBatchDetectSyntaxOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDetectSyntaxAsync(AwsComprehendBatchDetectSyntaxOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects a batch of documents and returns a sentiment analysis for each entity identified in the documents. For more information about targeted sentiment, see Targeted sentiment in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDetectTargetedSentimentAsync(AwsComprehendBatchDetectTargetedSentimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDetectTargetedSentimentAsync(AwsComprehendBatchDetectTargetedSentimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types: o Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide . o Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying ...
@@ -88,8 +82,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ClassifyDocumentAsync(AwsComprehendClassifyDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ClassifyDocumentAsync(AwsComprehendClassifyDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Analyzes input text for the presence of personally identifiable infor- mation (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ContainsPiiEntitiesAsync(AwsComprehendContainsPiiEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ContainsPiiEntitiesAsync(AwsComprehendContainsPiiEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a dataset to upload training or test data for a model associ- ated with a flywheel. For more information about datasets, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetAsync(AwsComprehendCreateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSetAsync(AwsComprehendCreateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new document classifier that you can use to categorize docu- ments. To create a classifier, you provide a set of training documents that are labeled with the categories that you want to use. For more in- formation, see Training classifier models in the Comprehend Developer Guide. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDocumentClassifierAsync(AwsComprehendCreateDocumentClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDocumentClassifierAsync(AwsComprehendCreateDocumentClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a model-specific endpoint for synchronous inference for a pre- viously trained custom model For information about endpoints, see Managing endpoints . See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEndpointAsync(AwsComprehendCreateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEndpointAsync(AwsComprehendCreateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an entity recognizer using submitted files. After your Cre- ateEntityRecognizer request is submitted, you can check job status us- ing the DescribeEntityRecognizer API. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEntityRecognizerAsync(AwsComprehendCreateEntityRecognizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEntityRecognizerAsync(AwsComprehendCreateEntityRecognizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A flywheel is an Amazon Web Services resource that orchestrates the on- going training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the ac- ...
@@ -148,8 +136,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFlywheelAsync(AwsComprehendCreateFlywheelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFlywheelAsync(AwsComprehendCreateFlywheelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a previously created document classifier Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the classifier into a DELETING state, and it is then removed by a background job. Once removed, the classifier disappears from your account and is no longer available for use. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDocumentClassifierAsync(AwsComprehendDeleteDocumentClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDocumentClassifierAsync(AwsComprehendDeleteDocumentClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must be deleted in order for the model to be deleted. For information about endpoints, see Managing endpoints . See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEndpointAsync(AwsComprehendDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEndpointAsync(AwsComprehendDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an entity recognizer. Only those recognizers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the recognizer into a DELETING state, and it is then removed by a background job. Once removed, the recognizer disappears from your account and is no longer available for use. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEntityRecognizerAsync(AwsComprehendDeleteEntityRecognizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEntityRecognizerAsync(AwsComprehendDeleteEntityRecognizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the data lake or the model associated with the fly- wheel. For more information about flywheels, see Flywheel overview in the Ama- zon Comprehend Developer Guide . See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFlywheelAsync(AwsComprehendDeleteFlywheelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFlywheelAsync(AwsComprehendDeleteFlywheelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a resource-based policy that is attached to a custom model. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsComprehendDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsComprehendDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the dataset that you specify. For more infor- mation about datasets, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSetAsync(AwsComprehendDescribeDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSetAsync(AwsComprehendDescribeDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a document classification job. Use this operation to get the status of a classification job. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDocumentClassificationJobAsync(AwsComprehendDescribeDocumentClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDocumentClassificationJobAsync(AwsComprehendDescribeDocumentClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a document classifier. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDocumentClassifierAsync(AwsComprehendDescribeDocumentClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDocumentClassifierAsync(AwsComprehendDescribeDocumentClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a dominant language detection job. Use this operation to get the status of a detection job. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDominantLanguageDetectionJobAsync(AwsComprehendDescribeDominantLanguageDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDominantLanguageDetectionJobAsync(AwsComprehendDescribeDominantLanguageDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a specific endpoint. Use this oper- ation to get the status of an endpoint. For information about end- points, see Managing endpoints . See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointAsync(AwsComprehendDescribeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEndpointAsync(AwsComprehendDescribeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with an entities detection job. Use this operation to get the status of a detection job. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEntitiesDetectionJobAsync(AwsComprehendDescribeEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEntitiesDetectionJobAsync(AwsComprehendDescribeEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details about an entity recognizer including status, S3 buck- ets containing training data, recognizer metadata, metrics, and so on. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEntityRecognizerAsync(AwsComprehendDescribeEntityRecognizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEntityRecognizerAsync(AwsComprehendDescribeEntityRecognizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the status and details of an events detection job. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventsDetectionJobAsync(AwsComprehendDescribeEventsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventsDetectionJobAsync(AwsComprehendDescribeEventsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see Flywheel overview in the Amazon Com- prehend Developer Guide . See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlywheelIterationAsync(AwsComprehendDescribeFlywheelIterationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFlywheelIterationAsync(AwsComprehendDescribeFlywheelIterationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides configuration information about the flywheel. For more infor- mation about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlywheelAsync(AwsComprehendDescribeFlywheelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFlywheelAsync(AwsComprehendDescribeFlywheelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeKeyPhrasesDetectionJobAsync(AwsComprehendDescribeKeyPhrasesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeKeyPhrasesDetectionJobAsync(AwsComprehendDescribeKeyPhrasesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a PII entities detection job. For example, you can use this operation to get the job status. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePiiEntitiesDetectionJobAsync(AwsComprehendDescribePiiEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePiiEntitiesDetectionJobAsync(AwsComprehendDescribePiiEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the details of a resource-based policy that is attached to a cus- tom model, including the JSON body of the policy. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourcePolicyAsync(AwsComprehendDescribeResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourcePolicyAsync(AwsComprehendDescribeResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSentimentDetectionJobAsync(AwsComprehendDescribeSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSentimentDetectionJobAsync(AwsComprehendDescribeSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a targeted sentiment detection job. Use this operation to get the status of the job. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTargetedSentimentDetectionJobAsync(AwsComprehendDescribeTargetedSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTargetedSentimentDetectionJobAsync(AwsComprehendDescribeTargetedSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the properties associated with a topic detection job. Use this op- eration to get the status of a detection job. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTopicsDetectionJobAsync(AwsComprehendDescribeTopicsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTopicsDetectionJobAsync(AwsComprehendDescribeTopicsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Determines the dominant language of the input text. For a list of lan- guages that Amazon Comprehend can detect, see Amazon Comprehend Sup- ported Languages . See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectDominantLanguageAsync(AwsComprehendDetectDominantLanguageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectDominantLanguageAsync(AwsComprehendDetectDominantLanguageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detects named entities in input text when you use the pre-trained model. Detects custom entities if you have a custom entity recognition model. When detecting named entities using the pre-trained model, use plain text as the input. For more information about named entities, see Entities in the Comprehend Developer Guide. When you use a custom entity recognition model, you can input plain text or you can upload a single-page input document (text, PDF, Word, or image). If the system detects errors...
@@ -378,8 +343,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectEntitiesAsync(AwsComprehendDetectEntitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectEntitiesAsync(AwsComprehendDetectEntitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detects the key noun phrases found in the text. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectKeyPhrasesAsync(AwsComprehendDetectKeyPhrasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectKeyPhrasesAsync(AwsComprehendDetectKeyPhrasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects the input text for entities that contain personally identifi- able information (PII) and returns information about them. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectPiiEntitiesAsync(AwsComprehendDetectPiiEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectPiiEntitiesAsync(AwsComprehendDetectPiiEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects text and returns an inference of the prevailing sentiment (POSITIVE , NEUTRAL , MIXED , or NEGATIVE ). See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectSentimentAsync(AwsComprehendDetectSentimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectSentimentAsync(AwsComprehendDetectSentimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects text for syntax and the part of speech of words in the docu- ment. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectSyntaxAsync(AwsComprehendDetectSyntaxOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectSyntaxAsync(AwsComprehendDetectSyntaxOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects the input text and returns a sentiment analysis for each en- tity identified in the text. For more information about targeted sentiment, see Targeted sentiment in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectTargetedSentimentAsync(AwsComprehendDetectTargetedSentimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectTargetedSentimentAsync(AwsComprehendDetectTargetedSentimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Performs toxicity analysis on the list of text strings that you provide as input. The API response contains a results list that matches the size of the input list. For more information about toxicity detection, see Toxicity detection in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectToxicContentAsync(AwsComprehendDetectToxicContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectToxicContentAsync(AwsComprehendDetectToxicContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a dif- ferent Region. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportModelAsync(AwsComprehendImportModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportModelAsync(AwsComprehendImportModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the datasets that you have configured in this Region. For more in- formation about datasets, see Flywheel overview in the Amazon Compre- hend Developer Guide . See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDatasetsAsync(AwsComprehendListDatasetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDatasetsAsync(AwsComprehendListDatasetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the documentation classification jobs that you have sub- mitted. See also: AWS API Documentation list-document-classification-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Doc...
@@ -468,8 +424,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDocumentClassificationJobsAsync(AwsComprehendListDocumentClassificationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDocumentClassificationJobsAsync(AwsComprehendListDocumentClassificationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the document classifiers that you have created. See also: AWS API Documentation list-document-classifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DocumentClassifierPropertiesLi...
@@ -478,8 +433,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDocumentClassifiersAsync(AwsComprehendListDocumentClassifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDocumentClassifiersAsync(AwsComprehendListDocumentClassifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of summaries of the document classifiers that you have cre- ated See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDocumentClassifierSummariesAsync(AwsComprehendListDocumentClassifierSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDocumentClassifierSummariesAsync(AwsComprehendListDocumentClassifierSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the dominant language detection jobs that you have sub- mitted. See also: AWS API Documentation list-dominant-language-detection-jobs is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions...
@@ -498,8 +451,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDominantLanguageDetectionJobsAsync(AwsComprehendListDominantLanguageDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDominantLanguageDetectionJobsAsync(AwsComprehendListDominantLanguageDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of all existing endpoints that you've created. For informa- tion about endpoints, see Managing endpoints . See also: AWS API Documentation list-endpoints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
@@ -508,8 +460,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEndpointsAsync(AwsComprehendListEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEndpointsAsync(AwsComprehendListEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the entity detection jobs that you have submitted. See also: AWS API Documentation list-entities-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EntitiesDetectionJobPr...
@@ -518,8 +469,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntitiesDetectionJobsAsync(AwsComprehendListEntitiesDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntitiesDetectionJobsAsync(AwsComprehendListEntitiesDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the properties of all entity recognizers that you cre- ated, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed. See also: AWS API Documentation list-entity-recognizers is a...
@@ -528,8 +478,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntityRecognizersAsync(AwsComprehendListEntityRecognizersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntityRecognizersAsync(AwsComprehendListEntityRecognizersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of summaries for the entity recognizers that you have cre- ated. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntityRecognizerSummariesAsync(AwsComprehendListEntityRecognizerSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntityRecognizerSummariesAsync(AwsComprehendListEntityRecognizerSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the events detection jobs that you have submitted. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEventsDetectionJobsAsync(AwsComprehendListEventsDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEventsDetectionJobsAsync(AwsComprehendListEventsDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Information about the history of a flywheel iteration. For more infor- mation about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlywheelIterationHistoryAsync(AwsComprehendListFlywheelIterationHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlywheelIterationHistoryAsync(AwsComprehendListFlywheelIterationHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the flywheels that you have created. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlywheelsAsync(AwsComprehendListFlywheelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlywheelsAsync(AwsComprehendListFlywheelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a list of key phrase detection jobs that you have submitted. See also: AWS API Documentation list-key-phrases-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: KeyPhrasesDetectionJ...
@@ -578,8 +523,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListKeyPhrasesDetectionJobsAsync(AwsComprehendListKeyPhrasesDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListKeyPhrasesDetectionJobsAsync(AwsComprehendListKeyPhrasesDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the PII entity detection jobs that you have submitted. See also: AWS API Documentation list-pii-entities-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PiiEntitiesDet...
@@ -588,8 +532,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPiiEntitiesDetectionJobsAsync(AwsComprehendListPiiEntitiesDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPiiEntitiesDetectionJobsAsync(AwsComprehendListPiiEntitiesDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of sentiment detection jobs that you have submitted. See also: AWS API Documentation list-sentiment-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SentimentDetectionJobP...
@@ -598,8 +541,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSentimentDetectionJobsAsync(AwsComprehendListSentimentDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSentimentDetectionJobsAsync(AwsComprehendListSentimentDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all tags associated with a given Amazon Comprehend resource. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsComprehendListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsComprehendListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of targeted sentiment detection jobs that you have submit- ted. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTargetedSentimentDetectionJobsAsync(AwsComprehendListTargetedSentimentDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTargetedSentimentDetectionJobsAsync(AwsComprehendListTargetedSentimentDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the topic detection jobs that you have submitted. See also: AWS API Documentation list-topics-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: TopicsDetectionJobPropertie...
@@ -628,8 +568,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTopicsDetectionJobsAsync(AwsComprehendListTopicsDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTopicsDetectionJobsAsync(AwsComprehendListTopicsDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon Comprehend in their account. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsComprehendPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsComprehendPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous document classification job using a custom clas- sification model. Use the DescribeDocumentClassificationJob operation to track the progress of the job. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDocumentClassificationJobAsync(AwsComprehendStartDocumentClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDocumentClassificationJobAsync(AwsComprehendStartDocumentClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous dominant language detection job for a collection of documents. Use the operation to track the status of a job. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDominantLanguageDetectionJobAsync(AwsComprehendStartDominantLanguageDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDominantLanguageDetectionJobAsync(AwsComprehendStartDominantLanguageDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous entity detection job for a collection of docu- ments. Use the operation to track the status of a job. This API can be used for either standard entity detection or custom en- tity recognition. In order to be used for custom entity recognition, the optional EntityRecognizerArn must be used in order to provide ac- cess to the recognizer being used to detect the custom entity. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEntitiesDetectionJobAsync(AwsComprehendStartEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEntitiesDetectionJobAsync(AwsComprehendStartEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous event detection job for a collection of docu- ments. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEventsDetectionJobAsync(AwsComprehendStartEventsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEventsDetectionJobAsync(AwsComprehendStartEventsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start the flywheel iteration.This operation uses any new datasets to train a new model version. For more information about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFlywheelIterationAsync(AwsComprehendStartFlywheelIterationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFlywheelIterationAsync(AwsComprehendStartFlywheelIterationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartKeyPhrasesDetectionJobAsync(AwsComprehendStartKeyPhrasesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartKeyPhrasesDetectionJobAsync(AwsComprehendStartKeyPhrasesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous PII entity detection job for a collection of documents. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPiiEntitiesDetectionJobAsync(AwsComprehendStartPiiEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPiiEntitiesDetectionJobAsync(AwsComprehendStartPiiEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous sentiment detection job for a collection of doc- uments. Use the operation to track the status of a job. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSentimentDetectionJobAsync(AwsComprehendStartSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSentimentDetectionJobAsync(AwsComprehendStartSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous targeted sentiment detection job for a collec- tion of documents. Use the DescribeTargetedSentimentDetectionJob opera- tion to track the status of a job. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTargetedSentimentDetectionJobAsync(AwsComprehendStartTargetedSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTargetedSentimentDetectionJobAsync(AwsComprehendStartTargetedSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous topic detection job. Use the DescribeTopicDetec- tionJob operation to track the status of a job. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTopicsDetectionJobAsync(AwsComprehendStartTopicsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTopicsDetectionJobAsync(AwsComprehendStartTopicsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a dominant language detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any do...
@@ -748,8 +676,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopDominantLanguageDetectionJobAsync(AwsComprehendStopDominantLanguageDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopDominantLanguageDetectionJobAsync(AwsComprehendStopDominantLanguageDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any documents ...
@@ -758,8 +685,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEntitiesDetectionJobAsync(AwsComprehendStopEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopEntitiesDetectionJobAsync(AwsComprehendStopEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an events detection job in progress. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEventsDetectionJobAsync(AwsComprehendStopEventsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopEventsDetectionJobAsync(AwsComprehendStopEventsDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any document...
@@ -778,8 +703,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopKeyPhrasesDetectionJobAsync(AwsComprehendStopKeyPhrasesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopKeyPhrasesDetectionJobAsync(AwsComprehendStopKeyPhrasesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a PII entities detection job in progress. See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopPiiEntitiesDetectionJobAsync(AwsComprehendStopPiiEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopPiiEntitiesDetectionJobAsync(AwsComprehendStopPiiEntitiesDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any docum...
@@ -798,8 +721,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopSentimentDetectionJobAsync(AwsComprehendStopSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopSentimentDetectionJobAsync(AwsComprehendStopSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, ...
@@ -808,8 +730,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTargetedSentimentDetectionJobAsync(AwsComprehendStopTargetedSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTargetedSentimentDetectionJobAsync(AwsComprehendStopTargetedSentimentDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a document classifier training job while in progress. If the training job state is TRAINING , the job is marked for termina- tion and put into the STOP_REQUESTED state. If the training job com- pletes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and put into the STOPPED state and the ser- vice sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTrainingDocumentClassifierAsync(AwsComprehendStopTrainingDocumentClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTrainingDocumentClassifierAsync(AwsComprehendStopTrainingDocumentClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an entity recognizer training job while in progress. If the training job state is TRAINING , the job is marked for termina- tion and put into the STOP_REQUESTED state. If the training job com- pletes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and putted into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTrainingEntityRecognizerAsync(AwsComprehendStopTrainingEntityRecognizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTrainingEntityRecognizerAsync(AwsComprehendStopTrainingEntityRecognizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. See also: AWS API Documentation
@@ -838,8 +757,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsComprehendTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsComprehendTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a specific tag associated with an Amazon Comprehend resource. See also: AWS API Documentation
@@ -848,8 +766,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsComprehendUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsComprehendUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates information about the specified endpoint. For information about endpoints, see Managing endpoints . See also: AWS API Documentation
@@ -858,8 +775,7 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEndpointAsync(AwsComprehendUpdateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEndpointAsync(AwsComprehendUpdateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the configuration information for an existing flywheel. See also: AWS API Documentation
@@ -868,7 +784,6 @@ public interface IAwsComprehend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFlywheelAsync(AwsComprehendUpdateFlywheelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFlywheelAsync(AwsComprehendUpdateFlywheelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

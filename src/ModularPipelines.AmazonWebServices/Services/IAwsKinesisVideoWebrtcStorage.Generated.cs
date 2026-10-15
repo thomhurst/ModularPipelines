@@ -28,8 +28,7 @@ public interface IAwsKinesisVideoWebrtcStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> JoinStorageSessionAsViewerAsync(AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> JoinStorageSessionAsViewerAsync(AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: Before using this API, you must call the GetSignalingChannelEndpoint API to request the WEBRTC endpoint. You then specify the endpoint and region in your JoinStorageSession API request. Join the ongoing one way-video and/or multi-way audio WebRTC session as a video producing device for an input channel. If theres no existing session for the channel, a new streaming session needs to be created, and the Amazon Resource Name (ARN) of the signaling channel must be provided. Currently for the S...
@@ -38,7 +37,6 @@ public interface IAwsKinesisVideoWebrtcStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> JoinStorageSessionAsync(AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> JoinStorageSessionAsync(AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

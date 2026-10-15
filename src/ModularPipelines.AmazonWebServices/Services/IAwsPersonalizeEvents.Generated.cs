@@ -28,8 +28,7 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutActionInteractionsAsync(AwsPersonalizeEventsPutActionInteractionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutActionInteractionsAsync(AwsPersonalizeEventsPutActionInteractionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more actions to an Actions dataset. For more information see Importing actions individually . See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutActionsAsync(AwsPersonalizeEventsPutActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutActionsAsync(AwsPersonalizeEventsPutActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Records item interaction event data. For more information see Recording item interaction events . See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEventsAsync(AwsPersonalizeEventsPutEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEventsAsync(AwsPersonalizeEventsPutEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more items to an Items dataset. For more information see Importing items individually . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutItemsAsync(AwsPersonalizeEventsPutItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutItemsAsync(AwsPersonalizeEventsPutItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more users to a Users dataset. For more information see Importing users individually . See also: AWS API Documentation
@@ -68,7 +64,6 @@ public interface IAwsPersonalizeEvents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutUsersAsync(AwsPersonalizeEventsPutUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutUsersAsync(AwsPersonalizeEventsPutUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

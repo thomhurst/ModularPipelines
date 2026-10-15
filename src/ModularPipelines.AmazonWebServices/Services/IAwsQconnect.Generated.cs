@@ -28,8 +28,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ActivateMessageTemplateAsync(AwsQconnectActivateMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ActivateMessageTemplateAsync(AwsQconnectActivateMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Q in Connect AI Agent. See also: AWS API Documentation create-ai-agent uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -38,8 +37,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiAgentAsync(AwsQconnectCreateAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiAgentAsync(AwsQconnectCreateAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and Amazon Q in Connect AI Agent version. See also: AWS API Documentation create-ai-agent-version uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
@@ -48,8 +46,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiAgentVersionAsync(AwsQconnectCreateAiAgentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiAgentVersionAsync(AwsQconnectCreateAiAgentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Q in Connect AI Guardrail. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiGuardrailAsync(AwsQconnectCreateAiGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiGuardrailAsync(AwsQconnectCreateAiGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Q in Connect AI Guardrail version. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiGuardrailVersionAsync(AwsQconnectCreateAiGuardrailVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiGuardrailVersionAsync(AwsQconnectCreateAiGuardrailVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Q in Connect AI Prompt. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiPromptAsync(AwsQconnectCreateAiPromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiPromptAsync(AwsQconnectCreateAiPromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Q in Connect AI Prompt version. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiPromptVersionAsync(AwsQconnectCreateAiPromptVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiPromptVersionAsync(AwsQconnectCreateAiPromptVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an association between an Amazon Q in Connect assistant and an- other resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssistantAssociationAsync(AwsQconnectCreateAssistantAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssistantAssociationAsync(AwsQconnectCreateAssistantAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Q in Connect assistant. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssistantAsync(AwsQconnectCreateAssistantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssistantAsync(AwsQconnectCreateAssistantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an association between a content resource in a knowledge base and step-by-step guides . Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content asso- ciation to integrate Amazon Q in Connect and step-by-step guides. After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's de- tected, it also provides them with the option to start the step-by-step guide that y...
@@ -118,8 +109,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContentAssociationAsync(AwsQconnectCreateContentAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContentAssociationAsync(AwsQconnectCreateContentAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates Amazon Q in Connect content. Before to calling this API, use StartContentUpload to upload an asset. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContentAsync(AwsQconnectCreateContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContentAsync(AwsQconnectCreateContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a knowledge base. NOTE: When using this API, you cannot reuse Amazon AppIntegrations DataIn- tegrations with external knowledge bases such as Salesforce and Ser- viceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowl- edge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following: o Call DeleteKnowledgeBase . o Call DeleteDataIntegration . o Call CreateDataInte...
@@ -138,8 +127,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateKnowledgeBaseAsync(AwsQconnectCreateKnowledgeBaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateKnowledgeBaseAsync(AwsQconnectCreateKnowledgeBaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the $LATEST qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMessageTemplateAttachmentAsync(AwsQconnectCreateMessageTemplateAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMessageTemplateAttachmentAsync(AwsQconnectCreateMessageTemplateAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Q in Connect message template. The name of the mes- sage template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified af- ter creation. After the message template is created, you can use the $LATEST qualifier to reference the created message template. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMessageTemplateAsync(AwsQconnectCreateMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMessageTemplateAsync(AwsQconnectCreateMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in &lt;message-template-id&gt;:&lt;versionNumber&gt; as the message template identi- fier. An error is displayed if the supplied messageTemplateCon- tentSha256 is different from the messageTemplateContentSha256 of the message template ...
@@ -168,8 +154,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMessageTemplateVersionAsync(AwsQconnectCreateMessageTemplateVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMessageTemplateVersionAsync(AwsQconnectCreateMessageTemplateVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Q in Connect quick response. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQuickResponseAsync(AwsQconnectCreateQuickResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQuickResponseAsync(AwsQconnectCreateQuickResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a session. A session is a contextual container used for gener- ating recommendations. Connect Customer creates a new Amazon Q in Con- nect session for each contact on which Amazon Q in Connect is enabled. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSessionAsync(AwsQconnectCreateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSessionAsync(AwsQconnectCreateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deactivates a specific version of the Amazon Q in Connect message tem- plate . After the version is deactivated, you can no longer use the $ACTIVE_VERSION qualifier to reference the version in active status. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeactivateMessageTemplateAsync(AwsQconnectDeactivateMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeactivateMessageTemplateAsync(AwsQconnectDeactivateMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Q in Connect AI Agent. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiAgentAsync(AwsQconnectDeleteAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiAgentAsync(AwsQconnectDeleteAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Q in Connect AI Agent Version. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiAgentVersionAsync(AwsQconnectDeleteAiAgentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiAgentVersionAsync(AwsQconnectDeleteAiAgentVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Q in Connect AI Guardrail. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiGuardrailAsync(AwsQconnectDeleteAiGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiGuardrailAsync(AwsQconnectDeleteAiGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete and Amazon Q in Connect AI Guardrail version. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiGuardrailVersionAsync(AwsQconnectDeleteAiGuardrailVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiGuardrailVersionAsync(AwsQconnectDeleteAiGuardrailVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Q in Connect AI Prompt. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiPromptAsync(AwsQconnectDeleteAiPromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiPromptAsync(AwsQconnectDeleteAiPromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete and Amazon Q in Connect AI Prompt version. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiPromptVersionAsync(AwsQconnectDeleteAiPromptVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiPromptVersionAsync(AwsQconnectDeleteAiPromptVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an assistant association. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssistantAssociationAsync(AwsQconnectDeleteAssistantAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssistantAssociationAsync(AwsQconnectDeleteAssistantAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an assistant. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssistantAsync(AwsQconnectDeleteAssistantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssistantAsync(AwsQconnectDeleteAssistantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContentAssociationAsync(AwsQconnectDeleteContentAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContentAssociationAsync(AwsQconnectDeleteContentAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the content. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContentAsync(AwsQconnectDeleteContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContentAsync(AwsQconnectDeleteContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the quick response import job. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteImportJobAsync(AwsQconnectDeleteImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteImportJobAsync(AwsQconnectDeleteImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the knowledge base. NOTE: When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppInte- grations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowl- edge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the Amazon AppIn- tegrations API Reference . See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteKnowledgeBaseAsync(AwsQconnectDeleteKnowledgeBaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteKnowledgeBaseAsync(AwsQconnectDeleteKnowledgeBaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the attachment file from the Amazon Q in Connect message tem- plate that is referenced by $LATEST qualifier. Attachments on available message template versions will remain unchanged. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMessageTemplateAttachmentAsync(AwsQconnectDeleteMessageTemplateAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMessageTemplateAttachmentAsync(AwsQconnectDeleteMessageTemplateAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as &lt;message-tem- plate-id&gt;:&lt;versionNumber&gt; to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMessageTemplateAsync(AwsQconnectDeleteMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMessageTemplateAsync(AwsQconnectDeleteMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a quick response. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQuickResponseAsync(AwsQconnectDeleteQuickResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQuickResponseAsync(AwsQconnectDeleteQuickResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Amazon Q in Connect AI Agent. See also: AWS API Documentation get-ai-agent uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -358,8 +325,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAiAgentAsync(AwsQconnectGetAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAiAgentAsync(AwsQconnectGetAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the Amazon Q in Connect AI Guardrail. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAiGuardrailAsync(AwsQconnectGetAiGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAiGuardrailAsync(AwsQconnectGetAiGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets and Amazon Q in Connect AI Prompt. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAiPromptAsync(AwsQconnectGetAiPromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAiPromptAsync(AwsQconnectGetAiPromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an assistant association. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssistantAssociationAsync(AwsQconnectGetAssistantAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssistantAssociationAsync(AwsQconnectGetAssistantAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an assistant. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssistantAsync(AwsQconnectGetAssistantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssistantAsync(AwsQconnectGetAssistantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContentAssociationAsync(AwsQconnectGetContentAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContentAssociationAsync(AwsQconnectGetContentAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves content, including a pre-signed URL to download the content. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContentAsync(AwsQconnectGetContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContentAsync(AwsQconnectGetContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves summary information about the content. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContentSummaryAsync(AwsQconnectGetContentSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContentSummaryAsync(AwsQconnectGetContentSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the started import job. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImportJobAsync(AwsQconnectGetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImportJobAsync(AwsQconnectGetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the knowledge base. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetKnowledgeBaseAsync(AwsQconnectGetKnowledgeBaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetKnowledgeBaseAsync(AwsQconnectGetKnowledgeBaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the Amazon Q in Connect message template. The message tem- plate identifier can contain an optional qualifier, for example, &lt;mes- sage-template-id&gt;:&lt;qualifier&gt; , which is either an actual version num- ber or an Amazon Q Connect managed qualifier $ACTIVE_VERSION | $LATEST . If it is not supplied, then $LATEST is assumed implicitly. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMessageTemplateAsync(AwsQconnectGetMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMessageTemplateAsync(AwsQconnectGetMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves next message on an Amazon Q in Connect session. See also: AWS API Documentation get-next-message uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -468,8 +424,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNextMessageAsync(AwsQconnectGetNextMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNextMessageAsync(AwsQconnectGetNextMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the quick response. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQuickResponseAsync(AwsQconnectGetQuickResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQuickResponseAsync(AwsQconnectGetQuickResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information for a specified session. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSessionAsync(AwsQconnectGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSessionAsync(AwsQconnectGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists AI Agents. See also: AWS API Documentation list-ai-agents uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of r...
@@ -498,8 +451,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiAgentsAsync(AwsQconnectListAiAgentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiAgentsAsync(AwsQconnectListAiAgentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List AI Agent versions. See also: AWS API Documentation list-ai-agent-versions uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agent-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the...
@@ -508,8 +460,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiAgentVersionsAsync(AwsQconnectListAiAgentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiAgentVersionsAsync(AwsQconnectListAiAgentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the AI Guardrails available on the Amazon Q in Connect assistant. See also: AWS API Documentation list-ai-guardrails is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiGuardrailSummaries
@@ -518,8 +469,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiGuardrailsAsync(AwsQconnectListAiGuardrailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiGuardrailsAsync(AwsQconnectListAiGuardrailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists AI Guardrail versions. See also: AWS API Documentation list-ai-guardrail-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: aiGuardrailVersionSummaries
@@ -528,8 +478,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiGuardrailVersionsAsync(AwsQconnectListAiGuardrailVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiGuardrailVersionsAsync(AwsQconnectListAiGuardrailVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the AI Prompts available on the Amazon Q in Connect assistant. See also: AWS API Documentation list-ai-prompts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiPromptSummaries
@@ -538,8 +487,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiPromptsAsync(AwsQconnectListAiPromptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiPromptsAsync(AwsQconnectListAiPromptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists AI Prompt versions. See also: AWS API Documentation list-ai-prompt-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: aiPromptVersionSummaries
@@ -548,8 +496,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiPromptVersionsAsync(AwsQconnectListAiPromptVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiPromptVersionsAsync(AwsQconnectListAiPromptVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about assistant associations. See also: AWS API Documentation list-assistant-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantAssociationSummaries
@@ -558,8 +505,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssistantAssociationsAsync(AwsQconnectListAssistantAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssistantAssociationsAsync(AwsQconnectListAssistantAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about assistants. See also: AWS API Documentation list-assistants is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assistantSummaries
@@ -568,8 +514,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssistantsAsync(AwsQconnectListAssistantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssistantsAsync(AwsQconnectListAssistantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide . See also: AWS API Documentation list-content-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
@@ -578,8 +523,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContentAssociationsAsync(AwsQconnectListContentAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContentAssociationsAsync(AwsQconnectListContentAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the content. See also: AWS API Documentation list-contents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: contentSummaries
@@ -588,8 +532,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContentsAsync(AwsQconnectListContentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContentsAsync(AwsQconnectListContentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about import jobs. See also: AWS API Documentation list-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: importJobSummaries
@@ -598,8 +541,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListImportJobsAsync(AwsQconnectListImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListImportJobsAsync(AwsQconnectListImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the knowledge bases. See also: AWS API Documentation list-knowledge-bases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: knowledgeBaseSummaries
@@ -608,8 +550,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListKnowledgeBasesAsync(AwsQconnectListKnowledgeBasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListKnowledgeBasesAsync(AwsQconnectListKnowledgeBasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists messages on an Amazon Q in Connect session. See also: AWS API Documentation list-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-messages is a paginated operation. Multiple API calls may be is- sued in order to retr...
@@ -618,8 +559,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMessagesAsync(AwsQconnectListMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMessagesAsync(AwsQconnectListMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the available Amazon Q in Connect message templates for the specified knowledge base. See also: AWS API Documentation list-message-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: me...
@@ -628,8 +568,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMessageTemplatesAsync(AwsQconnectListMessageTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMessageTemplatesAsync(AwsQconnectListMessageTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the available versions for the specified Amazon Q in Connect message template. See also: AWS API Documentation list-message-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
@@ -638,8 +577,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMessageTemplateVersionsAsync(AwsQconnectListMessageTemplateVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMessageTemplateVersionsAsync(AwsQconnectListMessageTemplateVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the models available to an Amazon Q in Connect assistant in the assistant's Amazon Web Services Region. The available models are deter- mined by the region of the specified assistant. See also: AWS API Documentation list-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --que...
@@ -648,8 +586,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelsAsync(AwsQconnectListModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelsAsync(AwsQconnectListModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about quick response. See also: AWS API Documentation list-quick-responses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: quickResponseSummaries
@@ -658,8 +595,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQuickResponsesAsync(AwsQconnectListQuickResponsesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQuickResponsesAsync(AwsQconnectListQuickResponsesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations. See also: AWS API Documentation list-spans uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support documen...
@@ -668,8 +604,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSpansAsync(AwsQconnectListSpansOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSpansAsync(AwsQconnectListSpansOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for the specified resource. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsQconnectListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsQconnectListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in con- junction with GetRecommendations and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> NotifyRecommendationsReceivedAsync(AwsQconnectNotifyRecommendationsReceivedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> NotifyRecommendationsReceivedAsync(AwsQconnectNotifyRecommendationsReceivedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides feedback against the specified assistant for the specified target. This API only supports generative targets. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutFeedbackAsync(AwsQconnectPutFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutFeedbackAsync(AwsQconnectPutFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveAssistantAiAgentAsync(AwsQconnectRemoveAssistantAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveAssistantAiAgentAsync(AwsQconnectRemoveAssistantAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a URI template from a knowledge base. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveKnowledgeBaseTemplateUriAsync(AwsQconnectRemoveKnowledgeBaseTemplateUriOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveKnowledgeBaseTemplateUriAsync(AwsQconnectRemoveKnowledgeBaseTemplateUriOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither pro- vided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the vari- able placeholder as it is and return the attribute keys that are miss- ing. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RenderMessageTemplateAsync(AwsQconnectRenderMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RenderMessageTemplateAsync(AwsQconnectRenderMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves content from knowledge sources based on a query. See also: AWS API Documentation retrieve uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types.
@@ -738,8 +667,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetrieveAsync(AwsQconnectRetrieveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetrieveAsync(AwsQconnectRetrieveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
@@ -748,8 +676,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchContentAsync(AwsQconnectSearchContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchContentAsync(AwsQconnectSearchContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for Amazon Q in Connect message templates in the specified knowledge base. See also: AWS API Documentation search-message-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: results
@@ -758,8 +685,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchMessageTemplatesAsync(AwsQconnectSearchMessageTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchMessageTemplatesAsync(AwsQconnectSearchMessageTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base. See also: AWS API Documentation search-quick-responses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: re...
@@ -768,8 +694,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchQuickResponsesAsync(AwsQconnectSearchQuickResponsesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchQuickResponsesAsync(AwsQconnectSearchQuickResponsesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for sessions. See also: AWS API Documentation search-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessionSummaries
@@ -778,8 +703,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchSessionsAsync(AwsQconnectSearchSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchSessionsAsync(AwsQconnectSearchSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a message to the Amazon Q in Connect session. See also: AWS API Documentation send-message uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -788,8 +712,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendMessageAsync(AwsQconnectSendMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendMessageAsync(AwsQconnectSendMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to final- ize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUS- TOM. See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartContentUploadAsync(AwsQconnectStartContentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartContentUploadAsync(AwsQconnectStartContentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data. o For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses . See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartImportJobAsync(AwsQconnectStartImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartImportJobAsync(AwsQconnectStartImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified tags to the specified resource. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsQconnectTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsQconnectTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the specified resource. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsQconnectUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsQconnectUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an AI Agent. See also: AWS API Documentation update-ai-agent uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -838,8 +757,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAiAgentAsync(AwsQconnectUpdateAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAiAgentAsync(AwsQconnectUpdateAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an AI Guardrail. See also: AWS API Documentation
@@ -848,8 +766,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAiGuardrailAsync(AwsQconnectUpdateAiGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAiGuardrailAsync(AwsQconnectUpdateAiGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an AI Prompt. See also: AWS API Documentation
@@ -858,8 +775,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAiPromptAsync(AwsQconnectUpdateAiPromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAiPromptAsync(AwsQconnectUpdateAiPromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant. See also: AWS API Documentation
@@ -868,8 +784,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssistantAiAgentAsync(AwsQconnectUpdateAssistantAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssistantAiAgentAsync(AwsQconnectUpdateAssistantAiAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates information about the content. See also: AWS API Documentation
@@ -878,8 +793,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContentAsync(AwsQconnectUpdateContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContentAsync(AwsQconnectUpdateContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q in Connect using in- gested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstance- Name.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view . See also: AWS API Documentation
@@ -888,8 +802,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateKnowledgeBaseTemplateUriAsync(AwsQconnectUpdateKnowledgeBaseTemplateUriOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateKnowledgeBaseTemplateUriAsync(AwsQconnectUpdateKnowledgeBaseTemplateUriOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the Amazon Q in Connect message template metadata. Note that any modification to the message templates name, description and group- ing configuration will applied to the message template pointed by the $LATEST qualifier and all available versions. Partial update is sup- ported. If any field is not supplied, it will remain unchanged for the message template. See also: AWS API Documentation
@@ -898,8 +811,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMessageTemplateMetadataAsync(AwsQconnectUpdateMessageTemplateMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMessageTemplateMetadataAsync(AwsQconnectUpdateMessageTemplateMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the $LATEST qualifier. Any modification will only apply to the message template that is referenced by the $LATEST qualifier. The fields for all available versions will remain unchanged. See also: AWS API Documentation
@@ -908,8 +820,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMessageTemplateAsync(AwsQconnectUpdateMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMessageTemplateAsync(AwsQconnectUpdateMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Amazon Q in Connect quick response. See also: AWS API Documentation
@@ -918,8 +829,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQuickResponseAsync(AwsQconnectUpdateQuickResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQuickResponseAsync(AwsQconnectUpdateQuickResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the data stored on an Amazon Q in Connect Session. See also: AWS API Documentation
@@ -928,8 +838,7 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSessionDataAsync(AwsQconnectUpdateSessionDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSessionDataAsync(AwsQconnectUpdateSessionDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a session. A session is a contextual container used for gener- ating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is en- abled. See also: AWS API Documentation
@@ -938,7 +847,6 @@ public interface IAwsQconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSessionAsync(AwsQconnectUpdateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSessionAsync(AwsQconnectUpdateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

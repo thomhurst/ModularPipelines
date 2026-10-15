@@ -28,8 +28,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateMemoryRecordsAsync(AwsBedrockAgentcoreBatchCreateMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreateMemoryRecordsAsync(AwsBedrockAgentcoreBatchCreateMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes multiple memory records in a single batch operation from the specified memory. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteMemoryRecordsAsync(AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteMemoryRecordsAsync(AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates multiple memory records with custom content in a single batch operation within the specified memory. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateMemoryRecordsAsync(AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateMemoryRecordsAsync(AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CompleteResourceTokenAuthAsync(AwsBedrockAgentcoreCompleteResourceTokenAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CompleteResourceTokenAuthAsync(AwsBedrockAgentcoreCompleteResourceTokenAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an A/B test for comparing agent configurations. A/B tests split traffic between a control variant and a treatment variant through a gateway, then evaluate performance using online evaluation configura- tions to determine which variant performs better. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAbTestAsync(AwsBedrockAgentcoreCreateAbTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAbTestAsync(AwsBedrockAgentcoreCreateAbTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an event in an AgentCore Memory resource. Events represent in- teractions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting. See also: AWS API Documentation create-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For com...
@@ -78,8 +73,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEventAsync(AwsBedrockAgentcoreCreateEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEventAsync(AwsBedrockAgentcoreCreateEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new payment instrument for a connector. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePaymentInstrumentAsync(AwsBedrockAgentcoreCreatePaymentInstrumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePaymentInstrumentAsync(AwsBedrockAgentcoreCreatePaymentInstrumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new payment session. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePaymentSessionAsync(AwsBedrockAgentcoreCreatePaymentSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePaymentSessionAsync(AwsBedrockAgentcoreCreatePaymentSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an A/B test and its associated gateway rules. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAbTestAsync(AwsBedrockAgentcoreDeleteAbTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAbTestAsync(AwsBedrockAgentcoreDeleteAbTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a batch evaluation and its associated results. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBatchEvaluationAsync(AwsBedrockAgentcoreDeleteBatchEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBatchEvaluationAsync(AwsBedrockAgentcoreDeleteBatchEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identi- fier and the session ID. After you delete a session, you cannot restart it. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCapacityProviderSessionAsync(AwsBedrockAgentcoreDeleteCapacityProviderSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCapacityProviderSessionAsync(AwsBedrockAgentcoreDeleteCapacityProviderSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEventAsync(AwsBedrockAgentcoreDeleteEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEventAsync(AwsBedrockAgentcoreDeleteEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemo- ryRecord permission. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMemoryRecordAsync(AwsBedrockAgentcoreDeleteMemoryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMemoryRecordAsync(AwsBedrockAgentcoreDeleteMemoryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a payment instrument. This is a soft delete operation that pre- serves the record for audit and compliance purposes. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePaymentInstrumentAsync(AwsBedrockAgentcoreDeletePaymentInstrumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePaymentInstrumentAsync(AwsBedrockAgentcoreDeletePaymentInstrumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a payment session. This permanently removes the payment session record. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePaymentSessionAsync(AwsBedrockAgentcoreDeletePaymentSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePaymentSessionAsync(AwsBedrockAgentcoreDeletePaymentSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a recommendation and its associated results. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecommendationAsync(AwsBedrockAgentcoreDeleteRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecommendationAsync(AwsBedrockAgentcoreDeleteRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Performs on-demand evaluation of agent traces using a specified evalua- tor. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations. See also: AWS API Documentation evaluate uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as...
@@ -188,8 +172,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EvaluateAsync(AwsBedrockAgentcoreEvaluateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EvaluateAsync(AwsBedrockAgentcoreEvaluateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about an A/B test, including its config- uration, status, and statistical results. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAbTestAsync(AwsBedrockAgentcoreGetAbTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAbTestAsync(AwsBedrockAgentcoreGetAbTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the A2A agent card associated with an AgentCore Runtime agent. See also: AWS API Documentation get-agent-card uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -208,8 +190,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentCardAsync(AwsBedrockAgentcoreGetAgentCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAgentCardAsync(AwsBedrockAgentcoreGetAgentCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a batch evaluation, including its status, configuration, results, and any error details. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBatchEvaluationAsync(AwsBedrockAgentcoreGetBatchEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBatchEvaluationAsync(AwsBedrockAgentcoreGetBatchEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific browser session in Ama- zon Bedrock AgentCore. This operation returns the session's configura- tion, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the ses- sion's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession : o StartBrowserSession o ListBr...
@@ -228,8 +208,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBrowserSessionAsync(AwsBedrockAgentcoreGetBrowserSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBrowserSessionAsync(AwsBedrockAgentcoreGetBrowserSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific code interpreter ses- sion in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code in- terpreter identifier and the session ID. The response includes informa- tion about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession : o StartCodeInterpreterSession o ListCodeIn...
@@ -238,8 +217,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCodeInterpreterSessionAsync(AwsBedrockAgentcoreGetCodeInterpreterSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCodeInterpreterSessionAsync(AwsBedrockAgentcoreGetCodeInterpreterSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific event in an AgentCore Memory re- source. To use this operation, you must have the bedrock-agentcore:GetEvent permission. See also: AWS API Documentation get-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support d...
@@ -248,8 +226,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEventAsync(AwsBedrockAgentcoreGetEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEventAsync(AwsBedrockAgentcoreGetEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemo- ryRecord permission. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMemoryRecordAsync(AwsBedrockAgentcoreGetMemoryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMemoryRecordAsync(AwsBedrockAgentcoreGetMemoryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the balance of a payment instrument. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPaymentInstrumentBalanceAsync(AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPaymentInstrumentBalanceAsync(AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a payment instrument by ID. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPaymentInstrumentAsync(AwsBedrockAgentcoreGetPaymentInstrumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPaymentInstrumentAsync(AwsBedrockAgentcoreGetPaymentInstrumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a payment session. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPaymentSessionAsync(AwsBedrockAgentcoreGetPaymentSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPaymentSessionAsync(AwsBedrockAgentcoreGetPaymentSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a recommendation, including its configuration, status, and results. See also: AWS API Documentation get-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -298,8 +271,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommendationAsync(AwsBedrockAgentcoreGetRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommendationAsync(AwsBedrockAgentcoreGetRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the API key associated with an API key credential provider. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceApiKeyAsync(AwsBedrockAgentcoreGetResourceApiKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceApiKeyAsync(AwsBedrockAgentcoreGetResourceApiKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the OAuth 2.0 token of the provided resource. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceOauth2TokenAsync(AwsBedrockAgentcoreGetResourceOauth2TokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceOauth2TokenAsync(AwsBedrockAgentcoreGetResourceOauth2TokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates authentication tokens for payment providers that use ven- dor-specific authentication mechanisms. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePaymentTokenAsync(AwsBedrockAgentcoreGetResourcePaymentTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePaymentTokenAsync(AwsBedrockAgentcoreGetResourcePaymentTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkloadAccessTokenForJwtAsync(AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkloadAccessTokenForJwtAsync(AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkloadAccessTokenForUserIdAsync(AwsBedrockAgentcoreGetWorkloadAccessTokenForUserIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkloadAccessTokenForUserIdAsync(AwsBedrockAgentcoreGetWorkloadAccessTokenForUserIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Obtains a workload access token for agentic workloads not acting on be- half of a user. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkloadAccessTokenAsync(AwsBedrockAgentcoreGetWorkloadAccessTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkloadAccessTokenAsync(AwsBedrockAgentcoreGetWorkloadAccessTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits content directly for ingestion to generate long-term memory records in a AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:IngestData permission. See also: AWS API Documentation ingest-data uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Sho...
@@ -368,8 +334,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> IngestDataAsync(AwsBedrockAgentcoreIngestDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> IngestDataAsync(AwsBedrockAgentcoreIngestDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a request to an agent or tool hosted in an Amazon Bedrock Agent- Core Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a quali- fier to target a specific endpoint of the agent. This operation supports streaming responses, a...
@@ -378,8 +343,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeAgentRuntimeAsync(AwsBedrockAgentcoreInvokeAgentRuntimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeAgentRuntimeAsync(AwsBedrockAgentcoreInvokeAgentRuntimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Invokes an operating system-level action on a browser session in Amazon Bedrock AgentCore. This operation provides direct OS-level control over browser sessions, enabling mouse actions, keyboard input, and screen- shots that the WebSocket-based Chrome DevTools Protocol (CDP) cannot handle such as interacting with print dialogs, context menus, and JavaScript alerts. You send a request with exactly one action in the BrowserAction union, and receive a corresponding result in the BrowserActionResult...
@@ -388,8 +352,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeBrowserAsync(AwsBedrockAgentcoreInvokeBrowserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeBrowserAsync(AwsBedrockAgentcoreInvokeBrowserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all A/B tests in the account. See also: AWS API Documentation list-ab-tests is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: abTests
@@ -398,8 +361,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAbTestsAsync(AwsBedrockAgentcoreListAbTestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAbTestsAsync(AwsBedrockAgentcoreListAbTestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and success- fully. To use this operation, you must have the bedrock-agentcore:ListActors permission. See also: AWS API Documentation list-actors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argume...
@@ -408,8 +370,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListActorsAsync(AwsBedrockAgentcoreListActorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListActorsAsync(AwsBedrockAgentcoreListActorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all batch evaluations in the account, providing summary informa- tion about each evaluation's status and configuration. See also: AWS API Documentation list-batch-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
@@ -418,8 +379,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBatchEvaluationsAsync(AwsBedrockAgentcoreListBatchEvaluationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBatchEvaluationsAsync(AwsBedrockAgentcoreListBatchEvaluationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary informa- tion about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets effi- ciently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The fol...
@@ -428,8 +388,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBrowserSessionsAsync(AwsBedrockAgentcoreListBrowserSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBrowserSessionsAsync(AwsBedrockAgentcoreListBrowserSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of code interpreter sessions in Amazon Bedrock Agent- Core that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of s...
@@ -438,8 +397,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCodeInterpreterSessionsAsync(AwsBedrockAgentcoreListCodeInterpreterSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCodeInterpreterSessionsAsync(AwsBedrockAgentcoreListCodeInterpreterSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists events in an AgentCore Memory resource based on specified crite- ria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission. See also: AWS API Documentation list-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are...
@@ -448,8 +406,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEventsAsync(AwsBedrockAgentcoreListEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEventsAsync(AwsBedrockAgentcoreListEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all long-term memory extraction jobs that are eligible to be started with optional filtering. To use this operation, you must have the bedrock-agentcore:ListMemo- ryExtractionJobs permission. See also: AWS API Documentation list-memory-extraction-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pag...
@@ -458,8 +415,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMemoryExtractionJobsAsync(AwsBedrockAgentcoreListMemoryExtractionJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMemoryExtractionJobsAsync(AwsBedrockAgentcoreListMemoryExtractionJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemo- ryRecords permission. See also: AWS API Documentation list-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Wh...
@@ -468,8 +424,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMemoryRecordsAsync(AwsBedrockAgentcoreListMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMemoryRecordsAsync(AwsBedrockAgentcoreListMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List payment instruments for a manager. See also: AWS API Documentation list-payment-instruments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: paymentInstruments
@@ -478,8 +433,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPaymentInstrumentsAsync(AwsBedrockAgentcoreListPaymentInstrumentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPaymentInstrumentsAsync(AwsBedrockAgentcoreListPaymentInstrumentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List payment sessions. See also: AWS API Documentation list-payment-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: paymentSessions
@@ -488,8 +442,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPaymentSessionsAsync(AwsBedrockAgentcoreListPaymentSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPaymentSessionsAsync(AwsBedrockAgentcoreListPaymentSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all recommendations in the account, with optional filtering by status. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recommendationSummaries
@@ -498,8 +451,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationsAsync(AwsBedrockAgentcoreListRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationsAsync(AwsBedrockAgentcoreListRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists sessions in an AgentCore Memory resource based on specified cri- teria. We recommend using pagination to ensure that the operation re- turns quickly and successfully. Empty sessions are automatically deleted after one day. To use this operation, you must have the bedrock-agentcore:ListSessions permission. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able paginatio...
@@ -508,8 +460,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSessionsAsync(AwsBedrockAgentcoreListSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSessionsAsync(AwsBedrockAgentcoreListSessionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Processes a payment using a payment instrument within a payment ses- sion. See also: AWS API Documentation process-payment uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -518,8 +469,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProcessPaymentAsync(AwsBedrockAgentcoreProcessPaymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ProcessPaymentAsync(AwsBedrockAgentcoreProcessPaymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for and retrieves memory records from an AgentCore Memory re- source based on specified search criteria. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMem- oryRecords permission. See also: AWS API Documentation retrieve-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination b...
@@ -528,8 +478,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetrieveMemoryRecordsAsync(AwsBedrockAgentcoreRetrieveMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetrieveMemoryRecordsAsync(AwsBedrockAgentcoreRetrieveMemoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identi- fier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession oper...
@@ -538,8 +487,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SaveBrowserSessionProfileAsync(AwsBedrockAgentcoreSaveBrowserSessionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SaveBrowserSessionProfileAsync(AwsBedrockAgentcoreSaveBrowserSessionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry. See also: AWS API Documentation search-registry-records uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syn...
@@ -548,8 +496,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchRegistryRecordsAsync(AwsBedrockAgentcoreSearchRegistryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchRegistryRecordsAsync(AwsBedrockAgentcoreSearchRegistryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a batch evaluation job that evaluates agent performance across multiple sessions. Batch evaluations pull agent traces from CloudWatch Logs or an existing online evaluation configuration and run specified evaluators and insights against them. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBatchEvaluationAsync(AwsBedrockAgentcoreStartBatchEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartBatchEvaluationAsync(AwsBedrockAgentcoreStartBatchEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSes...
@@ -568,8 +514,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBrowserSessionAsync(AwsBedrockAgentcoreStartBrowserSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartBrowserSessionAsync(AwsBedrockAgentcoreStartBrowserSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and initializes a code interpreter session in Amazon Bedrock AgentCore. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks. To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the StopCodeInterpreterSession operation. The following operations are relat...
@@ -578,8 +523,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCodeInterpreterSessionAsync(AwsBedrockAgentcoreStartCodeInterpreterSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCodeInterpreterSessionAsync(AwsBedrockAgentcoreStartCodeInterpreterSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a memory extraction job that processes events that failed ex- traction previously in an AgentCore Memory resource and produces struc- tured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well. To use this operation, you must have the bedrock-agentcore:StartMemo- ryExtractionJob permission. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMemoryExtractionJobAsync(AwsBedrockAgentcoreStartMemoryExtractionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMemoryExtractionJobAsync(AwsBedrockAgentcoreStartMemoryExtractionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a recommendation job that analyzes agent traces and generates optimization suggestions for system prompts or tool descriptions to im- prove agent performance. See also: AWS API Documentation start-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax...
@@ -598,8 +541,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRecommendationAsync(AwsBedrockAgentcoreStartRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRecommendationAsync(AwsBedrockAgentcoreStartRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a running batch evaluation. Sessions that have already been eval- uated retain their results. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopBatchEvaluationAsync(AwsBedrockAgentcoreStopBatchEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopBatchEvaluationAsync(AwsBedrockAgentcoreStopBatchEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates an active browser session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession . The following operations are related to StopBrowserSession : o StartBrowserSession o GetBrowserSession See also: AWS API Do...
@@ -618,8 +559,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopBrowserSessionAsync(AwsBedrockAgentcoreStopBrowserSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopBrowserSessionAsync(AwsBedrockAgentcoreStopBrowserSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates an active code interpreter session in Amazon Bedrock Agent- Core. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code in- terpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInter- preterSession . The following operations are related to StopCodeInterpreterSession : o StartCodeIn...
@@ -628,8 +568,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopCodeInterpreterSessionAsync(AwsBedrockAgentcoreStopCodeInterpreterSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopCodeInterpreterSessionAsync(AwsBedrockAgentcoreStopCodeInterpreterSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a session that is running in an running AgentCore Runtime agent. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRuntimeSessionAsync(AwsBedrockAgentcoreStopRuntimeSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopRuntimeSessionAsync(AwsBedrockAgentcoreStopRuntimeSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an A/B test's configuration, including variants, traffic allo- cation, evaluation settings, or execution status. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAbTestAsync(AwsBedrockAgentcoreUpdateAbTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAbTestAsync(AwsBedrockAgentcoreUpdateAbTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a browser stream. To use this operation, you must have permis- sions to perform the bedrock:UpdateBrowserStream action. See also: AWS API Documentation
@@ -658,7 +595,6 @@ public interface IAwsBedrockAgentcore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBrowserStreamAsync(AwsBedrockAgentcoreUpdateBrowserStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBrowserStreamAsync(AwsBedrockAgentcoreUpdateBrowserStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

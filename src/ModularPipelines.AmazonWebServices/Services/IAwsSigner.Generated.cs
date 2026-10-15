@@ -24,7 +24,7 @@ public interface IAwsSigner
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsSignerWait Wait => throw new System.NotSupportedException();
+    AwsSignerWait Wait { get; }
 
     /// <summary>
     /// Adds cross-account permissions to a signing profile. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddProfilePermissionAsync(AwsSignerAddProfilePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddProfilePermissionAsync(AwsSignerAddProfilePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the state of an ACTIVE signing profile to CANCELED . A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more infor- mation on scheduled deletion of a canceled signing profile. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelSigningProfileAsync(AwsSignerCancelSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelSigningProfileAsync(AwsSignerCancelSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific code signing job. You specify the job by using the jobId value that is returned by the StartSigningJob operation. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSigningJobAsync(AwsSignerDescribeSigningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSigningJobAsync(AwsSignerDescribeSigningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the revocation status of one or more of the signing profile, signing job, and signing certificate. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRevocationStatusAsync(AwsSignerGetRevocationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRevocationStatusAsync(AwsSignerGetRevocationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information on a specific signing platform. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSigningPlatformAsync(AwsSignerGetSigningPlatformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSigningPlatformAsync(AwsSignerGetSigningPlatformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information on a specific signing profile. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSigningProfileAsync(AwsSignerGetSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSigningProfileAsync(AwsSignerGetSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the cross-account permissions associated with a signing profile. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfilePermissionsAsync(AwsSignerListProfilePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfilePermissionsAsync(AwsSignerListProfilePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been re- turned. See also...
@@ -103,8 +96,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSigningJobsAsync(AwsSignerListSigningJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSigningJobsAsync(AwsSignerListSigningJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all signing platforms available in AWS Signer that match the re- quest parameters. If additional jobs remain to be listed, Signer re- turns a nextToken value. Use this value in subsequent calls to List- SigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been returned. See also: AWS API Documentation list-signing-platforms is ...
@@ -113,8 +105,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSigningPlatformsAsync(AwsSignerListSigningPlatformsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSigningPlatformsAsync(AwsSignerListSigningPlatformsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all available signing profiles in your AWS account. Returns only profiles with an ACTIVE status unless the includeCanceled request field is set to true . If additional jobs remain to be listed, AWS Signer re- turns a nextToken value. Use this value in subsequent calls to List- SigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs hav...
@@ -123,8 +114,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSigningProfilesAsync(AwsSignerListSigningProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSigningProfilesAsync(AwsSignerListSigningProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the tags associated with a signing profile resource. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsSignerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsSignerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a signing profile. A signing profile is a code-signing template that can be used to carry out a pre-defined signing job. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSigningProfileAsync(AwsSignerPutSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSigningProfileAsync(AwsSignerPutSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes cross-account permissions from a signing profile. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveProfilePermissionAsync(AwsSignerRemoveProfilePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveProfilePermissionAsync(AwsSignerRemoveProfilePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the state of a signing job to REVOKED . This indicates that the signature is no longer valid. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeSignatureAsync(AwsSignerRevokeSignatureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeSignatureAsync(AwsSignerRevokeSignatureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the state of a signing profile to REVOKED . This indicates that signatures generated using the signing profile after an effective start date are no longer valid. A revoked profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a re- voked signing profile. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeSigningProfileAsync(AwsSignerRevokeSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeSigningProfileAsync(AwsSignerRevokeSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Signs a binary payload and returns a signature envelope. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SignPayloadAsync(AwsSignerSignPayloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SignPayloadAsync(AwsSignerSignPayloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation. Note the following requirements: o You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the Amazon S3 Getting Started Guide . o Your S3 source bucket must be version enabled. o You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to write your signed code. o You specify the name of the source and destinatio...
@@ -193,8 +177,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSigningJobAsync(AwsSignerStartSigningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSigningJobAsync(AwsSignerStartSigningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more tags to a signing profile. Tags are labels that you can use to identify and organize your AWS resources. Each tag consists of a key and an optional value. To specify the signing profile, use its Amazon Resource Name (ARN). To specify the tag, use a key-value pair. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsSignerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsSignerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from a signing profile. To remove the tags, specify a list of tag keys. See also: AWS API Documentation
@@ -213,7 +195,6 @@ public interface IAwsSigner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsSignerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsSignerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

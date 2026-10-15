@@ -28,8 +28,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApplyArchiveRuleAsync(AwsAccessanalyzerApplyArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApplyArchiveRuleAsync(AwsAccessanalyzerApplyArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the requested policy generation. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelPolicyGenerationAsync(AwsAccessanalyzerCancelPolicyGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelPolicyGenerationAsync(AwsAccessanalyzerCancelPolicyGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether the specified access isn't allowed by a policy. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckAccessNotGrantedAsync(AwsAccessanalyzerCheckAccessNotGrantedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckAccessNotGrantedAsync(AwsAccessanalyzerCheckAccessNotGrantedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether new access is allowed for an updated policy when com- pared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference poli- cies in this repository are meant to be passed to the existingPolicy- Document request parameter. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckNoNewAccessAsync(AwsAccessanalyzerCheckNoNewAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckNoNewAccessAsync(AwsAccessanalyzerCheckNoNewAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether a resource policy can grant public access to the speci- fied resource type. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckNoPublicAccessAsync(AwsAccessanalyzerCheckNoPublicAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckNoPublicAccessAsync(AwsAccessanalyzerCheckNoPublicAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an access preview that allows you to preview IAM Access Ana- lyzer findings for your resource before deploying resource permissions. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessPreviewAsync(AwsAccessanalyzerCreateAccessPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessPreviewAsync(AwsAccessanalyzerCreateAccessPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an analyzer for your account. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAnalyzerAsync(AwsAccessanalyzerCreateAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAnalyzerAsync(AwsAccessanalyzerCreateAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an archive rule for the specified analyzer. Archive rules auto- matically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateArchiveRuleAsync(AwsAccessanalyzerCreateArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateArchiveRuleAsync(AwsAccessanalyzerCreateArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a service-linked analyzer managed by an Amazon Web Services service. This operation can only be invoked by authorized Amazon Web Services services. Direct customer invocation returns AccessDeniedEx- ception . Service-linked analyzers enable Amazon Web Services services to create and manage analyzers on behalf of customers. The lifecycle of these an- alyzers is managed by the calling service. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateServiceLinkedAnalyzerAsync(AwsAccessanalyzerCreateServiceLinkedAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateServiceLinkedAnalyzerAsync(AwsAccessanalyzerCreateServiceLinkedAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAnalyzerAsync(AwsAccessanalyzerDeleteAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAnalyzerAsync(AwsAccessanalyzerDeleteAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified archive rule. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteArchiveRuleAsync(AwsAccessanalyzerDeleteArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteArchiveRuleAsync(AwsAccessanalyzerDeleteArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a service-linked analyzer. This operation can be invoked by both authorized Amazon Web Services services and customers. When invoked by a customer, IAM Access Analyzer performs a callback to the managing service to verify whether the analyzer is still in use and can be deleted. If the service indicates the analyzer is still in use, the deletion is rejected with ConflictException . See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceLinkedAnalyzerAsync(AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceLinkedAnalyzerAsync(AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a recommendation for an unused permissions finding. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateFindingRecommendationAsync(AwsAccessanalyzerGenerateFindingRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateFindingRecommendationAsync(AwsAccessanalyzerGenerateFindingRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an access preview for the specified ana- lyzer. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPreviewAsync(AwsAccessanalyzerGetAccessPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPreviewAsync(AwsAccessanalyzerGetAccessPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a resource that was analyzed. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAnalyzedResourceAsync(AwsAccessanalyzerGetAnalyzedResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAnalyzedResourceAsync(AwsAccessanalyzerGetAnalyzedResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified analyzer. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAnalyzerAsync(AwsAccessanalyzerGetAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAnalyzerAsync(AwsAccessanalyzerGetAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an archive rule. To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetArchiveRuleAsync(AwsAccessanalyzerGetArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetArchiveRuleAsync(AwsAccessanalyzerGetArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the ac- cess-analyzer:GetFinding action. NOTE: GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingAsync(AwsAccessanalyzerGetFindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFindingAsync(AwsAccessanalyzerGetFindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a finding recommendation for the specified analyzer. See also: AWS API Documentation get-finding-recommendation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: recommended...
@@ -208,8 +190,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingRecommendationAsync(AwsAccessanalyzerGetFindingRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFindingRecommendationAsync(AwsAccessanalyzerGetFindingRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of aggregated finding statistics for an external ac- cess or unused access analyzer. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingsStatisticsAsync(AwsAccessanalyzerGetFindingsStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFindingsStatisticsAsync(AwsAccessanalyzerGetFindingsStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the ac- cess-analyzer:GetFinding action. See also: AWS API Documentation get-finding-v2 is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text an...
@@ -228,8 +208,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingV2Async(AwsAccessanalyzerGetFindingV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFindingV2Async(AwsAccessanalyzerGetFindingV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the policy that was generated using StartPolicyGeneration . See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGeneratedPolicyAsync(AwsAccessanalyzerGetGeneratedPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGeneratedPolicyAsync(AwsAccessanalyzerGetGeneratedPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of access preview findings generated by the specified access preview. See also: AWS API Documentation list-access-preview-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: f...
@@ -248,8 +226,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessPreviewFindingsAsync(AwsAccessanalyzerListAccessPreviewFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessPreviewFindingsAsync(AwsAccessanalyzerListAccessPreviewFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of access previews for the specified analyzer. See also: AWS API Documentation list-access-previews is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: accessPreviews
@@ -258,8 +235,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessPreviewsAsync(AwsAccessanalyzerListAccessPreviewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessPreviewsAsync(AwsAccessanalyzerListAccessPreviewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of resources of the specified type that have been ana- lyzed by the specified analyzer. See also: AWS API Documentation list-analyzed-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query exp...
@@ -268,8 +244,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnalyzedResourcesAsync(AwsAccessanalyzerListAnalyzedResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnalyzedResourcesAsync(AwsAccessanalyzerListAnalyzedResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of analyzers. See also: AWS API Documentation list-analyzers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: analyzers
@@ -278,8 +253,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnalyzersAsync(AwsAccessanalyzerListAnalyzersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnalyzersAsync(AwsAccessanalyzerListAnalyzersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of archive rules created for the specified analyzer. See also: AWS API Documentation list-archive-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: archiveRules
@@ -288,8 +262,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListArchiveRulesAsync(AwsAccessanalyzerListArchiveRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListArchiveRulesAsync(AwsAccessanalyzerListArchiveRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permis- sion to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of find- ings, see IAM Access Analyzer filter keys in the IAM User Guide . NOTE: ListFindings is supported only for external access analyzers. You must use ListFindingsV2 f...
@@ -298,8 +271,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFindingsAsync(AwsAccessanalyzerListFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFindingsAsync(AwsAccessanalyzerListFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permis- sion to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of find- ings, see IAM Access Analyzer filter keys in the IAM User Guide . See also: AWS API Documentation list-findings-v2 is a paginated operation. Multiple API calls may...
@@ -308,8 +280,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFindingsV2Async(AwsAccessanalyzerListFindingsV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFindingsV2Async(AwsAccessanalyzerListFindingsV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the policy generations requested in the last seven days. See also: AWS API Documentation list-policy-generations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: policyGenerations
@@ -318,8 +289,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicyGenerationsAsync(AwsAccessanalyzerListPolicyGenerationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPolicyGenerationsAsync(AwsAccessanalyzerListPolicyGenerationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of tags applied to the specified resource. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsAccessanalyzerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsAccessanalyzerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the policy generation request. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPolicyGenerationAsync(AwsAccessanalyzerStartPolicyGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPolicyGenerationAsync(AwsAccessanalyzerStartPolicyGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Immediately starts a scan of the policies applied to the specified re- source. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartResourceScanAsync(AwsAccessanalyzerStartResourceScanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartResourceScanAsync(AwsAccessanalyzerStartResourceScanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a tag to the specified resource. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsAccessanalyzerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsAccessanalyzerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from the specified resource. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsAccessanalyzerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsAccessanalyzerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the configuration of an existing analyzer. NOTE: This action is not supported for external access analyzers. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAnalyzerAsync(AwsAccessanalyzerUpdateAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAnalyzerAsync(AwsAccessanalyzerUpdateAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the criteria and values for the specified archive rule. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateArchiveRuleAsync(AwsAccessanalyzerUpdateArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateArchiveRuleAsync(AwsAccessanalyzerUpdateArchiveRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status for the specified findings. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFindingsAsync(AwsAccessanalyzerUpdateFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFindingsAsync(AwsAccessanalyzerUpdateFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommenda- tions to resolve the issue and enable you to author functional policies that meet security best practices. See also: AWS API Documentation validate-policy is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output ...
@@ -408,7 +370,6 @@ public interface IAwsAccessanalyzer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidatePolicyAsync(AwsAccessanalyzerValidatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidatePolicyAsync(AwsAccessanalyzerValidatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

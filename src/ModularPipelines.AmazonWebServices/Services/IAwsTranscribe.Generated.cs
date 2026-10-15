@@ -24,7 +24,7 @@ public interface IAwsTranscribe
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsTranscribeWait Wait => throw new System.NotSupportedException();
+    AwsTranscribeWait Wait { get; }
 
     /// <summary>
     /// Creates a new Call Analytics category. All categories are automatically applied to your Call Analytics tran- scriptions. Note that in order to apply categories to your transcrip- tions, you must create them before submitting your transcription re- quest, as categories cannot be applied retroactively. When creating a new category, you can use the InputType parameter to label the category as a POST_CALL or a REAL_TIME category. POST_CALL categories can only be applied to post-call transcriptions a...
@@ -33,8 +33,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCallAnalyticsCategoryAsync(AwsTranscribeCreateCallAnalyticsCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCallAnalyticsCategoryAsync(AwsTranscribeCreateCallAnalyticsCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom language model. When creating a new custom language model, you must specify: o If you want a Wideband (audio sample rates over 16,000 Hz) or Narrow- band (audio sample rates under 16,000 Hz) base model o The location of your training and tuning files (this must be an Ama- zon S3 URI) o The language of your model o A unique name for your model See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLanguageModelAsync(AwsTranscribeCreateLanguageModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLanguageModelAsync(AwsTranscribeCreateLanguageModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom medical vocabulary. Before creating a new custom medical vocabulary, you must first upload a text file that contains your vocabulary table into an Amazon S3 bucket. Note that this differs from , where you can include a list of terms within your request using the Phrases flag; CreateMedicalVocabu- lary does not support the Phrases flag and only accepts vocabularies in table format. Each language has a character set that contains all allowed characters for that specific langua...
@@ -53,8 +51,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMedicalVocabularyAsync(AwsTranscribeCreateMedicalVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMedicalVocabularyAsync(AwsTranscribeCreateMedicalVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom vocabulary filter. You can use custom vocabulary filters to mask, delete, or flag specific words from your transcript. Custom vocabulary filters are commonly used to mask profanity in transcripts. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. For more in...
@@ -63,8 +60,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVocabularyFilterAsync(AwsTranscribeCreateVocabularyFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVocabularyFilterAsync(AwsTranscribeCreateVocabularyFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom vocabulary. When creating a new custom vocabulary, you can either upload a text file that contains your new entries, phrases, and terms into an Amazon S3 bucket and include the URI in your request. Or you can include a list of terms directly in your request using the Phrases flag. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to Character Sets f...
@@ -73,8 +69,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVocabularyAsync(AwsTranscribeCreateVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVocabularyAsync(AwsTranscribeCreateVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Call Analytics category. To use this operation, specify the name of the category you want to delete using CategoryName . Category names are case sensitive. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCallAnalyticsCategoryAsync(AwsTranscribeDeleteCallAnalyticsCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCallAnalyticsCategoryAsync(AwsTranscribeDeleteCallAnalyticsCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Call Analytics job. To use this operation, specify the name of the job you want to delete using CallAnalyticsJobName . Job names are case sensitive. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCallAnalyticsJobAsync(AwsTranscribeDeleteCallAnalyticsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCallAnalyticsJobAsync(AwsTranscribeDeleteCallAnalyticsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom language model. To use this operation, specify the name of the language model you want to delete using ModelName . custom language model names are case sensitive. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLanguageModelAsync(AwsTranscribeDeleteLanguageModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLanguageModelAsync(AwsTranscribeDeleteLanguageModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Medical Scribe job. To use this operation, specify the name of the job you want to delete using MedicalScribeJobName . Job names are case sensitive. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMedicalScribeJobAsync(AwsTranscribeDeleteMedicalScribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMedicalScribeJobAsync(AwsTranscribeDeleteMedicalScribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a medical transcription job. To use this operation, specify the name of the job you want to delete using MedicalTranscriptionJobName . Job names are case sensitive. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMedicalTranscriptionJobAsync(AwsTranscribeDeleteMedicalTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMedicalTranscriptionJobAsync(AwsTranscribeDeleteMedicalTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom medical vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName . Custom vocabulary names are case sensitive. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMedicalVocabularyAsync(AwsTranscribeDeleteMedicalVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMedicalVocabularyAsync(AwsTranscribeDeleteMedicalVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a transcription job. To use this operation, specify the name of the job you want to delete using TranscriptionJobName . Job names are case sensitive. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTranscriptionJobAsync(AwsTranscribeDeleteTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTranscriptionJobAsync(AwsTranscribeDeleteTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom vocabulary filter. To use this operation, specify the name of the custom vocabulary filter you want to delete using Vocabu- laryFilterName . Custom vocabulary filter names are case sensitive. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVocabularyFilterAsync(AwsTranscribeDeleteVocabularyFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVocabularyFilterAsync(AwsTranscribeDeleteVocabularyFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName . Custom vocabulary names are case sensitive. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVocabularyAsync(AwsTranscribeDeleteVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVocabularyAsync(AwsTranscribeDeleteVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified custom language model. This operation also shows if the base language model that you used to create your custom language model has been updated. If Amazon Tran- scribe has updated the base model, you can create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use DescribeLanguageModel to help identify the reason for this failure. See also: AWS API Docume...
@@ -173,8 +159,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLanguageModelAsync(AwsTranscribeDescribeLanguageModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLanguageModelAsync(AwsTranscribeDescribeLanguageModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified Call Analytics category. To get a list of your Call Analytics categories, use the operation. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCallAnalyticsCategoryAsync(AwsTranscribeGetCallAnalyticsCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCallAnalyticsCategoryAsync(AwsTranscribeGetCallAnalyticsCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus . If the sta- tus is COMPLETED , the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri . If the status is FAILED , FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTran- script...
@@ -193,8 +177,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCallAnalyticsJobAsync(AwsTranscribeGetCallAnalyticsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCallAnalyticsJobAsync(AwsTranscribeGetCallAnalyticsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED , the job is finished. You can find the results at the location specified in Med- icalScribeOutput . If the status is FAILED , FailureReason provides de- tails on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMedicalScribeJobAsync(AwsTranscribeGetMedicalScribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMedicalScribeJobAsync(AwsTranscribeGetMedicalScribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified medical transcription job. To view the status of the specified medical transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED , the job is finished. You can find the results at the location specified in TranscriptFileUri . If the status is FAILED , FailureReason provides details on why your transcription job failed. To get a list of your medical transcription jobs, use the operation. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMedicalTranscriptionJobAsync(AwsTranscribeGetMedicalTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMedicalTranscriptionJobAsync(AwsTranscribeGetMedicalTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified custom medical vocabulary. To view the status of the specified custom medical vocabulary, check the VocabularyState field. If the status is READY , your custom vocabu- lary is available to use. If the status is FAILED , FailureReason pro- vides details on why your vocabulary failed. To get a list of your custom medical vocabularies, use the operation. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMedicalVocabularyAsync(AwsTranscribeGetMedicalVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMedicalVocabularyAsync(AwsTranscribeGetMedicalVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified transcription job. To view the status of the specified transcription job, check the Tran- scriptionJobStatus field. If the status is COMPLETED , the job is fin- ished. You can find the results at the location specified in Tran- scriptFileUri . If the status is FAILED , FailureReason provides de- tails on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscript...
@@ -233,8 +213,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTranscriptionJobAsync(AwsTranscribeGetTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTranscriptionJobAsync(AwsTranscribeGetTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified custom vocabulary filter. To get a list of your custom vocabulary filters, use the operation. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVocabularyFilterAsync(AwsTranscribeGetVocabularyFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVocabularyFilterAsync(AwsTranscribeGetVocabularyFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the specified custom vocabulary. To view the status of the specified custom vocabulary, check the Vocab- ularyState field. If the status is READY , your custom vocabulary is available to use. If the status is FAILED , FailureReason provides de- tails on why your custom vocabulary failed. To get a list of your custom vocabularies, use the operation. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVocabularyAsync(AwsTranscribeGetVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVocabularyAsync(AwsTranscribeGetVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of Call Analytics categories, including all rules that make up each category. To get detailed information about a specific Call Analytics category, use the operation. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCallAnalyticsCategoriesAsync(AwsTranscribeListCallAnalyticsCategoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCallAnalyticsCategoriesAsync(AwsTranscribeListCallAnalyticsCategoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of Call Analytics jobs that match the specified crite- ria. If no criteria are specified, all Call Analytics jobs are re- turned. To get detailed information about a specific Call Analytics job, use the operation. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCallAnalyticsJobsAsync(AwsTranscribeListCallAnalyticsJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCallAnalyticsJobsAsync(AwsTranscribeListCallAnalyticsJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of custom language models that match the specified cri- teria. If no criteria are specified, all custom language models are re- turned. To get detailed information about a specific custom language model, use the operation. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLanguageModelsAsync(AwsTranscribeListLanguageModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLanguageModelsAsync(AwsTranscribeListLanguageModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of Medical Scribe jobs that match the specified crite- ria. If no criteria are specified, all Medical Scribe jobs are re- turned. To get detailed information about a specific Medical Scribe job, use the operation. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMedicalScribeJobsAsync(AwsTranscribeListMedicalScribeJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMedicalScribeJobsAsync(AwsTranscribeListMedicalScribeJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the operation. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMedicalTranscriptionJobsAsync(AwsTranscribeListMedicalTranscriptionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMedicalTranscriptionJobsAsync(AwsTranscribeListMedicalTranscriptionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of custom medical vocabularies that match the specified criteria. If no criteria are specified, all custom medical vocabularies are returned. To get detailed information about a specific custom medical vocabulary, use the operation. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMedicalVocabulariesAsync(AwsTranscribeListMedicalVocabulariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMedicalVocabulariesAsync(AwsTranscribeListMedicalVocabulariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all tags associated with the specified transcription job, vocabu- lary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsTranscribeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsTranscribeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of transcription jobs that match the specified crite- ria. If no criteria are specified, all transcription jobs are returned. To get detailed information about a specific transcription job, use the operation. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTranscriptionJobsAsync(AwsTranscribeListTranscriptionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTranscriptionJobsAsync(AwsTranscribeListTranscriptionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of custom vocabularies that match the specified crite- ria. If no criteria are specified, all custom vocabularies are re- turned. To get detailed information about a specific custom vocabulary, use the operation. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVocabulariesAsync(AwsTranscribeListVocabulariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVocabulariesAsync(AwsTranscribeListVocabulariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of custom vocabulary filters that match the specified criteria. If no criteria are specified, all custom vocabularies are re- turned. To get detailed information about a specific custom vocabulary filter, use the operation. See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVocabularyFiltersAsync(AwsTranscribeListVocabularyFiltersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVocabularyFiltersAsync(AwsTranscribeListVocabularyFiltersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Transcribes the audio from a customer service call and applies any ad- ditional Request Parameters you choose to include in your request. In addition to many standard transcription features, Call Analytics provides you with call characteristics, call summarization, speaker sentiment, and optional redaction of your text transcript and your au- dio file. You can also apply custom categories to flag specified condi- tions. To learn more about these features and insights, refer to Analyzing call cen...
@@ -363,8 +330,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCallAnalyticsJobAsync(AwsTranscribeStartCallAnalyticsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCallAnalyticsJobAsync(AwsTranscribeStartCallAnalyticsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Transcribes patient-clinician conversations and generates clinical notes. Amazon Web Services HealthScribe automatically provides rich conversa- tion transcripts, identifies speaker roles, classifies dialogues, ex- tracts medical terms, and generates preliminary clinical notes. To learn more about these features, refer to Amazon Web Services Health- Scribe . To make a StartMedicalScribeJob request, you must first upload your me- dia file into an Amazon S3 bucket; you can then specify the Amazon ...
@@ -373,8 +339,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMedicalScribeJobAsync(AwsTranscribeStartMedicalScribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMedicalScribeJobAsync(AwsTranscribeStartMedicalScribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Transcribes the audio from a medical dictation or conversation and ap- plies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to How Amazon Tran- scribe Medical works . To make a StartMedicalTranscriptionJob reque...
@@ -383,8 +348,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMedicalTranscriptionJobAsync(AwsTranscribeStartMedicalTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMedicalTranscriptionJobAsync(AwsTranscribeStartMedicalTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Transcribes the audio from a media file and applies any additional Re- quest Parameters you choose to include in your request. To make a StartTranscriptionJob request, you must first upload your me- dia file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartTranscriptionJob request: o region : The Amazon Web Services Region where you are making your re- quest. For a list of Amazon We...
@@ -393,8 +357,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTranscriptionJobAsync(AwsTranscribeStartTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTranscriptionJobAsync(AwsTranscribeStartTranscriptionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . See also: AWS API Documentation
@@ -403,8 +366,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsTranscribeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsTranscribeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the specified Amazon Transcribe re- source. If you include UntagResource in your request, you must also include Re- sourceArn and TagKeys . See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsTranscribeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsTranscribeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified Call Analytics category with new rules. Note that the UpdateCallAnalyticsCategory operation overwrites all existing rules contained in the specified category. You cannot append additional rules onto an existing category. To create a new category, see . See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCallAnalyticsCategoryAsync(AwsTranscribeUpdateCallAnalyticsCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCallAnalyticsCategoryAsync(AwsTranscribeUpdateCallAnalyticsCategoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the encryption configuration for an existing custom language model. You can use this operation to change the KMS key used to encrypt your model artifacts. The model artifacts are re-encrypted in place. No model training is required. Your custom language model must not be in the IN_PROGRESS state when you call this operation. You cannot submit another update while a pre- vious update is in progress. Use to check the current state of your model. Your custom language model remains available...
@@ -433,8 +393,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLanguageModelAsync(AwsTranscribeUpdateLanguageModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLanguageModelAsync(AwsTranscribeUpdateLanguageModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing custom medical vocabulary with new values. This op- eration overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMedicalVocabularyAsync(AwsTranscribeUpdateMedicalVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMedicalVocabularyAsync(AwsTranscribeUpdateMedicalVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter. You must include either Words or VocabularyFilterFileUri in your re- quest. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVocabularyFilterAsync(AwsTranscribeUpdateVocabularyFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVocabularyFilterAsync(AwsTranscribeUpdateVocabularyFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. Your custom vocabulary must be in a terminal state (READY or FAILED ) before you can update it. You must include either Phrases or Vocabu- laryFileUri in your request. See also: AWS API Documentation
@@ -463,7 +420,6 @@ public interface IAwsTranscribe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVocabularyAsync(AwsTranscribeUpdateVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVocabularyAsync(AwsTranscribeUpdateVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

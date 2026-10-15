@@ -23,2172 +23,2187 @@ public partial interface IAws
     /// <summary>
     /// Gets the accessanalyzer sub-domain service.
     /// </summary>
-    IAwsAccessanalyzer Accessanalyzer => throw new System.NotSupportedException();
+    IAwsAccessanalyzer Accessanalyzer { get; }
 
     /// <summary>
     /// Gets the account sub-domain service.
     /// </summary>
-    IAwsAccount Account => throw new System.NotSupportedException();
+    IAwsAccount Account { get; }
 
     /// <summary>
     /// Gets the accountaccess sub-domain service.
     /// </summary>
-    IAwsAccountAccess AccountAccess => throw new System.NotSupportedException();
+    IAwsAccountAccess AccountAccess { get; }
 
     /// <summary>
     /// Gets the acm sub-domain service.
     /// </summary>
-    IAwsAcm Acm => throw new System.NotSupportedException();
+    IAwsAcm Acm { get; }
 
     /// <summary>
     /// Gets the acmpca sub-domain service.
     /// </summary>
-    IAwsAcmPca AcmPca => throw new System.NotSupportedException();
+    IAwsAcmPca AcmPca { get; }
 
     /// <summary>
     /// Gets the agentregistry sub-domain service.
     /// </summary>
-    IAwsAgentRegistry AgentRegistry => throw new System.NotSupportedException();
+    IAwsAgentRegistry AgentRegistry { get; }
 
     /// <summary>
     /// Gets the agentregistrycontrol sub-domain service.
     /// </summary>
-    IAwsAgentRegistryControl AgentRegistryControl => throw new System.NotSupportedException();
+    IAwsAgentRegistryControl AgentRegistryControl { get; }
 
     /// <summary>
     /// Gets the agenttoolkit sub-domain service.
     /// </summary>
-    IAwsAgentToolkit AgentToolkit => throw new System.NotSupportedException();
+    IAwsAgentToolkit AgentToolkit { get; }
 
     /// <summary>
     /// Gets the aiops sub-domain service.
     /// </summary>
-    IAwsAiops Aiops => throw new System.NotSupportedException();
+    IAwsAiops Aiops { get; }
 
     /// <summary>
     /// Gets the amp sub-domain service.
     /// </summary>
-    IAwsAmp Amp => throw new System.NotSupportedException();
+    IAwsAmp Amp { get; }
 
     /// <summary>
     /// Gets the amplify sub-domain service.
     /// </summary>
-    IAwsAmplify Amplify => throw new System.NotSupportedException();
+    IAwsAmplify Amplify { get; }
 
     /// <summary>
     /// Gets the amplifybackend sub-domain service.
     /// </summary>
-    IAwsAmplifybackend Amplifybackend => throw new System.NotSupportedException();
+    IAwsAmplifybackend Amplifybackend { get; }
 
     /// <summary>
     /// Gets the amplifyuibuilder sub-domain service.
     /// </summary>
-    IAwsAmplifyuibuilder Amplifyuibuilder => throw new System.NotSupportedException();
+    IAwsAmplifyuibuilder Amplifyuibuilder { get; }
 
     /// <summary>
     /// Gets the apigateway sub-domain service.
     /// </summary>
-    IAwsApigateway Apigateway => throw new System.NotSupportedException();
+    IAwsApigateway Apigateway { get; }
 
     /// <summary>
     /// Gets the apigatewaymanagementapi sub-domain service.
     /// </summary>
-    IAwsApigatewaymanagementapi Apigatewaymanagementapi => throw new System.NotSupportedException();
+    IAwsApigatewaymanagementapi Apigatewaymanagementapi { get; }
 
     /// <summary>
     /// Gets the apigatewayv2 sub-domain service.
     /// </summary>
-    IAwsApigatewayv2 Apigatewayv2 => throw new System.NotSupportedException();
+    IAwsApigatewayv2 Apigatewayv2 { get; }
 
     /// <summary>
     /// Gets the appconfig sub-domain service.
     /// </summary>
-    IAwsAppConfig AppConfig => throw new System.NotSupportedException();
+    IAwsAppConfig AppConfig { get; }
 
     /// <summary>
     /// Gets the appconfigdata sub-domain service.
     /// </summary>
-    IAwsAppconfigdata Appconfigdata => throw new System.NotSupportedException();
+    IAwsAppconfigdata Appconfigdata { get; }
 
     /// <summary>
     /// Gets the appfabric sub-domain service.
     /// </summary>
-    IAwsAppfabric Appfabric => throw new System.NotSupportedException();
+    IAwsAppfabric Appfabric { get; }
 
     /// <summary>
     /// Gets the appflow sub-domain service.
     /// </summary>
-    IAwsAppflow Appflow => throw new System.NotSupportedException();
+    IAwsAppflow Appflow { get; }
 
     /// <summary>
     /// Gets the appintegrations sub-domain service.
     /// </summary>
-    IAwsAppintegrations Appintegrations => throw new System.NotSupportedException();
+    IAwsAppintegrations Appintegrations { get; }
 
     /// <summary>
     /// Gets the applicationautoscaling sub-domain service.
     /// </summary>
-    IAwsApplicationAutoscaling ApplicationAutoscaling => throw new System.NotSupportedException();
+    IAwsApplicationAutoscaling ApplicationAutoscaling { get; }
 
     /// <summary>
     /// Gets the applicationcostprofiler sub-domain service.
     /// </summary>
-    IAwsApplicationcostprofiler Applicationcostprofiler => throw new System.NotSupportedException();
+    IAwsApplicationcostprofiler Applicationcostprofiler { get; }
 
     /// <summary>
     /// Gets the applicationinsights sub-domain service.
     /// </summary>
-    IAwsApplicationInsights ApplicationInsights => throw new System.NotSupportedException();
+    IAwsApplicationInsights ApplicationInsights { get; }
 
     /// <summary>
     /// Gets the applicationsignals sub-domain service.
     /// </summary>
-    IAwsApplicationSignals ApplicationSignals => throw new System.NotSupportedException();
+    IAwsApplicationSignals ApplicationSignals { get; }
 
     /// <summary>
     /// Gets the appmesh sub-domain service.
     /// </summary>
-    IAwsAppmesh Appmesh => throw new System.NotSupportedException();
+    IAwsAppmesh Appmesh { get; }
 
     /// <summary>
     /// Gets the apprunner sub-domain service.
     /// </summary>
-    IAwsApprunner Apprunner => throw new System.NotSupportedException();
+    IAwsApprunner Apprunner { get; }
 
     /// <summary>
     /// Gets the appstream sub-domain service.
     /// </summary>
-    IAwsAppstream Appstream => throw new System.NotSupportedException();
+    IAwsAppstream Appstream { get; }
 
     /// <summary>
     /// Gets the appsync sub-domain service.
     /// </summary>
-    IAwsAppsync Appsync => throw new System.NotSupportedException();
+    IAwsAppsync Appsync { get; }
 
     /// <summary>
     /// Gets the arcregionswitch sub-domain service.
     /// </summary>
-    IAwsArcRegionSwitch ArcRegionSwitch => throw new System.NotSupportedException();
+    IAwsArcRegionSwitch ArcRegionSwitch { get; }
 
     /// <summary>
     /// Gets the arczonalshift sub-domain service.
     /// </summary>
-    IAwsArcZonalShift ArcZonalShift => throw new System.NotSupportedException();
+    IAwsArcZonalShift ArcZonalShift { get; }
 
     /// <summary>
     /// Gets the artifact sub-domain service.
     /// </summary>
-    IAwsArtifact Artifact => throw new System.NotSupportedException();
+    IAwsArtifact Artifact { get; }
 
     /// <summary>
     /// Gets the athena sub-domain service.
     /// </summary>
-    IAwsAthena Athena => throw new System.NotSupportedException();
+    IAwsAthena Athena { get; }
 
     /// <summary>
     /// Gets the auditmanager sub-domain service.
     /// </summary>
-    IAwsAuditManager AuditManager => throw new System.NotSupportedException();
+    IAwsAuditManager AuditManager { get; }
 
     /// <summary>
     /// Gets the autoscaling sub-domain service.
     /// </summary>
-    IAwsAutoscaling Autoscaling => throw new System.NotSupportedException();
+    IAwsAutoscaling Autoscaling { get; }
 
     /// <summary>
     /// Gets the autoscalingplans sub-domain service.
     /// </summary>
-    IAwsAutoscalingPlans AutoscalingPlans => throw new System.NotSupportedException();
+    IAwsAutoscalingPlans AutoscalingPlans { get; }
 
     /// <summary>
     /// Gets the b2bi sub-domain service.
     /// </summary>
-    IAwsB2Bi B2Bi => throw new System.NotSupportedException();
+    IAwsB2Bi B2Bi { get; }
 
     /// <summary>
     /// Gets the backup sub-domain service.
     /// </summary>
-    IAwsBackup Backup => throw new System.NotSupportedException();
+    IAwsBackup Backup { get; }
 
     /// <summary>
     /// Gets the backupgateway sub-domain service.
     /// </summary>
-    IAwsBackupGateway BackupGateway => throw new System.NotSupportedException();
+    IAwsBackupGateway BackupGateway { get; }
 
     /// <summary>
     /// Gets the backupsearch sub-domain service.
     /// </summary>
-    IAwsBackupsearch Backupsearch => throw new System.NotSupportedException();
+    IAwsBackupsearch Backupsearch { get; }
 
     /// <summary>
     /// Gets the batch sub-domain service.
     /// </summary>
-    IAwsBatch Batch => throw new System.NotSupportedException();
+    IAwsBatch Batch { get; }
 
     /// <summary>
     /// Gets the bcmdashboards sub-domain service.
     /// </summary>
-    IAwsBcmDashboards BcmDashboards => throw new System.NotSupportedException();
+    IAwsBcmDashboards BcmDashboards { get; }
 
     /// <summary>
     /// Gets the bcmdataexports sub-domain service.
     /// </summary>
-    IAwsBcmDataExports BcmDataExports => throw new System.NotSupportedException();
+    IAwsBcmDataExports BcmDataExports { get; }
 
     /// <summary>
     /// Gets the bcmpricingcalculator sub-domain service.
     /// </summary>
-    IAwsBcmPricingCalculator BcmPricingCalculator => throw new System.NotSupportedException();
+    IAwsBcmPricingCalculator BcmPricingCalculator { get; }
 
     /// <summary>
     /// Gets the bcmrecommendedactions sub-domain service.
     /// </summary>
-    IAwsBcmRecommendedActions BcmRecommendedActions => throw new System.NotSupportedException();
+    IAwsBcmRecommendedActions BcmRecommendedActions { get; }
 
     /// <summary>
     /// Gets the bedrock sub-domain service.
     /// </summary>
-    IAwsBedrock Bedrock => throw new System.NotSupportedException();
+    IAwsBedrock Bedrock { get; }
 
     /// <summary>
     /// Gets the bedrockagent sub-domain service.
     /// </summary>
-    IAwsBedrockAgent BedrockAgent => throw new System.NotSupportedException();
+    IAwsBedrockAgent BedrockAgent { get; }
 
     /// <summary>
     /// Gets the bedrockagentcore sub-domain service.
     /// </summary>
-    IAwsBedrockAgentcore BedrockAgentcore => throw new System.NotSupportedException();
+    IAwsBedrockAgentcore BedrockAgentcore { get; }
 
     /// <summary>
     /// Gets the bedrockagentcorecontrol sub-domain service.
     /// </summary>
-    IAwsBedrockAgentcoreControl BedrockAgentcoreControl => throw new System.NotSupportedException();
+    IAwsBedrockAgentcoreControl BedrockAgentcoreControl { get; }
 
     /// <summary>
     /// Gets the bedrockagentruntime sub-domain service.
     /// </summary>
-    IAwsBedrockAgentRuntime BedrockAgentRuntime => throw new System.NotSupportedException();
+    IAwsBedrockAgentRuntime BedrockAgentRuntime { get; }
 
     /// <summary>
     /// Gets the bedrockdataautomation sub-domain service.
     /// </summary>
-    IAwsBedrockDataAutomation BedrockDataAutomation => throw new System.NotSupportedException();
+    IAwsBedrockDataAutomation BedrockDataAutomation { get; }
 
     /// <summary>
     /// Gets the bedrockdataautomationruntime sub-domain service.
     /// </summary>
-    IAwsBedrockDataAutomationRuntime BedrockDataAutomationRuntime => throw new System.NotSupportedException();
+    IAwsBedrockDataAutomationRuntime BedrockDataAutomationRuntime { get; }
 
     /// <summary>
     /// Gets the bedrockruntime sub-domain service.
     /// </summary>
-    IAwsBedrockRuntime BedrockRuntime => throw new System.NotSupportedException();
+    IAwsBedrockRuntime BedrockRuntime { get; }
 
     /// <summary>
     /// Gets the billing sub-domain service.
     /// </summary>
-    IAwsBilling Billing => throw new System.NotSupportedException();
+    IAwsBilling Billing { get; }
 
     /// <summary>
     /// Gets the billingconductor sub-domain service.
     /// </summary>
-    IAwsBillingconductor Billingconductor => throw new System.NotSupportedException();
+    IAwsBillingconductor Billingconductor { get; }
 
     /// <summary>
     /// Gets the braket sub-domain service.
     /// </summary>
-    IAwsBraket Braket => throw new System.NotSupportedException();
+    IAwsBraket Braket { get; }
 
     /// <summary>
     /// Gets the budgets sub-domain service.
     /// </summary>
-    IAwsBudgets Budgets => throw new System.NotSupportedException();
+    IAwsBudgets Budgets { get; }
 
     /// <summary>
     /// Gets the ce sub-domain service.
     /// </summary>
-    IAwsCe Ce => throw new System.NotSupportedException();
+    IAwsCe Ce { get; }
 
     /// <summary>
     /// Gets the chatbot sub-domain service.
     /// </summary>
-    IAwsChatbot Chatbot => throw new System.NotSupportedException();
+    IAwsChatbot Chatbot { get; }
 
     /// <summary>
     /// Gets the chime sub-domain service.
     /// </summary>
-    IAwsChime Chime => throw new System.NotSupportedException();
+    IAwsChime Chime { get; }
 
     /// <summary>
     /// Gets the chimesdkidentity sub-domain service.
     /// </summary>
-    IAwsChimeSdkIdentity ChimeSdkIdentity => throw new System.NotSupportedException();
+    IAwsChimeSdkIdentity ChimeSdkIdentity { get; }
 
     /// <summary>
     /// Gets the chimesdkmediapipelines sub-domain service.
     /// </summary>
-    IAwsChimeSdkMediaPipelines ChimeSdkMediaPipelines => throw new System.NotSupportedException();
+    IAwsChimeSdkMediaPipelines ChimeSdkMediaPipelines { get; }
 
     /// <summary>
     /// Gets the chimesdkmeetings sub-domain service.
     /// </summary>
-    IAwsChimeSdkMeetings ChimeSdkMeetings => throw new System.NotSupportedException();
+    IAwsChimeSdkMeetings ChimeSdkMeetings { get; }
 
     /// <summary>
     /// Gets the chimesdkmessaging sub-domain service.
     /// </summary>
-    IAwsChimeSdkMessaging ChimeSdkMessaging => throw new System.NotSupportedException();
+    IAwsChimeSdkMessaging ChimeSdkMessaging { get; }
 
     /// <summary>
     /// Gets the chimesdkvoice sub-domain service.
     /// </summary>
-    IAwsChimeSdkVoice ChimeSdkVoice => throw new System.NotSupportedException();
+    IAwsChimeSdkVoice ChimeSdkVoice { get; }
 
     /// <summary>
     /// Gets the cleanrooms sub-domain service.
     /// </summary>
-    IAwsCleanrooms Cleanrooms => throw new System.NotSupportedException();
+    IAwsCleanrooms Cleanrooms { get; }
 
     /// <summary>
     /// Gets the cleanroomsml sub-domain service.
     /// </summary>
-    IAwsCleanroomsml Cleanroomsml => throw new System.NotSupportedException();
+    IAwsCleanroomsml Cleanroomsml { get; }
 
     /// <summary>
     /// Gets the cloud9 sub-domain service.
     /// </summary>
-    IAwsCloud9 Cloud9 => throw new System.NotSupportedException();
+    IAwsCloud9 Cloud9 { get; }
 
     /// <summary>
     /// Gets the cloudcontrol sub-domain service.
     /// </summary>
-    IAwsCloudcontrol Cloudcontrol => throw new System.NotSupportedException();
+    IAwsCloudcontrol Cloudcontrol { get; }
 
     /// <summary>
     /// Gets the clouddirectory sub-domain service.
     /// </summary>
-    IAwsClouddirectory Clouddirectory => throw new System.NotSupportedException();
+    IAwsClouddirectory Clouddirectory { get; }
 
     /// <summary>
     /// Gets the cloudformation sub-domain service.
     /// </summary>
-    IAwsCloudformation Cloudformation => throw new System.NotSupportedException();
+    IAwsCloudformation Cloudformation { get; }
 
     /// <summary>
     /// Gets the cloudfront sub-domain service.
     /// </summary>
-    IAwsCloudfront Cloudfront => throw new System.NotSupportedException();
+    IAwsCloudfront Cloudfront { get; }
 
     /// <summary>
     /// Gets the cloudfrontkeyvaluestore sub-domain service.
     /// </summary>
-    IAwsCloudfrontKeyvaluestore CloudfrontKeyvaluestore => throw new System.NotSupportedException();
+    IAwsCloudfrontKeyvaluestore CloudfrontKeyvaluestore { get; }
 
     /// <summary>
     /// Gets the cloudhsmv2 sub-domain service.
     /// </summary>
-    IAwsCloudhsmv2 Cloudhsmv2 => throw new System.NotSupportedException();
+    IAwsCloudhsmv2 Cloudhsmv2 { get; }
 
     /// <summary>
     /// Gets the cloudsearch sub-domain service.
     /// </summary>
-    IAwsCloudsearch Cloudsearch => throw new System.NotSupportedException();
+    IAwsCloudsearch Cloudsearch { get; }
 
     /// <summary>
     /// Gets the cloudsearchdomain sub-domain service.
     /// </summary>
-    IAwsCloudsearchdomain Cloudsearchdomain => throw new System.NotSupportedException();
+    IAwsCloudsearchdomain Cloudsearchdomain { get; }
 
     /// <summary>
     /// Gets the cloudtrail sub-domain service.
     /// </summary>
-    IAwsCloudtrail Cloudtrail => throw new System.NotSupportedException();
+    IAwsCloudtrail Cloudtrail { get; }
 
     /// <summary>
     /// Gets the cloudtraildata sub-domain service.
     /// </summary>
-    IAwsCloudtrailData CloudtrailData => throw new System.NotSupportedException();
+    IAwsCloudtrailData CloudtrailData { get; }
 
     /// <summary>
     /// Gets the cloudwatch sub-domain service.
     /// </summary>
-    IAwsCloudwatch Cloudwatch => throw new System.NotSupportedException();
+    IAwsCloudwatch Cloudwatch { get; }
 
     /// <summary>
     /// Gets the cloudwatchomni sub-domain service.
     /// </summary>
-    IAwsCloudwatchomni Cloudwatchomni => throw new System.NotSupportedException();
+    IAwsCloudwatchomni Cloudwatchomni { get; }
 
     /// <summary>
     /// Gets the codeartifact sub-domain service.
     /// </summary>
-    IAwsCodeartifact Codeartifact => throw new System.NotSupportedException();
+    IAwsCodeartifact Codeartifact { get; }
 
     /// <summary>
     /// Gets the codebuild sub-domain service.
     /// </summary>
-    IAwsCodebuild Codebuild => throw new System.NotSupportedException();
+    IAwsCodebuild Codebuild { get; }
 
     /// <summary>
     /// Gets the codecatalyst sub-domain service.
     /// </summary>
-    IAwsCodecatalyst Codecatalyst => throw new System.NotSupportedException();
+    IAwsCodecatalyst Codecatalyst { get; }
 
     /// <summary>
     /// Gets the codecommit sub-domain service.
     /// </summary>
-    IAwsCodecommit Codecommit => throw new System.NotSupportedException();
+    IAwsCodecommit Codecommit { get; }
 
     /// <summary>
     /// Gets the codeconnections sub-domain service.
     /// </summary>
-    IAwsCodeconnections Codeconnections => throw new System.NotSupportedException();
+    IAwsCodeconnections Codeconnections { get; }
 
     /// <summary>
     /// Gets the codeguruprofiler sub-domain service.
     /// </summary>
-    IAwsCodeguruprofiler Codeguruprofiler => throw new System.NotSupportedException();
+    IAwsCodeguruprofiler Codeguruprofiler { get; }
 
     /// <summary>
     /// Gets the codegurureviewer sub-domain service.
     /// </summary>
-    IAwsCodeguruReviewer CodeguruReviewer => throw new System.NotSupportedException();
+    IAwsCodeguruReviewer CodeguruReviewer { get; }
 
     /// <summary>
     /// Gets the codegurusecurity sub-domain service.
     /// </summary>
-    IAwsCodeguruSecurity CodeguruSecurity => throw new System.NotSupportedException();
+    IAwsCodeguruSecurity CodeguruSecurity { get; }
 
     /// <summary>
     /// Gets the codepipeline sub-domain service.
     /// </summary>
-    IAwsCodepipeline Codepipeline => throw new System.NotSupportedException();
+    IAwsCodepipeline Codepipeline { get; }
 
     /// <summary>
     /// Gets the codestarconnections sub-domain service.
     /// </summary>
-    IAwsCodestarConnections CodestarConnections => throw new System.NotSupportedException();
+    IAwsCodestarConnections CodestarConnections { get; }
 
     /// <summary>
     /// Gets the codestarnotifications sub-domain service.
     /// </summary>
-    IAwsCodestarNotifications CodestarNotifications => throw new System.NotSupportedException();
+    IAwsCodestarNotifications CodestarNotifications { get; }
 
     /// <summary>
     /// Gets the cognitoidentity sub-domain service.
     /// </summary>
-    IAwsCognitoIdentity CognitoIdentity => throw new System.NotSupportedException();
+    IAwsCognitoIdentity CognitoIdentity { get; }
 
     /// <summary>
     /// Gets the cognitoidp sub-domain service.
     /// </summary>
-    IAwsCognitoIdp CognitoIdp => throw new System.NotSupportedException();
+    IAwsCognitoIdp CognitoIdp { get; }
 
     /// <summary>
     /// Gets the cognitosync sub-domain service.
     /// </summary>
-    IAwsCognitoSync CognitoSync => throw new System.NotSupportedException();
+    IAwsCognitoSync CognitoSync { get; }
 
     /// <summary>
     /// Gets the comprehend sub-domain service.
     /// </summary>
-    IAwsComprehend Comprehend => throw new System.NotSupportedException();
+    IAwsComprehend Comprehend { get; }
 
     /// <summary>
     /// Gets the comprehendmedical sub-domain service.
     /// </summary>
-    IAwsComprehendmedical Comprehendmedical => throw new System.NotSupportedException();
+    IAwsComprehendmedical Comprehendmedical { get; }
 
     /// <summary>
     /// Gets the computeoptimizer sub-domain service.
     /// </summary>
-    IAwsComputeOptimizer ComputeOptimizer => throw new System.NotSupportedException();
+    IAwsComputeOptimizer ComputeOptimizer { get; }
 
     /// <summary>
     /// Gets the computeoptimizerautomation sub-domain service.
     /// </summary>
-    IAwsComputeOptimizerAutomation ComputeOptimizerAutomation => throw new System.NotSupportedException();
+    IAwsComputeOptimizerAutomation ComputeOptimizerAutomation { get; }
 
     /// <summary>
     /// Gets the configservice sub-domain service.
     /// </summary>
-    IAwsConfigservice Configservice => throw new System.NotSupportedException();
+    IAwsConfigservice Configservice { get; }
 
     /// <summary>
     /// Gets the connect sub-domain service.
     /// </summary>
-    IAwsConnect Connect => throw new System.NotSupportedException();
+    IAwsConnect Connect { get; }
 
     /// <summary>
     /// Gets the connectcampaigns sub-domain service.
     /// </summary>
-    IAwsConnectcampaigns Connectcampaigns => throw new System.NotSupportedException();
+    IAwsConnectcampaigns Connectcampaigns { get; }
 
     /// <summary>
     /// Gets the connectcampaignsv2 sub-domain service.
     /// </summary>
-    IAwsConnectcampaignsv2 Connectcampaignsv2 => throw new System.NotSupportedException();
+    IAwsConnectcampaignsv2 Connectcampaignsv2 { get; }
 
     /// <summary>
     /// Gets the connectcases sub-domain service.
     /// </summary>
-    IAwsConnectcases Connectcases => throw new System.NotSupportedException();
+    IAwsConnectcases Connectcases { get; }
 
     /// <summary>
     /// Gets the connectcontactlens sub-domain service.
     /// </summary>
-    IAwsConnectContactLens ConnectContactLens => throw new System.NotSupportedException();
+    IAwsConnectContactLens ConnectContactLens { get; }
 
     /// <summary>
     /// Gets the connecthealth sub-domain service.
     /// </summary>
-    IAwsConnecthealth Connecthealth => throw new System.NotSupportedException();
+    IAwsConnecthealth Connecthealth { get; }
 
     /// <summary>
     /// Gets the connectparticipant sub-domain service.
     /// </summary>
-    IAwsConnectparticipant Connectparticipant => throw new System.NotSupportedException();
+    IAwsConnectparticipant Connectparticipant { get; }
 
     /// <summary>
     /// Gets the controlcatalog sub-domain service.
     /// </summary>
-    IAwsControlcatalog Controlcatalog => throw new System.NotSupportedException();
+    IAwsControlcatalog Controlcatalog { get; }
 
     /// <summary>
     /// Gets the controltower sub-domain service.
     /// </summary>
-    IAwsControltower Controltower => throw new System.NotSupportedException();
+    IAwsControltower Controltower { get; }
 
     /// <summary>
     /// Gets the costoptimizationhub sub-domain service.
     /// </summary>
-    IAwsCostOptimizationHub CostOptimizationHub => throw new System.NotSupportedException();
+    IAwsCostOptimizationHub CostOptimizationHub { get; }
 
     /// <summary>
     /// Gets the cur sub-domain service.
     /// </summary>
-    IAwsCur Cur => throw new System.NotSupportedException();
+    IAwsCur Cur { get; }
 
     /// <summary>
     /// Gets the customerprofiles sub-domain service.
     /// </summary>
-    IAwsCustomerProfiles CustomerProfiles => throw new System.NotSupportedException();
+    IAwsCustomerProfiles CustomerProfiles { get; }
 
     /// <summary>
     /// Gets the databrew sub-domain service.
     /// </summary>
-    IAwsDatabrew Databrew => throw new System.NotSupportedException();
+    IAwsDatabrew Databrew { get; }
 
     /// <summary>
     /// Gets the dataexchange sub-domain service.
     /// </summary>
-    IAwsDataexchange Dataexchange => throw new System.NotSupportedException();
+    IAwsDataexchange Dataexchange { get; }
 
     /// <summary>
     /// Gets the datapipeline sub-domain service.
     /// </summary>
-    IAwsDatapipeline Datapipeline => throw new System.NotSupportedException();
+    IAwsDatapipeline Datapipeline { get; }
 
     /// <summary>
     /// Gets the datasync sub-domain service.
     /// </summary>
-    IAwsDatasync Datasync => throw new System.NotSupportedException();
+    IAwsDatasync Datasync { get; }
 
     /// <summary>
     /// Gets the datazone sub-domain service.
     /// </summary>
-    IAwsDatazone Datazone => throw new System.NotSupportedException();
+    IAwsDatazone Datazone { get; }
 
     /// <summary>
     /// Gets the dax sub-domain service.
     /// </summary>
-    IAwsDax Dax => throw new System.NotSupportedException();
+    IAwsDax Dax { get; }
 
     /// <summary>
     /// Gets the ddb sub-domain service.
     /// </summary>
-    IAwsDdb Ddb => throw new System.NotSupportedException();
+    IAwsDdb Ddb { get; }
 
     /// <summary>
     /// Gets the deadline sub-domain service.
     /// </summary>
-    IAwsDeadline Deadline => throw new System.NotSupportedException();
+    IAwsDeadline Deadline { get; }
 
     /// <summary>
     /// Gets the deploy sub-domain service.
     /// </summary>
-    IAwsDeploy Deploy => throw new System.NotSupportedException();
+    IAwsDeploy Deploy { get; }
 
     /// <summary>
     /// Gets the detective sub-domain service.
     /// </summary>
-    IAwsDetective Detective => throw new System.NotSupportedException();
+    IAwsDetective Detective { get; }
 
     /// <summary>
     /// Gets the devicefarm sub-domain service.
     /// </summary>
-    IAwsDevicefarm Devicefarm => throw new System.NotSupportedException();
+    IAwsDevicefarm Devicefarm { get; }
 
     /// <summary>
     /// Gets the devopsagent sub-domain service.
     /// </summary>
-    IAwsDevopsAgent DevopsAgent => throw new System.NotSupportedException();
+    IAwsDevopsAgent DevopsAgent { get; }
 
     /// <summary>
     /// Gets the devopsguru sub-domain service.
     /// </summary>
-    IAwsDevopsGuru DevopsGuru => throw new System.NotSupportedException();
+    IAwsDevopsGuru DevopsGuru { get; }
 
     /// <summary>
     /// Gets the directconnect sub-domain service.
     /// </summary>
-    IAwsDirectconnect Directconnect => throw new System.NotSupportedException();
+    IAwsDirectconnect Directconnect { get; }
 
     /// <summary>
     /// Gets the discovery sub-domain service.
     /// </summary>
-    IAwsDiscovery Discovery => throw new System.NotSupportedException();
+    IAwsDiscovery Discovery { get; }
 
     /// <summary>
     /// Gets the dlm sub-domain service.
     /// </summary>
-    IAwsDlm Dlm => throw new System.NotSupportedException();
+    IAwsDlm Dlm { get; }
 
     /// <summary>
     /// Gets the dms sub-domain service.
     /// </summary>
-    IAwsDms Dms => throw new System.NotSupportedException();
+    IAwsDms Dms { get; }
 
     /// <summary>
     /// Gets the docdb sub-domain service.
     /// </summary>
-    IAwsDocdb Docdb => throw new System.NotSupportedException();
+    IAwsDocdb Docdb { get; }
 
     /// <summary>
     /// Gets the docdbelastic sub-domain service.
     /// </summary>
-    IAwsDocdbElastic DocdbElastic => throw new System.NotSupportedException();
+    IAwsDocdbElastic DocdbElastic { get; }
 
     /// <summary>
     /// Gets the drs sub-domain service.
     /// </summary>
-    IAwsDrs Drs => throw new System.NotSupportedException();
+    IAwsDrs Drs { get; }
 
     /// <summary>
     /// Gets the ds sub-domain service.
     /// </summary>
-    IAwsDs Ds => throw new System.NotSupportedException();
+    IAwsDs Ds { get; }
 
     /// <summary>
     /// Gets the dsdata sub-domain service.
     /// </summary>
-    IAwsDsData DsData => throw new System.NotSupportedException();
+    IAwsDsData DsData { get; }
 
     /// <summary>
     /// Gets the dsql sub-domain service.
     /// </summary>
-    IAwsDsql Dsql => throw new System.NotSupportedException();
+    IAwsDsql Dsql { get; }
 
     /// <summary>
     /// Gets the dynamodb sub-domain service.
     /// </summary>
-    IAwsDynamodb Dynamodb => throw new System.NotSupportedException();
+    IAwsDynamodb Dynamodb { get; }
 
     /// <summary>
     /// Gets the dynamodbstreams sub-domain service.
     /// </summary>
-    IAwsDynamodbstreams Dynamodbstreams => throw new System.NotSupportedException();
+    IAwsDynamodbstreams Dynamodbstreams { get; }
 
     /// <summary>
     /// Gets the ebs sub-domain service.
     /// </summary>
-    IAwsEbs Ebs => throw new System.NotSupportedException();
+    IAwsEbs Ebs { get; }
 
     /// <summary>
     /// Gets the ec2 sub-domain service.
     /// </summary>
-    IAwsEc2 Ec2 => throw new System.NotSupportedException();
+    IAwsEc2 Ec2 { get; }
 
     /// <summary>
     /// Gets the ec2instanceconnect sub-domain service.
     /// </summary>
-    IAwsEc2InstanceConnect Ec2InstanceConnect => throw new System.NotSupportedException();
+    IAwsEc2InstanceConnect Ec2InstanceConnect { get; }
 
     /// <summary>
     /// Gets the ecr sub-domain service.
     /// </summary>
-    IAwsEcr Ecr => throw new System.NotSupportedException();
+    IAwsEcr Ecr { get; }
 
     /// <summary>
     /// Gets the ecrpublic sub-domain service.
     /// </summary>
-    IAwsEcrPublic EcrPublic => throw new System.NotSupportedException();
+    IAwsEcrPublic EcrPublic { get; }
 
     /// <summary>
     /// Gets the ecs sub-domain service.
     /// </summary>
-    IAwsEcs Ecs => throw new System.NotSupportedException();
+    IAwsEcs Ecs { get; }
 
     /// <summary>
     /// Gets the efs sub-domain service.
     /// </summary>
-    IAwsEfs Efs => throw new System.NotSupportedException();
+    IAwsEfs Efs { get; }
 
     /// <summary>
     /// Gets the eks sub-domain service.
     /// </summary>
-    IAwsEks Eks => throw new System.NotSupportedException();
+    IAwsEks Eks { get; }
 
     /// <summary>
     /// Gets the eksauth sub-domain service.
     /// </summary>
-    IAwsEksAuth EksAuth => throw new System.NotSupportedException();
+    IAwsEksAuth EksAuth { get; }
 
     /// <summary>
     /// Gets the elasticache sub-domain service.
     /// </summary>
-    IAwsElasticache Elasticache => throw new System.NotSupportedException();
+    IAwsElasticache Elasticache { get; }
 
     /// <summary>
     /// Gets the elasticbeanstalk sub-domain service.
     /// </summary>
-    IAwsElasticbeanstalk Elasticbeanstalk => throw new System.NotSupportedException();
+    IAwsElasticbeanstalk Elasticbeanstalk { get; }
 
     /// <summary>
     /// Gets the elb sub-domain service.
     /// </summary>
-    IAwsElb Elb => throw new System.NotSupportedException();
+    IAwsElb Elb { get; }
 
     /// <summary>
     /// Gets the elbv2 sub-domain service.
     /// </summary>
-    IAwsElbv2 Elbv2 => throw new System.NotSupportedException();
+    IAwsElbv2 Elbv2 { get; }
 
     /// <summary>
     /// Gets the elementalinference sub-domain service.
     /// </summary>
-    IAwsElementalinference Elementalinference => throw new System.NotSupportedException();
+    IAwsElementalinference Elementalinference { get; }
 
     /// <summary>
     /// Gets the emr sub-domain service.
     /// </summary>
-    IAwsEmr Emr => throw new System.NotSupportedException();
+    IAwsEmr Emr { get; }
 
     /// <summary>
     /// Gets the emrcontainers sub-domain service.
     /// </summary>
-    IAwsEmrContainers EmrContainers => throw new System.NotSupportedException();
+    IAwsEmrContainers EmrContainers { get; }
 
     /// <summary>
     /// Gets the emrserverless sub-domain service.
     /// </summary>
-    IAwsEmrServerless EmrServerless => throw new System.NotSupportedException();
+    IAwsEmrServerless EmrServerless { get; }
+
+    /// <summary>
+    /// Gets the endusermessaging sub-domain service.
+    /// </summary>
+    IAwsEndusermessaging Endusermessaging { get; }
 
     /// <summary>
     /// Gets the entityresolution sub-domain service.
     /// </summary>
-    IAwsEntityresolution Entityresolution => throw new System.NotSupportedException();
+    IAwsEntityresolution Entityresolution { get; }
 
     /// <summary>
     /// Gets the es sub-domain service.
     /// </summary>
-    IAwsEs Es => throw new System.NotSupportedException();
+    IAwsEs Es { get; }
 
     /// <summary>
     /// Gets the events sub-domain service.
     /// </summary>
-    IAwsEvents Events => throw new System.NotSupportedException();
+    IAwsEvents Events { get; }
 
     /// <summary>
     /// Gets the eventsv2 sub-domain service.
     /// </summary>
-    IAwsEventsv2 Eventsv2 => throw new System.NotSupportedException();
+    IAwsEventsv2 Eventsv2 { get; }
 
     /// <summary>
     /// Gets the evs sub-domain service.
     /// </summary>
-    IAwsEvs Evs => throw new System.NotSupportedException();
+    IAwsEvs Evs { get; }
 
     /// <summary>
     /// Gets the finspace sub-domain service.
     /// </summary>
-    IAwsFinspace Finspace => throw new System.NotSupportedException();
+    IAwsFinspace Finspace { get; }
 
     /// <summary>
     /// Gets the firehose sub-domain service.
     /// </summary>
-    IAwsFirehose Firehose => throw new System.NotSupportedException();
+    IAwsFirehose Firehose { get; }
 
     /// <summary>
     /// Gets the fis sub-domain service.
     /// </summary>
-    IAwsFis Fis => throw new System.NotSupportedException();
+    IAwsFis Fis { get; }
 
     /// <summary>
     /// Gets the fms sub-domain service.
     /// </summary>
-    IAwsFms Fms => throw new System.NotSupportedException();
+    IAwsFms Fms { get; }
 
     /// <summary>
     /// Gets the forecast sub-domain service.
     /// </summary>
-    IAwsForecast Forecast => throw new System.NotSupportedException();
+    IAwsForecast Forecast { get; }
 
     /// <summary>
     /// Gets the forecastquery sub-domain service.
     /// </summary>
-    IAwsForecastquery Forecastquery => throw new System.NotSupportedException();
+    IAwsForecastquery Forecastquery { get; }
 
     /// <summary>
     /// Gets the frauddetector sub-domain service.
     /// </summary>
-    IAwsFrauddetector Frauddetector => throw new System.NotSupportedException();
+    IAwsFrauddetector Frauddetector { get; }
 
     /// <summary>
     /// Gets the freetier sub-domain service.
     /// </summary>
-    IAwsFreetier Freetier => throw new System.NotSupportedException();
+    IAwsFreetier Freetier { get; }
 
     /// <summary>
     /// Gets the fsx sub-domain service.
     /// </summary>
-    IAwsFsx Fsx => throw new System.NotSupportedException();
+    IAwsFsx Fsx { get; }
 
     /// <summary>
     /// Gets the gamelift sub-domain service.
     /// </summary>
-    IAwsGamelift Gamelift => throw new System.NotSupportedException();
+    IAwsGamelift Gamelift { get; }
 
     /// <summary>
     /// Gets the gameliftstreams sub-domain service.
     /// </summary>
-    IAwsGameliftstreams Gameliftstreams => throw new System.NotSupportedException();
+    IAwsGameliftstreams Gameliftstreams { get; }
 
     /// <summary>
     /// Gets the geomaps sub-domain service.
     /// </summary>
-    IAwsGeoMaps GeoMaps => throw new System.NotSupportedException();
+    IAwsGeoMaps GeoMaps { get; }
 
     /// <summary>
     /// Gets the geoplaces sub-domain service.
     /// </summary>
-    IAwsGeoPlaces GeoPlaces => throw new System.NotSupportedException();
+    IAwsGeoPlaces GeoPlaces { get; }
 
     /// <summary>
     /// Gets the georoutes sub-domain service.
     /// </summary>
-    IAwsGeoRoutes GeoRoutes => throw new System.NotSupportedException();
+    IAwsGeoRoutes GeoRoutes { get; }
 
     /// <summary>
     /// Gets the glacier sub-domain service.
     /// </summary>
-    IAwsGlacier Glacier => throw new System.NotSupportedException();
+    IAwsGlacier Glacier { get; }
 
     /// <summary>
     /// Gets the globalaccelerator sub-domain service.
     /// </summary>
-    IAwsGlobalaccelerator Globalaccelerator => throw new System.NotSupportedException();
+    IAwsGlobalaccelerator Globalaccelerator { get; }
 
     /// <summary>
     /// Gets the glue sub-domain service.
     /// </summary>
-    IAwsGlue Glue => throw new System.NotSupportedException();
+    IAwsGlue Glue { get; }
 
     /// <summary>
     /// Gets the grafana sub-domain service.
     /// </summary>
-    IAwsGrafana Grafana => throw new System.NotSupportedException();
+    IAwsGrafana Grafana { get; }
 
     /// <summary>
     /// Gets the greengrass sub-domain service.
     /// </summary>
-    IAwsGreengrass Greengrass => throw new System.NotSupportedException();
+    IAwsGreengrass Greengrass { get; }
 
     /// <summary>
     /// Gets the greengrassv2 sub-domain service.
     /// </summary>
-    IAwsGreengrassv2 Greengrassv2 => throw new System.NotSupportedException();
+    IAwsGreengrassv2 Greengrassv2 { get; }
 
     /// <summary>
     /// Gets the groundstation sub-domain service.
     /// </summary>
-    IAwsGroundstation Groundstation => throw new System.NotSupportedException();
+    IAwsGroundstation Groundstation { get; }
 
     /// <summary>
     /// Gets the guardduty sub-domain service.
     /// </summary>
-    IAwsGuardduty Guardduty => throw new System.NotSupportedException();
+    IAwsGuardduty Guardduty { get; }
 
     /// <summary>
     /// Gets the health sub-domain service.
     /// </summary>
-    IAwsHealth Health => throw new System.NotSupportedException();
+    IAwsHealth Health { get; }
 
     /// <summary>
     /// Gets the healthlake sub-domain service.
     /// </summary>
-    IAwsHealthlake Healthlake => throw new System.NotSupportedException();
+    IAwsHealthlake Healthlake { get; }
 
     /// <summary>
     /// Gets the iam sub-domain service.
     /// </summary>
-    IAwsIam Iam => throw new System.NotSupportedException();
+    IAwsIam Iam { get; }
 
     /// <summary>
     /// Gets the iamtoolbox sub-domain service.
     /// </summary>
-    IAwsIamToolbox IamToolbox => throw new System.NotSupportedException();
+    IAwsIamToolbox IamToolbox { get; }
 
     /// <summary>
     /// Gets the identitystore sub-domain service.
     /// </summary>
-    IAwsIdentitystore Identitystore => throw new System.NotSupportedException();
+    IAwsIdentitystore Identitystore { get; }
 
     /// <summary>
     /// Gets the imagebuilder sub-domain service.
     /// </summary>
-    IAwsImagebuilder Imagebuilder => throw new System.NotSupportedException();
+    IAwsImagebuilder Imagebuilder { get; }
 
     /// <summary>
     /// Gets the importexport sub-domain service.
     /// </summary>
-    IAwsImportexport Importexport => throw new System.NotSupportedException();
+    IAwsImportexport Importexport { get; }
 
     /// <summary>
     /// Gets the inspector sub-domain service.
     /// </summary>
-    IAwsInspector Inspector => throw new System.NotSupportedException();
+    IAwsInspector Inspector { get; }
 
     /// <summary>
     /// Gets the inspector2 sub-domain service.
     /// </summary>
-    IAwsInspector2 Inspector2 => throw new System.NotSupportedException();
+    IAwsInspector2 Inspector2 { get; }
 
     /// <summary>
     /// Gets the inspectorscan sub-domain service.
     /// </summary>
-    IAwsInspectorScan InspectorScan => throw new System.NotSupportedException();
+    IAwsInspectorScan InspectorScan { get; }
 
     /// <summary>
     /// Gets the interconnect sub-domain service.
     /// </summary>
-    IAwsInterconnect Interconnect => throw new System.NotSupportedException();
+    IAwsInterconnect Interconnect { get; }
 
     /// <summary>
     /// Gets the internetmonitor sub-domain service.
     /// </summary>
-    IAwsInternetmonitor Internetmonitor => throw new System.NotSupportedException();
+    IAwsInternetmonitor Internetmonitor { get; }
 
     /// <summary>
     /// Gets the invoicing sub-domain service.
     /// </summary>
-    IAwsInvoicing Invoicing => throw new System.NotSupportedException();
+    IAwsInvoicing Invoicing { get; }
 
     /// <summary>
     /// Gets the iot sub-domain service.
     /// </summary>
-    IAwsIot Iot => throw new System.NotSupportedException();
+    IAwsIot Iot { get; }
 
     /// <summary>
     /// Gets the iotdata sub-domain service.
     /// </summary>
-    IAwsIotData IotData => throw new System.NotSupportedException();
+    IAwsIotData IotData { get; }
 
     /// <summary>
     /// Gets the iotdeviceadvisor sub-domain service.
     /// </summary>
-    IAwsIotdeviceadvisor Iotdeviceadvisor => throw new System.NotSupportedException();
+    IAwsIotdeviceadvisor Iotdeviceadvisor { get; }
 
     /// <summary>
     /// Gets the iotfleetwise sub-domain service.
     /// </summary>
-    IAwsIotfleetwise Iotfleetwise => throw new System.NotSupportedException();
+    IAwsIotfleetwise Iotfleetwise { get; }
 
     /// <summary>
     /// Gets the iotjobsdata sub-domain service.
     /// </summary>
-    IAwsIotJobsData IotJobsData => throw new System.NotSupportedException();
+    IAwsIotJobsData IotJobsData { get; }
 
     /// <summary>
     /// Gets the iotmanagedintegrations sub-domain service.
     /// </summary>
-    IAwsIotManagedIntegrations IotManagedIntegrations => throw new System.NotSupportedException();
+    IAwsIotManagedIntegrations IotManagedIntegrations { get; }
 
     /// <summary>
     /// Gets the iotsecuretunneling sub-domain service.
     /// </summary>
-    IAwsIotsecuretunneling Iotsecuretunneling => throw new System.NotSupportedException();
+    IAwsIotsecuretunneling Iotsecuretunneling { get; }
 
     /// <summary>
     /// Gets the iotsitewise sub-domain service.
     /// </summary>
-    IAwsIotsitewise Iotsitewise => throw new System.NotSupportedException();
+    IAwsIotsitewise Iotsitewise { get; }
 
     /// <summary>
     /// Gets the iottwinmaker sub-domain service.
     /// </summary>
-    IAwsIottwinmaker Iottwinmaker => throw new System.NotSupportedException();
+    IAwsIottwinmaker Iottwinmaker { get; }
 
     /// <summary>
     /// Gets the iotwireless sub-domain service.
     /// </summary>
-    IAwsIotwireless Iotwireless => throw new System.NotSupportedException();
+    IAwsIotwireless Iotwireless { get; }
 
     /// <summary>
     /// Gets the ivs sub-domain service.
     /// </summary>
-    IAwsIvs Ivs => throw new System.NotSupportedException();
+    IAwsIvs Ivs { get; }
 
     /// <summary>
     /// Gets the ivschat sub-domain service.
     /// </summary>
-    IAwsIvschat Ivschat => throw new System.NotSupportedException();
+    IAwsIvschat Ivschat { get; }
 
     /// <summary>
     /// Gets the ivsrealtime sub-domain service.
     /// </summary>
-    IAwsIvsRealtime IvsRealtime => throw new System.NotSupportedException();
+    IAwsIvsRealtime IvsRealtime { get; }
 
     /// <summary>
     /// Gets the kafka sub-domain service.
     /// </summary>
-    IAwsKafka Kafka => throw new System.NotSupportedException();
+    IAwsKafka Kafka { get; }
 
     /// <summary>
     /// Gets the kafkaconnect sub-domain service.
     /// </summary>
-    IAwsKafkaconnect Kafkaconnect => throw new System.NotSupportedException();
+    IAwsKafkaconnect Kafkaconnect { get; }
 
     /// <summary>
     /// Gets the kendra sub-domain service.
     /// </summary>
-    IAwsKendra Kendra => throw new System.NotSupportedException();
+    IAwsKendra Kendra { get; }
 
     /// <summary>
     /// Gets the kendraranking sub-domain service.
     /// </summary>
-    IAwsKendraRanking KendraRanking => throw new System.NotSupportedException();
+    IAwsKendraRanking KendraRanking { get; }
 
     /// <summary>
     /// Gets the keyspaces sub-domain service.
     /// </summary>
-    IAwsKeyspaces Keyspaces => throw new System.NotSupportedException();
+    IAwsKeyspaces Keyspaces { get; }
 
     /// <summary>
     /// Gets the keyspacesstreams sub-domain service.
     /// </summary>
-    IAwsKeyspacesstreams Keyspacesstreams => throw new System.NotSupportedException();
+    IAwsKeyspacesstreams Keyspacesstreams { get; }
 
     /// <summary>
     /// Gets the kinesis sub-domain service.
     /// </summary>
-    IAwsKinesis Kinesis => throw new System.NotSupportedException();
+    IAwsKinesis Kinesis { get; }
 
     /// <summary>
     /// Gets the kinesisanalytics sub-domain service.
     /// </summary>
-    IAwsKinesisanalytics Kinesisanalytics => throw new System.NotSupportedException();
+    IAwsKinesisanalytics Kinesisanalytics { get; }
 
     /// <summary>
     /// Gets the kinesisanalyticsv2 sub-domain service.
     /// </summary>
-    IAwsKinesisanalyticsv2 Kinesisanalyticsv2 => throw new System.NotSupportedException();
+    IAwsKinesisanalyticsv2 Kinesisanalyticsv2 { get; }
 
     /// <summary>
     /// Gets the kinesisvideo sub-domain service.
     /// </summary>
-    IAwsKinesisvideo Kinesisvideo => throw new System.NotSupportedException();
+    IAwsKinesisvideo Kinesisvideo { get; }
 
     /// <summary>
     /// Gets the kinesisvideoarchivedmedia sub-domain service.
     /// </summary>
-    IAwsKinesisVideoArchivedMedia KinesisVideoArchivedMedia => throw new System.NotSupportedException();
+    IAwsKinesisVideoArchivedMedia KinesisVideoArchivedMedia { get; }
 
     /// <summary>
     /// Gets the kinesisvideomedia sub-domain service.
     /// </summary>
-    IAwsKinesisVideoMedia KinesisVideoMedia => throw new System.NotSupportedException();
+    IAwsKinesisVideoMedia KinesisVideoMedia { get; }
 
     /// <summary>
     /// Gets the kinesisvideosignaling sub-domain service.
     /// </summary>
-    IAwsKinesisVideoSignaling KinesisVideoSignaling => throw new System.NotSupportedException();
+    IAwsKinesisVideoSignaling KinesisVideoSignaling { get; }
 
     /// <summary>
     /// Gets the kinesisvideowebrtcstorage sub-domain service.
     /// </summary>
-    IAwsKinesisVideoWebrtcStorage KinesisVideoWebrtcStorage => throw new System.NotSupportedException();
+    IAwsKinesisVideoWebrtcStorage KinesisVideoWebrtcStorage { get; }
 
     /// <summary>
     /// Gets the kms sub-domain service.
     /// </summary>
-    IAwsKms Kms => throw new System.NotSupportedException();
+    IAwsKms Kms { get; }
 
     /// <summary>
     /// Gets the lakeformation sub-domain service.
     /// </summary>
-    IAwsLakeformation Lakeformation => throw new System.NotSupportedException();
+    IAwsLakeformation Lakeformation { get; }
 
     /// <summary>
     /// Gets the lambda sub-domain service.
     /// </summary>
-    IAwsLambda Lambda => throw new System.NotSupportedException();
+    IAwsLambda Lambda { get; }
 
     /// <summary>
     /// Gets the lambdacore sub-domain service.
     /// </summary>
-    IAwsLambdaCore LambdaCore => throw new System.NotSupportedException();
+    IAwsLambdaCore LambdaCore { get; }
 
     /// <summary>
     /// Gets the lambdamicrovms sub-domain service.
     /// </summary>
-    IAwsLambdaMicrovms LambdaMicrovms => throw new System.NotSupportedException();
+    IAwsLambdaMicrovms LambdaMicrovms { get; }
+
+    /// <summary>
+    /// Gets the lambdaweb sub-domain service.
+    /// </summary>
+    IAwsLambdaWeb LambdaWeb { get; }
 
     /// <summary>
     /// Gets the launchwizard sub-domain service.
     /// </summary>
-    IAwsLaunchWizard LaunchWizard => throw new System.NotSupportedException();
+    IAwsLaunchWizard LaunchWizard { get; }
 
     /// <summary>
     /// Gets the lexruntime sub-domain service.
     /// </summary>
-    IAwsLexRuntime LexRuntime => throw new System.NotSupportedException();
+    IAwsLexRuntime LexRuntime { get; }
 
     /// <summary>
     /// Gets the lexv2models sub-domain service.
     /// </summary>
-    IAwsLexv2Models Lexv2Models => throw new System.NotSupportedException();
+    IAwsLexv2Models Lexv2Models { get; }
 
     /// <summary>
     /// Gets the lexv2runtime sub-domain service.
     /// </summary>
-    IAwsLexv2Runtime Lexv2Runtime => throw new System.NotSupportedException();
+    IAwsLexv2Runtime Lexv2Runtime { get; }
 
     /// <summary>
     /// Gets the licensemanager sub-domain service.
     /// </summary>
-    IAwsLicenseManager LicenseManager => throw new System.NotSupportedException();
+    IAwsLicenseManager LicenseManager { get; }
 
     /// <summary>
     /// Gets the licensemanagerlinuxsubscriptions sub-domain service.
     /// </summary>
-    IAwsLicenseManagerLinuxSubscriptions LicenseManagerLinuxSubscriptions => throw new System.NotSupportedException();
+    IAwsLicenseManagerLinuxSubscriptions LicenseManagerLinuxSubscriptions { get; }
 
     /// <summary>
     /// Gets the licensemanagerusersubscriptions sub-domain service.
     /// </summary>
-    IAwsLicenseManagerUserSubscriptions LicenseManagerUserSubscriptions => throw new System.NotSupportedException();
+    IAwsLicenseManagerUserSubscriptions LicenseManagerUserSubscriptions { get; }
 
     /// <summary>
     /// Gets the lightsail sub-domain service.
     /// </summary>
-    IAwsLightsail Lightsail => throw new System.NotSupportedException();
+    IAwsLightsail Lightsail { get; }
 
     /// <summary>
     /// Gets the location sub-domain service.
     /// </summary>
-    IAwsLocation Location => throw new System.NotSupportedException();
+    IAwsLocation Location { get; }
 
     /// <summary>
     /// Gets the login sub-domain service.
     /// </summary>
-    IAwsLogin Login => throw new System.NotSupportedException();
+    IAwsLogin Login { get; }
 
     /// <summary>
     /// Gets the logout sub-domain service.
     /// </summary>
-    IAwsLogout Logout => throw new System.NotSupportedException();
+    IAwsLogout Logout { get; }
 
     /// <summary>
     /// Gets the logs sub-domain service.
     /// </summary>
-    IAwsLogs Logs => throw new System.NotSupportedException();
+    IAwsLogs Logs { get; }
 
     /// <summary>
     /// Gets the lookoutequipment sub-domain service.
     /// </summary>
-    IAwsLookoutequipment Lookoutequipment => throw new System.NotSupportedException();
+    IAwsLookoutequipment Lookoutequipment { get; }
 
     /// <summary>
     /// Gets the m2 sub-domain service.
     /// </summary>
-    IAwsM2 M2 => throw new System.NotSupportedException();
+    IAwsM2 M2 { get; }
 
     /// <summary>
     /// Gets the machinelearning sub-domain service.
     /// </summary>
-    IAwsMachinelearning Machinelearning => throw new System.NotSupportedException();
+    IAwsMachinelearning Machinelearning { get; }
 
     /// <summary>
     /// Gets the macie2 sub-domain service.
     /// </summary>
-    IAwsMacie2 Macie2 => throw new System.NotSupportedException();
+    IAwsMacie2 Macie2 { get; }
 
     /// <summary>
     /// Gets the mailmanager sub-domain service.
     /// </summary>
-    IAwsMailmanager Mailmanager => throw new System.NotSupportedException();
+    IAwsMailmanager Mailmanager { get; }
 
     /// <summary>
     /// Gets the managedblockchain sub-domain service.
     /// </summary>
-    IAwsManagedblockchain Managedblockchain => throw new System.NotSupportedException();
+    IAwsManagedblockchain Managedblockchain { get; }
 
     /// <summary>
     /// Gets the managedblockchainquery sub-domain service.
     /// </summary>
-    IAwsManagedblockchainQuery ManagedblockchainQuery => throw new System.NotSupportedException();
+    IAwsManagedblockchainQuery ManagedblockchainQuery { get; }
 
     /// <summary>
     /// Gets the marketplaceagreement sub-domain service.
     /// </summary>
-    IAwsMarketplaceAgreement MarketplaceAgreement => throw new System.NotSupportedException();
+    IAwsMarketplaceAgreement MarketplaceAgreement { get; }
 
     /// <summary>
     /// Gets the marketplacecatalog sub-domain service.
     /// </summary>
-    IAwsMarketplaceCatalog MarketplaceCatalog => throw new System.NotSupportedException();
+    IAwsMarketplaceCatalog MarketplaceCatalog { get; }
 
     /// <summary>
     /// Gets the marketplacecommerceanalytics sub-domain service.
     /// </summary>
-    IAwsMarketplacecommerceanalytics Marketplacecommerceanalytics => throw new System.NotSupportedException();
+    IAwsMarketplacecommerceanalytics Marketplacecommerceanalytics { get; }
 
     /// <summary>
     /// Gets the marketplacedeployment sub-domain service.
     /// </summary>
-    IAwsMarketplaceDeployment MarketplaceDeployment => throw new System.NotSupportedException();
+    IAwsMarketplaceDeployment MarketplaceDeployment { get; }
 
     /// <summary>
     /// Gets the marketplacediscovery sub-domain service.
     /// </summary>
-    IAwsMarketplaceDiscovery MarketplaceDiscovery => throw new System.NotSupportedException();
+    IAwsMarketplaceDiscovery MarketplaceDiscovery { get; }
 
     /// <summary>
     /// Gets the marketplaceentitlement sub-domain service.
     /// </summary>
-    IAwsMarketplaceEntitlement MarketplaceEntitlement => throw new System.NotSupportedException();
+    IAwsMarketplaceEntitlement MarketplaceEntitlement { get; }
 
     /// <summary>
     /// Gets the marketplacereporting sub-domain service.
     /// </summary>
-    IAwsMarketplaceReporting MarketplaceReporting => throw new System.NotSupportedException();
+    IAwsMarketplaceReporting MarketplaceReporting { get; }
 
     /// <summary>
     /// Gets the mediaconnect sub-domain service.
     /// </summary>
-    IAwsMediaconnect Mediaconnect => throw new System.NotSupportedException();
+    IAwsMediaconnect Mediaconnect { get; }
 
     /// <summary>
     /// Gets the mediaconvert sub-domain service.
     /// </summary>
-    IAwsMediaconvert Mediaconvert => throw new System.NotSupportedException();
+    IAwsMediaconvert Mediaconvert { get; }
 
     /// <summary>
     /// Gets the medialive sub-domain service.
     /// </summary>
-    IAwsMedialive Medialive => throw new System.NotSupportedException();
+    IAwsMedialive Medialive { get; }
 
     /// <summary>
     /// Gets the mediapackage sub-domain service.
     /// </summary>
-    IAwsMediapackage Mediapackage => throw new System.NotSupportedException();
+    IAwsMediapackage Mediapackage { get; }
 
     /// <summary>
     /// Gets the mediapackagev2 sub-domain service.
     /// </summary>
-    IAwsMediapackagev2 Mediapackagev2 => throw new System.NotSupportedException();
+    IAwsMediapackagev2 Mediapackagev2 { get; }
 
     /// <summary>
     /// Gets the mediapackagevod sub-domain service.
     /// </summary>
-    IAwsMediapackageVod MediapackageVod => throw new System.NotSupportedException();
+    IAwsMediapackageVod MediapackageVod { get; }
 
     /// <summary>
     /// Gets the mediastore sub-domain service.
     /// </summary>
-    IAwsMediastore Mediastore => throw new System.NotSupportedException();
+    IAwsMediastore Mediastore { get; }
 
     /// <summary>
     /// Gets the mediastoredata sub-domain service.
     /// </summary>
-    IAwsMediastoreData MediastoreData => throw new System.NotSupportedException();
+    IAwsMediastoreData MediastoreData { get; }
 
     /// <summary>
     /// Gets the mediatailor sub-domain service.
     /// </summary>
-    IAwsMediatailor Mediatailor => throw new System.NotSupportedException();
+    IAwsMediatailor Mediatailor { get; }
 
     /// <summary>
     /// Gets the medicalimaging sub-domain service.
     /// </summary>
-    IAwsMedicalImaging MedicalImaging => throw new System.NotSupportedException();
+    IAwsMedicalImaging MedicalImaging { get; }
 
     /// <summary>
     /// Gets the memorydb sub-domain service.
     /// </summary>
-    IAwsMemorydb Memorydb => throw new System.NotSupportedException();
+    IAwsMemorydb Memorydb { get; }
 
     /// <summary>
     /// Gets the meteringmarketplace sub-domain service.
     /// </summary>
-    IAwsMeteringmarketplace Meteringmarketplace => throw new System.NotSupportedException();
+    IAwsMeteringmarketplace Meteringmarketplace { get; }
 
     /// <summary>
     /// Gets the mgh sub-domain service.
     /// </summary>
-    IAwsMgh Mgh => throw new System.NotSupportedException();
+    IAwsMgh Mgh { get; }
 
     /// <summary>
     /// Gets the mgn sub-domain service.
     /// </summary>
-    IAwsMgn Mgn => throw new System.NotSupportedException();
+    IAwsMgn Mgn { get; }
 
     /// <summary>
     /// Gets the migrationhubconfig sub-domain service.
     /// </summary>
-    IAwsMigrationhubConfig MigrationhubConfig => throw new System.NotSupportedException();
+    IAwsMigrationhubConfig MigrationhubConfig { get; }
 
     /// <summary>
     /// Gets the migrationhuborchestrator sub-domain service.
     /// </summary>
-    IAwsMigrationhuborchestrator Migrationhuborchestrator => throw new System.NotSupportedException();
+    IAwsMigrationhuborchestrator Migrationhuborchestrator { get; }
 
     /// <summary>
     /// Gets the migrationhubrefactorspaces sub-domain service.
     /// </summary>
-    IAwsMigrationHubRefactorSpaces MigrationHubRefactorSpaces => throw new System.NotSupportedException();
+    IAwsMigrationHubRefactorSpaces MigrationHubRefactorSpaces { get; }
 
     /// <summary>
     /// Gets the migrationhubstrategy sub-domain service.
     /// </summary>
-    IAwsMigrationhubstrategy Migrationhubstrategy => throw new System.NotSupportedException();
+    IAwsMigrationhubstrategy Migrationhubstrategy { get; }
 
     /// <summary>
     /// Gets the mpa sub-domain service.
     /// </summary>
-    IAwsMpa Mpa => throw new System.NotSupportedException();
+    IAwsMpa Mpa { get; }
 
     /// <summary>
     /// Gets the mq sub-domain service.
     /// </summary>
-    IAwsMq Mq => throw new System.NotSupportedException();
+    IAwsMq Mq { get; }
 
     /// <summary>
     /// Gets the mturk sub-domain service.
     /// </summary>
-    IAwsMturk Mturk => throw new System.NotSupportedException();
+    IAwsMturk Mturk { get; }
 
     /// <summary>
     /// Gets the mwaa sub-domain service.
     /// </summary>
-    IAwsMwaa Mwaa => throw new System.NotSupportedException();
+    IAwsMwaa Mwaa { get; }
 
     /// <summary>
     /// Gets the mwaaserverless sub-domain service.
     /// </summary>
-    IAwsMwaaServerless MwaaServerless => throw new System.NotSupportedException();
+    IAwsMwaaServerless MwaaServerless { get; }
 
     /// <summary>
     /// Gets the neptune sub-domain service.
     /// </summary>
-    IAwsNeptune Neptune => throw new System.NotSupportedException();
+    IAwsNeptune Neptune { get; }
 
     /// <summary>
     /// Gets the neptunedata sub-domain service.
     /// </summary>
-    IAwsNeptunedata Neptunedata => throw new System.NotSupportedException();
+    IAwsNeptunedata Neptunedata { get; }
 
     /// <summary>
     /// Gets the neptunegraph sub-domain service.
     /// </summary>
-    IAwsNeptuneGraph NeptuneGraph => throw new System.NotSupportedException();
+    IAwsNeptuneGraph NeptuneGraph { get; }
 
     /// <summary>
     /// Gets the networkfirewall sub-domain service.
     /// </summary>
-    IAwsNetworkFirewall NetworkFirewall => throw new System.NotSupportedException();
+    IAwsNetworkFirewall NetworkFirewall { get; }
 
     /// <summary>
     /// Gets the networkflowmonitor sub-domain service.
     /// </summary>
-    IAwsNetworkflowmonitor Networkflowmonitor => throw new System.NotSupportedException();
+    IAwsNetworkflowmonitor Networkflowmonitor { get; }
 
     /// <summary>
     /// Gets the networkmanager sub-domain service.
     /// </summary>
-    IAwsNetworkmanager Networkmanager => throw new System.NotSupportedException();
+    IAwsNetworkmanager Networkmanager { get; }
 
     /// <summary>
     /// Gets the networkmonitor sub-domain service.
     /// </summary>
-    IAwsNetworkmonitor Networkmonitor => throw new System.NotSupportedException();
+    IAwsNetworkmonitor Networkmonitor { get; }
 
     /// <summary>
     /// Gets the networksecuritymanager sub-domain service.
     /// </summary>
-    IAwsNetworkSecurityManager NetworkSecurityManager => throw new System.NotSupportedException();
+    IAwsNetworkSecurityManager NetworkSecurityManager { get; }
 
     /// <summary>
     /// Gets the notifications sub-domain service.
     /// </summary>
-    IAwsNotifications Notifications => throw new System.NotSupportedException();
+    IAwsNotifications Notifications { get; }
 
     /// <summary>
     /// Gets the notificationscontacts sub-domain service.
     /// </summary>
-    IAwsNotificationscontacts Notificationscontacts => throw new System.NotSupportedException();
+    IAwsNotificationscontacts Notificationscontacts { get; }
 
     /// <summary>
     /// Gets the novaact sub-domain service.
     /// </summary>
-    IAwsNovaAct NovaAct => throw new System.NotSupportedException();
+    IAwsNovaAct NovaAct { get; }
 
     /// <summary>
     /// Gets the oam sub-domain service.
     /// </summary>
-    IAwsOam Oam => throw new System.NotSupportedException();
+    IAwsOam Oam { get; }
 
     /// <summary>
     /// Gets the observabilityadmin sub-domain service.
     /// </summary>
-    IAwsObservabilityadmin Observabilityadmin => throw new System.NotSupportedException();
+    IAwsObservabilityadmin Observabilityadmin { get; }
 
     /// <summary>
     /// Gets the odb sub-domain service.
     /// </summary>
-    IAwsOdb Odb => throw new System.NotSupportedException();
+    IAwsOdb Odb { get; }
 
     /// <summary>
     /// Gets the omics sub-domain service.
     /// </summary>
-    IAwsOmics Omics => throw new System.NotSupportedException();
+    IAwsOmics Omics { get; }
 
     /// <summary>
     /// Gets the opensearch sub-domain service.
     /// </summary>
-    IAwsOpensearch Opensearch => throw new System.NotSupportedException();
+    IAwsOpensearch Opensearch { get; }
 
     /// <summary>
     /// Gets the opensearchserverless sub-domain service.
     /// </summary>
-    IAwsOpensearchserverless Opensearchserverless => throw new System.NotSupportedException();
+    IAwsOpensearchserverless Opensearchserverless { get; }
 
     /// <summary>
     /// Gets the organizations sub-domain service.
     /// </summary>
-    IAwsOrganizations Organizations => throw new System.NotSupportedException();
+    IAwsOrganizations Organizations { get; }
 
     /// <summary>
     /// Gets the osis sub-domain service.
     /// </summary>
-    IAwsOsis Osis => throw new System.NotSupportedException();
+    IAwsOsis Osis { get; }
 
     /// <summary>
     /// Gets the outposts sub-domain service.
     /// </summary>
-    IAwsOutposts Outposts => throw new System.NotSupportedException();
+    IAwsOutposts Outposts { get; }
 
     /// <summary>
     /// Gets the partnercentralaccount sub-domain service.
     /// </summary>
-    IAwsPartnercentralAccount PartnercentralAccount => throw new System.NotSupportedException();
+    IAwsPartnercentralAccount PartnercentralAccount { get; }
 
     /// <summary>
     /// Gets the partnercentralbenefits sub-domain service.
     /// </summary>
-    IAwsPartnercentralBenefits PartnercentralBenefits => throw new System.NotSupportedException();
+    IAwsPartnercentralBenefits PartnercentralBenefits { get; }
 
     /// <summary>
     /// Gets the partnercentralchannel sub-domain service.
     /// </summary>
-    IAwsPartnercentralChannel PartnercentralChannel => throw new System.NotSupportedException();
+    IAwsPartnercentralChannel PartnercentralChannel { get; }
 
     /// <summary>
     /// Gets the partnercentralrevenuemeasurement sub-domain service.
     /// </summary>
-    IAwsPartnercentralRevenueMeasurement PartnercentralRevenueMeasurement => throw new System.NotSupportedException();
+    IAwsPartnercentralRevenueMeasurement PartnercentralRevenueMeasurement { get; }
 
     /// <summary>
     /// Gets the partnercentralselling sub-domain service.
     /// </summary>
-    IAwsPartnercentralSelling PartnercentralSelling => throw new System.NotSupportedException();
+    IAwsPartnercentralSelling PartnercentralSelling { get; }
 
     /// <summary>
     /// Gets the paymentcryptography sub-domain service.
     /// </summary>
-    IAwsPaymentCryptography PaymentCryptography => throw new System.NotSupportedException();
+    IAwsPaymentCryptography PaymentCryptography { get; }
 
     /// <summary>
     /// Gets the paymentcryptographydata sub-domain service.
     /// </summary>
-    IAwsPaymentCryptographyData PaymentCryptographyData => throw new System.NotSupportedException();
+    IAwsPaymentCryptographyData PaymentCryptographyData { get; }
 
     /// <summary>
     /// Gets the pcaconnectorad sub-domain service.
     /// </summary>
-    IAwsPcaConnectorAd PcaConnectorAd => throw new System.NotSupportedException();
+    IAwsPcaConnectorAd PcaConnectorAd { get; }
 
     /// <summary>
     /// Gets the pcaconnectorscep sub-domain service.
     /// </summary>
-    IAwsPcaConnectorScep PcaConnectorScep => throw new System.NotSupportedException();
+    IAwsPcaConnectorScep PcaConnectorScep { get; }
 
     /// <summary>
     /// Gets the pcs sub-domain service.
     /// </summary>
-    IAwsPcs Pcs => throw new System.NotSupportedException();
+    IAwsPcs Pcs { get; }
 
     /// <summary>
     /// Gets the personalize sub-domain service.
     /// </summary>
-    IAwsPersonalize Personalize => throw new System.NotSupportedException();
+    IAwsPersonalize Personalize { get; }
 
     /// <summary>
     /// Gets the personalizeevents sub-domain service.
     /// </summary>
-    IAwsPersonalizeEvents PersonalizeEvents => throw new System.NotSupportedException();
+    IAwsPersonalizeEvents PersonalizeEvents { get; }
 
     /// <summary>
     /// Gets the personalizeruntime sub-domain service.
     /// </summary>
-    IAwsPersonalizeRuntime PersonalizeRuntime => throw new System.NotSupportedException();
+    IAwsPersonalizeRuntime PersonalizeRuntime { get; }
 
     /// <summary>
     /// Gets the pi sub-domain service.
     /// </summary>
-    IAwsPi Pi => throw new System.NotSupportedException();
+    IAwsPi Pi { get; }
 
     /// <summary>
     /// Gets the pinpoint sub-domain service.
     /// </summary>
-    IAwsPinpoint Pinpoint => throw new System.NotSupportedException();
+    IAwsPinpoint Pinpoint { get; }
 
     /// <summary>
     /// Gets the pinpointemail sub-domain service.
     /// </summary>
-    IAwsPinpointEmail PinpointEmail => throw new System.NotSupportedException();
+    IAwsPinpointEmail PinpointEmail { get; }
 
     /// <summary>
     /// Gets the pinpointsmsvoice sub-domain service.
     /// </summary>
-    IAwsPinpointSmsVoice PinpointSmsVoice => throw new System.NotSupportedException();
+    IAwsPinpointSmsVoice PinpointSmsVoice { get; }
 
     /// <summary>
     /// Gets the pinpointsmsvoicev2 sub-domain service.
     /// </summary>
-    IAwsPinpointSmsVoiceV2 PinpointSmsVoiceV2 => throw new System.NotSupportedException();
+    IAwsPinpointSmsVoiceV2 PinpointSmsVoiceV2 { get; }
 
     /// <summary>
     /// Gets the pipes sub-domain service.
     /// </summary>
-    IAwsPipes Pipes => throw new System.NotSupportedException();
+    IAwsPipes Pipes { get; }
 
     /// <summary>
     /// Gets the polly sub-domain service.
     /// </summary>
-    IAwsPolly Polly => throw new System.NotSupportedException();
+    IAwsPolly Polly { get; }
 
     /// <summary>
     /// Gets the pricing sub-domain service.
     /// </summary>
-    IAwsPricing Pricing => throw new System.NotSupportedException();
+    IAwsPricing Pricing { get; }
 
     /// <summary>
     /// Gets the pricingplanmanager sub-domain service.
     /// </summary>
-    IAwsPricingPlanManager PricingPlanManager => throw new System.NotSupportedException();
+    IAwsPricingPlanManager PricingPlanManager { get; }
 
     /// <summary>
     /// Gets the qapps sub-domain service.
     /// </summary>
-    IAwsQapps Qapps => throw new System.NotSupportedException();
+    IAwsQapps Qapps { get; }
 
     /// <summary>
     /// Gets the qbusiness sub-domain service.
     /// </summary>
-    IAwsQbusiness Qbusiness => throw new System.NotSupportedException();
+    IAwsQbusiness Qbusiness { get; }
 
     /// <summary>
     /// Gets the qconnect sub-domain service.
     /// </summary>
-    IAwsQconnect Qconnect => throw new System.NotSupportedException();
+    IAwsQconnect Qconnect { get; }
 
     /// <summary>
     /// Gets the quicksight sub-domain service.
     /// </summary>
-    IAwsQuicksight Quicksight => throw new System.NotSupportedException();
+    IAwsQuicksight Quicksight { get; }
 
     /// <summary>
     /// Gets the ram sub-domain service.
     /// </summary>
-    IAwsRam Ram => throw new System.NotSupportedException();
+    IAwsRam Ram { get; }
 
     /// <summary>
     /// Gets the rbin sub-domain service.
     /// </summary>
-    IAwsRbin Rbin => throw new System.NotSupportedException();
+    IAwsRbin Rbin { get; }
 
     /// <summary>
     /// Gets the rds sub-domain service.
     /// </summary>
-    IAwsRds Rds => throw new System.NotSupportedException();
+    IAwsRds Rds { get; }
 
     /// <summary>
     /// Gets the rdsdata sub-domain service.
     /// </summary>
-    IAwsRdsData RdsData => throw new System.NotSupportedException();
+    IAwsRdsData RdsData { get; }
 
     /// <summary>
     /// Gets the redshift sub-domain service.
     /// </summary>
-    IAwsRedshift Redshift => throw new System.NotSupportedException();
+    IAwsRedshift Redshift { get; }
 
     /// <summary>
     /// Gets the redshiftdata sub-domain service.
     /// </summary>
-    IAwsRedshiftData RedshiftData => throw new System.NotSupportedException();
+    IAwsRedshiftData RedshiftData { get; }
 
     /// <summary>
     /// Gets the redshiftserverless sub-domain service.
     /// </summary>
-    IAwsRedshiftServerless RedshiftServerless => throw new System.NotSupportedException();
+    IAwsRedshiftServerless RedshiftServerless { get; }
 
     /// <summary>
     /// Gets the rekognition sub-domain service.
     /// </summary>
-    IAwsRekognition Rekognition => throw new System.NotSupportedException();
+    IAwsRekognition Rekognition { get; }
 
     /// <summary>
     /// Gets the repostspace sub-domain service.
     /// </summary>
-    IAwsRepostspace Repostspace => throw new System.NotSupportedException();
+    IAwsRepostspace Repostspace { get; }
 
     /// <summary>
     /// Gets the resiliencehub sub-domain service.
     /// </summary>
-    IAwsResiliencehub Resiliencehub => throw new System.NotSupportedException();
+    IAwsResiliencehub Resiliencehub { get; }
 
     /// <summary>
     /// Gets the resiliencehubv2 sub-domain service.
     /// </summary>
-    IAwsResiliencehubv2 Resiliencehubv2 => throw new System.NotSupportedException();
+    IAwsResiliencehubv2 Resiliencehubv2 { get; }
 
     /// <summary>
     /// Gets the resourceexplorer2 sub-domain service.
     /// </summary>
-    IAwsResourceExplorer2 ResourceExplorer2 => throw new System.NotSupportedException();
+    IAwsResourceExplorer2 ResourceExplorer2 { get; }
 
     /// <summary>
     /// Gets the resourcegroups sub-domain service.
     /// </summary>
-    IAwsResourceGroups ResourceGroups => throw new System.NotSupportedException();
+    IAwsResourceGroups ResourceGroups { get; }
 
     /// <summary>
     /// Gets the resourcegroupstaggingapi sub-domain service.
     /// </summary>
-    IAwsResourcegroupstaggingapi Resourcegroupstaggingapi => throw new System.NotSupportedException();
+    IAwsResourcegroupstaggingapi Resourcegroupstaggingapi { get; }
 
     /// <summary>
     /// Gets the rolesanywhere sub-domain service.
     /// </summary>
-    IAwsRolesanywhere Rolesanywhere => throw new System.NotSupportedException();
+    IAwsRolesanywhere Rolesanywhere { get; }
 
     /// <summary>
     /// Gets the route53 sub-domain service.
     /// </summary>
-    IAwsRoute53 Route53 => throw new System.NotSupportedException();
+    IAwsRoute53 Route53 { get; }
 
     /// <summary>
     /// Gets the route53domains sub-domain service.
     /// </summary>
-    IAwsRoute53Domains Route53Domains => throw new System.NotSupportedException();
+    IAwsRoute53Domains Route53Domains { get; }
 
     /// <summary>
     /// Gets the route53globalresolver sub-domain service.
     /// </summary>
-    IAwsRoute53Globalresolver Route53Globalresolver => throw new System.NotSupportedException();
+    IAwsRoute53Globalresolver Route53Globalresolver { get; }
 
     /// <summary>
     /// Gets the route53profiles sub-domain service.
     /// </summary>
-    IAwsRoute53Profiles Route53Profiles => throw new System.NotSupportedException();
+    IAwsRoute53Profiles Route53Profiles { get; }
 
     /// <summary>
     /// Gets the route53recoverycluster sub-domain service.
     /// </summary>
-    IAwsRoute53RecoveryCluster Route53RecoveryCluster => throw new System.NotSupportedException();
+    IAwsRoute53RecoveryCluster Route53RecoveryCluster { get; }
 
     /// <summary>
     /// Gets the route53recoverycontrolconfig sub-domain service.
     /// </summary>
-    IAwsRoute53RecoveryControlConfig Route53RecoveryControlConfig => throw new System.NotSupportedException();
+    IAwsRoute53RecoveryControlConfig Route53RecoveryControlConfig { get; }
 
     /// <summary>
     /// Gets the route53recoveryreadiness sub-domain service.
     /// </summary>
-    IAwsRoute53RecoveryReadiness Route53RecoveryReadiness => throw new System.NotSupportedException();
+    IAwsRoute53RecoveryReadiness Route53RecoveryReadiness { get; }
 
     /// <summary>
     /// Gets the route53resolver sub-domain service.
     /// </summary>
-    IAwsRoute53Resolver Route53Resolver => throw new System.NotSupportedException();
+    IAwsRoute53Resolver Route53Resolver { get; }
 
     /// <summary>
     /// Gets the rtbfabric sub-domain service.
     /// </summary>
-    IAwsRtbfabric Rtbfabric => throw new System.NotSupportedException();
+    IAwsRtbfabric Rtbfabric { get; }
 
     /// <summary>
     /// Gets the rum sub-domain service.
     /// </summary>
-    IAwsRum Rum => throw new System.NotSupportedException();
+    IAwsRum Rum { get; }
 
     /// <summary>
     /// Gets the s3 sub-domain service.
     /// </summary>
-    IAwsS3 S3 => throw new System.NotSupportedException();
+    IAwsS3 S3 { get; }
 
     /// <summary>
     /// Gets the s3api sub-domain service.
     /// </summary>
-    IAwsS3Api S3Api => throw new System.NotSupportedException();
+    IAwsS3Api S3Api { get; }
 
     /// <summary>
     /// Gets the s3control sub-domain service.
     /// </summary>
-    IAwsS3Control S3Control => throw new System.NotSupportedException();
+    IAwsS3Control S3Control { get; }
 
     /// <summary>
     /// Gets the s3files sub-domain service.
     /// </summary>
-    IAwsS3Files S3Files => throw new System.NotSupportedException();
+    IAwsS3Files S3Files { get; }
 
     /// <summary>
     /// Gets the s3outposts sub-domain service.
     /// </summary>
-    IAwsS3Outposts S3Outposts => throw new System.NotSupportedException();
+    IAwsS3Outposts S3Outposts { get; }
 
     /// <summary>
     /// Gets the s3tables sub-domain service.
     /// </summary>
-    IAwsS3Tables S3Tables => throw new System.NotSupportedException();
+    IAwsS3Tables S3Tables { get; }
 
     /// <summary>
     /// Gets the s3vectors sub-domain service.
     /// </summary>
-    IAwsS3Vectors S3Vectors => throw new System.NotSupportedException();
+    IAwsS3Vectors S3Vectors { get; }
 
     /// <summary>
     /// Gets the sagemaker sub-domain service.
     /// </summary>
-    IAwsSagemaker Sagemaker => throw new System.NotSupportedException();
+    IAwsSagemaker Sagemaker { get; }
 
     /// <summary>
     /// Gets the sagemakera2iruntime sub-domain service.
     /// </summary>
-    IAwsSagemakerA2IRuntime SagemakerA2IRuntime => throw new System.NotSupportedException();
+    IAwsSagemakerA2IRuntime SagemakerA2IRuntime { get; }
 
     /// <summary>
     /// Gets the sagemakeredge sub-domain service.
     /// </summary>
-    IAwsSagemakerEdge SagemakerEdge => throw new System.NotSupportedException();
+    IAwsSagemakerEdge SagemakerEdge { get; }
 
     /// <summary>
     /// Gets the sagemakerfeaturestoreruntime sub-domain service.
     /// </summary>
-    IAwsSagemakerFeaturestoreRuntime SagemakerFeaturestoreRuntime => throw new System.NotSupportedException();
+    IAwsSagemakerFeaturestoreRuntime SagemakerFeaturestoreRuntime { get; }
 
     /// <summary>
     /// Gets the sagemakergeospatial sub-domain service.
     /// </summary>
-    IAwsSagemakerGeospatial SagemakerGeospatial => throw new System.NotSupportedException();
+    IAwsSagemakerGeospatial SagemakerGeospatial { get; }
 
     /// <summary>
     /// Gets the sagemakerjobruntime sub-domain service.
     /// </summary>
-    IAwsSagemakerjobruntime Sagemakerjobruntime => throw new System.NotSupportedException();
+    IAwsSagemakerjobruntime Sagemakerjobruntime { get; }
 
     /// <summary>
     /// Gets the sagemakermetrics sub-domain service.
     /// </summary>
-    IAwsSagemakerMetrics SagemakerMetrics => throw new System.NotSupportedException();
+    IAwsSagemakerMetrics SagemakerMetrics { get; }
 
     /// <summary>
     /// Gets the sagemakerruntime sub-domain service.
     /// </summary>
-    IAwsSagemakerRuntime SagemakerRuntime => throw new System.NotSupportedException();
+    IAwsSagemakerRuntime SagemakerRuntime { get; }
+
+    /// <summary>
+    /// Gets the sagemakertrainingsessionruntime sub-domain service.
+    /// </summary>
+    IAwsSagemakertrainingsessionruntime Sagemakertrainingsessionruntime { get; }
 
     /// <summary>
     /// Gets the savingsplans sub-domain service.
     /// </summary>
-    IAwsSavingsplans Savingsplans => throw new System.NotSupportedException();
+    IAwsSavingsplans Savingsplans { get; }
 
     /// <summary>
     /// Gets the scheduler sub-domain service.
     /// </summary>
-    IAwsScheduler Scheduler => throw new System.NotSupportedException();
+    IAwsScheduler Scheduler { get; }
 
     /// <summary>
     /// Gets the schemas sub-domain service.
     /// </summary>
-    IAwsSchemas Schemas => throw new System.NotSupportedException();
+    IAwsSchemas Schemas { get; }
 
     /// <summary>
     /// Gets the sdb sub-domain service.
     /// </summary>
-    IAwsSdb Sdb => throw new System.NotSupportedException();
+    IAwsSdb Sdb { get; }
 
     /// <summary>
     /// Gets the secretsmanager sub-domain service.
     /// </summary>
-    IAwsSecretsmanager Secretsmanager => throw new System.NotSupportedException();
+    IAwsSecretsmanager Secretsmanager { get; }
 
     /// <summary>
     /// Gets the securityagent sub-domain service.
     /// </summary>
-    IAwsSecurityagent Securityagent => throw new System.NotSupportedException();
+    IAwsSecurityagent Securityagent { get; }
 
     /// <summary>
     /// Gets the securityhub sub-domain service.
     /// </summary>
-    IAwsSecurityhub Securityhub => throw new System.NotSupportedException();
+    IAwsSecurityhub Securityhub { get; }
 
     /// <summary>
     /// Gets the securityir sub-domain service.
     /// </summary>
-    IAwsSecurityIr SecurityIr => throw new System.NotSupportedException();
+    IAwsSecurityIr SecurityIr { get; }
 
     /// <summary>
     /// Gets the securitylake sub-domain service.
     /// </summary>
-    IAwsSecuritylake Securitylake => throw new System.NotSupportedException();
+    IAwsSecuritylake Securitylake { get; }
 
     /// <summary>
     /// Gets the serverlessrepo sub-domain service.
     /// </summary>
-    IAwsServerlessrepo Serverlessrepo => throw new System.NotSupportedException();
+    IAwsServerlessrepo Serverlessrepo { get; }
 
     /// <summary>
     /// Gets the servicecatalog sub-domain service.
     /// </summary>
-    IAwsServicecatalog Servicecatalog => throw new System.NotSupportedException();
+    IAwsServicecatalog Servicecatalog { get; }
 
     /// <summary>
     /// Gets the servicecatalogappregistry sub-domain service.
     /// </summary>
-    IAwsServicecatalogAppregistry ServicecatalogAppregistry => throw new System.NotSupportedException();
+    IAwsServicecatalogAppregistry ServicecatalogAppregistry { get; }
 
     /// <summary>
     /// Gets the servicediscovery sub-domain service.
     /// </summary>
-    IAwsServicediscovery Servicediscovery => throw new System.NotSupportedException();
+    IAwsServicediscovery Servicediscovery { get; }
 
     /// <summary>
     /// Gets the servicequotas sub-domain service.
     /// </summary>
-    IAwsServiceQuotas ServiceQuotas => throw new System.NotSupportedException();
+    IAwsServiceQuotas ServiceQuotas { get; }
 
     /// <summary>
     /// Gets the ses sub-domain service.
     /// </summary>
-    IAwsSes Ses => throw new System.NotSupportedException();
+    IAwsSes Ses { get; }
 
     /// <summary>
     /// Gets the sesv2 sub-domain service.
     /// </summary>
-    IAwsSesv2 Sesv2 => throw new System.NotSupportedException();
+    IAwsSesv2 Sesv2 { get; }
 
     /// <summary>
     /// Gets the shield sub-domain service.
     /// </summary>
-    IAwsShield Shield => throw new System.NotSupportedException();
+    IAwsShield Shield { get; }
 
     /// <summary>
     /// Gets the signer sub-domain service.
     /// </summary>
-    IAwsSigner Signer => throw new System.NotSupportedException();
+    IAwsSigner Signer { get; }
 
     /// <summary>
     /// Gets the signerdata sub-domain service.
     /// </summary>
-    IAwsSignerData SignerData => throw new System.NotSupportedException();
+    IAwsSignerData SignerData { get; }
 
     /// <summary>
     /// Gets the signin sub-domain service.
     /// </summary>
-    IAwsSignin Signin => throw new System.NotSupportedException();
+    IAwsSignin Signin { get; }
 
     /// <summary>
     /// Gets the simpledbv2 sub-domain service.
     /// </summary>
-    IAwsSimpledbv2 Simpledbv2 => throw new System.NotSupportedException();
+    IAwsSimpledbv2 Simpledbv2 { get; }
 
     /// <summary>
     /// Gets the snowball sub-domain service.
     /// </summary>
-    IAwsSnowball Snowball => throw new System.NotSupportedException();
+    IAwsSnowball Snowball { get; }
 
     /// <summary>
     /// Gets the snowdevicemanagement sub-domain service.
     /// </summary>
-    IAwsSnowDeviceManagement SnowDeviceManagement => throw new System.NotSupportedException();
+    IAwsSnowDeviceManagement SnowDeviceManagement { get; }
 
     /// <summary>
     /// Gets the sns sub-domain service.
     /// </summary>
-    IAwsSns Sns => throw new System.NotSupportedException();
+    IAwsSns Sns { get; }
 
     /// <summary>
     /// Gets the socialmessaging sub-domain service.
     /// </summary>
-    IAwsSocialmessaging Socialmessaging => throw new System.NotSupportedException();
+    IAwsSocialmessaging Socialmessaging { get; }
 
     /// <summary>
     /// Gets the sqs sub-domain service.
     /// </summary>
-    IAwsSqs Sqs => throw new System.NotSupportedException();
+    IAwsSqs Sqs { get; }
 
     /// <summary>
     /// Gets the ssm sub-domain service.
     /// </summary>
-    IAwsSsm Ssm => throw new System.NotSupportedException();
+    IAwsSsm Ssm { get; }
 
     /// <summary>
     /// Gets the ssmcontacts sub-domain service.
     /// </summary>
-    IAwsSsmContacts SsmContacts => throw new System.NotSupportedException();
+    IAwsSsmContacts SsmContacts { get; }
 
     /// <summary>
     /// Gets the ssmguiconnect sub-domain service.
     /// </summary>
-    IAwsSsmGuiconnect SsmGuiconnect => throw new System.NotSupportedException();
+    IAwsSsmGuiconnect SsmGuiconnect { get; }
 
     /// <summary>
     /// Gets the ssmincidents sub-domain service.
     /// </summary>
-    IAwsSsmIncidents SsmIncidents => throw new System.NotSupportedException();
+    IAwsSsmIncidents SsmIncidents { get; }
 
     /// <summary>
     /// Gets the ssmquicksetup sub-domain service.
     /// </summary>
-    IAwsSsmQuicksetup SsmQuicksetup => throw new System.NotSupportedException();
+    IAwsSsmQuicksetup SsmQuicksetup { get; }
 
     /// <summary>
     /// Gets the ssmsap sub-domain service.
     /// </summary>
-    IAwsSsmSap SsmSap => throw new System.NotSupportedException();
+    IAwsSsmSap SsmSap { get; }
 
     /// <summary>
     /// Gets the sso sub-domain service.
     /// </summary>
-    IAwsSso Sso => throw new System.NotSupportedException();
+    IAwsSso Sso { get; }
 
     /// <summary>
     /// Gets the ssoadmin sub-domain service.
     /// </summary>
-    IAwsSsoAdmin SsoAdmin => throw new System.NotSupportedException();
+    IAwsSsoAdmin SsoAdmin { get; }
 
     /// <summary>
     /// Gets the ssooidc sub-domain service.
     /// </summary>
-    IAwsSsoOidc SsoOidc => throw new System.NotSupportedException();
+    IAwsSsoOidc SsoOidc { get; }
 
     /// <summary>
     /// Gets the stepfunctions sub-domain service.
     /// </summary>
-    IAwsStepfunctions Stepfunctions => throw new System.NotSupportedException();
+    IAwsStepfunctions Stepfunctions { get; }
 
     /// <summary>
     /// Gets the storagegateway sub-domain service.
     /// </summary>
-    IAwsStoragegateway Storagegateway => throw new System.NotSupportedException();
+    IAwsStoragegateway Storagegateway { get; }
 
     /// <summary>
     /// Gets the sts sub-domain service.
     /// </summary>
-    IAwsSts Sts => throw new System.NotSupportedException();
+    IAwsSts Sts { get; }
 
     /// <summary>
     /// Gets the supplychain sub-domain service.
     /// </summary>
-    IAwsSupplychain Supplychain => throw new System.NotSupportedException();
+    IAwsSupplychain Supplychain { get; }
 
     /// <summary>
     /// Gets the support sub-domain service.
     /// </summary>
-    IAwsSupport Support => throw new System.NotSupportedException();
+    IAwsSupport Support { get; }
 
     /// <summary>
     /// Gets the supportapp sub-domain service.
     /// </summary>
-    IAwsSupportApp SupportApp => throw new System.NotSupportedException();
+    IAwsSupportApp SupportApp { get; }
 
     /// <summary>
     /// Gets the supportauthz sub-domain service.
     /// </summary>
-    IAwsSupportauthz Supportauthz => throw new System.NotSupportedException();
+    IAwsSupportauthz Supportauthz { get; }
 
     /// <summary>
     /// Gets the sustainability sub-domain service.
     /// </summary>
-    IAwsSustainability Sustainability => throw new System.NotSupportedException();
+    IAwsSustainability Sustainability { get; }
 
     /// <summary>
     /// Gets the swf sub-domain service.
     /// </summary>
-    IAwsSwf Swf => throw new System.NotSupportedException();
+    IAwsSwf Swf { get; }
 
     /// <summary>
     /// Gets the synthetics sub-domain service.
     /// </summary>
-    IAwsSynthetics Synthetics => throw new System.NotSupportedException();
+    IAwsSynthetics Synthetics { get; }
 
     /// <summary>
     /// Gets the taxsettings sub-domain service.
     /// </summary>
-    IAwsTaxsettings Taxsettings => throw new System.NotSupportedException();
+    IAwsTaxsettings Taxsettings { get; }
 
     /// <summary>
     /// Gets the textract sub-domain service.
     /// </summary>
-    IAwsTextract Textract => throw new System.NotSupportedException();
+    IAwsTextract Textract { get; }
 
     /// <summary>
     /// Gets the timestreaminfluxdb sub-domain service.
     /// </summary>
-    IAwsTimestreamInfluxdb TimestreamInfluxdb => throw new System.NotSupportedException();
+    IAwsTimestreamInfluxdb TimestreamInfluxdb { get; }
 
     /// <summary>
     /// Gets the timestreamquery sub-domain service.
     /// </summary>
-    IAwsTimestreamQuery TimestreamQuery => throw new System.NotSupportedException();
+    IAwsTimestreamQuery TimestreamQuery { get; }
 
     /// <summary>
     /// Gets the timestreamwrite sub-domain service.
     /// </summary>
-    IAwsTimestreamWrite TimestreamWrite => throw new System.NotSupportedException();
+    IAwsTimestreamWrite TimestreamWrite { get; }
 
     /// <summary>
     /// Gets the tnb sub-domain service.
     /// </summary>
-    IAwsTnb Tnb => throw new System.NotSupportedException();
+    IAwsTnb Tnb { get; }
 
     /// <summary>
     /// Gets the transcribe sub-domain service.
     /// </summary>
-    IAwsTranscribe Transcribe => throw new System.NotSupportedException();
+    IAwsTranscribe Transcribe { get; }
 
     /// <summary>
     /// Gets the transfer sub-domain service.
     /// </summary>
-    IAwsTransfer Transfer => throw new System.NotSupportedException();
+    IAwsTransfer Transfer { get; }
 
     /// <summary>
     /// Gets the translate sub-domain service.
     /// </summary>
-    IAwsTranslate Translate => throw new System.NotSupportedException();
+    IAwsTranslate Translate { get; }
 
     /// <summary>
     /// Gets the trustedadvisor sub-domain service.
     /// </summary>
-    IAwsTrustedadvisor Trustedadvisor => throw new System.NotSupportedException();
+    IAwsTrustedadvisor Trustedadvisor { get; }
 
     /// <summary>
     /// Gets the update sub-domain service.
     /// </summary>
-    IAwsUpdate Update => throw new System.NotSupportedException();
+    IAwsUpdate Update { get; }
 
     /// <summary>
     /// Gets the uxc sub-domain service.
     /// </summary>
-    IAwsUxc Uxc => throw new System.NotSupportedException();
+    IAwsUxc Uxc { get; }
 
     /// <summary>
     /// Gets the verifiedpermissions sub-domain service.
     /// </summary>
-    IAwsVerifiedpermissions Verifiedpermissions => throw new System.NotSupportedException();
+    IAwsVerifiedpermissions Verifiedpermissions { get; }
 
     /// <summary>
     /// Gets the voiceid sub-domain service.
     /// </summary>
-    IAwsVoiceId VoiceId => throw new System.NotSupportedException();
+    IAwsVoiceId VoiceId { get; }
 
     /// <summary>
     /// Gets the vpclattice sub-domain service.
     /// </summary>
-    IAwsVpcLattice VpcLattice => throw new System.NotSupportedException();
+    IAwsVpcLattice VpcLattice { get; }
 
     /// <summary>
     /// Gets the waf sub-domain service.
     /// </summary>
-    IAwsWaf Waf => throw new System.NotSupportedException();
+    IAwsWaf Waf { get; }
 
     /// <summary>
     /// Gets the wafregional sub-domain service.
     /// </summary>
-    IAwsWafRegional WafRegional => throw new System.NotSupportedException();
+    IAwsWafRegional WafRegional { get; }
 
     /// <summary>
     /// Gets the wafv2 sub-domain service.
     /// </summary>
-    IAwsWafv2 Wafv2 => throw new System.NotSupportedException();
+    IAwsWafv2 Wafv2 { get; }
 
     /// <summary>
     /// Gets the wellarchitected sub-domain service.
     /// </summary>
-    IAwsWellarchitected Wellarchitected => throw new System.NotSupportedException();
+    IAwsWellarchitected Wellarchitected { get; }
 
     /// <summary>
     /// Gets the wickr sub-domain service.
     /// </summary>
-    IAwsWickr Wickr => throw new System.NotSupportedException();
+    IAwsWickr Wickr { get; }
 
     /// <summary>
     /// Gets the wisdom sub-domain service.
     /// </summary>
-    IAwsWisdom Wisdom => throw new System.NotSupportedException();
+    IAwsWisdom Wisdom { get; }
 
     /// <summary>
     /// Gets the workdocs sub-domain service.
     /// </summary>
-    IAwsWorkdocs Workdocs => throw new System.NotSupportedException();
+    IAwsWorkdocs Workdocs { get; }
 
     /// <summary>
     /// Gets the workmail sub-domain service.
     /// </summary>
-    IAwsWorkmail Workmail => throw new System.NotSupportedException();
+    IAwsWorkmail Workmail { get; }
 
     /// <summary>
     /// Gets the workmailmessageflow sub-domain service.
     /// </summary>
-    IAwsWorkmailmessageflow Workmailmessageflow => throw new System.NotSupportedException();
+    IAwsWorkmailmessageflow Workmailmessageflow { get; }
 
     /// <summary>
     /// Gets the workspaces sub-domain service.
     /// </summary>
-    IAwsWorkspaces Workspaces => throw new System.NotSupportedException();
+    IAwsWorkspaces Workspaces { get; }
 
     /// <summary>
     /// Gets the workspacesinstances sub-domain service.
     /// </summary>
-    IAwsWorkspacesInstances WorkspacesInstances => throw new System.NotSupportedException();
+    IAwsWorkspacesInstances WorkspacesInstances { get; }
 
     /// <summary>
     /// Gets the workspacesthinclient sub-domain service.
     /// </summary>
-    IAwsWorkspacesThinClient WorkspacesThinClient => throw new System.NotSupportedException();
+    IAwsWorkspacesThinClient WorkspacesThinClient { get; }
 
     /// <summary>
     /// Gets the workspacesweb sub-domain service.
     /// </summary>
-    IAwsWorkspacesWeb WorkspacesWeb => throw new System.NotSupportedException();
+    IAwsWorkspacesWeb WorkspacesWeb { get; }
 
     /// <summary>
     /// Gets the xray sub-domain service.
     /// </summary>
-    IAwsXray Xray => throw new System.NotSupportedException();
+    IAwsXray Xray { get; }
 
     #endregion
 

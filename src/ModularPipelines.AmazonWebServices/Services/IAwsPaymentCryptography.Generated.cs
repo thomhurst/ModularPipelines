@@ -28,8 +28,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddKeyReplicationRegionsAsync(AwsPaymentCryptographyAddKeyReplicationRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddKeyReplicationRegionsAsync(AwsPaymentCryptographyAddKeyReplicationRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a Multi-Party Approval (MPA) team with a protected opera- tion. For more information, see Multi-Party Approval in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o DisassociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateMpaTeamAsync(AwsPaymentCryptographyAssociateMpaTeamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateMpaTeamAsync(AwsPaymentCryptographyAssociateMpaTeamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an alias , or a friendly name, for an Amazon Web Services Pay- ment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData . You can associate the alias with any key in the same Amazon Web Ser- vices Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Se...
@@ -48,8 +46,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAliasAsync(AwsPaymentCryptographyCreateAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAliasAsync(AwsPaymentCryptographyCreateAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Web Services Payment Cryptography key, a logical rep- resentation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption. In addition to the key material used in cryptographic operations, an Amazon Web Services Payment Cryptography key includes metadata such as the key ARN, key usage, key origin, creation date, description, and key state. When you create a key, you specify...
@@ -58,8 +55,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateKeyAsync(AwsPaymentCryptographyCreateKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateKeyAsync(AwsPaymentCryptographyCreateKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the UpdateAlias operation. To change the alias of a key, first use DeleteAlias to delete the current alias and then use CreateAlias to create a new alias. To associate an existing alias with a different key, call UpdateAlias . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o GetAlias o L...
@@ -68,8 +64,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAliasAsync(AwsPaymentCryptographyDeleteAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAliasAsync(AwsPaymentCryptographyDeleteAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the key material and metadata associated with Amazon Web Ser- vices Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryp- tography key, and the data may become unrecoverable. Because key dele- tion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deleti...
@@ -78,8 +73,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteKeyAsync(AwsPaymentCryptographyDeleteKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteKeyAsync(AwsPaymentCryptographyDeleteKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o PutResourcePolicy o GetResourcePolicy See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsPaymentCryptographyDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsPaymentCryptographyDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables Multi-Region key replication settings for the specified Amazon Web Services Regions in your Amazon Web Services account, preventing new keys from being automatically replicated to those regions. After disabling Multi-Region key replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does...
@@ -98,8 +91,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableDefaultKeyReplicationRegionsAsync(AwsPaymentCryptographyDisableDefaultKeyReplicationRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableDefaultKeyReplicationRegionsAsync(AwsPaymentCryptographyDisableDefaultKeyReplicationRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between a Multi-Party Approval (MPA) team and a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateMpaTeamAsync(AwsPaymentCryptographyDisassociateMpaTeamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateMpaTeamAsync(AwsPaymentCryptographyDisassociateMpaTeamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables Multi-Region key replication settings for your Amazon Web Ser- vices account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simpli- fies key management for applications that operate across multiple re- gions. Existing keys are...
@@ -118,8 +109,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableDefaultKeyReplicationRegionsAsync(AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableDefaultKeyReplicationRegionsAsync(AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports a key from Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by re- placing the existing paper-based approach with a modern electronic ap- proach. With ExportKey you can export symmetric keys using either sym- metric and asymmetric key exchange mechanisms. Using this operation, you can share your Amazon Web Services Payment Cryptography generated keys with other service partners to perform cryptographic operations outside of Amazon...
@@ -128,8 +118,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportKeyAsync(AwsPaymentCryptographyExportKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportKeyAsync(AwsPaymentCryptographyExportKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlias o DeleteAlias o ListAliases o UpdateAlias See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAliasAsync(AwsPaymentCryptographyGetAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAliasAsync(AwsPaymentCryptographyGetAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a certificate signing request (CSR) from a key pair. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCertificateSigningRequestAsync(AwsPaymentCryptographyGetCertificateSigningRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCertificateSigningRequestAsync(AwsPaymentCryptographyGetCertificateSigningRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services ac- count. This operation returns the current Multi-Region key replication config- uration. New keys created in your account will be automatically repli- cated to these regions unless explicitly overridden during key cre- ation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o EnableDefaultKeyRep...
@@ -158,8 +145,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDefaultKeyReplicationRegionsAsync(AwsPaymentCryptographyGetDefaultKeyReplicationRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDefaultKeyReplicationRegionsAsync(AwsPaymentCryptographyGetDefaultKeyReplicationRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the immutable and mutable attributes specified when the key was created. Returns key metadata including attributes, state, and timestamps, but does not return the actual cryptographic key material. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o CreateKey o DeleteK...
@@ -168,8 +154,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetKeyAsync(AwsPaymentCryptographyGetKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetKeyAsync(AwsPaymentCryptographyGetKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the Multi-Party Approval (MPA) team association for a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o DisassociateMpaTeam See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMpaTeamAssociationAsync(AwsPaymentCryptographyGetMpaTeamAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMpaTeamAssociationAsync(AwsPaymentCryptographyGetMpaTeamAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the export token and the signing key certificate to initiate a TR-34 key export from Amazon Web Services Payment Cryptography. The signing key certificate signs the wrapped key under export within the TR-34 key payload. The export token and signing key certificate must be in place and operational before calling ExportKey . The export token expires in 30 days. You can use the same export token to export multiple keys from your service account. To return a previously generated export token an...
@@ -188,8 +172,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetParametersForExportAsync(AwsPaymentCryptographyGetParametersForExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetParametersForExportAsync(AwsPaymentCryptographyGetParametersForExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedK- eyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import to- ken and wrapping key certificate must be in place and operational be- fore calling ImportKey . The import token expires in 30 days. You can use the same import token to import multiple keys into your service ac- count. T...
@@ -198,8 +181,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetParametersForImportAsync(AwsPaymentCryptographyGetParametersForImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetParametersForImportAsync(AwsPaymentCryptographyGetParametersForImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the public key certificate of the asymmetric key pair that exists within Amazon Web Services Payment Cryptography. Unlike the private key of an asymmetric key, which never leaves Amazon Web Services Payment Cryptography unencrypted, callers with GetPublicK- eyCertificate permission can download the public key certificate of the asymmetric key. You can share the public key certificate to allow oth- ers to encrypt messages and verify signatures outside of Amazon Web Services Payment Cryptogra...
@@ -208,8 +190,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPublicKeyCertificateAsync(AwsPaymentCryptographyGetPublicKeyCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPublicKeyCertificateAsync(AwsPaymentCryptographyGetPublicKeyCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the resource-based policy attached to an Amazon Web Services Payment Cryptography key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o PutResourcePolicy o DeleteResourcePolicy See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsPaymentCryptographyGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsPaymentCryptographyGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports symmetric keys and public key certificates in PEM format (base64 encoded) into Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by re- placing the existing paper-based approach with a modern electronic ap- proach. With ImportKey you can import symmetric keys using either sym- metric and asymmetric key exchange mechanisms. For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance...
@@ -228,8 +208,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportKeyAsync(AwsPaymentCryptographyImportKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportKeyAsync(AwsPaymentCryptographyImportKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the aliases for all keys in the caller's Amazon Web Services ac- count and Amazon Web Services Region. You can filter the aliases by ke- yARN . For more information, see Using aliases in the Amazon Web Ser- vices Payment Cryptography User Guide . This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to...
@@ -238,8 +217,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAliasesAsync(AwsPaymentCryptographyListAliasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAliasesAsync(AwsPaymentCryptographyListAliasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of keys. This is a paginated operation, which means that each response might contain only a subset of all the keys. When the response contains only a subset of keys, it includes a NextToken value. Use this value in a subsequent ListKeys request to get more keys. When you receive a re- sponse with no NextToken (or an empty or null value), that means there are no more keys to get. Cro...
@@ -248,8 +226,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListKeysAsync(AwsPaymentCryptographyListKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListKeysAsync(AwsPaymentCryptographyListKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for an Amazon Web Services resource. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTagsForResource request to get more tags. When you re- ceive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: This operation supports cross-account use whe...
@@ -258,8 +235,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsPaymentCryptographyListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsPaymentCryptographyListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches or replaces a resource-based policy on an Amazon Web Services Payment Cryptography key. A resource-based policy can grant cross-ac- count access to your key. If the policy would grant public access, the request fails with a Pub- licPolicyException . To remove a resource-based policy from a key, use DeleteResourcePolicy . Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o GetResourcePolicy o DeleteResourcePolicy See also: ...
@@ -268,8 +244,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsPaymentCryptographyPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsPaymentCryptographyPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes Replication Regions from an existing Amazon Web Services Pay- ment Cryptography key, disabling the key's availability for crypto- graphic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Ama- zon Web Services Regions. For more information, see Multi-Region key replication . WARNI...
@@ -278,8 +253,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveKeyReplicationRegionsAsync(AwsPaymentCryptographyRemoveKeyReplicationRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveKeyReplicationRegionsAsync(AwsPaymentCryptographyRemoveKeyReplicationRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a scheduled key deletion during the waiting period. Use this operation to restore a Key that is scheduled for deletion. During the waiting period, the KeyState is DELETE_PENDING and delete- PendingTimestamp contains the date and time after which the Key will be deleted. After Key is restored, the KeyState is CREATE_COMPLETE , and the value for deletePendingTimestamp is removed. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that gran...
@@ -288,8 +262,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreKeyAsync(AwsPaymentCryptographyRestoreKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreKeyAsync(AwsPaymentCryptographyRestoreKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables an Amazon Web Services Payment Cryptography key, which makes it active for cryptographic operations within Amazon Web Services Payment Cryptography Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o StopKeyUsage See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartKeyUsageAsync(AwsPaymentCryptographyStartKeyUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartKeyUsageAsync(AwsPaymentCryptographyStartKeyUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables an Amazon Web Services Payment Cryptography key, which makes it inactive within Amazon Web Services Payment Cryptography. You can use this operation instead of DeleteKey to deactivate a key. You can enable the key in the future by calling StartKeyUsage . Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o DeleteKey o StartKeyUsage See also: AW...
@@ -308,8 +280,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopKeyUsageAsync(AwsPaymentCryptographyStopKeyUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopKeyUsageAsync(AwsPaymentCryptographyStopKeyUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or edits tags on an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Each tag consists of a tag key and a tag value, both of which are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, spec- ify an existing tag key and a new tag value. You can also add tags to an Amazon Web Services Payment Cry...
@@ -318,8 +289,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsPaymentCryptographyTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsPaymentCryptographyTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a tag from an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o ListTagsForResource o TagResource See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsPaymentCryptographyUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsPaymentCryptographyUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryp- tography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o CreateAlia...
@@ -338,7 +307,6 @@ public interface IAwsPaymentCryptography
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAliasAsync(AwsPaymentCryptographyUpdateAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAliasAsync(AwsPaymentCryptographyUpdateAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

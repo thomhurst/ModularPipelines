@@ -24,7 +24,7 @@ public interface IAwsHealthlake
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsHealthlakeWait Wait => throw new System.NotSupportedException();
+    AwsHealthlakeWait Wait { get; }
 
     /// <summary>
     /// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile con- tent, or a sample data file as the source. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataTransformationProfileAsync(AwsHealthlakeCreateDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataTransformationProfileAsync(AwsHealthlakeCreateDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a FHIR-enabled data store. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFhirDatastoreAsync(AwsHealthlakeCreateFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFhirDatastoreAsync(AwsHealthlakeCreateFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a data transformation profile and all its versions, including the DRAFT and all published versions. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataTransformationProfileAsync(AwsHealthlakeDeleteDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataTransformationProfileAsync(AwsHealthlakeDeleteDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a FHIR-enabled data store. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFhirDatastoreAsync(AwsHealthlakeDeleteFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFhirDatastoreAsync(AwsHealthlakeDeleteFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a data transformation job, including its current status, con- figuration, and progress information. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataTransformationJobAsync(AwsHealthlakeDescribeDataTransformationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataTransformationJobAsync(AwsHealthlakeDescribeDataTransformationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get properties for a FHIR-enabled data store. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFhirDatastoreAsync(AwsHealthlakeDescribeFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFhirDatastoreAsync(AwsHealthlakeDescribeFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get FHIR export job properties. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFhirExportJobAsync(AwsHealthlakeDescribeFhirExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFhirExportJobAsync(AwsHealthlakeDescribeFhirExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the import job properties to learn more about the job or job progress. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFhirImportJobAsync(AwsHealthlakeDescribeFhirImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFhirImportJobAsync(AwsHealthlakeDescribeFhirImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a ver- sion number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataTransformationProfileAsync(AwsHealthlakeGetDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataTransformationProfileAsync(AwsHealthlakeGetDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve addi- tional results. See also: AWS API Documentation list-data-transformation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and th...
@@ -123,8 +114,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataTransformationJobsAsync(AwsHealthlakeListDataTransformationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataTransformationJobsAsync(AwsHealthlakeListDataTransformationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all data transformation profiles in your account, returning the latest version summary for each. Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken pa- rameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. ...
@@ -133,8 +123,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataTransformationProfilesAsync(AwsHealthlakeListDataTransformationProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataTransformationProfilesAsync(AwsHealthlakeListDataTransformationProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use GetData- TransformationProfile to retrieve profile content. Results are pagi- nated. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profile-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
@@ -143,8 +132,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataTransformationProfileVersionsAsync(AwsHealthlakeListDataTransformationProfileVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataTransformationProfileVersionsAsync(AwsHealthlakeListDataTransformationProfileVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all FHIR-enabled data stores in a users account, regardless of data store status. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFhirDatastoresAsync(AwsHealthlakeListFhirDatastoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFhirDatastoresAsync(AwsHealthlakeListFhirDatastoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all FHIR export jobs associated with an account and their sta- tuses. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFhirExportJobsAsync(AwsHealthlakeListFhirExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFhirExportJobsAsync(AwsHealthlakeListFhirExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all FHIR import jobs associated with an account and their sta- tuses. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFhirImportJobsAsync(AwsHealthlakeListFhirImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFhirImportJobsAsync(AwsHealthlakeListFhirImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all existing tags associated with a data store. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsHealthlakeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsHealthlakeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PublishDataTransformationProfileAsync(AwsHealthlakePublishDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PublishDataTransformationProfileAsync(AwsHealthlakePublishDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restore a backup-enabled data store to a point in time. Creates a new data store from the backup. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreFhirDatastoreAsync(AwsHealthlakeRestoreFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreFhirDatastoreAsync(AwsHealthlakeRestoreFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or HealthLake. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDataTransformationJobAsync(AwsHealthlakeStartDataTransformationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDataTransformationJobAsync(AwsHealthlakeStartDataTransformationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start a FHIR export job. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFhirExportJobAsync(AwsHealthlakeStartFhirExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFhirExportJobAsync(AwsHealthlakeStartFhirExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the InputDataConfig object and stores processing results in the JobOutputDataConfig object. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFhirImportJobAsync(AwsHealthlakeStartFhirImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFhirImportJobAsync(AwsHealthlakeStartFhirImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add a user-specifed key and value tag to a data store. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsHealthlakeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsHealthlakeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a user-specifed key and value tag from a data store. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsHealthlakeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsHealthlakeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT con- tent. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataTransformationProfileAsync(AwsHealthlakeUpdateDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataTransformationProfileAsync(AwsHealthlakeUpdateDataTransformationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the properties of a FHIR-enabled data store. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFhirDatastoreAsync(AwsHealthlakeUpdateFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFhirDatastoreAsync(AwsHealthlakeUpdateFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles. See also: AWS API Documentation
@@ -283,7 +258,6 @@ public interface IAwsHealthlake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProfileWithAgentAsync(AwsHealthlakeUpdateProfileWithAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProfileWithAgentAsync(AwsHealthlakeUpdateProfileWithAgentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

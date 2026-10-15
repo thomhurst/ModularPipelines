@@ -28,8 +28,7 @@ public interface IAwsSagemakerRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeEndpointAsyncCommandAsync(AwsSagemakerRuntimeInvokeEndpointAsyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeEndpointAsyncCommandAsync(AwsSagemakerRuntimeInvokeEndpointAsyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see How It Works . Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the re- quest syntax. Calls to InvokeEndpoint...
@@ -38,7 +37,6 @@ public interface IAwsSagemakerRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeEndpointAsync(AwsSagemakerRuntimeInvokeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeEndpointAsync(AwsSagemakerRuntimeInvokeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

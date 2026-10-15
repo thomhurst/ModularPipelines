@@ -28,8 +28,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMarketplaceRevenueShareAllocationAsync(AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMarketplaceRevenueShareAllocationAsync(AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new marketplace revenue share resource in the specified cata- log. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMarketplaceRevenueShareAsync(AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMarketplaceRevenueShareAsync(AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new revenue attribution record in the specified catalog. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRevenueAttributionAsync(AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRevenueAttributionAsync(AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific marketplace revenue share alloca- tion. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMarketplaceRevenueShareAllocationAsync(AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMarketplaceRevenueShareAllocationAsync(AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific marketplace revenue share. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMarketplaceRevenueShareAsync(AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMarketplaceRevenueShareAsync(AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a single allocation by its RevenueAttributionAllocationId. Supports optional point-in-time version queries. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRevenueAttributionAllocationAsync(AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRevenueAttributionAllocationAsync(AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current status of a previously submitted allocations task. When COMPLETE, includes the latest revision. When FAILED, in- cludes error details. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRevenueAttributionAllocationsTaskAsync(AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationsTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRevenueAttributionAllocationsTaskAsync(AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationsTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific revenue attribution. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRevenueAttributionAsync(AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRevenueAttributionAsync(AwsPartnercentralRevenueMeasurementGetRevenueAttributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of allocations under a marketplace revenue share, with optional filtering by status and effective date range. Sup- ports historical reads at a specific share revision. See also: AWS API Documentation list-marketplace-revenue-share-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument ...
@@ -108,8 +100,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMarketplaceRevenueShareAllocationsAsync(AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMarketplaceRevenueShareAllocationsAsync(AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of marketplace revenue shares with optional filters. See also: AWS API Documentation list-marketplace-revenue-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Marketp...
@@ -118,8 +109,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMarketplaceRevenueSharesAsync(AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMarketplaceRevenueSharesAsync(AwsPartnercentralRevenueMeasurementListMarketplaceRevenueSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of committed allocations with support for fil- tering by entity, customer, status, or date range. See also: AWS API Documentation list-revenue-attribution-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
@@ -128,8 +118,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRevenueAttributionAllocationsAsync(AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRevenueAttributionAllocationsAsync(AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of revenue attributions with optional filters. See also: AWS API Documentation list-revenue-attributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RevenueAttributionSum...
@@ -138,8 +127,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRevenueAttributionsAsync(AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRevenueAttributionsAsync(AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the tags associated with the specified resource. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsPartnercentralRevenueMeasurementListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsPartnercentralRevenueMeasurementListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a batch of up to 250 allocation changes (CREATE and/or UPDATE) for asynchronous processing. Returns a TaskId for tracking. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRevenueAttributionAllocationsTaskAsync(AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRevenueAttributionAllocationsTaskAsync(AwsPartnercentralRevenueMeasurementStartRevenueAttributionAllocationsTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or overwrites one or more tags for the specified resource. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsPartnercentralRevenueMeasurementTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsPartnercentralRevenueMeasurementTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from the specified resource. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsPartnercentralRevenueMeasurementUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsPartnercentralRevenueMeasurementUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing marketplace revenue share allocation. Supports mod- ifying effective dates, revenue share percentage, and status with time-based mutability rules. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMarketplaceRevenueShareAllocationAsync(AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMarketplaceRevenueShareAllocationAsync(AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing revenue attribution record. See also: AWS API Documentation
@@ -198,7 +181,6 @@ public interface IAwsPartnercentralRevenueMeasurement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRevenueAttributionAsync(AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRevenueAttributionAsync(AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

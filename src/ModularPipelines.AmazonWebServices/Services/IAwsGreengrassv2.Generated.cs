@@ -28,8 +28,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateServiceRoleToAccountAsync(AwsGreengrassv2AssociateServiceRoleToAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateServiceRoleToAccountAsync(AwsGreengrassv2AssociateServiceRoleToAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a list of client devices with a core device. Use this API operation to specify which client devices can discover a core device through cloud discovery. With cloud discovery, client devices connect to IoT Greengrass to retrieve associated core devices' connectivity in- formation and certificates. For more information, see Configure cloud discovery in the IoT Greengrass V2 Developer Guide . NOTE: Client devices are local IoT devices that connect to and communicate with an IoT Greengrass...
@@ -38,8 +37,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAssociateClientDeviceWithCoreDeviceAsync(AwsGreengrassv2BatchAssociateClientDeviceWithCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAssociateClientDeviceWithCoreDeviceAsync(AwsGreengrassv2BatchAssociateClientDeviceWithCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a list of client devices from a core device. After you disassociate a client device from a core device, the client device won't be able to use cloud discovery to retrieve the core device's con- nectivity information and certificates. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDisassociateClientDeviceFromCoreDeviceAsync(AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDisassociateClientDeviceFromCoreDeviceAsync(AwsGreengrassv2BatchDisassociateClientDeviceFromCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deploy- ment, this operation doesn't change anything for that device. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelDeploymentAsync(AwsGreengrassv2CancelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelDeploymentAsync(AwsGreengrassv2CancelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a component. Components are software that run on Greengrass core devices. After you develop and test a component on your core de- vice, you can use this operation to upload your component to IoT Green- grass. Then, you can deploy the component to other core devices. You can use this operation to do the following: o Create components from recipes Create a component from a recipe, which is a file that defines the component's metadata, parameters, dependencies, lifecycle, artifacts, and pla...
@@ -68,8 +64,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateComponentVersionAsync(AwsGreengrassv2CreateComponentVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateComponentVersionAsync(AwsGreengrassv2CreateComponentVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a continuous deployment for a target, which is a Greengrass core device or group of core devices. When you add a new core device to a group of core devices that has a deployment, IoT Greengrass deploys that group's deployment to the new device. You can define one deployment for each target. When you create a new deployment for a target that has an existing deployment, you replace the previous deployment. IoT Greengrass applies the new deployment to the target devices. Every deployment ha...
@@ -78,8 +73,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeploymentAsync(AwsGreengrassv2CreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeploymentAsync(AwsGreengrassv2CreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a version of a component from IoT Greengrass. NOTE: This operation deletes the component's recipe and artifacts. As a result, deployments that refer to this component version will fail. If you have deployments that use this component version, you can re- move the component from the deployment or update the deployment to use a valid version. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteComponentAsync(AwsGreengrassv2DeleteComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteComponentAsync(AwsGreengrassv2DeleteComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Greengrass core device, which is an IoT thing. This operation removes the core device from the list of core devices. This operation doesn't delete the IoT thing. For more information about how to delete the IoT thing, see DeleteThing in the IoT API Reference . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCoreDeviceAsync(AwsGreengrassv2DeleteCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCoreDeviceAsync(AwsGreengrassv2DeleteCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a deployment. To delete an active deployment, you must first cancel it. For more information, see CancelDeployment . Deleting a deployment doesn't affect core devices that run that deploy- ment, because core devices store the deployment's configuration on the device. Additionally, core devices can roll back to a previous deploy- ment that has been deleted. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDeploymentAsync(AwsGreengrassv2DeleteDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDeploymentAsync(AwsGreengrassv2DeleteDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata for a version of a component. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeComponentAsync(AwsGreengrassv2DescribeComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeComponentAsync(AwsGreengrassv2DescribeComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. Without a service role, IoT Greengrass can't verify the identity of client de- vices or manage core device connectivity information. For more informa- tion, see Greengrass service role in the IoT Greengrass Version 2 De- veloper Guide . See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateServiceRoleFromAccountAsync(AwsGreengrassv2DisassociateServiceRoleFromAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateServiceRoleFromAccountAsync(AwsGreengrassv2DisassociateServiceRoleFromAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the recipe for a version of a component. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetComponentAsync(AwsGreengrassv2GetComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetComponentAsync(AwsGreengrassv2GetComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the pre-signed URL to download a public or a Lambda component ar- tifact. Core devices call this operation to identify the URL that they can use to download an artifact to install. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetComponentVersionArtifactAsync(AwsGreengrassv2GetComponentVersionArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetComponentVersionArtifactAsync(AwsGreengrassv2GetComponentVersionArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client de- vices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API ...
@@ -158,8 +145,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectivityInfoAsync(AwsGreengrassv2GetConnectivityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectivityInfoAsync(AwsGreengrassv2GetConnectivityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata for a Greengrass core device. NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core soft- ware isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that de- vice might not reflect its current status. The status timestamp in- dicates when the device status was last updated. Core devices send status updates at the following times: o W...
@@ -168,8 +154,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCoreDeviceAsync(AwsGreengrassv2GetCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCoreDeviceAsync(AwsGreengrassv2GetCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a deployment. Deployments define the components that run on Green- grass core devices. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeploymentAsync(AwsGreengrassv2GetDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeploymentAsync(AwsGreengrassv2GetDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of client devices and manage core device connectivity information. For more information, see Greengrass service role in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceRoleForAccountAsync(AwsGreengrassv2GetServiceRoleForAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceRoleForAccountAsync(AwsGreengrassv2GetServiceRoleForAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of client devices that are associated with a core device. See also: AWS API Documentation list-client-devices-associated-with-core-device is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following que...
@@ -198,8 +181,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListClientDevicesAssociatedWithCoreDeviceAsync(AwsGreengrassv2ListClientDevicesAssociatedWithCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListClientDevicesAssociatedWithCoreDeviceAsync(AwsGreengrassv2ListClientDevicesAssociatedWithCoreDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of component summaries. This list includes components that you have permission to view. See also: AWS API Documentation list-components is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
@@ -208,8 +190,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComponentsAsync(AwsGreengrassv2ListComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComponentsAsync(AwsGreengrassv2ListComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of all versions for a component. Greater versions are listed first. See also: AWS API Documentation list-component-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ...
@@ -218,8 +199,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComponentVersionsAsync(AwsGreengrassv2ListComponentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComponentVersionsAsync(AwsGreengrassv2ListComponentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of Greengrass core devices. NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core soft- ware isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that de- vice might not reflect its current status. The status timestamp in- dicates when the device status was last updated. Core devices send status updates at the following time...
@@ -228,8 +208,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCoreDevicesAsync(AwsGreengrassv2ListCoreDevicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCoreDevicesAsync(AwsGreengrassv2ListCoreDevicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of deployments. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: deployments
@@ -238,8 +217,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeploymentsAsync(AwsGreengrassv2ListDeploymentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeploymentsAsync(AwsGreengrassv2ListDeploymentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices. See also: AWS API Documentation list-effective-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expre...
@@ -248,8 +226,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEffectiveDeploymentsAsync(AwsGreengrassv2ListEffectiveDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEffectiveDeploymentsAsync(AwsGreengrassv2ListEffectiveDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of the components that a Greengrass core de- vice runs. By default, this list doesn't include components that are deployed as dependencies of other components. To include dependencies in the response, set the topologyFilter parameter to ALL . NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core soft- ware isn't running on the device, or if device isn't connected to the Amazon Web Services ...
@@ -258,8 +235,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstalledComponentsAsync(AwsGreengrassv2ListInstalledComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstalledComponentsAsync(AwsGreengrassv2ListInstalledComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of tags for an IoT Greengrass resource. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsGreengrassv2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsGreengrassv2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of components that meet the component, version, and platform requirements of a deployment. Greengrass core devices call this operation when they receive a deployment to identify the compo- nents to install. This operation identifies components that meet all dependency require- ments for a deployment. If the requirements conflict, then this opera- tion returns an error and the deployment fails. For example, this oc- curs if component A requires version &gt;2.0.0 and component B requ...
@@ -278,8 +253,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResolveComponentCandidatesAsync(AwsGreengrassv2ResolveComponentCandidatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResolveComponentCandidatesAsync(AwsGreengrassv2ResolveComponentCandidatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to an IoT Greengrass resource. If a tag already exists for the resource, this operation updates the tag's value. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsGreengrassv2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsGreengrassv2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from an IoT Greengrass resource. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsGreengrassv2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsGreengrassv2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client de- vices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Do...
@@ -308,7 +280,6 @@ public interface IAwsGreengrassv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConnectivityInfoAsync(AwsGreengrassv2UpdateConnectivityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConnectivityInfoAsync(AwsGreengrassv2UpdateConnectivityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

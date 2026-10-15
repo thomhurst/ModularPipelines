@@ -28,8 +28,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptNetworkFirewallTransitGatewayAttachmentAsync(AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptNetworkFirewallTransitGatewayAttachmentAsync(AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified Availability Zones with a transit gateway-at- tached firewall. For each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You can specify one or more Availability Zones where you want to deploy the firewall. After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAvailabilityZonesAsync(AwsNetworkFirewallAssociateAvailabilityZonesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAvailabilityZonesAsync(AwsNetworkFirewallAssociateAvailabilityZonesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a FirewallPolicy to a Firewall . A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other set- tings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateFirewallPolicyAsync(AwsNetworkFirewallAssociateFirewallPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateFirewallPolicyAsync(AwsNetworkFirewallAssociateFirewallPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans. This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSubnetsAsync(AwsNetworkFirewallAssociateSubnetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSubnetsAsync(AwsNetworkFirewallAssociateSubnetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches ProxyRuleGroup resources to a ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachRuleGroupsToProxyConfigurationAsync(AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachRuleGroupsToProxyConfigurationAsync(AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Network Firewall container association. The association moni- tors container lifecycle events in your Amazon ECS or Amazon EKS clus- ters and resolves running container addresses for use in firewall rules. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContainerAssociationAsync(AwsNetworkFirewallCreateContainerAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContainerAssociationAsync(AwsNetworkFirewallCreateContainerAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall end- points, and any tags that are attached to the firewall Amazon Web Ser- vices resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for...
@@ -88,8 +82,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFirewallAsync(AwsNetworkFirewallCreateFirewallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFirewallAsync(AwsNetworkFirewallCreateFirewallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the firewall policy for the firewall according to the specifi- cations. An Network Firewall firewall policy defines the behavior of a firewall, in a collection of stateless and stateful rule groups and other set- tings. You can use one firewall policy for multiple firewalls. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFirewallPolicyAsync(AwsNetworkFirewallCreateFirewallPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFirewallPolicyAsync(AwsNetworkFirewallCreateFirewallPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagRe- source , and UntagResource . To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration . See also: AW...
@@ -108,8 +100,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProxyConfigurationAsync(AwsNetworkFirewallCreateProxyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProxyConfigurationAsync(AwsNetworkFirewallCreateProxyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagRe- source . To retrieve information about proxies, use ListProxies and De- scribeProxy . See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProxyAsync(AwsNetworkFirewallCreateProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProxyAsync(AwsNetworkFirewallCreateProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Network Firewall ProxyRuleGroup Collections of related proxy filtering rules. Rule groups help you man- age and reuse sets of rules across multiple proxy configurations. To manage a proxy rule group's tags, use the standard Amazon Web Ser- vices resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxy rule groups, use ListProxyRule- Groups and DescribeProxyRuleGroup . To retrieve information about individual proxy rules, ...
@@ -128,8 +118,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProxyRuleGroupAsync(AwsNetworkFirewallCreateProxyRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProxyRuleGroupAsync(AwsNetworkFirewallCreateProxyRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates Network Firewall ProxyRule resources. Attaches new proxy rule(s) to an existing proxy rule group. To retrieve information about individual proxy rules, use De- scribeProxyRuleGroup and DescribeProxyRule . See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProxyRulesAsync(AwsNetworkFirewallCreateProxyRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProxyRulesAsync(AwsNetworkFirewallCreateProxyRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified stateless or stateful rule group, which includes the rules for network traffic inspection, a capacity setting, and tags. You provide your rule group specification in your request using either RuleGroup or Rules . See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRuleGroupAsync(AwsNetworkFirewallCreateRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRuleGroupAsync(AwsNetworkFirewallCreateRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Network Firewall TLS inspection configuration. Network Fire- wall uses TLS inspection configurations to decrypt your firewall's in- bound and outbound SSL/TLS traffic. After decryption, Network Firewall inspects the traffic according to your firewall policy's stateful rules, and then re-encrypts it before sending it to its destination. You can enable inspection of your firewall's inbound traffic, outbound traffic, or both. To use TLS inspection with your firewall, you must first impor...
@@ -158,8 +145,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTlsInspectionConfigurationAsync(AwsNetworkFirewallCreateTlsInspectionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTlsInspectionConfigurationAsync(AwsNetworkFirewallCreateTlsInspectionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the Firewall itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcEndpointAssociationAsync(AwsNetworkFirewallCreateVpcEndpointAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcEndpointAssociationAsync(AwsNetworkFirewallCreateVpcEndpointAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a container association. The resource transitions to a DELETING state. Deletion is asynchronous - Network Firewall returns immediately while cleanup proceeds in the background. You can't delete a container association while a rule group references it. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContainerAssociationAsync(AwsNetworkFirewallDeleteContainerAssociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContainerAssociationAsync(AwsNetworkFirewallDeleteContainerAssociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Firewall and its FirewallStatus . This opera- tion requires the firewall's DeleteProtection flag to be FALSE . You can't revert this operation. You can check whether a firewall is in use by reviewing the route ta- bles for the Availability Zones where you have firewall subnet map- pings. Retrieve the subnet mappings by calling DescribeFirewall . You define and update the route tables through Amazon VPC. As needed, up- date the route tables for the zones to remove the firewa...
@@ -188,8 +172,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFirewallAsync(AwsNetworkFirewallDeleteFirewallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFirewallAsync(AwsNetworkFirewallDeleteFirewallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified FirewallPolicy . See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFirewallPolicyAsync(AwsNetworkFirewallDeleteFirewallPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFirewallPolicyAsync(AwsNetworkFirewallDeleteFirewallPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attach- ment. WARNING: After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use DescribeFirewall to moni- tor the deletion status. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkFirewallTransitGatewayAttachmentAsync(AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkFirewallTransitGatewayAttachmentAsync(AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified ProxyConfiguration . See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProxyConfigurationAsync(AwsNetworkFirewallDeleteProxyConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProxyConfigurationAsync(AwsNetworkFirewallDeleteProxyConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Proxy . Detaches a Proxy configuration from a NAT Gateway. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProxyAsync(AwsNetworkFirewallDeleteProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProxyAsync(AwsNetworkFirewallDeleteProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified ProxyRuleGroup . See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProxyRuleGroupAsync(AwsNetworkFirewallDeleteProxyRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProxyRuleGroupAsync(AwsNetworkFirewallDeleteProxyRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified ProxyRule (s). currently attached to a Prox- yRuleGroup See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProxyRulesAsync(AwsNetworkFirewallDeleteProxyRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProxyRulesAsync(AwsNetworkFirewallDeleteProxyRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a resource policy that you created in a PutResourcePolicy re- quest. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsNetworkFirewallDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsNetworkFirewallDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified RuleGroup . See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRuleGroupAsync(AwsNetworkFirewallDeleteRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRuleGroupAsync(AwsNetworkFirewallDeleteRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified TLSInspectionConfiguration . See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTlsInspectionConfigurationAsync(AwsNetworkFirewallDeleteTlsInspectionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTlsInspectionConfigurationAsync(AwsNetworkFirewallDeleteTlsInspectionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VpcEndpointAssociation . You can check whether an endpoint association is in use by reviewing the route tables for the Availability Zones where you have the endpoint subnet mapping. You can retrieve the subnet mapping by calling De- scribeVpcEndpointAssociation . You define and update the route tables through Amazon VPC. As needed, update the route tables for the Avail- ability Zone to remove the firewall endpoint for the association. When the route tables no longer use the...
@@ -288,8 +262,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcEndpointAssociationAsync(AwsNetworkFirewallDeleteVpcEndpointAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcEndpointAssociationAsync(AwsNetworkFirewallDeleteVpcEndpointAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the configuration and status of a container association. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeContainerAssociationAsync(AwsNetworkFirewallDescribeContainerAssociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeContainerAssociationAsync(AwsNetworkFirewallDescribeContainerAssociationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the high-level information about a firewall, including the Availability Zones where the Firewall is currently in use. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFirewallMetadataAsync(AwsNetworkFirewallDescribeFirewallMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFirewallMetadataAsync(AwsNetworkFirewallDescribeFirewallMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data objects for the specified firewall. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFirewallAsync(AwsNetworkFirewallDescribeFirewallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFirewallAsync(AwsNetworkFirewallDescribeFirewallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data objects for the specified firewall policy. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFirewallPolicyAsync(AwsNetworkFirewallDescribeFirewallPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFirewallPolicyAsync(AwsNetworkFirewallDescribeFirewallPolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns key information about a specific flow operation. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowOperationAsync(AwsNetworkFirewallDescribeFlowOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFlowOperationAsync(AwsNetworkFirewallDescribeFlowOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the logging configuration for the specified firewall. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLoggingConfigurationAsync(AwsNetworkFirewallDescribeLoggingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLoggingConfigurationAsync(AwsNetworkFirewallDescribeLoggingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data objects for the specified proxy configuration. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProxyConfigurationAsync(AwsNetworkFirewallDescribeProxyConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProxyConfigurationAsync(AwsNetworkFirewallDescribeProxyConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data objects for the specified proxy. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProxyAsync(AwsNetworkFirewallDescribeProxyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProxyAsync(AwsNetworkFirewallDescribeProxyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data objects for the specified proxy rule group. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProxyRuleGroupAsync(AwsNetworkFirewallDescribeProxyRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProxyRuleGroupAsync(AwsNetworkFirewallDescribeProxyRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data objects for the specified proxy configuration for the specified proxy rule group. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProxyRuleAsync(AwsNetworkFirewallDescribeProxyRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProxyRuleAsync(AwsNetworkFirewallDescribeProxyRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a resource policy that you created in a PutResourcePolicy request. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourcePolicyAsync(AwsNetworkFirewallDescribeResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourcePolicyAsync(AwsNetworkFirewallDescribeResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the meta- data to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup . See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRuleGroupMetadataAsync(AwsNetworkFirewallDescribeRuleGroupMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRuleGroupMetadataAsync(AwsNetworkFirewallDescribeRuleGroupMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data objects for the specified rule group. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRuleGroupAsync(AwsNetworkFirewallDescribeRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRuleGroupAsync(AwsNetworkFirewallDescribeRuleGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the Summa- ryConfiguration parameter in UpdateRuleGroup . See also: AWS API ...
@@ -428,8 +388,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRuleGroupSummaryAsync(AwsNetworkFirewallDescribeRuleGroupSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRuleGroupSummaryAsync(AwsNetworkFirewallDescribeRuleGroupSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data objects for the specified TLS inspection configura- tion. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTlsInspectionConfigurationAsync(AwsNetworkFirewallDescribeTlsInspectionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTlsInspectionConfigurationAsync(AwsNetworkFirewallDescribeTlsInspectionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the data object for the specified VPC endpoint association. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointAssociationAsync(AwsNetworkFirewallDescribeVpcEndpointAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointAssociationAsync(AwsNetworkFirewallDescribeVpcEndpointAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches ProxyRuleGroup resources from a ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachRuleGroupsFromProxyConfigurationAsync(AwsNetworkFirewallDetachRuleGroupsFromProxyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachRuleGroupsFromProxyConfigurationAsync(AwsNetworkFirewallDetachRuleGroupsFromProxyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your tran- sit gateway route tables to redirect traffic appropriately. NOTE: If AvailabilityZoneChangeProtection is enabled, you must first dis- able it using UpdateAvailabilityZoneChangeProtection . To verify the status of your Availa...
@@ -468,8 +424,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAvailabilityZonesAsync(AwsNetworkFirewallDisassociateAvailabilityZonesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAvailabilityZonesAsync(AwsNetworkFirewallDisassociateAvailabilityZonesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified subnet associations from the firewall. This re- moves the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateSubnetsAsync(AwsNetworkFirewallDisassociateSubnetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateSubnetsAsync(AwsNetworkFirewallDisassociateSubnetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The results of a COMPLETED analysis report generated with StartAnaly- sisReport . For more information, see AnalysisTypeReportResult . See also: AWS API Documentation get-analysis-report-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
@@ -488,8 +442,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAnalysisReportResultsAsync(AwsNetworkFirewallGetAnalysisReportResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAnalysisReportResultsAsync(AwsNetworkFirewallGetAnalysisReportResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all traffic analysis reports generated within the last 30 days. See also: AWS API Documentation list-analysis-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AnalysisReports
@@ -498,8 +451,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnalysisReportsAsync(AwsNetworkFirewallListAnalysisReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnalysisReportsAsync(AwsNetworkFirewallListAnalysisReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the container associations in your account and Region. Use the NextToken parameter in subsequent requests to retrieve additional re- sults. See also: AWS API Documentation list-container-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
@@ -508,8 +460,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContainerAssociationsAsync(AwsNetworkFirewallListContainerAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContainerAssociationsAsync(AwsNetworkFirewallListContainerAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for the firewall policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list. See also: AWS API Documentation list-firewall-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
@@ -518,8 +469,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallPoliciesAsync(AwsNetworkFirewallListFirewallPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallPoliciesAsync(AwsNetworkFirewallListFirewallPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for the firewalls that you have defined. If you provide VPC identifiers in your request, this returns only the fire- walls for those VPCs. Depending on your setting for max results and the number of firewalls, a single call might not return the full list. See also: AWS API Documentation list-firewalls is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate ...
@@ -528,8 +478,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallsAsync(AwsNetworkFirewallListFirewallsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallsAsync(AwsNetworkFirewallListFirewallsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the results of a specific flow operation. Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort. See also: AWS API Documentation list-flow-operation-results is a paginated operation. Multiple API calls may be issu...
@@ -538,8 +487,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlowOperationResultsAsync(AwsNetworkFirewallListFlowOperationResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlowOperationResultsAsync(AwsNetworkFirewallListFlowOperationResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all flow operations ran in a specific firewall. You can optionally narrow the request scope by specifying the operation type or Availability Zone associated with a firewall's flow operations. Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, D...
@@ -548,8 +496,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlowOperationsAsync(AwsNetworkFirewallListFlowOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlowOperationsAsync(AwsNetworkFirewallListFlowOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for the proxies that you have defined. Depending on your setting for max results and the number of proxies, a single call might not return the full list. See also: AWS API Documentation list-proxies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument ...
@@ -558,8 +505,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProxiesAsync(AwsNetworkFirewallListProxiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProxiesAsync(AwsNetworkFirewallListProxiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for the proxy configuration that you have de- fined. Depending on your setting for max results and the number of proxy configurations, a single call might not return the full list. See also: AWS API Documentation list-proxy-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
@@ -568,8 +514,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProxyConfigurationsAsync(AwsNetworkFirewallListProxyConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProxyConfigurationsAsync(AwsNetworkFirewallListProxyConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for the proxy rule groups that you have defined. Depending on your setting for max results and the number of proxy rule groups, a single call might not return the full list. See also: AWS API Documentation list-proxy-rule-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
@@ -578,8 +523,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProxyRuleGroupsAsync(AwsNetworkFirewallListProxyRuleGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProxyRuleGroupsAsync(AwsNetworkFirewallListProxyRuleGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for the rule groups that you have defined. De- pending on your setting for max results and the number of rule groups, a single call might not return the full list. See also: AWS API Documentation list-rule-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --que...
@@ -588,8 +532,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRuleGroupsAsync(AwsNetworkFirewallListRuleGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRuleGroupsAsync(AwsNetworkFirewallListRuleGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your re- sources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule...
@@ -598,8 +541,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsNetworkFirewallListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsNetworkFirewallListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list. See also: AWS API Documentation list-tls-inspection-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and...
@@ -608,8 +550,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTlsInspectionConfigurationsAsync(AwsNetworkFirewallListTlsInspectionConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTlsInspectionConfigurationsAsync(AwsNetworkFirewallListTlsInspectionConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for the VPC endpoint associations that you have defined. If you specify a fireawll, this returns only the endpoint as- sociations for that firewall. Depending on your setting for max results and the number of associa- tions, a single call might not return the full list. See also: AWS API Documentation list-vpc-endpoint-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by...
@@ -618,8 +559,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcEndpointAssociationsAsync(AwsNetworkFirewallListVpcEndpointAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcEndpointAssociationsAsync(AwsNetworkFirewallListVpcEndpointAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. For information about using sharing with Network Firewall resources, see Sharing Network Firewall resources in the Network Firewall Devel- oper Guide . Use this operation to create or update a resource policy for...
@@ -628,8 +568,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsNetworkFirewallPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsNetworkFirewallPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the cre- ation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejec- tion, no traffic will flow through the firewall endpoints for this at- tachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewa...
@@ -638,8 +577,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectNetworkFirewallTransitGatewayAttachmentAsync(AwsNetworkFirewallRejectNetworkFirewallTransitGatewayAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectNetworkFirewallTransitGatewayAttachmentAsync(AwsNetworkFirewallRejectNetworkFirewallTransitGatewayAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a traffic analysis report for the timeframe and traffic type you specify. For information on the contents of a traffic analysis report, see AnalysisReport . See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAnalysisReportAsync(AwsNetworkFirewallStartAnalysisReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAnalysisReportAsync(AwsNetworkFirewallStartAnalysisReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Begins capturing the flows in a firewall, according to the filters you define. Captures are similar, but not identical to snapshots. Capture operations provide visibility into flows that are not closed and are tracked by a firewall's flow table. Unlike snapshots, captures are a time-boxed view. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protoc...
@@ -658,8 +595,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFlowCaptureAsync(AwsNetworkFirewallStartFlowCaptureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFlowCaptureAsync(AwsNetworkFirewallStartFlowCaptureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Begins the flushing of traffic from the firewall, according to the fil- ters you define. When the operation starts, impacted flows are tem- porarily marked as timed out before the Suricata engine prunes, or flushes, the flows from the firewall table. WARNING: While the flush completes, impacted flows are processed as midstream traffic. This may result in a temporary increase in midstream traf- fic metrics. We recommend that you double check your stream excep- tion policy before you perform a flu...
@@ -668,8 +604,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFlowFlushAsync(AwsNetworkFirewallStartFlowFlushOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFlowFlushAsync(AwsNetworkFirewallStartFlowFlushOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified tags to the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "cus- tomer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups....
@@ -678,8 +613,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsNetworkFirewallTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsNetworkFirewallTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the tags with the specified keys from the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can manage tags for the Amazon Web Services resources that you man- age through Network Firewall: firewalls, fire...
@@ -688,8 +622,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsNetworkFirewallUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsNetworkFirewallUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-attached firewall. When enabled, this setting prevents acciden- tal changes to the firewall's Availability Zone configuration. This helps protect against disrupting traffic flow in production environ- ments. When enabled, you must disable this protection before using Associ- ateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAvailabilityZoneChangeProtectionAsync(AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAvailabilityZoneChangeProtectionAsync(AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the monitoring configurations and description of a container association. You can't change the container type after creation. Pro- vide an update token to enable optimistic concurrency control. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContainerAssociationAsync(AwsNetworkFirewallUpdateContainerAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContainerAssociationAsync(AwsNetworkFirewallUpdateContainerAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables specific types of firewall analysis on a specific firewall you define. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallAnalysisSettingsAsync(AwsNetworkFirewallUpdateFirewallAnalysisSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallAnalysisSettingsAsync(AwsNetworkFirewallUpdateFirewallAnalysisSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the flag, DeleteProtection , which indicates whether it is possible to delete the firewall. If the flag is set to TRUE , the fire- wall is protected against deletion. This setting helps protect against accidentally deleting a firewall that's in use. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallDeleteProtectionAsync(AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallDeleteProtectionAsync(AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the description for the specified firewall. Use the descrip- tion to help you identify the firewall when you're working with it. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallDescriptionAsync(AwsNetworkFirewallUpdateFirewallDescriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallDescriptionAsync(AwsNetworkFirewallUpdateFirewallDescriptionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A complex type that contains settings for encryption of your firewall resources. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallEncryptionConfigurationAsync(AwsNetworkFirewallUpdateFirewallEncryptionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallEncryptionConfigurationAsync(AwsNetworkFirewallUpdateFirewallEncryptionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the flag, ChangeProtection , which indicates whether it is possible to change the firewall. If the flag is set to TRUE , the fire- wall is protected from changes. This setting helps protect against ac- cidentally changing a firewall that's in use. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallPolicyChangeProtectionAsync(AwsNetworkFirewallUpdateFirewallPolicyChangeProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallPolicyChangeProtectionAsync(AwsNetworkFirewallUpdateFirewallPolicyChangeProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of the specified firewall policy. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallPolicyAsync(AwsNetworkFirewallUpdateFirewallPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallPolicyAsync(AwsNetworkFirewallUpdateFirewallPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the logging configuration for the specified firewall. To change the logging configuration, retrieve the LoggingConfiguration by calling DescribeLoggingConfiguration , then change it and provide the modified object to this update call. You must change the logging configuration one LogDestinationConfig at a time inside the retrieved LoggingConfiguration object. You can perform only one of the following actions in any call to Up- dateLoggingConfiguration : o Create a new log destination object...
@@ -778,8 +703,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLoggingConfigurationAsync(AwsNetworkFirewallUpdateLoggingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLoggingConfigurationAsync(AwsNetworkFirewallUpdateLoggingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of the specified proxy configuration. See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProxyConfigurationAsync(AwsNetworkFirewallUpdateProxyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProxyConfigurationAsync(AwsNetworkFirewallUpdateProxyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of the specified proxy. See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProxyAsync(AwsNetworkFirewallUpdateProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProxyAsync(AwsNetworkFirewallUpdateProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates proxy rule group priorities within a proxy configuration. See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProxyRuleGroupPrioritiesAsync(AwsNetworkFirewallUpdateProxyRuleGroupPrioritiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProxyRuleGroupPrioritiesAsync(AwsNetworkFirewallUpdateProxyRuleGroupPrioritiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of the specified proxy rule. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProxyRuleAsync(AwsNetworkFirewallUpdateProxyRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProxyRuleAsync(AwsNetworkFirewallUpdateProxyRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates proxy rule priorities within a proxy rule group. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProxyRulePrioritiesAsync(AwsNetworkFirewallUpdateProxyRulePrioritiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProxyRulePrioritiesAsync(AwsNetworkFirewallUpdateProxyRulePrioritiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with NoSourcePreservation set to TRUE . Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic. See also: AWS API Documentation
@@ -838,8 +757,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProxySettingsAsync(AwsNetworkFirewallUpdateProxySettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProxySettingsAsync(AwsNetworkFirewallUpdateProxySettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the rule settings for the specified rule group. You use a rule group by reference in one or more firewall policies. When you modify a rule group, you modify all firewall policies that use the rule group. To update a rule group, first call DescribeRuleGroup to retrieve the current RuleGroup object, update the object as needed, and then pro- vide the updated object to this call. See also: AWS API Documentation
@@ -848,8 +766,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRuleGroupAsync(AwsNetworkFirewallUpdateRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRuleGroupAsync(AwsNetworkFirewallUpdateRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// See also: AWS API Documentation
@@ -858,8 +775,7 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSubnetChangeProtectionAsync(AwsNetworkFirewallUpdateSubnetChangeProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSubnetChangeProtectionAsync(AwsNetworkFirewallUpdateSubnetChangeProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by referencing it in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call DescribeTLSIn- spectionConfiguration to retrieve the current TLSInspectionConfigura- tion object, update the object as needed, and the...
@@ -868,7 +784,6 @@ public interface IAwsNetworkFirewall
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTlsInspectionConfigurationAsync(AwsNetworkFirewallUpdateTlsInspectionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTlsInspectionConfigurationAsync(AwsNetworkFirewallUpdateTlsInspectionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

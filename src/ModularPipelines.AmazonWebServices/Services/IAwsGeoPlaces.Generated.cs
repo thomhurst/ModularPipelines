@@ -28,8 +28,7 @@ public interface IAwsGeoPlaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AutocompleteAsync(AwsGeoPlacesAutocompleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AutocompleteAsync(AwsGeoPlacesAutocompleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Geocode converts a textual address or place into geographic coordi- nates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views. Not supported in ap-southeast-1 and ap-south- east-5 regions for GrabMaps cu...
@@ -38,8 +37,7 @@ public interface IAwsGeoPlaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GeocodeAsync(AwsGeoPlacesGeocodeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GeocodeAsync(AwsGeoPlacesGeocodeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GetPlace finds a place by its unique ID. A PlaceId is returned by other place operations. For more information, see GetPlace in the Amazon Location Service De- veloper Guide . See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsGeoPlaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPlaceAsync(AwsGeoPlacesGetPlaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPlaceAsync(AwsGeoPlacesGetPlaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// ReverseGeocode converts geographic coordinates into a human-readable address or place. You can obtain address component, and other re- lated information such as place type, category, street information. The Reverse Geocode API supports filtering to on place type so that you can refine result based on your need. Also, The Reverse Geocode API can also provide additional features such as time zone informa- tion and the inclusion of political views. For more information, see Reverse Geocode in the A...
@@ -58,8 +55,7 @@ public interface IAwsGeoPlaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReverseGeocodeAsync(AwsGeoPlacesReverseGeocodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReverseGeocodeAsync(AwsGeoPlacesReverseGeocodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// SearchNearby queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see Search...
@@ -68,8 +64,7 @@ public interface IAwsGeoPlaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchNearbyAsync(AwsGeoPlacesSearchNearbyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchNearbyAsync(AwsGeoPlacesSearchNearbyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// SearchText searches for geocode and place information. You can then complete a follow-up query suggested from the Suggest API via a query id. For more information, see Search Text in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsGeoPlaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchTextAsync(AwsGeoPlacesSearchTextOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchTextAsync(AwsGeoPlacesSearchTextOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Suggest provides intelligent predictions or recommendations based on the user's input or context, such as relevant places, points of in- terest, query terms or search category. It is designed to help users find places or point of interests candidates or identify a follow on query based on incomplete or misspelled queries. It returns a list of possible matches or refinements that can be used to formulate a more accurate query. Users can select the most appropriate sugges- tion and use it for furt...
@@ -88,7 +82,6 @@ public interface IAwsGeoPlaces
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SuggestAsync(AwsGeoPlacesSuggestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SuggestAsync(AwsGeoPlacesSuggestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

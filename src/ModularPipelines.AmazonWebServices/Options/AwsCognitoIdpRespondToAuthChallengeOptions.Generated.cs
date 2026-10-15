@@ -73,7 +73,7 @@ public record AwsCognitoIdpRespondToAuthChallengeOptions : AwsOptions, IValidata
     public AwsCognitoIdpRespondToAuthChallengeChallengeName? ChallengeName { get; private init; }
 
     /// <summary>
-    /// The session identifier that maintains the state of authentication requests and challenge responses. If an AdminInitiateAuth or Admin- RespondToAuthChallenge API request results in a determination that your application must pass another challenge, Amazon Cognito returns a session with other challenge parameters. Send this session identi- fier, unmodified, to the next AdminRespondToAuthChallenge request. Constraints: o min: 20 o max: 2048
+    /// The session identifier that maintains the state of authentication requests and challenge responses. If an AdminInitiateAuth or Admin- RespondToAuthChallenge API request results in a determination that your application must pass another challenge, Amazon Cognito returns a session with other challenge parameters. Send this session identi- fier, unmodified, to the next AdminRespondToAuthChallenge request. Constraints: o min: 20 o max: 4096
     /// </summary>
     [CliOption("--session")]
     public string? Session { get; set; }

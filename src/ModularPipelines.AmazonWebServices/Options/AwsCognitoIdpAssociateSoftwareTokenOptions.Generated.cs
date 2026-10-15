@@ -30,7 +30,7 @@ public record AwsCognitoIdpAssociateSoftwareTokenOptions : AwsOptions
     public string? AccessToken { get; set; }
 
     /// <summary>
-    /// The session identifier that maintains the state of authentication requests and challenge responses. In AssociateSoftwareToken , this is the session ID from a successful sign-in. You can provide either an access token or a session ID in the request. Constraints: o min: 20 o max: 2048
+    /// The session identifier that maintains the state of authentication requests and challenge responses. In AssociateSoftwareToken , this is the session ID from a successful sign-in. You can provide either an access token or a session ID in the request. Constraints: o min: 20 o max: 4096
     /// </summary>
     [CliOption("--session")]
     public string? Session { get; set; }

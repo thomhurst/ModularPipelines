@@ -28,8 +28,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckIngestedDocumentAclAsync(AwsBedrockAgentRuntimeCheckIngestedDocumentAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckIngestedDocumentAclAsync(AwsBedrockAgentRuntimeCheckIngestedDocumentAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new invocation within a session. An invocation groups the re- lated invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . Related APIs o ListInvocations o ListSessions o GetSession See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInvocationAsync(AwsBedrockAgentRuntimeCreateInvocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInvocationAsync(AwsBedrockAgentRuntimeCreateInvocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as Lang- Graph and LlamaIndex. Sessions enable you to save the state of conver- sations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve con- versation history and context with Amazon Bedrock sessions . By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption...
@@ -48,8 +46,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSessionAsync(AwsBedrockAgentRuntimeCreateSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSessionAsync(AwsBedrockAgentRuntimeCreateSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes memory from the specified memory identifier. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAgentMemoryAsync(AwsBedrockAgentRuntimeDeleteAgentMemoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAgentMemoryAsync(AwsBedrockAgentRuntimeDeleteAgentMemoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSessionAsync(AwsBedrockAgentRuntimeDeleteSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSessionAsync(AwsBedrockAgentRuntimeDeleteSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ends the session. After you end a session, you can still access its content but you cant add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EndSessionAsync(AwsBedrockAgentRuntimeEndSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EndSessionAsync(AwsBedrockAgentRuntimeEndSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates an SQL query from a natural language query. For more informa- tion, see Generate a query for structured data in the Amazon Bedrock User Guide. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateQueryAsync(AwsBedrockAgentRuntimeGenerateQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateQueryAsync(AwsBedrockAgentRuntimeGenerateQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the sessions stored in the memory of the agent. See also: AWS API Documentation get-agent-memory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: memoryContents
@@ -98,8 +91,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentMemoryAsync(AwsBedrockAgentRuntimeGetAgentMemoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAgentMemoryAsync(AwsBedrockAgentRuntimeGetAgentMemoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDocumentContentAsync(AwsBedrockAgentRuntimeGetDocumentContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDocumentContentAsync(AwsBedrockAgentRuntimeGetDocumentContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execu- tion remains unchanged. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExecutionFlowSnapshotAsync(AwsBedrockAgentRuntimeGetExecutionFlowSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExecutionFlowSnapshotAsync(AwsBedrockAgentRuntimeGetExecutionFlowSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a specific flow execution, including its sta- tus, start and end times, and any errors that occurred during execu- tion. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFlowExecutionAsync(AwsBedrockAgentRuntimeGetFlowExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFlowExecutionAsync(AwsBedrockAgentRuntimeGetFlowExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the ingested access control list (ACL) for a specific docu- ment in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the bedrock:GetIngestedDocumentAcl permission. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIngestedDocumentAclAsync(AwsBedrockAgentRuntimeGetIngestedDocumentAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIngestedDocumentAclAsync(AwsBedrockAgentRuntimeGetIngestedDocumentAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific invocation step within an invoca- tion in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInvocationStepAsync(AwsBedrockAgentRuntimeGetInvocationStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInvocationStepAsync(AwsBedrockAgentRuntimeGetInvocationStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSessionAsync(AwsBedrockAgentRuntimeGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSessionAsync(AwsBedrockAgentRuntimeGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists events that occurred during a flow execution. Events provide de- tailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation list-flow-execution-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arra...
@@ -168,8 +154,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlowExecutionEventsAsync(AwsBedrockAgentRuntimeListFlowExecutionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlowExecutionEventsAsync(AwsBedrockAgentRuntimeListFlowExecutionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all executions of a flow. Results can be paginated and include summary information about each execution, such as status, start and end times, and the execution's Amazon Resource Name (ARN). NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation list-flow-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no...
@@ -178,8 +163,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlowExecutionsAsync(AwsBedrockAgentRuntimeListFlowExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlowExecutionsAsync(AwsBedrockAgentRuntimeListFlowExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all invocations associated with a specific session. For more in- formation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
@@ -188,8 +172,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInvocationsAsync(AwsBedrockAgentRuntimeListInvocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInvocationsAsync(AwsBedrockAgentRuntimeListInvocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-invocation-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
@@ -198,8 +181,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInvocationStepsAsync(AwsBedrockAgentRuntimeListInvocationStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInvocationStepsAsync(AwsBedrockAgentRuntimeListInvocationStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all sessions in your Amazon Web Services account. For more infor- mation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
@@ -208,8 +190,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSessionsAsync(AwsBedrockAgentRuntimeListSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSessionsAsync(AwsBedrockAgentRuntimeListSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all the tags for the resource you specify. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsBedrockAgentRuntimeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsBedrockAgentRuntimeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add an invocation step to an invocation in a session. An invocation step stores fine-grained state checkpoints, including text and images, for each interaction. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock ses- sions . Related APIs: o GetInvocationStep o ListInvocationSteps o ListInvocations o ListSessions See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutInvocationStepAsync(AwsBedrockAgentRuntimePutInvocationStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutInvocationStepAsync(AwsBedrockAgentRuntimePutInvocationStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reranks the relevance of sources based on queries. For more informa- tion, see Improve the relevance of query responses with a reranker model . See also: AWS API Documentation rerank uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types. re...
@@ -238,8 +217,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RerankAsync(AwsBedrockAgentRuntimeRerankOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RerankAsync(AwsBedrockAgentRuntimeRerankOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile . The response only cites sources that are relevant to the query. NOTE: This API cannot be used with managed knowledge bases. Use AgenticRetrieveStream or Retrieve with managed knowledge bases. See also: AWS API Documentation retrieve-and-generate uses document type values. Document types follow the JSON data model where valid values are: strings, numbers,...
@@ -248,8 +226,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetrieveAndGenerateAsync(AwsBedrockAgentRuntimeRetrieveAndGenerateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetrieveAndGenerateAsync(AwsBedrockAgentRuntimeRetrieveAndGenerateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queries a knowledge base and retrieves information from it. See also: AWS API Documentation retrieve uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types. retrieve is a paginated operation. Multiple API calls may be issued in order to retr...
@@ -258,8 +235,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetrieveAsync(AwsBedrockAgentRuntimeRetrieveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetrieveAsync(AwsBedrockAgentRuntimeRetrieveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Docume...
@@ -268,8 +244,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFlowExecutionAsync(AwsBedrockAgentRuntimeStartFlowExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFlowExecutionAsync(AwsBedrockAgentRuntimeStartFlowExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an Amazon Bedrock flow's execution. This operation prevents fur- ther processing of the flow and changes the execution status to Aborted . See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopFlowExecutionAsync(AwsBedrockAgentRuntimeStopFlowExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopFlowExecutionAsync(AwsBedrockAgentRuntimeStopFlowExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate tags with a resource. For more information, see Tagging re- sources in the Amazon Bedrock User Guide. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsBedrockAgentRuntimeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsBedrockAgentRuntimeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove tags from a resource. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsBedrockAgentRuntimeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsBedrockAgentRuntimeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the metadata or encryption settings of a session. For more in- formation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
@@ -308,7 +280,6 @@ public interface IAwsBedrockAgentRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSessionAsync(AwsBedrockAgentRuntimeUpdateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSessionAsync(AwsBedrockAgentRuntimeUpdateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

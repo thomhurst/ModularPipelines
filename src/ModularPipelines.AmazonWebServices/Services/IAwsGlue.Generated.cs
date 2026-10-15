@@ -28,8 +28,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateGlossaryTermsAsync(AwsGlueAssociateGlossaryTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateGlossaryTermsAsync(AwsGlueAssociateGlossaryTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates one or more partitions in a batch operation. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreatePartitionAsync(AwsGlueBatchCreatePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreatePartitionAsync(AwsGlueBatchCreatePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a list of connection definitions from the Data Catalog. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteConnectionAsync(AwsGlueBatchDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteConnectionAsync(AwsGlueBatchDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes one or more partitions in a batch operation. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeletePartitionAsync(AwsGlueBatchDeletePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeletePartitionAsync(AwsGlueBatchDeletePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes multiple tables at once. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely man- ner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable , use DeleteTableVersion or BatchDeleteTableVersion , and DeletePartition or BatchDeleteParti- tion , to delete any resources tha...
@@ -68,8 +64,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteTableAsync(AwsGlueBatchDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteTableAsync(AwsGlueBatchDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified batch of versions of a table. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteTableVersionAsync(AwsGlueBatchDeleteTableVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteTableVersionAsync(AwsGlueBatchDeleteTableVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a list of blueprints. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetBlueprintsAsync(AwsGlueBatchGetBlueprintsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetBlueprintsAsync(AwsGlueBatchGetBlueprintsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This op- eration supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetCrawlersAsync(AwsGlueBatchGetCrawlersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetCrawlersAsync(AwsGlueBatchGetCrawlersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details for the custom patterns specified by a list of names. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetCustomEntityTypesAsync(AwsGlueBatchGetCustomEntityTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetCustomEntityTypesAsync(AwsGlueBatchGetCustomEntityTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of data quality results for the specified result IDs. See also: AWS API Documentation
@@ -118,8 +109,16 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetDataQualityResultAsync(AwsGlueBatchGetDataQualityResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetDataQualityResultAsync(AwsGlueBatchGetDataQualityResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a list of data quality results for the specified result IDs. You can specify up to 100 result IDs in a single request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> BatchGetDataQualityResultV2Async(AwsGlueBatchGetDataQualityResultV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of multiple evaluation runs in a single request. See also: AWS API Documentation
@@ -128,8 +127,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetDataQualityRulesetEvaluationRunAsync(AwsGlueBatchGetDataQualityRulesetEvaluationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetDataQualityRulesetEvaluationRunAsync(AwsGlueBatchGetDataQualityRulesetEvaluationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
@@ -138,8 +136,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetDevEndpointsAsync(AwsGlueBatchGetDevEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetDevEndpointsAsync(AwsGlueBatchGetDevEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves multiple items from an iterable form on an asset in Glue Data Catalog in a single request. See also: AWS API Documentation
@@ -148,8 +145,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetIterableFormsAsync(AwsGlueBatchGetIterableFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetIterableFormsAsync(AwsGlueBatchGetIterableFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of resource metadata for a given list of job names. Af- ter calling the ListJobs operation, you can call this operation to ac- cess the data to which you have been granted permissions. This opera- tion supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
@@ -158,8 +154,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetJobsAsync(AwsGlueBatchGetJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetJobsAsync(AwsGlueBatchGetJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves partitions in a batch request. See also: AWS API Documentation
@@ -168,8 +163,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetPartitionAsync(AwsGlueBatchGetPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetPartitionAsync(AwsGlueBatchGetPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the configuration for the specified table optimizers. See also: AWS API Documentation
@@ -178,8 +172,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetTableOptimizerAsync(AwsGlueBatchGetTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetTableOptimizerAsync(AwsGlueBatchGetTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This op- eration supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
@@ -188,8 +181,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetTriggersAsync(AwsGlueBatchGetTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetTriggersAsync(AwsGlueBatchGetTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This op- eration supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
@@ -198,8 +190,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetWorkflowsAsync(AwsGlueBatchGetWorkflowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetWorkflowsAsync(AwsGlueBatchGetWorkflowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the Inclu- sionAnnotation input. The API only works for a single statisticId across multiple profiles. See also: AWS API Documentation
@@ -208,8 +199,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutDataQualityStatisticAnnotationAsync(AwsGlueBatchPutDataQualityStatisticAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchPutDataQualityStatisticAnnotationAsync(AwsGlueBatchPutDataQualityStatisticAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops one or more job runs for a specified job definition. See also: AWS API Documentation
@@ -218,8 +208,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchStopJobRunAsync(AwsGlueBatchStopJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchStopJobRunAsync(AwsGlueBatchStopJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates one or more partitions in a batch operation. See also: AWS API Documentation
@@ -228,8 +217,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdatePartitionAsync(AwsGlueBatchUpdatePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdatePartitionAsync(AwsGlueBatchUpdatePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the specified recommendation run that was being used to gener- ate rules. See also: AWS API Documentation
@@ -238,8 +226,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelDataQualityRuleRecommendationRunAsync(AwsGlueCancelDataQualityRuleRecommendationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelDataQualityRuleRecommendationRunAsync(AwsGlueCancelDataQualityRuleRecommendationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a run where a ruleset is being evaluated against a data source. See also: AWS API Documentation
@@ -248,8 +235,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelDataQualityRulesetEvaluationRunAsync(AwsGlueCancelDataQualityRulesetEvaluationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelDataQualityRulesetEvaluationRunAsync(AwsGlueCancelDataQualityRulesetEvaluationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's Trans- formID and the task run's TaskRunId . See also: AWS API Documentation
@@ -258,8 +244,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelMlTaskRunAsync(AwsGlueCancelMlTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelMlTaskRunAsync(AwsGlueCancelMlTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the statement. See also: AWS API Documentation
@@ -268,8 +253,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelStatementAsync(AwsGlueCancelStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelStatementAsync(AwsGlueCancelStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed. See also: AWS API Documentation
@@ -278,8 +262,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckSchemaVersionValidityAsync(AwsGlueCheckSchemaVersionValidityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckSchemaVersionValidityAsync(AwsGlueCheckSchemaVersionValidityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a blueprint with Glue. See also: AWS API Documentation
@@ -288,8 +271,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBlueprintAsync(AwsGlueCreateBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBlueprintAsync(AwsGlueCreateBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new catalog in the Glue Data Catalog. See also: AWS API Documentation
@@ -298,8 +280,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCatalogAsync(AwsGlueCreateCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCatalogAsync(AwsGlueCreateCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a classifier in the user's account. This can be a GrokClassi- fier , an XMLClassifier , a JsonClassifier , or a CsvClassifier , de- pending on which field of the request is present. See also: AWS API Documentation
@@ -308,8 +289,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClassifierAsync(AwsGlueCreateClassifierOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClassifierAsync(AwsGlueCreateClassifierOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates settings for a column statistics task. See also: AWS API Documentation
@@ -318,8 +298,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateColumnStatisticsTaskSettingsAsync(AwsGlueCreateColumnStatisticsTaskSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateColumnStatisticsTaskSettingsAsync(AwsGlueCreateColumnStatisticsTaskSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a connection definition in the Data Catalog. Connections used for creating federated resources require the IAM glue:PassConnection permission. See also: AWS API Documentation
@@ -328,8 +307,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConnectionAsync(AwsGlueCreateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConnectionAsync(AwsGlueCreateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field. See also: AWS API Documentation
@@ -338,8 +316,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCrawlerAsync(AwsGlueCreateCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCrawlerAsync(AwsGlueCreateCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data. Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked. See also: AWS API Documentation
@@ -348,8 +325,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomEntityTypeAsync(AwsGlueCreateCustomEntityTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomEntityTypeAsync(AwsGlueCreateCustomEntityTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new database in a Data Catalog. See also: AWS API Documentation
@@ -358,8 +334,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDatabaseAsync(AwsGlueCreateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDatabaseAsync(AwsGlueCreateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide. See also: AWS API Documentation
@@ -368,8 +343,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataQualityRulesetAsync(AwsGlueCreateDataQualityRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataQualityRulesetAsync(AwsGlueCreateDataQualityRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new development endpoint. See also: AWS API Documentation
@@ -378,8 +352,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDevEndpointAsync(AwsGlueCreateDevEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDevEndpointAsync(AwsGlueCreateDevEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a business glossary in Glue Data Catalog. A glossary is a con- tainer for glossary terms that define business concepts. See also: AWS API Documentation
@@ -388,8 +361,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGlossaryAsync(AwsGlueCreateGlossaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGlossaryAsync(AwsGlueCreateGlossaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a glossary term within a business glossary in Glue Data Cata- log. See also: AWS API Documentation
@@ -398,8 +370,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGlossaryTermAsync(AwsGlueCreateGlossaryTermOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGlossaryTermAsync(AwsGlueCreateGlossaryTermOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authenti- cation and authorization. See also: AWS API Documentation
@@ -408,8 +379,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGlueIdentityCenterConfigurationAsync(AwsGlueCreateGlueIdentityCenterConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGlueIdentityCenterConfigurationAsync(AwsGlueCreateGlueIdentityCenterConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Zero-ETL integration in the caller's account between two re- sources with Amazon Resource Names (ARNs): the SourceArn and TargetArn . See also: AWS API Documentation
@@ -418,8 +388,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIntegrationAsync(AwsGlueCreateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIntegrationAsync(AwsGlueCreateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API can be used for setting up the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or data- base. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as ResourceArn with SourceProcess- ingProperties and the Glue database ARN as ResourceArn with TargetPro- cessingProperties respectively. See also: AWS API Documentation
@@ -428,8 +397,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIntegrationResourcePropertyAsync(AwsGlueCreateIntegrationResourcePropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIntegrationResourcePropertyAsync(AwsGlueCreateIntegrationResourcePropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include proper- ties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be in- voked with the Glue connection ARN as ResourceArn with SourceTableCon- fig , and the Glue database ARN as ResourceArn with TargetTableConfig respectively. See also: AWS API Documentation
@@ -438,8 +406,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIntegrationTablePropertiesAsync(AwsGlueCreateIntegrationTablePropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIntegrationTablePropertiesAsync(AwsGlueCreateIntegrationTablePropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new job definition. See also: AWS API Documentation
@@ -448,8 +415,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateJobAsync(AwsGlueCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateJobAsync(AwsGlueCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicat- ing data. You can provide an optional Description , in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning fr...
@@ -458,8 +424,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMlTransformAsync(AwsGlueCreateMlTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMlTransformAsync(AwsGlueCreateMlTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a specified partition index in an existing table. See also: AWS API Documentation
@@ -468,8 +433,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePartitionIndexAsync(AwsGlueCreatePartitionIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePartitionIndexAsync(AwsGlueCreatePartitionIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new partition. See also: AWS API Documentation
@@ -478,8 +442,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePartitionAsync(AwsGlueCreatePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePartitionAsync(AwsGlueCreatePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new registry which may be used to hold a collection of schemas. See also: AWS API Documentation
@@ -488,8 +451,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRegistryAsync(AwsGlueCreateRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRegistryAsync(AwsGlueCreateRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the Regis...
@@ -498,8 +460,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSchemaAsync(AwsGlueCreateSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSchemaAsync(AwsGlueCreateSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Transforms a directed acyclic graph (DAG) into code. See also: AWS API Documentation
@@ -508,8 +469,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateScriptAsync(AwsGlueCreateScriptOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateScriptAsync(AwsGlueCreateScriptOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using se- curity configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints . See also: AWS API Documentation
@@ -518,8 +478,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSecurityConfigurationAsync(AwsGlueCreateSecurityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSecurityConfigurationAsync(AwsGlueCreateSecurityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new session. See also: AWS API Documentation
@@ -528,8 +487,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSessionAsync(AwsGlueCreateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSessionAsync(AwsGlueCreateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new table optimizer for a specific function. See also: AWS API Documentation
@@ -538,8 +496,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTableOptimizerAsync(AwsGlueCreateTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTableOptimizerAsync(AwsGlueCreateTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new table definition in the Data Catalog. See also: AWS API Documentation create-table uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -548,8 +505,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTableAsync(AwsGlueCreateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTableAsync(AwsGlueCreateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new trigger. Job arguments may be logged. Do not pass plaintext secrets as argu- ments. Retrieve secrets from a Glue Connection, Amazon Web Services Se- crets Manager or other secret management mechanism if you intend to keep them within the Job. See also: AWS API Documentation
@@ -558,8 +514,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTriggerAsync(AwsGlueCreateTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTriggerAsync(AwsGlueCreateTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Glue usage profile. See also: AWS API Documentation
@@ -568,8 +523,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUsageProfileAsync(AwsGlueCreateUsageProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUsageProfileAsync(AwsGlueCreateUsageProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new function definition in the Data Catalog. See also: AWS API Documentation
@@ -578,8 +532,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserDefinedFunctionAsync(AwsGlueCreateUserDefinedFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserDefinedFunctionAsync(AwsGlueCreateUserDefinedFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new workflow. See also: AWS API Documentation
@@ -588,8 +541,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkflowAsync(AwsGlueCreateWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkflowAsync(AwsGlueCreateWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an asset from Glue Data Catalog. See also: AWS API Documentation
@@ -598,8 +550,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetAsync(AwsGlueDeleteAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetAsync(AwsGlueDeleteAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an asset type from Glue Data Catalog. See also: AWS API Documentation
@@ -608,8 +559,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetTypeAsync(AwsGlueDeleteAssetTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetTypeAsync(AwsGlueDeleteAssetTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a form attachment from an asset in Glue Data Catalog. See also: AWS API Documentation
@@ -618,8 +568,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAttachmentAsync(AwsGlueDeleteAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAttachmentAsync(AwsGlueDeleteAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing blueprint. See also: AWS API Documentation
@@ -628,8 +577,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBlueprintAsync(AwsGlueDeleteBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBlueprintAsync(AwsGlueDeleteBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified catalog from the Glue Data Catalog. After completing this operation, you no longer have access to the data- bases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely man- ner, at the discretion of the service. To ensure the immediate deletion of all related resources before call- ing the DeleteCatalog operation, use DeleteTabl...
@@ -638,8 +586,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCatalogAsync(AwsGlueDeleteCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCatalogAsync(AwsGlueDeleteCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a classifier from the Data Catalog. See also: AWS API Documentation
@@ -648,8 +595,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClassifierAsync(AwsGlueDeleteClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClassifierAsync(AwsGlueDeleteClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the partition column statistics of a column. The Identity and Access Management (IAM) permission required for this operation is DeletePartition . See also: AWS API Documentation
@@ -658,8 +604,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteColumnStatisticsForPartitionAsync(AwsGlueDeleteColumnStatisticsForPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteColumnStatisticsForPartitionAsync(AwsGlueDeleteColumnStatisticsForPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is DeleteTable . See also: AWS API Documentation
@@ -668,8 +613,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteColumnStatisticsForTableAsync(AwsGlueDeleteColumnStatisticsForTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteColumnStatisticsForTableAsync(AwsGlueDeleteColumnStatisticsForTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes settings for a column statistics task. See also: AWS API Documentation
@@ -678,8 +622,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteColumnStatisticsTaskSettingsAsync(AwsGlueDeleteColumnStatisticsTaskSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteColumnStatisticsTaskSettingsAsync(AwsGlueDeleteColumnStatisticsTaskSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a connection from the Data Catalog. See also: AWS API Documentation
@@ -688,8 +631,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectionAsync(AwsGlueDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectionAsync(AwsGlueDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom connection type in Glue. The connection type must exist and be registered before it can be deleted. This operation supports cleanup of connection type resources and helps maintain proper lifecycle management of custom connection types. See also: AWS API Documentation
@@ -698,8 +640,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectionTypeAsync(AwsGlueDeleteConnectionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectionTypeAsync(AwsGlueDeleteConnectionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING . See also: AWS API Documentation
@@ -708,8 +649,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCrawlerAsync(AwsGlueDeleteCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCrawlerAsync(AwsGlueDeleteCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom pattern by specifying its name. See also: AWS API Documentation
@@ -718,8 +658,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomEntityTypeAsync(AwsGlueDeleteCustomEntityTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomEntityTypeAsync(AwsGlueDeleteCustomEntityTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a specified database from a Data Catalog. NOTE: After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase , use DeleteTableVersion or BatchDeleteTableV...
@@ -728,8 +667,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDatabaseAsync(AwsGlueDeleteDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDatabaseAsync(AwsGlueDeleteDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a data quality ruleset. See also: AWS API Documentation
@@ -738,8 +676,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataQualityRulesetAsync(AwsGlueDeleteDataQualityRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataQualityRulesetAsync(AwsGlueDeleteDataQualityRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified development endpoint. See also: AWS API Documentation
@@ -748,8 +685,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDevEndpointAsync(AwsGlueDeleteDevEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDevEndpointAsync(AwsGlueDeleteDevEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a form type from Glue Data Catalog. A form type cannot be deleted if it is still referenced by an asset type. See also: AWS API Documentation
@@ -758,8 +694,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFormTypeAsync(AwsGlueDeleteFormTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFormTypeAsync(AwsGlueDeleteFormTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a business glossary from Glue Data Catalog. A glossary cannot be deleted if it still contains glossary terms. See also: AWS API Documentation
@@ -768,8 +703,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGlossaryAsync(AwsGlueDeleteGlossaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGlossaryAsync(AwsGlueDeleteGlossaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a glossary term from Glue Data Catalog. See also: AWS API Documentation
@@ -778,8 +712,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGlossaryTermAsync(AwsGlueDeleteGlossaryTermOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGlossaryTermAsync(AwsGlueDeleteGlossaryTermOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the existing Glue Identity Center configuration, removing the integration between Glue and Amazon Web Services IAM Identity Center. See also: AWS API Documentation
@@ -788,8 +721,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGlueIdentityCenterConfigurationAsync(AwsGlueDeleteGlueIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGlueIdentityCenterConfigurationAsync(AwsGlueDeleteGlueIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Zero-ETL integration. See also: AWS API Documentation
@@ -798,8 +730,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntegrationAsync(AwsGlueDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntegrationAsync(AwsGlueDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is used for deleting the ResourceProperty of the Glue connec- tion (for the source) or Glue database ARN (for the target). See also: AWS API Documentation
@@ -808,8 +739,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntegrationResourcePropertyAsync(AwsGlueDeleteIntegrationResourcePropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntegrationResourcePropertyAsync(AwsGlueDeleteIntegrationResourcePropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the table properties that have been created for the tables that need to be replicated. See also: AWS API Documentation
@@ -818,8 +748,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntegrationTablePropertiesAsync(AwsGlueDeleteIntegrationTablePropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntegrationTablePropertiesAsync(AwsGlueDeleteIntegrationTablePropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown. See also: AWS API Documentation
@@ -828,8 +757,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteJobAsync(AwsGlueDeleteJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteJobAsync(AwsGlueDeleteJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteML- Transforms . However, any Glue jobs that still reference the deleted transform will no longer succeed. See also: AWS API Documentation
@@ -838,8 +766,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMlTransformAsync(AwsGlueDeleteMlTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMlTransformAsync(AwsGlueDeleteMlTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified partition index from an existing table. See also: AWS API Documentation
@@ -848,8 +775,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePartitionIndexAsync(AwsGlueDeletePartitionIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePartitionIndexAsync(AwsGlueDeletePartitionIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified partition. See also: AWS API Documentation
@@ -858,8 +784,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePartitionAsync(AwsGlueDeletePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePartitionAsync(AwsGlueDeletePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the UpdateRegistry , CreateSchema , UpdateSchema , and RegisterSchemaVersion APIs. See also: AWS API Documentation
@@ -868,8 +793,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRegistryAsync(AwsGlueDeleteRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRegistryAsync(AwsGlueDeleteRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified policy. See also: AWS API Documentation
@@ -878,8 +802,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsGlueDeleteResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsGlueDeleteResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will de- activate all online operations for the schema, such as the GetSchemaBy- Definition , and RegisterSchemaVersion APIs. See also: AWS API Documentation
@@ -888,8 +811,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSchemaAsync(AwsGlueDeleteSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSchemaAsync(AwsGlueDeleteSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a ver- sion that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the Delet...
@@ -898,8 +820,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSchemaVersionsAsync(AwsGlueDeleteSchemaVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSchemaVersionsAsync(AwsGlueDeleteSchemaVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified security configuration. See also: AWS API Documentation
@@ -908,8 +829,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSecurityConfigurationAsync(AwsGlueDeleteSecurityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSecurityConfigurationAsync(AwsGlueDeleteSecurityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the session. See also: AWS API Documentation
@@ -918,8 +838,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSessionAsync(AwsGlueDeleteSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSessionAsync(AwsGlueDeleteSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an optimizer and all associated metadata for a table. The opti- mization will no longer be performed on the table. See also: AWS API Documentation
@@ -928,8 +847,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableOptimizerAsync(AwsGlueDeleteTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableOptimizerAsync(AwsGlueDeleteTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a table definition from the Data Catalog. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely man- ner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable , use DeleteTableVersion or BatchDeleteTableVer- sion , and DeletePartition or BatchDeletePartition , to delete any r...
@@ -938,8 +856,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableAsync(AwsGlueDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableAsync(AwsGlueDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified version of a table. See also: AWS API Documentation
@@ -948,8 +865,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableVersionAsync(AwsGlueDeleteTableVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableVersionAsync(AwsGlueDeleteTableVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified trigger. If the trigger is not found, no exception is thrown. See also: AWS API Documentation
@@ -958,8 +874,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTriggerAsync(AwsGlueDeleteTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTriggerAsync(AwsGlueDeleteTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the Glue specified usage profile. See also: AWS API Documentation
@@ -968,8 +883,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUsageProfileAsync(AwsGlueDeleteUsageProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUsageProfileAsync(AwsGlueDeleteUsageProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing function definition from the Data Catalog. See also: AWS API Documentation
@@ -978,8 +892,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserDefinedFunctionAsync(AwsGlueDeleteUserDefinedFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserDefinedFunctionAsync(AwsGlueDeleteUserDefinedFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a workflow. See also: AWS API Documentation
@@ -988,8 +901,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkflowAsync(AwsGlueDeleteWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkflowAsync(AwsGlueDeleteWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue. The response includes au- thentication configuration details that show supported authentication types and properties, and RestConfiguration for custom REST-based con- nection types registered via RegisterConnectionType . See also: ListConnectionTypes , RegisterConnectionType , DeleteConnec- tionType See also: AWS API Documentation
@@ -998,8 +910,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConnectionTypeAsync(AwsGlueDescribeConnectionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConnectionTypeAsync(AwsGlueDescribeConnectionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected en- tity. The response includes all the fields which make up the entity. See also: AWS API Documentation describe-entity is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
@@ -1008,8 +919,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEntityAsync(AwsGlueDescribeEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEntityAsync(AwsGlueDescribeEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of inbound integrations for the specified integration. See also: AWS API Documentation
@@ -1018,8 +928,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInboundIntegrationsAsync(AwsGlueDescribeInboundIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInboundIntegrationsAsync(AwsGlueDescribeInboundIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The API is used to retrieve a list of integrations. See also: AWS API Documentation
@@ -1028,8 +937,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIntegrationsAsync(AwsGlueDescribeIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIntegrationsAsync(AwsGlueDescribeIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association of one or more glossary terms from an asset in Glue Data Catalog. See also: AWS API Documentation
@@ -1038,8 +946,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateGlossaryTermsAsync(AwsGlueDisassociateGlossaryTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateGlossaryTermsAsync(AwsGlueDisassociateGlossaryTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for an asset in Glue Data Catalog, including its forms, additional attachments, and associated glossary terms. See also: AWS API Documentation
@@ -1048,8 +955,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetAsync(AwsGlueGetAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetAsync(AwsGlueGetAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves an asset type in Glue Data Catalog by its identifier. See also: AWS API Documentation
@@ -1058,8 +964,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetTypeAsync(AwsGlueGetAssetTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetTypeAsync(AwsGlueGetAssetTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a blueprint. See also: AWS API Documentation
@@ -1068,8 +973,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlueprintAsync(AwsGlueGetBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBlueprintAsync(AwsGlueGetBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a blueprint run. See also: AWS API Documentation
@@ -1078,8 +982,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlueprintRunAsync(AwsGlueGetBlueprintRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBlueprintRunAsync(AwsGlueGetBlueprintRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of blueprint runs for a specified blueprint. See also: AWS API Documentation
@@ -1088,8 +991,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlueprintRunsAsync(AwsGlueGetBlueprintRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBlueprintRunsAsync(AwsGlueGetBlueprintRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status of a migration operation. See also: AWS API Documentation
@@ -1098,8 +1000,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCatalogImportStatusAsync(AwsGlueGetCatalogImportStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCatalogImportStatusAsync(AwsGlueGetCatalogImportStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The name of the Catalog to retrieve. This should be all lowercase. See also: AWS API Documentation
@@ -1108,8 +1009,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCatalogAsync(AwsGlueGetCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCatalogAsync(AwsGlueGetCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog. See also: AWS API Documentation
@@ -1118,8 +1018,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCatalogsAsync(AwsGlueGetCatalogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCatalogsAsync(AwsGlueGetCatalogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a classifier by name. See also: AWS API Documentation
@@ -1128,8 +1027,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClassifierAsync(AwsGlueGetClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClassifierAsync(AwsGlueGetClassifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all classifier objects in the Data Catalog. See also: AWS API Documentation get-classifiers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Classifiers
@@ -1138,8 +1036,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClassifiersAsync(AwsGlueGetClassifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClassifiersAsync(AwsGlueGetClassifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetPartition . See also: AWS API Documentation
@@ -1148,8 +1045,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetColumnStatisticsForPartitionAsync(AwsGlueGetColumnStatisticsForPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetColumnStatisticsForPartitionAsync(AwsGlueGetColumnStatisticsForPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetTable . See also: AWS API Documentation
@@ -1158,8 +1054,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetColumnStatisticsForTableAsync(AwsGlueGetColumnStatisticsForTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetColumnStatisticsForTableAsync(AwsGlueGetColumnStatisticsForTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the associated metadata/information for a task run, given a task run ID. See also: AWS API Documentation
@@ -1168,8 +1063,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetColumnStatisticsTaskRunAsync(AwsGlueGetColumnStatisticsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetColumnStatisticsTaskRunAsync(AwsGlueGetColumnStatisticsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about all runs associated with the specified ta- ble. See also: AWS API Documentation
@@ -1178,8 +1072,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetColumnStatisticsTaskRunsAsync(AwsGlueGetColumnStatisticsTaskRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetColumnStatisticsTaskRunsAsync(AwsGlueGetColumnStatisticsTaskRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets settings for a column statistics task. See also: AWS API Documentation
@@ -1188,8 +1081,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetColumnStatisticsTaskSettingsAsync(AwsGlueGetColumnStatisticsTaskSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetColumnStatisticsTaskSettingsAsync(AwsGlueGetColumnStatisticsTaskSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a connection definition from the Data Catalog. See also: AWS API Documentation
@@ -1198,8 +1090,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionAsync(AwsGlueGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionAsync(AwsGlueGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of connection definitions from the Data Catalog. See also: AWS API Documentation get-connections is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectionList
@@ -1208,8 +1099,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionsAsync(AwsGlueGetConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionsAsync(AwsGlueGetConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metrics about specified crawlers. See also: AWS API Documentation get-crawler-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CrawlerMetricsList
@@ -1218,8 +1108,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCrawlerMetricsAsync(AwsGlueGetCrawlerMetricsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCrawlerMetricsAsync(AwsGlueGetCrawlerMetricsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata for a specified crawler. See also: AWS API Documentation
@@ -1228,8 +1117,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCrawlerAsync(AwsGlueGetCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCrawlerAsync(AwsGlueGetCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata for all crawlers defined in the customer account. See also: AWS API Documentation get-crawlers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Crawlers
@@ -1238,8 +1126,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCrawlersAsync(AwsGlueGetCrawlersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCrawlersAsync(AwsGlueGetCrawlersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a custom pattern by specifying its name. See also: AWS API Documentation
@@ -1248,8 +1135,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCustomEntityTypeAsync(AwsGlueGetCustomEntityTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCustomEntityTypeAsync(AwsGlueGetCustomEntityTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the URL for the Spark monitoring dashboard for a Glue re- source. See also: AWS API Documentation
@@ -1258,8 +1144,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDashboardUrlAsync(AwsGlueGetDashboardUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDashboardUrlAsync(AwsGlueGetDashboardUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the definition of a specified database. See also: AWS API Documentation
@@ -1268,8 +1153,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDatabaseAsync(AwsGlueGetDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDatabaseAsync(AwsGlueGetDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all databases defined in a given Data Catalog. See also: AWS API Documentation get-databases is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DatabaseList
@@ -1278,8 +1162,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDatabasesAsync(AwsGlueGetDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDatabasesAsync(AwsGlueGetDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the security configuration for a specified catalog. See also: AWS API Documentation
@@ -1288,8 +1171,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataCatalogEncryptionSettingsAsync(AwsGlueGetDataCatalogEncryptionSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataCatalogEncryptionSettingsAsync(AwsGlueGetDataCatalogEncryptionSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current export configuration for the Glue Data Catalog. The export configuration controls whether catalog metadata is exported to S3 Tables. See also: AWS API Documentation
@@ -1298,8 +1180,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataCatalogExportConfigurationAsync(AwsGlueGetDataCatalogExportConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataCatalogExportConfigurationAsync(AwsGlueGetDataCatalogExportConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Transforms a Python script into a directed acyclic graph (DAG). See also: AWS API Documentation
@@ -1308,8 +1189,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataflowGraphAsync(AwsGlueGetDataflowGraphOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataflowGraphAsync(AwsGlueGetDataflowGraphOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason). See also: AWS API Documentation
@@ -1318,8 +1198,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataQualityModelAsync(AwsGlueGetDataQualityModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataQualityModelAsync(AwsGlueGetDataQualityModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a statistic's predictions for a given Profile ID. See also: AWS API Documentation
@@ -1328,8 +1207,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataQualityModelResultAsync(AwsGlueGetDataQualityModelResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataQualityModelResultAsync(AwsGlueGetDataQualityModelResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the result of a data quality rule evaluation. See also: AWS API Documentation
@@ -1338,8 +1216,16 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataQualityResultAsync(AwsGlueGetDataQualityResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataQualityResultAsync(AwsGlueGetDataQualityResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the result of a data quality rule evaluation published from any supported data platform. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetDataQualityResultV2Async(AwsGlueGetDataQualityResultV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the specified recommendation run that was used to generate rules. See also: AWS API Documentation
@@ -1348,8 +1234,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataQualityRuleRecommendationRunAsync(AwsGlueGetDataQualityRuleRecommendationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataQualityRuleRecommendationRunAsync(AwsGlueGetDataQualityRuleRecommendationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specific run where a ruleset is evaluated against a data source. See also: AWS API Documentation
@@ -1358,8 +1243,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataQualityRulesetEvaluationRunAsync(AwsGlueGetDataQualityRulesetEvaluationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataQualityRulesetEvaluationRunAsync(AwsGlueGetDataQualityRulesetEvaluationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an existing ruleset by identifier or name. See also: AWS API Documentation
@@ -1368,8 +1252,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataQualityRulesetAsync(AwsGlueGetDataQualityRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataQualityRulesetAsync(AwsGlueGetDataQualityRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specified development endpoint. NOTE: When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP ad- dress field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address. See also: AWS API Documentation
@@ -1378,8 +1261,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDevEndpointAsync(AwsGlueGetDevEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDevEndpointAsync(AwsGlueGetDevEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all the development endpoints in this Amazon Web Services ac- count. NOTE: When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP ad- dress field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address. See also: AWS API Documentation get-dev-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
@@ -1388,8 +1270,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDevEndpointsAsync(AwsGlueGetDevEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDevEndpointsAsync(AwsGlueGetDevEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted us- ing Jackson JsonNode based on the field type defined by the DescribeEn- tity API. Spark connectors generate schemas according to the same data type map- ping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows. See also: AWS API D...
@@ -1398,8 +1279,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEntityRecordsAsync(AwsGlueGetEntityRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEntityRecordsAsync(AwsGlueGetEntityRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a form type in Glue Data Catalog by its identifier. See also: AWS API Documentation
@@ -1408,8 +1288,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFormTypeAsync(AwsGlueGetFormTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFormTypeAsync(AwsGlueGetFormTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a business glossary in Glue Data Catalog by its identifier. See also: AWS API Documentation
@@ -1418,8 +1297,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGlossaryAsync(AwsGlueGetGlossaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGlossaryAsync(AwsGlueGetGlossaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a glossary term in Glue Data Catalog by its identifier. See also: AWS API Documentation
@@ -1428,8 +1306,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGlossaryTermAsync(AwsGlueGetGlossaryTermOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGlossaryTermAsync(AwsGlueGetGlossaryTermOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current Glue Identity Center configuration details, in- cluding the associated Identity Center instance and application infor- mation. See also: AWS API Documentation
@@ -1438,8 +1315,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGlueIdentityCenterConfigurationAsync(AwsGlueGetGlueIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGlueIdentityCenterConfigurationAsync(AwsGlueGetGlueIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is used for fetching the ResourceProperty of the Glue connec- tion (for the source) or Glue database ARN (for the target) See also: AWS API Documentation
@@ -1448,8 +1324,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIntegrationResourcePropertyAsync(AwsGlueGetIntegrationResourcePropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIntegrationResourcePropertyAsync(AwsGlueGetIntegrationResourcePropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is used to retrieve optional override properties for the ta- bles that need to be replicated. These properties can include proper- ties for filtering and partition for source and target tables. See also: AWS API Documentation
@@ -1458,8 +1333,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIntegrationTablePropertiesAsync(AwsGlueGetIntegrationTablePropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIntegrationTablePropertiesAsync(AwsGlueGetIntegrationTablePropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see: o Tracking processed data using job bookmarks o Job parameters used by Glue o Job structure See also: AWS API Documentation
@@ -1468,8 +1342,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobBookmarkAsync(AwsGlueGetJobBookmarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobBookmarkAsync(AwsGlueGetJobBookmarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves an existing job definition. See also: AWS API Documentation
@@ -1478,8 +1351,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobAsync(AwsGlueGetJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobAsync(AwsGlueGetJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for a given job run. Job run history is accessi- ble for 365 days for your workflow and job run. See also: AWS API Documentation
@@ -1488,8 +1360,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobRunAsync(AwsGlueGetJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobRunAsync(AwsGlueGetJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata for all runs of a given job definition. GetJobRuns returns the job runs in chronological order, with the newest jobs returned first. See also: AWS API Documentation get-job-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from th...
@@ -1498,8 +1369,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobRunsAsync(AwsGlueGetJobRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobRunsAsync(AwsGlueGetJobRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all current job definitions. See also: AWS API Documentation get-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Jobs
@@ -1508,8 +1378,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobsAsync(AwsGlueGetJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobsAsync(AwsGlueGetJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates mappings. See also: AWS API Documentation
@@ -1518,8 +1387,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMappingAsync(AwsGlueGetMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMappingAsync(AwsGlueGetMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the associated metadata/information for a task run, given a task run ID. See also: AWS API Documentation
@@ -1528,8 +1396,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMaterializedViewRefreshTaskRunAsync(AwsGlueGetMaterializedViewRefreshTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMaterializedViewRefreshTaskRunAsync(AwsGlueGetMaterializedViewRefreshTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID . See also: AWS API Documentation
@@ -1538,8 +1405,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMlTaskRunAsync(AwsGlueGetMlTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMlTaskRunAsync(AwsGlueGetMlTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filter- able list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated. See also: AWS API Documentation
@@ -1548,8 +1414,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMlTaskRunsAsync(AwsGlueGetMlTaskRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMlTaskRunsAsync(AwsGlueGetMlTaskRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Glue machine learning transform artifact and all its corre- sponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the trans- formation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform . See also: AWS API Documentation
@@ -1558,8 +1423,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMlTransformAsync(AwsGlueGetMlTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMlTransformAsync(AwsGlueGetMlTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These trans- formations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms . See also: AWS API Documentation
@@ -1568,8 +1432,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMlTransformsAsync(AwsGlueGetMlTransformsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMlTransformsAsync(AwsGlueGetMlTransformsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the partition indexes associated with a table. See also: AWS API Documentation get-partition-indexes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PartitionIndexDescriptorList
@@ -1578,8 +1441,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPartitionIndexesAsync(AwsGlueGetPartitionIndexesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPartitionIndexesAsync(AwsGlueGetPartitionIndexesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specified partition. See also: AWS API Documentation
@@ -1588,8 +1450,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPartitionAsync(AwsGlueGetPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPartitionAsync(AwsGlueGetPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the partitions in a table. See also: AWS API Documentation get-partitions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Partitions
@@ -1598,8 +1459,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPartitionsAsync(AwsGlueGetPartitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPartitionsAsync(AwsGlueGetPartitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets code to perform a specified mapping. See also: AWS API Documentation
@@ -1608,8 +1468,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPlanAsync(AwsGlueGetPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPlanAsync(AwsGlueGetPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified registry in detail. See also: AWS API Documentation
@@ -1618,8 +1477,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRegistryAsync(AwsGlueGetRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRegistryAsync(AwsGlueGetRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy. See also: AWS API Documentation get-resource-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set o...
@@ -1628,8 +1486,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePoliciesAsync(AwsGlueGetResourcePoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePoliciesAsync(AwsGlueGetResourcePoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specified resource policy. See also: AWS API Documentation
@@ -1638,8 +1495,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsGlueGetResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsGlueGetResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a schema by the SchemaDefinition . The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default reg- istry, if none is supplied), that schemas metadata is returned. Other- wise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results. See also: AWS API Documentation
@@ -1648,8 +1504,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSchemaByDefinitionAsync(AwsGlueGetSchemaByDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSchemaByDefinitionAsync(AwsGlueGetSchemaByDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified schema in detail. See also: AWS API Documentation
@@ -1658,8 +1513,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSchemaAsync(AwsGlueGetSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSchemaAsync(AwsGlueGetSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results. See also: AWS API Documentation
@@ -1668,8 +1522,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSchemaVersionAsync(AwsGlueGetSchemaVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSchemaVersionAsync(AwsGlueGetSchemaVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema. See also: AWS API Documentation
@@ -1678,8 +1531,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSchemaVersionsDiffAsync(AwsGlueGetSchemaVersionsDiffOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSchemaVersionsDiffAsync(AwsGlueGetSchemaVersionsDiffOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specified security configuration. See also: AWS API Documentation
@@ -1688,8 +1540,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSecurityConfigurationAsync(AwsGlueGetSecurityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSecurityConfigurationAsync(AwsGlueGetSecurityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of all security configurations. See also: AWS API Documentation get-security-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecurityConfigurations
@@ -1698,8 +1549,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSecurityConfigurationsAsync(AwsGlueGetSecurityConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSecurityConfigurationsAsync(AwsGlueGetSecurityConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the Spark Connect endpoint URL and authentication token for an interactive session. See also: AWS API Documentation
@@ -1708,8 +1558,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSessionEndpointAsync(AwsGlueGetSessionEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSessionEndpointAsync(AwsGlueGetSessionEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the session. See also: AWS API Documentation
@@ -1718,8 +1567,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSessionAsync(AwsGlueGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSessionAsync(AwsGlueGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the statement. See also: AWS API Documentation
@@ -1728,8 +1576,25 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStatementAsync(AwsGlueGetStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStatementAsync(AwsGlueGetStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the system logs for a job run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetSystemLogsForJobRunAsync(AwsGlueGetSystemLogsForJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the system logs for an interactive session. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetSystemLogsForSessionAsync(AwsGlueGetSystemLogsForSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the configuration of all optimizers associated with a specified table. See also: AWS API Documentation
@@ -1738,8 +1603,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableOptimizerAsync(AwsGlueGetTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableOptimizerAsync(AwsGlueGetTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the Table definition in a Data Catalog for a specified table. See also: AWS API Documentation get-table uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -1748,8 +1612,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableAsync(AwsGlueGetTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableAsync(AwsGlueGetTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the definitions of some or all of the tables in a given Data- base . See also: AWS API Documentation get-tables uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. get-tables is a paginated operation. Multiple API calls may be is...
@@ -1758,8 +1621,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTablesAsync(AwsGlueGetTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTablesAsync(AwsGlueGetTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specified version of a table. See also: AWS API Documentation get-table-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -1768,8 +1630,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableVersionAsync(AwsGlueGetTableVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableVersionAsync(AwsGlueGetTableVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of strings that identify available versions of a spec- ified table. See also: AWS API Documentation get-table-versions uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. get-table-versions is a paginated operation. Mult...
@@ -1778,8 +1639,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableVersionsAsync(AwsGlueGetTableVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableVersionsAsync(AwsGlueGetTableVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of tags associated with a resource. See also: AWS API Documentation
@@ -1788,8 +1648,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTagsAsync(AwsGlueGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTagsAsync(AwsGlueGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the definition of a trigger. See also: AWS API Documentation
@@ -1798,8 +1657,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTriggerAsync(AwsGlueGetTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTriggerAsync(AwsGlueGetTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all the triggers associated with a job. See also: AWS API Documentation get-triggers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Triggers
@@ -1808,8 +1666,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTriggersAsync(AwsGlueGetTriggersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTriggersAsync(AwsGlueGetTriggersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves partition metadata from the Data Catalog that contains unfil- tered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition . See also: AWS API Documentation
@@ -1818,8 +1675,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUnfilteredPartitionMetadataAsync(AwsGlueGetUnfilteredPartitionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUnfilteredPartitionMetadataAsync(AwsGlueGetUnfilteredPartitionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves partition metadata from the Data Catalog that contains unfil- tered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions . See also: AWS API Documentation
@@ -1828,8 +1684,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUnfilteredPartitionsMetadataAsync(AwsGlueGetUnfilteredPartitionsMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUnfilteredPartitionsMetadataAsync(AwsGlueGetUnfilteredPartitionsMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable . See also: AWS API Documentation get-unfiltered-table-metadata uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro-...
@@ -1838,8 +1693,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUnfilteredTableMetadataAsync(AwsGlueGetUnfilteredTableMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUnfilteredTableMetadataAsync(AwsGlueGetUnfilteredTableMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified Glue usage profile. See also: AWS API Documentation
@@ -1848,8 +1702,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsageProfileAsync(AwsGlueGetUsageProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsageProfileAsync(AwsGlueGetUsageProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specified function definition from the Data Catalog. See also: AWS API Documentation
@@ -1858,8 +1711,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserDefinedFunctionAsync(AwsGlueGetUserDefinedFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserDefinedFunctionAsync(AwsGlueGetUserDefinedFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves multiple function definitions from the Data Catalog. See also: AWS API Documentation get-user-defined-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: UserDefinedFunctions
@@ -1868,8 +1720,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUserDefinedFunctionsAsync(AwsGlueGetUserDefinedFunctionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUserDefinedFunctionsAsync(AwsGlueGetUserDefinedFunctionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves resource metadata for a workflow. See also: AWS API Documentation
@@ -1878,8 +1729,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkflowAsync(AwsGlueGetWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkflowAsync(AwsGlueGetWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata for a given workflow run. Job run history is ac- cessible for 90 days for your workflow and job run. See also: AWS API Documentation
@@ -1888,8 +1738,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkflowRunAsync(AwsGlueGetWorkflowRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkflowRunAsync(AwsGlueGetWorkflowRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the workflow run properties which were set during the run. See also: AWS API Documentation
@@ -1898,8 +1747,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkflowRunPropertiesAsync(AwsGlueGetWorkflowRunPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkflowRunPropertiesAsync(AwsGlueGetWorkflowRunPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata for all runs of a given workflow. See also: AWS API Documentation get-workflow-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Runs
@@ -1908,8 +1756,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkflowRunsAsync(AwsGlueGetWorkflowRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkflowRunsAsync(AwsGlueGetWorkflowRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports an existing Amazon Athena Data Catalog to Glue. See also: AWS API Documentation
@@ -1918,8 +1765,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportCatalogToGlueAsync(AwsGlueImportCatalogToGlueOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportCatalogToGlueAsync(AwsGlueImportCatalogToGlueOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the asset types defined in Glue Data Catalog. See also: AWS API Documentation list-asset-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -1928,8 +1774,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetTypesAsync(AwsGlueListAssetTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetTypesAsync(AwsGlueListAssetTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the blueprint names in an account. See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Blueprints
@@ -1938,8 +1783,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBlueprintsAsync(AwsGlueListBlueprintsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBlueprintsAsync(AwsGlueListBlueprintsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all task runs for a particular account. See also: AWS API Documentation
@@ -1948,8 +1792,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListColumnStatisticsTaskRunsAsync(AwsGlueListColumnStatisticsTaskRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListColumnStatisticsTaskRunsAsync(AwsGlueListColumnStatisticsTaskRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type, including both built-in connection types and custom connection types registered via RegisterConnectionType . The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API. See also: DescribeConnectionType , RegisterConne...
@@ -1958,8 +1801,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConnectionTypesAsync(AwsGlueListConnectionTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConnectionTypesAsync(AwsGlueListConnectionTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the names of all crawler resources in this Amazon Web Ser- vices account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation
@@ -1968,8 +1810,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCrawlersAsync(AwsGlueListCrawlersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCrawlersAsync(AwsGlueListCrawlersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history fea- ture, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to: o Retrive all the crawls of a specified crawler. o Retrieve all the crawls of a specified crawler within a limited count. o Retrieve all the crawls of a specified crawler in a specific time range. o Retrieve all the crawls of a specified crawler with...
@@ -1978,8 +1819,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCrawlsAsync(AwsGlueListCrawlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCrawlsAsync(AwsGlueListCrawlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the custom patterns that have been created. See also: AWS API Documentation
@@ -1988,8 +1828,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCustomEntityTypesAsync(AwsGlueListCustomEntityTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCustomEntityTypesAsync(AwsGlueListCustomEntityTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all data quality execution results for your account. See also: AWS API Documentation
@@ -1998,8 +1837,16 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataQualityResultsAsync(AwsGlueListDataQualityResultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataQualityResultsAsync(AwsGlueListDataQualityResultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns a paginated list of data quality execution results for your ac- count, filtered by the specified criteria. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-quality-results-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the -...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListDataQualityResultsV2Async(AwsGlueListDataQualityResultsV2Options? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the recommendation runs meeting the filter criteria. See also: AWS API Documentation
@@ -2008,8 +1855,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataQualityRuleRecommendationRunsAsync(AwsGlueListDataQualityRuleRecommendationRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataQualityRuleRecommendationRunsAsync(AwsGlueListDataQualityRuleRecommendationRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source. See also: AWS API Documentation
@@ -2018,8 +1864,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataQualityRulesetEvaluationRunsAsync(AwsGlueListDataQualityRulesetEvaluationRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataQualityRulesetEvaluationRunsAsync(AwsGlueListDataQualityRulesetEvaluationRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of rulesets for the specified list of Glue ta- bles. See also: AWS API Documentation
@@ -2028,8 +1873,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataQualityRulesetsAsync(AwsGlueListDataQualityRulesetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataQualityRulesetsAsync(AwsGlueListDataQualityRulesetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve annotations for a data quality statistic. See also: AWS API Documentation
@@ -2038,8 +1882,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataQualityStatisticAnnotationsAsync(AwsGlueListDataQualityStatisticAnnotationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataQualityStatisticAnnotationsAsync(AwsGlueListDataQualityStatisticAnnotationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of data quality statistics. See also: AWS API Documentation
@@ -2048,8 +1891,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataQualityStatisticsAsync(AwsGlueListDataQualityStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataQualityStatisticsAsync(AwsGlueListDataQualityStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This opera- tion allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation
@@ -2058,8 +1900,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevEndpointsAsync(AwsGlueListDevEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDevEndpointsAsync(AwsGlueListDevEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the available entities supported by the connection type. See also: AWS API Documentation list-entities is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entities
@@ -2068,8 +1909,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntitiesAsync(AwsGlueListEntitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntitiesAsync(AwsGlueListEntitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the form types defined in Glue Data Catalog. See also: AWS API Documentation list-form-types is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -2078,8 +1918,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFormTypesAsync(AwsGlueListFormTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFormTypesAsync(AwsGlueListFormTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists business glossaries in Glue Data Catalog. See also: AWS API Documentation list-glossaries is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -2088,8 +1927,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGlossariesAsync(AwsGlueListGlossariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGlossariesAsync(AwsGlueListGlossariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists glossary terms within a business glossary in Glue Data Catalog. See also: AWS API Documentation list-glossary-terms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -2098,8 +1936,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGlossaryTermsAsync(AwsGlueListGlossaryTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGlossaryTermsAsync(AwsGlueListGlossaryTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List integration resource properties for a single customer. It supports the filters, maxRecords and markers. See also: AWS API Documentation
@@ -2108,8 +1945,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIntegrationResourcePropertiesAsync(AwsGlueListIntegrationResourcePropertiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIntegrationResourcePropertiesAsync(AwsGlueListIntegrationResourcePropertiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the integration table properties in your account. This operation supports filtering and pagination. See also: AWS API Documentation
@@ -2118,8 +1954,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIntegrationTablePropertiesAsync(AwsGlueListIntegrationTablePropertiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIntegrationTablePropertiesAsync(AwsGlueListIntegrationTablePropertiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the items in an iterable form on an asset in Glue Data Catalog. For example, lists the columns of a table asset. See also: AWS API Documentation list-iterable-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
@@ -2128,8 +1963,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIterableFormsAsync(AwsGlueListIterableFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIterableFormsAsync(AwsGlueListIterableFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation list-jobs is a paginated o...
@@ -2138,8 +1972,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJobsAsync(AwsGlueListJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJobsAsync(AwsGlueListJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all task runs for a particular account. See also: AWS API Documentation list-materialized-view-refresh-task-runs is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: MaterializedViewRefreshTaskRuns
@@ -2148,8 +1981,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMaterializedViewRefreshTaskRunsAsync(AwsGlueListMaterializedViewRefreshTaskRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMaterializedViewRefreshTaskRunsAsync(AwsGlueListMaterializedViewRefreshTaskRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only re- sources with the tags are retrieved. See also: AWS API Documentation
@@ -2158,8 +1990,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMlTransformsAsync(AwsGlueListMlTransformsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMlTransformsAsync(AwsGlueListMlTransformsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of registries that you have created, with minimal reg- istry information. Registries in the Deleting status will not be in- cluded in the results. Empty results will be returned if there are no registries available. See also: AWS API Documentation list-registries is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --qu...
@@ -2168,8 +1999,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRegistriesAsync(AwsGlueListRegistriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRegistriesAsync(AwsGlueListRegistriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be re- turned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response. See also: AWS API Documentation list-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
@@ -2178,8 +2008,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSchemasAsync(AwsGlueListSchemasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSchemasAsync(AwsGlueListSchemasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema ver- sions available. See also: AWS API Documentation list-schema-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --qu...
@@ -2188,8 +2017,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSchemaVersionsAsync(AwsGlueListSchemaVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSchemaVersionsAsync(AwsGlueListSchemaVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a list of sessions. See also: AWS API Documentation
@@ -2198,8 +2026,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSessionsAsync(AwsGlueListSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSessionsAsync(AwsGlueListSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists statements for the session. See also: AWS API Documentation
@@ -2208,8 +2035,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStatementsAsync(AwsGlueListStatementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStatementsAsync(AwsGlueListStatementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the history of previous optimizer runs for a specific table. See also: AWS API Documentation list-table-optimizer-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: TableOptimizerRuns
@@ -2218,8 +2044,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTableOptimizerRunsAsync(AwsGlueListTableOptimizerRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTableOptimizerRunsAsync(AwsGlueListTableOptimizerRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the names of all trigger resources in this Amazon Web Ser- vices account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation list-triggers is a p...
@@ -2228,8 +2053,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTriggersAsync(AwsGlueListTriggersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTriggersAsync(AwsGlueListTriggersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all the Glue usage profiles. See also: AWS API Documentation list-usage-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Profiles
@@ -2238,8 +2062,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsageProfilesAsync(AwsGlueListUsageProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsageProfilesAsync(AwsGlueListUsageProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists names of workflows created in the account. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workflows
@@ -2248,8 +2071,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkflowsAsync(AwsGlueListWorkflowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkflowsAsync(AwsGlueListWorkflowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a Zero-ETL integration in the caller's account. See also: AWS API Documentation
@@ -2258,8 +2080,16 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIntegrationAsync(AwsGlueModifyIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIntegrationAsync(AwsGlueModifyIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// NOTE: This operation is intended for internal use. Do not call it di- rectly. AWS Glue Data Quality uses this operation to publish a data quality re- sult. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> PublishDataQualityResultV2Async(AwsGluePublishDataQualityResultV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates an asset in Glue Data Catalog. If the asset already exists, this operation updates it; otherwise, a new asset is created. See also: AWS API Documentation
@@ -2268,8 +2098,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAssetAsync(AwsGluePutAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAssetAsync(AwsGluePutAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates an asset type in Glue Data Catalog. An asset type defines the structure of assets by specifying which forms they include. If an asset type with the given name already exists, it is updated. See also: AWS API Documentation
@@ -2278,8 +2107,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAssetTypeAsync(AwsGluePutAssetTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAssetTypeAsync(AwsGluePutAssetTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a form to an asset or an iterable form item in Glue Data Cata- log. If an attachment with the same name already exists, it is over- written. See also: AWS API Documentation
@@ -2288,8 +2116,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAttachmentAsync(AwsGluePutAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAttachmentAsync(AwsGluePutAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the security configuration for a specified catalog. After the con- figuration has been set, the specified encryption is applied to every catalog write thereafter. See also: AWS API Documentation
@@ -2298,8 +2125,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDataCatalogEncryptionSettingsAsync(AwsGluePutDataCatalogEncryptionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDataCatalogEncryptionSettingsAsync(AwsGluePutDataCatalogEncryptionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates the export configuration for the Glue Data Catalog. Use this operation to enable or disable the export of catalog metadata to S3 Tables. See also: AWS API Documentation
@@ -2308,8 +2134,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDataCatalogExportConfigurationAsync(AwsGluePutDataCatalogExportConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDataCatalogExportConfigurationAsync(AwsGluePutDataCatalogExportConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Annotate all datapoints for a Profile. See also: AWS API Documentation
@@ -2318,8 +2143,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDataQualityProfileAnnotationAsync(AwsGluePutDataQualityProfileAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDataQualityProfileAnnotationAsync(AwsGluePutDataQualityProfileAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates a form type in Glue Data Catalog. A form type de- fines the schema for structured metadata that can be attached to as- sets. See also: AWS API Documentation
@@ -2328,8 +2152,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutFormTypeAsync(AwsGluePutFormTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutFormTypeAsync(AwsGluePutFormTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the Data Catalog resource policy for access control. See also: AWS API Documentation
@@ -2338,8 +2161,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsGluePutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsGluePutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls. See also: AWS API Documentation
@@ -2348,8 +2170,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSchemaVersionMetadataAsync(AwsGluePutSchemaVersionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSchemaVersionMetadataAsync(AwsGluePutSchemaVersionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties. See also: AWS API Documentation
@@ -2358,8 +2179,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutWorkflowRunPropertiesAsync(AwsGluePutWorkflowRunPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutWorkflowRunPropertiesAsync(AwsGluePutWorkflowRunPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queries for the schema version metadata information. See also: AWS API Documentation
@@ -2368,8 +2188,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QuerySchemaVersionMetadataAsync(AwsGlueQuerySchemaVersionMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QuerySchemaVersionMetadataAsync(AwsGlueQuerySchemaVersionMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a custom connection type in Glue based on the configuration provided. This operation enables customers to configure custom connec- tors for any data source with REST-based APIs, eliminating the need for building custom Lambda connectors. The registered connection type stores details about how requests and responses are interpreted by REST sources, including connection proper- ties, authentication configuration, and REST configuration with entity definitions. Once registered, customers ...
@@ -2378,8 +2197,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterConnectionTypeAsync(AwsGlueRegisterConnectionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterConnectionTypeAsync(AwsGlueRegisterConnectionTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a new version to the existing schema. Returns an error if new ver- sion of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Reg- istry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immedi- ately. Otherwise, this call has the potential to run longer than other ope...
@@ -2388,8 +2206,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterSchemaVersionAsync(AwsGlueRegisterSchemaVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterSchemaVersionAsync(AwsGlueRegisterSchemaVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a key value pair from the schema version metadata for the spec- ified schema version ID. See also: AWS API Documentation
@@ -2398,8 +2215,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveSchemaVersionMetadataAsync(AwsGlueRemoveSchemaVersionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveSchemaVersionMetadataAsync(AwsGlueRemoveSchemaVersionMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets a bookmark entry. For more information about enabling and using job bookmarks, see: o Tracking processed data using job bookmarks o Job parameters used by Glue o Job structure See also: AWS API Documentation
@@ -2408,8 +2224,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetJobBookmarkAsync(AwsGlueResetJobBookmarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetJobBookmarkAsync(AwsGlueResetJobBookmarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run. See also: AWS API Documentation
@@ -2418,8 +2233,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResumeWorkflowRunAsync(AwsGlueResumeWorkflowRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResumeWorkflowRunAsync(AwsGlueResumeWorkflowRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Executes the statement. See also: AWS API Documentation
@@ -2428,8 +2242,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RunStatementAsync(AwsGlueRunStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RunStatementAsync(AwsGlueRunStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for assets in Glue Data Catalog using full-text search, fil- ters, sorting, and aggregations. Returns matching assets with rele- vance-ranked results. See also: AWS API Documentation search-assets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
@@ -2438,8 +2251,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAssetsAsync(AwsGlueSearchAssetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAssetsAsync(AwsGlueSearchAssetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only ac- cess to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have ac- ce...
@@ -2448,8 +2260,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchTablesAsync(AwsGlueSearchTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchTablesAsync(AwsGlueSearchTablesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a new run of the specified blueprint. See also: AWS API Documentation
@@ -2458,8 +2269,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBlueprintRunAsync(AwsGlueStartBlueprintRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartBlueprintRunAsync(AwsGlueStartBlueprintRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a column statistics task run, for a specified table and columns. See also: AWS API Documentation
@@ -2468,8 +2278,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartColumnStatisticsTaskRunAsync(AwsGlueStartColumnStatisticsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartColumnStatisticsTaskRunAsync(AwsGlueStartColumnStatisticsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a column statistics task run schedule. See also: AWS API Documentation
@@ -2478,8 +2287,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartColumnStatisticsTaskRunScheduleAsync(AwsGlueStartColumnStatisticsTaskRunScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartColumnStatisticsTaskRunScheduleAsync(AwsGlueStartColumnStatisticsTaskRunScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException . See also: AWS API Documentation
@@ -2488,8 +2296,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCrawlerAsync(AwsGlueStartCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCrawlerAsync(AwsGlueStartCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the schedule state of the specified crawler to SCHEDULED , un- less the crawler is already running or the schedule state is already SCHEDULED . See also: AWS API Documentation
@@ -2498,8 +2305,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCrawlerScheduleAsync(AwsGlueStartCrawlerScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCrawlerScheduleAsync(AwsGlueStartCrawlerScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking. Recommendation runs are automatically deleted after 90 days. See also: AWS API Documentation
@@ -2508,8 +2314,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDataQualityRuleRecommendationRunAsync(AwsGlueStartDataQualityRuleRecommendationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDataQualityRuleRecommendationRunAsync(AwsGlueStartDataQualityRuleRecommendationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API. See also: AWS API Documentation
@@ -2518,8 +2323,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDataQualityRulesetEvaluationRunAsync(AwsGlueStartDataQualityRulesetEvaluationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDataQualityRulesetEvaluationRunAsync(AwsGlueStartDataQualityRulesetEvaluationRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use Start- ExportLabelsTaskRun when you want to work with all of your existing la- bels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Stor- ag...
@@ -2528,8 +2332,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartExportLabelsTaskRunAsync(AwsGlueStartExportLabelsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartExportLabelsTaskRunAsync(AwsGlueStartExportLabelsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform. After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to a...
@@ -2538,8 +2341,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartImportLabelsTaskRunAsync(AwsGlueStartImportLabelsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartImportLabelsTaskRunAsync(AwsGlueStartImportLabelsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a job run using a job definition. See also: AWS API Documentation
@@ -2548,8 +2350,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartJobRunAsync(AwsGlueStartJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartJobRunAsync(AwsGlueStartJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a materialized view refresh task run for a specified material- ized view. See also: AWS API Documentation
@@ -2558,8 +2359,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMaterializedViewRefreshTaskRunAsync(AwsGlueStartMaterializedViewRefreshTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMaterializedViewRefreshTaskRunAsync(AwsGlueStartMaterializedViewRefreshTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a task to estimate the quality of the transform. When you provide label sets as examples of truth, Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun . See also: AWS API Documentation
@@ -2568,8 +2368,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMlEvaluationTaskRunAsync(AwsGlueStartMlEvaluationTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMlEvaluationTaskRunAsync(AwsGlueStartMlEvaluationTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, What is the correct way to group these rows together into groups composed entirely of matching records? After the labeling process is...
@@ -2578,8 +2377,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMlLabelingSetGenerationTaskRunAsync(AwsGlueStartMlLabelingSetGenerationTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMlLabelingSetGenerationTaskRunAsync(AwsGlueStartMlLabelingSetGenerationTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started. See also: AWS API Documentation
@@ -2588,8 +2386,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTriggerAsync(AwsGlueStartTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTriggerAsync(AwsGlueStartTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a new run of the specified workflow. See also: AWS API Documentation
@@ -2598,8 +2395,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartWorkflowRunAsync(AwsGlueStartWorkflowRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartWorkflowRunAsync(AwsGlueStartWorkflowRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a task run for the specified table. See also: AWS API Documentation
@@ -2608,8 +2404,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopColumnStatisticsTaskRunAsync(AwsGlueStopColumnStatisticsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopColumnStatisticsTaskRunAsync(AwsGlueStopColumnStatisticsTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a column statistics task run schedule. See also: AWS API Documentation
@@ -2618,8 +2413,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopColumnStatisticsTaskRunScheduleAsync(AwsGlueStopColumnStatisticsTaskRunScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopColumnStatisticsTaskRunScheduleAsync(AwsGlueStopColumnStatisticsTaskRunScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// If the specified crawler is running, stops the crawl. See also: AWS API Documentation
@@ -2628,8 +2422,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopCrawlerAsync(AwsGlueStopCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopCrawlerAsync(AwsGlueStopCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED , but does not stop the crawler if it is already running. See also: AWS API Documentation
@@ -2638,8 +2431,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopCrawlerScheduleAsync(AwsGlueStopCrawlerScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopCrawlerScheduleAsync(AwsGlueStopCrawlerScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a materialized view refresh task run for a specified materialized view. See also: AWS API Documentation
@@ -2648,8 +2440,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopMaterializedViewRefreshTaskRunAsync(AwsGlueStopMaterializedViewRefreshTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopMaterializedViewRefreshTaskRunAsync(AwsGlueStopMaterializedViewRefreshTaskRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the session. See also: AWS API Documentation
@@ -2658,8 +2449,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopSessionAsync(AwsGlueStopSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopSessionAsync(AwsGlueStopSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a specified trigger. See also: AWS API Documentation
@@ -2668,8 +2458,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTriggerAsync(AwsGlueStopTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTriggerAsync(AwsGlueStopTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the execution of the specified workflow run. See also: AWS API Documentation
@@ -2678,8 +2467,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopWorkflowRunAsync(AwsGlueStopWorkflowRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopWorkflowRunAsync(AwsGlueStopWorkflowRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource. In Glue, you can tag only certain resources. For information about what resources you can tag, see Amazon Web Services Tags in Glue . See also: AWS API Documentation
@@ -2688,8 +2476,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsGlueTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsGlueTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests a connection to a service to validate the service credentials that you provide. You can either provide an existing connection name or a TestConnection- Input for testing a non-existing connection input. Providing both at the same time will cause an error. If the action is successful, the service sends back an HTTP 200 re- sponse. See also: AWS API Documentation
@@ -2698,8 +2485,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestConnectionAsync(AwsGlueTestConnectionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestConnectionAsync(AwsGlueTestConnectionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a resource. See also: AWS API Documentation
@@ -2708,8 +2494,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsGlueUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsGlueUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name and description of an existing asset in Glue Data Cat- alog. Only the fields that you provide are updated. See also: AWS API Documentation
@@ -2718,8 +2503,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssetAsync(AwsGlueUpdateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssetAsync(AwsGlueUpdateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a registered blueprint. See also: AWS API Documentation
@@ -2728,8 +2512,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBlueprintAsync(AwsGlueUpdateBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBlueprintAsync(AwsGlueUpdateBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing catalog's properties in the Glue Data Catalog. See also: AWS API Documentation
@@ -2738,8 +2521,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCatalogAsync(AwsGlueUpdateCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCatalogAsync(AwsGlueUpdateCatalogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing classifier (a GrokClassifier , an XMLClassifier , a JsonClassifier , or a CsvClassifier , depending on which field is present). See also: AWS API Documentation
@@ -2748,8 +2530,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateClassifierAsync(AwsGlueUpdateClassifierOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateClassifierAsync(AwsGlueUpdateClassifierOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdatePartition . See also: AWS API Documentation
@@ -2758,8 +2539,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateColumnStatisticsForPartitionAsync(AwsGlueUpdateColumnStatisticsForPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateColumnStatisticsForPartitionAsync(AwsGlueUpdateColumnStatisticsForPartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdateTable . See also: AWS API Documentation
@@ -2768,8 +2548,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateColumnStatisticsForTableAsync(AwsGlueUpdateColumnStatisticsForTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateColumnStatisticsForTableAsync(AwsGlueUpdateColumnStatisticsForTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates settings for a column statistics task. See also: AWS API Documentation
@@ -2778,8 +2557,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateColumnStatisticsTaskSettingsAsync(AwsGlueUpdateColumnStatisticsTaskSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateColumnStatisticsTaskSettingsAsync(AwsGlueUpdateColumnStatisticsTaskSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a connection definition in the Data Catalog. See also: AWS API Documentation
@@ -2788,8 +2566,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConnectionAsync(AwsGlueUpdateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConnectionAsync(AwsGlueUpdateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it. See also: AWS API Documentation
@@ -2798,8 +2575,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCrawlerAsync(AwsGlueUpdateCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCrawlerAsync(AwsGlueUpdateCrawlerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the schedule of a crawler using a cron expression. See also: AWS API Documentation
@@ -2808,8 +2584,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCrawlerScheduleAsync(AwsGlueUpdateCrawlerScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCrawlerScheduleAsync(AwsGlueUpdateCrawlerScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing database definition in a Data Catalog. See also: AWS API Documentation
@@ -2818,8 +2593,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDatabaseAsync(AwsGlueUpdateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDatabaseAsync(AwsGlueUpdateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified data quality ruleset. See also: AWS API Documentation
@@ -2828,8 +2602,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataQualityRulesetAsync(AwsGlueUpdateDataQualityRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataQualityRulesetAsync(AwsGlueUpdateDataQualityRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a specified development endpoint. See also: AWS API Documentation
@@ -2838,8 +2611,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDevEndpointAsync(AwsGlueUpdateDevEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDevEndpointAsync(AwsGlueUpdateDevEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a business glossary in Glue Data Catalog. See also: AWS API Documentation
@@ -2848,8 +2620,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGlossaryAsync(AwsGlueUpdateGlossaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGlossaryAsync(AwsGlueUpdateGlossaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a glossary term in Glue Data Catalog. See also: AWS API Documentation
@@ -2858,8 +2629,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGlossaryTermAsync(AwsGlueUpdateGlossaryTermOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGlossaryTermAsync(AwsGlueUpdateGlossaryTermOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the existing Glue Identity Center configuration, allowing modi- fication of scopes and permissions for the integration. See also: AWS API Documentation
@@ -2868,8 +2638,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGlueIdentityCenterConfigurationAsync(AwsGlueUpdateGlueIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGlueIdentityCenterConfigurationAsync(AwsGlueUpdateGlueIdentityCenterConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API can be used for updating the ResourceProperty of the Glue con- nection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, up- dating resource properties will impact all the integrations using it. See also: AWS API Documentation
@@ -2878,8 +2647,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIntegrationResourcePropertyAsync(AwsGlueUpdateIntegrationResourcePropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIntegrationResourcePropertyAsync(AwsGlueUpdateIntegrationResourcePropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is used to provide optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig , and the Glue database ARN as ResourceArn with TargetTableConfig respectively. The override will be reflected across all the integrations using same Resou...
@@ -2888,8 +2656,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIntegrationTablePropertiesAsync(AwsGlueUpdateIntegrationTablePropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIntegrationTablePropertiesAsync(AwsGlueUpdateIntegrationTablePropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository in- formation. See also: AWS API Documentation
@@ -2898,8 +2665,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateJobFromSourceControlAsync(AwsGlueUpdateJobFromSourceControlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateJobFromSourceControlAsync(AwsGlueUpdateJobFromSourceControlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing job definition. The previous job definition is com- pletely overwritten by this information. See also: AWS API Documentation
@@ -2908,8 +2674,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateJobAsync(AwsGlueUpdateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateJobAsync(AwsGlueUpdateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective). See also: AWS API Documentation
@@ -2918,8 +2683,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMlTransformAsync(AwsGlueUpdateMlTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMlTransformAsync(AwsGlueUpdateMlTransformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a partition. See also: AWS API Documentation
@@ -2928,8 +2692,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePartitionAsync(AwsGlueUpdatePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePartitionAsync(AwsGlueUpdatePartitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not mod- ify any of the schemas within the registry. See also: AWS API Documentation
@@ -2938,8 +2701,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRegistryAsync(AwsGlueUpdateRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRegistryAsync(AwsGlueUpdateRegistryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate com- patibility for the entire set of schema versions with the new compati- bility setting. If the value for Compatibility is provided, the Ver- sionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compati- bility is optiona...
@@ -2948,8 +2710,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSchemaAsync(AwsGlueUpdateSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSchemaAsync(AwsGlueUpdateSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a com- mit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository in- formation. See also: AWS API Documentation
@@ -2958,8 +2719,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSourceControlFromJobAsync(AwsGlueUpdateSourceControlFromJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSourceControlFromJobAsync(AwsGlueUpdateSourceControlFromJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration for an existing table optimizer. See also: AWS API Documentation
@@ -2968,8 +2728,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTableOptimizerAsync(AwsGlueUpdateTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTableOptimizerAsync(AwsGlueUpdateTableOptimizerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a metadata table in the Data Catalog. See also: AWS API Documentation update-table uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -2978,8 +2737,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTableAsync(AwsGlueUpdateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTableAsync(AwsGlueUpdateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a trigger definition. Job arguments may be logged. Do not pass plaintext secrets as argu- ments. Retrieve secrets from a Glue Connection, Amazon Web Services Se- crets Manager or other secret management mechanism if you intend to keep them within the Job. See also: AWS API Documentation
@@ -2988,8 +2746,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTriggerAsync(AwsGlueUpdateTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTriggerAsync(AwsGlueUpdateTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an Glue usage profile. See also: AWS API Documentation
@@ -2998,8 +2755,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUsageProfileAsync(AwsGlueUpdateUsageProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUsageProfileAsync(AwsGlueUpdateUsageProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing function definition in the Data Catalog. See also: AWS API Documentation
@@ -3008,8 +2764,7 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserDefinedFunctionAsync(AwsGlueUpdateUserDefinedFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserDefinedFunctionAsync(AwsGlueUpdateUserDefinedFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing workflow. See also: AWS API Documentation
@@ -3018,7 +2773,6 @@ public interface IAwsGlue
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkflowAsync(AwsGlueUpdateWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkflowAsync(AwsGlueUpdateWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

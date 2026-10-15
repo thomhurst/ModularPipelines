@@ -24,7 +24,7 @@ public interface IAwsKinesis
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsKinesisWait Wait => throw new System.NotSupportedException();
+    AwsKinesisWait Wait { get; }
 
     /// <summary>
     /// Adds or updates tags for the specified Kinesis data stream. You can as- sign up to 50 tags to a data stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If tags have already been assigned to the stream, AddTagsToStream over- writes any existing tags that correspond to the specified tag keys. AddTagsToStream has a limit of five transactions per second pe...
@@ -33,8 +33,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddTagsToStreamAsync(AwsKinesisAddTagsToStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddTagsToStreamAsync(AwsKinesisAddTagsToStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a channel that delivers records from a Kinesis data stream to a destination. A channel reads records from the specified stream and writes them to streaming tables on Apache Iceberg (Amazon S3 Tables) or to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestina- tionConfiguration , but not both. To use this operation, you must have permission to pass the specified service execution IAM role to Amazon Kinesis Data Streams (the iam:PassRole...
@@ -43,8 +42,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChannelAsync(AwsKinesisCreateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChannelAsync(AwsKinesisCreateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Kinesis data stream. A stream captures and transports data records that are continuously emitted from different data sources or producers . Scale-out within a stream is explicitly supported by means of shards, which are uniquely identified groups of data records in a stream. You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read th...
@@ -53,8 +51,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStreamAsync(AwsKinesisCreateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStreamAsync(AwsKinesisCreateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Decreases the Kinesis data stream's retention period, which is the length of time data records are accessible after they are added to the stream. The minimum value of a stream's retention period is 24 hours. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. This operation may result in lost data. For example, if the stream's retention period is 48 hours and i...
@@ -63,8 +60,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DecreaseStreamRetentionPeriodAsync(AwsKinesisDecreaseStreamRetentionPeriodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DecreaseStreamRetentionPeriodAsync(AwsKinesisDecreaseStreamRetentionPeriodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use ListChan- nels with a stream filter to find the channels attached to a stream be- fore deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AW...
@@ -73,8 +69,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteChannelAsync(AwsKinesisDeleteChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteChannelAsync(AwsKinesisDeleteChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a policy for the specified data stream or consumer. Request pat- terns can be one of the following: o Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ o Consumer pattern: ^(arn):aws.*:kine- sis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/con- sumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsKinesisDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsKinesisDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Kinesis data stream and all its shards and data. You must shut down any applications that are operating on the stream before you delete the stream. If an application attempts to operate on a deleted stream, it receives the exception ResourceNotFoundException . NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If the stream is in the ACTIVE state, yo...
@@ -93,8 +87,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStreamAsync(AwsKinesisDeleteStreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStreamAsync(AwsKinesisDeleteStreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// To deregister a consumer, provide its ARN. Alternatively, you can pro- vide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to deregister, you can use the List- StreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. The descr...
@@ -103,8 +96,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterStreamConsumerAsync(AwsKinesisDeregisterStreamConsumerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterStreamConsumerAsync(AwsKinesisDeregisterStreamConsumerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceed- edException . See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountSettingsAsync(AwsKinesisDescribeAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountSettingsAsync(AwsKinesisDescribeAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified channel, including its configuration and cur- rent status. Use this operation to verify that a channel reached the ACTIVE state after creation, or to diagnose a channel in the FAILED state by reading the ChannelStatusReason . This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeChannelAsync(AwsKinesisDescribeChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeChannelAsync(AwsKinesisDescribeChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the shard limits and usage for the account. If you update your account limits, the old limits might be returned for a few minutes. This operation has a limit of one transaction per second per account. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLimitsAsync(AwsKinesisDescribeLimitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLimitsAsync(AwsKinesisDescribeLimitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// To get the description of a registered consumer, provide the ARN of the consumer. Alternatively, you can provide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to describe, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently regis- tered ...
@@ -143,8 +132,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStreamConsumerAsync(AwsKinesisDescribeStreamConsumerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStreamConsumerAsync(AwsKinesisDescribeStreamConsumerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified Kinesis data stream. NOTE: This API has been revised. It's highly recommended that you use the DescribeStreamSummary API to get a summarized description of the specified Kinesis data stream and the ListShards API to list the shards in a specified data stream and obtain information about each shard. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invo...
@@ -153,8 +141,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStreamAsync(AwsKinesisDescribeStreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStreamAsync(AwsKinesisDescribeStreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a summarized description of the specified Kinesis data stream without the shard list. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. The information returned includes the stream name, Amazon Resource Name (ARN), status, record retention period, approximate creation time, mon- itoring, encryption details, and open shard count. DescribeStreamSummary...
@@ -163,8 +150,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStreamSummaryAsync(AwsKinesisDescribeStreamSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStreamSummaryAsync(AwsKinesisDescribeStreamSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables enhanced monitoring. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableEnhancedMonitoringAsync(AwsKinesisDisableEnhancedMonitoringOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableEnhancedMonitoringAsync(AwsKinesisDisableEnhancedMonitoringOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables enhanced Kinesis data stream monitoring for shard-level met- rics. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableEnhancedMonitoringAsync(AwsKinesisEnableEnhancedMonitoringOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableEnhancedMonitoringAsync(AwsKinesisEnableEnhancedMonitoringOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets data records from a Kinesis data stream's shard. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records avail- able in the portion of the shard that the itera...
@@ -193,8 +177,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecordsAsync(AwsKinesisGetRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecordsAsync(AwsKinesisGetRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a policy attached to the specified data stream or consumer. Re- quest patterns can be one of the following: o Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ o Consumer pattern: ^(arn):aws.*:kine- sis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/con- sumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsKinesisGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsKinesisGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 min- utes after it is returned to the requester. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. A shard iterator specifies the shard position from which to start read- ing data records sequentially. The position is specified using the se- quence number of a data record in a shard. A sequence...
@@ -213,8 +195,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetShardIteratorAsync(AwsKinesisGetShardIteratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetShardIteratorAsync(AwsKinesisGetShardIteratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Increases the Kinesis data stream's retention period, which is the length of time data records are accessible after they are added to the stream. The maximum value of a stream's retention period is 8760 hours (365 days). NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you choose a longer stream retention period, this operation in- creases the time period...
@@ -223,8 +204,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> IncreaseStreamRetentionPeriodAsync(AwsKinesisIncreaseStreamRetentionPeriodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> IncreaseStreamRetentionPeriodAsync(AwsKinesisIncreaseStreamRetentionPeriodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the channels in your account. You can filter the results by source stream. The results are paginated. Use the NextToken value re- turned in the response to retrieve additional results. Use this operation to find channels before deleting a stream, or to au- dit the channels configured in an Amazon Web Services Region. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AWS ...
@@ -233,8 +213,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelsAsync(AwsKinesisListChannelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelsAsync(AwsKinesisListChannelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the shards in a stream and provides information about each shard. This operation has a limit of 1000 transactions per second per data stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. This action does not list expired shards. For information about expired shards, see Data Routing, Data Persistence, and Shard State after a Re- shard . WARNING: Th...
@@ -243,8 +222,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListShardsAsync(AwsKinesisListShardsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListShardsAsync(AwsKinesisListShardsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the consumers registered to receive data from a stream using en- hanced fan-out, and provides information about each consumer. This operation has a limit of 5 transactions per second per stream. See also: AWS API Documentation list-stream-consumers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated ...
@@ -253,8 +231,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStreamConsumersAsync(AwsKinesisListStreamConsumersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStreamConsumersAsync(AwsKinesisListStreamConsumersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists your Kinesis data streams. The number of streams may be too large to return from a single call to ListStreams . You can limit the number of returned streams using the Limit parameter. If you do not specify a value for the Limit parameter, Kinesis Data Streams uses the default limit, which is currently 100. You can detect if there are more streams available to list by using the HasMoreStreams flag from the returned output. If there are more streams available, you can request more streams by...
@@ -263,8 +240,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStreamsAsync(AwsKinesisListStreamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStreamsAsync(AwsKinesisListStreamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. For more information about tagging Kinesis resources, see Tag your Ama- zon Kinesis Data Streams resources . See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsKinesisListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsKinesisListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for the specified Kinesis data stream. This operation has a limit of five transactions per second per account. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForStreamAsync(AwsKinesisListTagsForStreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForStreamAsync(AwsKinesisListTagsForStreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Merges two adjacent shards in a Kinesis data stream and combines them into a single shard to reduce the stream's capacity to ingest and transport data. This API is only supported for the data streams with the provisioned capacity mode. Two shards are considered adjacent if the union of the hash key ranges for the two shards form a contiguous set with no gaps. For example, if you have two shards, one with a hash key range of 276...381 and the other with a hash key range of 382...454, then you cou...
@@ -293,8 +267,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MergeShardsAsync(AwsKinesisMergeShardsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MergeShardsAsync(AwsKinesisMergeShardsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and sub- sequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must sp...
@@ -303,8 +276,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRecordAsync(AwsKinesisPutRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRecordAsync(AwsKinesisPutRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Writes multiple data records into a Kinesis data stream in a single call (also referred to as a PutRecords request). Use this operation to send data into the stream for data ingestion and processing. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Each PutRecords request can support up to 500 records. Each record in the request can be as large as 10 MiB, up...
@@ -313,8 +285,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRecordsAsync(AwsKinesisPutRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRecordsAsync(AwsKinesisPutRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a resource-based policy to a data stream or registered con- sumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling iden- tity must have the PutResourcePolicy permissions on the specified Kine- sis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error . If you receive a...
@@ -323,8 +294,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsKinesisPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsKinesisPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a consumer with a Kinesis data stream. When you use this op- eration, the consumer you register can then call SubscribeToShard to receive data from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is unaf- fected by the total number of consumers that read from the same stream. You can add tags to the registered consumer when making a Register- StreamConsumer request by setting the Tags parameter. If you pass the Tags par...
@@ -333,8 +303,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterStreamConsumerAsync(AwsKinesisRegisterStreamConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterStreamConsumerAsync(AwsKinesisRegisterStreamConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified Kinesis data stream. Removed tags are deleted and cannot be recovered after this operation successfully com- pletes. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you specify a tag that does not exist, it is ignored. RemoveTagsFromStream has a limit of five transactions per second per account. See also: AWS API Documenta...
@@ -343,8 +312,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveTagsFromStreamAsync(AwsKinesisRemoveTagsFromStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveTagsFromStreamAsync(AwsKinesisRemoveTagsFromStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Splits a shard into two new shards in the Kinesis data stream, to in- crease the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended th...
@@ -353,8 +321,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SplitShardAsync(AwsKinesisSplitShardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SplitShardAsync(AwsKinesisSplitShardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or updates server-side encryption using an Amazon Web Services KMS key for a specified stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Starting encryption is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING . After the update is complete, Kinesis Dat...
@@ -363,8 +330,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartStreamEncryptionAsync(AwsKinesisStartStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartStreamEncryptionAsync(AwsKinesisStartStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables server-side encryption for a specified stream. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Stopping encryption is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING . After the update is complete, Kinesis Data Streams sets the status of the stream back to...
@@ -373,8 +339,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopStreamEncryptionAsync(AwsKinesisStopStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopStreamEncryptionAsync(AwsKinesisStopStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource. See also: AWS API Documentation
@@ -383,8 +348,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsKinesisTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsKinesisTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes success- fully. See also: AWS API Documentation
@@ -393,8 +357,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsKinesisUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsKinesisUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the account-level settings for Amazon Kinesis Data Streams. Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your ac- counts updated settings. API limits o Certain account configurations have minimum commitment windows. At- tempting to update your settings prior to the end of the minimum com- mitment window might have certain restrictions. o This API has a call limit of 5 transactions per second (TPS) for ...
@@ -403,8 +366,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAccountSettingsAsync(AwsKinesisUpdateAccountSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAccountSettingsAsync(AwsKinesisUpdateAccountSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the data freshness interval or the Amazon CloudWatch Logs con- figuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or ser- vice execution role of an existing channel. To change any other set- ting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the re- quest, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. ...
@@ -413,8 +375,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateChannelAsync(AwsKinesisUpdateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateChannelAsync(AwsKinesisUpdateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This allows you to update the MaxRecordSize of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMaxRecordSizeAsync(AwsKinesisUpdateMaxRecordSizeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMaxRecordSizeAsync(AwsKinesisUpdateMaxRecordSizeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the shard count of the specified stream to the specified number of shards. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Updating the shard count is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the sta- tu...
@@ -433,8 +393,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateShardCountAsync(AwsKinesisUpdateShardCountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateShardCountAsync(AwsKinesisUpdateShardCountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data streams capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your ac- count. Once your account has MinimumThroughputBillingCommitment en- abled, you can specify the warm throu...
@@ -443,8 +402,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateStreamModeAsync(AwsKinesisUpdateStreamModeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateStreamModeAsync(AwsKinesisUpdateStreamModeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the record distribution strategy for the specified Amazon Kine- sis Data Streams on-demand data stream. The record distribution strat- egy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. NOTE: You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or d...
@@ -453,8 +411,7 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateStreamRecordDistributionStrategyAsync(AwsKinesisUpdateStreamRecordDistributionStrategyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateStreamRecordDistributionStrategyAsync(AwsKinesisUpdateStreamRecordDistributionStrategyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the warm throughput configuration for the specified Amazon Ki- nesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this opera- tion to scale your stream to a specified throughput level before antic- ipated traffic spikes, or to release excess capacity after traffic has decreased. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use t...
@@ -463,7 +420,6 @@ public interface IAwsKinesis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateStreamWarmThroughputAsync(AwsKinesisUpdateStreamWarmThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateStreamWarmThroughputAsync(AwsKinesisUpdateStreamWarmThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

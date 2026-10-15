@@ -28,8 +28,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelTagSyncTaskAsync(AwsResourceGroupsCancelTagSyncTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelTagSyncTaskAsync(AwsResourceGroupsCancelTagSyncTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a resource group with the specified name and description. You can optionally include either a resource query or a service configura- tion. For more information about constructing a resource query, see Build queries and groups in Resource Groups in the Resource Groups User Guide . For more information about service-linked groups and service configurations, see Service configurations for Resource Groups . Minimum permissions To run this command, you must have the following permissions: o r...
@@ -38,8 +37,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGroupAsync(AwsResourceGroupsCreateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGroupAsync(AwsResourceGroupsCreateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified resource group. Deleting a resource group does not delete any resources that are members of the group; it only deletes the group structure. Minimum permissions To run this command, you must have the following permissions: o resource-groups:DeleteGroup See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGroupAsync(AwsResourceGroupsDeleteGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGroupAsync(AwsResourceGroupsDeleteGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current status of optional features in Resource Groups. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountSettingsAsync(AwsResourceGroupsGetAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountSettingsAsync(AwsResourceGroupsGetAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the service configuration associated with the specified re- source group. For details about the service configuration syntax, see Service configurations for Resource Groups . Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetGroupConfiguration See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGroupConfigurationAsync(AwsResourceGroupsGetGroupConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGroupConfigurationAsync(AwsResourceGroupsGetGroupConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specified resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetGroup See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGroupAsync(AwsResourceGroupsGetGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGroupAsync(AwsResourceGroupsGetGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the resource query associated with the specified resource group. For more information about resource queries, see Create a tag-based group in Resource Groups . Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetGroupQuery See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGroupQueryAsync(AwsResourceGroupsGetGroupQueryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGroupQueryAsync(AwsResourceGroupsGetGroupQueryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags that are associated with a resource group, spec- ified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTags See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTagsAsync(AwsResourceGroupsGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTagsAsync(AwsResourceGroupsGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTagSyncTask on the application group See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTagSyncTaskAsync(AwsResourceGroupsGetTagSyncTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTagSyncTaskAsync(AwsResourceGroupsGetTagSyncTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified resources to the specified group. WARNING: You can only use this operation with the following groups: o AWS::EC2::HostManagement o AWS::EC2::CapacityReservationPool o AWS::ResourceGroups::ApplicationGroup Other resource group types and resource types are not currently supported by this operation. Minimum permissions To run this command, you must have the following permissions: o resource-groups:GroupResources See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GroupResourcesAsync(AwsResourceGroupsGroupResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GroupResourcesAsync(AwsResourceGroupsGroupResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the status of the last grouping or ungrouping action for each resource in the specified application group. See also: AWS API Documentation list-grouping-statuses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
@@ -128,8 +118,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGroupingStatusesAsync(AwsResourceGroupsListGroupingStatusesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGroupingStatusesAsync(AwsResourceGroupsListGroupingStatusesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListGroupResources o cloudformation:DescribeStacks o cloudformation:ListStackResources o tag:GetResources See also: AWS API Documentation list-group-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
@@ -138,8 +127,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGroupResourcesAsync(AwsResourceGroupsListGroupResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGroupResourcesAsync(AwsResourceGroupsListGroupResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of existing Resource Groups in your account. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListGroups See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must ex...
@@ -148,8 +136,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGroupsAsync(AwsResourceGroupsListGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGroupsAsync(AwsResourceGroupsListGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tag-sync tasks. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListTagSyncTasks with the group passed in the filters as the resource or * if using no filters See also: AWS API Documentation list-tag-sync-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
@@ -158,8 +145,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagSyncTasksAsync(AwsResourceGroupsListTagSyncTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagSyncTasksAsync(AwsResourceGroupsListTagSyncTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a service configuration to the specified group. This occurs asynchronously, and can take time to complete. You can use GetGroup- Configuration to check the status of the update. Minimum permissions To run this command, you must have the following permissions: o resource-groups:PutGroupConfiguration See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutGroupConfigurationAsync(AwsResourceGroupsPutGroupConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutGroupConfigurationAsync(AwsResourceGroupsPutGroupConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Amazon Web Services resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation. Minimum permissions To run this command, you must have the following permissions: o resource-groups:SearchResources o cloudformation:DescribeStacks o cloudformation:ListStackResources o tag:GetResources See also: AWS API Documentation search-resources is a paginated operation. Multiple API calls may be issu...
@@ -178,8 +163,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchResourcesAsync(AwsResourceGroupsSearchResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchResourcesAsync(AwsResourceGroupsSearchResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an application. To start a tag-sync task, you need a resource tagging role . The resource tagging role grants permissions to tag and untag applications resources and must in- clude a trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf. For instructions on creating a tag-sync task, see Create a tag-sync us- ing the Resource Groups API in ...
@@ -188,8 +172,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTagSyncTaskAsync(AwsResourceGroupsStartTagSyncTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTagSyncTaskAsync(AwsResourceGroupsStartTagSyncTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to a resource group with the specified Amazon resource name (ARN). Existing tags on a resource group are not changed if they are not specified in the request parameters. WARNING: Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data. Minimum permissions To run this command, you must have the followin...
@@ -198,8 +181,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagAsync(AwsResourceGroupsTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagAsync(AwsResourceGroupsTagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified resources from the specified group. This opera- tion works only with static groups that you populated using the GroupResources operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions: o resource-groups:UngroupResources See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UngroupResourcesAsync(AwsResourceGroupsUngroupResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UngroupResourcesAsync(AwsResourceGroupsUngroupResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes tags from a specified resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:Untag See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagAsync(AwsResourceGroupsUntagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagAsync(AwsResourceGroupsUntagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Turns on or turns off optional features in Resource Groups. The preceding example shows that the request to turn on group lifecycle events is IN_PROGRESS . You can call the GetAccountSettings operation to check for completion by looking for GroupLifecycleEventsStatus to change to ACTIVE . See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAccountSettingsAsync(AwsResourceGroupsUpdateAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAccountSettingsAsync(AwsResourceGroupsUpdateAccountSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the description for an existing group. You cannot update the name of a resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:UpdateGroup See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGroupAsync(AwsResourceGroupsUpdateGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGroupAsync(AwsResourceGroupsUpdateGroupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the resource query of a group. For more information about re- source queries, see Create a tag-based group in Resource Groups . Minimum permissions To run this command, you must have the following permissions: o resource-groups:UpdateGroupQuery See also: AWS API Documentation
@@ -248,7 +226,6 @@ public interface IAwsResourceGroups
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGroupQueryAsync(AwsResourceGroupsUpdateGroupQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGroupQueryAsync(AwsResourceGroupsUpdateGroupQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

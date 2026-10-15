@@ -24,7 +24,7 @@ public interface IAwsIotsitewise
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsIotsitewiseWait Wait => throw new System.NotSupportedException();
+    AwsIotsitewiseWait Wait { get; }
 
     /// <summary>
     /// Associates a child asset with the given parent asset through a hierar- chy defined in the parent asset's model. For more information, see Associating assets in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAssetsAsync(AwsIotsitewiseAssociateAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAssetsAsync(AwsIotsitewiseAssociateAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a time series (data stream) with an asset property. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTimeSeriesToAssetPropertyAsync(AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTimeSeriesToAssetPropertyAsync(AwsIotsitewiseAssociateTimeSeriesToAssetPropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a batch of data segments with a curated dataset. Data seg- ments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAssociateDataSegmentsToDataSetAsync(AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAssociateDataSegmentsToDataSetAsync(AwsIotsitewiseBatchAssociateDataSegmentsToDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Associates a group (batch) of assets with an IoT SiteWise Monitor project. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAssociateProjectAssetsAsync(AwsIotsitewiseBatchAssociateProjectAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAssociateProjectAssetsAsync(AwsIotsitewiseBatchAssociateProjectAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a batch of data segments from a session dataset. Deleting a data segment deletes the underlying time series data for the segment's time range. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteDataSetDataSegmentsAsync(AwsIotsitewiseBatchDeleteDataSetDataSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteDataSetDataSegmentsAsync(AwsIotsitewiseBatchDeleteDataSetDataSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a batch of data segments from a curated dataset. Disasso- ciating a data segment doesn't delete the underlying data in the source session dataset. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDisassociateDataSegmentsFromDataSetAsync(AwsIotsitewiseBatchDisassociateDataSegmentsFromDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDisassociateDataSegmentsFromDataSetAsync(AwsIotsitewiseBatchDisassociateDataSegmentsFromDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a group (batch) of assets from an IoT SiteWise Monitor project. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDisassociateProjectAssetsAsync(AwsIotsitewiseBatchDisassociateProjectAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDisassociateProjectAssetsAsync(AwsIotsitewiseBatchDisassociateProjectAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see Querying aggre- gates in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetAssetPropertyAggregatesAsync(AwsIotsitewiseBatchGetAssetPropertyAggregatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetAssetPropertyAggregatesAsync(AwsIotsitewiseBatchGetAssetPropertyAggregatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the historical values for one or more asset properties. For more information, see Querying historical values in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetAssetPropertyValueHistoryAsync(AwsIotsitewiseBatchGetAssetPropertyValueHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetAssetPropertyValueHistoryAsync(AwsIotsitewiseBatchGetAssetPropertyValueHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the current value for one or more asset properties. For more in- formation, see Querying current values in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetAssetPropertyValueAsync(AwsIotsitewiseBatchGetAssetPropertyValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetAssetPropertyValueAsync(AwsIotsitewiseBatchGetAssetPropertyValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . WAR...
@@ -133,8 +123,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutAssetPropertyValueAsync(AwsIotsitewiseBatchPutAssetPropertyValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchPutAssetPropertyValueAsync(AwsIotsitewiseBatchPutAssetPropertyValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a running or pending enrichment job. This is an idempotent op- erationcalling it multiple times with the same jobId is safe and re- turns the current status. Behavior o Jobs in PENDING or RUNNING status transition to CANCELLED o Jobs in RUNNING state may not be cancellable once they have pro- gressed to certain processing stages o Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled; the operation returns a ConflictingOperationException o Cancelling an alrea...
@@ -143,8 +132,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelEnrichmentJobAsync(AwsIotsitewiseCancelEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelEnrichmentJobAsync(AwsIotsitewiseCancelEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a pipeline execution in the specified workspace. If the execu- tion is not in a terminal state (such as NOT_STARTED or RUNNING), it transitions to CANCELLING and asynchronously to CANCELLED. This opera- tion is idempotent: calling it on an execution that is already CAN- CELLING or CANCELLED returns success with the current state. Calling it on a terminal execution (SUCCEEDED or FAILED) returns a conflict error. You can optionally provide a reason; it is returned in the stateDetails field...
@@ -153,8 +141,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelPipelineExecutionAsync(AwsIotsitewiseCancelPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelPipelineExecutionAsync(AwsIotsitewiseCancelPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a running query. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelQueryAsync(AwsIotsitewiseCancelQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelQueryAsync(AwsIotsitewiseCancelQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates an access policy that grants the specified identity (IAM Iden- tity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise M...
@@ -173,8 +159,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessPolicyAsync(AwsIotsitewiseCreateAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessPolicyAsync(AwsIotsitewiseCreateAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new application for the workspace and IdC application pro- vided See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationAsync(AwsIotsitewiseCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationAsync(AwsIotsitewiseCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based . Use component-model-based custom composite models to define standard, reusable components. A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no prop- erties of its own; its referenced component model p...
@@ -193,8 +177,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssetModelCompositeModelAsync(AwsIotsitewiseCreateAssetModelCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssetModelCompositeModelAsync(AwsIotsitewiseCreateAssetModelCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an asset model from specified property and hierarchy defini- tions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized defini- tions. Each asset created from a model inherits the asset model's prop- erty and hierarchy definitions. For more information, see Defining as- set models in the IoT SiteWise User Guide . You can create three types of asset models, ASSET_MODEL , COMPO- NENT_MODEL , or an INTERFACE . o ASSET_...
@@ -203,8 +186,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssetModelAsync(AwsIotsitewiseCreateAssetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssetModelAsync(AwsIotsitewiseCreateAssetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an asset from an existing asset model. For more information, see Creating assets in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssetAsync(AwsIotsitewiseCreateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssetAsync(AwsIotsitewiseCreateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide . WARNING: Before you create a bulk import job that ingests data into time se- ries outside of a workspace, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to config- ure storage settings, see PutStorageConfiguration . This requirement doesn't apply to bulk import jobs that ingest dat...
@@ -223,8 +204,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBulkImportJobAsync(AwsIotsitewiseCreateBulkImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBulkImportJobAsync(AwsIotsitewiseCreateBulkImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a computation model with a configuration and data binding. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateComputationModelAsync(AwsIotsitewiseCreateComputationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateComputationModelAsync(AwsIotsitewiseCreateComputationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a dashboard in an IoT SiteWise Monitor project. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDashboardAsync(AwsIotsitewiseCreateDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDashboardAsync(AwsIotsitewiseCreateDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous job that exports dataset and time-series data from a workspace to Amazon S3. The operation returns a jobId immedi- ately; poll DescribeDatasetExportJob to track progress and ListDataset- ExportJobs to enumerate a workspace's jobs. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetExportJobAsync(AwsIotsitewiseCreateDataSetExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSetExportJobAsync(AwsIotsitewiseCreateDataSetExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a dataset. Session and curated datasets are created in a work- space. A session dataset contains data segments of time series data, and a curated dataset curates data segments selected from source ses- sion datasets. A dataset that connects to an external datasource is created outside of a workspace. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetAsync(AwsIotsitewiseCreateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSetAsync(AwsIotsitewiseCreateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an asynchronous enrichment job to analyze time-series sensor data. The operation returns immediately with job details while process- ing continues in the background. Idempotency Include a clientToken to make the operation idempotent. If you submit the same request with the same token within the idempotency window, you receive the original job details without creating a duplicate. Prerequisites Before creating a job, ensure: o The workspace is in ACTIVE state (not being deleted) o You hav...
@@ -273,8 +249,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEnrichmentJobAsync(AwsIotsitewiseCreateEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEnrichmentJobAsync(AwsIotsitewiseCreateEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a gateway, which is a virtual or edge device that delivers in- dustrial data streams from local servers to IoT SiteWise. For more in- formation, see Ingesting data using a gateway in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGatewayAsync(AwsIotsitewiseCreateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGatewayAsync(AwsIotsitewiseCreateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new pipeline in the specified workspace. A pipeline defines a directed acyclic graph (DAG) of compute nodes, where each node refer- ences a task and can declare dependencies on other nodes. Cyclic depen- dencies are not allowed. Nodes without dependencies run in parallel, while nodes with dependencies wait for all upstream nodes to complete successfully before starting. You can set environment variables at the pipeline level that are shared across all compute nodes, and override them a...
@@ -293,8 +267,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePipelineAsync(AwsIotsitewiseCreatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePipelineAsync(AwsIotsitewiseCreatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a portal, which can contain projects and dashboards. IoT Site- Wise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permis...
@@ -303,8 +276,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePortalAsync(AwsIotsitewiseCreatePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePortalAsync(AwsIotsitewiseCreatePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a project in the specified portal. NOTE: Make sure that the project name and description don't contain confi- dential information. See also: AWS API Documentat...
@@ -313,8 +285,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProjectAsync(AwsIotsitewiseCreateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProjectAsync(AwsIotsitewiseCreateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new task in the specified workspace. A task defines a reusable containerized compute workload that can be referenced by one or more pipeline compute nodes. Specify a `containerTaskConfiguration &lt;- https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_Con- tainerTaskConfiguration.html&gt;`__ for custom container workloads with configurable ECR image, processing type, processing unit, and environ- ment variables. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTaskAsync(AwsIotsitewiseCreateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTaskAsync(AwsIotsitewiseCreateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a workspace in IoT SiteWise. A workspace isolates its re- sources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling lim- its. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE , or FAILED if provisioning doesn't complete. See also:...
@@ -333,8 +303,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkspaceAsync(AwsIotsitewiseCreateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkspaceAsync(AwsIotsitewiseCreateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an access policy that grants the specified identity access to the specified IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor resource. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessPolicyAsync(AwsIotsitewiseDeleteAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessPolicyAsync(AwsIotsitewiseDeleteAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an application by ID See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationAsync(AwsIotsitewiseDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationAsync(AwsIotsitewiseDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a composite model. This action can't be undone. You must delete all assets created from a composite model before you can delete the model. Also, you can't delete a composite model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see Deleting assets and models in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetModelCompositeModelAsync(AwsIotsitewiseDeleteAssetModelCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetModelCompositeModelAsync(AwsIotsitewiseDeleteAssetModelCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an interface relationship between an asset model and an inter- face asset model. See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetModelInterfaceRelationshipAsync(AwsIotsitewiseDeleteAssetModelInterfaceRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetModelInterfaceRelationshipAsync(AwsIotsitewiseDeleteAssetModelInterfaceRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an asset model. This action can't be undone. You must delete all assets created from an asset model before you can delete the model. Also, you can't delete an asset model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see Deleting as- sets and models in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -383,8 +348,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetModelAsync(AwsIotsitewiseDeleteAssetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetModelAsync(AwsIotsitewiseDeleteAssetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an asset. This action can't be undone. For more information, see Deleting assets and models in the IoT SiteWise User Guide . NOTE: You can't delete an asset that's associated to another asset. For more information, see DisassociateAssets . See also: AWS API Documentation
@@ -393,8 +357,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetAsync(AwsIotsitewiseDeleteAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetAsync(AwsIotsitewiseDeleteAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a computation model. This action can't be undone. See also: AWS API Documentation
@@ -403,8 +366,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteComputationModelAsync(AwsIotsitewiseDeleteComputationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteComputationModelAsync(AwsIotsitewiseDeleteComputationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a dashboard from IoT SiteWise Monitor. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDashboardAsync(AwsIotsitewiseDeleteDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDashboardAsync(AwsIotsitewiseDeleteDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a dataset. This can't be undone. Deleting a session dataset also deletes the underlying time series data in the session. You can't delete a session dataset while a curated dataset references its data segments. First delete the curated dataset or disassociate the data segments. Deleting a curated dataset doesn't delete the underlying data in the source session datasets. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSetAsync(AwsIotsitewiseDeleteDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataSetAsync(AwsIotsitewiseDeleteDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayAsync(AwsIotsitewiseDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGatewayAsync(AwsIotsitewiseDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a pipeline from the specified workspace. A pipeline cannot be deleted if it has any active executions. Wait for all executions to complete before attempting to delete the pipeline, or use CancelPipelineExecution to stop a running execution. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePipelineAsync(AwsIotsitewiseDeletePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePipelineAsync(AwsIotsitewiseDeletePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a portal from IoT SiteWise Monitor. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePortalAsync(AwsIotsitewiseDeletePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePortalAsync(AwsIotsitewiseDeletePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a project from IoT SiteWise Monitor. See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProjectAsync(AwsIotsitewiseDeleteProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProjectAsync(AwsIotsitewiseDeleteProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a task from the specified workspace. A task cannot be deleted if it is currently referenced by any existing pipeline. Remove the task from all pipelines before attempting to delete it. See also: AWS API Documentation
@@ -473,8 +429,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTaskAsync(AwsIotsitewiseDeleteTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTaskAsync(AwsIotsitewiseDeleteTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. You can't delete a time series until all of its data segments have been deleted from session datasets. To identify a time series, do one of the following: o If the time series isn't associated with an asset property, specify the alias of the time series. o If the time series is associ...
@@ -483,8 +438,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTimeSeriesAsync(AwsIotsitewiseDeleteTimeSeriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTimeSeriesAsync(AwsIotsitewiseDeleteTimeSeriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a workspace. Before you delete a workspace, you must delete all resources contained in or associated with the workspace, such as datasets, time series, pipelines, and tasks. See also: AWS API Documentation
@@ -493,8 +447,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkspaceAsync(AwsIotsitewiseDeleteWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkspaceAsync(AwsIotsitewiseDeleteWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or project. See also: AWS API Documentation
@@ -503,8 +456,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccessPolicyAsync(AwsIotsitewiseDescribeAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccessPolicyAsync(AwsIotsitewiseDescribeAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an action. See also: AWS API Documentation
@@ -513,8 +465,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeActionAsync(AwsIotsitewiseDescribeActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeActionAsync(AwsIotsitewiseDescribeActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves Application details based on the ID See also: AWS API Documentation
@@ -523,8 +474,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationAsync(AwsIotsitewiseDescribeApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationAsync(AwsIotsitewiseDescribeApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an asset composite model (also known as an asset component). An AssetCompositeModel is an instance of an AssetMod- elCompositeModel . If you want to see information about the model this is based on, call DescribeAssetModelCompositeModel . See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAssetCompositeModelAsync(AwsIotsitewiseDescribeAssetCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAssetCompositeModelAsync(AwsIotsitewiseDescribeAssetCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an asset model composite model (also known as an asset model component). For more information, see Custom compos- ite models (Components) in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAssetModelCompositeModelAsync(AwsIotsitewiseDescribeAssetModelCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAssetModelCompositeModelAsync(AwsIotsitewiseDescribeAssetModelCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an interface relationship between an asset model and an interface asset model. See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAssetModelInterfaceRelationshipAsync(AwsIotsitewiseDescribeAssetModelInterfaceRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAssetModelInterfaceRelationshipAsync(AwsIotsitewiseDescribeAssetModelInterfaceRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an asset model. This includes details about the asset model's properties, hierarchies, composite models, and any interface relationships if the asset model implements interfaces. See also: AWS API Documentation
@@ -563,8 +510,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAssetModelAsync(AwsIotsitewiseDescribeAssetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAssetModelAsync(AwsIotsitewiseDescribeAssetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an asset. See also: AWS API Documentation
@@ -573,8 +519,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAssetAsync(AwsIotsitewiseDescribeAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAssetAsync(AwsIotsitewiseDescribeAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an asset property. NOTE: When you call this operation for an attribute property, this re- sponse includes the default attribute value that you define in the asset model. If you update the default value in the model, this op- eration's response includes the new default value. This operation doesn't return the value of the asset property. To get the value of an asset property, use GetAssetPropertyValue . See also: AWS API Documentation
@@ -583,8 +528,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAssetPropertyAsync(AwsIotsitewiseDescribeAssetPropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAssetPropertyAsync(AwsIotsitewiseDescribeAssetPropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a bulk import job request. For more infor- mation, see Describe a bulk import job (CLI) in the Amazon Simple Stor- age Service User Guide . See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBulkImportJobAsync(AwsIotsitewiseDescribeBulkImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBulkImportJobAsync(AwsIotsitewiseDescribeBulkImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the execution summary of a computation model. See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeComputationModelExecutionSummaryAsync(AwsIotsitewiseDescribeComputationModelExecutionSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeComputationModelExecutionSummaryAsync(AwsIotsitewiseDescribeComputationModelExecutionSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a computation model. See also: AWS API Documentation
@@ -613,8 +555,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeComputationModelAsync(AwsIotsitewiseDescribeComputationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeComputationModelAsync(AwsIotsitewiseDescribeComputationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a dashboard. See also: AWS API Documentation
@@ -623,8 +564,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDashboardAsync(AwsIotsitewiseDescribeDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDashboardAsync(AwsIotsitewiseDescribeDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a dataset export job. See also: AWS API Documentation
@@ -633,8 +573,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSetExportJobAsync(AwsIotsitewiseDescribeDataSetExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSetExportJobAsync(AwsIotsitewiseDescribeDataSetExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a dataset. See also: AWS API Documentation
@@ -643,8 +582,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSetAsync(AwsIotsitewiseDescribeDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSetAsync(AwsIotsitewiseDescribeDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see Key management in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -653,8 +591,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDefaultEncryptionConfigurationAsync(AwsIotsitewiseDescribeDefaultEncryptionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDefaultEncryptionConfigurationAsync(AwsIotsitewiseDescribeDefaultEncryptionConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific enrichment job, includ- ing its current status, configuration, and timestamps. Use Cases o Monitor job progress by checking status updates with DescribeEnrich- mentJob o Retrieve the complete job configuration submitted during creation o Debug failed jobs by examining the failureMessage field o Track job lifecycle with creation, update, completion, and cancella- tion timestamps Status Monitoring Jobs progress through statuses: PENDING RUNNING termi...
@@ -663,8 +600,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEnrichmentJobAsync(AwsIotsitewiseDescribeEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEnrichmentJobAsync(AwsIotsitewiseDescribeEnrichmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the execution. See also: AWS API Documentation
@@ -673,8 +609,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExecutionAsync(AwsIotsitewiseDescribeExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExecutionAsync(AwsIotsitewiseDescribeExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector for the OPC UA data source collector, or publisher for data publisher capability. o version - The version number of the capability. Option include 2 for Classic streams, V2 g...
@@ -683,8 +618,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGatewayCapabilityConfigurationAsync(AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeGatewayCapabilityConfigurationAsync(AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a gateway. See also: AWS API Documentation
@@ -693,8 +627,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeGatewayAsync(AwsIotsitewiseDescribeGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeGatewayAsync(AwsIotsitewiseDescribeGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current IoT SiteWise logging options. See also: AWS API Documentation
@@ -703,8 +636,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLoggingOptionsAsync(AwsIotsitewiseDescribeLoggingOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLoggingOptionsAsync(AwsIotsitewiseDescribeLoggingOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific pipeline execution, in- cluding the overall execution status and the status of each individual compute node. Use this operation to monitor execution progress and in- spect per-node results, environment variables, and error details. See also: AWS API Documentation describe-pipeline-execution is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --...
@@ -713,8 +645,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePipelineExecutionAsync(AwsIotsitewiseDescribePipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePipelineExecutionAsync(AwsIotsitewiseDescribePipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific pipeline in a work- space. See also: AWS API Documentation
@@ -723,8 +654,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePipelineAsync(AwsIotsitewiseDescribePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePipelineAsync(AwsIotsitewiseDescribePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a portal. See also: AWS API Documentation
@@ -733,8 +663,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePortalAsync(AwsIotsitewiseDescribePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePortalAsync(AwsIotsitewiseDescribePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a project. See also: AWS API Documentation
@@ -743,8 +672,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProjectAsync(AwsIotsitewiseDescribeProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProjectAsync(AwsIotsitewiseDescribeProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a query, including its status. See also: AWS API Documentation
@@ -753,8 +681,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeQueryAsync(AwsIotsitewiseDescribeQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeQueryAsync(AwsIotsitewiseDescribeQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current status and metadata of a single search, including the query that was submitted, the search type, and when the search has failed the reason. Use this to poll a search started with StartSearch until it reaches a terminal status (SUCCEEDED or FAILED ). See also: AWS API Documentation
@@ -763,8 +690,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSearchAsync(AwsIotsitewiseDescribeSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSearchAsync(AwsIotsitewiseDescribeSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the storage configuration for IoT SiteWise. See also: AWS API Documentation
@@ -773,8 +699,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStorageConfigurationAsync(AwsIotsitewiseDescribeStorageConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStorageConfigurationAsync(AwsIotsitewiseDescribeStorageConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific task in a workspace. See also: AWS API Documentation
@@ -783,8 +708,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTaskAsync(AwsIotsitewiseDescribeTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTaskAsync(AwsIotsitewiseDescribeTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a time series (data stream). To identify a time series, do one of the following: o If the time series isn't associated with an asset property, specify the alias of the time series. o If the time series is associated with an asset property, specify one of the following: o The alias of the time series. o The assetId and propertyId that identifies the asset property. See also: AWS API Documentation
@@ -793,8 +717,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTimeSeriesAsync(AwsIotsitewiseDescribeTimeSeriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTimeSeriesAsync(AwsIotsitewiseDescribeTimeSeriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a workspace. See also: AWS API Documentation
@@ -803,8 +726,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWorkspaceAsync(AwsIotsitewiseDescribeWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWorkspaceAsync(AwsIotsitewiseDescribeWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a child asset from the given parent asset through a hier- archy defined in the parent asset's model. See also: AWS API Documentation
@@ -813,8 +735,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAssetsAsync(AwsIotsitewiseDisassociateAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAssetsAsync(AwsIotsitewiseDisassociateAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a time series (data stream) from an asset property. See also: AWS API Documentation
@@ -823,8 +744,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTimeSeriesFromAssetPropertyAsync(AwsIotsitewiseDisassociateTimeSeriesFromAssetPropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTimeSeriesFromAssetPropertyAsync(AwsIotsitewiseDisassociateTimeSeriesFromAssetPropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Executes an action on a target resource. See also: AWS API Documentation
@@ -833,8 +753,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteActionAsync(AwsIotsitewiseExecuteActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteActionAsync(AwsIotsitewiseExecuteActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates. See also: AWS API Documentation execute-query is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
@@ -843,8 +762,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteQueryAsync(AwsIotsitewiseExecuteQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteQueryAsync(AwsIotsitewiseExecuteQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-aggregates is a paginated op...
@@ -853,8 +771,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetPropertyAggregatesAsync(AwsIotsitewiseGetAssetPropertyAggregatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetPropertyAggregatesAsync(AwsIotsitewiseGetAssetPropertyAggregatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the history of an asset property's values. For more information, see Querying historical values in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-value-history is a ...
@@ -863,8 +780,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetPropertyValueHistoryAsync(AwsIotsitewiseGetAssetPropertyValueHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetPropertyValueHistoryAsync(AwsIotsitewiseGetAssetPropertyValueHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an asset property's current value. For more information, see Querying current values in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation
@@ -873,8 +789,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetPropertyValueAsync(AwsIotsitewiseGetAssetPropertyValueOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetPropertyValueAsync(AwsIotsitewiseGetAssetPropertyValueOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves video data for a specific time range. See also: AWS API Documentation
@@ -883,8 +798,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCaptureDataAsync(AwsIotsitewiseGetCaptureDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCaptureDataAsync(AwsIotsitewiseGetCaptureDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get interpolated values for an asset property for a specified time in- terval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated tem- perature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset p...
@@ -893,8 +807,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInterpolatedAssetPropertyValuesAsync(AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInterpolatedAssetPropertyValuesAsync(AwsIotsitewiseGetInterpolatedAssetPropertyValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the paginated results of a query. Returns empty rows if the query is not yet complete. See also: AWS API Documentation get-query-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: rows
@@ -903,8 +816,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryResultsAsync(AwsIotsitewiseGetQueryResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryResultsAsync(AwsIotsitewiseGetQueryResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the ranked results of a search, ordered by descending rele- vance score. Results are available only after the search has reached the SUCCEEDED status. Calling this on a search that exists but has not yet completed returns InvalidRequestException , while calling it on a search that does not exist returns ResourceNotFoundException . The re- sponse is paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation get-search-re...
@@ -913,8 +825,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSearchResultsAsync(AwsIotsitewiseGetSearchResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSearchResultsAsync(AwsIotsitewiseGetSearchResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project). See also: AWS API Documentation list-access-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
@@ -923,8 +834,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessPoliciesAsync(AwsIotsitewiseListAccessPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessPoliciesAsync(AwsIotsitewiseListAccessPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of actions for a specific target resource. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: actionSummaries
@@ -933,8 +843,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListActionsAsync(AwsIotsitewiseListActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListActionsAsync(AwsIotsitewiseListActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of existing applications See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: applications
@@ -943,8 +852,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationsAsync(AwsIotsitewiseListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationsAsync(AwsIotsitewiseListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of composite models associated with the as- set model See also: AWS API Documentation list-asset-model-composite-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: as...
@@ -953,8 +861,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetModelCompositeModelsAsync(AwsIotsitewiseListAssetModelCompositeModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetModelCompositeModelsAsync(AwsIotsitewiseListAssetModelCompositeModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties, you need to start all over again. See also: AWS API Documentation list-asset-model-properties is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on...
@@ -963,8 +870,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetModelPropertiesAsync(AwsIotsitewiseListAssetModelPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetModelPropertiesAsync(AwsIotsitewiseListAssetModelPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of summaries of all asset models. See also: AWS API Documentation list-asset-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assetModelSummaries
@@ -973,8 +879,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetModelsAsync(AwsIotsitewiseListAssetModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetModelsAsync(AwsIotsitewiseListAssetModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish list- ing all the properties, you need to start all over again. See also: AWS API Documentation list-asset-properties is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
@@ -983,8 +888,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetPropertiesAsync(AwsIotsitewiseListAssetPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetPropertiesAsync(AwsIotsitewiseListAssetPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of asset relationships for an asset. You can use this operation to identify an asset's root asset and all associated assets between that asset and its root. See also: AWS API Documentation list-asset-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
@@ -993,8 +897,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetRelationshipsAsync(AwsIotsitewiseListAssetRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetRelationshipsAsync(AwsIotsitewiseListAssetRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of asset summaries. You can use this operation to do the following: o List assets based on a specific asset model. o List top-level assets. You can't use this operation to list all assets. To retrieve summaries for all of your assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrie...
@@ -1003,8 +906,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetsAsync(AwsIotsitewiseListAssetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetsAsync(AwsIotsitewiseListAssetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of associated assets. You can use this operation to do the following: o CHILD - List all child assets associated to the asset. o PARENT - List the asset's parent asset. See also: AWS API Documentation list-associated-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
@@ -1013,8 +915,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssociatedAssetsAsync(AwsIotsitewiseListAssociatedAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssociatedAssetsAsync(AwsIotsitewiseListAssociatedAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of bulk import job requests. For more infor- mation, see List bulk import jobs (CLI) in the IoT SiteWise User Guide . See also: AWS API Documentation list-bulk-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
@@ -1023,8 +924,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBulkImportJobsAsync(AwsIotsitewiseListBulkImportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBulkImportJobsAsync(AwsIotsitewiseListBulkImportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of composition relationships for an asset model of type COMPONENT_MODEL . See also: AWS API Documentation list-composition-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
@@ -1033,8 +933,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCompositionRelationshipsAsync(AwsIotsitewiseListCompositionRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCompositionRelationshipsAsync(AwsIotsitewiseListCompositionRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all data binding usages for computation models. This allows to identify where specific data bindings are being utilized across the computation models. This track dependencies between data sources and computation models. See also: AWS API Documentation list-computation-model-data-binding-usages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --outp...
@@ -1043,8 +942,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComputationModelDataBindingUsagesAsync(AwsIotsitewiseListComputationModelDataBindingUsagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComputationModelDataBindingUsagesAsync(AwsIotsitewiseListComputationModelDataBindingUsagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all distinct resources that are resolved from the executed ac- tions of the computation model. See also: AWS API Documentation list-computation-model-resolve-to-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the f...
@@ -1053,8 +951,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComputationModelResolveToResourcesAsync(AwsIotsitewiseListComputationModelResolveToResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComputationModelResolveToResourcesAsync(AwsIotsitewiseListComputationModelResolveToResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of summaries of all computation models. See also: AWS API Documentation list-computation-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: computationModelSummaries
@@ -1063,8 +960,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComputationModelsAsync(AwsIotsitewiseListComputationModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComputationModelsAsync(AwsIotsitewiseListComputationModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dashboardSummaries
@@ -1073,8 +969,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDashboardsAsync(AwsIotsitewiseListDashboardsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDashboardsAsync(AwsIotsitewiseListDashboardsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of data segment relationships for a session dataset. Use this operation to find the curated datasets that reference data segments of the specified session dataset. Use the nextToken para- meter to retrieve additional results. See also: AWS API Documentation list-dataset-data-segment-relationships is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
@@ -1083,8 +978,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSetDataSegmentRelationshipsAsync(AwsIotsitewiseListDataSetDataSegmentRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataSetDataSegmentRelationshipsAsync(AwsIotsitewiseListDataSetDataSegmentRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of data segments associated with a dataset. Use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-dataset-data-segments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
@@ -1093,8 +987,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSetDataSegmentsAsync(AwsIotsitewiseListDataSetDataSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataSetDataSegmentsAsync(AwsIotsitewiseListDataSetDataSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of dataset export jobs for a workspace. See also: AWS API Documentation list-dataset-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: jobs
@@ -1103,8 +996,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSetExportJobsAsync(AwsIotsitewiseListDataSetExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataSetExportJobsAsync(AwsIotsitewiseListDataSetExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of datasets for a specific target resource. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datasetSummaries
@@ -1113,8 +1005,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDatasetsAsync(AwsIotsitewiseListDatasetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDatasetsAsync(AwsIotsitewiseListDatasetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered by createdAt timestamp descending (newest first). Filtering Combine filters to narrow results: o datasetId: Filter by dataset o propertyAliasOR timeSeriesId: Filter by time series (specify one, not both) o status: Filter by job status (e.g., RUNNING to find active jobs) o jobType: Filter by enrichment type (currently only EVENT_DETECTION) o startDateand endDate: Filter by job creation time range ...
@@ -1123,8 +1014,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEnrichmentJobsAsync(AwsIotsitewiseListEnrichmentJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEnrichmentJobsAsync(AwsIotsitewiseListEnrichmentJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of summaries of all executions. See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executionSummaries
@@ -1133,8 +1023,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExecutionsAsync(AwsIotsitewiseListExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExecutionsAsync(AwsIotsitewiseListExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of gateways. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: gatewaySummaries
@@ -1143,8 +1032,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGatewaysAsync(AwsIotsitewiseListGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGatewaysAsync(AwsIotsitewiseListGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of asset models that have a specific inter- face asset model applied to them. See also: AWS API Documentation list-interface-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
@@ -1153,8 +1041,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInterfaceRelationshipsAsync(AwsIotsitewiseListInterfaceRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInterfaceRelationshipsAsync(AwsIotsitewiseListInterfaceRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists pipeline executions for a specific pipeline in a workspace. Sup- ports filtering by state and time range. State can be combined with ei- ther startTime or endTime filters. Time range filters are grouped: use startTime filters (startTimeAfter, startTimeBefore) or endTime filters (endTimeAfter, endTimeBefore), but not both. Combining startTime and endTime filters returns an InvalidRequestException. Note: endTime fil- ters only return executions in terminal states, as in-progress execu- tions...
@@ -1163,8 +1050,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelineExecutionsAsync(AwsIotsitewiseListPipelineExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelineExecutionsAsync(AwsIotsitewiseListPipelineExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists pipelines in a workspace. To get complete details about a pipeline, use DescribePipeline . See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pipel...
@@ -1173,8 +1059,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelinesAsync(AwsIotsitewiseListPipelinesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelinesAsync(AwsIotsitewiseListPipelinesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of IoT SiteWise Monitor portals. See also: AWS API Documentation list-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: portalSummaries
@@ -1183,8 +1068,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPortalsAsync(AwsIotsitewiseListPortalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPortalsAsync(AwsIotsitewiseListPortalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project. See also: AWS API Documentation list-project-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assetIds
@@ -1193,8 +1077,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProjectAssetsAsync(AwsIotsitewiseListProjectAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProjectAssetsAsync(AwsIotsitewiseListProjectAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of projects for an IoT SiteWise Monitor por- tal. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projectSummaries
@@ -1203,8 +1086,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProjectsAsync(AwsIotsitewiseListProjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProjectsAsync(AwsIotsitewiseListProjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of queries for a workspace. See also: AWS API Documentation list-queries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: queries
@@ -1213,8 +1095,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQueriesAsync(AwsIotsitewiseListQueriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQueriesAsync(AwsIotsitewiseListQueriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the searches in a workspace, most recently started first. Results can be narrowed with optional filters (status, search type, group, and started-at time range) and are paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation list-searches is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. Wh...
@@ -1223,8 +1104,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSearchesAsync(AwsIotsitewiseListSearchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSearchesAsync(AwsIotsitewiseListSearchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of tags for an IoT SiteWise resource. See also: AWS API Documentation
@@ -1233,8 +1113,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsIotsitewiseListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsIotsitewiseListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tasks in a workspace. To get complete details about a task, use DescribeTask . See also: AWS API Documentation list-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: taskSummaries
@@ -1243,8 +1122,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTasksAsync(AwsIotsitewiseListTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTasksAsync(AwsIotsitewiseListTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of time series (data streams). See also: AWS API Documentation list-time-series is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TimeSeriesSummaries
@@ -1253,8 +1131,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTimeSeriesAsync(AwsIotsitewiseListTimeSeriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTimeSeriesAsync(AwsIotsitewiseListTimeSeriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of workspaces. Use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
@@ -1263,8 +1140,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkspacesAsync(AwsIotsitewiseListWorkspacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkspacesAsync(AwsIotsitewiseListWorkspacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates an interface relationship between an asset model and an interface asset model. This operation applies an interface to an as- set model. See also: AWS API Documentation
@@ -1273,8 +1149,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAssetModelInterfaceRelationshipAsync(AwsIotsitewisePutAssetModelInterfaceRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAssetModelInterfaceRelationshipAsync(AwsIotsitewisePutAssetModelInterfaceRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -1283,8 +1158,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDefaultEncryptionConfigurationAsync(AwsIotsitewisePutDefaultEncryptionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDefaultEncryptionConfigurationAsync(AwsIotsitewisePutDefaultEncryptionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets logging options for IoT SiteWise. See also: AWS API Documentation
@@ -1293,8 +1167,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutLoggingOptionsAsync(AwsIotsitewisePutLoggingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutLoggingOptionsAsync(AwsIotsitewisePutLoggingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Configures storage settings for IoT SiteWise. See also: AWS API Documentation
@@ -1303,8 +1176,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutStorageConfigurationAsync(AwsIotsitewisePutStorageConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutStorageConfigurationAsync(AwsIotsitewisePutStorageConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts execution of a pipeline in the specified workspace. Each compute node runs according to the DAG dependency order defined in the pipeline. Nodes without dependencies start immediately, while dependent nodes wait for all upstream nodes to complete successfully. You can provide runtime environment variable overrides that take the highest priority in the environment variable hierarchy, without modify- ing the pipeline definition. See also: AWS API Documentation
@@ -1313,8 +1185,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPipelineExecutionAsync(AwsIotsitewiseStartPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPipelineExecutionAsync(AwsIotsitewiseStartPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous SQL query against workspace telemetry, annota- tions, data segment, and dataset data. See also: AWS API Documentation
@@ -1323,8 +1194,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQueryAsync(AwsIotsitewiseStartQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQueryAsync(AwsIotsitewiseStartQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous search over the data in a workspace. The search runs in the background; the response returns immediately with a searchId and an initial status of QUEUED . Use DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the search reaches SUCCEEDED . The request is idempotent on clientToken : repeating a call with the same token returns the original search in- stead of starting a new one. See also: AWS API Documentation
@@ -1333,8 +1203,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSearchAsync(AwsIotsitewiseStartSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSearchAsync(AwsIotsitewiseStartSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation updates the tag's value. See also: AWS API Documentation
@@ -1343,8 +1212,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsIotsitewiseTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsIotsitewiseTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from an IoT SiteWise resource. See also: AWS API Documentation
@@ -1353,8 +1221,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsIotsitewiseUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsIotsitewiseUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource. See also: AWS API Documentation
@@ -1363,8 +1230,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAccessPolicyAsync(AwsIotsitewiseUpdateAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAccessPolicyAsync(AwsIotsitewiseUpdateAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a composite model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating assets and models in the IoT SiteWise User Guide . WARNING: If you remove a property from a composite asset model, IoT SiteWise deletes all previous data for that property. You cant change the type or data type of an existing property. To replace an existing composite asset mod...
@@ -1373,8 +1239,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssetModelCompositeModelAsync(AwsIotsitewiseUpdateAssetModelCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssetModelCompositeModelAsync(AwsIotsitewiseUpdateAssetModelCompositeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating assets and models in the IoT SiteWise User Guide . WARNING: If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. You cant change the type or data type of an existing property. To replace an existing asset model property with a new...
@@ -1383,8 +1248,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssetModelAsync(AwsIotsitewiseUpdateAssetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssetModelAsync(AwsIotsitewiseUpdateAssetModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an asset's name. For more information, see Updating assets and models in the IoT SiteWise User Guide . See also: AWS API Documentation
@@ -1393,8 +1257,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssetAsync(AwsIotsitewiseUpdateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssetAsync(AwsIotsitewiseUpdateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an asset property's alias and notification state. WARNING: This operation overwrites the property's existing alias and notifi- cation state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProp- erty request. For more information, see DescribeAssetProperty . See also: AWS API Documentation
@@ -1403,8 +1266,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssetPropertyAsync(AwsIotsitewiseUpdateAssetPropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssetPropertyAsync(AwsIotsitewiseUpdateAssetPropertyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the computation model. See also: AWS API Documentation
@@ -1413,8 +1275,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateComputationModelAsync(AwsIotsitewiseUpdateComputationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateComputationModelAsync(AwsIotsitewiseUpdateComputationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor dashboard. See also: AWS API Documentation
@@ -1423,8 +1284,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDashboardAsync(AwsIotsitewiseUpdateDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDashboardAsync(AwsIotsitewiseUpdateDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a dataset. See also: AWS API Documentation
@@ -1433,8 +1293,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataSetAsync(AwsIotsitewiseUpdateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataSetAsync(AwsIotsitewiseUpdateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gate- way. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector ...
@@ -1443,8 +1302,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayCapabilityConfigurationAsync(AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGatewayCapabilityConfigurationAsync(AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a gateway's name. See also: AWS API Documentation
@@ -1453,8 +1311,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayAsync(AwsIotsitewiseUpdateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGatewayAsync(AwsIotsitewiseUpdateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing pipeline in the specified workspace. Only the fields provided in the request are updated; fields not included in the request are preserved unchanged. You can update the pipeline descrip- tion, environment variables, and the list of compute nodes indepen- dently. See also: AWS API Documentation
@@ -1463,8 +1320,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePipelineAsync(AwsIotsitewiseUpdatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePipelineAsync(AwsIotsitewiseUpdatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor portal. See also: AWS API Documentation
@@ -1473,8 +1329,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePortalAsync(AwsIotsitewiseUpdatePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePortalAsync(AwsIotsitewiseUpdatePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor project. See also: AWS API Documentation
@@ -1483,8 +1338,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProjectAsync(AwsIotsitewiseUpdateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProjectAsync(AwsIotsitewiseUpdateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing task in the specified workspace. Only the fields provided in the request are updated; fields not included in the request are preserved unchanged. See also: AWS API Documentation
@@ -1493,8 +1347,7 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTaskAsync(AwsIotsitewiseUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTaskAsync(AwsIotsitewiseUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a workspace. You can update only workspaces in the ACTIVE or FAILED state. Fields that you omit from the request are left unchanged. To recover a workspace in the FAILED state, call this operation and supply its encryption configuration again. See also: AWS API Documentation
@@ -1503,7 +1356,6 @@ public interface IAwsIotsitewise
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkspaceAsync(AwsIotsitewiseUpdateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkspaceAsync(AwsIotsitewiseUpdateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

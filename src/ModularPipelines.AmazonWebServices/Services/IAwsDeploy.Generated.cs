@@ -24,7 +24,7 @@ public interface IAwsDeploy
     /// <summary>
     /// aws wait sub-commands.
     /// </summary>
-    AwsDeployWait Wait => throw new System.NotSupportedException();
+    AwsDeployWait Wait { get; }
 
     /// <summary>
     /// Adds tags to on-premises instances. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddTagsToOnPremisesInstancesAsync(AwsDeployAddTagsToOnPremisesInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddTagsToOnPremisesInstancesAsync(AwsDeployAddTagsToOnPremisesInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about one or more application revisions. The maximum number of application revisions that can be returned is 25. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetApplicationRevisionsAsync(AwsDeployBatchGetApplicationRevisionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetApplicationRevisionsAsync(AwsDeployBatchGetApplicationRevisionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about one or more applications. The maximum number of applications that can be returned is 100. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetApplicationsAsync(AwsDeployBatchGetApplicationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetApplicationsAsync(AwsDeployBatchGetApplicationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about one or more deployment groups. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetDeploymentGroupsAsync(AwsDeployBatchGetDeploymentGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetDeploymentGroupsAsync(AwsDeployBatchGetDeploymentGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetDeploymentsAsync(AwsDeployBatchGetDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetDeploymentsAsync(AwsDeployBatchGetDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of tar- gets that can be returned is 25. The type of targets returned depends on the deployment's compute plat- form or deployment method: o EC2/On-premises : Information about Amazon EC2 instance targets. o Lambda : Information about Lambda functions targets. o Amazon ECS : Information about A...
@@ -83,8 +78,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetDeploymentTargetsAsync(AwsDeployBatchGetDeploymentTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetDeploymentTargetsAsync(AwsDeployBatchGetDeploymentTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about one or more on-premises instances. The maximum number of on-premises instances that can be returned is 25. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetOnPremisesInstancesAsync(AwsDeployBatchGetOnPremisesInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetOnPremisesInstancesAsync(AwsDeployBatchGetOnPremisesInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replace- ment environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ContinueDeploymentAsync(AwsDeployContinueDeploymentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ContinueDeploymentAsync(AwsDeployContinueDeploymentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an application. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationAsync(AwsDeployCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationAsync(AwsDeployCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a deployment configuration. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeploymentConfigAsync(AwsDeployCreateDeploymentConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeploymentConfigAsync(AwsDeployCreateDeploymentConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a deployment group to which application revisions are deployed. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeploymentGroupAsync(AwsDeployCreateDeploymentGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeploymentGroupAsync(AwsDeployCreateDeploymentGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deploys an application revision through the specified deployment group. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeploymentAsync(AwsDeployCreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeploymentAsync(AwsDeployCreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an application. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationAsync(AwsDeployDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationAsync(AwsDeployDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a deployment configuration. NOTE: A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDeploymentConfigAsync(AwsDeployDeleteDeploymentConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDeploymentConfigAsync(AwsDeployDeleteDeploymentConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a deployment group. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDeploymentGroupAsync(AwsDeployDeleteDeploymentGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDeploymentGroupAsync(AwsDeployDeleteDeploymentGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a GitHub account connection. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGitHubAccountTokenAsync(AwsDeployDeleteGitHubAccountTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGitHubAccountTokenAsync(AwsDeployDeleteGitHubAccountTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation. NOTE: It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) require- ments. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcesByExternalIdAsync(AwsDeployDeleteResourcesByExternalIdOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcesByExternalIdAsync(AwsDeployDeleteResourcesByExternalIdOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters an on-premises instance. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterOnPremisesInstanceAsync(AwsDeployDeregisterOnPremisesInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterOnPremisesInstanceAsync(AwsDeployDeregisterOnPremisesInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes any tags from the on-premises instance; deregisters the on-premises instance from AWS CodeDeploy; and, unless requested other- wise, deletes the IAM user for the on-premises instance.
@@ -213,8 +195,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterAsync(AwsDeployDeregisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterAsync(AwsDeployDeregisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an application. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApplicationAsync(AwsDeployGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApplicationAsync(AwsDeployGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an application revision. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApplicationRevisionAsync(AwsDeployGetApplicationRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApplicationRevisionAsync(AwsDeployGetApplicationRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a deployment configuration. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeploymentConfigAsync(AwsDeployGetDeploymentConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeploymentConfigAsync(AwsDeployGetDeploymentConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a deployment group. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeploymentGroupAsync(AwsDeployGetDeploymentGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeploymentGroupAsync(AwsDeployGetDeploymentGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a deployment. NOTE: The content property of the appSpecContent object in the returned revision is always null. Use GetApplicationRevision and the sha256 property of the returned appSpecContent object to get the content of the deployments AppSpec file. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeploymentAsync(AwsDeployGetDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeploymentAsync(AwsDeployGetDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a deployment target. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeploymentTargetAsync(AwsDeployGetDeploymentTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeploymentTargetAsync(AwsDeployGetDeploymentTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an on-premises instance. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOnPremisesInstanceAsync(AwsDeployGetOnPremisesInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOnPremisesInstanceAsync(AwsDeployGetOnPremisesInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Configures and installs the AWS CodeDeploy Agent on the on-premises in- stance.
@@ -293,8 +267,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InstallAsync(AwsDeployInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InstallAsync(AwsDeployInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about revisions for an application. See also: AWS API Documentation list-application-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: revisions
@@ -303,8 +276,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationRevisionsAsync(AwsDeployListApplicationRevisionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationRevisionsAsync(AwsDeployListApplicationRevisionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the applications registered with the user or Amazon Web Services account. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: applications
@@ -313,8 +285,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationsAsync(AwsDeployListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationsAsync(AwsDeployListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the deployment configurations with the user or Amazon Web Ser- vices account. See also: AWS API Documentation list-deployment-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: deploymentC...
@@ -323,8 +294,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeploymentConfigsAsync(AwsDeployListDeploymentConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeploymentConfigsAsync(AwsDeployListDeploymentConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the deployment groups for an application registered with the Ama- zon Web Services user or Amazon Web Services account. See also: AWS API Documentation list-deployment-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
@@ -333,8 +303,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeploymentGroupsAsync(AwsDeployListDeploymentGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeploymentGroupsAsync(AwsDeployListDeploymentGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the deployments in a deployment group for an application regis- tered with the user or Amazon Web Services account. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
@@ -343,8 +312,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeploymentsAsync(AwsDeployListDeploymentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeploymentsAsync(AwsDeployListDeploymentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of target IDs that are associated a deployment. See also: AWS API Documentation list-deployment-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: targetIds
@@ -353,8 +321,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeploymentTargetsAsync(AwsDeployListDeploymentTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeploymentTargetsAsync(AwsDeployListDeploymentTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the names of stored connections to GitHub accounts. See also: AWS API Documentation list-git-hub-account-token-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tokenNameList
@@ -363,8 +330,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGitHubAccountTokenNamesAsync(AwsDeployListGitHubAccountTokenNamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGitHubAccountTokenNamesAsync(AwsDeployListGitHubAccountTokenNamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names are listed. To list only registered or deregistered on-premises instance names, use the registration status parameter. See also: AWS API Documentation list-on-premises-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argu...
@@ -373,8 +339,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOnPremisesInstancesAsync(AwsDeployListOnPremisesInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOnPremisesInstancesAsync(AwsDeployListOnPremisesInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags for the resource identified by a specified Ama- zon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. See also: AWS API Documentation
@@ -383,8 +348,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsDeployListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsDeployListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Bundles and uploads to Amazon Simple Storage Service (Amazon S3) an ap- plication revision, which is a zip archive file that contains deploy- able content and an accompanying Application Specification file (App- Spec file). If the upload is successful, a message is returned that de- scribes how to call the create-deployment command to deploy the appli- cation revision from Amazon S3 to target Amazon Elastic Compute Cloud (Amazon EC2) instances.
@@ -393,8 +357,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PushAsync(AwsDeployPushOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PushAsync(AwsDeployPushOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic . For Amazon ECS deploy- ments, the available lifecycle hooks are BeforeInstall , AfterInstall , AfterAllowTestTraffic , BeforeAllowTraffic , and AfterAllowTraffic . Lambda validation functions return Succeeded or Failed . For more in- form...
@@ -403,8 +366,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutLifecycleEventHookExecutionStatusAsync(AwsDeployPutLifecycleEventHookExecutionStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutLifecycleEventHookExecutionStatusAsync(AwsDeployPutLifecycleEventHookExecutionStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers with CodeDeploy a revision for the specified application. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterApplicationRevisionAsync(AwsDeployRegisterApplicationRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterApplicationRevisionAsync(AwsDeployRegisterApplicationRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers an on-premises instance. NOTE: Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterOnPremisesInstanceAsync(AwsDeployRegisterOnPremisesInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterOnPremisesInstanceAsync(AwsDeployRegisterOnPremisesInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an IAM user for the on-premises instance, if not provided, and saves the user's credentials to an on-premises instance configuration file; registers the on-premises instance with AWS CodeDeploy; and op- tionally adds tags to the on-premises instance.
@@ -433,8 +393,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterAsync(AwsDeployRegisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterAsync(AwsDeployRegisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from one or more on-premises instances. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveTagsFromOnPremisesInstancesAsync(AwsDeployRemoveTagsFromOnPremisesInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveTagsFromOnPremisesInstancesAsync(AwsDeployRemoveTagsFromOnPremisesInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attempts to stop an ongoing deployment. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopDeploymentAsync(AwsDeployStopDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopDeploymentAsync(AwsDeployStopDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the list of tags in the input Tags parameter with the re- source identified by the ResourceArn input parameter. See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsDeployTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsDeployTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uninstalls the AWS CodeDeploy Agent from the on-premises instance.
@@ -473,8 +429,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UninstallAsync(AwsDeployUninstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UninstallAsync(AwsDeployUninstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a resource from a list of tags. The resource is identi- fied by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter. See also: AWS API Documentation
@@ -483,8 +438,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsDeployUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsDeployUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the name of an application. See also: AWS API Documentation
@@ -493,8 +447,7 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationAsync(AwsDeployUpdateApplicationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationAsync(AwsDeployUpdateApplicationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes information about a deployment group. See also: AWS API Documentation
@@ -503,7 +456,6 @@ public interface IAwsDeploy
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDeploymentGroupAsync(AwsDeployUpdateDeploymentGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDeploymentGroupAsync(AwsDeployUpdateDeploymentGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

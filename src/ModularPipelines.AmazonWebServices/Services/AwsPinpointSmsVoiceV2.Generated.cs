@@ -1022,7 +1022,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern. If NumberPreference is omitted, returns unfiltered available numbers. Returns empty list (not an exception) when no num- bers match. ResourceNotFoundException is thrown only for invalid Regis- trationId (campaign not found). See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+    /// Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern. If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only TEN_DLC number types in the US . See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multipl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -28,8 +28,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteAdvancedPromptOptimizationJobAsync(AwsBedrockBatchDeleteAdvancedPromptOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteAdvancedPromptOptimizationJobAsync(AwsBedrockBatchDeleteAdvancedPromptOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED , COMPLETED , and STOPPED . You can request up to 25 model evaluation jobs be deleted in a single request. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteEvaluationJobAsync(AwsBedrockBatchDeleteEvaluationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteEvaluationJobAsync(AwsBedrockBatchDeleteEvaluationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelAutomatedReasoningPolicyBuildWorkflowAsync(AwsBedrockCancelAutomatedReasoningPolicyBuildWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelAutomatedReasoningPolicyBuildWorkflowAsync(AwsBedrockCancelAutomatedReasoningPolicyBuildWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria. See also: AWS API Documentation create-advanced-prompt-optimization-job uses document type values. Doc- ument types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand sy...
@@ -58,8 +55,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAdvancedPromptOptimizationJobAsync(AwsBedrockCreateAdvancedPromptOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAdvancedPromptOptimizationJobAsync(AwsBedrockCreateAdvancedPromptOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hal- lucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application. To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important con- cepts from the source document that will become variables in the policy and infers policy rules. See also:...
@@ -68,8 +64,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutomatedReasoningPolicyAsync(AwsBedrockCreateAutomatedReasoningPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutomatedReasoningPolicyAsync(AwsBedrockCreateAutomatedReasoningPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to pro- duction. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutomatedReasoningPolicyTestCaseAsync(AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutomatedReasoningPolicyTestCaseAsync(AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutomatedReasoningPolicyVersionAsync(AwsBedrockCreateAutomatedReasoningPolicyVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutomatedReasoningPolicyVersionAsync(AwsBedrockCreateAutomatedReasoningPolicyVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and gener- ate responses with model inference. For more information about setting up on-demand inference for custom models, see Set up inference for a custom model . The following actions are related to the CreateCustomModelDeployment operation: o GetCustomModelDeployment o ListCustomModelDeploym...
@@ -98,8 +91,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomModelDeploymentAsync(AwsBedrockCreateCustomModelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomModelDeploymentAsync(AwsBedrockCreateCustomModelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom model in Amazon Bedrock. After the model is ac- tive, you can use it for inference. You can provide the model data source in one of the following ways: o customModelDataSource Specify a SageMaker AI model package ARN. Ama- zon Bedrock resolves the model package to retrieve the model arti- facts. This is the preferred method for new SageMaker AI training outputs. o modelSourceConfig Specify an Amazon S3 URI pointing to the Ama- zon-managed Amazon S3 bucket containing your mod...
@@ -108,8 +100,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomModelAsync(AwsBedrockCreateCustomModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomModelAsync(AwsBedrockCreateCustomModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an evaluation job. See also: AWS API Documentation create-evaluation-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -118,8 +109,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEvaluationJobAsync(AwsBedrockCreateEvaluationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEvaluationJobAsync(AwsBedrockCreateEvaluationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Request a model access agreement for the specified model. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFoundationModelAgreementAsync(AwsBedrockCreateFoundationModelAgreementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFoundationModelAgreementAsync(AwsBedrockCreateFoundationModelAgreementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid unde- sirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection. o Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content. o Denied topics - Define a set of topics that are undesirable in the context of your applica...
@@ -138,8 +127,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGuardrailAsync(AwsBedrockCreateGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGuardrailAsync(AwsBedrockCreateGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGuardrailVersionAsync(AwsBedrockCreateGuardrailVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGuardrailVersionAsync(AwsBedrockCreateGuardrailVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route re- quests to. For more information, see Increase throughput and resilience with cross-...
@@ -158,8 +145,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInferenceProfileAsync(AwsBedrockCreateInferenceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInferenceProfileAsync(AwsBedrockCreateInferenceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMarketplaceModelEndpointAsync(AwsBedrockCreateMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMarketplaceModelEndpointAsync(AwsBedrockCreateMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelCopyJobAsync(AwsBedrockCreateModelCopyJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelCopyJobAsync(AwsBedrockCreateModelCopyJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns val- idation loss metrics and output generations after the job completes. For information on the format of training and validation data, see Prepare the datasets . Model-customization jobs are asynchronous and the completion time de- pends ...
@@ -188,8 +172,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelCustomizationJobAsync(AwsBedrockCreateModelCustomizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelCustomizationJobAsync(AwsBedrockCreateModelCustomizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelImportJobAsync(AwsBedrockCreateModelImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelImportJobAsync(AwsBedrockCreateModelImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a batch inference job to invoke a model on multiple prompts. Format your data according to Format your inference data and upload it to an Amazon S3 bucket. For more information, see Process multiple prompts with batch inference . The response returns a jobArn that you can use to stop or get details about the job. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelInvocationJobAsync(AwsBedrockCreateModelInvocationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelInvocationJobAsync(AwsBedrockCreateModelInvocationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePromptRouterAsync(AwsBedrockCreatePromptRouterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePromptRouterAsync(AwsBedrockCreatePromptRouterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing . For more information, see Provisioned Through- put in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProvisionedModelThroughputAsync(AwsBedrockCreateProvisionedModelThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProvisionedModelThroughputAsync(AwsBedrockCreateProvisionedModelThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any gener- ated assets. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAutomatedReasoningPolicyBuildWorkflowAsync(AwsBedrockDeleteAutomatedReasoningPolicyBuildWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAutomatedReasoningPolicyBuildWorkflowAsync(AwsBedrockDeleteAutomatedReasoningPolicyBuildWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call suc- ceeds. Deleting a policy removes it permanently and cannot be undone. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAutomatedReasoningPolicyAsync(AwsBedrockDeleteAutomatedReasoningPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAutomatedReasoningPolicyAsync(AwsBedrockDeleteAutomatedReasoningPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Automated Reasoning policy test. This operation is idempo- tent; if you delete a test more than once, each call succeeds. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAutomatedReasoningPolicyTestCaseAsync(AwsBedrockDeleteAutomatedReasoningPolicyTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAutomatedReasoningPolicyTestCaseAsync(AwsBedrockDeleteAutomatedReasoningPolicyTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom model deployment. This operation stops the deployment and removes it from your account. After deletion, the deployment ARN can no longer be used for inference requests. The following actions are related to the DeleteCustomModelDeployment operation: o CreateCustomModelDeployment o GetCustomModelDeployment o ListCustomModelDeployments See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomModelDeploymentAsync(AwsBedrockDeleteCustomModelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomModelDeploymentAsync(AwsBedrockDeleteCustomModelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomModelAsync(AwsBedrockDeleteCustomModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomModelAsync(AwsBedrockDeleteCustomModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the account-level enforced guardrail configuration. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEnforcedGuardrailConfigurationAsync(AwsBedrockDeleteEnforcedGuardrailConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEnforcedGuardrailConfigurationAsync(AwsBedrockDeleteEnforcedGuardrailConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the model access agreement for the specified model. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFoundationModelAgreementAsync(AwsBedrockDeleteFoundationModelAgreementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFoundationModelAgreementAsync(AwsBedrockDeleteFoundationModelAgreementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a guardrail. o To delete a guardrail, only specify the ARN of the guardrail in the guardrailIdentifier field. If you delete a guardrail, all of its ver- sions will be deleted. o To delete a version of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field and the version in the guardrailVer- sion field. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGuardrailAsync(AwsBedrockDeleteGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGuardrailAsync(AwsBedrockDeleteGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteImportedModelAsync(AwsBedrockDeleteImportedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteImportedModelAsync(AwsBedrockDeleteImportedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Ama- zon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInferenceProfileAsync(AwsBedrockDeleteInferenceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInferenceProfileAsync(AwsBedrockDeleteInferenceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an endpoint for a model from Amazon Bedrock Marketplace. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMarketplaceModelEndpointAsync(AwsBedrockDeleteMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMarketplaceModelEndpointAsync(AwsBedrockDeleteMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the invocation logging. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelInvocationLoggingConfigurationAsync(AwsBedrockDeleteModelInvocationLoggingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelInvocationLoggingConfigurationAsync(AwsBedrockDeleteModelInvocationLoggingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified prompt router. This action cannot be undone. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePromptRouterAsync(AwsBedrockDeletePromptRouterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePromptRouterAsync(AwsBedrockDeletePromptRouterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProvisionedModelThroughputAsync(AwsBedrockDeleteProvisionedModelThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProvisionedModelThroughputAsync(AwsBedrockDeleteProvisionedModelThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a previously created Bedrock resource policy. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsBedrockDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsBedrockDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterMarketplaceModelEndpointAsync(AwsBedrockDeregisterMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterMarketplaceModelEndpointAsync(AwsBedrockDeregisterMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports the policy definition for an Automated Reasoning policy ver- sion. Returns the complete policy definition including rules, vari- ables, and custom variable types in a structured format. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportAutomatedReasoningPolicyVersionAsync(AwsBedrockExportAutomatedReasoningPolicyVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportAutomatedReasoningPolicyVersionAsync(AwsBedrockExportAutomatedReasoningPolicyVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the account-wide data retention mode for Amazon Bedrock. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountDataRetentionAsync(AwsBedrockGetAccountDataRetentionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountDataRetentionAsync(AwsBedrockGetAccountDataRetentionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an advanced prompt optimization job. See also: AWS API Documentation get-advanced-prompt-optimization-job uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -418,8 +379,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAdvancedPromptOptimizationJobAsync(AwsBedrockGetAdvancedPromptOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAdvancedPromptOptimizationJobAsync(AwsBedrockGetAdvancedPromptOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current annotations for an Automated Reasoning policy build workflow. Annotations contain corrections to the rules, variables and types to be applied to the policy. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomatedReasoningPolicyAnnotationsAsync(AwsBedrockGetAutomatedReasoningPolicyAnnotationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomatedReasoningPolicyAnnotationsAsync(AwsBedrockGetAutomatedReasoningPolicyAnnotationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about an Automated Reasoning policy build workflow, including its status, configuration, and metadata. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomatedReasoningPolicyBuildWorkflowAsync(AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomatedReasoningPolicyBuildWorkflowAsync(AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and gen- erated policy artifacts. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomatedReasoningPolicyBuildWorkflowResultAssetsAsync(AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowResultAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomatedReasoningPolicyBuildWorkflowResultAssetsAsync(AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowResultAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomatedReasoningPolicyNextScenarioAsync(AwsBedrockGetAutomatedReasoningPolicyNextScenarioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomatedReasoningPolicyNextScenarioAsync(AwsBedrockGetAutomatedReasoningPolicyNextScenarioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about an Automated Reasoning policy or policy ver- sion. Returns information including the policy definition, metadata, and timestamps. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomatedReasoningPolicyAsync(AwsBedrockGetAutomatedReasoningPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomatedReasoningPolicyAsync(AwsBedrockGetAutomatedReasoningPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a specific Automated Reasoning policy test. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomatedReasoningPolicyTestCaseAsync(AwsBedrockGetAutomatedReasoningPolicyTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomatedReasoningPolicyTestCaseAsync(AwsBedrockGetAutomatedReasoningPolicyTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomatedReasoningPolicyTestResultAsync(AwsBedrockGetAutomatedReasoningPolicyTestResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomatedReasoningPolicyTestResultAsync(AwsBedrockGetAutomatedReasoningPolicyTestResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment oper- ation: o CreateCustomModelDeployment o ListCustomModelDeployments o DeleteCustomModelDeployment See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCustomModelDeploymentAsync(AwsBedrockGetCustomModelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCustomModelDeploymentAsync(AwsBedrockGetCustomModelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCustomModelAsync(AwsBedrockGetCustomModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCustomModelAsync(AwsBedrockGetCustomModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an evaluation job, such as the status of the job. See also: AWS API Documentation get-evaluation-job uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -518,8 +469,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvaluationJobAsync(AwsBedrockGetEvaluationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvaluationJobAsync(AwsBedrockGetEvaluationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about the Foundation model availability. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFoundationModelAvailabilityAsync(AwsBedrockGetFoundationModelAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFoundationModelAvailabilityAsync(AwsBedrockGetFoundationModelAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get details about a Amazon Bedrock foundation model. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFoundationModelAsync(AwsBedrockGetFoundationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFoundationModelAsync(AwsBedrockGetFoundationModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about a guardrail. If you don't specify a version, the re- sponse returns details for the DRAFT version. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGuardrailAsync(AwsBedrockGetGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGuardrailAsync(AwsBedrockGetGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets properties associated with a customized model you imported. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImportedModelAsync(AwsBedrockGetImportedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImportedModelAsync(AwsBedrockGetImportedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Ama- zon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInferenceProfileAsync(AwsBedrockGetInferenceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInferenceProfileAsync(AwsBedrockGetInferenceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMarketplaceModelEndpointAsync(AwsBedrockGetMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMarketplaceModelEndpointAsync(AwsBedrockGetMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelCopyJobAsync(AwsBedrockGetModelCopyJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelCopyJobAsync(AwsBedrockGetModelCopyJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the properties associated with a model-customization job, in- cluding the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelCustomizationJobAsync(AwsBedrockGetModelCustomizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelCustomizationJobAsync(AwsBedrockGetModelCustomizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelImportJobAsync(AwsBedrockGetModelImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelImportJobAsync(AwsBedrockGetModelImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about a batch inference job. For more information, see Monitor batch inference jobs See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelInvocationJobAsync(AwsBedrockGetModelInvocationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelInvocationJobAsync(AwsBedrockGetModelInvocationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the current configuration values for model invocation logging. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelInvocationLoggingConfigurationAsync(AwsBedrockGetModelInvocationLoggingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelInvocationLoggingConfigurationAsync(AwsBedrockGetModelInvocationLoggingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a prompt router. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPromptRouterAsync(AwsBedrockGetPromptRouterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPromptRouterAsync(AwsBedrockGetPromptRouterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProvisionedModelThroughputAsync(AwsBedrockGetProvisionedModelThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProvisionedModelThroughputAsync(AwsBedrockGetProvisionedModelThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the resource policy document for a Bedrock resource See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsBedrockGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsBedrockGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get usecase for model access. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUseCaseForModelAccessAsync(AwsBedrockGetUseCaseForModelAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUseCaseForModelAccessAsync(AwsBedrockGetUseCaseForModelAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the advanced prompt optimization jobs in your account. See also: AWS API Documentation list-advanced-prompt-optimization-jobs is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: jobSummaries
@@ -678,8 +613,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAdvancedPromptOptimizationJobsAsync(AwsBedrockListAdvancedPromptOptimizationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAdvancedPromptOptimizationJobsAsync(AwsBedrockListAdvancedPromptOptimizationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies. See also: AWS API Documentation list-automated-reasoning-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ...
@@ -688,8 +622,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomatedReasoningPoliciesAsync(AwsBedrockListAutomatedReasoningPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomatedReasoningPoliciesAsync(AwsBedrockListAutomatedReasoningPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts. See also: AWS API Documentation list-automated-reasoning-policy-build-workflows is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract ...
@@ -698,8 +631,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomatedReasoningPolicyBuildWorkflowsAsync(AwsBedrockListAutomatedReasoningPolicyBuildWorkflowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomatedReasoningPolicyBuildWorkflowsAsync(AwsBedrockListAutomatedReasoningPolicyBuildWorkflowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tests for an Automated Reasoning policy. We recommend using pagi- nation to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-automated-reasoning-policy-test-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must ...
@@ -708,8 +640,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomatedReasoningPolicyTestCasesAsync(AwsBedrockListAutomatedReasoningPolicyTestCasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomatedReasoningPolicyTestCasesAsync(AwsBedrockListAutomatedReasoningPolicyTestCasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks. See also: AWS API Documentation list-automated-reasoning-policy-test-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
@@ -718,8 +649,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomatedReasoningPolicyTestResultsAsync(AwsBedrockListAutomatedReasoningPolicyTestResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomatedReasoningPolicyTestResultsAsync(AwsBedrockListAutomatedReasoningPolicyTestResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists custom model deployments in your account. You can filter the re- sults by creation time, name, status, and associated model. Use this operation to manage and monitor your custom model deployments. We recommend using pagination to ensure that the operation returns quickly and successfully. The following actions are related to the ListCustomModelDeployments op- eration: o CreateCustomModelDeployment o GetCustomModelDeployment o DeleteCustomModelDeployment See also: AWS API Documentation list...
@@ -728,8 +658,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCustomModelDeploymentsAsync(AwsBedrockListCustomModelDeploymentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCustomModelDeploymentsAsync(AwsBedrockListCustomModelDeploymentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the custom models that you have created with the Cre- ateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-custom-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query...
@@ -738,8 +667,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCustomModelsAsync(AwsBedrockListCustomModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCustomModelsAsync(AwsBedrockListCustomModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the account-level enforced guardrail configurations. See also: AWS API Documentation list-enforced-guardrails-configuration is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: guardrailsConfig
@@ -748,8 +676,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEnforcedGuardrailsConfigurationAsync(AwsBedrockListEnforcedGuardrailsConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEnforcedGuardrailsConfigurationAsync(AwsBedrockListEnforcedGuardrailsConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all existing evaluation jobs. See also: AWS API Documentation list-evaluation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobSummaries
@@ -758,8 +685,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEvaluationJobsAsync(AwsBedrockListEvaluationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEvaluationJobsAsync(AwsBedrockListEvaluationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the offers associated with the specified model. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFoundationModelAgreementOffersAsync(AwsBedrockListFoundationModelAgreementOffersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFoundationModelAgreementOffersAsync(AwsBedrockListFoundationModelAgreementOffersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see Foundation models in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFoundationModelsAsync(AwsBedrockListFoundationModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFoundationModelsAsync(AwsBedrockListFoundationModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists details about all the guardrails in an account. To list the DRAFT version of all your guardrails, don't specify the guardrailIdentifier field. To list all versions of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field. You can set the maximum number of results to return in a response in the maxResults field. If there are more results than the number you set, the response returns a nextToken that you can send in another ListGuardrails request to see the next batc...
@@ -788,8 +712,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGuardrailsAsync(AwsBedrockListGuardrailsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGuardrailsAsync(AwsBedrockListGuardrailsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation list-imported-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
@@ -798,8 +721,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListImportedModelsAsync(AwsBedrockListImportedModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListImportedModelsAsync(AwsBedrockListImportedModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of inference profiles that you can use. For more infor- mation, see Increase throughput and resilience with cross-region infer- ence in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation list-inference-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginat...
@@ -808,8 +730,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInferenceProfilesAsync(AwsBedrockListInferenceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInferenceProfilesAsync(AwsBedrockListInferenceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account. See also: AWS API Documentation list-marketplace-model-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
@@ -818,8 +739,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMarketplaceModelEndpointsAsync(AwsBedrockListMarketplaceModelEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMarketplaceModelEndpointsAsync(AwsBedrockListMarketplaceModelEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of model copy jobs that you have submitted. You can fil- ter the jobs to return based on one or more criteria. For more informa- tion, see Copy models to be used in other regions in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-copy-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
@@ -828,8 +748,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelCopyJobsAsync(AwsBedrockListModelCopyJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelCopyJobsAsync(AwsBedrockListModelCopyJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-customization-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argum...
@@ -838,8 +757,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelCustomizationJobsAsync(AwsBedrockListModelCustomizationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelCustomizationJobsAsync(AwsBedrockListModelCustomizationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of import jobs you've submitted. You can filter the re- sults to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagin...
@@ -848,8 +766,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelImportJobsAsync(AwsBedrockListModelImportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelImportJobsAsync(AwsBedrockListModelImportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all batch inference jobs in the account. For more information, see View details about a batch inference job . See also: AWS API Documentation list-model-invocation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow-...
@@ -858,8 +775,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelInvocationJobsAsync(AwsBedrockListModelInvocationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelInvocationJobsAsync(AwsBedrockListModelInvocationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of prompt routers. See also: AWS API Documentation list-prompt-routers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: promptRouterSummaries
@@ -868,8 +784,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPromptRoutersAsync(AwsBedrockListPromptRoutersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPromptRoutersAsync(AwsBedrockListPromptRoutersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation list-provisioned-model-throughputs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
@@ -878,8 +793,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProvisionedModelThroughputsAsync(AwsBedrockListProvisionedModelThroughputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProvisionedModelThroughputsAsync(AwsBedrockListProvisionedModelThroughputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the tags associated with the specified resource. For more information, see Tagging resources in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -888,8 +802,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsBedrockListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsBedrockListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the account-wide data retention mode for Amazon Bedrock. See also: AWS API Documentation
@@ -898,8 +811,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountDataRetentionAsync(AwsBedrockPutAccountDataRetentionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountDataRetentionAsync(AwsBedrockPutAccountDataRetentionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the account-level enforced guardrail configuration. See also: AWS API Documentation
@@ -908,8 +820,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEnforcedGuardrailConfigurationAsync(AwsBedrockPutEnforcedGuardrailConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEnforcedGuardrailConfigurationAsync(AwsBedrockPutEnforcedGuardrailConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set the configuration values for model invocation logging. See also: AWS API Documentation
@@ -918,8 +829,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutModelInvocationLoggingConfigurationAsync(AwsBedrockPutModelInvocationLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutModelInvocationLoggingConfigurationAsync(AwsBedrockPutModelInvocationLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a resource policy for a Bedrock resource. See also: AWS API Documentation
@@ -928,8 +838,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsBedrockPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsBedrockPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Put usecase for model access. See also: AWS API Documentation
@@ -938,8 +847,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutUseCaseForModelAccessAsync(AwsBedrockPutUseCaseForModelAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutUseCaseForModelAccessAsync(AwsBedrockPutUseCaseForModelAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs. See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterMarketplaceModelEndpointAsync(AwsBedrockRegisterMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterMarketplaceModelEndpointAsync(AwsBedrockRegisterMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating pol- icy rules, variables, and types. See also: AWS API Documentation
@@ -958,8 +865,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAutomatedReasoningPolicyBuildWorkflowAsync(AwsBedrockStartAutomatedReasoningPolicyBuildWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAutomatedReasoningPolicyBuildWorkflowAsync(AwsBedrockStartAutomatedReasoningPolicyBuildWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and gener- ates validation results. See also: AWS API Documentation
@@ -968,8 +874,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAutomatedReasoningPolicyTestWorkflowAsync(AwsBedrockStartAutomatedReasoningPolicyTestWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAutomatedReasoningPolicyTestWorkflowAsync(AwsBedrockStartAutomatedReasoningPolicyTestWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an advanced prompt optimization job that is in progress. See also: AWS API Documentation
@@ -978,8 +883,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAdvancedPromptOptimizationJobAsync(AwsBedrockStopAdvancedPromptOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAdvancedPromptOptimizationJobAsync(AwsBedrockStopAdvancedPromptOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an evaluation job that is current being created or running. See also: AWS API Documentation
@@ -988,8 +892,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEvaluationJobAsync(AwsBedrockStopEvaluationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopEvaluationJobAsync(AwsBedrockStopEvaluationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -998,8 +901,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopModelCustomizationJobAsync(AwsBedrockStopModelCustomizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopModelCustomizationJobAsync(AwsBedrockStopModelCustomizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job . See also: AWS API Documentation
@@ -1008,8 +910,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopModelInvocationJobAsync(AwsBedrockStopModelInvocationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopModelInvocationJobAsync(AwsBedrockStopModelInvocationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate tags with a resource. For more information, see Tagging re- sources in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -1018,8 +919,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsBedrockTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsBedrockTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -1028,8 +928,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsBedrockUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsBedrockUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the annotations for an Automated Reasoning policy build work- flow. This allows you to modify extracted rules, variables, and types before finalizing the policy. See also: AWS API Documentation
@@ -1038,8 +937,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutomatedReasoningPolicyAnnotationsAsync(AwsBedrockUpdateAutomatedReasoningPolicyAnnotationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutomatedReasoningPolicyAnnotationsAsync(AwsBedrockUpdateAutomatedReasoningPolicyAnnotationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Automated Reasoning policy with new rules, vari- ables, or configuration. This creates a new version of the policy while preserving the previous version. See also: AWS API Documentation
@@ -1048,8 +946,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutomatedReasoningPolicyAsync(AwsBedrockUpdateAutomatedReasoningPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutomatedReasoningPolicyAsync(AwsBedrockUpdateAutomatedReasoningPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold. See also: AWS API Documentation
@@ -1058,8 +955,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutomatedReasoningPolicyTestCaseAsync(AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutomatedReasoningPolicyTestCaseAsync(AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints. See also: AWS API Documentation
@@ -1068,8 +964,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCustomModelDeploymentAsync(AwsBedrockUpdateCustomModelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCustomModelDeploymentAsync(AwsBedrockUpdateCustomModelDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a guardrail with the values you specify. o Specify a name and optional description . o Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOut- putsMessaging fields. o Specify topics for the guardrail to deny in the topicPolicyConfig ob- ject. Each GuardrailTopicConfig object in the topicsConfig list per- tains to one topic. o Give a name and description so that the guardrail can properly identify the topic. o S...
@@ -1078,8 +973,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGuardrailAsync(AwsBedrockUpdateGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGuardrailAsync(AwsBedrockUpdateGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of an existing endpoint for a model from Ama- zon Bedrock Marketplace. See also: AWS API Documentation
@@ -1088,8 +982,7 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMarketplaceModelEndpointAsync(AwsBedrockUpdateMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMarketplaceModelEndpointAsync(AwsBedrockUpdateMarketplaceModelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
@@ -1098,7 +991,6 @@ public interface IAwsBedrock
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProvisionedModelThroughputAsync(AwsBedrockUpdateProvisionedModelThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProvisionedModelThroughputAsync(AwsBedrockUpdateProvisionedModelThroughputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
