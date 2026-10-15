@@ -23,6 +23,7 @@ foreach ($runFull in @('true', 'false', '', 'invalid')) {
                         & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration $generated `
                             -FastFailResult $fastResult -FullPipelineResult $fullResult `
                             -GeneratedIntegrationResult $generatedResult -CrossPlatformBuildResult $crossPlatformResult `
+                            -ArtifactStorageResult $crossPlatformResult `
                             -RunIntegrationValidation 'false' -IntegrationResult 'skipped' *> $null
                     }
                     catch {
@@ -54,6 +55,7 @@ foreach ($runFull in @('true', 'false')) {
                         -FastFailResult 'success' -FullPipelineResult $fullResult -GeneratedIntegrationResult 'skipped' `
                         -Distributed $distributed -WorkerPipelineResult $workerResult `
                         -CrossPlatformBuildResult $crossPlatformResult `
+                        -ArtifactStorageResult $fullResult `
                         -RunIntegrationValidation 'false' -IntegrationResult 'skipped' *> $null
                 }
                 catch {
@@ -84,6 +86,7 @@ foreach ($runIntegration in @('true', 'false', '', 'invalid')) {
                     -IsGeneratedIntegration $generated.ToString().ToLowerInvariant() `
                     -FastFailResult success -FullPipelineResult $(if ($full) { 'success' } else { 'skipped' }) `
                     -CrossPlatformBuildResult $(if ($full) { 'success' } else { 'skipped' }) `
+                    -ArtifactStorageResult $(if ($full) { 'success' } else { 'skipped' }) `
                     -GeneratedIntegrationResult $(if ($generated) { 'success' } else { 'skipped' }) `
                     -RunIntegrationValidation $runIntegration -IntegrationResult $integrationResult *> $null
             }
@@ -97,6 +100,23 @@ foreach ($runIntegration in @('true', 'false', '', 'invalid')) {
 }
 Write-Host "Required integration routing: $integrationCaseCount cases passed."
 
+foreach ($runFull in @('true', 'false')) {
+    foreach ($storageResult in @('success', 'failure', 'cancelled', 'skipped')) {
+        $expected = if ($runFull -eq 'true') { 'success' } else { 'skipped' }
+        $passed = $true
+        try {
+            & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration 'false' `
+                -FastFailResult success -FullPipelineResult $expected -GeneratedIntegrationResult skipped `
+                -CrossPlatformBuildResult $expected -ArtifactStorageResult $storageResult `
+                -RunIntegrationValidation false -IntegrationResult skipped *> $null
+        }
+        catch { $passed = $false }
+        if ($passed -ne ($storageResult -eq $expected)) {
+            throw "Unexpected artifact storage gate: full=$runFull storage=$storageResult."
+        }
+    }
+}
+
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
 $requiredJob = [regex]::Match(
     $workflow,
@@ -107,12 +127,13 @@ if ([string]::IsNullOrWhiteSpace($requiredJob)) {
 
 foreach ($requiredText in @(
              'name: pipeline (ubuntu-latest)',
-             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration]',
+             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage]',
              'if: always()',
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              '-Distributed ''${{ needs.fast-fail.outputs.distributed }}''',
              '-WorkerPipelineResult ''${{ needs.pipeline-workers.result }}''',
              '-CrossPlatformBuildResult ''${{ needs.cross-platform-build.result }}''',
+             '-ArtifactStorageResult ''${{ needs.artifact-storage.result }}''',
              '-RunIntegrationValidation ''${{ needs.fast-fail.outputs.run_integration_validation }}''',
              '-IntegrationResult ''${{ needs.changed-integration.result }}''',
              './scripts/Assert-RequiredPipelineContext.ps1'

@@ -13,7 +13,7 @@ namespace ModularPipelines.Build.Modules;
 
 [RequiresCapability("ci-master")]
 [RunIf<ModularPipelines.OnLinux>]
-[ProducesArtifact("build-output", "../../_build-output.tar.gz")]
+[ProducesArtifact("build-output", "../../" + BuildOutputArchive.FileName)]
 public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -42,7 +42,8 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                 .ProcessOneAtATime();
         }
 
-        if (!context.Services.GetRequiredService<BuildOutputSharing>().IsEnabled)
+        var sharing = context.Services.GetRequiredService<BuildOutputSharing>();
+        if (!sharing.IsEnabled)
         {
             return results;
         }
@@ -51,6 +52,7 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
             .OfType<RunUnitTestModule>()
             .Select(module => module.BuildOutputProjectFileName);
         await BuildOutputArchive.CreateAsync(gitRoot, testProjects, cancellationToken).ConfigureAwait(false);
+        await sharing.PublishAsync(gitRoot, cancellationToken).ConfigureAwait(false);
         return results;
     }
 }

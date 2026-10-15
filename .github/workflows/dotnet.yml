@@ -110,6 +110,9 @@ jobs:
           ./scripts/Test-FullPipelineValidation.ps1
           ./scripts/Test-ChangedIntegrationValidation.ps1
           ./scripts/Test-RequiredPipelineContext.ps1
+      - name: Test CI build-output transport
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        run: node --test .github/actions/run-pipeline/*.test.mjs
       - name: Test generated options provenance
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
@@ -492,6 +495,27 @@ jobs:
           path: ${{ runner.temp }}/pipeline-host
           retention-days: 1
 
+  artifact-storage:
+    name: concurrent CI artifact storage
+    needs: fast-fail
+    if: needs.fast-fail.outputs.run_full_pipeline == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: .github/actions/run-pipeline
+      - uses: ./.github/actions/run-pipeline
+        env:
+          MODULARPIPELINES_ARTIFACT_CHECK: 'true'
+
   pipeline:
     name: full pipeline (${{ matrix.os }}, instance ${{ matrix.instance }})
     needs: [fast-fail, pipeline-host]
@@ -613,24 +637,20 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
 
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        if: needs.fast-fail.outputs.distributed == 'true'
+        with:
+          node-version: 24
+      - name: Install CI artifact client
+        if: needs.fast-fail.outputs.distributed == 'true'
+        working-directory: .github/actions/run-pipeline
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Run Pipeline
-        shell: bash
-        run: |
-          # version-tag.yml exclusively owns tags for main pushes. With no standard token,
-          # SkipIfNoStandardGitHubToken prevents this pipeline from creating a second tag.
-          if [[ "${{ github.event_name }}" == "push" ]]; then
-            unset GitHub__StandardToken
-          fi
-
-          # Let the compiler use its default server GC on macOS; forcing workstation GC
-          # greatly slows the large generated integrations on ARM runners.
-          if [[ "$RUNNER_OS" == "macOS" ]]; then
-            unset DOTNET_gcServer COMPlus_gcServer
-          fi
-
-          dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll"
-        working-directory: "src/ModularPipelines.Build"
+        # A JavaScript action supplies job-scoped runtime credentials to its children.
+        # Build outputs use durable GitHub artifacts; Redis carries coordination only.
+        uses: ./.github/actions/run-pipeline
         env:
+          MODULARPIPELINES_GITHUB_ARTIFACTS: ${{ needs.fast-fail.outputs.distributed == 'true' }}
           Pipeline__BuildAlreadyCompleted: ${{ needs.fast-fail.outputs.distributed != 'true' }}
           MODULAR_PIPELINES_DIRECTORY: ${{ github.workspace }}/src/ModularPipelines.Build
           GITHUB_TOKEN: ${{ github.token }}
@@ -895,7 +915,7 @@ jobs:
   required-pipeline:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
     name: pipeline (ubuntu-latest)
-    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration]
+    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -918,6 +938,7 @@ jobs:
             -Distributed '${{ needs.fast-fail.outputs.distributed }}' `
             -WorkerPipelineResult '${{ needs.pipeline-workers.result }}' `
             -CrossPlatformBuildResult '${{ needs.cross-platform-build.result }}' `
+            -ArtifactStorageResult '${{ needs.artifact-storage.result }}' `
             -GeneratedIntegrationResult '${{ needs.generated-integration.result }}' `
             -RunIntegrationValidation '${{ needs.fast-fail.outputs.run_integration_validation }}' `
             -IntegrationResult '${{ needs.changed-integration.result }}'

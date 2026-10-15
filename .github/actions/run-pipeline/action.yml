@@ -1,0 +1,5 @@
+name: Run pipeline
+description: Run the pipeline with the job-scoped GitHub Actions artifact credentials.
+runs:
+  using: node24
+  main: run-pipeline.mjs

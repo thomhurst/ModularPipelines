@@ -35,7 +35,10 @@ param(
     [string]$WorkerPipelineResult = 'skipped',
 
     [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
-    [string]$CrossPlatformBuildResult = 'skipped'
+    [string]$CrossPlatformBuildResult = 'skipped',
+
+    [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
+    [string]$ArtifactStorageResult = 'skipped'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -50,6 +53,11 @@ if ($IsGeneratedIntegration -notin @('true', 'false')) {
 
 if ($RunFullPipeline -notin @('true', 'false')) {
     throw "Full pipeline routing value was '$RunFullPipeline'; required context cannot pass."
+}
+
+$expectedArtifactStorageResult = if ($RunFullPipeline -eq 'true') { 'success' } else { 'skipped' }
+if ($ArtifactStorageResult -ne $expectedArtifactStorageResult) {
+    throw "Artifact storage result was '$ArtifactStorageResult'; expected '$expectedArtifactStorageResult'."
 }
 
 if ($RunIntegrationValidation -notin @('true', 'false')) {
