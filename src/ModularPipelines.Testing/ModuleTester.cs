@@ -59,7 +59,7 @@ public class ModuleTestBuilder<TModule>
     private readonly List<Action<PipelineBuilder>> _registrations = [];
     private readonly List<IDependencySeed> _dependencySeeds = [];
     private readonly Dictionary<(Type ProducerModule, string ArtifactName), byte[]> _artifactSeeds = [];
-    private readonly Dictionary<string, byte[]> _fileSeeds = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, byte[]> _fileSeeds = [with(StringComparer.Ordinal)];
     private Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>>? _commandHandler;
 
     /// <summary>Configures the pipeline after harness defaults and before building it.</summary>
@@ -90,7 +90,7 @@ public class ModuleTestBuilder<TModule>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
         ArgumentNullException.ThrowIfNull(contents);
-        _fileSeeds[path] = contents.ToArray();
+        _fileSeeds[path] = [.. contents];
         return this;
     }
 
@@ -110,6 +110,7 @@ public class ModuleTestBuilder<TModule>
     /// <summary>
     /// Seeds a successful dependency result without executing the dependency.
     /// </summary>
+    /// <remarks>Dependency modules and their transitive dependencies are still constructed. Register their services with <c>WithService</c>.</remarks>
     /// <typeparam name="TDependency">The dependency module.</typeparam>
     /// <typeparam name="TResult">The dependency value type.</typeparam>
     /// <param name="value">The dependency value.</param>
@@ -124,6 +125,7 @@ public class ModuleTestBuilder<TModule>
     }
 
     /// <summary>Seeds a failed dependency without executing it.</summary>
+    /// <remarks>Dependency modules and their transitive dependencies are still constructed. Register their services with <c>WithService</c>.</remarks>
     /// <typeparam name="TDependency">The dependency module.</typeparam>
     /// <typeparam name="TResult">The dependency value type.</typeparam>
     /// <param name="exception">The dependency failure.</param>
@@ -139,6 +141,7 @@ public class ModuleTestBuilder<TModule>
     }
 
     /// <summary>Seeds a skipped dependency without executing it.</summary>
+    /// <remarks>Dependency modules and their transitive dependencies are still constructed. Register their services with <c>WithService</c>.</remarks>
     /// <typeparam name="TDependency">The dependency module.</typeparam>
     /// <typeparam name="TResult">The dependency value type.</typeparam>
     /// <param name="reason">The reason the dependency was skipped.</param>
@@ -183,7 +186,7 @@ public class ModuleTestBuilder<TModule>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(artifactName);
         ArgumentNullException.ThrowIfNull(contents);
-        _artifactSeeds[(typeof(TProducer), artifactName)] = contents.ToArray();
+        _artifactSeeds[(typeof(TProducer), artifactName)] = [.. contents];
         return this;
     }
 
@@ -263,7 +266,21 @@ public class ModuleTestBuilder<TModule>
             registration(builder);
         }
 
-        var pipeline = await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
+        IPipeline pipeline;
+        try
+        {
+            pipeline = await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
+        }
+        catch (InvalidOperationException exception) when (_dependencySeeds.Count > 0
+            && exception.Message.StartsWith("Unable to resolve service for type '", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Cannot construct the test pipeline for {typeof(TModule).Name}. "
+                + "Seeding dependency results skips execution, but dependency modules and their transitive dependencies "
+                + "must still be constructed. Register the missing service with WithService<TService>(service). "
+                + exception.Message,
+                exception);
+        }
         await using var pipelineLifetime = pipeline.ConfigureAwait(false);
 
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
@@ -354,7 +371,7 @@ public class ModuleTestBuilder<TModule>
                 fileSystem.CreateDirectory(directory);
             }
 
-            await fileSystem.WriteAllBytesAsync(absolutePath, contents.ToArray(), cancellationToken)
+            await fileSystem.WriteAllBytesAsync(absolutePath, [.. contents], cancellationToken)
                 .ConfigureAwait(false);
         }
     }
