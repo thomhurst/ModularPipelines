@@ -8,6 +8,8 @@ namespace ModularPipelines.Engine;
 /// </summary>
 internal interface IPipelineSetupExecutor
 {
+    bool PipelineStartInvoked { get; }
+
     Task OnPipelineStartAsync(CancellationToken cancellationToken);
 
     Task OnPipelineEndAsync(PipelineSummary pipelineSummary, CancellationToken cancellationToken);

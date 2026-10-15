@@ -42,6 +42,8 @@ internal class ExecutionOrchestrator(
     IOptions<PipelineOptions> options,
     ILogger<ExecutionOrchestrator> logger,
     IRunReportService runReportService,
+    IPipelineSetupExecutor pipelineSetupExecutor,
+    ISecondaryExceptionContainer secondaryExceptionContainer,
     DistributedRunCleanupExecutor? runCleanupExecutor = null,
     IExecutionBackend? executionBackend = null) : IExecutionOrchestrator
 {
@@ -57,6 +59,8 @@ internal class ExecutionOrchestrator(
     private readonly IOptions<PipelineOptions> _options = options;
     private readonly ILogger<ExecutionOrchestrator> _logger = logger;
     private readonly IRunReportService _runReportService = runReportService;
+    private readonly IPipelineSetupExecutor _pipelineSetupExecutor = pipelineSetupExecutor;
+    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer = secondaryExceptionContainer;
     private readonly DistributedRunCleanupExecutor? _runCleanupExecutor = runCleanupExecutor;
     private readonly IExecutionBackend? _executionBackend = executionBackend;
 
@@ -162,6 +166,24 @@ internal class ExecutionOrchestrator(
             caughtException = ex;
         }
 
+        if (_pipelineSetupExecutor.PipelineStartInvoked)
+        {
+            summary ??= _pipelineSummaryFactory.Create(allModules, stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
+            if (caughtException is not null)
+            {
+                summary = summary with { StatusOverride = ModuleStatus.Failed };
+            }
+
+            try
+            {
+                await InvokePipelineEndHandlersAsync(summary, caughtException is not null).ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                caughtException = exception;
+            }
+        }
+
         // Step 2: Always print summary (exactly once)
         // Only an acknowledged registration owns a worker status that can be finalized.
         // RunReportService bounds final publication with its independent worker metrics timeout.
@@ -187,6 +209,27 @@ internal class ExecutionOrchestrator(
         ThrowIfPipelineFailed(summary, caughtException);
 
         return summary;
+    }
+
+    /// <summary>
+    /// Runs end handlers after startup or execution, without replacing an existing pipeline failure.
+    /// </summary>
+    private async Task InvokePipelineEndHandlersAsync(PipelineSummary summary, bool executionFailed)
+    {
+        var cancellationToken = _engineCancellationToken.NonFailureCancellationToken;
+        try
+        {
+            await _pipelineSetupExecutor.OnPipelineEndAsync(summary, cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            _logger.LogDebug("Pipeline end handlers were canceled");
+        }
+        catch (Exception exception) when (executionFailed)
+        {
+            // The handler invoker has already logged the individual handler failures.
+            _secondaryExceptionContainer.RegisterException(exception);
+        }
     }
 
     private void ThrowIfPipelineFailed(PipelineSummary summary, Exception? caughtException)

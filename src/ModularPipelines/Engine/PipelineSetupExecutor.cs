@@ -32,14 +32,22 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         _attributeEventService = attributeEventService;
     }
 
+    public bool PipelineStartInvoked { get; private set; }
+
     public Task OnPipelineStartAsync(CancellationToken cancellationToken)
     {
-        return _pipelineEventHandlers.Count == 0
-            ? Task.CompletedTask
-            : _eventHandlerInvoker.InvokePipelineStartHandlersAsync(
-                _pipelineEventHandlers,
-                GetPipelineContext(),
-                cancellationToken);
+        if (_pipelineEventHandlers.Count == 0)
+        {
+            return Task.CompletedTask;
+        }
+
+        var context = GetPipelineContext();
+        // Start handlers can acquire resources before throwing, so record invocation before awaiting them.
+        PipelineStartInvoked = true;
+        return _eventHandlerInvoker.InvokePipelineStartHandlersAsync(
+            _pipelineEventHandlers,
+            context,
+            cancellationToken);
     }
 
     public Task OnPipelineEndAsync(PipelineSummary pipelineSummary, CancellationToken cancellationToken)
