@@ -132,6 +132,8 @@
 - [mvn CLI reference](/docs/mp-packages/cli/mvn.md): ModularPipelines.Java provides strongly typed access to the mvn CLI.
 - [nbgv CLI reference](/docs/mp-packages/cli/nbgv.md): ModularPipelines.NerdbankGitVersioning provides strongly typed access to the nbgv CLI.
 - [newman CLI reference](/docs/mp-packages/cli/newman.md): ModularPipelines.Newman provides strongly typed access to the newman CLI.
+- [npm CLI reference](/docs/mp-packages/cli/npm.md): ModularPipelines.Node provides strongly typed access to the npm CLI.
+- [npx CLI reference](/docs/mp-packages/cli/npx.md): ModularPipelines.Node provides strongly typed access to the npx CLI.
 - [packer CLI reference](/docs/mp-packages/cli/packer.md): ModularPipelines.Packer provides strongly typed access to the packer CLI.
 - [pip CLI reference](/docs/mp-packages/cli/pip.md): ModularPipelines.Python provides strongly typed access to the pip CLI.
 - [pnpm CLI reference](/docs/mp-packages/cli/pnpm.md): ModularPipelines.Node provides strongly typed access to the pnpm CLI.

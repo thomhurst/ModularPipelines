@@ -1,0 +1,199 @@
+# npm CLI reference
+
+`ModularPipelines.Node` provides strongly typed access to the `npm` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `npm` executable. Install it separately and ensure `npm` is available on `PATH`.
+
+See the [npm installation guide](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+
+Install npm with a supported Node.js distribution.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Node
+```
+
+Resolve the service with `context.Tools.Npm`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Node.Services.INpm>()` instead.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+```
+using ModularPipelines;
+
+using ModularPipelines.Node.Options;
+
+
+
+public class RunCommandModule : Module<CommandResult>
+
+{
+
+    protected override async Task<CommandResult> ExecuteAsync(
+
+        IModuleContext context,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        return await context.Tools.Npm.Audit.ExecuteAsync(
+
+            new NpmAuditOptions()
+
+            {
+
+                AuditLevel = "high",
+
+            },
+
+            cancellationToken: cancellationToken);
+
+    }
+
+}
+```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered after the selected subcommand.
+
+| CLI option                                                                                           | Property               | Availability | Description                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------- | ------------ | ------------------------------------------------------------------------------------ |
+| [`--ca`](https://docs.npmjs.com/cli/v11/using-npm/config#ca)                                         | `Ca`                   | All editions | Trusted certificate authority certificates in PEM format.                            |
+| [`--cache`](https://docs.npmjs.com/cli/v11/using-npm/config#cache)                                   | `Cache`                | All editions | Directory used for npm's cache.                                                      |
+| [`--cafile`](https://docs.npmjs.com/cli/v11/using-npm/config#cafile)                                 | `Cafile`               | All editions | File containing trusted certificate authority certificates.                          |
+| [`--color`](https://docs.npmjs.com/cli/v11/using-npm/config#color)                                   | `Color`                | All editions | Color output policy: true, false or always.                                          |
+| [`--fetch-retries`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-retries)                   | `FetchRetries`         | All editions | Number of retries for registry reads.                                                |
+| [`--fetch-retry-factor`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-retry-factor)         | `FetchRetryFactor`     | All editions | Exponential factor used for retry delays.                                            |
+| [`--fetch-retry-maxtimeout`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-retry-maxtimeout) | `FetchRetryMaxtimeout` | All editions | Maximum retry delay in milliseconds.                                                 |
+| [`--fetch-retry-mintimeout`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-retry-mintimeout) | `FetchRetryMintimeout` | All editions | Minimum retry delay in milliseconds.                                                 |
+| [`--fetch-timeout`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-timeout)                   | `FetchTimeout`         | All editions | Maximum request duration in milliseconds.                                            |
+| [`--globalconfig`](https://docs.npmjs.com/cli/v11/using-npm/config#globalconfig)                     | `Globalconfig`         | All editions | Read global configuration from this file.                                            |
+| [`--heading`](https://docs.npmjs.com/cli/v11/using-npm/config#heading)                               | `Heading`              | All editions | Prefix used for debugging log output.                                                |
+| [`--https-proxy`](https://docs.npmjs.com/cli/v11/using-npm/config#https-proxy)                       | `HttpsProxy`           | All editions | Proxy URL for HTTPS requests; may contain credentials.                               |
+| [`--loglevel`](https://docs.npmjs.com/cli/v11/using-npm/config#loglevel)                             | `Loglevel`             | All editions | Log verbosity: silent, error, warn, notice, http, info, verbose or silly.            |
+| [`--logs-dir`](https://docs.npmjs.com/cli/v11/using-npm/config#logs-dir)                             | `LogsDir`              | All editions | Directory used for npm's log files.                                                  |
+| [`--logs-max`](https://docs.npmjs.com/cli/v11/using-npm/config#logs-max)                             | `LogsMax`              | All editions | Maximum number of log files to retain; zero disables log files.                      |
+| [`--noproxy`](https://docs.npmjs.com/cli/v11/using-npm/config#noproxy)                               | `Noproxy`              | All editions | Hosts that bypass the proxy.                                                         |
+| [`--offline`](https://docs.npmjs.com/cli/v11/using-npm/config#offline)                               | `Offline`              | All editions | Use the cache without network requests.                                              |
+| [`--prefer-offline`](https://docs.npmjs.com/cli/v11/using-npm/config#prefer-offline)                 | `PreferOffline`        | All editions | Skip cache staleness checks but fetch missing data.                                  |
+| [`--prefer-online`](https://docs.npmjs.com/cli/v11/using-npm/config#prefer-online)                   | `PreferOnline`         | All editions | Check cached data for freshness immediately.                                         |
+| [`--prefix`](https://docs.npmjs.com/cli/v11/using-npm/config#prefix)                                 | `Prefix`               | All editions | Run non-global commands in this directory; also sets the global installation prefix. |
+| [`--progress`](https://docs.npmjs.com/cli/v11/using-npm/config#progress)                             | `Progress`             | All editions | Display progress during time-intensive operations.                                   |
+| [`--proxy`](https://docs.npmjs.com/cli/v11/using-npm/config#proxy)                                   | `Proxy`                | All editions | Proxy URL for HTTP requests; may contain credentials.                                |
+| [`--registry`](https://docs.npmjs.com/cli/v11/using-npm/config#registry)                             | `Registry`             | All editions | Base URL of the package registry.                                                    |
+| [`--strict-ssl`](https://docs.npmjs.com/cli/v11/using-npm/config#strict-ssl)                         | `StrictSsl`            | All editions | Validate TLS certificates for registry requests.                                     |
+| [`--timing`](https://docs.npmjs.com/cli/v11/using-npm/config#timing)                                 | `Timing`               | All editions | Write timing information for this invocation.                                        |
+| [`--unicode`](https://docs.npmjs.com/cli/v11/using-npm/config#unicode)                               | `Unicode`              | All editions | Use Unicode characters instead of ASCII in output.                                   |
+| [`--userconfig`](https://docs.npmjs.com/cli/v11/using-npm/config#userconfig)                         | `Userconfig`           | All editions | Read user configuration from this file.                                              |
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command                     | Options record                      |
+| ------------------------------- | ----------------------------------- |
+| `npm access get status`         | `NpmAccessGetStatusOptions`         |
+| `npm access grant`              | `NpmAccessGrantOptions`             |
+| `npm access list collaborators` | `NpmAccessListCollaboratorsOptions` |
+| `npm access list packages`      | `NpmAccessListPackagesOptions`      |
+| `npm access revoke`             | `NpmAccessRevokeOptions`            |
+| `npm access set`                | `NpmAccessSetOptions`               |
+| `npm adduser`                   | `NpmAdduserOptions`                 |
+| `npm audit`                     | `NpmAuditOptions`                   |
+| `npm audit fix`                 | `NpmAuditFixOptions`                |
+| `npm audit signatures`          | `NpmAuditSignaturesOptions`         |
+| `npm bugs`                      | `NpmBugsOptions`                    |
+| `npm cache add`                 | `NpmCacheAddOptions`                |
+| `npm cache clean`               | `NpmCacheCleanOptions`              |
+| `npm cache ls`                  | `NpmCacheLsOptions`                 |
+| `npm cache npx info`            | `NpmCacheNpxInfoOptions`            |
+| `npm cache npx ls`              | `NpmCacheNpxLsOptions`              |
+| `npm cache npx rm`              | `NpmCacheNpxRmOptions`              |
+| `npm cache verify`              | `NpmCacheVerifyOptions`             |
+| `npm ci`                        | `NpmCiOptions`                      |
+| `npm completion`                | `NpmCompletionOptions`              |
+| `npm config delete`             | `NpmConfigDeleteOptions`            |
+| `npm config edit`               | `NpmConfigEditOptions`              |
+| `npm config fix`                | `NpmConfigFixOptions`               |
+| `npm config get`                | `NpmConfigGetOptions`               |
+| `npm config list`               | `NpmConfigListOptions`              |
+| `npm config set`                | `NpmConfigSetOptions`               |
+| `npm dedupe`                    | `NpmDedupeOptions`                  |
+| `npm deprecate`                 | `NpmDeprecateOptions`               |
+| `npm diff`                      | `NpmDiffOptions`                    |
+| `npm dist-tag add`              | `NpmDistTagAddOptions`              |
+| `npm dist-tag ls`               | `NpmDistTagLsOptions`               |
+| `npm dist-tag rm`               | `NpmDistTagRmOptions`               |
+| `npm docs`                      | `NpmDocsOptions`                    |
+| `npm doctor`                    | `NpmDoctorOptions`                  |
+| `npm edit`                      | `NpmEditOptions`                    |
+| `npm exec`                      | `NpmExecOptions`                    |
+| `npm explain`                   | `NpmExplainOptions`                 |
+| `npm explore`                   | `NpmExploreOptions`                 |
+| `npm find-dupes`                | `NpmFindDupesOptions`               |
+| `npm fund`                      | `NpmFundOptions`                    |
+| `npm get`                       | `NpmGetOptions`                     |
+| `npm help`                      | `NpmHelpOptions`                    |
+| `npm help-search`               | `NpmHelpSearchOptions`              |
+| `npm init`                      | `NpmInitOptions`                    |
+| `npm install`                   | `NpmInstallOptions`                 |
+| `npm install-ci-test`           | `NpmInstallCiTestOptions`           |
+| `npm install-test`              | `NpmInstallTestOptions`             |
+| `npm link`                      | `NpmLinkOptions`                    |
+| `npm login`                     | `NpmLoginOptions`                   |
+| `npm logout`                    | `NpmLogoutOptions`                  |
+| `npm ls`                        | `NpmLsOptions`                      |
+| `npm org ls`                    | `NpmOrgLsOptions`                   |
+| `npm org rm`                    | `NpmOrgRmOptions`                   |
+| `npm org set`                   | `NpmOrgSetOptions`                  |
+| `npm outdated`                  | `NpmOutdatedOptions`                |
+| `npm owner add`                 | `NpmOwnerAddOptions`                |
+| `npm owner ls`                  | `NpmOwnerLsOptions`                 |
+| `npm owner rm`                  | `NpmOwnerRmOptions`                 |
+| `npm pack`                      | `NpmPackOptions`                    |
+| `npm ping`                      | `NpmPingOptions`                    |
+| `npm pkg delete`                | `NpmPkgDeleteOptions`               |
+| `npm pkg fix`                   | `NpmPkgFixOptions`                  |
+| `npm pkg get`                   | `NpmPkgGetOptions`                  |
+| `npm pkg set`                   | `NpmPkgSetOptions`                  |
+| `npm prefix`                    | `NpmPrefixOptions`                  |
+| `npm profile disable-2fa`       | `NpmProfileDisableNumber2faOptions` |
+| `npm profile enable-2fa`        | `NpmProfileEnableNumber2faOptions`  |
+| `npm profile get`               | `NpmProfileGetOptions`              |
+| `npm profile set`               | `NpmProfileSetOptions`              |
+| `npm prune`                     | `NpmPruneOptions`                   |
+| `npm publish`                   | `NpmPublishOptions`                 |
+| `npm query`                     | `NpmQueryOptions`                   |
+| `npm rebuild`                   | `NpmRebuildOptions`                 |
+| `npm repo`                      | `NpmRepoOptions`                    |
+| `npm restart`                   | `NpmRestartOptions`                 |
+| `npm root`                      | `NpmRootOptions`                    |
+| `npm run`                       | `NpmRunOptions`                     |
+| `npm sbom`                      | `NpmSbomOptions`                    |
+| `npm search`                    | `NpmSearchOptions`                  |
+| `npm set`                       | `NpmSetOptions`                     |
+| `npm shrinkwrap`                | `NpmShrinkwrapOptions`              |
+| `npm star`                      | `NpmStarOptions`                    |
+| `npm stars`                     | `NpmStarsOptions`                   |
+| `npm start`                     | `NpmStartOptions`                   |
+| `npm stop`                      | `NpmStopOptions`                    |
+| `npm team add`                  | `NpmTeamAddOptions`                 |
+| `npm team create`               | `NpmTeamCreateOptions`              |
+| `npm team destroy`              | `NpmTeamDestroyOptions`             |
+| `npm team ls`                   | `NpmTeamLsOptions`                  |
+| `npm team rm`                   | `NpmTeamRmOptions`                  |
+| `npm test`                      | `NpmTestOptions`                    |
+| `npm token create`              | `NpmTokenCreateOptions`             |
+| `npm token list`                | `NpmTokenListOptions`               |
+| `npm token revoke`              | `NpmTokenRevokeOptions`             |
+| `npm trust`                     | `NpmTrustOptions`                   |
+| `npm undeprecate`               | `NpmUndeprecateOptions`             |
+| `npm uninstall`                 | `NpmUninstallOptions`               |
+| `npm unpublish`                 | `NpmUnpublishOptions`               |
+| `npm unstar`                    | `NpmUnstarOptions`                  |
+| `npm update`                    | `NpmUpdateOptions`                  |
+| `npm version`                   | `NpmVersionOptions`                 |
+| `npm view`                      | `NpmViewOptions`                    |
+| `npm whoami`                    | `NpmWhoamiOptions`                  |

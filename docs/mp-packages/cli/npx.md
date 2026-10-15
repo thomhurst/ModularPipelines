@@ -1,0 +1,33 @@
+# npx CLI reference
+
+`ModularPipelines.Node` provides strongly typed access to the `npx` CLI.
+
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `npx` executable. Install it separately and ensure `npx` is available on `PATH`.
+
+See the [npx installation guide](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+
+Install npx with a supported Node.js distribution.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
+
+```
+dotnet add package ModularPipelines.Node
+```
+
+Resolve the service with `context.Tools.Npx`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Node.Services.INpx>()` instead.
+
+## Module example[​](#module-example "Direct link to Module example")
+
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
+```
+var npx = context.Tools.Npx;
+```
+
+## Commands[​](#commands "Direct link to Commands")
+
+| CLI command | Options record      |
+| ----------- | ------------------- |
+| `npx`       | `NpxExecuteOptions` |
