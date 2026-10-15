@@ -266,6 +266,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IIgnoredModuleResultRegistrar, IgnoredModuleResultRegistrar>()
             .AddSingleton<IPipelineSummaryFactory, PipelineSummaryFactory>()
             .AddSingleton<ICommandExecutionCounter, CommandExecutionCounter>()
+            .AddSingleton<WindowsJobLifetime>()
             .AddSingleton<PipelineRunReportFactory>()
             .AddSingleton<IRunReportService, RunReportService>()
             .AddSingleton<ModuleExecutor>()

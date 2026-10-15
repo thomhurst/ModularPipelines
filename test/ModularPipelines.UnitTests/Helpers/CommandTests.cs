@@ -984,6 +984,74 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    public async Task ExecuteCommandLineToolAsync_HostDeath_KillsCommand()
+    {
+        if (!OperatingSystem.IsWindows() && !OperatingSystem.IsLinux())
+        {
+            return;
+        }
+
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "pipeline-host", TimeSpan.Zero);
+        var host = await fixture.WaitForProcessAsync("host", TimeSpan.FromSeconds(15));
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(15));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(15));
+
+        // Kill only the pipeline host: no cancellation callbacks or managed disposal can run.
+        host.Kill();
+        await host.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(await WaitForExitAsync(parent, TimeSpan.FromSeconds(5))).IsTrue();
+        if (OperatingSystem.IsWindows())
+        {
+            await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(5))).IsTrue();
+        }
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    public async Task ExecuteCommandLineToolAsync_BackgroundChild_LivesUntilPipelineDisposal()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "pipeline-background-host", TimeSpan.Zero);
+        var host = await fixture.WaitForProcessAsync("host", TimeSpan.FromSeconds(15));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(15));
+        await fixture.WaitForReadyAsync("command-completed", TimeSpan.FromSeconds(15));
+        await Assert.That(child.HasExited).IsFalse();
+        await fixture.TriggerAsync("dispose-pipeline");
+        await fixture.WaitForReadyAsync("pipeline-disposed", TimeSpan.FromSeconds(5));
+        await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(5))).IsTrue();
+        await Assert.That(host.HasExited).IsFalse();
+        await fixture.TriggerAsync("host-exit");
+        await fixture.Execution.WaitAsync(TimeSpan.FromSeconds(5));
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    public async Task ExecuteCommandLineToolAsync_BackgroundChild_DiesWithHostAfterCommandCompletes()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "pipeline-background-host", TimeSpan.Zero);
+        var host = await fixture.WaitForProcessAsync("host", TimeSpan.FromSeconds(15));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(15));
+        await fixture.WaitForReadyAsync("command-completed", TimeSpan.FromSeconds(15));
+        await Assert.That(child.HasExited).IsFalse();
+        host.Kill();
+        await host.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(5))).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantProcesses()
     {
         await using var fixture = new ProcessTreeFixture();

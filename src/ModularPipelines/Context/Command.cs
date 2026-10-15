@@ -32,7 +32,8 @@ internal sealed class Command(
     ISecretObfuscator secretObfuscator,
     ICommandExecutionCounter commandExecutionCounter,
     IOptions<PipelineOptions> pipelineOptions,
-    PipelineWorkingDirectory pipelineWorkingDirectory) : ICommandContext
+    PipelineWorkingDirectory pipelineWorkingDirectory,
+    WindowsJobLifetime windowsJobLifetime) : ICommandContext
 {
     // Win32 ERROR_FILE_NOT_FOUND and Unix ENOENT both use native error code 2.
     private const int FileNotFoundNativeErrorCode = 2;
@@ -48,6 +49,7 @@ internal sealed class Command(
         Lazy<string> InputToLog);
 
     private readonly ICommandLogger _commandLogger = commandLogger;
+    private readonly WindowsJobLifetime _windowsJobLifetime = windowsJobLifetime;
     private readonly ICommandLineBuilder _commandLineBuilder = commandLineBuilder;
     private readonly IEnumerable<ICommandInterceptor> _commandInterceptors = commandInterceptors;
     private readonly ISecretProvider _secretProvider = secretProvider;
@@ -582,7 +584,7 @@ internal sealed class Command(
         var loggingFailures = new DeferredCommandLoggingFailures();
 
         using var forcefulCancellationToken = new CancellationTokenSource();
-        using var processTreeTerminator = new ProcessTreeTerminator(_commandLogger);
+        using var processTreeTerminator = new ProcessTreeTerminator(_commandLogger, _windowsJobLifetime);
         using var processTreeCancellationRegistration =
             forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
@@ -1073,7 +1075,7 @@ internal sealed class Command(
         }
     }
 
-    private sealed class ProcessTreeTerminator(ICommandLogger commandLogger) : IDisposable
+    private sealed class ProcessTreeTerminator(ICommandLogger commandLogger, WindowsJobLifetime windowsJobLifetime) : IDisposable
     {
         private static readonly TimeSpan DescendantPollingInterval = TimeSpan.FromMilliseconds(10);
         private readonly Lock _lock = new();
@@ -1087,6 +1089,10 @@ internal sealed class Command(
         public void Attach(Process process)
         {
             var windowsJob = OperatingSystem.IsWindows() ? TryCreateWindowsJob(process) : null;
+            if (windowsJob is not null)
+            {
+                windowsJobLifetime.Add(windowsJob);
+            }
 
             lock (_lock)
             {
@@ -1198,7 +1204,13 @@ internal sealed class Command(
             }
 
             descendantCaptureTimer?.Dispose();
-            windowsJob?.Dispose();
+            // A completed command may have left a server running for another module. Keep that job
+            // alive until pipeline disposal; empty jobs can release their native handles now.
+            if (OperatingSystem.IsWindows() && windowsJob is { IsClosed: false } &&
+                !WindowsNativeMethods.HasActiveProcesses(windowsJob))
+            {
+                windowsJobLifetime.Release(windowsJob);
+            }
 
             foreach (var descendant in descendants)
             {
@@ -1312,7 +1324,8 @@ internal sealed class Command(
 
             try
             {
-                if (WindowsNativeMethods.AssignProcessToJobObject(job, process.SafeHandle))
+                if (WindowsNativeMethods.EnableKillOnClose(job) &&
+                    WindowsNativeMethods.AssignProcessToJobObject(job, process.SafeHandle))
                 {
                     return job;
                 }
@@ -1418,6 +1431,24 @@ internal sealed class Command(
         private static class WindowsNativeMethods
         {
             private const int JobObjectBasicAccountingInformation = 1;
+            private const int JobObjectExtendedLimitInformation = 9;
+            private const uint JobObjectLimitKillOnJobClose = 0x00002000;
+
+            public static bool EnableKillOnClose(SafeFileHandle job)
+            {
+                var information = new ExtendedLimitInformation
+                {
+                    BasicLimitInformation = new BasicLimitInformation
+                    {
+                        LimitFlags = JobObjectLimitKillOnJobClose,
+                    },
+                };
+                return SetInformationJobObject(
+                    job,
+                    JobObjectExtendedLimitInformation,
+                    in information,
+                    (uint) Marshal.SizeOf<ExtendedLimitInformation>());
+            }
 
             public static bool HasActiveProcesses(SafeFileHandle job)
             {
@@ -1450,6 +1481,14 @@ internal sealed class Command(
 
             [DllImport("kernel32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
+            private static extern bool SetInformationJobObject(
+                SafeFileHandle job,
+                int informationClass,
+                in ExtendedLimitInformation information,
+                uint informationLength);
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
             private static extern bool QueryInformationJobObject(
                 SafeFileHandle job,
                 int informationClass,
@@ -1457,6 +1496,42 @@ internal sealed class Command(
                 uint informationLength,
                 out uint returnLength);
 #pragma warning restore SYSLIB1054
+
+            [StructLayout(LayoutKind.Sequential)]
+            private struct BasicLimitInformation
+            {
+                public long PerProcessUserTimeLimit;
+                public long PerJobUserTimeLimit;
+                public uint LimitFlags;
+                public nuint MinimumWorkingSetSize;
+                public nuint MaximumWorkingSetSize;
+                public uint ActiveProcessLimit;
+                public nuint Affinity;
+                public uint PriorityClass;
+                public uint SchedulingClass;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            private struct IoCounters
+            {
+                public ulong ReadOperationCount;
+                public ulong WriteOperationCount;
+                public ulong OtherOperationCount;
+                public ulong ReadTransferCount;
+                public ulong WriteTransferCount;
+                public ulong OtherTransferCount;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            private struct ExtendedLimitInformation
+            {
+                public BasicLimitInformation BasicLimitInformation;
+                public IoCounters IoInfo;
+                public nuint ProcessMemoryLimit;
+                public nuint JobMemoryLimit;
+                public nuint PeakProcessMemoryUsed;
+                public nuint PeakJobMemoryUsed;
+            }
 
             [StructLayout(LayoutKind.Sequential)]
             private struct BasicAccountingInformation
