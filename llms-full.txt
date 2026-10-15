@@ -9675,6 +9675,10 @@ Code under test must obtain `FilePath` and `FolderPath` instances from `context.
 
 ## Register constructor services[​](#register-constructor-services "Direct link to Register constructor services")
 
+Generated CLI tool interfaces, such as `IDocker`, provide a seam for mocks in tests. Their command methods and service properties have no default implementations. A handwritten fake must implement every member; an omitted member fails at compile time. Adding a generated command or service property can therefore break a fake when you update the integration package. These interfaces are not intended as an extension point for custom CLI implementations.
+
+Prefer `InterceptCommands` when testing modules that use CLI integrations. It lets the real generated services construct commands while your test controls command results and inspects `run.Commands`, without maintaining a fake of the tool API.
+
 Use `WithService` for module constructor dependencies:
 
 ```
