@@ -21,6 +21,23 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnPluginImportFromSourcesOptions : YarnOptions
 {
     /// <summary>
+    /// This command clones the Yarn repository into a temporary folder, builds the
+    /// </summary>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public YarnPluginImportFromSourcesOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
     /// The path where the repository should be cloned to
     /// </summary>
     [CliOption("--path")]
@@ -49,5 +66,11 @@ public record YarnPluginImportFromSourcesOptions : YarnOptions
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

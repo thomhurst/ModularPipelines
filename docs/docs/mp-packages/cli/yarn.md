@@ -30,6 +30,14 @@ Resolve the service in a module, then select a command from the table below. A r
 var yarn = context.Tools.Yarn;
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| [`--cwd`](https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-cli/sources/lib.ts) | `Cwd` | All editions | Run Yarn in this directory. Must precede the command path. |
+
 ## Commands
 
 | CLI command | Options record |
@@ -48,10 +56,12 @@ var yarn = context.Tools.Yarn;
 | `yarn dlx` | `YarnDlxOptions` |
 | `yarn exec` | `YarnExecOptions` |
 | `yarn explain` | `YarnExplainOptions` |
+| `yarn explain peer-requirements` | `YarnExplainPeerRequirementsOptions` |
 | `yarn info` | `YarnInfoOptions` |
 | `yarn init` | `YarnInitOptions` |
 | `yarn install` | `YarnInstallOptions` |
 | `yarn link` | `YarnLinkOptions` |
+| `yarn node` | `YarnNodeOptions` |
 | `yarn npm audit` | `YarnNpmAuditOptions` |
 | `yarn npm info` | `YarnNpmInfoOptions` |
 | `yarn npm login` | `YarnNpmLoginOptions` |
@@ -60,7 +70,9 @@ var yarn = context.Tools.Yarn;
 | `yarn npm stage approve` | `YarnNpmStageApproveOptions` |
 | `yarn npm stage list` | `YarnNpmStageListOptions` |
 | `yarn npm stage reject` | `YarnNpmStageRejectOptions` |
+| `yarn npm tag add` | `YarnNpmTagAddOptions` |
 | `yarn npm tag list` | `YarnNpmTagListOptions` |
+| `yarn npm tag remove` | `YarnNpmTagRemoveOptions` |
 | `yarn npm whoami` | `YarnNpmWhoamiOptions` |
 | `yarn pack` | `YarnPackOptions` |
 | `yarn patch` | `YarnPatchOptions` |
@@ -69,9 +81,13 @@ var yarn = context.Tools.Yarn;
 | `yarn plugin import` | `YarnPluginImportOptions` |
 | `yarn plugin import from sources` | `YarnPluginImportFromSourcesOptions` |
 | `yarn plugin list` | `YarnPluginListOptions` |
+| `yarn plugin remove` | `YarnPluginRemoveOptions` |
 | `yarn plugin runtime` | `YarnPluginRuntimeOptions` |
+| `yarn rebuild` | `YarnRebuildOptions` |
 | `yarn remove` | `YarnRemoveOptions` |
 | `yarn run` | `YarnRunOptions` |
+| `yarn search` | `YarnSearchOptions` |
+| `yarn set resolution` | `YarnSetResolutionOptions` |
 | `yarn set version` | `YarnSetVersionOptions` |
 | `yarn set version from sources` | `YarnSetVersionFromSourcesOptions` |
 | `yarn stage` | `YarnStageOptions` |
@@ -79,6 +95,7 @@ var yarn = context.Tools.Yarn;
 | `yarn unplug` | `YarnUnplugOptions` |
 | `yarn up` | `YarnUpOptions` |
 | `yarn upgrade-interactive` | `YarnUpgradeInteractiveOptions` |
+| `yarn version` | `YarnVersionOptions` |
 | `yarn version apply` | `YarnVersionApplyOptions` |
 | `yarn version check` | `YarnVersionCheckOptions` |
 | `yarn why` | `YarnWhyOptions` |
