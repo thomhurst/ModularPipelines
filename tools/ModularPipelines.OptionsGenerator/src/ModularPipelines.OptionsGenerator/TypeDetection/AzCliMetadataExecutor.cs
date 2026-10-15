@@ -46,7 +46,7 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
                 'IsInteger': action.type is int,
                 'IsRepeated': isinstance(action, argparse._AppendAction)
             }
-            for action in actions for option in action.option_strings
+            for action in actions for option in (action.option_strings or [action.dest])
         }
         print('\n__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:' + json.dumps(shapes, sort_keys=True))
         """;
