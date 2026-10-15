@@ -40,13 +40,13 @@ public record BrewAsConsoleUserOptions : BrewOptions
     /// <summary>
     /// The command operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Command { get; private init; }
 
     /// <summary>
     /// The args operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Args { get; set; }
 
 }
