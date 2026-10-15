@@ -317,6 +317,8 @@ public class FolderPath : IEquatable<FolderPath>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
     public async Task<FolderPath> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
         _provider.CreateDirectory(targetPath);
 
