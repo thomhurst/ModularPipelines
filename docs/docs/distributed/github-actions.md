@@ -10,11 +10,11 @@ This is a complete example of running a distributed pipeline across GitHub Actio
 ## This repository's CI
 
 The [.NET workflow](https://github.com/thomhurst/ModularPipelines/blob/main/.github/workflows/dotnet.yml)
-runs the actual `ModularPipelines.Build` pipeline using the Redis coordinator and Redis artifact
-store. It selects distributed execution only when both `REDIS_ENDPOINT` and `REDIS_KEY` secrets
-are available and the event is trusted. Fork and Dependabot pull requests use a standalone Linux
-pipeline, with separate Windows and macOS compilation jobs. Manual dispatch can also select
-`distributed: false` to exercise this fallback without removing secrets.
+runs the actual `ModularPipelines.Build` pipeline using Redis for coordination and GitHub Actions
+artifacts for build outputs. It selects distributed execution only when both `REDIS_ENDPOINT` and
+`REDIS_KEY` secrets are available and the event is trusted. Fork and Dependabot pull requests use
+a standalone Linux pipeline, with separate Windows and macOS core build and test jobs. Manual
+dispatch can also select `distributed: false` to exercise this fallback without removing secrets.
 
 The distributed matrix uses these indices:
 
@@ -22,25 +22,29 @@ The distributed matrix uses these indices:
 | --- | --- | --- |
 | 0 | Ubuntu | Master, Linux build, packaging, publishing, and eligible tests |
 | 1 | Ubuntu | Linux test worker |
-| 2 | Windows | Windows compilation of every solution in `BuildSolutions.txt` |
-| 3 | macOS | macOS compilation of every solution in `BuildSolutions.txt` |
+| 2 | Windows | Core build and unit tests |
+| 3 | macOS | Core build and unit tests |
+| 4 | Ubuntu | Linux test worker |
+| 5 | Ubuntu | Linux test worker |
 
 Every runner downloads the same framework-dependent pipeline host. Keeping this host outside
 the checkout allows Windows to rebuild the build project without locking its output, and keeps
 module and serialization schema identities identical across runners. Each runner restores its
 own dependencies. The master publishes the registered test projects' Linux build output through
-Redis. A compressed TAR stores duplicate dependency contents once; workers materialize independent
-files so coverage instrumentation cannot modify another test project's assemblies. Linux tests
-restore that output once per process. Publishing and repository mutations require the master's
-`ci-master` capability, and publishing credentials are supplied only to instance 0. The master
-job alone has repository-write and identity-token permissions; worker jobs have read-only
-repository access. Both jobs reuse the same execution steps.
+GitHub Actions artifacts. When the GitHub transport is not enabled, build outputs use the Redis
+artifact store instead. A compressed TAR stores duplicate dependency contents once; workers
+materialize independent files so coverage instrumentation cannot modify another test project's
+assemblies. Linux tests restore that output once per process. Publishing and repository mutations
+require the master's `ci-master` capability, and publishing credentials are supplied only to
+instance 0. The master job alone has repository-write and identity-token permissions; worker
+jobs have read-only repository access. Both jobs reuse the same execution steps.
 
 `MODULARPIPELINES_RUN_ID` combines `GITHUB_RUN_ID` and `GITHUB_RUN_ATTEMPT`. Use **Re-run all
 jobs** for a distributed retry: partial retries are rejected because they cannot recreate the
-cooperating matrix. Worker capability discovery is bounded to 10 minutes, platform compilation to
-75 minutes, the default module result wait to 80 minutes, and each runner job to 90 minutes.
-Redis coordination keys and artifacts expire
+cooperating matrix. Worker capability discovery is bounded to 10 minutes, platform builds and
+core tests to 75 minutes, and each runner job to 90 minutes. After a worker claims a module,
+the master adds 15 minutes of result slack (`ModuleResultTimeout`) to the module's own timeout
+budget, including configured retries. Redis coordination keys and fallback artifacts expire
 after two hours. A failed or lost worker fails the run within these limits; it does not silently
 rerun publishing or test work on another runner.
 
