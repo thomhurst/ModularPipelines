@@ -612,6 +612,7 @@ internal sealed class Command(
                         standardErrorBuffer,
                         completeStandardErrorBuffer,
                         CreateStandardErrorLogger(deferredOutputLogger)),
+                    execOpts.OutputEncoding,
                     processTreeTerminator.Attach,
                     executionCancellationToken);
                 using var descendantCaptureRegistration =

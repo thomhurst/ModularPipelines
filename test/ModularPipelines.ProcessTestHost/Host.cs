@@ -7,6 +7,15 @@ public static class Host
 {
     public static async Task<int> Main(string[] args)
     {
+        if (args[0] == "write-bytes")
+        {
+            using var standardOutput = Console.OpenStandardOutput();
+            using var standardError = Console.OpenStandardError();
+            await standardOutput.WriteAsync(Convert.FromBase64String(args[1]));
+            await standardError.WriteAsync(Convert.FromBase64String(args[2]));
+            return 0;
+        }
+
         if (args[0] == "write-output")
         {
             foreach (var line in args.Skip(1))
