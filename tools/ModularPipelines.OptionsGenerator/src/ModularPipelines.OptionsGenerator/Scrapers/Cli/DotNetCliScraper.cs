@@ -164,12 +164,12 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
         {
             positionalArgs.AddRange(usagePositionalArgs);
         }
-        else if (commandParts.Length > 1 && usage.CommandMatched
+        else if (commandParts is ["workload", "search", "version"] && usage.CommandMatched
                  && usage.MatchedCommandPartCount == commandPath.Length
                  && usage.UnparsedOperandTokens.Count == 0 && usagePositionalArgs.Count > 0)
         {
-            // System.CommandLine includes ancestor operands before the child command in help.
-            // Only operands following the selected command belong to that child.
+            // This command's help inherits SearchString even though it accepts only WorkloadVersion.
+            // Other commands, such as solution add, legitimately accept operands before the child.
             positionalArgs = [.. usagePositionalArgs.Select(argument => argument with
             {
                 Description = positionalArgs.FirstOrDefault(documented =>

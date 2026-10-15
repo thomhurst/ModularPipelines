@@ -9,6 +9,42 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public partial class DotNetCliScraperTests
 {
     [Test]
+    [Arguments("add", true)]
+    [Arguments("remove", true)]
+    [Arguments("migrate", false)]
+    [Arguments("list", false)]
+    public async Task Solution_Commands_Preserve_Operands_Before_The_Child_Command(string child, bool hasProjects)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures",
+            $"dotnet-11.0.100-rc.1-sln-{child}-help.txt"));
+        var command = (await new TestDotNetCliScraper().Parse(["dotnet", "solution", child], help))!;
+
+        await Assert.That(command.PositionalArguments.Count).IsEqualTo(hasProjects ? 2 : 1);
+        var solution = command.PositionalArguments[0];
+        await Assert.That(solution.PropertyName).IsEqualTo("SlnFile");
+        await Assert.That(solution.PositionIndex).IsEqualTo(0);
+        await Assert.That(solution.IsRequired).IsFalse();
+        await Assert.That(solution.IsVariadic).IsFalse();
+        await Assert.That(solution.CSharpType).IsEqualTo("string?");
+        await Assert.That(solution.Description).Contains("The solution file to operate on.");
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(DotNet11Tool(command))).Single().Content;
+        await Assert.That(generated).Contains("[CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]");
+        await Assert.That(generated).Contains("public string? SlnFile");
+
+        if (hasProjects)
+        {
+            var projects = command.PositionalArguments[1];
+            await Assert.That(projects.PropertyName).IsEqualTo("ProjectPath");
+            await Assert.That(projects.PositionIndex).IsEqualTo(1);
+            await Assert.That(projects.IsVariadic).IsTrue();
+            await Assert.That(projects.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(generated).Contains("[CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]");
+            await Assert.That(generated).Contains("public IEnumerable<string>? ProjectPath");
+        }
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Workload_Search_Operands_Belong_To_The_Selected_Command(bool version)
