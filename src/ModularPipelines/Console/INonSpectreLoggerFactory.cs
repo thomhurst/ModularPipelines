@@ -56,7 +56,7 @@ internal sealed class NonSpectreLoggerFactory(
     ISpectreConsoleLoggerControl loggerControl,
     IOptionsMonitor<LoggerFilterOptions> filterOptions) : INonSpectreLoggerFactory
 {
-    private readonly object _providerLoggersLock = new();
+    private readonly Lock _providerLoggersLock = new();
     private readonly Dictionary<string, ProviderLoggerSnapshot> _providerLoggers = [];
 
     public IReadOnlyList<ILogger> CreateLoggers(string categoryName)
@@ -84,17 +84,15 @@ internal sealed class NonSpectreLoggerFactory(
         }
     }
 
-    private IReadOnlyList<ILogger> CreateProviderLoggers(
+    private ILogger[] CreateProviderLoggers(
         string categoryName,
         IReadOnlyList<ILoggerProvider> providers) =>
-        providers
-            .Select(provider => CreateProviderLogger(provider, categoryName))
-            .ToArray();
+        [.. providers.Select(provider => CreateProviderLogger(provider, categoryName))];
 
     private static bool ProvidersMatch(
-        IReadOnlyList<ILoggerProvider> left,
-        IReadOnlyList<ILoggerProvider> right) =>
-        left.Count == right.Count
+        ILoggerProvider[] left,
+        ILoggerProvider[] right) =>
+        left.Length == right.Length
         && left.Zip(right).All(pair => ReferenceEquals(pair.First, pair.Second));
 
     private ILogger CreateProviderLogger(ILoggerProvider provider, string categoryName)
@@ -155,7 +153,7 @@ internal sealed class NonSpectreLoggerFactory(
         [ThreadStatic]
         private static StringWriter? _writer;
 
-        private readonly ConditionalWeakTable<IBufferedLogEvent, FormattedEntryHolder> _formattedEntries = new();
+        private readonly ConditionalWeakTable<IBufferedLogEvent, FormattedEntryHolder> _formattedEntries = [];
 
         public IDisposable BeginScope<TState>(TState state)
             where TState : notnull => GetScopeProvider(provider).Push(state);
@@ -324,9 +322,10 @@ internal static class LoggerFactoryProviderAccessor
     [DynamicDependency(
         DynamicallyAccessedMemberTypes.NonPublicFields,
         typeof(LoggerFactory))]
+    // DynamicDependency uses documentation signatures, including '.' for nested types.
     [DynamicDependency(
         DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields,
-        "Microsoft.Extensions.Logging.LoggerFactory+ProviderRegistration",
+        "Microsoft.Extensions.Logging.LoggerFactory.ProviderRegistration",
         "Microsoft.Extensions.Logging")]
     public static ILoggerProvider[] GetCurrentProviders(ILoggerFactory loggerFactory)
     {
@@ -335,10 +334,9 @@ internal static class LoggerFactoryProviderAccessor
         {
             var registrations = (IEnumerable) LoggerFactoryFields.ProviderRegistrations
                 .GetValue(loggerFactory)!;
-            return registrations.Cast<object>()
+            return [.. registrations.Cast<object>()
                 .Select(registration => (ILoggerProvider) LoggerFactoryFields.Provider
-                    .GetValue(registration)!)
-                .ToArray();
+                    .GetValue(registration)!)];
         }
     }
 
