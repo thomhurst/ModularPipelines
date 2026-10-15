@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TUnit" />
+    <EmbeddedResource Include="../../src/ModularPipelines.Node/Generated/Npm.CommandCoverage.json" LogicalName="Npm.CommandCoverage.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />

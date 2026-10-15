@@ -74,7 +74,6 @@ jobs:
         id: catalog
         env:
           TOOLS_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.tools || '' }}
-          CREATE_PR: ${{ github.event_name != 'workflow_dispatch' || inputs['create-pr'] }}
         run: |
           dotnet run --no-build \
             --project tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj \
@@ -87,16 +86,10 @@ jobs:
           )"
 
           create_matrix() {
-            # npm/npx remain artifact-only until the Node API migration lands.
-            # Explicit selection with create-pr=false permits full migration generation.
-            jq -c --arg platform "$1" --argjson selected "$SELECTED_TOOLS" --arg createPr "$CREATE_PR" \
+            jq -c --arg platform "$1" --argjson selected "$SELECTED_TOOLS" \
               '{include: [.[] | .toolName as $tool | select(
                 .generationPlatform == $platform
-                and (.includeInGenerationMatrix or (
-                  ($tool == "npm" or $tool == "npx")
-                  and $createPr == "false"
-                  and ($selected | index($tool)) != null
-                ))
+                and .includeInGenerationMatrix
                 and (($selected | length) == 0 or ($selected | index($tool)) != null)
               ) | {
                 tool: .toolName,
@@ -775,8 +768,7 @@ jobs:
           sudo swapon /mnt/swapfile
 
       - name: Build solution to verify changes
-        # npm/npx patches are migration inputs; their consuming API changes land separately.
-        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && matrix.tool != 'npm' && matrix.tool != 'npx'
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
         run: |
           BUILD_ARGS=()
           # Large generated packages need bounded MSBuild concurrency on hosted runners.

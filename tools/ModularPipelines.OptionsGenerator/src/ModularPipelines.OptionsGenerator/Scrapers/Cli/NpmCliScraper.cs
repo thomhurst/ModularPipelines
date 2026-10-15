@@ -21,8 +21,7 @@ public partial class NpmCliScraper(
     public override string NamespacePrefix => "Npm";
 
     /// <inheritdoc />
-    // Enable automated publication only after the handwritten Node API migration.
-    public override bool IncludeInGenerationMatrix => false;
+    public override bool IncludeInGenerationMatrix => true;
 
     public override string TargetNamespace => "ModularPipelines.Node";
 
