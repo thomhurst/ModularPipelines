@@ -268,7 +268,7 @@ public class FolderPathProviderTests
             cancellation.Cancel();
         }
 
-        await Assert.That(() => new FolderPath(source, provider.Object).CopyToAsync(target, cancellation.Token))
+        await Assert.That(() => (Task) new FolderPath(source, provider.Object).CopyToAsync(target, cancellation.Token))
             .Throws<OperationCanceledException>();
 
         provider.Verify(p => p.CreateDirectory(It.IsAny<string>()), Times.Never);

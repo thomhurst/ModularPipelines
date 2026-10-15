@@ -31,6 +31,7 @@ public class FolderCopyLinkTests
 
         // Exercise the production guard directly so a regression cannot start an unbounded copy.
         var exception = await Assert.That(() => folder.ValidateCopyTarget(destination)).Throws<ArgumentException>();
+        exception = await Assert.That(exception).IsNotNull();
 
         await Assert.That(exception.ParamName).IsEqualTo("targetPath");
         await Assert.That(Directory.EnumerateFileSystemEntries(child)).IsEmpty();
@@ -65,7 +66,7 @@ public class FolderCopyLinkTests
         cancellation.CancelAfter(TimeSpan.FromSeconds(5));
 
         // Cancellation bounds enumeration if validation regresses; a pre-cancelled token takes precedence over validation.
-        await Assert.That(() => new FolderPath(source).CopyToAsync(
+        await Assert.That(() => (Task) new FolderPath(source).CopyToAsync(
             Path.Combine(alias, "missing"), preserveTimestamps, cancellation.Token)).Throws<ArgumentException>();
 
         await Assert.That(Directory.EnumerateFileSystemEntries(source)).IsEmpty();
