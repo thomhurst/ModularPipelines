@@ -21,6 +21,7 @@ public class AzWebappLog
 {
     private readonly ICommandContext _command;
     private AzWebappLogDeployment? _deployment;
+    private AzWebappLogStartup? _startup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzWebappLog"/> class.
@@ -36,6 +37,11 @@ public class AzWebappLog
     /// az deployment sub-commands.
     /// </summary>
     public AzWebappLogDeployment Deployment => _deployment ??= new AzWebappLogDeployment(_command);
+
+    /// <summary>
+    /// az startup sub-commands.
+    /// </summary>
+    public AzWebappLogStartup Startup => _startup ??= new AzWebappLogStartup(_command);
 
     #endregion
 

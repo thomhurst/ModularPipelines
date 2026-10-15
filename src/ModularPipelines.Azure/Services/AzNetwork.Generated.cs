@@ -42,8 +42,10 @@ public class AzNetwork : IAzNetwork
     private AzNetworkPrivateLinkService? _privateLinkService;
     private AzNetworkProfile? _profile;
     private AzNetworkPublicIp? _publicIp;
+    private AzNetworkRouteFilter? _routeFilter;
     private AzNetworkRouteServer? _routeServer;
     private AzNetworkRouteTable? _routeTable;
+    private AzNetworkSecurityPartnerProvider? _securityPartnerProvider;
     private AzNetworkServiceEndpoint? _serviceEndpoint;
     private AzNetworkTrafficManager? _trafficManager;
     private AzNetworkVirtualAppliance? _virtualAppliance;
@@ -174,6 +176,11 @@ public class AzNetwork : IAzNetwork
     public AzNetworkPublicIp PublicIp => _publicIp ??= new AzNetworkPublicIp(_command);
 
     /// <summary>
+    /// az route-filter sub-commands.
+    /// </summary>
+    public AzNetworkRouteFilter RouteFilter => _routeFilter ??= new AzNetworkRouteFilter(_command);
+
+    /// <summary>
     /// az routeserver sub-commands.
     /// </summary>
     public AzNetworkRouteServer RouteServer => _routeServer ??= new AzNetworkRouteServer(_command);
@@ -182,6 +189,11 @@ public class AzNetwork : IAzNetwork
     /// az route-table sub-commands.
     /// </summary>
     public AzNetworkRouteTable RouteTable => _routeTable ??= new AzNetworkRouteTable(_command);
+
+    /// <summary>
+    /// az security-partner-provider sub-commands.
+    /// </summary>
+    public AzNetworkSecurityPartnerProvider SecurityPartnerProvider => _securityPartnerProvider ??= new AzNetworkSecurityPartnerProvider(_command);
 
     /// <summary>
     /// az service-endpoint sub-commands.

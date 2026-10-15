@@ -21,6 +21,7 @@ public class AzAppservice : IAzAppservice
 {
     private readonly ICommandContext _command;
     private AzAppserviceAse? _ase;
+    private AzAppserviceDomain? _domain;
     private AzAppserviceHybridConnection? _hybridConnection;
     private AzAppservicePlan? _plan;
     private AzAppserviceVnetIntegration? _vnetIntegration;
@@ -39,6 +40,11 @@ public class AzAppservice : IAzAppservice
     /// az ase sub-commands.
     /// </summary>
     public AzAppserviceAse Ase => _ase ??= new AzAppserviceAse(_command);
+
+    /// <summary>
+    /// az domain sub-commands.
+    /// </summary>
+    public AzAppserviceDomain Domain => _domain ??= new AzAppserviceDomain(_command);
 
     /// <summary>
     /// az hybrid-connection sub-commands.

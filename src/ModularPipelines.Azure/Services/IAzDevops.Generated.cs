@@ -24,42 +24,47 @@ public interface IAzDevops
     /// <summary>
     /// az admin sub-commands.
     /// </summary>
-    AzDevopsAdmin Admin => throw new System.NotSupportedException();
+    AzDevopsAdmin Admin { get; }
 
     /// <summary>
     /// az extension sub-commands.
     /// </summary>
-    AzDevopsExtension Extension => throw new System.NotSupportedException();
+    AzDevopsExtension Extension { get; }
+
+    /// <summary>
+    /// az migrations sub-commands.
+    /// </summary>
+    AzDevopsMigrations Migrations { get; }
 
     /// <summary>
     /// az project sub-commands.
     /// </summary>
-    AzDevopsProject Project => throw new System.NotSupportedException();
+    AzDevopsProject Project { get; }
 
     /// <summary>
     /// az security sub-commands.
     /// </summary>
-    AzDevopsSecurity Security => throw new System.NotSupportedException();
+    AzDevopsSecurity Security { get; }
 
     /// <summary>
     /// az service-endpoint sub-commands.
     /// </summary>
-    AzDevopsServiceEndpoint ServiceEndpoint => throw new System.NotSupportedException();
+    AzDevopsServiceEndpoint ServiceEndpoint { get; }
 
     /// <summary>
     /// az team sub-commands.
     /// </summary>
-    AzDevopsTeam Team => throw new System.NotSupportedException();
+    AzDevopsTeam Team { get; }
 
     /// <summary>
     /// az user sub-commands.
     /// </summary>
-    AzDevopsUser User => throw new System.NotSupportedException();
+    AzDevopsUser User { get; }
 
     /// <summary>
     /// az wiki sub-commands.
     /// </summary>
-    AzDevopsWiki Wiki => throw new System.NotSupportedException();
+    AzDevopsWiki Wiki { get; }
 
     /// <summary>
     /// This command will invoke request for any DevOps area and resource. Please use Requires the azure-devops extension (az extension add --name azure-devops).
@@ -68,8 +73,7 @@ public interface IAzDevops
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeAsync(AzDevopsInvokeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeAsync(AzDevopsInvokeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Clear the credential for all or a particular organization. Requires the azure-devops extension (az extension add --name azure-devops).
@@ -78,7 +82,6 @@ public interface IAzDevops
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LogoutAsync(AzDevopsLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LogoutAsync(AzDevopsLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

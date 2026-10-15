@@ -24,36 +24,36 @@ public interface IAzEventgrid
     /// <summary>
     /// az domain sub-commands.
     /// </summary>
-    AzEventgridDomain Domain => throw new System.NotSupportedException();
+    AzEventgridDomain Domain { get; }
 
     /// <summary>
     /// az event-subscription sub-commands.
     /// </summary>
-    AzEventgridEventSubscription EventSubscription => throw new System.NotSupportedException();
+    AzEventgridEventSubscription EventSubscription { get; }
 
     /// <summary>
     /// az extension-topic sub-commands.
     /// </summary>
-    AzEventgridExtensionTopic ExtensionTopic => throw new System.NotSupportedException();
+    AzEventgridExtensionTopic ExtensionTopic { get; }
 
     /// <summary>
     /// az partner sub-commands.
     /// </summary>
-    AzEventgridPartner Partner => throw new System.NotSupportedException();
+    AzEventgridPartner Partner { get; }
 
     /// <summary>
     /// az system-topic sub-commands.
     /// </summary>
-    AzEventgridSystemTopic SystemTopic => throw new System.NotSupportedException();
+    AzEventgridSystemTopic SystemTopic { get; }
 
     /// <summary>
     /// az topic sub-commands.
     /// </summary>
-    AzEventgridTopic Topic => throw new System.NotSupportedException();
+    AzEventgridTopic Topic { get; }
 
     /// <summary>
     /// az topic-type sub-commands.
     /// </summary>
-    AzEventgridTopicType TopicType => throw new System.NotSupportedException();
+    AzEventgridTopicType TopicType { get; }
 
 }

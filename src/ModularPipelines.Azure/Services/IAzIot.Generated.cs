@@ -24,16 +24,16 @@ public interface IAzIot
     /// <summary>
     /// az central sub-commands.
     /// </summary>
-    AzIotCentral Central => throw new System.NotSupportedException();
+    AzIotCentral Central { get; }
 
     /// <summary>
     /// az dps sub-commands.
     /// </summary>
-    AzIotDps Dps => throw new System.NotSupportedException();
+    AzIotDps Dps { get; }
 
     /// <summary>
     /// az hub sub-commands.
     /// </summary>
-    AzIotHub Hub => throw new System.NotSupportedException();
+    AzIotHub Hub { get; }
 
 }

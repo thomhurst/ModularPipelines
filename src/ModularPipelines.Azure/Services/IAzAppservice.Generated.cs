@@ -24,22 +24,27 @@ public interface IAzAppservice
     /// <summary>
     /// az ase sub-commands.
     /// </summary>
-    AzAppserviceAse Ase => throw new System.NotSupportedException();
+    AzAppserviceAse Ase { get; }
+
+    /// <summary>
+    /// az domain sub-commands.
+    /// </summary>
+    AzAppserviceDomain Domain { get; }
 
     /// <summary>
     /// az hybrid-connection sub-commands.
     /// </summary>
-    AzAppserviceHybridConnection HybridConnection => throw new System.NotSupportedException();
+    AzAppserviceHybridConnection HybridConnection { get; }
 
     /// <summary>
     /// az plan sub-commands.
     /// </summary>
-    AzAppservicePlan Plan => throw new System.NotSupportedException();
+    AzAppservicePlan Plan { get; }
 
     /// <summary>
     /// az vnet-integration sub-commands.
     /// </summary>
-    AzAppserviceVnetIntegration VnetIntegration => throw new System.NotSupportedException();
+    AzAppserviceVnetIntegration VnetIntegration { get; }
 
     /// <summary>
     /// List regions where a plan sku is available.
@@ -48,7 +53,6 @@ public interface IAzAppservice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLocationsAsync(AzAppserviceListLocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLocationsAsync(AzAppserviceListLocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

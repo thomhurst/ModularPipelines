@@ -26,6 +26,8 @@ public class AzVmss : IAzVmss
     private AzVmssEncryption? _encryption;
     private AzVmssExtension? _extension;
     private AzVmssIdentity? _identity;
+    private AzVmssLifecycleHook? _lifecycleHook;
+    private AzVmssLifecycleHookEvent? _lifecycleHookEvent;
     private AzVmssNic? _nic;
     private AzVmssRollingUpgrade? _rollingUpgrade;
     private AzVmssRunCommand? _runCommand;
@@ -69,6 +71,16 @@ public class AzVmss : IAzVmss
     /// az identity sub-commands.
     /// </summary>
     public AzVmssIdentity Identity => _identity ??= new AzVmssIdentity(_command);
+
+    /// <summary>
+    /// az lifecycle-hook sub-commands.
+    /// </summary>
+    public AzVmssLifecycleHook LifecycleHook => _lifecycleHook ??= new AzVmssLifecycleHook(_command);
+
+    /// <summary>
+    /// az lifecycle-hook-event sub-commands.
+    /// </summary>
+    public AzVmssLifecycleHookEvent LifecycleHookEvent => _lifecycleHookEvent ??= new AzVmssLifecycleHookEvent(_command);
 
     /// <summary>
     /// az nic sub-commands.

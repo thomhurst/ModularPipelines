@@ -32,6 +32,21 @@ public class AzStorageLogging
     #region Commands
 
     /// <summary>
+    /// Turn off logging for a storage account.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> OffAsync(
+        AzStorageLoggingOffOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzStorageLoggingOffOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Show logging settings for a storage account.
     /// </summary>
     /// <param name="options">The command options.</param>

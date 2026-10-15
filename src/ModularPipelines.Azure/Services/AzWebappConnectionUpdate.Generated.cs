@@ -242,6 +242,21 @@ public class AzWebappConnectionUpdate
     }
 
     /// <summary>
+    /// Update a webapp to mysql connection.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MysqlAsync(
+        AzWebappConnectionUpdateMysqlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappConnectionUpdateMysqlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Update a webapp to neon-postgres connection.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -269,6 +284,21 @@ public class AzWebappConnectionUpdate
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappConnectionUpdatePostgresFlexibleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Update a webapp to postgres connection.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PostgresAsync(
+        AzWebappConnectionUpdatePostgresOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzWebappConnectionUpdatePostgresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

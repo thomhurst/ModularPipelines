@@ -22,6 +22,7 @@ public class AzContainerappJob
     private readonly ICommandContext _command;
     private AzContainerappJobExecution? _execution;
     private AzContainerappJobIdentity? _identity;
+    private AzContainerappJobRegistry? _registry;
     private AzContainerappJobSecret? _secret;
 
     /// <summary>
@@ -43,6 +44,11 @@ public class AzContainerappJob
     /// az identity sub-commands.
     /// </summary>
     public AzContainerappJobIdentity Identity => _identity ??= new AzContainerappJobIdentity(_command);
+
+    /// <summary>
+    /// az registry sub-commands.
+    /// </summary>
+    public AzContainerappJobRegistry Registry => _registry ??= new AzContainerappJobRegistry(_command);
 
     /// <summary>
     /// az secret sub-commands.

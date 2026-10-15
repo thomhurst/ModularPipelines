@@ -24,82 +24,82 @@ public interface IAzVm
     /// <summary>
     /// az application sub-commands.
     /// </summary>
-    AzVmApplication Application => throw new System.NotSupportedException();
+    AzVmApplication Application { get; }
 
     /// <summary>
     /// az availability-set sub-commands.
     /// </summary>
-    AzVmAvailabilitySet AvailabilitySet => throw new System.NotSupportedException();
+    AzVmAvailabilitySet AvailabilitySet { get; }
 
     /// <summary>
     /// az boot-diagnostics sub-commands.
     /// </summary>
-    AzVmBootDiagnostics BootDiagnostics => throw new System.NotSupportedException();
+    AzVmBootDiagnostics BootDiagnostics { get; }
 
     /// <summary>
     /// az diagnostics sub-commands.
     /// </summary>
-    AzVmDiagnostics Diagnostics => throw new System.NotSupportedException();
+    AzVmDiagnostics Diagnostics { get; }
 
     /// <summary>
     /// az disk sub-commands.
     /// </summary>
-    AzVmDisk Disk => throw new System.NotSupportedException();
+    AzVmDisk Disk { get; }
 
     /// <summary>
     /// az encryption sub-commands.
     /// </summary>
-    AzVmEncryption Encryption => throw new System.NotSupportedException();
+    AzVmEncryption Encryption { get; }
 
     /// <summary>
     /// az extension sub-commands.
     /// </summary>
-    AzVmExtension Extension => throw new System.NotSupportedException();
+    AzVmExtension Extension { get; }
 
     /// <summary>
     /// az host sub-commands.
     /// </summary>
-    AzVmHost Host => throw new System.NotSupportedException();
+    AzVmHost Host { get; }
 
     /// <summary>
     /// az identity sub-commands.
     /// </summary>
-    AzVmIdentity Identity => throw new System.NotSupportedException();
+    AzVmIdentity Identity { get; }
 
     /// <summary>
     /// az image sub-commands.
     /// </summary>
-    AzVmImage Image => throw new System.NotSupportedException();
+    AzVmImage Image { get; }
 
     /// <summary>
     /// az monitor sub-commands.
     /// </summary>
-    AzVmMonitor Monitor => throw new System.NotSupportedException();
+    AzVmMonitor Monitor { get; }
 
     /// <summary>
     /// az nic sub-commands.
     /// </summary>
-    AzVmNic Nic => throw new System.NotSupportedException();
+    AzVmNic Nic { get; }
 
     /// <summary>
     /// az run-command sub-commands.
     /// </summary>
-    AzVmRunCommand RunCommand => throw new System.NotSupportedException();
+    AzVmRunCommand RunCommand { get; }
 
     /// <summary>
     /// az secret sub-commands.
     /// </summary>
-    AzVmSecret Secret => throw new System.NotSupportedException();
+    AzVmSecret Secret { get; }
 
     /// <summary>
     /// az unmanaged-disk sub-commands.
     /// </summary>
-    AzVmUnmanagedDisk UnmanagedDisk => throw new System.NotSupportedException();
+    AzVmUnmanagedDisk UnmanagedDisk { get; }
 
     /// <summary>
     /// az user sub-commands.
     /// </summary>
-    AzVmUser User => throw new System.NotSupportedException();
+    AzVmUser User { get; }
 
     /// <summary>
     /// Assess patches on a VM.
@@ -108,8 +108,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssessPatchesAsync(AzVmAssessPatchesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssessPatchesAsync(AzVmAssessPatchesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Manage auto-shutdown for VM.
@@ -118,8 +117,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AutoShutdownAsync(AzVmAutoShutdownOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AutoShutdownAsync(AzVmAutoShutdownOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Capture information for a stopped VM.
@@ -128,8 +126,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CaptureAsync(AzVmCaptureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CaptureAsync(AzVmCaptureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Convert a VM with unmanaged disks to use managed disks.
@@ -138,8 +135,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConvertAsync(AzVmConvertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConvertAsync(AzVmConvertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an Azure Virtual Machine.
@@ -148,8 +144,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzVmCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzVmCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deallocate a VM so that computing resources are no longer allocated (charges
@@ -158,8 +153,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeallocateAsync(AzVmDeallocateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeallocateAsync(AzVmDeallocateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete operation to delete a virtual machine.
@@ -168,8 +162,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzVmDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzVmDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Mark a VM as generalized, allowing it to be imaged for multiple deployments.
@@ -178,8 +171,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GeneralizeAsync(AzVmGeneralizeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GeneralizeAsync(AzVmGeneralizeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get instance information about a VM.
@@ -188,8 +180,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstanceViewAsync(AzVmGetInstanceViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstanceViewAsync(AzVmGetInstanceViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Install patches on a VM.
@@ -198,8 +189,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InstallPatchesAsync(AzVmInstallPatchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InstallPatchesAsync(AzVmInstallPatchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List IP addresses associated with a VM.
@@ -208,8 +198,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIpAddressesAsync(AzVmListIpAddressesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIpAddressesAsync(AzVmListIpAddressesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List details of Virtual Machines.
@@ -218,8 +207,16 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzVmListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzVmListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// List available sizes for VMs.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListSizesAsync(AzVmListSizesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get details for compute-related resource SKUs.
@@ -228,8 +225,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSkusAsync(AzVmListSkusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSkusAsync(AzVmListSkusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List available usage resources for VMs.
@@ -238,8 +234,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsageAsync(AzVmListUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsageAsync(AzVmListUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List available resizing options for VMs.
@@ -248,8 +243,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVmResizeOptionsAsync(AzVmListVmResizeOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVmResizeOptionsAsync(AzVmListVmResizeOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Migrate a virtual machine from availability set to Flexible Virtual
@@ -258,8 +252,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MigrateToVmssAsync(AzVmMigrateToVmssOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MigrateToVmssAsync(AzVmMigrateToVmssOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Opens a VM to inbound traffic on specified ports.
@@ -268,8 +261,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> OpenPortAsync(AzVmOpenPortOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> OpenPortAsync(AzVmOpenPortOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The operation to perform maintenance on a virtual machine.
@@ -278,8 +270,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PerformMaintenanceAsync(AzVmPerformMaintenanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PerformMaintenanceAsync(AzVmPerformMaintenanceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reapply VMs.
@@ -288,8 +279,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReapplyAsync(AzVmReapplyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReapplyAsync(AzVmReapplyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Redeploy an existing VM.
@@ -298,8 +288,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RedeployAsync(AzVmRedeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RedeployAsync(AzVmRedeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reimage (upgrade the operating system) a virtual machine.
@@ -308,8 +297,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReimageAsync(AzVmReimageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReimageAsync(AzVmReimageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a VM's size.
@@ -318,8 +306,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResizeAsync(AzVmResizeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResizeAsync(AzVmResizeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restart VMs.
@@ -328,8 +315,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestartAsync(AzVmRestartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestartAsync(AzVmRestartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of a VM.
@@ -338,8 +324,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzVmShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzVmShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Simulate the eviction of a Spot VM.
@@ -348,8 +333,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SimulateEvictionAsync(AzVmSimulateEvictionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SimulateEvictionAsync(AzVmSimulateEvictionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start a stopped VM.
@@ -358,8 +342,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAsync(AzVmStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAsync(AzVmStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Power off (stop) a running VM.
@@ -368,8 +351,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAsync(AzVmStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAsync(AzVmStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the properties of a VM.
@@ -378,8 +360,7 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzVmUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzVmUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Place the CLI in a waiting state until a condition of the VM is met.
@@ -388,7 +369,6 @@ public interface IAzVm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WaitAsync(AzVmWaitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> WaitAsync(AzVmWaitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

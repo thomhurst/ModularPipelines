@@ -84,6 +84,21 @@ public class AzNetworkVpnConnection
     }
 
     /// <summary>
+    /// List IKE Security Associations for a VPN connection.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListIkeSasAsync(
+        AzNetworkVpnConnectionListIkeSasOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVpnConnectionListIkeSasOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List all VPN connections.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -92,6 +107,21 @@ public class AzNetworkVpnConnection
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
         AzNetworkVpnConnectionListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get a XML format representation for VPN
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowDeviceConfigScriptAsync(
+        AzNetworkVpnConnectionShowDeviceConfigScriptOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

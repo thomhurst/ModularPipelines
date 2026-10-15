@@ -20,19 +20,26 @@ namespace ModularPipelines.Azure.Services;
 public class AzAcr : IAzAcr
 {
     private readonly ICommandContext _command;
+    private AzAcrAgentpool? _agentpool;
+    private AzAcrArtifactStreaming? _artifactStreaming;
     private AzAcrCache? _cache;
+    private AzAcrConfig? _config;
     private AzAcrConnectedRegistry? _connectedRegistry;
     private AzAcrCredential? _credential;
     private AzAcrCredentialSet? _credentialSet;
     private AzAcrEncryption? _encryption;
+    private AzAcrHelm? _helm;
     private AzAcrIdentity? _identity;
+    private AzAcrManifest? _manifest;
     private AzAcrNetworkRule? _networkRule;
+    private AzAcrPack? _pack;
     private AzAcrPrivateEndpointConnection? _privateEndpointConnection;
     private AzAcrPrivateLinkResource? _privateLinkResource;
     private AzAcrReplication? _replication;
     private AzAcrRepository? _repository;
     private AzAcrScopeMap? _scopeMap;
     private AzAcrTask? _task;
+    private AzAcrTaskrun? _taskrun;
     private AzAcrToken? _token;
     private AzAcrWebhook? _webhook;
 
@@ -47,9 +54,24 @@ public class AzAcr : IAzAcr
     #region Sub-command Groups
 
     /// <summary>
+    /// az agentpool sub-commands.
+    /// </summary>
+    public AzAcrAgentpool Agentpool => _agentpool ??= new AzAcrAgentpool(_command);
+
+    /// <summary>
+    /// az artifact-streaming sub-commands.
+    /// </summary>
+    public AzAcrArtifactStreaming ArtifactStreaming => _artifactStreaming ??= new AzAcrArtifactStreaming(_command);
+
+    /// <summary>
     /// az cache sub-commands.
     /// </summary>
     public AzAcrCache Cache => _cache ??= new AzAcrCache(_command);
+
+    /// <summary>
+    /// az config sub-commands.
+    /// </summary>
+    public AzAcrConfig Config => _config ??= new AzAcrConfig(_command);
 
     /// <summary>
     /// az connected-registry sub-commands.
@@ -72,14 +94,29 @@ public class AzAcr : IAzAcr
     public AzAcrEncryption Encryption => _encryption ??= new AzAcrEncryption(_command);
 
     /// <summary>
+    /// az helm sub-commands.
+    /// </summary>
+    public AzAcrHelm Helm => _helm ??= new AzAcrHelm(_command);
+
+    /// <summary>
     /// az identity sub-commands.
     /// </summary>
     public AzAcrIdentity Identity => _identity ??= new AzAcrIdentity(_command);
 
     /// <summary>
+    /// az manifest sub-commands.
+    /// </summary>
+    public AzAcrManifest Manifest => _manifest ??= new AzAcrManifest(_command);
+
+    /// <summary>
     /// az network-rule sub-commands.
     /// </summary>
     public AzAcrNetworkRule NetworkRule => _networkRule ??= new AzAcrNetworkRule(_command);
+
+    /// <summary>
+    /// az pack sub-commands.
+    /// </summary>
+    public AzAcrPack Pack => _pack ??= new AzAcrPack(_command);
 
     /// <summary>
     /// az private-endpoint-connection sub-commands.
@@ -110,6 +147,11 @@ public class AzAcr : IAzAcr
     /// az task sub-commands.
     /// </summary>
     public AzAcrTask Task => _task ??= new AzAcrTask(_command);
+
+    /// <summary>
+    /// az taskrun sub-commands.
+    /// </summary>
+    public AzAcrTaskrun Taskrun => _taskrun ??= new AzAcrTaskrun(_command);
 
     /// <summary>
     /// az token sub-commands.

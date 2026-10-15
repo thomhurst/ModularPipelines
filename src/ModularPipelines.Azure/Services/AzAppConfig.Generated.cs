@@ -24,6 +24,7 @@ public class AzAppConfig : IAzAppConfig
     private AzAppConfigFeature? _feature;
     private AzAppConfigIdentity? _identity;
     private AzAppConfigKv? _kv;
+    private AzAppConfigNetworkSecurityPerimeterConfiguration? _networkSecurityPerimeterConfiguration;
     private AzAppConfigReplica? _replica;
     private AzAppConfigRevision? _revision;
     private AzAppConfigSnapshot? _snapshot;
@@ -57,6 +58,11 @@ public class AzAppConfig : IAzAppConfig
     /// az kv sub-commands.
     /// </summary>
     public AzAppConfigKv Kv => _kv ??= new AzAppConfigKv(_command);
+
+    /// <summary>
+    /// az network-security-perimeter-configuration sub-commands.
+    /// </summary>
+    public AzAppConfigNetworkSecurityPerimeterConfiguration NetworkSecurityPerimeterConfiguration => _networkSecurityPerimeterConfiguration ??= new AzAppConfigNetworkSecurityPerimeterConfiguration(_command);
 
     /// <summary>
     /// az replica sub-commands.

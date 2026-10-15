@@ -25,10 +25,12 @@ public class AzSql : IAzSql
     private AzSqlElasticPool? _elasticPool;
     private AzSqlFailoverGroup? _failoverGroup;
     private AzSqlInstanceFailoverGroup? _instanceFailoverGroup;
+    private AzSqlInstancePool? _instancePool;
     private AzSqlMi? _mi;
     private AzSqlMidb? _midb;
     private AzSqlRecoverableMidb? _recoverableMidb;
     private AzSqlServer? _server;
+    private AzSqlStg? _stg;
     private AzSqlVirtualCluster? _virtualCluster;
     private AzSqlVm? _vm;
 
@@ -68,6 +70,11 @@ public class AzSql : IAzSql
     public AzSqlInstanceFailoverGroup InstanceFailoverGroup => _instanceFailoverGroup ??= new AzSqlInstanceFailoverGroup(_command);
 
     /// <summary>
+    /// az instance-pool sub-commands.
+    /// </summary>
+    public AzSqlInstancePool InstancePool => _instancePool ??= new AzSqlInstancePool(_command);
+
+    /// <summary>
     /// az mi sub-commands.
     /// </summary>
     public AzSqlMi Mi => _mi ??= new AzSqlMi(_command);
@@ -86,6 +93,11 @@ public class AzSql : IAzSql
     /// az server sub-commands.
     /// </summary>
     public AzSqlServer Server => _server ??= new AzSqlServer(_command);
+
+    /// <summary>
+    /// az stg sub-commands.
+    /// </summary>
+    public AzSqlStg Stg => _stg ??= new AzSqlStg(_command);
 
     /// <summary>
     /// az virtual-cluster sub-commands.

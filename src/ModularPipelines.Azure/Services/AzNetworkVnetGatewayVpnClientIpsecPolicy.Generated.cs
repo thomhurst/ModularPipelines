@@ -32,6 +32,36 @@ public class AzNetworkVnetGatewayVpnClientIpsecPolicy
     #region Commands
 
     /// <summary>
+    /// Set the VPN client connection ipsec policy
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetAsync(
+        AzNetworkVnetGatewayVpnClientIpsecPolicySetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get the VPN client connection ipsec
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzNetworkVnetGatewayVpnClientIpsecPolicyShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayVpnClientIpsecPolicyShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Place the CLI in a waiting state until a
     /// </summary>
     /// <param name="options">The command options.</param>

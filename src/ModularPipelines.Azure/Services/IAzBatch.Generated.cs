@@ -24,51 +24,51 @@ public interface IAzBatch
     /// <summary>
     /// az account sub-commands.
     /// </summary>
-    AzBatchAccount Account => throw new System.NotSupportedException();
+    AzBatchAccount Account { get; }
 
     /// <summary>
     /// az application sub-commands.
     /// </summary>
-    AzBatchApplication Application => throw new System.NotSupportedException();
+    AzBatchApplication Application { get; }
 
     /// <summary>
     /// az job sub-commands.
     /// </summary>
-    AzBatchJob Job => throw new System.NotSupportedException();
+    AzBatchJob Job { get; }
 
     /// <summary>
     /// az job-schedule sub-commands.
     /// </summary>
-    AzBatchJobSchedule JobSchedule => throw new System.NotSupportedException();
+    AzBatchJobSchedule JobSchedule { get; }
 
     /// <summary>
     /// az location sub-commands.
     /// </summary>
-    AzBatchLocation Location => throw new System.NotSupportedException();
+    AzBatchLocation Location { get; }
 
     /// <summary>
     /// az node sub-commands.
     /// </summary>
-    AzBatchNode Node => throw new System.NotSupportedException();
+    AzBatchNode Node { get; }
 
     /// <summary>
     /// az pool sub-commands.
     /// </summary>
-    AzBatchPool Pool => throw new System.NotSupportedException();
+    AzBatchPool Pool { get; }
 
     /// <summary>
     /// az private-endpoint-connection sub-commands.
     /// </summary>
-    AzBatchPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
+    AzBatchPrivateEndpointConnection PrivateEndpointConnection { get; }
 
     /// <summary>
     /// az private-link-resource sub-commands.
     /// </summary>
-    AzBatchPrivateLinkResource PrivateLinkResource => throw new System.NotSupportedException();
+    AzBatchPrivateLinkResource PrivateLinkResource { get; }
 
     /// <summary>
     /// az task sub-commands.
     /// </summary>
-    AzBatchTask Task => throw new System.NotSupportedException();
+    AzBatchTask Task { get; }
 
 }
