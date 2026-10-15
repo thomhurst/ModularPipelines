@@ -148,7 +148,7 @@ public class NodePackageManagerGlobalOptionsTests
         childHelp ??= tool switch
         {
             "pnpm" => await Fixture("Pnpm", "12.8.1", "pnpm-install-help.txt"),
-            "yarn" => await Fixture("Yarn", "4.18.1", "yarn-install-help.txt"),
+            "yarn" => await Fixture("Yarn", "4.18.1", "yarn-install.help"),
             _ => "Install packages\n\nUsage:\nnpm install [<package-spec> ...]\n\nOptions:\n[--save-dev] [--registry <registry>]\n",
         };
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);

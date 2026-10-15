@@ -25,11 +25,11 @@ public class YarnCommandOperandTests
     public async Task Proxy_Commands_Render_Options_Before_Child_Arguments(string commandName, string? optionName)
     {
         var fixtureDirectory = Path.Combine(AppContext.BaseDirectory, "Fixtures", "Yarn", "4.18.1");
-        var rootHelp = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory, "yarn-help.txt"));
+        var rootHelp = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory, "yarn.help"));
         var discoveryLine = rootHelp.Split('\n').Single(line =>
             line.TrimStart().StartsWith($"yarn {commandName} ", StringComparison.Ordinal));
         var childHelp = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory,
-            $"yarn-{commandName.Replace(' ', '-')}-help.txt"));
+            $"yarn-{commandName.Replace(' ', '-')}.help"));
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         var scraper = new FixtureYarnScraper(new FixtureExecutor(
             $"General commands\n\n{discoveryLine}\n", childHelp), cache);
@@ -94,12 +94,12 @@ public class YarnCommandOperandTests
         string commandName, string operandNames, bool required)
     {
         var fixtureDirectory = Path.Combine(AppContext.BaseDirectory, "Fixtures", "Yarn", "4.18.1");
-        var rootHelp = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory, "yarn-help.txt"));
+        var rootHelp = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory, "yarn.help"));
         // Retain the captured discovery line, including its packed multiword command path.
         var discoveryLine = rootHelp.Split('\n').Single(line =>
             line.TrimStart().StartsWith($"yarn {commandName} ", StringComparison.Ordinal));
         var childHelp = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory,
-            $"yarn-{commandName.Replace(' ', '-')}-help.txt"));
+            $"yarn-{commandName.Replace(' ', '-')}.help"));
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         var scraper = new FixtureYarnScraper(new FixtureExecutor(
             $"General commands\n\n{discoveryLine}\n", childHelp), cache);
