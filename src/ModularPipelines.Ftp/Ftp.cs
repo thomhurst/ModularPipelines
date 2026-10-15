@@ -35,11 +35,23 @@ internal class Ftp : IAsyncDisposable, IFtp
 
                 client.Config.EncryptAuthenticationOnly = false;
                 client.Config.DataConnectionEncryption = true;
-                await client.Connect(cancellationToken).ConfigureAwait(false);
             }
-            else
+
+            try
             {
-                await client.AutoConnect(cancellationToken).ConfigureAwait(false);
+                if (options.RequireEncryption)
+                {
+                    await client.Connect(cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    await client.AutoConnect(cancellationToken).ConfigureAwait(false);
+                }
+            }
+            catch (IOException exception) when (cancellationToken.IsCancellationRequested)
+            {
+                // FluentFTP can report a closed socket as an I/O failure during connection cancellation.
+                throw new OperationCanceledException("The FTP connection was canceled.", exception, cancellationToken);
             }
 
             cancellationToken.ThrowIfCancellationRequested();
