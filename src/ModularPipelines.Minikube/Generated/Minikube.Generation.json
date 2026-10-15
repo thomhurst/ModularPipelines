@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "minikube",
   "toolVersion": "v1.39.0",
   "commandTreeSha256": "10f7cacf564276c51a330e38aef3f03b009dea01be12db414ee3207270efca51",
-  "generatorSourceSha256": "afccdffa78c2fffb68d3b082c27643e8ad9968078785b7b94d14c7237cfbae48"
+  "generatorSourceSha256": "94e93b5ad9f13bf045fe02d4c149a7a9a2c9a0a5b499e246d3901d6318c52b1e"
 }
