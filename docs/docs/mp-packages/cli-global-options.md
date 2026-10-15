@@ -6,6 +6,8 @@ title: Global options in specialist CLI packages
 
 For Git, Terraform, dotnet, Go, nbgv, Cargo, Packer, and Vault, see the
 [developer and infrastructure CLI audit](./developer-cli-global-options.md).
+For pip, Homebrew, WinGet, Chocolatey, Yarn, npm, and pnpm, see the
+[package-manager CLI audit](./package-manager-cli-global-options.md).
 
 Some tools have subcommands with inherited settings. Others accept one invocation with
 files, goals, tasks, or a filter. An empty abstract base class does not mean options are
