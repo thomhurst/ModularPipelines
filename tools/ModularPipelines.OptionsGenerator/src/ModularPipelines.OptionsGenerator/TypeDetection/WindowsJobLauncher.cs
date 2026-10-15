@@ -8,11 +8,12 @@ using Microsoft.Win32.SafeHandles;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
 
-internal static class WindowsJobLauncher
+internal static partial class WindowsJobLauncher
 {
     private const string InvocationArgument = "--internal-windows-job-launcher";
     private const uint CreateNoWindow = 0x08000000;
     private const uint CreateSuspended = 0x00000004;
+    private const uint FailCriticalErrors = 0x00000001;
     private const uint Infinite = 0xFFFFFFFF;
     private const uint StartfUseStdHandles = 0x00000100;
 
@@ -108,23 +109,38 @@ internal static class WindowsJobLauncher
             commandLine.Append(' ').Append(arguments);
         }
 
-        if (!CreateProcess(
-                executablePath,
-                commandLine,
-                nint.Zero,
-                nint.Zero,
-                inheritHandles: true,
-                CreateSuspended | CreateNoWindow,
-                nint.Zero,
-                string.IsNullOrWhiteSpace(workingDirectory) ? null : workingDirectory,
-                ref startupInfo,
-                out var processInformation))
+        // Invalid images can display a system error dialog inside CreateProcess.
+        // Return the native error without requiring interaction, and preserve other error-mode flags.
+        if (!SetThreadErrorMode(GetThreadErrorMode() | FailCriticalErrors, out var previousErrorMode))
         {
-            ReportNativeFailure("start the target process");
+            ReportNativeFailure("disable interactive launch errors");
             return null;
         }
 
-        return new SuspendedProcess(processInformation);
+        try
+        {
+            if (!CreateProcess(
+                    executablePath,
+                    commandLine,
+                    nint.Zero,
+                    nint.Zero,
+                    inheritHandles: true,
+                    CreateSuspended | CreateNoWindow,
+                    nint.Zero,
+                    string.IsNullOrWhiteSpace(workingDirectory) ? null : workingDirectory,
+                    ref startupInfo,
+                    out var processInformation))
+            {
+                ReportNativeFailure("start the target process");
+                return null;
+            }
+
+            return new SuspendedProcess(processInformation);
+        }
+        finally
+        {
+            _ = SetThreadErrorMode(previousErrorMode, out _);
+        }
     }
 
     private static bool TryContainAndResume(SafeFileHandle job, SuspendedProcess target)
@@ -213,6 +229,13 @@ internal static class WindowsJobLauncher
         startInfo.ArgumentList.Add(assembly.Location);
         return startInfo;
     }
+
+    [LibraryImport("kernel32.dll")]
+    private static partial uint GetThreadErrorMode();
+
+    [LibraryImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetThreadErrorMode(uint newMode, out uint oldMode);
 
 #pragma warning disable SYSLIB1054 // Existing runtime imports; native migration is separate from ChildProcessSnapshot.
     [DllImport("kernel32.dll", SetLastError = true)]
