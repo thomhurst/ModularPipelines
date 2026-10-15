@@ -33,7 +33,7 @@ public class NpmCache : INpmCache
     #region Sub-command Groups
 
     /// <summary>
-    /// npm npx sub-commands.
+    /// npm cache npx sub-commands.
     /// </summary>
     public NpmCacheNpx Npx => _npx ??= new NpmCacheNpx(_command);
 

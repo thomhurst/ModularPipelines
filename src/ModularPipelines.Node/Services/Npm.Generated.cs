@@ -120,6 +120,15 @@ internal partial class Npm : INpm
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> CompletionAsync(
+        NpmCompletionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new NpmCompletionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> DedupeAsync(
         NpmDedupeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -225,6 +234,15 @@ internal partial class Npm : INpm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmGetOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> HelpAsync(
+        NpmHelpOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

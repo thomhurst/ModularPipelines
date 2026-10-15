@@ -34,12 +34,12 @@ public class NpmAccess : INpmAccess
     #region Sub-command Groups
 
     /// <summary>
-    /// npm get sub-commands.
+    /// npm access get sub-commands.
     /// </summary>
     public NpmAccessGet Get => _get ??= new NpmAccessGet(_command);
 
     /// <summary>
-    /// npm list sub-commands.
+    /// npm access list sub-commands.
     /// </summary>
     public NpmAccessList List => _list ??= new NpmAccessList(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Node.Options;
 namespace ModularPipelines.Node.Services;
 
 /// <summary>
-/// npm list commands.
+/// npm access list commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class NpmAccessList

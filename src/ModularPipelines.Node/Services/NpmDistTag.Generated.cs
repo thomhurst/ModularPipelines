@@ -14,7 +14,7 @@ using ModularPipelines.Node.Options;
 namespace ModularPipelines.Node.Services;
 
 /// <summary>
-/// npm disttag commands.
+/// npm dist-tag commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class NpmDistTag : INpmDistTag

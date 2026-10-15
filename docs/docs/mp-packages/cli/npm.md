@@ -103,6 +103,7 @@ Global options are rendered after the selected subcommand.
 | `npm cache npx rm` | `NpmCacheNpxRmOptions` |
 | `npm cache verify` | `NpmCacheVerifyOptions` |
 | `npm ci` | `NpmCiOptions` |
+| `npm completion` | `NpmCompletionOptions` |
 | `npm config delete` | `NpmConfigDeleteOptions` |
 | `npm config edit` | `NpmConfigEditOptions` |
 | `npm config fix` | `NpmConfigFixOptions` |
@@ -124,6 +125,7 @@ Global options are rendered after the selected subcommand.
 | `npm find-dupes` | `NpmFindDupesOptions` |
 | `npm fund` | `NpmFundOptions` |
 | `npm get` | `NpmGetOptions` |
+| `npm help` | `NpmHelpOptions` |
 | `npm help-search` | `NpmHelpSearchOptions` |
 | `npm init` | `NpmInitOptions` |
 | `npm install` | `NpmInstallOptions` |

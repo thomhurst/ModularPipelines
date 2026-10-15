@@ -13,7 +13,7 @@ using ModularPipelines.Node.Options;
 namespace ModularPipelines.Node.Services;
 
 /// <summary>
-/// npm disttag commands.
+/// npm dist-tag commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.

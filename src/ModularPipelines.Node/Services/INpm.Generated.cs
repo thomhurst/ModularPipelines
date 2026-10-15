@@ -107,6 +107,15 @@ public partial interface INpm
     public Task<CommandResult> CiAsync(NpmCiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Tab Completion for npm
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CompletionAsync(NpmCompletionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Reduce duplication in the package tree
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -213,6 +222,15 @@ public partial interface INpm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> GetAsync(NpmGetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get help on npm
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> HelpAsync(NpmHelpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Search npm help documentation

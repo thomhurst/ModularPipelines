@@ -14,7 +14,7 @@ using ModularPipelines.Node.Options;
 namespace ModularPipelines.Node.Services;
 
 /// <summary>
-/// npm npx commands.
+/// npm cache npx commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class NpmCacheNpx

@@ -18,6 +18,8 @@ public class GeneratedNodeServiceTests
     [Arguments("npm publish")]
     [Arguments("npm run")]
     [Arguments("npm shrinkwrap")]
+    [Arguments("npm help")]
+    [Arguments("npm completion")]
     [Arguments("npx")]
     public async Task Generated_Services_Forward_Execution_Options_And_Cancellation(string service)
     {
@@ -38,6 +40,8 @@ public class GeneratedNodeServiceTests
             "npm publish" => scope.ServiceProvider.GetRequiredService<INpm>().PublishAsync(executionOptions: executionOptions, cancellationToken: cancellation.Token),
             "npm run" => scope.ServiceProvider.GetRequiredService<INpm>().RunAsync(executionOptions: executionOptions, cancellationToken: cancellation.Token),
             "npm shrinkwrap" => scope.ServiceProvider.GetRequiredService<INpm>().ShrinkwrapAsync(executionOptions: executionOptions, cancellationToken: cancellation.Token),
+            "npm help" => scope.ServiceProvider.GetRequiredService<INpm>().HelpAsync(new NpmHelpOptions("install"), executionOptions, cancellation.Token),
+            "npm completion" => scope.ServiceProvider.GetRequiredService<INpm>().CompletionAsync(executionOptions: executionOptions, cancellationToken: cancellation.Token),
             "npm org" => scope.ServiceProvider.GetRequiredService<INpm>().Org.LsAsync(new NpmOrgLsOptions("example-org"), executionOptions, cancellation.Token),
             _ => scope.ServiceProvider.GetRequiredService<INpx>().ExecuteAsync(new NpxExecuteOptions(), executionOptions, cancellation.Token),
         };

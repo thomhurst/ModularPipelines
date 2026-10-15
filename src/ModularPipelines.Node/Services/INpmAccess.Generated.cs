@@ -22,12 +22,12 @@ namespace ModularPipelines.Node.Services;
 public interface INpmAccess
 {
     /// <summary>
-    /// npm get sub-commands.
+    /// npm access get sub-commands.
     /// </summary>
     NpmAccessGet Get { get; }
 
     /// <summary>
-    /// npm list sub-commands.
+    /// npm access list sub-commands.
     /// </summary>
     NpmAccessList List { get; }
 

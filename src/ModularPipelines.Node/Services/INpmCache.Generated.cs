@@ -22,7 +22,7 @@ namespace ModularPipelines.Node.Services;
 public interface INpmCache
 {
     /// <summary>
-    /// npm npx sub-commands.
+    /// npm cache npx sub-commands.
     /// </summary>
     NpmCacheNpx Npx { get; }
 

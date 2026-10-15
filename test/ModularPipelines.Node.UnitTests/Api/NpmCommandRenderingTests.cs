@@ -13,6 +13,7 @@ public class NpmCommandRenderingTests : TestBase
     [Arguments("publish")]
     [Arguments("run")]
     [Arguments("shrinkwrap")]
+    [Arguments("completion")]
     public async Task Current_Project_Commands_Render_Without_Operands(string verb)
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -22,18 +23,35 @@ public class NpmCommandRenderingTests : TestBase
             "pack" => new NpmPackOptions(),
             "publish" => new NpmPublishOptions(),
             "shrinkwrap" => new NpmShrinkwrapOptions(),
+            "completion" => new NpmCompletionOptions(),
             _ => new NpmRunOptions(),
         };
         await Assert.That(builder.Build(options).ToString()).IsEqualTo($"npm {verb}");
     }
 
     [Test]
-    public async Task Shrinkwrap_Remains_In_Command_Coverage()
+    [Arguments("npm shrinkwrap")]
+    [Arguments("npm help")]
+    [Arguments("npm completion")]
+    public async Task Migrated_Commands_Remain_In_Command_Coverage(string commandName)
     {
         using var manifest = typeof(NpmCommandRenderingTests).Assembly.GetManifestResourceStream("Npm.CommandCoverage.json")!;
         using var coverage = await JsonDocument.ParseAsync(manifest);
         await Assert.That(coverage.RootElement.GetProperty("commands").EnumerateArray()
-            .Any(command => command.GetString() == "npm shrinkwrap")).IsTrue();
+            .Any(command => command.GetString() == commandName)).IsTrue();
+    }
+
+    [Test]
+    public async Task Help_Renders_Terms_And_Viewer()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var commandLine = builder.Build(new NpmHelpOptions("install")
+        {
+            Terms = ["package", "scripts"],
+            Viewer = "browser",
+        });
+        await Assert.That(commandLine.Arguments
+            .SequenceEqual(["help", "install", "package", "scripts", "--viewer", "browser"])).IsTrue();
     }
 
     [Test]

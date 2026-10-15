@@ -87,5 +87,10 @@ The profile 2FA options now use generated names: replace `NpmProfileDisable2faOp
 with `NpmProfileDisableNumber2faOptions` and `NpmProfileEnable2faOptions` with
 `NpmProfileEnableNumber2faOptions`, both in `ModularPipelines.Node.Options`.
 
+`ShrinkwrapAsync`, `HelpAsync`, and `CompletionAsync` remain on the generated npm
+service. Their option types move from `ModularPipelines.Node.Models` to
+`ModularPipelines.Node.Options`. `NpmHelpOptions` now requires the first help term
+in its constructor; additional terms use `Terms`.
+
 See the generated [npm reference](cli/npm.md), [npx reference](cli/npx.md), and
 [pnpm reference](cli/pnpm.md) for the current command surface.
