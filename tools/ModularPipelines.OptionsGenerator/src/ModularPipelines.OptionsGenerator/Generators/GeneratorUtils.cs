@@ -952,6 +952,8 @@ public static partial class GeneratorUtils
 
     private const string SecretMaterialTermPattern = @"value|contents?|body|material|payload";
 
+    private const string SasCredentialTermPattern = @"(?:SAS|shared[\s-]+access[\s-]+signature)";
+
     /// <summary>
     /// Determines if an option should be marked as a secret based on its property name and description.
     /// Secret-bearing values are obfuscated, while identifiers and file paths remain visible.
@@ -1021,9 +1023,16 @@ public static partial class GeneratorUtils
          || propertyName.EndsWith("Uri", StringComparison.OrdinalIgnoreCase))
         && (EndsWithIdentifierSegment(propertyName, "SasUrl")
             || EndsWithIdentifierSegment(propertyName, "SasUri")
-            || (description is not null && SasDescriptionPattern().IsMatch(description)));
+            || (description is not null && SasDescriptionPattern().IsMatch(
+                NegatedSasDescriptionPattern().Replace(description, string.Empty))));
 
-    [GeneratedRegex(@"\b(?:SAS|shared[\s-]+access[\s-]+signature)\b",
+    // Remove only negated mentions so a separate credential-bearing alternative still masks the URL.
+    [GeneratedRegex(@"\b(?:without|no|not\s+(?:contain|include))\s+(?:(?:a|an|the)\s+)?"
+        + SasCredentialTermPattern + @"\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex NegatedSasDescriptionPattern();
+
+    [GeneratedRegex(@"\b" + SasCredentialTermPattern + @"\b",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex SasDescriptionPattern();
 

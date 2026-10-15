@@ -1157,11 +1157,15 @@ public class AzCliScraperTests
     }
 
     [Test]
-    [Arguments("network vpn-connection packet-capture stop", "sas-url", "The SAS url to be used for packet capture on VPN connection.", true)]
-    [Arguments("network vnet-gateway packet-capture stop", "sas-url", "The SAS url to be used for packet capture.", false)]
-    [Arguments("storage blob rewrite", "source-uri", "A URL of up to 2 KB in length that specifies a file or blob. The value should be URL-encoded as it would appear in a request URI. If the source is in another account, the source must either be public or must be authenticated via a shared access signature. If the source is public, no authentication is required.", true)]
-    public async Task Sas_Url_Operands_Keep_Masking_Through_Enhancement_And_Generation(
-        string commandPath, string switchName, string description, bool required)
+    [Arguments("network vpn-connection packet-capture stop", "sas-url", "The SAS url to be used for packet capture on VPN connection.", true, true)]
+    [Arguments("network vnet-gateway packet-capture stop", "sas-url", "The SAS url to be used for packet capture.", false, true)]
+    [Arguments("storage blob rewrite", "source-uri", "A URL of up to 2 KB in length that specifies a file or blob. The value should be URL-encoded as it would appear in a request URI. If the source is in another account, the source must either be public or must be authenticated via a shared access signature. If the source is public, no authentication is required.", true, true)]
+    [Arguments("vmss run-command create", "error-blob-uri", "Uri (without SAS) to an append blob where the script error stream will be uploaded.", false, false)]
+    [Arguments("vmss run-command create", "output-blob-uri", "Uri (without SAS) to an append blob where the script output will be uploaded.", false, false)]
+    [Arguments("vmss run-command update", "error-blob-uri", "Uri (without SAS) to an append blob where the script error stream will be uploaded.", false, false)]
+    [Arguments("vmss run-command update", "output-blob-uri", "Uri (without SAS) to an append blob where the script output will be uploaded.", false, false)]
+    public async Task Sas_Url_Operands_Keep_Secret_Classification_Through_Enhancement_And_Generation(
+        string commandPath, string switchName, string description, bool required, bool expectedSecret)
     {
         var help = $"""
             Command
@@ -1172,18 +1176,19 @@ public class AzCliScraperTests
         var scraper = new TestAzCliScraper();
         var command = (await scraper.Parse(["az", .. commandPath.Split(' ')], help))!;
         var option = command.Options.Single();
-        await Assert.That(option.IsSecret).IsTrue();
+        await Assert.That(option.IsSecret).IsEqualTo(expectedSecret);
         await Assert.That(option.IsRequired).IsEqualTo(required);
         var enhancer = new OptionTypeEnhancer(
             new OptionTypeDetectorPipeline([], NullLogger<OptionTypeDetectorPipeline>.Instance),
             NullLogger<OptionTypeEnhancer>.Instance);
         var tool = await enhancer.EnhanceManualOverridesAsync(
             scraper.CreateToolDefinition() with { Commands = [command] });
-        await Assert.That(tool.Commands.Single().Options.Single().IsSecret).IsTrue();
+        await Assert.That(tool.Commands.Single().Options.Single().IsSecret).IsEqualTo(expectedSecret);
         var files = await new OptionsClassGenerator().GenerateAsync(tool);
 
-        await Assert.That(files.Single().Content).Contains(
-            $"[SecretValue]{Environment.NewLine}    [CliOption(\"--{switchName}\")]");
+        await Assert.That(files.Single().Content.Contains(
+            $"[SecretValue]{Environment.NewLine}    [CliOption(\"--{switchName}\")]",
+            StringComparison.Ordinal)).IsEqualTo(expectedSecret);
         await Assert.That(files.Single().Content).Contains(
             $"public string{(required ? string.Empty : "?")} {option.PropertyName} {{ get; {(required ? "private init" : "set")}; }}");
     }
