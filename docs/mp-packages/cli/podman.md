@@ -302,6 +302,7 @@ Global options are rendered before the selected subcommand.
 | `podman system events`                         | `PodmanSystemEventsOptions`                       |
 | `podman system migrate`                        | `PodmanSystemMigrateOptions`                      |
 | `podman system prune`                          | `PodmanSystemPruneOptions`                        |
+| `podman system renumber`                       | `PodmanSystemRenumberOptions`                     |
 | `podman system reset`                          | `PodmanSystemResetOptions`                        |
 | `podman system service`                        | `PodmanSystemServiceOptions`                      |
 | `podman tag`                                   | `PodmanTagOptions`                                |
@@ -321,6 +322,7 @@ Global options are rendered before the selected subcommand.
 | `podman volume ls`                             | `PodmanVolumeLsOptions`                           |
 | `podman volume mount`                          | `PodmanVolumeMountOptions`                        |
 | `podman volume prune`                          | `PodmanVolumePruneOptions`                        |
+| `podman volume reload`                         | `PodmanVolumeReloadOptions`                       |
 | `podman volume rename`                         | `PodmanVolumeRenameOptions`                       |
 | `podman volume rm`                             | `PodmanVolumeRmOptions`                           |
 | `podman volume unmount`                        | `PodmanVolumeUnmountOptions`                      |
