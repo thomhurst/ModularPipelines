@@ -23,7 +23,16 @@ namespace ModularPipelines.Context;
 /// Orchestrates command-line tool execution by coordinating argument building,
 /// placeholder replacement, and command execution.
 /// </summary>
-internal sealed class Command : ICommandContext
+internal sealed class Command(
+    ICommandLogger commandLogger,
+    ICommandLineBuilder commandLineBuilder,
+    IEnumerable<ICommandInterceptor> commandInterceptors,
+    ISecretProvider secretProvider,
+    ISecretRegistry secretRegistry,
+    ISecretObfuscator secretObfuscator,
+    ICommandExecutionCounter commandExecutionCounter,
+    IOptions<PipelineOptions> pipelineOptions,
+    PipelineWorkingDirectory pipelineWorkingDirectory) : ICommandContext
 {
     // Win32 ERROR_FILE_NOT_FOUND and Unix ENOENT both use native error code 2.
     private const int FileNotFoundNativeErrorCode = 2;
@@ -38,37 +47,15 @@ internal sealed class Command : ICommandContext
         ProcessCommand Command,
         Lazy<string> InputToLog);
 
-    private readonly ICommandLogger _commandLogger;
-    private readonly ICommandLineBuilder _commandLineBuilder;
-    private readonly IEnumerable<ICommandInterceptor> _commandInterceptors;
-    private readonly ISecretProvider _secretProvider;
-    private readonly ISecretRegistry _secretRegistry;
-    private readonly ISecretObfuscator _secretObfuscator;
-    private readonly ICommandExecutionCounter _commandExecutionCounter;
-    private readonly IOptions<PipelineOptions> _pipelineOptions;
-    private readonly PipelineWorkingDirectory _pipelineWorkingDirectory;
-
-    public Command(
-        ICommandLogger commandLogger,
-        ICommandLineBuilder commandLineBuilder,
-        IEnumerable<ICommandInterceptor> commandInterceptors,
-        ISecretProvider secretProvider,
-        ISecretRegistry secretRegistry,
-        ISecretObfuscator secretObfuscator,
-        ICommandExecutionCounter commandExecutionCounter,
-        IOptions<PipelineOptions> pipelineOptions,
-        PipelineWorkingDirectory pipelineWorkingDirectory)
-    {
-        _commandLogger = commandLogger;
-        _commandLineBuilder = commandLineBuilder;
-        _commandInterceptors = commandInterceptors;
-        _secretProvider = secretProvider;
-        _secretRegistry = secretRegistry;
-        _secretObfuscator = secretObfuscator;
-        _commandExecutionCounter = commandExecutionCounter;
-        _pipelineOptions = pipelineOptions;
-        _pipelineWorkingDirectory = pipelineWorkingDirectory;
-    }
+    private readonly ICommandLogger _commandLogger = commandLogger;
+    private readonly ICommandLineBuilder _commandLineBuilder = commandLineBuilder;
+    private readonly IEnumerable<ICommandInterceptor> _commandInterceptors = commandInterceptors;
+    private readonly ISecretProvider _secretProvider = secretProvider;
+    private readonly ISecretRegistry _secretRegistry = secretRegistry;
+    private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
+    private readonly ICommandExecutionCounter _commandExecutionCounter = commandExecutionCounter;
+    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
+    private readonly PipelineWorkingDirectory _pipelineWorkingDirectory = pipelineWorkingDirectory;
 
     public async Task<CommandResult> ExecuteCommandLineToolAsync(
         CommandLineToolOptions options,
@@ -245,7 +232,7 @@ internal sealed class Command : ICommandContext
     {
         executionCancellationToken.ThrowIfCancellationRequested();
 
-        var interceptors = _commandInterceptors as ICommandInterceptor[] ?? _commandInterceptors.ToArray();
+        var interceptors = _commandInterceptors as ICommandInterceptor[] ?? [.. _commandInterceptors];
         if (interceptors.Length == 0)
         {
             return await ExecuteInvocationAsync(
@@ -1014,7 +1001,8 @@ internal sealed class Command : ICommandContext
 
             if (forcefulCancellationToken.Token.CanBeCanceled)
             {
-                forcefulCancellationToken.CancelAfter(gracefulShutdownTimeout);
+                // Windows commands cannot receive a graceful interrupt, so waiting cannot help them exit.
+                forcefulCancellationToken.CancelAfter(OperatingSystem.IsWindows() ? TimeSpan.Zero : gracefulShutdownTimeout);
             }
         }
         catch (ObjectDisposedException)

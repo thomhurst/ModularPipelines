@@ -934,6 +934,26 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    public async Task ExecuteCommandLineToolAsync_WindowsCancellation_DoesNotWaitForDefaultGracefulTimeout()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "parent", new CommandExecutionOptions().GracefulShutdownTimeout);
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(10));
+        fixture.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => fixture.Execution.WaitAsync(TimeSpan.FromSeconds(5)));
+        await Assert.That(await WaitForExitAsync(parent, TimeSpan.FromSeconds(2))).IsTrue();
+        await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(2))).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_LogsEachTermination()
     {
         var commandLogger = new Mock<ICommandLogger>();
@@ -1094,6 +1114,26 @@ public class CommandTests : TestBase
         await Assert.That(exception.Message).Contains("timed out after 00:05:00 (CommandExecutionOptions.ExecutionTimeout)");
         await Assert.That(exception.Message).DoesNotContain("default");
         await Assert.That(exception.Message).Contains("Raise CommandExecutionOptions.ExecutionTimeout");
+    }
+
+    [Test]
+    [Arguments(30_000)]
+    [Arguments(-1)]
+    public async Task ScheduleForcefulCancellationAsync_Windows_IgnoresGracefulTimeout(int timeoutMilliseconds)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        using var forcefulCancellationToken = new CancellationTokenSource();
+        await Command.ScheduleForcefulCancellationAsync(
+            forcefulCancellationToken,
+            TimeSpan.FromMilliseconds(timeoutMilliseconds),
+            null);
+
+        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await Task.Delay(TimeSpan.FromSeconds(1), forcefulCancellationToken.Token));
     }
 
     [Test]
