@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "pnpm",
-  "toolVersion": "12.8.1",
-  "commandTreeSha256": "2daf3e39c7594890a41e4a182379b32690d8f4c568a06e06d6c4330285fb8daf",
-  "generatorSourceSha256": "edf6a065ad58aa236f1493421521e6d0ce67593e6d870362e043a521271c4248"
+  "toolVersion": "12.11.2",
+  "commandTreeSha256": "6e6e840a5dbcb30734608f696aae1b25e108f24f5b77a53631b85a6b51659ac6",
+  "generatorSourceSha256": "e9ba1f22b014502d70b344b8bb5de2f5929fbeaeb3400d9e582cadfae20a706f"
 }

@@ -1,12 +1,13 @@
 {
   "formatVersion": 1,
   "toolName": "pnpm",
-  "toolVersion": "12.8.1",
-  "commandCount": 107,
-  "commandTreeSha256": "2daf3e39c7594890a41e4a182379b32690d8f4c568a06e06d6c4330285fb8daf",
+  "toolVersion": "12.11.2",
+  "commandCount": 112,
+  "commandTreeSha256": "6e6e840a5dbcb30734608f696aae1b25e108f24f5b77a53631b85a6b51659ac6",
   "commands": [
     "pnpm access",
     "pnpm add",
+    "pnpm approve",
     "pnpm approve-builds",
     "pnpm audit",
     "pnpm bugs",
@@ -60,6 +61,9 @@
     "pnpm patch-commit",
     "pnpm patch-remove",
     "pnpm peers",
+    "pnpm permissions",
+    "pnpm permissions approve",
+    "pnpm permissions list",
     "pnpm ping",
     "pnpm pipeline",
     "pnpm pkg",
@@ -107,6 +111,7 @@
     "pnpm unpublish",
     "pnpm unstar",
     "pnpm update",
+    "pnpm version",
     "pnpm view",
     "pnpm whoami",
     "pnpm why",
@@ -116,6 +121,7 @@
   "commandGroups": [
     "pnpm cache",
     "pnpm config",
+    "pnpm permissions",
     "pnpm pkg",
     "pnpm store",
     "pnpm tasks"

@@ -59,6 +59,15 @@ internal partial class Pnpm : IPnpm
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> ApproveAsync(
+        PnpmApproveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmApproveOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> AuditAsync(
         PnpmAuditOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -527,6 +536,33 @@ internal partial class Pnpm : IPnpm
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> PermissionsApproveAsync(
+        PnpmPermissionsApproveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmPermissionsApproveOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> PermissionsListAsync(
+        PnpmPermissionsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmPermissionsListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> PermissionsAsync(
+        PnpmPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmPermissionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> PingAsync(
         PnpmPingOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -947,6 +983,15 @@ internal partial class Pnpm : IPnpm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmUpdateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        PnpmVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
