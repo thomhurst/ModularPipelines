@@ -23,7 +23,9 @@ internal static class DistributedBuildConfiguration
         };
         try
         {
+#pragma warning disable RESP010 // This one-shot startup probe owns its connection; normal pipeline work uses shared clients.
             await using var connection = await RespireClient.ConnectAsync(connectionOptions).ConfigureAwait(false);
+#pragma warning restore RESP010
             foreach (var section in new[] { "memory", "stats" })
             {
                 var information = await connection.Server.InfoAsync(section).ConfigureAwait(false);

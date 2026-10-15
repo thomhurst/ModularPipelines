@@ -15,6 +15,47 @@ public class RedisDistributedCoordinatorContractTests
     private const string ConnectionStringVariable = "MODULAR_PIPELINES_REDIS_TEST_CONNECTION_STRING";
 
     [Test]
+    public Task Reads_All_Pages_Of_Leases_Workers_And_Statuses() =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            const int count = 600;
+            using var batch = client.CreateBatch();
+            for (var index = 0; index < count; index++)
+            {
+                var workerId = new WorkerId($"worker-{index}");
+                var registration = new WorkerRegistration
+                {
+                    WorkerId = workerId,
+                    Capabilities = [],
+                    RegisteredAt = DateTimeOffset.UtcNow,
+                };
+                var status = new WorkerStatus { WorkerId = workerId, IsFinal = index % 3 == 1 };
+                var assignment = DistributedCoordinatorContract.CreateAssignment($"Module.{index}");
+                var member = RedisQueueMember.Create("0123456789abcdef", assignment, System.Text.Json.JsonSerializer.Serialize(assignment));
+                var lease = new { LeaseId = $"lease-{index}", WorkerId = workerId.Value, Member = member, ExpiresAt = "9999999999999" };
+                batch.Hashes.Set(keys.Workers, workerId.Value, (RespireValue) System.Text.Json.JsonSerializer.Serialize(registration));
+                batch.Hashes.Set(keys.WorkerStatuses, workerId.Value, (RespireValue) System.Text.Json.JsonSerializer.Serialize(status));
+                batch.Hashes.Set(keys.Leases, assignment.ModuleId.Value, (RespireValue) System.Text.Json.JsonSerializer.Serialize(lease));
+                if (index % 3 == 0)
+                {
+                    batch.Hashes.Set(keys.WorkerHeartbeats, workerId.Value, (RespireValue) "1");
+                }
+            }
+
+            await batch.ExecuteAsync();
+            var leases = await coordinator.GetActiveLeasesAsync(CancellationToken.None);
+            var statuses = await coordinator.GetWorkerStatusesAsync(CancellationToken.None);
+            var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+            await Assert.That(leases.Select(lease => lease.Assignment.ModuleId.Value))
+                .IsEquivalentTo(Enumerable.Range(0, count).Select(index => $"Module.{index}"));
+            await Assert.That(statuses.Select(status => status.WorkerId.Value))
+                .IsEquivalentTo(Enumerable.Range(0, count).Select(index => $"worker-{index}"));
+            await Assert.That(workers.Select(worker => worker.WorkerId.Value))
+                .IsEquivalentTo(Enumerable.Range(0, count).Where(index => index % 3 != 2).Select(index => $"worker-{index}"));
+        });
+
+    [Test]
     public Task Enqueue_And_Dequeue_RoundTrips() =>
         RunContractAsync(DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync);
 
@@ -124,7 +165,7 @@ public class RedisDistributedCoordinatorContractTests
                     CancellationToken.None);
 
                 // The heartbeat fields expire with the worker timeout, so neither worker stays live.
-                await WaitUntilAsync(async () => (await client.Hashes.GetAllAsync(keys.WorkerHeartbeats)).Count == 0);
+                await WaitUntilAsync(async () => await client.Hashes.CountAsync(keys.WorkerHeartbeats) == 0);
 
                 var registered = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
                 await Assert.That(registered.Select(worker => worker.WorkerId)).IsEquivalentTo([finished.WorkerId]);
@@ -328,7 +369,9 @@ public class RedisDistributedCoordinatorContractTests
             throw new SkipTestException($"Set {ConnectionStringVariable} to run real Redis contract tests.");
         }
 
+#pragma warning disable RESP010 // Each isolated contract test owns one client for all operations in its run.
         await using var connection = await RespireClient.ConnectAsync(connectionString);
+#pragma warning restore RESP010
         var runId = Guid.NewGuid().ToString("N");
         var options = new RedisOptions
         {

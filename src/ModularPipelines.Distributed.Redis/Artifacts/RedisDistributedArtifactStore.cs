@@ -15,6 +15,7 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup
 {
     private const int ChunkDeleteBatchSize = 256;
+    private const int MetadataReadBatchSize = 250;
 
     private readonly IRespireClient _redis;
     private readonly RedisKeyBuilder _keys;
@@ -171,24 +172,20 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
     public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
-        var members = await _redis.Sets.MembersAsync(_keys.ArtifactIndex(moduleId), cancellationToken)
-            .ConfigureAwait(false);
-
-        if (members.Length == 0)
+        var members = await ReadSetAsync(_keys.ArtifactIndex(moduleId), cancellationToken).ConfigureAwait(false);
+        var references = new List<ArtifactReference>(members.Count);
+        foreach (var batch in members.Chunk(MetadataReadBatchSize))
         {
-            return [];
-        }
-
-        // Every metadata key shares the run's hash tag, so one MGET reads them all, even on Redis Cluster.
-        RespireKey[] metadataKeys = [.. members.Select(member => (RespireKey) _keys.ArtifactMeta(member))];
-        var metadata = await _redis.Strings.GetManyAsync(metadataKeys, cancellationToken).ConfigureAwait(false);
-        var references = new List<ArtifactReference>(members.Length);
-        foreach (var metaJson in metadata)
-        {
-            // Skip unreadable metadata like missing metadata, so one bad entry cannot hide the rest.
-            if (TryParseReference(metaJson) is { } reference)
+            // Every metadata key shares the run's hash tag, so MGET also works on Redis Cluster.
+            RespireKey[] metadataKeys = [.. batch.Select(member => (RespireKey) _keys.ArtifactMeta(member))];
+            var metadata = await _redis.Strings.GetManyAsync(metadataKeys, cancellationToken).ConfigureAwait(false);
+            foreach (var metaJson in metadata)
             {
-                references.Add(reference);
+                // Skip unreadable metadata like missing metadata, so one bad entry cannot hide the rest.
+                if (TryParseReference(metaJson) is { } reference)
+                {
+                    references.Add(reference);
+                }
             }
         }
 
@@ -211,13 +208,11 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        var moduleIds = await _redis.Sets.MembersAsync(_keys.ArtifactModules, cancellationToken)
-            .ConfigureAwait(false);
+        var moduleIds = await ReadSetAsync(_keys.ArtifactModules, cancellationToken).ConfigureAwait(false);
         foreach (var moduleId in moduleIds)
         {
             var indexKey = _keys.ArtifactIndex(new ModuleId(moduleId));
-            var artifactIds = await _redis.Sets.MembersAsync(indexKey, cancellationToken)
-                .ConfigureAwait(false);
+            var artifactIds = await ReadSetAsync(indexKey, cancellationToken).ConfigureAwait(false);
             foreach (var artifactId in artifactIds)
             {
                 var sizeBytes = await GetRecordedSizeAsync(artifactId, cancellationToken).ConfigureAwait(false);
@@ -230,6 +225,18 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
         await _redis.Keys.UnlinkAsync([_keys.ArtifactModules], cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    private async Task<HashSet<string>> ReadSetAsync(string key, CancellationToken cancellationToken)
+    {
+        var members = new HashSet<string>(StringComparer.Ordinal);
+        await foreach (var member in _redis.Sets.ScanAsync(key, cancellationToken: cancellationToken).ConfigureAwait(false))
+        {
+            // Cursor scans may return the same member more than once.
+            members.Add(member);
+        }
+
+        return members;
     }
 
     // A partial upload has no metadata yet, so its size is unknown.

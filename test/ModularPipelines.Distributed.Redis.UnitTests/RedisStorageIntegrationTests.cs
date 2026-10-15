@@ -17,6 +17,42 @@ public class RedisStorageIntegrationTests
     private const string Fingerprint = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Lists_And_Cleans_Artifacts_Across_Scan_Pages(bool separateModules)
+    {
+        await using var connection = await ConnectAsync();
+        var keys = new RedisKeyBuilder("modpipe-integration", Guid.NewGuid().ToString("N"));
+        var store = new RedisDistributedArtifactStore(connection, keys, new RedisOptions());
+        var references = new List<ArtifactReference>();
+        for (var index = 0; index < 600; index++)
+        {
+            using var stream = new MemoryStream([1]);
+            references.Add(await store.UploadAsync(
+                new ArtifactDescriptor { Name = $"artifact-{index}", ModuleId = separateModules ? $"Module.{index}" : "Module.Shared" },
+                stream,
+                CancellationToken.None));
+        }
+
+        foreach (var group in references.GroupBy(reference => reference.ModuleId))
+        {
+            var listed = await store.ListArtifactsAsync(group.Key, CancellationToken.None);
+            await Assert.That(listed.Select(reference => reference.ArtifactId))
+                .IsEquivalentTo(group.Select(reference => reference.ArtifactId));
+        }
+
+        await store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "scan-pages", PipelineSucceeded = true }, CancellationToken.None);
+        foreach (var reference in references)
+        {
+            await Assert.That(await connection.ExistsAsync(keys.ArtifactMeta(reference.ArtifactId))).IsFalse();
+            await Assert.That(await connection.ExistsAsync(keys.ArtifactData(reference.ArtifactId))).IsFalse();
+            await Assert.That(await connection.ExistsAsync(keys.ArtifactIndex(reference.ModuleId))).IsFalse();
+        }
+
+        await Assert.That(await connection.ExistsAsync(keys.ArtifactModules)).IsFalse();
+    }
+
+    [Test]
     [Arguments(0)]
     [Arguments(7)]
     [Arguments(16)]
@@ -128,7 +164,7 @@ public class RedisStorageIntegrationTests
                 source,
                 CancellationToken.None))
             .Throws<IOException>();
-        var artifactId = (await connection.Sets.MembersAsync(keys.ArtifactIndex("Integration.Partial"))).Single();
+        var artifactId = await connection.Sets.ScanAsync(keys.ArtifactIndex("Integration.Partial")).SingleAsync();
         await Assert.That(await connection.ExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsTrue();
         await Assert.That((await connection.Keys.ExpiryAsync(keys.ArtifactIndex("Integration.Partial"))).HasExpiry).IsTrue();
         await Assert.That((await connection.Keys.ExpiryAsync(keys.ArtifactModules)).HasExpiry).IsTrue();
