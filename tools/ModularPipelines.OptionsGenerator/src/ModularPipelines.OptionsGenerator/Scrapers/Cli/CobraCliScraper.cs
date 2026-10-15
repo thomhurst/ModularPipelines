@@ -29,6 +29,11 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 {
     // ScrapeAsync is now provided by CliScraperBase - no need to override
 
+    protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText) =>
+        base.ParseUsageSynopsis(commandPath, PreserveCommandGroupPlaceholders ? helpText
+            : UsageSynopsisParser.NormalizeSubcommandChoices(helpText,
+                ExtractSubcommands(commandPath, helpText).ToHashSet(StringComparer.Ordinal)));
+
     /// <inheritdoc />
     protected override bool HelpMatchesCommandPath(string[] commandPath, string helpText)
     {
