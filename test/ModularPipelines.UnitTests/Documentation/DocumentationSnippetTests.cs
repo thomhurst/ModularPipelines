@@ -135,6 +135,9 @@ public partial class DocumentationSnippetTests
     [Arguments("docs/docs/examples/fsharp-interactive.md", "test/ModularPipelines.DocumentationSnippets.FSharp/InteractiveExample.fs", "type UpdateDotnetWorkloads")]
     [Arguments("docs/docs/how-to/sub-modules.md", "test/ModularPipelines.DocumentationSnippets/SubModuleSnippet.cs", "class PackProjectsModule")]
     [Arguments("docs/docs/how-to/defining-modules.md", "test/ModularPipelines.DocumentationSnippets/SyncModuleSnippet.cs", "class LoggingModule")]
+    [Arguments("docs/docs/how-to/run-conditions.md", "test/ModularPipelines.DocumentationSnippets/HowToSnippets.cs", "class ServiceIsAvailable")]
+    [Arguments("docs/docs/how-to/cancellation-tokens.md", "test/ModularPipelines.DocumentationSnippets/HowToSnippets.cs", "class MyModule")]
+    [Arguments("docs/docs/how-to/defining-modules.md", "test/ModularPipelines.DocumentationSnippets/HowToSnippets.cs", "class FindAFileModule")]
     public async Task Published_Example_Matches_Compiled_Fixture(string documentationPath, string fixturePath, string declaration)
     {
         var repositoryRoot = FindRepositoryRoot();
