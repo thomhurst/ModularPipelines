@@ -24,22 +24,22 @@ public interface ITerraformStacks
     /// <summary>
     /// terraform configuration sub-commands.
     /// </summary>
-    TerraformStacksConfiguration Configuration => throw new System.NotSupportedException();
+    TerraformStacksConfiguration Configuration { get; }
 
     /// <summary>
     /// terraform deployment-group sub-commands.
     /// </summary>
-    TerraformStacksDeploymentGroup DeploymentGroup => throw new System.NotSupportedException();
+    TerraformStacksDeploymentGroup DeploymentGroup { get; }
 
     /// <summary>
     /// terraform deployment-run sub-commands.
     /// </summary>
-    TerraformStacksDeploymentRun DeploymentRun => throw new System.NotSupportedException();
+    TerraformStacksDeploymentRun DeploymentRun { get; }
 
     /// <summary>
     /// terraform deployment-step sub-commands.
     /// </summary>
-    TerraformStacksDeploymentStep DeploymentStep => throw new System.NotSupportedException();
+    TerraformStacksDeploymentStep DeploymentStep { get; }
 
     /// <summary>
     /// The available commands for execution are listed below.
@@ -48,8 +48,7 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(TerraformStacksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(TerraformStacksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a Terraform Stack.
@@ -58,8 +57,7 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(TerraformStacksCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(TerraformStacksCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show diagnostics for either a stack configuration or a deployment step.
@@ -68,8 +66,7 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DiagnosticsAsync(TerraformStacksDiagnosticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DiagnosticsAsync(TerraformStacksDiagnosticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rewrites all Terraform Stacks configuration files to a canonical format. All
@@ -78,8 +75,7 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> FmtAsync(TerraformStacksFmtOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> FmtAsync(TerraformStacksFmtOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initialize the Terraform Stacks configuration by downloading the configuration
@@ -88,8 +84,7 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InitAsync(TerraformStacksInitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InitAsync(TerraformStacksInitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List stacks for a given organization and/or project.
@@ -98,8 +93,7 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(TerraformStacksListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(TerraformStacksListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create or update the dependency lock file (.terraform.lock.hcl) for the
@@ -108,8 +102,7 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProvidersLockAsync(TerraformStacksProvidersLockOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ProvidersLockAsync(TerraformStacksProvidersLockOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Validate the configuration files in a directory, referring only to the
@@ -118,8 +111,7 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidateAsync(TerraformStacksValidateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidateAsync(TerraformStacksValidateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the version of the Stacks Plugin.
@@ -128,7 +120,6 @@ public interface ITerraformStacks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(TerraformStacksVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(TerraformStacksVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
