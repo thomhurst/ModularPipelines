@@ -54,8 +54,11 @@ public sealed record CliRequiredAlternativeGroup
 /// </summary>
 public sealed record CliRequiredAlternativeMember
 {
+    // Optional string pattern needed to satisfy this member in a complete usage form.
+    internal string? ValuePattern { get; init; }
+
     /// <summary>
-    /// The flag value that activates a named conditional requirement, when only one spelling is a trigger.
+    /// The flag value that satisfies a usage alternative or activates a named conditional requirement.
     /// </summary>
     public bool? RequiredFlagValue { get; init; }
 

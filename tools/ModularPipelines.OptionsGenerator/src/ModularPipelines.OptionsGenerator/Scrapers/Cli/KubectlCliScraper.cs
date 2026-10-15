@@ -11,6 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
     private const string GlobalOptionsHeading = "The following options can be passed to any command";
+    private const string CombinedResourcePattern = @"\A[^/\s]+/[^/\s]+\z";
 
     private static readonly string[] RequiredGlobalSwitches = ["--namespace", "--context", "--kubeconfig"];
 
@@ -86,6 +87,70 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
             UnparsedOperandTokens = unparsedOperandTokens,
         };
     }
+
+    protected override IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
+        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups)
+    {
+        string[] selectionSwitches = command.CommandParts switch
+        {
+            ["annotate" or "label"] => ["--all", "--selector", "--field-selector"],
+            ["scale"] => ["--all", "--selector"],
+            _ => [],
+        };
+        var selectionOptions = command.Options.Where(option =>
+            selectionSwitches.Contains(option.SwitchName, StringComparer.Ordinal)).ToArray();
+        return [.. groups.Select(group => NormalizeResourceInputs(group, command.Options, selectionOptions))];
+    }
+
+    // Resource input can use TYPE NAME, TYPE/NAME, selectors, filenames, or a kustomization.
+    // A bare TYPE still needs a name or selector; a combined TYPE/NAME supplies both.
+    private static UsageRequiredAlternativeGroup NormalizeResourceInputs(
+        UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options,
+        IReadOnlyList<CliOptionDefinition> selectionOptions)
+    {
+        var members = group.Members.Select(NormalizeCombinedResource).ToList();
+        var groups = group.Groups.Select(child => NormalizeResourceInputs(child, options, selectionOptions)).ToList();
+        if (!group.IsChoice
+            && members.FirstOrDefault(member => member.PositionalPropertyName == "Type") is { } type
+            && members.FirstOrDefault(member => member.PositionalPropertyName == "Name") is { } name)
+        {
+            members.Remove(name);
+            groups.Add(CreateResourceSelection(type, name, selectionOptions));
+        }
+
+        if (group.IsChoice && members.Any(member => member.OptionSwitch is "-f" or "--filename")
+            && options.Any(option => option.SwitchName == "--kustomize"))
+        {
+            members.Add(new UsageRequiredAlternativeMember { OptionSwitch = "--kustomize" });
+        }
+
+        return group with
+        {
+            Members = members,
+            Groups = groups,
+        };
+    }
+
+    private static UsageRequiredAlternativeMember NormalizeCombinedResource(UsageRequiredAlternativeMember member) =>
+        member.PositionalPropertyName == "TypeOrName"
+            ? member with { ValuePattern = CombinedResourcePattern }
+            : member;
+
+    private static UsageRequiredAlternativeGroup CreateResourceSelection(
+        UsageRequiredAlternativeMember type, UsageRequiredAlternativeMember name,
+        IReadOnlyList<CliOptionDefinition> options) => new()
+        {
+            Members =
+            [
+                name,
+                type with { ValuePattern = CombinedResourcePattern },
+                .. options.Select(option => new UsageRequiredAlternativeMember
+                    {
+                        OptionSwitch = option.SwitchName,
+                        RequiredFlagValue = option.SwitchName == "--all" ? true : null,
+                    }),
+            ],
+        };
 
     /// <summary>
     /// kubectl has some additional skip patterns for plugin and completion commands.

@@ -623,6 +623,10 @@ public abstract partial class CliScraperBase : ICliScraper
 
             usage = NormalizeUsageSynopsis(command, usage);
             usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(command.Options));
+            usage = usage with
+            {
+                RequiredAlternativeGroups = NormalizeRequiredAlternativeGroups(command, usage.RequiredAlternativeGroups),
+            };
             var requiredAlternatives = ResolveRequiredAlternativeGroups(command, usage);
             usage = RemoveIgnoredOptionValues(usage, command.Options);
             command = command with
@@ -1109,6 +1113,12 @@ public abstract partial class CliScraperBase : ICliScraper
         UsageSynopsisParseResult usage) =>
         usage;
 
+    /// <summary>
+    /// Refines usage choices after option-value resolution has rebuilt their members.
+    /// </summary>
+    protected virtual IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
+        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups) => groups;
+
     private static IReadOnlyList<CliRequiredAlternativeGroup> ResolveRequiredAlternativeGroups(
         CliCommandDefinition command,
         UsageSynopsisParseResult usage)
@@ -1159,7 +1169,8 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             IsRequired = group.IsRequired,
             IsChoice = group.IsChoice,
-            IsUsageFormChoice = group.IsChoice && group.Groups.Count > 0,
+            IsUsageFormChoice = group.IsChoice && (group.Groups.Count > 0
+                || group.Members.Any(member => member.ValuePattern is not null || member.RequiredFlagValue is not null)),
             Members = [.. members
                 .Select((member, index) => member! with { IsRequired = !group.IsChoice && group.Members[index].IsRequired })
                 .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)],
@@ -1183,6 +1194,8 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 PropertyName = command.Options[optionIndex].PropertyName,
                 OptionSwitch = command.Options[optionIndex].SwitchName,
+                ValuePattern = member.ValuePattern,
+                RequiredFlagValue = member.RequiredFlagValue,
             };
         }
 
@@ -1203,6 +1216,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 PropertyName = command.PositionalArguments[argumentIndex].PropertyName,
                 PositionalArgumentPhase = command.PositionalArguments[argumentIndex].Phase,
                 PositionalArgumentPositionIndex = command.PositionalArguments[argumentIndex].PositionIndex,
+                ValuePattern = member.ValuePattern,
             };
         }
 
