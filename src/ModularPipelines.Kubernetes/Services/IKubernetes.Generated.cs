@@ -46,6 +46,11 @@ public partial interface IKubernetes
     IKubernetesConfig Config { get; }
 
     /// <summary>
+    /// Gets the create sub-domain service.
+    /// </summary>
+    IKubernetesCreate Create { get; }
+
+    /// <summary>
     /// Gets the kuberc sub-domain service.
     /// </summary>
     IKubernetesKuberc Kuberc { get; }
@@ -54,6 +59,11 @@ public partial interface IKubernetes
     /// Gets the rollout sub-domain service.
     /// </summary>
     IKubernetesRollout Rollout { get; }
+
+    /// <summary>
+    /// Gets the set sub-domain service.
+    /// </summary>
+    IKubernetesSet Set { get; }
 
     /// <summary>
     /// Gets the top sub-domain service.
@@ -119,6 +129,15 @@ public partial interface IKubernetes
     public Task<CommandResult> DebugAsync(KubernetesDebugOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Delete resources by file names, stdin, resources and names, or by resources and label selector.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteAsync(KubernetesDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Show details of a specific resource or group of resources.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -146,6 +165,15 @@ public partial interface IKubernetes
     public Task<CommandResult> DrainAsync(KubernetesDrainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Edit a resource from the default editor.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> EditAsync(KubernetesEditOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Display events.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -162,6 +190,33 @@ public partial interface IKubernetes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ExecAsync(KubernetesExecOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Describe fields and structure of various resources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExplainAsync(KubernetesExplainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Expose a resource as a new Kubernetes service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ExposeAsync(KubernetesExposeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Display one or many resources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetAsync(KubernetesGetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the labels on a resource.
@@ -188,7 +243,7 @@ public partial interface IKubernetes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PatchAsync(KubernetesPatchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> PatchAsync(KubernetesPatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Forward one or more local ports to a pod.
@@ -218,13 +273,22 @@ public partial interface IKubernetes
     public Task<CommandResult> ReplaceAsync(KubernetesReplaceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Create and run a particular image in a pod.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RunAsync(KubernetesRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Set a new size for a deployment, replica set, replication controller, or stateful set.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ScaleAsync(KubernetesScaleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ScaleAsync(KubernetesScaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the taints on one or more nodes.

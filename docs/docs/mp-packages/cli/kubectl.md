@@ -100,10 +100,13 @@ Global options are rendered after the selected subcommand.
 | `kubectl cluster-info` | `KubernetesClusterInfoOptions` |
 | `kubectl cluster-info dump` | `KubernetesClusterInfoDumpOptions` |
 | `kubectl config` | `KubernetesConfigOptions` |
+| `kubectl config current-context` | `KubernetesConfigCurrentContextOptions` |
 | `kubectl config delete-cluster` | `KubernetesConfigDeleteClusterOptions` |
 | `kubectl config delete-context` | `KubernetesConfigDeleteContextOptions` |
 | `kubectl config delete-user` | `KubernetesConfigDeleteUserOptions` |
+| `kubectl config get-clusters` | `KubernetesConfigGetClustersOptions` |
 | `kubectl config get-contexts` | `KubernetesConfigGetContextsOptions` |
+| `kubectl config get-users` | `KubernetesConfigGetUsersOptions` |
 | `kubectl config rename-context` | `KubernetesConfigRenameContextOptions` |
 | `kubectl config set` | `KubernetesConfigSetOptions` |
 | `kubectl config set-cluster` | `KubernetesConfigSetClusterOptions` |
@@ -114,12 +117,42 @@ Global options are rendered after the selected subcommand.
 | `kubectl config view` | `KubernetesConfigViewOptions` |
 | `kubectl cordon` | `KubernetesCordonOptions` |
 | `kubectl cp` | `KubernetesCpOptions` |
+| `kubectl create` | `KubernetesCreateOptions` |
+| `kubectl create clusterrole` | `KubernetesCreateClusterroleOptions` |
+| `kubectl create clusterrolebinding` | `KubernetesCreateClusterrolebindingOptions` |
+| `kubectl create configmap` | `KubernetesCreateConfigmapOptions` |
+| `kubectl create cronjob` | `KubernetesCreateCronjobOptions` |
+| `kubectl create deployment` | `KubernetesCreateDeploymentOptions` |
+| `kubectl create ingress` | `KubernetesCreateIngressOptions` |
+| `kubectl create job` | `KubernetesCreateJobOptions` |
+| `kubectl create namespace` | `KubernetesCreateNamespaceOptions` |
+| `kubectl create poddisruptionbudget` | `KubernetesCreatePoddisruptionbudgetOptions` |
+| `kubectl create priorityclass` | `KubernetesCreatePriorityclassOptions` |
+| `kubectl create quota` | `KubernetesCreateQuotaOptions` |
+| `kubectl create role` | `KubernetesCreateRoleOptions` |
+| `kubectl create rolebinding` | `KubernetesCreateRolebindingOptions` |
+| `kubectl create secret` | `KubernetesCreateSecretOptions` |
+| `kubectl create secret docker-registry` | `KubernetesCreateSecretDockerRegistryOptions` |
+| `kubectl create secret generic` | `KubernetesCreateSecretGenericOptions` |
+| `kubectl create secret tls` | `KubernetesCreateSecretTlsOptions` |
+| `kubectl create service` | `KubernetesCreateServiceOptions` |
+| `kubectl create service clusterip` | `KubernetesCreateServiceClusteripOptions` |
+| `kubectl create service externalname` | `KubernetesCreateServiceExternalnameOptions` |
+| `kubectl create service loadbalancer` | `KubernetesCreateServiceLoadbalancerOptions` |
+| `kubectl create service nodeport` | `KubernetesCreateServiceNodeportOptions` |
+| `kubectl create serviceaccount` | `KubernetesCreateServiceaccountOptions` |
+| `kubectl create token` | `KubernetesCreateTokenOptions` |
 | `kubectl debug` | `KubernetesDebugOptions` |
+| `kubectl delete` | `KubernetesDeleteOptions` |
 | `kubectl describe` | `KubernetesDescribeOptions` |
 | `kubectl diff` | `KubernetesDiffOptions` |
 | `kubectl drain` | `KubernetesDrainOptions` |
+| `kubectl edit` | `KubernetesEditOptions` |
 | `kubectl events` | `KubernetesEventsOptions` |
 | `kubectl exec` | `KubernetesExecOptions` |
+| `kubectl explain` | `KubernetesExplainOptions` |
+| `kubectl expose` | `KubernetesExposeOptions` |
+| `kubectl get` | `KubernetesGetOptions` |
 | `kubectl kuberc` | `KubernetesKubercOptions` |
 | `kubectl kuberc set` | `KubernetesKubercSetOptions` |
 | `kubectl kuberc view` | `KubernetesKubercViewOptions` |
@@ -136,7 +169,15 @@ Global options are rendered after the selected subcommand.
 | `kubectl rollout resume` | `KubernetesRolloutResumeOptions` |
 | `kubectl rollout status` | `KubernetesRolloutStatusOptions` |
 | `kubectl rollout undo` | `KubernetesRolloutUndoOptions` |
+| `kubectl run` | `KubernetesRunOptions` |
 | `kubectl scale` | `KubernetesScaleOptions` |
+| `kubectl set` | `KubernetesSetOptions` |
+| `kubectl set env` | `KubernetesSetEnvOptions` |
+| `kubectl set image` | `KubernetesSetImageOptions` |
+| `kubectl set resources` | `KubernetesSetResourcesOptions` |
+| `kubectl set selector` | `KubernetesSetSelectorOptions` |
+| `kubectl set serviceaccount` | `KubernetesSetServiceaccountOptions` |
+| `kubectl set subject` | `KubernetesSetSubjectOptions` |
 | `kubectl taint` | `KubernetesTaintOptions` |
 | `kubectl top` | `KubernetesTopOptions` |
 | `kubectl top node` | `KubernetesTopNodeOptions` |
