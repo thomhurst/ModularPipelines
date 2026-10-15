@@ -42,6 +42,9 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
                     edges,
                     usingAliasNames),
                 SyntaxKind.Attribute);
+            startContext.RegisterSyntaxNodeAction(
+                syntaxContext => CollectConfiguredDependencyEdge(syntaxContext, edges),
+                SyntaxKind.InvocationExpression);
             startContext.RegisterCompilationEndAction(
                 compilationContext => ReportCircularDependencies(compilationContext, edges));
         });
@@ -71,6 +74,18 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         }
 
         edges.Add(new DependencyEdge(dependentType, dependencyType, context.Node.GetLocation()));
+    }
+
+    private static void CollectConfiguredDependencyEdge(
+        SyntaxNodeAnalysisContext context,
+        ConcurrentBag<DependencyEdge> edges)
+    {
+        if (context.Node is InvocationExpressionSyntax invocation
+            && ConfiguredDependencies.TryGetDependency(invocation, context.SemanticModel, context.CancellationToken,
+                out var configureMethod, out var dependencyType))
+        {
+            edges.Add(new DependencyEdge(configureMethod.ContainingType, dependencyType, invocation.GetLocation(), configureMethod));
+        }
     }
 
     private static bool TryGetDependencyType(
@@ -121,13 +136,14 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var graphs = BuildDependencyGraphs(edges);
+        var graphs = BuildDependencyGraphs(edges, context.Compilation, context.CancellationToken);
         var components = FindStronglyConnectedComponents(
             graphs.Effective,
             context.CancellationToken);
         var cyclicEffectiveDependents = FindCyclicEffectiveDependents(
             graphs,
             components,
+            context.Compilation,
             context.CancellationToken);
 
         foreach (var edge in edges)
@@ -156,9 +172,11 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     }
 
     private static DependencyGraphs BuildDependencyGraphs(
-        IEnumerable<DependencyEdge> edges)
+        IEnumerable<DependencyEdge> edges,
+        Compilation compilation,
+        CancellationToken cancellationToken)
     {
-        var directGraph = new Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>>(
+        var directGraph = new Dictionary<INamedTypeSymbol, List<DependencyEdge>>(
             SymbolEqualityComparer.Default);
         var nodes = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
 
@@ -176,7 +194,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
                 directGraph.Add(dependentType, dependencies);
             }
 
-            dependencies.Add(dependencyType);
+            dependencies.Add(edge);
         }
 
         var effectiveGraph = new Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>>(
@@ -186,7 +204,8 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         {
             effectiveGraph[node] =
             [
-                .. GetDependencies(node, directGraph)
+                .. GetDependencyEdges(node, directGraph, compilation, cancellationToken)
+                    .Select(edge => Normalize(edge.DependencyType))
                     .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default),
             ];
         }
@@ -199,6 +218,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         Dictionary<INamedTypeSymbol, INamedTypeSymbol>> FindCyclicEffectiveDependents(
         DependencyGraphs graphs,
         Dictionary<INamedTypeSymbol, int> components,
+        Compilation compilation,
         CancellationToken cancellationToken)
     {
         var result = new Dictionary<
@@ -214,66 +234,29 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            foreach (var declaration in GetAttributeDeclarations(
-                         receiver,
-                         graphs.Direct))
+            foreach (var edge in GetDependencyEdges(receiver, graphs.Direct, compilation, cancellationToken))
             {
-                foreach (var dependency in graphs.Direct[declaration])
+                var dependency = Normalize(edge.DependencyType);
+                var declaration = Normalize(edge.DependentType);
+                if (components[receiver] != components[dependency])
                 {
-                    if (components[receiver] != components[dependency])
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (!result.TryGetValue(declaration, out var cyclicDependencies))
-                    {
-                        cyclicDependencies =
-                            new Dictionary<INamedTypeSymbol, INamedTypeSymbol>(
-                                SymbolEqualityComparer.Default);
-                        result.Add(declaration, cyclicDependencies);
-                    }
+                if (!result.TryGetValue(declaration, out var cyclicDependencies))
+                {
+                    cyclicDependencies = [with(SymbolEqualityComparer.Default)];
+                    result.Add(declaration, cyclicDependencies);
+                }
 
-                    if (!cyclicDependencies.ContainsKey(dependency))
-                    {
-                        cyclicDependencies.Add(dependency, receiver);
-                    }
+                if (!cyclicDependencies.ContainsKey(dependency))
+                {
+                    cyclicDependencies.Add(dependency, receiver);
                 }
             }
         }
 
         return result;
-    }
-
-    private static IEnumerable<INamedTypeSymbol> GetAttributeDeclarations(
-        INamedTypeSymbol type,
-        Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> directGraph)
-    {
-        var yielded = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
-
-        if (directGraph.ContainsKey(type) && yielded.Add(type))
-        {
-            yield return type;
-        }
-
-        foreach (var interfaceType in type.AllInterfaces)
-        {
-            var declaration = Normalize(interfaceType);
-
-            if (directGraph.ContainsKey(declaration) && yielded.Add(declaration))
-            {
-                yield return declaration;
-            }
-        }
-
-        for (var baseType = type.BaseType; baseType is not null; baseType = baseType.BaseType)
-        {
-            var declaration = Normalize(baseType);
-
-            if (directGraph.ContainsKey(declaration) && yielded.Add(declaration))
-            {
-                yield return declaration;
-            }
-        }
     }
 
     private static Dictionary<INamedTypeSymbol, int> FindStronglyConnectedComponents(
@@ -404,45 +387,43 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         return components;
     }
 
-    private static IEnumerable<INamedTypeSymbol> GetDependencies(
+    private static IEnumerable<DependencyEdge> GetDependencyEdges(
         INamedTypeSymbol type,
-        Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph)
+        Dictionary<INamedTypeSymbol, List<DependencyEdge>> graph,
+        Compilation compilation,
+        CancellationToken cancellationToken)
     {
-        if (graph.TryGetValue(type, out var directDependencies))
-        {
-            foreach (var dependency in directDependencies)
-            {
-                yield return dependency;
-            }
-        }
-
+        HashSet<IMethodSymbol>? configureMethods = null;
+        var declarations = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default) { Normalize(type) };
         foreach (var interfaceType in type.AllInterfaces)
         {
-            if (!graph.TryGetValue(
-                    Normalize(interfaceType),
-                    out var interfaceDependencies))
-            {
-                continue;
-            }
-
-            foreach (var dependency in interfaceDependencies)
-            {
-                yield return dependency;
-            }
+            declarations.Add(Normalize(interfaceType));
         }
 
         for (var baseType = type.BaseType; baseType is not null; baseType = baseType.BaseType)
         {
-            if (!graph.TryGetValue(
-                    Normalize(baseType),
-                    out var baseDependencies))
+            declarations.Add(Normalize(baseType));
+        }
+
+        foreach (var declaration in declarations)
+        {
+            if (!graph.TryGetValue(declaration, out var edges))
             {
                 continue;
             }
 
-            foreach (var dependency in baseDependencies)
+            foreach (var edge in edges)
             {
-                yield return dependency;
+                if (edge.ConfigureMethod is { } method)
+                {
+                    configureMethods ??= ConfiguredDependencies.GetEffectiveConfigureMethods(type, compilation, cancellationToken);
+                    if (!configureMethods.Contains(method.OriginalDefinition))
+                    {
+                        continue;
+                    }
+                }
+
+                yield return edge;
             }
         }
     }
@@ -455,20 +436,23 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     private sealed class DependencyEdge(
         INamedTypeSymbol dependentType,
         INamedTypeSymbol dependencyType,
-        Location location)
+        Location location,
+        IMethodSymbol? configureMethod = null)
     {
         public INamedTypeSymbol DependentType { get; } = dependentType;
 
         public INamedTypeSymbol DependencyType { get; } = dependencyType;
 
         public Location Location { get; } = location;
+
+        public IMethodSymbol? ConfigureMethod { get; } = configureMethod;
     }
 
     private sealed class DependencyGraphs(
-        Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> direct,
+        Dictionary<INamedTypeSymbol, List<DependencyEdge>> direct,
         Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> effective)
     {
-        public Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> Direct { get; } = direct;
+        public Dictionary<INamedTypeSymbol, List<DependencyEdge>> Direct { get; } = direct;
 
         public Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> Effective { get; } = effective;
     }
