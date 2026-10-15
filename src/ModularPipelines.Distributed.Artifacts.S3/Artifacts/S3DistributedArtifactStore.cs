@@ -8,7 +8,8 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
 /// <summary>
 /// S3-compatible implementation of <see cref="IDistributedArtifactStore"/>.
-/// Objects are keyed as {prefix}/artifacts/{runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}.
+/// Payloads are keyed as {prefix}/artifacts/{runId}/{escapedModuleId}/data/{escapedArtifactName}/{artifactId}.
+/// Metadata is stored under the same module prefix in meta/{artifactId}.json, separate from payloads.
 /// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO. Run cleanup deletes every object under
 /// the run's prefix.
 /// </summary>
@@ -274,7 +275,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
     public void Dispose() => _s3.Dispose();
 
     private string BuildObjectKey(ModuleId moduleId, string artifactName, string artifactId)
-        => $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}";
+        => $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/data/{Uri.EscapeDataString(artifactName)}/{artifactId}";
 
     private string BuildMetaKey(ModuleId moduleId, string artifactId)
         => $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/meta/{artifactId}.json";

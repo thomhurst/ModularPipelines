@@ -74,7 +74,7 @@ public class S3ArtifactStoreTests
 
         await Assert.That(capturedRequest).IsNotNull();
         await Assert.That(capturedRequest!.BucketName).IsEqualTo("test-bucket");
-        await Assert.That(capturedRequest.Key).StartsWith("modpipe/artifacts/run123/My.BuildModule/build-output/");
+        await Assert.That(capturedRequest.Key).StartsWith("modpipe/artifacts/run123/My.BuildModule/data/build-output/");
     }
 
     [Test]
@@ -97,11 +97,80 @@ public class S3ArtifactStoreTests
         await _store.ListArtifactsAsync(id, CancellationToken.None);
 
         await Assert.That(reference.ModuleId.Value).IsEqualTo(id);
-        await Assert.That(keys[0]).StartsWith($"modpipe/artifacts/run123/{encodedId}/output/");
+        await Assert.That(keys[0]).StartsWith($"modpipe/artifacts/run123/{encodedId}/data/output/");
         await Assert.That(keys[1]).StartsWith($"modpipe/artifacts/run123/{encodedId}/meta/");
         _mockS3.Verify(instance => instance.ListObjectsV2Async(
             It.Is<ListObjectsV2Request>(request => request.Prefix == $"modpipe/artifacts/run123/{encodedId}/meta/"),
             It.IsAny<CancellationToken>()), Times.Once());
+    }
+
+    [Test]
+    [Arguments("meta", "meta")]
+    [Arguments("meta/output", "meta%2Foutput")]
+    [Arguments("_meta", "_meta")]
+    [Arguments("data/output", "data%2Foutput")]
+    [Arguments("meta%2Foutput", "meta%252Foutput")]
+    [Arguments("build output/雪.zip", "build%20output%2F%E9%9B%AA.zip")]
+    public async Task Artifact_Names_Stay_In_The_Data_Prefix_Throughout_Their_Lifecycle(string name, string encodedName)
+    {
+        var objects = new Dictionary<string, byte[]>();
+        _mockS3.Setup(s => s.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<PutObjectRequest, CancellationToken>((request, _) =>
+            {
+                if (request.ContentBody is not null)
+                {
+                    objects.Add(request.Key, System.Text.Encoding.UTF8.GetBytes(request.ContentBody));
+                    return;
+                }
+
+                using var copy = new MemoryStream();
+                request.InputStream.CopyTo(copy);
+                objects.Add(request.Key, copy.ToArray());
+            })
+            .ReturnsAsync(new PutObjectResponse());
+        _mockS3.Setup(s => s.ListObjectsV2Async(It.IsAny<ListObjectsV2Request>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ListObjectsV2Request request, CancellationToken _) => new ListObjectsV2Response
+            {
+                S3Objects = [.. objects.Keys.Where(key => key.StartsWith(request.Prefix, StringComparison.Ordinal)).Select(key => new S3Object { Key = key })],
+                IsTruncated = false,
+            });
+        _mockS3.Setup(s => s.GetObjectAsync("test-bucket", It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((string _, string key, CancellationToken _) => new GetObjectResponse
+            {
+                ResponseStream = new MemoryStream(objects[key]),
+            });
+        _mockS3.Setup(s => s.DeleteObjectAsync("test-bucket", It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Callback<string, string, CancellationToken>((_, key, _) => objects.Remove(key))
+            .ReturnsAsync(new DeleteObjectResponse());
+
+        byte[] payload = [1, 2, 3];
+        using var stream = new MemoryStream(payload);
+        var uploaded = await _store.UploadAsync(new ArtifactDescriptor
+        {
+            Name = name,
+            ModuleId = "Test.Module",
+        }, stream, CancellationToken.None);
+
+        var listed = await _store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+
+        // Listing must never fetch the payload, even when its name resembles the metadata prefix.
+        _mockS3.Verify(s => s.GetObjectAsync("test-bucket",
+            It.Is<string>(key => objects[key].SequenceEqual(payload)),
+            It.IsAny<CancellationToken>()), Times.Never());
+        await Assert.That(listed).HasSingleItem();
+        await Assert.That(listed[0].Name).IsEqualTo(name);
+        await Assert.That(listed[0].ArtifactId).IsEqualTo(uploaded.ArtifactId);
+        var dataKey = $"modpipe/artifacts/run123/Test.Module/data/{encodedName}/{uploaded.ArtifactId}";
+        var metaKey = $"modpipe/artifacts/run123/Test.Module/meta/{uploaded.ArtifactId}.json";
+        await Assert.That(objects.Keys).IsEquivalentTo([dataKey, metaKey]);
+
+        await using var downloaded = await _store.DownloadAsync(listed[0], CancellationToken.None);
+        using var copy = new MemoryStream();
+        await downloaded.CopyToAsync(copy);
+        await Assert.That(copy.ToArray()).IsEquivalentTo(payload);
+
+        await _store.DeleteAsync(listed[0], CancellationToken.None);
+        await Assert.That(objects).IsEmpty();
     }
 
     [Test]
