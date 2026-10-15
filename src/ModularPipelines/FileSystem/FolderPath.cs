@@ -282,7 +282,6 @@ public class FolderPath : IEquatable<FolderPath>
             var relativePath = _provider.GetRelativePath(this, dirPath);
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CreateDirectory(newPath);
-            CopyMetadata(dirPath, newPath, preserveTimestamps);
         }
 
         // Copy all files
@@ -292,6 +291,14 @@ public class FolderPath : IEquatable<FolderPath>
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CopyFile(filePath, newPath, overwrite: true);
             CopyMetadata(filePath, newPath, preserveTimestamps);
+        }
+
+        // Creating child entries changes directory timestamps, so restore metadata after all writes.
+        foreach (var dirPath in directories)
+        {
+            var relativePath = _provider.GetRelativePath(this, dirPath);
+            var newPath = _provider.Combine(targetPath, relativePath);
+            CopyMetadata(dirPath, newPath, preserveTimestamps);
         }
 
         CopyMetadata(Path, targetPath, preserveTimestamps);
@@ -341,7 +348,6 @@ public class FolderPath : IEquatable<FolderPath>
             var relativePath = _provider.GetRelativePath(this, dirPath);
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CreateDirectory(newPath);
-            CopyMetadata(dirPath, newPath, preserveTimestamps);
         }
 
         // Copy all files using async stream copying
@@ -362,6 +368,16 @@ public class FolderPath : IEquatable<FolderPath>
                 }
             }
             CopyMetadata(filePath, newPath, preserveTimestamps);
+        }
+
+        // Creating child entries changes directory timestamps, so restore metadata after all writes.
+        foreach (var dirPath in directories)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var relativePath = _provider.GetRelativePath(this, dirPath);
+            var newPath = _provider.Combine(targetPath, relativePath);
+            CopyMetadata(dirPath, newPath, preserveTimestamps);
         }
 
         CopyMetadata(Path, targetPath, preserveTimestamps);
@@ -636,11 +652,11 @@ public class FolderPath : IEquatable<FolderPath>
             Snapshot(_provider.EnumerateDirectories(this, "*", SearchOption.AllDirectories)),
             Snapshot(_provider.EnumerateFiles(this, "*", SearchOption.AllDirectories)));
 
-        string[] Snapshot(IEnumerable<string> entries) => entries.Select(entry =>
+        string[] Snapshot(IEnumerable<string> entries) => [.. entries.Select(entry =>
         {
             cancellationToken.ThrowIfCancellationRequested();
             return entry;
-        }).ToArray();
+        })];
     }
 
     internal string ValidateCopyTarget(string targetPath)
