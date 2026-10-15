@@ -23,37 +23,37 @@ public partial interface IHelm
     /// <summary>
     /// Gets the dependency sub-domain service.
     /// </summary>
-    IHelmDependency Dependency => throw new System.NotSupportedException();
+    IHelmDependency Dependency { get; }
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    IHelmGet Get => throw new System.NotSupportedException();
+    IHelmGet Get { get; }
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    IHelmPlugin Plugin => throw new System.NotSupportedException();
+    IHelmPlugin Plugin { get; }
 
     /// <summary>
     /// Gets the registry sub-domain service.
     /// </summary>
-    IHelmRegistry Registry => throw new System.NotSupportedException();
+    IHelmRegistry Registry { get; }
 
     /// <summary>
     /// Gets the repo sub-domain service.
     /// </summary>
-    IHelmRepo Repo => throw new System.NotSupportedException();
+    IHelmRepo Repo { get; }
 
     /// <summary>
     /// Gets the search sub-domain service.
     /// </summary>
-    IHelmSearch Search => throw new System.NotSupportedException();
+    IHelmSearch Search { get; }
 
     /// <summary>
     /// Gets the show sub-domain service.
     /// </summary>
-    IHelmShow Show => throw new System.NotSupportedException();
+    IHelmShow Show { get; }
 
     #endregion
 
@@ -66,8 +66,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(HelmCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(HelmCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Env prints out all the environment information in use by Helm.
@@ -76,8 +75,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnvAsync(HelmEnvOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnvAsync(HelmEnvOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// History prints historical revisions for a given release.
@@ -86,8 +84,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HistoryAsync(HelmHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HistoryAsync(HelmHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command installs a chart archive.
@@ -96,8 +93,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InstallAsync(HelmInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InstallAsync(HelmInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command takes a path to a chart and runs a series of tests to verify that
@@ -106,8 +102,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LintAsync(HelmLintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LintAsync(HelmLintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command lists all of the releases for a specified namespace (uses current namespace context if namespace not specified).
@@ -116,8 +111,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(HelmListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(HelmListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command packages a chart into a versioned chart archive file. If a path
@@ -126,8 +120,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PackageAsync(HelmPackageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PackageAsync(HelmPackageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a package from a package repository, and download it locally.
@@ -136,8 +129,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PullAsync(HelmPullOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PullAsync(HelmPullOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upload a chart to a registry.
@@ -146,8 +138,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PushAsync(HelmPushOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PushAsync(HelmPushOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command rolls back a release to a previous revision.
@@ -156,8 +147,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RollbackAsync(HelmRollbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RollbackAsync(HelmRollbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command shows the status of a named release.
@@ -166,8 +156,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StatusAsync(HelmStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StatusAsync(HelmStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Render chart templates locally and display the output.
@@ -176,8 +165,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TemplateAsync(HelmTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TemplateAsync(HelmTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The test command runs the tests for a release.
@@ -186,8 +174,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestAsync(HelmTestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestAsync(HelmTestOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command takes a release name and uninstalls the release.
@@ -196,8 +183,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UninstallAsync(HelmUninstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UninstallAsync(HelmUninstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command upgrades a release to a new version of a chart.
@@ -206,8 +192,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpgradeAsync(HelmUpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpgradeAsync(HelmUpgradeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Verify that the given chart has a valid provenance file.
@@ -216,8 +201,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyAsync(HelmVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyAsync(HelmVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show the version for Helm.
@@ -226,8 +210,7 @@ public partial interface IHelm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(HelmVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(HelmVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
