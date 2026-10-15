@@ -45,67 +45,67 @@ public class AzKeyvault : IAzKeyvault
     #region Sub-command Groups
 
     /// <summary>
-    /// az backup sub-commands.
+    /// az keyvault backup sub-commands.
     /// </summary>
     public AzKeyvaultBackup Backup => _backup ??= new AzKeyvaultBackup(_command);
 
     /// <summary>
-    /// az certificate sub-commands.
+    /// az keyvault certificate sub-commands.
     /// </summary>
     public AzKeyvaultCertificate Certificate => _certificate ??= new AzKeyvaultCertificate(_command);
 
     /// <summary>
-    /// az ekm-connection sub-commands.
+    /// az keyvault ekm-connection sub-commands.
     /// </summary>
     public AzKeyvaultEkmConnection EkmConnection => _ekmConnection ??= new AzKeyvaultEkmConnection(_command);
 
     /// <summary>
-    /// az key sub-commands.
+    /// az keyvault key sub-commands.
     /// </summary>
     public AzKeyvaultKey Key => _key ??= new AzKeyvaultKey(_command);
 
     /// <summary>
-    /// az network-rule sub-commands.
+    /// az keyvault network-rule sub-commands.
     /// </summary>
     public AzKeyvaultNetworkRule NetworkRule => _networkRule ??= new AzKeyvaultNetworkRule(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az keyvault private-endpoint-connection sub-commands.
     /// </summary>
     public AzKeyvaultPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzKeyvaultPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az keyvault private-link-resource sub-commands.
     /// </summary>
     public AzKeyvaultPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzKeyvaultPrivateLinkResource(_command);
 
     /// <summary>
-    /// az region sub-commands.
+    /// az keyvault region sub-commands.
     /// </summary>
     public AzKeyvaultRegion Region => _region ??= new AzKeyvaultRegion(_command);
 
     /// <summary>
-    /// az restore sub-commands.
+    /// az keyvault restore sub-commands.
     /// </summary>
     public AzKeyvaultRestore Restore => _restore ??= new AzKeyvaultRestore(_command);
 
     /// <summary>
-    /// az role sub-commands.
+    /// az keyvault role sub-commands.
     /// </summary>
     public AzKeyvaultRole Role => _role ??= new AzKeyvaultRole(_command);
 
     /// <summary>
-    /// az secret sub-commands.
+    /// az keyvault secret sub-commands.
     /// </summary>
     public AzKeyvaultSecret Secret => _secret ??= new AzKeyvaultSecret(_command);
 
     /// <summary>
-    /// az security-domain sub-commands.
+    /// az keyvault security-domain sub-commands.
     /// </summary>
     public AzKeyvaultSecurityDomain SecurityDomain => _securityDomain ??= new AzKeyvaultSecurityDomain(_command);
 
     /// <summary>
-    /// az setting sub-commands.
+    /// az keyvault setting sub-commands.
     /// </summary>
     public AzKeyvaultSetting Setting => _setting ??= new AzKeyvaultSetting(_command);
 

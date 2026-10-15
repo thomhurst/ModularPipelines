@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az hub commands.
+/// az iot hub commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzIotHub
@@ -37,27 +37,27 @@ public class AzIotHub
     #region Sub-command Groups
 
     /// <summary>
-    /// az certificate sub-commands.
+    /// az iot hub certificate sub-commands.
     /// </summary>
     public AzIotHubCertificate Certificate => _certificate ??= new AzIotHubCertificate(_command);
 
     /// <summary>
-    /// az consumer-group sub-commands.
+    /// az iot hub consumer-group sub-commands.
     /// </summary>
     public AzIotHubConsumerGroup ConsumerGroup => _consumerGroup ??= new AzIotHubConsumerGroup(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az iot hub identity sub-commands.
     /// </summary>
     public AzIotHubIdentity Identity => _identity ??= new AzIotHubIdentity(_command);
 
     /// <summary>
-    /// az message-enrichment sub-commands.
+    /// az iot hub message-enrichment sub-commands.
     /// </summary>
     public AzIotHubMessageEnrichment MessageEnrichment => _messageEnrichment ??= new AzIotHubMessageEnrichment(_command);
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az iot hub policy sub-commands.
     /// </summary>
     public AzIotHubPolicy Policy => _policy ??= new AzIotHubPolicy(_command);
 

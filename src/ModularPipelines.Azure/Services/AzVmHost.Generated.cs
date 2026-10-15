@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az host commands.
+/// az vm host commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzVmHost
@@ -33,7 +33,7 @@ public class AzVmHost
     #region Sub-command Groups
 
     /// <summary>
-    /// az group sub-commands.
+    /// az vm host group sub-commands.
     /// </summary>
     public AzVmHostGroup Group => _group ??= new AzVmHostGroup(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az server commands.
+/// az sql server commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlServer
@@ -25,6 +25,7 @@ public class AzSqlServer
     private AzSqlServerAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
     private AzSqlServerAuditPolicy? _auditPolicy;
     private AzSqlServerConnPolicy? _connPolicy;
+    private AzSqlServerDeletedServer? _deletedServer;
     private AzSqlServerDnsAlias? _dnsAlias;
     private AzSqlServerFirewallRule? _firewallRule;
     private AzSqlServerIpv6FirewallRule? _ipv6FirewallRule;
@@ -45,67 +46,72 @@ public class AzSqlServer
     #region Sub-command Groups
 
     /// <summary>
-    /// az ad-admin sub-commands.
+    /// az sql server ad-admin sub-commands.
     /// </summary>
     public AzSqlServerAdAdmin AdAdmin => _adAdmin ??= new AzSqlServerAdAdmin(_command);
 
     /// <summary>
-    /// az ad-only-auth sub-commands.
+    /// az sql server ad-only-auth sub-commands.
     /// </summary>
     public AzSqlServerAdOnlyAuth AdOnlyAuth => _adOnlyAuth ??= new AzSqlServerAdOnlyAuth(_command);
 
     /// <summary>
-    /// az advanced-threat-protection-setting sub-commands.
+    /// az sql server advanced-threat-protection-setting sub-commands.
     /// </summary>
     public AzSqlServerAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzSqlServerAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
-    /// az audit-policy sub-commands.
+    /// az sql server audit-policy sub-commands.
     /// </summary>
     public AzSqlServerAuditPolicy AuditPolicy => _auditPolicy ??= new AzSqlServerAuditPolicy(_command);
 
     /// <summary>
-    /// az conn-policy sub-commands.
+    /// az sql server conn-policy sub-commands.
     /// </summary>
     public AzSqlServerConnPolicy ConnPolicy => _connPolicy ??= new AzSqlServerConnPolicy(_command);
 
     /// <summary>
-    /// az dns-alias sub-commands.
+    /// az sql server deleted-server sub-commands.
+    /// </summary>
+    public AzSqlServerDeletedServer DeletedServer => _deletedServer ??= new AzSqlServerDeletedServer(_command);
+
+    /// <summary>
+    /// az sql server dns-alias sub-commands.
     /// </summary>
     public AzSqlServerDnsAlias DnsAlias => _dnsAlias ??= new AzSqlServerDnsAlias(_command);
 
     /// <summary>
-    /// az firewall-rule sub-commands.
+    /// az sql server firewall-rule sub-commands.
     /// </summary>
     public AzSqlServerFirewallRule FirewallRule => _firewallRule ??= new AzSqlServerFirewallRule(_command);
 
     /// <summary>
-    /// az ipv6-firewall-rule sub-commands.
+    /// az sql server ipv6-firewall-rule sub-commands.
     /// </summary>
     public AzSqlServerIpv6FirewallRule Ipv6FirewallRule => _ipv6FirewallRule ??= new AzSqlServerIpv6FirewallRule(_command);
 
     /// <summary>
-    /// az key sub-commands.
+    /// az sql server key sub-commands.
     /// </summary>
     public AzSqlServerKey Key => _key ??= new AzSqlServerKey(_command);
 
     /// <summary>
-    /// az ms-support sub-commands.
+    /// az sql server ms-support sub-commands.
     /// </summary>
     public AzSqlServerMsSupport MsSupport => _msSupport ??= new AzSqlServerMsSupport(_command);
 
     /// <summary>
-    /// az outbound-firewall-rule sub-commands.
+    /// az sql server outbound-firewall-rule sub-commands.
     /// </summary>
     public AzSqlServerOutboundFirewallRule OutboundFirewallRule => _outboundFirewallRule ??= new AzSqlServerOutboundFirewallRule(_command);
 
     /// <summary>
-    /// az tde-key sub-commands.
+    /// az sql server tde-key sub-commands.
     /// </summary>
     public AzSqlServerTdeKey TdeKey => _tdeKey ??= new AzSqlServerTdeKey(_command);
 
     /// <summary>
-    /// az vnet-rule sub-commands.
+    /// az sql server vnet-rule sub-commands.
     /// </summary>
     public AzSqlServerVnetRule VnetRule => _vnetRule ??= new AzSqlServerVnetRule(_command);
 
@@ -186,6 +192,21 @@ public class AzSqlServer
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlServerRefreshExternalGovernanceStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Restore a deleted SQL server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RestoreAsync(
+        AzSqlServerRestoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

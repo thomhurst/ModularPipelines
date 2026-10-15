@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az service commands.
+/// az search service commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSearchService
@@ -38,32 +38,32 @@ public class AzSearchService
     #region Sub-command Groups
 
     /// <summary>
-    /// az admin-key sub-commands.
+    /// az search service admin-key sub-commands.
     /// </summary>
     public AzSearchServiceAdminKey AdminKey => _adminKey ??= new AzSearchServiceAdminKey(_command);
 
     /// <summary>
-    /// az network-security-perimeter-configuration sub-commands.
+    /// az search service network-security-perimeter-configuration sub-commands.
     /// </summary>
     public AzSearchServiceNetworkSecurityPerimeterConfiguration NetworkSecurityPerimeterConfiguration => _networkSecurityPerimeterConfiguration ??= new AzSearchServiceNetworkSecurityPerimeterConfiguration(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az search service private-endpoint-connection sub-commands.
     /// </summary>
     public AzSearchServicePrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzSearchServicePrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az search service private-link-resource sub-commands.
     /// </summary>
     public AzSearchServicePrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzSearchServicePrivateLinkResource(_command);
 
     /// <summary>
-    /// az query-key sub-commands.
+    /// az search service query-key sub-commands.
     /// </summary>
     public AzSearchServiceQueryKey QueryKey => _queryKey ??= new AzSearchServiceQueryKey(_command);
 
     /// <summary>
-    /// az shared-private-link-resource sub-commands.
+    /// az search service shared-private-link-resource sub-commands.
     /// </summary>
     public AzSearchServiceSharedPrivateLinkResource SharedPrivateLinkResource => _sharedPrivateLinkResource ??= new AzSearchServiceSharedPrivateLinkResource(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az runtime commands.
+/// az functionapp runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappRuntime
@@ -33,7 +33,7 @@ public class AzFunctionappRuntime
     #region Sub-command Groups
 
     /// <summary>
-    /// az config sub-commands.
+    /// az functionapp runtime config sub-commands.
     /// </summary>
     public AzFunctionappRuntimeConfig Config => _config ??= new AzFunctionappRuntimeConfig(_command);
 

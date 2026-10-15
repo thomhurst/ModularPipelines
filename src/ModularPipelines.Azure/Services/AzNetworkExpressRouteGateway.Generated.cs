@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az gateway commands.
+/// az network express-route gateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkExpressRouteGateway
@@ -33,7 +33,7 @@ public class AzNetworkExpressRouteGateway
     #region Sub-command Groups
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az network express-route gateway connection sub-commands.
     /// </summary>
     public AzNetworkExpressRouteGatewayConnection Connection => _connection ??= new AzNetworkExpressRouteGatewayConnection(_command);
 

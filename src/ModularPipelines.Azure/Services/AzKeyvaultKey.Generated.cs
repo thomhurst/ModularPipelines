@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az key commands.
+/// az keyvault key commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzKeyvaultKey
@@ -33,7 +33,7 @@ public class AzKeyvaultKey
     #region Sub-command Groups
 
     /// <summary>
-    /// az rotation-policy sub-commands.
+    /// az keyvault key rotation-policy sub-commands.
     /// </summary>
     public AzKeyvaultKeyRotationPolicy RotationPolicy => _rotationPolicy ??= new AzKeyvaultKeyRotationPolicy(_command);
 
@@ -72,6 +72,21 @@ public class AzKeyvaultKey
     }
 
     /// <summary>
+    /// Decrypt a single block of encrypted data.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DecryptAsync(
+        AzKeyvaultKeyDecryptOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Delete a key of any type from storage in Vault or HSM.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -102,6 +117,21 @@ public class AzKeyvaultKey
     }
 
     /// <summary>
+    /// Encrypt an arbitrary sequence of bytes using an encryption key that is
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> EncryptAsync(
+        AzKeyvaultKeyEncryptOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Get a key's attestation blob.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -114,6 +144,21 @@ public class AzKeyvaultKey
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultKeyGetAttestationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Return policy template as JSON encoded policy definition.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetPolicyTemplateAsync(
+        AzKeyvaultKeyGetPolicyTemplateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzKeyvaultKeyGetPolicyTemplateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

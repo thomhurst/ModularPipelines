@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az namespace commands.
+/// az relay namespace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzRelayNamespace
@@ -33,7 +33,7 @@ public class AzRelayNamespace
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az relay namespace authorization-rule sub-commands.
     /// </summary>
     public AzRelayNamespaceAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzRelayNamespaceAuthorizationRule(_command);
 

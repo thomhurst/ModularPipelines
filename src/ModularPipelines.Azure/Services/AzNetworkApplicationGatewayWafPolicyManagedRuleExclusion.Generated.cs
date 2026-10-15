@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az exclusion commands.
+/// az network application-gateway waf-policy managed-rule exclusion commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion
@@ -33,7 +33,7 @@ public class AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion
     #region Sub-command Groups
 
     /// <summary>
-    /// az rule-set sub-commands.
+    /// az network application-gateway waf-policy managed-rule exclusion rule-set sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSet RuleSet => _ruleSet ??= new AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSet(_command);
 

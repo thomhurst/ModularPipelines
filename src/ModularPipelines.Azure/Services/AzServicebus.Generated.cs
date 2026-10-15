@@ -37,27 +37,27 @@ public class AzServicebus : IAzServicebus
     #region Sub-command Groups
 
     /// <summary>
-    /// az georecovery-alias sub-commands.
+    /// az servicebus georecovery-alias sub-commands.
     /// </summary>
     public AzServicebusGeorecoveryAlias GeorecoveryAlias => _georecoveryAlias ??= new AzServicebusGeorecoveryAlias(_command);
 
     /// <summary>
-    /// az migration sub-commands.
+    /// az servicebus migration sub-commands.
     /// </summary>
     public AzServicebusMigration Migration => _migration ??= new AzServicebusMigration(_command);
 
     /// <summary>
-    /// az namespace sub-commands.
+    /// az servicebus namespace sub-commands.
     /// </summary>
     public AzServicebusNamespace Namespace => _namespace ??= new AzServicebusNamespace(_command);
 
     /// <summary>
-    /// az queue sub-commands.
+    /// az servicebus queue sub-commands.
     /// </summary>
     public AzServicebusQueue Queue => _queue ??= new AzServicebusQueue(_command);
 
     /// <summary>
-    /// az topic sub-commands.
+    /// az servicebus topic sub-commands.
     /// </summary>
     public AzServicebusTopic Topic => _topic ??= new AzServicebusTopic(_command);
 

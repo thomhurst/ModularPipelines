@@ -35,17 +35,17 @@ public class AzRole : IAzRole
     #region Sub-command Groups
 
     /// <summary>
-    /// az assignment sub-commands.
+    /// az role assignment sub-commands.
     /// </summary>
     public AzRoleAssignment Assignment => _assignment ??= new AzRoleAssignment(_command);
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az role definition sub-commands.
     /// </summary>
     public AzRoleDefinition Definition => _definition ??= new AzRoleDefinition(_command);
 
     /// <summary>
-    /// az deny-assignment sub-commands.
+    /// az role deny-assignment sub-commands.
     /// </summary>
     public AzRoleDenyAssignment DenyAssignment => _denyAssignment ??= new AzRoleDenyAssignment(_command);
 

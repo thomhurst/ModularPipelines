@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az container commands.
+/// az cosmosdb sql container commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbSqlContainer
@@ -33,7 +33,7 @@ public class AzCosmosdbSqlContainer
     #region Sub-command Groups
 
     /// <summary>
-    /// az throughput sub-commands.
+    /// az cosmosdb sql container throughput sub-commands.
     /// </summary>
     public AzCosmosdbSqlContainerThroughput Throughput => _throughput ??= new AzCosmosdbSqlContainerThroughput(_command);
 

@@ -13,7 +13,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az stackwhatif commands.
+/// az stack-whatif commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,18 +22,18 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzStackWhatif
 {
     /// <summary>
-    /// az group sub-commands.
+    /// az stack-whatif group sub-commands.
     /// </summary>
-    AzStackWhatifGroup Group => throw new System.NotSupportedException();
+    AzStackWhatifGroup Group { get; }
 
     /// <summary>
-    /// az mg sub-commands.
+    /// az stack-whatif mg sub-commands.
     /// </summary>
-    AzStackWhatifMg Mg => throw new System.NotSupportedException();
+    AzStackWhatifMg Mg { get; }
 
     /// <summary>
-    /// az sub sub-commands.
+    /// az stack-whatif sub sub-commands.
     /// </summary>
-    AzStackWhatifSub Sub => throw new System.NotSupportedException();
+    AzStackWhatifSub Sub { get; }
 
 }

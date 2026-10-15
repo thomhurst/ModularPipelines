@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az fs commands.
+/// az storage fs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageFs
@@ -37,27 +37,27 @@ public class AzStorageFs
     #region Sub-command Groups
 
     /// <summary>
-    /// az access sub-commands.
+    /// az storage fs access sub-commands.
     /// </summary>
     public AzStorageFsAccess Access => _access ??= new AzStorageFsAccess(_command);
 
     /// <summary>
-    /// az directory sub-commands.
+    /// az storage fs directory sub-commands.
     /// </summary>
     public AzStorageFsDirectory Directory => _directory ??= new AzStorageFsDirectory(_command);
 
     /// <summary>
-    /// az file sub-commands.
+    /// az storage fs file sub-commands.
     /// </summary>
     public AzStorageFsFile File => _file ??= new AzStorageFsFile(_command);
 
     /// <summary>
-    /// az metadata sub-commands.
+    /// az storage fs metadata sub-commands.
     /// </summary>
     public AzStorageFsMetadata Metadata => _metadata ??= new AzStorageFsMetadata(_command);
 
     /// <summary>
-    /// az service-properties sub-commands.
+    /// az storage fs service-properties sub-commands.
     /// </summary>
     public AzStorageFsServiceProperties ServiceProperties => _serviceProperties ??= new AzStorageFsServiceProperties(_command);
 
@@ -104,6 +104,21 @@ public class AzStorageFs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExistsAsync(
         AzStorageFsExistsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Generate a SAS token for file system in ADLS Gen2 account.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GenerateSasAsync(
+        AzStorageFsGenerateSasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

@@ -57,6 +57,7 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Data source for importing to Flexible Server. Based on the data source type provide the data source as mentioned below. e.g., mysql_single: The name or resource ID of the Azure MySQL single server. azure_blob: The name or resource ID of the Azure blob container. The storage uri of the azure blob container. Example: https://{blob_name}.blob.core.windows.net/{container_name}. The storage uri should not contain the sas token. If required, sas token can be provided in "data-source-sas-token" parameter.
     /// </summary>
+    [SecretValue]
     [CliOption("--data-source")]
     public string DataSource { get; private init; }
 

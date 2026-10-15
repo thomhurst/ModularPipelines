@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az service-endpoint commands.
+/// az network service-endpoint commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkServiceEndpoint
@@ -34,12 +34,12 @@ public class AzNetworkServiceEndpoint
     #region Sub-command Groups
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az network service-endpoint policy sub-commands.
     /// </summary>
     public AzNetworkServiceEndpointPolicy Policy => _policy ??= new AzNetworkServiceEndpointPolicy(_command);
 
     /// <summary>
-    /// az policy-definition sub-commands.
+    /// az network service-endpoint policy-definition sub-commands.
     /// </summary>
     public AzNetworkServiceEndpointPolicyDefinition PolicyDefinition => _policyDefinition ??= new AzNetworkServiceEndpointPolicyDefinition(_command);
 

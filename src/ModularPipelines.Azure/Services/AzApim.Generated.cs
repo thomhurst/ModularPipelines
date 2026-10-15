@@ -38,32 +38,32 @@ public class AzApim : IAzApim
     #region Sub-command Groups
 
     /// <summary>
-    /// az api sub-commands.
+    /// az apim api sub-commands.
     /// </summary>
     public AzApimApi Api => _api ??= new AzApimApi(_command);
 
     /// <summary>
-    /// az backend sub-commands.
+    /// az apim backend sub-commands.
     /// </summary>
     public AzApimBackend Backend => _backend ??= new AzApimBackend(_command);
 
     /// <summary>
-    /// az deletedservice sub-commands.
+    /// az apim deletedservice sub-commands.
     /// </summary>
     public AzApimDeletedservice Deletedservice => _deletedservice ??= new AzApimDeletedservice(_command);
 
     /// <summary>
-    /// az graphql sub-commands.
+    /// az apim graphql sub-commands.
     /// </summary>
     public AzApimGraphql Graphql => _graphql ??= new AzApimGraphql(_command);
 
     /// <summary>
-    /// az nv sub-commands.
+    /// az apim nv sub-commands.
     /// </summary>
     public AzApimNv Nv => _nv ??= new AzApimNv(_command);
 
     /// <summary>
-    /// az product sub-commands.
+    /// az apim product sub-commands.
     /// </summary>
     public AzApimProduct Product => _product ??= new AzApimProduct(_command);
 

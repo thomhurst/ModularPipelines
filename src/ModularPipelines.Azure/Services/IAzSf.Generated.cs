@@ -22,48 +22,48 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzSf
 {
     /// <summary>
-    /// az application sub-commands.
+    /// az sf application sub-commands.
     /// </summary>
-    AzSfApplication Application => throw new System.NotSupportedException();
+    AzSfApplication Application { get; }
 
     /// <summary>
-    /// az application-type sub-commands.
+    /// az sf application-type sub-commands.
     /// </summary>
-    AzSfApplicationType ApplicationType => throw new System.NotSupportedException();
+    AzSfApplicationType ApplicationType { get; }
 
     /// <summary>
-    /// az cluster sub-commands.
+    /// az sf cluster sub-commands.
     /// </summary>
-    AzSfCluster Cluster => throw new System.NotSupportedException();
+    AzSfCluster Cluster { get; }
 
     /// <summary>
-    /// az managed-application sub-commands.
+    /// az sf managed-application sub-commands.
     /// </summary>
-    AzSfManagedApplication ManagedApplication => throw new System.NotSupportedException();
+    AzSfManagedApplication ManagedApplication { get; }
 
     /// <summary>
-    /// az managed-application-type sub-commands.
+    /// az sf managed-application-type sub-commands.
     /// </summary>
-    AzSfManagedApplicationType ManagedApplicationType => throw new System.NotSupportedException();
+    AzSfManagedApplicationType ManagedApplicationType { get; }
 
     /// <summary>
-    /// az managed-cluster sub-commands.
+    /// az sf managed-cluster sub-commands.
     /// </summary>
-    AzSfManagedCluster ManagedCluster => throw new System.NotSupportedException();
+    AzSfManagedCluster ManagedCluster { get; }
 
     /// <summary>
-    /// az managed-node-type sub-commands.
+    /// az sf managed-node-type sub-commands.
     /// </summary>
-    AzSfManagedNodeType ManagedNodeType => throw new System.NotSupportedException();
+    AzSfManagedNodeType ManagedNodeType { get; }
 
     /// <summary>
-    /// az managed-service sub-commands.
+    /// az sf managed-service sub-commands.
     /// </summary>
-    AzSfManagedService ManagedService => throw new System.NotSupportedException();
+    AzSfManagedService ManagedService { get; }
 
     /// <summary>
-    /// az service sub-commands.
+    /// az sf service sub-commands.
     /// </summary>
-    AzSfService Service => throw new System.NotSupportedException();
+    AzSfService Service { get; }
 
 }

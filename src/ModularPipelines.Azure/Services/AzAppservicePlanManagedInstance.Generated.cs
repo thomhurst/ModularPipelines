@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az managed-instance commands.
+/// az appservice plan managed-instance commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAppservicePlanManagedInstance
@@ -37,27 +37,27 @@ public class AzAppservicePlanManagedInstance
     #region Sub-command Groups
 
     /// <summary>
-    /// az install-script sub-commands.
+    /// az appservice plan managed-instance install-script sub-commands.
     /// </summary>
     public AzAppservicePlanManagedInstanceInstallScript InstallScript => _installScript ??= new AzAppservicePlanManagedInstanceInstallScript(_command);
 
     /// <summary>
-    /// az instance sub-commands.
+    /// az appservice plan managed-instance instance sub-commands.
     /// </summary>
     public AzAppservicePlanManagedInstanceInstance Instance => _instance ??= new AzAppservicePlanManagedInstanceInstance(_command);
 
     /// <summary>
-    /// az network sub-commands.
+    /// az appservice plan managed-instance network sub-commands.
     /// </summary>
     public AzAppservicePlanManagedInstanceNetwork Network => _network ??= new AzAppservicePlanManagedInstanceNetwork(_command);
 
     /// <summary>
-    /// az registry-adapter sub-commands.
+    /// az appservice plan managed-instance registry-adapter sub-commands.
     /// </summary>
     public AzAppservicePlanManagedInstanceRegistryAdapter RegistryAdapter => _registryAdapter ??= new AzAppservicePlanManagedInstanceRegistryAdapter(_command);
 
     /// <summary>
-    /// az storage-mount sub-commands.
+    /// az appservice plan managed-instance storage-mount sub-commands.
     /// </summary>
     public AzAppservicePlanManagedInstanceStorageMount StorageMount => _storageMount ??= new AzAppservicePlanManagedInstanceStorageMount(_command);
 

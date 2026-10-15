@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az collection commands.
+/// az cosmosdb mongodb collection commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbMongodbCollection
@@ -33,7 +33,7 @@ public class AzCosmosdbMongodbCollection
     #region Sub-command Groups
 
     /// <summary>
-    /// az throughput sub-commands.
+    /// az cosmosdb mongodb collection throughput sub-commands.
     /// </summary>
     public AzCosmosdbMongodbCollectionThroughput Throughput => _throughput ??= new AzCosmosdbMongodbCollectionThroughput(_command);
 

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -88,6 +89,7 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// A list of files that the Batch service will download to the compute node before running the command line. Space-separated resource references in filename=httpurl format, with httpurl being any HTTP url with public access or a SAS url with read access.
     /// </summary>
+    [SecretValue]
     [CliOption("--resource-files", GroupValues = true)]
     public IEnumerable<string>? ResourceFiles { get; set; }
 
@@ -112,6 +114,7 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// The Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az job commands.
+/// az batch job commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBatchJob
@@ -34,12 +34,12 @@ public class AzBatchJob
     #region Sub-command Groups
 
     /// <summary>
-    /// az prep-release-status sub-commands.
+    /// az batch job prep-release-status sub-commands.
     /// </summary>
     public AzBatchJobPrepReleaseStatus PrepReleaseStatus => _prepReleaseStatus ??= new AzBatchJobPrepReleaseStatus(_command);
 
     /// <summary>
-    /// az task-counts sub-commands.
+    /// az batch job task-counts sub-commands.
     /// </summary>
     public AzBatchJobTaskCounts TaskCounts => _taskCounts ??= new AzBatchJobTaskCounts(_command);
 

@@ -22,13 +22,13 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzManagedservices
 {
     /// <summary>
-    /// az assignment sub-commands.
+    /// az managedservices assignment sub-commands.
     /// </summary>
-    AzManagedservicesAssignment Assignment => throw new System.NotSupportedException();
+    AzManagedservicesAssignment Assignment { get; }
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az managedservices definition sub-commands.
     /// </summary>
-    AzManagedservicesDefinition Definition => throw new System.NotSupportedException();
+    AzManagedservicesDefinition Definition { get; }
 
 }

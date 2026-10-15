@@ -33,7 +33,7 @@ public class AzImage : IAzImage
     #region Sub-command Groups
 
     /// <summary>
-    /// az builder sub-commands.
+    /// az image builder sub-commands.
     /// </summary>
     public AzImageBuilder Builder => _builder ??= new AzImageBuilder(_command);
 

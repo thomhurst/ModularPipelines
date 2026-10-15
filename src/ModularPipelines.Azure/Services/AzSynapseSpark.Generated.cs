@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az spark commands.
+/// az synapse spark commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapseSpark
@@ -36,22 +36,22 @@ public class AzSynapseSpark
     #region Sub-command Groups
 
     /// <summary>
-    /// az job sub-commands.
+    /// az synapse spark job sub-commands.
     /// </summary>
     public AzSynapseSparkJob Job => _job ??= new AzSynapseSparkJob(_command);
 
     /// <summary>
-    /// az pool sub-commands.
+    /// az synapse spark pool sub-commands.
     /// </summary>
     public AzSynapseSparkPool Pool => _pool ??= new AzSynapseSparkPool(_command);
 
     /// <summary>
-    /// az session sub-commands.
+    /// az synapse spark session sub-commands.
     /// </summary>
     public AzSynapseSparkSession Session => _session ??= new AzSynapseSparkSession(_command);
 
     /// <summary>
-    /// az statement sub-commands.
+    /// az synapse spark statement sub-commands.
     /// </summary>
     public AzSynapseSparkStatement Statement => _statement ??= new AzSynapseSparkStatement(_command);
 

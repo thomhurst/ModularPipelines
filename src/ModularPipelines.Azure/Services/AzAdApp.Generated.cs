@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az app commands.
+/// az ad app commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAdApp
@@ -36,22 +36,22 @@ public class AzAdApp
     #region Sub-command Groups
 
     /// <summary>
-    /// az credential sub-commands.
+    /// az ad app credential sub-commands.
     /// </summary>
     public AzAdAppCredential Credential => _credential ??= new AzAdAppCredential(_command);
 
     /// <summary>
-    /// az federated-credential sub-commands.
+    /// az ad app federated-credential sub-commands.
     /// </summary>
     public AzAdAppFederatedCredential FederatedCredential => _federatedCredential ??= new AzAdAppFederatedCredential(_command);
 
     /// <summary>
-    /// az owner sub-commands.
+    /// az ad app owner sub-commands.
     /// </summary>
     public AzAdAppOwner Owner => _owner ??= new AzAdAppOwner(_command);
 
     /// <summary>
-    /// az permission sub-commands.
+    /// az ad app permission sub-commands.
     /// </summary>
     public AzAdAppPermission Permission => _permission ??= new AzAdAppPermission(_command);
 

@@ -14,13 +14,14 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az namespace commands.
+/// az eventgrid partner namespace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventgridPartnerNamespace
 {
     private readonly ICommandContext _command;
     private AzEventgridPartnerNamespaceChannel? _channel;
+    private AzEventgridPartnerNamespaceEventChannel? _eventChannel;
     private AzEventgridPartnerNamespaceKey? _key;
 
     /// <summary>
@@ -34,12 +35,17 @@ public class AzEventgridPartnerNamespace
     #region Sub-command Groups
 
     /// <summary>
-    /// az channel sub-commands.
+    /// az eventgrid partner namespace channel sub-commands.
     /// </summary>
     public AzEventgridPartnerNamespaceChannel Channel => _channel ??= new AzEventgridPartnerNamespaceChannel(_command);
 
     /// <summary>
-    /// az key sub-commands.
+    /// az eventgrid partner namespace event-channel sub-commands.
+    /// </summary>
+    public AzEventgridPartnerNamespaceEventChannel EventChannel => _eventChannel ??= new AzEventgridPartnerNamespaceEventChannel(_command);
+
+    /// <summary>
+    /// az eventgrid partner namespace key sub-commands.
     /// </summary>
     public AzEventgridPartnerNamespaceKey Key => _key ??= new AzEventgridPartnerNamespaceKey(_command);
 

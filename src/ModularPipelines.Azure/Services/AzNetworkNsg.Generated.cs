@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az nsg commands.
+/// az network nsg commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkNsg
@@ -33,7 +33,7 @@ public class AzNetworkNsg
     #region Sub-command Groups
 
     /// <summary>
-    /// az rule sub-commands.
+    /// az network nsg rule sub-commands.
     /// </summary>
     public AzNetworkNsgRule Rule => _rule ??= new AzNetworkNsgRule(_command);
 

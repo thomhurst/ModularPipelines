@@ -14,12 +14,13 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az dns commands.
+/// az network dns commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkDns
 {
     private readonly ICommandContext _command;
+    private AzNetworkDnsDnssecConfig? _dnssecConfig;
     private AzNetworkDnsRecordSet? _recordSet;
     private AzNetworkDnsZone? _zone;
 
@@ -34,12 +35,17 @@ public class AzNetworkDns
     #region Sub-command Groups
 
     /// <summary>
-    /// az record-set sub-commands.
+    /// az network dns dnssec-config sub-commands.
+    /// </summary>
+    public AzNetworkDnsDnssecConfig DnssecConfig => _dnssecConfig ??= new AzNetworkDnsDnssecConfig(_command);
+
+    /// <summary>
+    /// az network dns record-set sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSet RecordSet => _recordSet ??= new AzNetworkDnsRecordSet(_command);
 
     /// <summary>
-    /// az zone sub-commands.
+    /// az network dns zone sub-commands.
     /// </summary>
     public AzNetworkDnsZone Zone => _zone ??= new AzNetworkDnsZone(_command);
 

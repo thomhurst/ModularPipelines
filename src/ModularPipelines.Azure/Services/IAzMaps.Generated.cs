@@ -22,13 +22,13 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzMaps
 {
     /// <summary>
-    /// az account sub-commands.
+    /// az maps account sub-commands.
     /// </summary>
-    AzMapsAccount Account => throw new System.NotSupportedException();
+    AzMapsAccount Account { get; }
 
     /// <summary>
-    /// az map sub-commands.
+    /// az maps map sub-commands.
     /// </summary>
-    AzMapsMap Map => throw new System.NotSupportedException();
+    AzMapsMap Map { get; }
 
 }

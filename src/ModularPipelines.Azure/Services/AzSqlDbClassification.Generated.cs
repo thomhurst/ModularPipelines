@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az classification commands.
+/// az sql db classification commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlDbClassification
@@ -33,7 +33,7 @@ public class AzSqlDbClassification
     #region Sub-command Groups
 
     /// <summary>
-    /// az recommendation sub-commands.
+    /// az sql db classification recommendation sub-commands.
     /// </summary>
     public AzSqlDbClassificationRecommendation Recommendation => _recommendation ??= new AzSqlDbClassificationRecommendation(_command);
 

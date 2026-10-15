@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az env commands.
+/// az containerapp env commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappEnv
@@ -39,37 +39,37 @@ public class AzContainerappEnv
     #region Sub-command Groups
 
     /// <summary>
-    /// az certificate sub-commands.
+    /// az containerapp env certificate sub-commands.
     /// </summary>
     public AzContainerappEnvCertificate Certificate => _certificate ??= new AzContainerappEnvCertificate(_command);
 
     /// <summary>
-    /// az dapr-component sub-commands.
+    /// az containerapp env dapr-component sub-commands.
     /// </summary>
     public AzContainerappEnvDaprComponent DaprComponent => _daprComponent ??= new AzContainerappEnvDaprComponent(_command);
 
     /// <summary>
-    /// az http-route-config sub-commands.
+    /// az containerapp env http-route-config sub-commands.
     /// </summary>
     public AzContainerappEnvHttpRouteConfig HttpRouteConfig => _httpRouteConfig ??= new AzContainerappEnvHttpRouteConfig(_command);
 
     /// <summary>
-    /// az logs sub-commands.
+    /// az containerapp env logs sub-commands.
     /// </summary>
     public AzContainerappEnvLogs Logs => _logs ??= new AzContainerappEnvLogs(_command);
 
     /// <summary>
-    /// az premium-ingress sub-commands.
+    /// az containerapp env premium-ingress sub-commands.
     /// </summary>
     public AzContainerappEnvPremiumIngress PremiumIngress => _premiumIngress ??= new AzContainerappEnvPremiumIngress(_command);
 
     /// <summary>
-    /// az storage sub-commands.
+    /// az containerapp env storage sub-commands.
     /// </summary>
     public AzContainerappEnvStorage Storage => _storage ??= new AzContainerappEnvStorage(_command);
 
     /// <summary>
-    /// az workload-profile sub-commands.
+    /// az containerapp env workload-profile sub-commands.
     /// </summary>
     public AzContainerappEnvWorkloadProfile WorkloadProfile => _workloadProfile ??= new AzContainerappEnvWorkloadProfile(_command);
 

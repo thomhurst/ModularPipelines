@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az dps commands.
+/// az iot dps commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzIotDps
@@ -35,17 +35,17 @@ public class AzIotDps
     #region Sub-command Groups
 
     /// <summary>
-    /// az certificate sub-commands.
+    /// az iot dps certificate sub-commands.
     /// </summary>
     public AzIotDpsCertificate Certificate => _certificate ??= new AzIotDpsCertificate(_command);
 
     /// <summary>
-    /// az linked-hub sub-commands.
+    /// az iot dps linked-hub sub-commands.
     /// </summary>
     public AzIotDpsLinkedHub LinkedHub => _linkedHub ??= new AzIotDpsLinkedHub(_command);
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az iot dps policy sub-commands.
     /// </summary>
     public AzIotDpsPolicy Policy => _policy ??= new AzIotDpsPolicy(_command);
 

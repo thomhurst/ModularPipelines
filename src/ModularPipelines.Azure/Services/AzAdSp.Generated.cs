@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az sp commands.
+/// az ad sp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAdSp
@@ -34,12 +34,12 @@ public class AzAdSp
     #region Sub-command Groups
 
     /// <summary>
-    /// az credential sub-commands.
+    /// az ad sp credential sub-commands.
     /// </summary>
     public AzAdSpCredential Credential => _credential ??= new AzAdSpCredential(_command);
 
     /// <summary>
-    /// az owner sub-commands.
+    /// az ad sp owner sub-commands.
     /// </summary>
     public AzAdSpOwner Owner => _owner ??= new AzAdSpOwner(_command);
 

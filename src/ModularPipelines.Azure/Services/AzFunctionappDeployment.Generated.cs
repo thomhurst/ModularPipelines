@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az deployment commands.
+/// az functionapp deployment commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappDeployment
@@ -38,32 +38,32 @@ public class AzFunctionappDeployment
     #region Sub-command Groups
 
     /// <summary>
-    /// az config sub-commands.
+    /// az functionapp deployment config sub-commands.
     /// </summary>
     public AzFunctionappDeploymentConfig Config => _config ??= new AzFunctionappDeploymentConfig(_command);
 
     /// <summary>
-    /// az container sub-commands.
+    /// az functionapp deployment container sub-commands.
     /// </summary>
     public AzFunctionappDeploymentContainer Container => _container ??= new AzFunctionappDeploymentContainer(_command);
 
     /// <summary>
-    /// az github-actions sub-commands.
+    /// az functionapp deployment github-actions sub-commands.
     /// </summary>
     public AzFunctionappDeploymentGithubActions GithubActions => _githubActions ??= new AzFunctionappDeploymentGithubActions(_command);
 
     /// <summary>
-    /// az slot sub-commands.
+    /// az functionapp deployment slot sub-commands.
     /// </summary>
     public AzFunctionappDeploymentSlot Slot => _slot ??= new AzFunctionappDeploymentSlot(_command);
 
     /// <summary>
-    /// az source sub-commands.
+    /// az functionapp deployment source sub-commands.
     /// </summary>
     public AzFunctionappDeploymentSource Source => _source ??= new AzFunctionappDeploymentSource(_command);
 
     /// <summary>
-    /// az user sub-commands.
+    /// az functionapp deployment user sub-commands.
     /// </summary>
     public AzFunctionappDeploymentUser User => _user ??= new AzFunctionappDeploymentUser(_command);
 

@@ -100,6 +100,7 @@ public record AzVmRunCommandCreateOptions : AzOptions
     /// <summary>
     /// Specify the Azure storage blob (SAS URI) where script output stream will be uploaded.
     /// </summary>
+    [SecretValue]
     [CliOption("--output-blob-uri")]
     public string? OutputBlobUri { get; set; }
 

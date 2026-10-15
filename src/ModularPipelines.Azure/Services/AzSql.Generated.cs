@@ -25,10 +25,12 @@ public class AzSql : IAzSql
     private AzSqlElasticPool? _elasticPool;
     private AzSqlFailoverGroup? _failoverGroup;
     private AzSqlInstanceFailoverGroup? _instanceFailoverGroup;
+    private AzSqlInstancePool? _instancePool;
     private AzSqlMi? _mi;
     private AzSqlMidb? _midb;
     private AzSqlRecoverableMidb? _recoverableMidb;
     private AzSqlServer? _server;
+    private AzSqlStg? _stg;
     private AzSqlVirtualCluster? _virtualCluster;
     private AzSqlVm? _vm;
 
@@ -43,57 +45,67 @@ public class AzSql : IAzSql
     #region Sub-command Groups
 
     /// <summary>
-    /// az db sub-commands.
+    /// az sql db sub-commands.
     /// </summary>
     public AzSqlDb Db => _db ??= new AzSqlDb(_command);
 
     /// <summary>
-    /// az dw sub-commands.
+    /// az sql dw sub-commands.
     /// </summary>
     public AzSqlDw Dw => _dw ??= new AzSqlDw(_command);
 
     /// <summary>
-    /// az elastic-pool sub-commands.
+    /// az sql elastic-pool sub-commands.
     /// </summary>
     public AzSqlElasticPool ElasticPool => _elasticPool ??= new AzSqlElasticPool(_command);
 
     /// <summary>
-    /// az failover-group sub-commands.
+    /// az sql failover-group sub-commands.
     /// </summary>
     public AzSqlFailoverGroup FailoverGroup => _failoverGroup ??= new AzSqlFailoverGroup(_command);
 
     /// <summary>
-    /// az instance-failover-group sub-commands.
+    /// az sql instance-failover-group sub-commands.
     /// </summary>
     public AzSqlInstanceFailoverGroup InstanceFailoverGroup => _instanceFailoverGroup ??= new AzSqlInstanceFailoverGroup(_command);
 
     /// <summary>
-    /// az mi sub-commands.
+    /// az sql instance-pool sub-commands.
+    /// </summary>
+    public AzSqlInstancePool InstancePool => _instancePool ??= new AzSqlInstancePool(_command);
+
+    /// <summary>
+    /// az sql mi sub-commands.
     /// </summary>
     public AzSqlMi Mi => _mi ??= new AzSqlMi(_command);
 
     /// <summary>
-    /// az midb sub-commands.
+    /// az sql midb sub-commands.
     /// </summary>
     public AzSqlMidb Midb => _midb ??= new AzSqlMidb(_command);
 
     /// <summary>
-    /// az recoverable-midb sub-commands.
+    /// az sql recoverable-midb sub-commands.
     /// </summary>
     public AzSqlRecoverableMidb RecoverableMidb => _recoverableMidb ??= new AzSqlRecoverableMidb(_command);
 
     /// <summary>
-    /// az server sub-commands.
+    /// az sql server sub-commands.
     /// </summary>
     public AzSqlServer Server => _server ??= new AzSqlServer(_command);
 
     /// <summary>
-    /// az virtual-cluster sub-commands.
+    /// az sql stg sub-commands.
+    /// </summary>
+    public AzSqlStg Stg => _stg ??= new AzSqlStg(_command);
+
+    /// <summary>
+    /// az sql virtual-cluster sub-commands.
     /// </summary>
     public AzSqlVirtualCluster VirtualCluster => _virtualCluster ??= new AzSqlVirtualCluster(_command);
 
     /// <summary>
-    /// az vm sub-commands.
+    /// az sql vm sub-commands.
     /// </summary>
     public AzSqlVm Vm => _vm ??= new AzSqlVm(_command);
 

@@ -22,24 +22,24 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzDataboxedge
 {
     /// <summary>
-    /// az alert sub-commands.
+    /// az databoxedge alert sub-commands.
     /// </summary>
-    AzDataboxedgeAlert Alert => throw new System.NotSupportedException();
+    AzDataboxedgeAlert Alert { get; }
 
     /// <summary>
-    /// az bandwidth-schedule sub-commands.
+    /// az databoxedge bandwidth-schedule sub-commands.
     /// </summary>
-    AzDataboxedgeBandwidthSchedule BandwidthSchedule => throw new System.NotSupportedException();
+    AzDataboxedgeBandwidthSchedule BandwidthSchedule { get; }
 
     /// <summary>
-    /// az device sub-commands.
+    /// az databoxedge device sub-commands.
     /// </summary>
-    AzDataboxedgeDevice Device => throw new System.NotSupportedException();
+    AzDataboxedgeDevice Device { get; }
 
     /// <summary>
-    /// az order sub-commands.
+    /// az databoxedge order sub-commands.
     /// </summary>
-    AzDataboxedgeOrder Order => throw new System.NotSupportedException();
+    AzDataboxedgeOrder Order { get; }
 
     /// <summary>
     /// List all the nodes currently configured under this Data Box Edge
@@ -48,8 +48,7 @@ public interface IAzDataboxedge
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNodeAsync(AzDataboxedgeListNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNodeAsync(AzDataboxedgeListNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all the available Skus and information related to them.
@@ -58,8 +57,7 @@ public interface IAzDataboxedge
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSkuAsync(AzDataboxedgeListSkuOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSkuAsync(AzDataboxedgeListSkuOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of a specified job on a Data Box Edge/Data Box Gateway
@@ -68,7 +66,6 @@ public interface IAzDataboxedge
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowJobAsync(AzDataboxedgeShowJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowJobAsync(AzDataboxedgeShowJobOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

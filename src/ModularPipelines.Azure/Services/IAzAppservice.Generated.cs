@@ -22,24 +22,29 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzAppservice
 {
     /// <summary>
-    /// az ase sub-commands.
+    /// az appservice ase sub-commands.
     /// </summary>
-    AzAppserviceAse Ase => throw new System.NotSupportedException();
+    AzAppserviceAse Ase { get; }
 
     /// <summary>
-    /// az hybrid-connection sub-commands.
+    /// az appservice domain sub-commands.
     /// </summary>
-    AzAppserviceHybridConnection HybridConnection => throw new System.NotSupportedException();
+    AzAppserviceDomain Domain { get; }
 
     /// <summary>
-    /// az plan sub-commands.
+    /// az appservice hybrid-connection sub-commands.
     /// </summary>
-    AzAppservicePlan Plan => throw new System.NotSupportedException();
+    AzAppserviceHybridConnection HybridConnection { get; }
 
     /// <summary>
-    /// az vnet-integration sub-commands.
+    /// az appservice plan sub-commands.
     /// </summary>
-    AzAppserviceVnetIntegration VnetIntegration => throw new System.NotSupportedException();
+    AzAppservicePlan Plan { get; }
+
+    /// <summary>
+    /// az appservice vnet-integration sub-commands.
+    /// </summary>
+    AzAppserviceVnetIntegration VnetIntegration { get; }
 
     /// <summary>
     /// List regions where a plan sku is available.
@@ -48,7 +53,6 @@ public interface IAzAppservice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLocationsAsync(AzAppserviceListLocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLocationsAsync(AzAppserviceListLocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

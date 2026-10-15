@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az trustedaccess commands.
+/// az aks trustedaccess commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAksTrustedaccess
@@ -34,12 +34,12 @@ public class AzAksTrustedaccess
     #region Sub-command Groups
 
     /// <summary>
-    /// az role sub-commands.
+    /// az aks trustedaccess role sub-commands.
     /// </summary>
     public AzAksTrustedaccessRole Role => _role ??= new AzAksTrustedaccessRole(_command);
 
     /// <summary>
-    /// az rolebinding sub-commands.
+    /// az aks trustedaccess rolebinding sub-commands.
     /// </summary>
     public AzAksTrustedaccessRolebinding Rolebinding => _rolebinding ??= new AzAksTrustedaccessRolebinding(_command);
 

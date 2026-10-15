@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az subscription commands.
+/// az servicebus topic subscription commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzServicebusTopicSubscription
@@ -33,7 +33,7 @@ public class AzServicebusTopicSubscription
     #region Sub-command Groups
 
     /// <summary>
-    /// az rule sub-commands.
+    /// az servicebus topic subscription rule sub-commands.
     /// </summary>
     public AzServicebusTopicSubscriptionRule Rule => _rule ??= new AzServicebusTopicSubscriptionRule(_command);
 

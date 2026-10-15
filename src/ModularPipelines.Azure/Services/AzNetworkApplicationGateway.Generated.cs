@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az application-gateway commands.
+/// az network application-gateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGateway
@@ -55,117 +55,117 @@ public class AzNetworkApplicationGateway
     #region Sub-command Groups
 
     /// <summary>
-    /// az address-pool sub-commands.
+    /// az network application-gateway address-pool sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayAddressPool AddressPool => _addressPool ??= new AzNetworkApplicationGatewayAddressPool(_command);
 
     /// <summary>
-    /// az auth-cert sub-commands.
+    /// az network application-gateway auth-cert sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayAuthCert AuthCert => _authCert ??= new AzNetworkApplicationGatewayAuthCert(_command);
 
     /// <summary>
-    /// az client-cert sub-commands.
+    /// az network application-gateway client-cert sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayClientCert ClientCert => _clientCert ??= new AzNetworkApplicationGatewayClientCert(_command);
 
     /// <summary>
-    /// az frontend-ip sub-commands.
+    /// az network application-gateway frontend-ip sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayFrontendIp FrontendIp => _frontendIp ??= new AzNetworkApplicationGatewayFrontendIp(_command);
 
     /// <summary>
-    /// az frontend-port sub-commands.
+    /// az network application-gateway frontend-port sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayFrontendPort FrontendPort => _frontendPort ??= new AzNetworkApplicationGatewayFrontendPort(_command);
 
     /// <summary>
-    /// az http-listener sub-commands.
+    /// az network application-gateway http-listener sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayHttpListener HttpListener => _httpListener ??= new AzNetworkApplicationGatewayHttpListener(_command);
 
     /// <summary>
-    /// az http-settings sub-commands.
+    /// az network application-gateway http-settings sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayHttpSettings HttpSettings => _httpSettings ??= new AzNetworkApplicationGatewayHttpSettings(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az network application-gateway identity sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayIdentity Identity => _identity ??= new AzNetworkApplicationGatewayIdentity(_command);
 
     /// <summary>
-    /// az listener sub-commands.
+    /// az network application-gateway listener sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayListener Listener => _listener ??= new AzNetworkApplicationGatewayListener(_command);
 
     /// <summary>
-    /// az private-link sub-commands.
+    /// az network application-gateway private-link sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayPrivateLink PrivateLink => _privateLink ??= new AzNetworkApplicationGatewayPrivateLink(_command);
 
     /// <summary>
-    /// az probe sub-commands.
+    /// az network application-gateway probe sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayProbe Probe => _probe ??= new AzNetworkApplicationGatewayProbe(_command);
 
     /// <summary>
-    /// az redirect-config sub-commands.
+    /// az network application-gateway redirect-config sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayRedirectConfig RedirectConfig => _redirectConfig ??= new AzNetworkApplicationGatewayRedirectConfig(_command);
 
     /// <summary>
-    /// az rewrite-rule sub-commands.
+    /// az network application-gateway rewrite-rule sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayRewriteRule RewriteRule => _rewriteRule ??= new AzNetworkApplicationGatewayRewriteRule(_command);
 
     /// <summary>
-    /// az root-cert sub-commands.
+    /// az network application-gateway root-cert sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayRootCert RootCert => _rootCert ??= new AzNetworkApplicationGatewayRootCert(_command);
 
     /// <summary>
-    /// az routing-rule sub-commands.
+    /// az network application-gateway routing-rule sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayRoutingRule RoutingRule => _routingRule ??= new AzNetworkApplicationGatewayRoutingRule(_command);
 
     /// <summary>
-    /// az rule sub-commands.
+    /// az network application-gateway rule sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayRule Rule => _rule ??= new AzNetworkApplicationGatewayRule(_command);
 
     /// <summary>
-    /// az settings sub-commands.
+    /// az network application-gateway settings sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewaySettings Settings => _settings ??= new AzNetworkApplicationGatewaySettings(_command);
 
     /// <summary>
-    /// az ssl-cert sub-commands.
+    /// az network application-gateway ssl-cert sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewaySslCert SslCert => _sslCert ??= new AzNetworkApplicationGatewaySslCert(_command);
 
     /// <summary>
-    /// az ssl-policy sub-commands.
+    /// az network application-gateway ssl-policy sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewaySslPolicy SslPolicy => _sslPolicy ??= new AzNetworkApplicationGatewaySslPolicy(_command);
 
     /// <summary>
-    /// az ssl-profile sub-commands.
+    /// az network application-gateway ssl-profile sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewaySslProfile SslProfile => _sslProfile ??= new AzNetworkApplicationGatewaySslProfile(_command);
 
     /// <summary>
-    /// az url-path-map sub-commands.
+    /// az network application-gateway url-path-map sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayUrlPathMap UrlPathMap => _urlPathMap ??= new AzNetworkApplicationGatewayUrlPathMap(_command);
 
     /// <summary>
-    /// az waf-config sub-commands.
+    /// az network application-gateway waf-config sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayWafConfig WafConfig => _wafConfig ??= new AzNetworkApplicationGatewayWafConfig(_command);
 
     /// <summary>
-    /// az waf-policy sub-commands.
+    /// az network application-gateway waf-policy sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayWafPolicy WafPolicy => _wafPolicy ??= new AzNetworkApplicationGatewayWafPolicy(_command);
 

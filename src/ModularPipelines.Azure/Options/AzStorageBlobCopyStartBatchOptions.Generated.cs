@@ -72,6 +72,7 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     /// <summary>
     /// The account key for the source storage account.
     /// </summary>
+    [SecretValue]
     [CliOption("--source-account-key")]
     public string? SourceAccountKey { get; set; }
 
@@ -102,12 +103,14 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     /// <summary>
     /// A URI specifying a file share or blob container from which the files or blobs are copied. If the source is in another account, the source must either be public or be authenticated by using a shared access signature.
     /// </summary>
+    [SecretValue]
     [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
@@ -126,6 +129,7 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 

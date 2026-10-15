@@ -34,12 +34,12 @@ public class AzManagedservices : IAzManagedservices
     #region Sub-command Groups
 
     /// <summary>
-    /// az assignment sub-commands.
+    /// az managedservices assignment sub-commands.
     /// </summary>
     public AzManagedservicesAssignment Assignment => _assignment ??= new AzManagedservicesAssignment(_command);
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az managedservices definition sub-commands.
     /// </summary>
     public AzManagedservicesDefinition Definition => _definition ??= new AzManagedservicesDefinition(_command);
 

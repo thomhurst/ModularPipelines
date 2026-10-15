@@ -80,6 +80,7 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     /// <summary>
     /// Application Insights connection string used by Dapr to export service to service communication telemetry. Use "none" to remove it.
     /// </summary>
+    [SecretValue]
     [CliOption("--dapr-connection-string", ShortForm = "-d")]
     public string? DaprConnectionString { get; set; }
 

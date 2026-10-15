@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az gallery-application commands.
+/// az sig gallery-application commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSigGalleryApplication
@@ -33,7 +33,7 @@ public class AzSigGalleryApplication
     #region Sub-command Groups
 
     /// <summary>
-    /// az version sub-commands.
+    /// az sig gallery-application version sub-commands.
     /// </summary>
     public AzSigGalleryApplicationVersion Version => _version ??= new AzSigGalleryApplicationVersion(_command);
 

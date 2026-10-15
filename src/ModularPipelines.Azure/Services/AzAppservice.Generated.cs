@@ -21,6 +21,7 @@ public class AzAppservice : IAzAppservice
 {
     private readonly ICommandContext _command;
     private AzAppserviceAse? _ase;
+    private AzAppserviceDomain? _domain;
     private AzAppserviceHybridConnection? _hybridConnection;
     private AzAppservicePlan? _plan;
     private AzAppserviceVnetIntegration? _vnetIntegration;
@@ -36,22 +37,27 @@ public class AzAppservice : IAzAppservice
     #region Sub-command Groups
 
     /// <summary>
-    /// az ase sub-commands.
+    /// az appservice ase sub-commands.
     /// </summary>
     public AzAppserviceAse Ase => _ase ??= new AzAppserviceAse(_command);
 
     /// <summary>
-    /// az hybrid-connection sub-commands.
+    /// az appservice domain sub-commands.
+    /// </summary>
+    public AzAppserviceDomain Domain => _domain ??= new AzAppserviceDomain(_command);
+
+    /// <summary>
+    /// az appservice hybrid-connection sub-commands.
     /// </summary>
     public AzAppserviceHybridConnection HybridConnection => _hybridConnection ??= new AzAppserviceHybridConnection(_command);
 
     /// <summary>
-    /// az plan sub-commands.
+    /// az appservice plan sub-commands.
     /// </summary>
     public AzAppservicePlan Plan => _plan ??= new AzAppservicePlan(_command);
 
     /// <summary>
-    /// az vnet-integration sub-commands.
+    /// az appservice vnet-integration sub-commands.
     /// </summary>
     public AzAppserviceVnetIntegration VnetIntegration => _vnetIntegration ??= new AzAppserviceVnetIntegration(_command);
 

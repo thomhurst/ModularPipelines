@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az custom-ip commands.
+/// az network custom-ip commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkCustomIp
@@ -33,7 +33,7 @@ public class AzNetworkCustomIp
     #region Sub-command Groups
 
     /// <summary>
-    /// az prefix sub-commands.
+    /// az network custom-ip prefix sub-commands.
     /// </summary>
     public AzNetworkCustomIpPrefix Prefix => _prefix ??= new AzNetworkCustomIpPrefix(_command);
 

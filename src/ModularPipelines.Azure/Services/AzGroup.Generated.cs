@@ -33,7 +33,7 @@ public class AzGroup : IAzGroup
     #region Sub-command Groups
 
     /// <summary>
-    /// az lock sub-commands.
+    /// az group lock sub-commands.
     /// </summary>
     public AzGroupLock Lock => _lock ??= new AzGroupLock(_command);
 

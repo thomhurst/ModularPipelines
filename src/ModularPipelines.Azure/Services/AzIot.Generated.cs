@@ -35,17 +35,17 @@ public class AzIot : IAzIot
     #region Sub-command Groups
 
     /// <summary>
-    /// az central sub-commands.
+    /// az iot central sub-commands.
     /// </summary>
     public AzIotCentral Central => _central ??= new AzIotCentral(_command);
 
     /// <summary>
-    /// az dps sub-commands.
+    /// az iot dps sub-commands.
     /// </summary>
     public AzIotDps Dps => _dps ??= new AzIotDps(_command);
 
     /// <summary>
-    /// az hub sub-commands.
+    /// az iot hub sub-commands.
     /// </summary>
     public AzIotHub Hub => _hub ??= new AzIotHub(_command);
 

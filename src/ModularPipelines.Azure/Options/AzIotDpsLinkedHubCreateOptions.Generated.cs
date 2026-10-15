@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -71,6 +72,7 @@ public record AzIotDpsLinkedHubCreateOptions : AzOptions
     /// <summary>
     /// Connection string of the IoT hub. Required if hub name is not provided using --hub-name.
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 

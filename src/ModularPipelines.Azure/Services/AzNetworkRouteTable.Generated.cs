@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az route-table commands.
+/// az network route-table commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkRouteTable
@@ -33,7 +33,7 @@ public class AzNetworkRouteTable
     #region Sub-command Groups
 
     /// <summary>
-    /// az route sub-commands.
+    /// az network route-table route sub-commands.
     /// </summary>
     public AzNetworkRouteTableRoute Route => _route ??= new AzNetworkRouteTableRoute(_command);
 

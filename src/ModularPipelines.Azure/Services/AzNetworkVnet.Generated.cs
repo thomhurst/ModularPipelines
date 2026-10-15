@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az vnet commands.
+/// az network vnet commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkVnet
@@ -34,12 +34,12 @@ public class AzNetworkVnet
     #region Sub-command Groups
 
     /// <summary>
-    /// az peering sub-commands.
+    /// az network vnet peering sub-commands.
     /// </summary>
     public AzNetworkVnetPeering Peering => _peering ??= new AzNetworkVnetPeering(_command);
 
     /// <summary>
-    /// az subnet sub-commands.
+    /// az network vnet subnet sub-commands.
     /// </summary>
     public AzNetworkVnetSubnet Subnet => _subnet ??= new AzNetworkVnetSubnet(_command);
 
@@ -93,6 +93,21 @@ public class AzNetworkVnet
     }
 
     /// <summary>
+    /// List some available ips in the vnet.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAvailableIpsAsync(
+        AzNetworkVnetListAvailableIpsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetListAvailableIpsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List which services support VNet service tunneling in a
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -120,6 +135,21 @@ public class AzNetworkVnet
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Move IP configurations from one virtual network to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MoveIpConfigurationsAsync(
+        AzNetworkVnetMoveIpConfigurationsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

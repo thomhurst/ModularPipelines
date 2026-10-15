@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az network-profile commands.
+/// az batch account network-profile commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBatchAccountNetworkProfile
@@ -33,7 +33,7 @@ public class AzBatchAccountNetworkProfile
     #region Sub-command Groups
 
     /// <summary>
-    /// az network-rule sub-commands.
+    /// az batch account network-profile network-rule sub-commands.
     /// </summary>
     public AzBatchAccountNetworkProfileNetworkRule NetworkRule => _networkRule ??= new AzBatchAccountNetworkProfileNetworkRule(_command);
 

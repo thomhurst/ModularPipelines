@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az directory commands.
+/// az storage fs directory commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageFsDirectory
@@ -33,7 +33,7 @@ public class AzStorageFsDirectory
     #region Sub-command Groups
 
     /// <summary>
-    /// az metadata sub-commands.
+    /// az storage fs directory metadata sub-commands.
     /// </summary>
     public AzStorageFsDirectoryMetadata Metadata => _metadata ??= new AzStorageFsDirectoryMetadata(_command);
 
@@ -65,6 +65,21 @@ public class AzStorageFsDirectory
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
         AzStorageFsDirectoryDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Download files from the directory in ADLS Gen2 file system to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DownloadAsync(
+        AzStorageFsDirectoryDownloadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -140,6 +155,21 @@ public class AzStorageFsDirectory
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
         AzStorageFsDirectoryShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Upload files or subdirectories to a directory in ADLS Gen2 file
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UploadAsync(
+        AzStorageFsDirectoryUploadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

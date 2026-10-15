@@ -40,42 +40,42 @@ public class AzSignalr : IAzSignalr
     #region Sub-command Groups
 
     /// <summary>
-    /// az cors sub-commands.
+    /// az signalr cors sub-commands.
     /// </summary>
     public AzSignalrCors Cors => _cors ??= new AzSignalrCors(_command);
 
     /// <summary>
-    /// az custom-certificate sub-commands.
+    /// az signalr custom-certificate sub-commands.
     /// </summary>
     public AzSignalrCustomCertificate CustomCertificate => _customCertificate ??= new AzSignalrCustomCertificate(_command);
 
     /// <summary>
-    /// az custom-domain sub-commands.
+    /// az signalr custom-domain sub-commands.
     /// </summary>
     public AzSignalrCustomDomain CustomDomain => _customDomain ??= new AzSignalrCustomDomain(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az signalr identity sub-commands.
     /// </summary>
     public AzSignalrIdentity Identity => _identity ??= new AzSignalrIdentity(_command);
 
     /// <summary>
-    /// az key sub-commands.
+    /// az signalr key sub-commands.
     /// </summary>
     public AzSignalrKey Key => _key ??= new AzSignalrKey(_command);
 
     /// <summary>
-    /// az network-rule sub-commands.
+    /// az signalr network-rule sub-commands.
     /// </summary>
     public AzSignalrNetworkRule NetworkRule => _networkRule ??= new AzSignalrNetworkRule(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az signalr replica sub-commands.
     /// </summary>
     public AzSignalrReplica Replica => _replica ??= new AzSignalrReplica(_command);
 
     /// <summary>
-    /// az upstream sub-commands.
+    /// az signalr upstream sub-commands.
     /// </summary>
     public AzSignalrUpstream Upstream => _upstream ??= new AzSignalrUpstream(_command);
 

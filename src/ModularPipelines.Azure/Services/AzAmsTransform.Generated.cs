@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az transform commands.
+/// az ams transform commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAmsTransform
@@ -33,7 +33,7 @@ public class AzAmsTransform
     #region Sub-command Groups
 
     /// <summary>
-    /// az output sub-commands.
+    /// az ams transform output sub-commands.
     /// </summary>
     public AzAmsTransformOutput Output => _output ??= new AzAmsTransformOutput(_command);
 

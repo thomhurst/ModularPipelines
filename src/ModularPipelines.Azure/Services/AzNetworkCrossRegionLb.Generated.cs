@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az cross-region-lb commands.
+/// az network cross-region-lb commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkCrossRegionLb
@@ -35,17 +35,17 @@ public class AzNetworkCrossRegionLb
     #region Sub-command Groups
 
     /// <summary>
-    /// az address-pool sub-commands.
+    /// az network cross-region-lb address-pool sub-commands.
     /// </summary>
     public AzNetworkCrossRegionLbAddressPool AddressPool => _addressPool ??= new AzNetworkCrossRegionLbAddressPool(_command);
 
     /// <summary>
-    /// az frontend-ip sub-commands.
+    /// az network cross-region-lb frontend-ip sub-commands.
     /// </summary>
     public AzNetworkCrossRegionLbFrontendIp FrontendIp => _frontendIp ??= new AzNetworkCrossRegionLbFrontendIp(_command);
 
     /// <summary>
-    /// az rule sub-commands.
+    /// az network cross-region-lb rule sub-commands.
     /// </summary>
     public AzNetworkCrossRegionLbRule Rule => _rule ??= new AzNetworkCrossRegionLbRule(_command);
 

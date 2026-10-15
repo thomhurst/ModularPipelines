@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az diskencryptionset commands.
+/// az disk-encryption-set commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDiskEncryptionSet : IAzDiskEncryptionSet
@@ -33,7 +33,7 @@ public class AzDiskEncryptionSet : IAzDiskEncryptionSet
     #region Sub-command Groups
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az disk-encryption-set identity sub-commands.
     /// </summary>
     public AzDiskEncryptionSetIdentity Identity => _identity ??= new AzDiskEncryptionSetIdentity(_command);
 

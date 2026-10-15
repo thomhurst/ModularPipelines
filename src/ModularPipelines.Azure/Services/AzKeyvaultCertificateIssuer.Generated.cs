@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az issuer commands.
+/// az keyvault certificate issuer commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzKeyvaultCertificateIssuer
@@ -33,7 +33,7 @@ public class AzKeyvaultCertificateIssuer
     #region Sub-command Groups
 
     /// <summary>
-    /// az admin sub-commands.
+    /// az keyvault certificate issuer admin sub-commands.
     /// </summary>
     public AzKeyvaultCertificateIssuerAdmin Admin => _admin ??= new AzKeyvaultCertificateIssuerAdmin(_command);
 

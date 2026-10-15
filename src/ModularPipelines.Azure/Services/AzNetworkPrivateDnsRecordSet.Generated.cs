@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az record-set commands.
+/// az network private-dns record-set commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkPrivateDnsRecordSet
@@ -40,42 +40,42 @@ public class AzNetworkPrivateDnsRecordSet
     #region Sub-command Groups
 
     /// <summary>
-    /// az a sub-commands.
+    /// az network private-dns record-set a sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsRecordSetA A => _a ??= new AzNetworkPrivateDnsRecordSetA(_command);
 
     /// <summary>
-    /// az aaaa sub-commands.
+    /// az network private-dns record-set aaaa sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsRecordSetAaaa Aaaa => _aaaa ??= new AzNetworkPrivateDnsRecordSetAaaa(_command);
 
     /// <summary>
-    /// az cname sub-commands.
+    /// az network private-dns record-set cname sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsRecordSetCname Cname => _cname ??= new AzNetworkPrivateDnsRecordSetCname(_command);
 
     /// <summary>
-    /// az mx sub-commands.
+    /// az network private-dns record-set mx sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsRecordSetMx Mx => _mx ??= new AzNetworkPrivateDnsRecordSetMx(_command);
 
     /// <summary>
-    /// az ptr sub-commands.
+    /// az network private-dns record-set ptr sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsRecordSetPtr Ptr => _ptr ??= new AzNetworkPrivateDnsRecordSetPtr(_command);
 
     /// <summary>
-    /// az soa sub-commands.
+    /// az network private-dns record-set soa sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsRecordSetSoa Soa => _soa ??= new AzNetworkPrivateDnsRecordSetSoa(_command);
 
     /// <summary>
-    /// az srv sub-commands.
+    /// az network private-dns record-set srv sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsRecordSetSrv Srv => _srv ??= new AzNetworkPrivateDnsRecordSetSrv(_command);
 
     /// <summary>
-    /// az txt sub-commands.
+    /// az network private-dns record-set txt sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsRecordSetTxt Txt => _txt ??= new AzNetworkPrivateDnsRecordSetTxt(_command);
 

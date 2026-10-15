@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az plan commands.
+/// az appservice plan commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAppservicePlan
@@ -34,12 +34,12 @@ public class AzAppservicePlan
     #region Sub-command Groups
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az appservice plan identity sub-commands.
     /// </summary>
     public AzAppservicePlanIdentity Identity => _identity ??= new AzAppservicePlanIdentity(_command);
 
     /// <summary>
-    /// az managed-instance sub-commands.
+    /// az appservice plan managed-instance sub-commands.
     /// </summary>
     public AzAppservicePlanManagedInstance ManagedInstance => _managedInstance ??= new AzAppservicePlanManagedInstance(_command);
 

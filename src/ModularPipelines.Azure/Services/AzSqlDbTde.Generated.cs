@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az tde commands.
+/// az sql db tde commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlDbTde
@@ -33,7 +33,7 @@ public class AzSqlDbTde
     #region Sub-command Groups
 
     /// <summary>
-    /// az key sub-commands.
+    /// az sql db tde key sub-commands.
     /// </summary>
     public AzSqlDbTdeKey Key => _key ??= new AzSqlDbTdeKey(_command);
 

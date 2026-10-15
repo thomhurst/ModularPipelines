@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az scale commands.
+/// az functionapp scale commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappScale
@@ -33,7 +33,7 @@ public class AzFunctionappScale
     #region Sub-command Groups
 
     /// <summary>
-    /// az config sub-commands.
+    /// az functionapp scale config sub-commands.
     /// </summary>
     public AzFunctionappScaleConfig Config => _config ??= new AzFunctionappScaleConfig(_command);
 

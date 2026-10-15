@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az midb commands.
+/// az sql midb commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlMidb
@@ -27,6 +27,7 @@ public class AzSqlMidb
     private AzSqlMidbLtrBackup? _ltrBackup;
     private AzSqlMidbLtrPolicy? _ltrPolicy;
     private AzSqlMidbMove? _move;
+    private AzSqlMidbShortTermRetentionPolicy? _shortTermRetentionPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlMidb"/> class.
@@ -39,39 +40,44 @@ public class AzSqlMidb
     #region Sub-command Groups
 
     /// <summary>
-    /// az advanced-threat-protection-setting sub-commands.
+    /// az sql midb advanced-threat-protection-setting sub-commands.
     /// </summary>
     public AzSqlMidbAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzSqlMidbAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
-    /// az copy sub-commands.
+    /// az sql midb copy sub-commands.
     /// </summary>
     public AzSqlMidbCopy Copy => _copy ??= new AzSqlMidbCopy(_command);
 
     /// <summary>
-    /// az ledger-digest-uploads sub-commands.
+    /// az sql midb ledger-digest-uploads sub-commands.
     /// </summary>
     public AzSqlMidbLedgerDigestUploads LedgerDigestUploads => _ledgerDigestUploads ??= new AzSqlMidbLedgerDigestUploads(_command);
 
     /// <summary>
-    /// az log-replay sub-commands.
+    /// az sql midb log-replay sub-commands.
     /// </summary>
     public AzSqlMidbLogReplay LogReplay => _logReplay ??= new AzSqlMidbLogReplay(_command);
 
     /// <summary>
-    /// az ltr-backup sub-commands.
+    /// az sql midb ltr-backup sub-commands.
     /// </summary>
     public AzSqlMidbLtrBackup LtrBackup => _ltrBackup ??= new AzSqlMidbLtrBackup(_command);
 
     /// <summary>
-    /// az ltr-policy sub-commands.
+    /// az sql midb ltr-policy sub-commands.
     /// </summary>
     public AzSqlMidbLtrPolicy LtrPolicy => _ltrPolicy ??= new AzSqlMidbLtrPolicy(_command);
 
     /// <summary>
-    /// az move sub-commands.
+    /// az sql midb move sub-commands.
     /// </summary>
     public AzSqlMidbMove Move => _move ??= new AzSqlMidbMove(_command);
+
+    /// <summary>
+    /// az sql midb short-term-retention-policy sub-commands.
+    /// </summary>
+    public AzSqlMidbShortTermRetentionPolicy ShortTermRetentionPolicy => _shortTermRetentionPolicy ??= new AzSqlMidbShortTermRetentionPolicy(_command);
 
     #endregion
 

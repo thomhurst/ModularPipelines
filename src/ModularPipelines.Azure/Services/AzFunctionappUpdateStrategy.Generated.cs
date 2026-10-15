@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az update-strategy commands.
+/// az functionapp update-strategy commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappUpdateStrategy
@@ -33,7 +33,7 @@ public class AzFunctionappUpdateStrategy
     #region Sub-command Groups
 
     /// <summary>
-    /// az config sub-commands.
+    /// az functionapp update-strategy config sub-commands.
     /// </summary>
     public AzFunctionappUpdateStrategyConfig Config => _config ??= new AzFunctionappUpdateStrategyConfig(_command);
 

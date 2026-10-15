@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az remediation commands.
+/// az policy remediation commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPolicyRemediation
@@ -33,7 +33,7 @@ public class AzPolicyRemediation
     #region Sub-command Groups
 
     /// <summary>
-    /// az deployment sub-commands.
+    /// az policy remediation deployment sub-commands.
     /// </summary>
     public AzPolicyRemediationDeployment Deployment => _deployment ??= new AzPolicyRemediationDeployment(_command);
 

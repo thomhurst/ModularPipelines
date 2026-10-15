@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az device commands.
+/// az databoxedge device commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDataboxedgeDevice
@@ -36,22 +36,22 @@ public class AzDataboxedgeDevice
     #region Sub-command Groups
 
     /// <summary>
-    /// az share sub-commands.
+    /// az databoxedge device share sub-commands.
     /// </summary>
     public AzDataboxedgeDeviceShare Share => _share ??= new AzDataboxedgeDeviceShare(_command);
 
     /// <summary>
-    /// az storage-account sub-commands.
+    /// az databoxedge device storage-account sub-commands.
     /// </summary>
     public AzDataboxedgeDeviceStorageAccount StorageAccount => _storageAccount ??= new AzDataboxedgeDeviceStorageAccount(_command);
 
     /// <summary>
-    /// az storage-account-credential sub-commands.
+    /// az databoxedge device storage-account-credential sub-commands.
     /// </summary>
     public AzDataboxedgeDeviceStorageAccountCredential StorageAccountCredential => _storageAccountCredential ??= new AzDataboxedgeDeviceStorageAccountCredential(_command);
 
     /// <summary>
-    /// az user sub-commands.
+    /// az databoxedge device user sub-commands.
     /// </summary>
     public AzDataboxedgeDeviceUser User => _user ??= new AzDataboxedgeDeviceUser(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az location commands.
+/// az batch location commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBatchLocation
@@ -33,7 +33,7 @@ public class AzBatchLocation
     #region Sub-command Groups
 
     /// <summary>
-    /// az quotas sub-commands.
+    /// az batch location quotas sub-commands.
     /// </summary>
     public AzBatchLocationQuotas Quotas => _quotas ??= new AzBatchLocationQuotas(_command);
 

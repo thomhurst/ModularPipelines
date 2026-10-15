@@ -20,9 +20,23 @@ namespace ModularPipelines.Azure.Services;
 public class AzBilling : IAzBilling
 {
     private readonly ICommandContext _command;
+    private AzBillingAccount? _account;
+    private AzBillingAgreement? _agreement;
+    private AzBillingBalance? _balance;
+    private AzBillingCustomer? _customer;
     private AzBillingEnrollmentAccount? _enrollmentAccount;
+    private AzBillingInstruction? _instruction;
     private AzBillingInvoice? _invoice;
     private AzBillingPeriod? _period;
+    private AzBillingPermission? _permission;
+    private AzBillingPolicy? _policy;
+    private AzBillingProduct? _product;
+    private AzBillingProfile? _profile;
+    private AzBillingProperty? _property;
+    private AzBillingRoleAssignment? _roleAssignment;
+    private AzBillingRoleDefinition? _roleDefinition;
+    private AzBillingSubscription? _subscription;
+    private AzBillingTransaction? _transaction;
     private AzBillingTransfer? _transfer;
 
     /// <summary>
@@ -36,22 +50,92 @@ public class AzBilling : IAzBilling
     #region Sub-command Groups
 
     /// <summary>
-    /// az enrollment-account sub-commands.
+    /// az billing account sub-commands.
+    /// </summary>
+    public AzBillingAccount Account => _account ??= new AzBillingAccount(_command);
+
+    /// <summary>
+    /// az billing agreement sub-commands.
+    /// </summary>
+    public AzBillingAgreement Agreement => _agreement ??= new AzBillingAgreement(_command);
+
+    /// <summary>
+    /// az billing balance sub-commands.
+    /// </summary>
+    public AzBillingBalance Balance => _balance ??= new AzBillingBalance(_command);
+
+    /// <summary>
+    /// az billing customer sub-commands.
+    /// </summary>
+    public AzBillingCustomer Customer => _customer ??= new AzBillingCustomer(_command);
+
+    /// <summary>
+    /// az billing enrollment-account sub-commands.
     /// </summary>
     public AzBillingEnrollmentAccount EnrollmentAccount => _enrollmentAccount ??= new AzBillingEnrollmentAccount(_command);
 
     /// <summary>
-    /// az invoice sub-commands.
+    /// az billing instruction sub-commands.
+    /// </summary>
+    public AzBillingInstruction Instruction => _instruction ??= new AzBillingInstruction(_command);
+
+    /// <summary>
+    /// az billing invoice sub-commands.
     /// </summary>
     public AzBillingInvoice Invoice => _invoice ??= new AzBillingInvoice(_command);
 
     /// <summary>
-    /// az period sub-commands.
+    /// az billing period sub-commands.
     /// </summary>
     public AzBillingPeriod Period => _period ??= new AzBillingPeriod(_command);
 
     /// <summary>
-    /// az transfer sub-commands.
+    /// az billing permission sub-commands.
+    /// </summary>
+    public AzBillingPermission Permission => _permission ??= new AzBillingPermission(_command);
+
+    /// <summary>
+    /// az billing policy sub-commands.
+    /// </summary>
+    public AzBillingPolicy Policy => _policy ??= new AzBillingPolicy(_command);
+
+    /// <summary>
+    /// az billing product sub-commands.
+    /// </summary>
+    public AzBillingProduct Product => _product ??= new AzBillingProduct(_command);
+
+    /// <summary>
+    /// az billing profile sub-commands.
+    /// </summary>
+    public AzBillingProfile Profile => _profile ??= new AzBillingProfile(_command);
+
+    /// <summary>
+    /// az billing property sub-commands.
+    /// </summary>
+    public AzBillingProperty Property => _property ??= new AzBillingProperty(_command);
+
+    /// <summary>
+    /// az billing role-assignment sub-commands.
+    /// </summary>
+    public AzBillingRoleAssignment RoleAssignment => _roleAssignment ??= new AzBillingRoleAssignment(_command);
+
+    /// <summary>
+    /// az billing role-definition sub-commands.
+    /// </summary>
+    public AzBillingRoleDefinition RoleDefinition => _roleDefinition ??= new AzBillingRoleDefinition(_command);
+
+    /// <summary>
+    /// az billing subscription sub-commands.
+    /// </summary>
+    public AzBillingSubscription Subscription => _subscription ??= new AzBillingSubscription(_command);
+
+    /// <summary>
+    /// az billing transaction sub-commands.
+    /// </summary>
+    public AzBillingTransaction Transaction => _transaction ??= new AzBillingTransaction(_command);
+
+    /// <summary>
+    /// az billing transfer sub-commands.
     /// </summary>
     public AzBillingTransfer Transfer => _transfer ??= new AzBillingTransfer(_command);
 

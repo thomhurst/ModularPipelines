@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az port commands.
+/// az network express-route port commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkExpressRoutePort
@@ -36,22 +36,22 @@ public class AzNetworkExpressRoutePort
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization sub-commands.
+    /// az network express-route port authorization sub-commands.
     /// </summary>
     public AzNetworkExpressRoutePortAuthorization Authorization => _authorization ??= new AzNetworkExpressRoutePortAuthorization(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az network express-route port identity sub-commands.
     /// </summary>
     public AzNetworkExpressRoutePortIdentity Identity => _identity ??= new AzNetworkExpressRoutePortIdentity(_command);
 
     /// <summary>
-    /// az link sub-commands.
+    /// az network express-route port link sub-commands.
     /// </summary>
     public AzNetworkExpressRoutePortLink Link => _link ??= new AzNetworkExpressRoutePortLink(_command);
 
     /// <summary>
-    /// az location sub-commands.
+    /// az network express-route port location sub-commands.
     /// </summary>
     public AzNetworkExpressRoutePortLocation Location => _location ??= new AzNetworkExpressRoutePortLocation(_command);
 

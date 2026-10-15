@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az role commands.
+/// az keyvault role commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzKeyvaultRole
@@ -34,12 +34,12 @@ public class AzKeyvaultRole
     #region Sub-command Groups
 
     /// <summary>
-    /// az assignment sub-commands.
+    /// az keyvault role assignment sub-commands.
     /// </summary>
     public AzKeyvaultRoleAssignment Assignment => _assignment ??= new AzKeyvaultRoleAssignment(_command);
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az keyvault role definition sub-commands.
     /// </summary>
     public AzKeyvaultRoleDefinition Definition => _definition ??= new AzKeyvaultRoleDefinition(_command);
 

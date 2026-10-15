@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az account commands.
+/// az netappfiles account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetappfilesAccount
@@ -37,27 +37,27 @@ public class AzNetappfilesAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az ad sub-commands.
+    /// az netappfiles account ad sub-commands.
     /// </summary>
     public AzNetappfilesAccountAd Ad => _ad ??= new AzNetappfilesAccountAd(_command);
 
     /// <summary>
-    /// az backup-policy sub-commands.
+    /// az netappfiles account backup-policy sub-commands.
     /// </summary>
     public AzNetappfilesAccountBackupPolicy BackupPolicy => _backupPolicy ??= new AzNetappfilesAccountBackupPolicy(_command);
 
     /// <summary>
-    /// az backup-vault sub-commands.
+    /// az netappfiles account backup-vault sub-commands.
     /// </summary>
     public AzNetappfilesAccountBackupVault BackupVault => _backupVault ??= new AzNetappfilesAccountBackupVault(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az netappfiles account identity sub-commands.
     /// </summary>
     public AzNetappfilesAccountIdentity Identity => _identity ??= new AzNetappfilesAccountIdentity(_command);
 
     /// <summary>
-    /// az quota-limit sub-commands.
+    /// az netappfiles account quota-limit sub-commands.
     /// </summary>
     public AzNetappfilesAccountQuotaLimit QuotaLimit => _quotaLimit ??= new AzNetappfilesAccountQuotaLimit(_command);
 

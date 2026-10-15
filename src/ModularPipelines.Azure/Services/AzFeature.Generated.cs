@@ -33,7 +33,7 @@ public class AzFeature : IAzFeature
     #region Sub-command Groups
 
     /// <summary>
-    /// az registration sub-commands.
+    /// az feature registration sub-commands.
     /// </summary>
     public AzFeatureRegistration Registration => _registration ??= new AzFeatureRegistration(_command);
 

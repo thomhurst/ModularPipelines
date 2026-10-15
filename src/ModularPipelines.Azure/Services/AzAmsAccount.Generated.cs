@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az account commands.
+/// az ams account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAmsAccount
@@ -37,27 +37,27 @@ public class AzAmsAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az encryption sub-commands.
+    /// az ams account encryption sub-commands.
     /// </summary>
     public AzAmsAccountEncryption Encryption => _encryption ??= new AzAmsAccountEncryption(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az ams account identity sub-commands.
     /// </summary>
     public AzAmsAccountIdentity Identity => _identity ??= new AzAmsAccountIdentity(_command);
 
     /// <summary>
-    /// az mru sub-commands.
+    /// az ams account mru sub-commands.
     /// </summary>
     public AzAmsAccountMru Mru => _mru ??= new AzAmsAccountMru(_command);
 
     /// <summary>
-    /// az sp sub-commands.
+    /// az ams account sp sub-commands.
     /// </summary>
     public AzAmsAccountSp Sp => _sp ??= new AzAmsAccountSp(_command);
 
     /// <summary>
-    /// az storage sub-commands.
+    /// az ams account storage sub-commands.
     /// </summary>
     public AzAmsAccountStorage Storage => _storage ??= new AzAmsAccountStorage(_command);
 

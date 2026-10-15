@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az job commands.
+/// az containerapp job commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappJob
@@ -22,6 +22,7 @@ public class AzContainerappJob
     private readonly ICommandContext _command;
     private AzContainerappJobExecution? _execution;
     private AzContainerappJobIdentity? _identity;
+    private AzContainerappJobRegistry? _registry;
     private AzContainerappJobSecret? _secret;
 
     /// <summary>
@@ -35,17 +36,22 @@ public class AzContainerappJob
     #region Sub-command Groups
 
     /// <summary>
-    /// az execution sub-commands.
+    /// az containerapp job execution sub-commands.
     /// </summary>
     public AzContainerappJobExecution Execution => _execution ??= new AzContainerappJobExecution(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az containerapp job identity sub-commands.
     /// </summary>
     public AzContainerappJobIdentity Identity => _identity ??= new AzContainerappJobIdentity(_command);
 
     /// <summary>
-    /// az secret sub-commands.
+    /// az containerapp job registry sub-commands.
+    /// </summary>
+    public AzContainerappJobRegistry Registry => _registry ??= new AzContainerappJobRegistry(_command);
+
+    /// <summary>
+    /// az containerapp job secret sub-commands.
     /// </summary>
     public AzContainerappJobSecret Secret => _secret ??= new AzContainerappJobSecret(_command);
 

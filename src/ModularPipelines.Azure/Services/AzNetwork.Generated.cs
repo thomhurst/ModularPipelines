@@ -42,8 +42,10 @@ public class AzNetwork : IAzNetwork
     private AzNetworkPrivateLinkService? _privateLinkService;
     private AzNetworkProfile? _profile;
     private AzNetworkPublicIp? _publicIp;
+    private AzNetworkRouteFilter? _routeFilter;
     private AzNetworkRouteServer? _routeServer;
     private AzNetworkRouteTable? _routeTable;
+    private AzNetworkSecurityPartnerProvider? _securityPartnerProvider;
     private AzNetworkServiceEndpoint? _serviceEndpoint;
     private AzNetworkTrafficManager? _trafficManager;
     private AzNetworkVirtualAppliance? _virtualAppliance;
@@ -64,162 +66,172 @@ public class AzNetwork : IAzNetwork
     #region Sub-command Groups
 
     /// <summary>
-    /// az application-gateway sub-commands.
+    /// az network application-gateway sub-commands.
     /// </summary>
     public AzNetworkApplicationGateway ApplicationGateway => _applicationGateway ??= new AzNetworkApplicationGateway(_command);
 
     /// <summary>
-    /// az asg sub-commands.
+    /// az network asg sub-commands.
     /// </summary>
     public AzNetworkAsg Asg => _asg ??= new AzNetworkAsg(_command);
 
     /// <summary>
-    /// az cross-region-lb sub-commands.
+    /// az network cross-region-lb sub-commands.
     /// </summary>
     public AzNetworkCrossRegionLb CrossRegionLb => _crossRegionLb ??= new AzNetworkCrossRegionLb(_command);
 
     /// <summary>
-    /// az custom-ip sub-commands.
+    /// az network custom-ip sub-commands.
     /// </summary>
     public AzNetworkCustomIp CustomIp => _customIp ??= new AzNetworkCustomIp(_command);
 
     /// <summary>
-    /// az ddos-custom-policy sub-commands.
+    /// az network ddos-custom-policy sub-commands.
     /// </summary>
     public AzNetworkDdosCustomPolicy DdosCustomPolicy => _ddosCustomPolicy ??= new AzNetworkDdosCustomPolicy(_command);
 
     /// <summary>
-    /// az ddos-protection sub-commands.
+    /// az network ddos-protection sub-commands.
     /// </summary>
     public AzNetworkDdosProtection DdosProtection => _ddosProtection ??= new AzNetworkDdosProtection(_command);
 
     /// <summary>
-    /// az dns sub-commands.
+    /// az network dns sub-commands.
     /// </summary>
     public AzNetworkDns Dns => _dns ??= new AzNetworkDns(_command);
 
     /// <summary>
-    /// az express-route sub-commands.
+    /// az network express-route sub-commands.
     /// </summary>
     public AzNetworkExpressRoute ExpressRoute => _expressRoute ??= new AzNetworkExpressRoute(_command);
 
     /// <summary>
-    /// az first-party-service-tag sub-commands.
+    /// az network first-party-service-tag sub-commands.
     /// </summary>
     public AzNetworkFirstPartyServiceTag FirstPartyServiceTag => _firstPartyServiceTag ??= new AzNetworkFirstPartyServiceTag(_command);
 
     /// <summary>
-    /// az lb sub-commands.
+    /// az network lb sub-commands.
     /// </summary>
     public AzNetworkLb Lb => _lb ??= new AzNetworkLb(_command);
 
     /// <summary>
-    /// az local-gateway sub-commands.
+    /// az network local-gateway sub-commands.
     /// </summary>
     public AzNetworkLocalGateway LocalGateway => _localGateway ??= new AzNetworkLocalGateway(_command);
 
     /// <summary>
-    /// az nat sub-commands.
+    /// az network nat sub-commands.
     /// </summary>
     public AzNetworkNat Nat => _nat ??= new AzNetworkNat(_command);
 
     /// <summary>
-    /// az network-watcher sub-commands.
+    /// az network network-watcher sub-commands.
     /// </summary>
     public AzNetworkNetworkWatcher NetworkWatcher => _networkWatcher ??= new AzNetworkNetworkWatcher(_command);
 
     /// <summary>
-    /// az nic sub-commands.
+    /// az network nic sub-commands.
     /// </summary>
     public AzNetworkNic Nic => _nic ??= new AzNetworkNic(_command);
 
     /// <summary>
-    /// az nsg sub-commands.
+    /// az network nsg sub-commands.
     /// </summary>
     public AzNetworkNsg Nsg => _nsg ??= new AzNetworkNsg(_command);
 
     /// <summary>
-    /// az private-dns sub-commands.
+    /// az network private-dns sub-commands.
     /// </summary>
     public AzNetworkPrivateDns PrivateDns => _privateDns ??= new AzNetworkPrivateDns(_command);
 
     /// <summary>
-    /// az private-endpoint sub-commands.
+    /// az network private-endpoint sub-commands.
     /// </summary>
     public AzNetworkPrivateEndpoint PrivateEndpoint => _privateEndpoint ??= new AzNetworkPrivateEndpoint(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az network private-endpoint-connection sub-commands.
     /// </summary>
     public AzNetworkPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzNetworkPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az network private-link-resource sub-commands.
     /// </summary>
     public AzNetworkPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzNetworkPrivateLinkResource(_command);
 
     /// <summary>
-    /// az private-link-service sub-commands.
+    /// az network private-link-service sub-commands.
     /// </summary>
     public AzNetworkPrivateLinkService PrivateLinkService => _privateLinkService ??= new AzNetworkPrivateLinkService(_command);
 
     /// <summary>
-    /// az profile sub-commands.
+    /// az network profile sub-commands.
     /// </summary>
     public AzNetworkProfile Profile => _profile ??= new AzNetworkProfile(_command);
 
     /// <summary>
-    /// az public-ip sub-commands.
+    /// az network public-ip sub-commands.
     /// </summary>
     public AzNetworkPublicIp PublicIp => _publicIp ??= new AzNetworkPublicIp(_command);
 
     /// <summary>
-    /// az routeserver sub-commands.
+    /// az network route-filter sub-commands.
+    /// </summary>
+    public AzNetworkRouteFilter RouteFilter => _routeFilter ??= new AzNetworkRouteFilter(_command);
+
+    /// <summary>
+    /// az network routeserver sub-commands.
     /// </summary>
     public AzNetworkRouteServer RouteServer => _routeServer ??= new AzNetworkRouteServer(_command);
 
     /// <summary>
-    /// az route-table sub-commands.
+    /// az network route-table sub-commands.
     /// </summary>
     public AzNetworkRouteTable RouteTable => _routeTable ??= new AzNetworkRouteTable(_command);
 
     /// <summary>
-    /// az service-endpoint sub-commands.
+    /// az network security-partner-provider sub-commands.
+    /// </summary>
+    public AzNetworkSecurityPartnerProvider SecurityPartnerProvider => _securityPartnerProvider ??= new AzNetworkSecurityPartnerProvider(_command);
+
+    /// <summary>
+    /// az network service-endpoint sub-commands.
     /// </summary>
     public AzNetworkServiceEndpoint ServiceEndpoint => _serviceEndpoint ??= new AzNetworkServiceEndpoint(_command);
 
     /// <summary>
-    /// az traffic-manager sub-commands.
+    /// az network traffic-manager sub-commands.
     /// </summary>
     public AzNetworkTrafficManager TrafficManager => _trafficManager ??= new AzNetworkTrafficManager(_command);
 
     /// <summary>
-    /// az virtual-appliance sub-commands.
+    /// az network virtual-appliance sub-commands.
     /// </summary>
     public AzNetworkVirtualAppliance VirtualAppliance => _virtualAppliance ??= new AzNetworkVirtualAppliance(_command);
 
     /// <summary>
-    /// az virtual-network-appliance sub-commands.
+    /// az network virtual-network-appliance sub-commands.
     /// </summary>
     public AzNetworkVirtualNetworkAppliance VirtualNetworkAppliance => _virtualNetworkAppliance ??= new AzNetworkVirtualNetworkAppliance(_command);
 
     /// <summary>
-    /// az vnet sub-commands.
+    /// az network vnet sub-commands.
     /// </summary>
     public AzNetworkVnet Vnet => _vnet ??= new AzNetworkVnet(_command);
 
     /// <summary>
-    /// az vnet-gateway sub-commands.
+    /// az network vnet-gateway sub-commands.
     /// </summary>
     public AzNetworkVnetGateway VnetGateway => _vnetGateway ??= new AzNetworkVnetGateway(_command);
 
     /// <summary>
-    /// az vpn-connection sub-commands.
+    /// az network vpn-connection sub-commands.
     /// </summary>
     public AzNetworkVpnConnection VpnConnection => _vpnConnection ??= new AzNetworkVpnConnection(_command);
 
     /// <summary>
-    /// az watcher sub-commands.
+    /// az network watcher sub-commands.
     /// </summary>
     public AzNetworkWatcher Watcher => _watcher ??= new AzNetworkWatcher(_command);
 

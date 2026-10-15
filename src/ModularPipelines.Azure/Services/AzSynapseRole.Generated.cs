@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az role commands.
+/// az synapse role commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapseRole
@@ -35,17 +35,17 @@ public class AzSynapseRole
     #region Sub-command Groups
 
     /// <summary>
-    /// az assignment sub-commands.
+    /// az synapse role assignment sub-commands.
     /// </summary>
     public AzSynapseRoleAssignment Assignment => _assignment ??= new AzSynapseRoleAssignment(_command);
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az synapse role definition sub-commands.
     /// </summary>
     public AzSynapseRoleDefinition Definition => _definition ??= new AzSynapseRoleDefinition(_command);
 
     /// <summary>
-    /// az scope sub-commands.
+    /// az synapse role scope sub-commands.
     /// </summary>
     public AzSynapseRoleScope Scope => _scope ??= new AzSynapseRoleScope(_command);
 

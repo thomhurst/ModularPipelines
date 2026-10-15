@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az set-definition commands.
+/// az policy set-definition commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPolicySetDefinition
@@ -33,7 +33,7 @@ public class AzPolicySetDefinition
     #region Sub-command Groups
 
     /// <summary>
-    /// az version sub-commands.
+    /// az policy set-definition version sub-commands.
     /// </summary>
     public AzPolicySetDefinitionVersion Version => _version ??= new AzPolicySetDefinitionVersion(_command);
 

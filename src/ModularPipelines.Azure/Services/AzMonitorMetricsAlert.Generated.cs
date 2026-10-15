@@ -14,12 +14,14 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az alert commands.
+/// az monitor metrics alert commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorMetricsAlert
 {
     private readonly ICommandContext _command;
+    private AzMonitorMetricsAlertCondition? _condition;
+    private AzMonitorMetricsAlertDimension? _dimension;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorMetricsAlert"/> class.
@@ -28,6 +30,20 @@ public class AzMonitorMetricsAlert
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az monitor metrics alert condition sub-commands.
+    /// </summary>
+    public AzMonitorMetricsAlertCondition Condition => _condition ??= new AzMonitorMetricsAlertCondition(_command);
+
+    /// <summary>
+    /// az monitor metrics alert dimension sub-commands.
+    /// </summary>
+    public AzMonitorMetricsAlertDimension Dimension => _dimension ??= new AzMonitorMetricsAlertDimension(_command);
+
+    #endregion
 
     #region Commands
 

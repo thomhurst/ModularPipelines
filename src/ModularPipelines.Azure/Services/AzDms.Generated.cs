@@ -33,7 +33,7 @@ public class AzDms : IAzDms
     #region Sub-command Groups
 
     /// <summary>
-    /// az project sub-commands.
+    /// az dms project sub-commands.
     /// </summary>
     public AzDmsProject Project => _project ??= new AzDmsProject(_command);
 

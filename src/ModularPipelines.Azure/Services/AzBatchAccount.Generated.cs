@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az account commands.
+/// az batch account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBatchAccount
@@ -36,22 +36,22 @@ public class AzBatchAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az autostorage-keys sub-commands.
+    /// az batch account autostorage-keys sub-commands.
     /// </summary>
     public AzBatchAccountAutostorageKeys AutostorageKeys => _autostorageKeys ??= new AzBatchAccountAutostorageKeys(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az batch account identity sub-commands.
     /// </summary>
     public AzBatchAccountIdentity Identity => _identity ??= new AzBatchAccountIdentity(_command);
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az batch account keys sub-commands.
     /// </summary>
     public AzBatchAccountKeys Keys => _keys ??= new AzBatchAccountKeys(_command);
 
     /// <summary>
-    /// az network-profile sub-commands.
+    /// az batch account network-profile sub-commands.
     /// </summary>
     public AzBatchAccountNetworkProfile NetworkProfile => _networkProfile ??= new AzBatchAccountNetworkProfile(_command);
 

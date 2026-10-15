@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az pr commands.
+/// az repos pr commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzReposPr
@@ -35,17 +35,17 @@ public class AzReposPr
     #region Sub-command Groups
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az repos pr policy sub-commands.
     /// </summary>
     public AzReposPrPolicy Policy => _policy ??= new AzReposPrPolicy(_command);
 
     /// <summary>
-    /// az reviewer sub-commands.
+    /// az repos pr reviewer sub-commands.
     /// </summary>
     public AzReposPrReviewer Reviewer => _reviewer ??= new AzReposPrReviewer(_command);
 
     /// <summary>
-    /// az work-item sub-commands.
+    /// az repos pr work-item sub-commands.
     /// </summary>
     public AzReposPrWorkItem WorkItem => _workItem ??= new AzReposPrWorkItem(_command);
 

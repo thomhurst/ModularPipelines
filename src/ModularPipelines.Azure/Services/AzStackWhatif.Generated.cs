@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az stackwhatif commands.
+/// az stack-whatif commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStackWhatif : IAzStackWhatif
@@ -35,17 +35,17 @@ public class AzStackWhatif : IAzStackWhatif
     #region Sub-command Groups
 
     /// <summary>
-    /// az group sub-commands.
+    /// az stack-whatif group sub-commands.
     /// </summary>
     public AzStackWhatifGroup Group => _group ??= new AzStackWhatifGroup(_command);
 
     /// <summary>
-    /// az mg sub-commands.
+    /// az stack-whatif mg sub-commands.
     /// </summary>
     public AzStackWhatifMg Mg => _mg ??= new AzStackWhatifMg(_command);
 
     /// <summary>
-    /// az sub sub-commands.
+    /// az stack-whatif sub sub-commands.
     /// </summary>
     public AzStackWhatifSub Sub => _sub ??= new AzStackWhatifSub(_command);
 

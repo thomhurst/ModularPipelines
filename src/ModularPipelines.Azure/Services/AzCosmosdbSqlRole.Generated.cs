@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az role commands.
+/// az cosmosdb sql role commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbSqlRole
@@ -34,12 +34,12 @@ public class AzCosmosdbSqlRole
     #region Sub-command Groups
 
     /// <summary>
-    /// az assignment sub-commands.
+    /// az cosmosdb sql role assignment sub-commands.
     /// </summary>
     public AzCosmosdbSqlRoleAssignment Assignment => _assignment ??= new AzCosmosdbSqlRoleAssignment(_command);
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az cosmosdb sql role definition sub-commands.
     /// </summary>
     public AzCosmosdbSqlRoleDefinition Definition => _definition ??= new AzCosmosdbSqlRoleDefinition(_command);
 

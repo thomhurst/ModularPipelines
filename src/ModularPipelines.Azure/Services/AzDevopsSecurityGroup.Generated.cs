@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az group commands.
+/// az devops security group commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDevopsSecurityGroup
@@ -33,7 +33,7 @@ public class AzDevopsSecurityGroup
     #region Sub-command Groups
 
     /// <summary>
-    /// az membership sub-commands.
+    /// az devops security group membership sub-commands.
     /// </summary>
     public AzDevopsSecurityGroupMembership Membership => _membership ??= new AzDevopsSecurityGroupMembership(_command);
 

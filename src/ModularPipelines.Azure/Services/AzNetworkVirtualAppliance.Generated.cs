@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az virtual-appliance commands.
+/// az network virtual-appliance commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkVirtualAppliance
@@ -38,32 +38,32 @@ public class AzNetworkVirtualAppliance
     #region Sub-command Groups
 
     /// <summary>
-    /// az connection sub-commands.
+    /// az network virtual-appliance connection sub-commands.
     /// </summary>
     public AzNetworkVirtualApplianceConnection Connection => _connection ??= new AzNetworkVirtualApplianceConnection(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az network virtual-appliance identity sub-commands.
     /// </summary>
     public AzNetworkVirtualApplianceIdentity Identity => _identity ??= new AzNetworkVirtualApplianceIdentity(_command);
 
     /// <summary>
-    /// az inbound-security-rule sub-commands.
+    /// az network virtual-appliance inbound-security-rule sub-commands.
     /// </summary>
     public AzNetworkVirtualApplianceInboundSecurityRule InboundSecurityRule => _inboundSecurityRule ??= new AzNetworkVirtualApplianceInboundSecurityRule(_command);
 
     /// <summary>
-    /// az migration sub-commands.
+    /// az network virtual-appliance migration sub-commands.
     /// </summary>
     public AzNetworkVirtualApplianceMigration Migration => _migration ??= new AzNetworkVirtualApplianceMigration(_command);
 
     /// <summary>
-    /// az site sub-commands.
+    /// az network virtual-appliance site sub-commands.
     /// </summary>
     public AzNetworkVirtualApplianceSite Site => _site ??= new AzNetworkVirtualApplianceSite(_command);
 
     /// <summary>
-    /// az sku sub-commands.
+    /// az network virtual-appliance sku sub-commands.
     /// </summary>
     public AzNetworkVirtualApplianceSku Sku => _sku ??= new AzNetworkVirtualApplianceSku(_command);
 

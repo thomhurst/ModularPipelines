@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az service-properties commands.
+/// az storage blob service-properties commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageBlobServiceProperties
@@ -33,7 +33,7 @@ public class AzStorageBlobServiceProperties
     #region Sub-command Groups
 
     /// <summary>
-    /// az delete-policy sub-commands.
+    /// az storage blob service-properties delete-policy sub-commands.
     /// </summary>
     public AzStorageBlobServicePropertiesDeletePolicy DeletePolicy => _deletePolicy ??= new AzStorageBlobServicePropertiesDeletePolicy(_command);
 

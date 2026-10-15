@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az volume commands.
+/// az netappfiles volume commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetappfilesVolume
@@ -39,37 +39,37 @@ public class AzNetappfilesVolume
     #region Sub-command Groups
 
     /// <summary>
-    /// az bucket sub-commands.
+    /// az netappfiles volume bucket sub-commands.
     /// </summary>
     public AzNetappfilesVolumeBucket Bucket => _bucket ??= new AzNetappfilesVolumeBucket(_command);
 
     /// <summary>
-    /// az export-policy sub-commands.
+    /// az netappfiles volume export-policy sub-commands.
     /// </summary>
     public AzNetappfilesVolumeExportPolicy ExportPolicy => _exportPolicy ??= new AzNetappfilesVolumeExportPolicy(_command);
 
     /// <summary>
-    /// az latest-backup-status sub-commands.
+    /// az netappfiles volume latest-backup-status sub-commands.
     /// </summary>
     public AzNetappfilesVolumeLatestBackupStatus LatestBackupStatus => _latestBackupStatus ??= new AzNetappfilesVolumeLatestBackupStatus(_command);
 
     /// <summary>
-    /// az latest-restore-status sub-commands.
+    /// az netappfiles volume latest-restore-status sub-commands.
     /// </summary>
     public AzNetappfilesVolumeLatestRestoreStatus LatestRestoreStatus => _latestRestoreStatus ??= new AzNetappfilesVolumeLatestRestoreStatus(_command);
 
     /// <summary>
-    /// az quota-rule sub-commands.
+    /// az netappfiles volume quota-rule sub-commands.
     /// </summary>
     public AzNetappfilesVolumeQuotaRule QuotaRule => _quotaRule ??= new AzNetappfilesVolumeQuotaRule(_command);
 
     /// <summary>
-    /// az ransomware-report sub-commands.
+    /// az netappfiles volume ransomware-report sub-commands.
     /// </summary>
     public AzNetappfilesVolumeRansomwareReport RansomwareReport => _ransomwareReport ??= new AzNetappfilesVolumeRansomwareReport(_command);
 
     /// <summary>
-    /// az replication sub-commands.
+    /// az netappfiles volume replication sub-commands.
     /// </summary>
     public AzNetappfilesVolumeReplication Replication => _replication ??= new AzNetappfilesVolumeReplication(_command);
 

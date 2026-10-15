@@ -40,42 +40,42 @@ public class AzHdinsight : IAzHdinsight
     #region Sub-command Groups
 
     /// <summary>
-    /// az application sub-commands.
+    /// az hdinsight application sub-commands.
     /// </summary>
     public AzHdinsightApplication Application => _application ??= new AzHdinsightApplication(_command);
 
     /// <summary>
-    /// az autoscale sub-commands.
+    /// az hdinsight autoscale sub-commands.
     /// </summary>
     public AzHdinsightAutoscale Autoscale => _autoscale ??= new AzHdinsightAutoscale(_command);
 
     /// <summary>
-    /// az azure-monitor sub-commands.
+    /// az hdinsight azure-monitor sub-commands.
     /// </summary>
     public AzHdinsightAzureMonitor AzureMonitor => _azureMonitor ??= new AzHdinsightAzureMonitor(_command);
 
     /// <summary>
-    /// az azure-monitor-agent sub-commands.
+    /// az hdinsight azure-monitor-agent sub-commands.
     /// </summary>
     public AzHdinsightAzureMonitorAgent AzureMonitorAgent => _azureMonitorAgent ??= new AzHdinsightAzureMonitorAgent(_command);
 
     /// <summary>
-    /// az credentials sub-commands.
+    /// az hdinsight credentials sub-commands.
     /// </summary>
     public AzHdinsightCredentials Credentials => _credentials ??= new AzHdinsightCredentials(_command);
 
     /// <summary>
-    /// az host sub-commands.
+    /// az hdinsight host sub-commands.
     /// </summary>
     public AzHdinsightHost Host => _host ??= new AzHdinsightHost(_command);
 
     /// <summary>
-    /// az monitor sub-commands.
+    /// az hdinsight monitor sub-commands.
     /// </summary>
     public AzHdinsightMonitor Monitor => _monitor ??= new AzHdinsightMonitor(_command);
 
     /// <summary>
-    /// az script-action sub-commands.
+    /// az hdinsight script-action sub-commands.
     /// </summary>
     public AzHdinsightScriptAction ScriptAction => _scriptAction ??= new AzHdinsightScriptAction(_command);
 

@@ -41,47 +41,47 @@ public class AzStaticwebapp : IAzStaticwebapp
     #region Sub-command Groups
 
     /// <summary>
-    /// az appsettings sub-commands.
+    /// az staticwebapp appsettings sub-commands.
     /// </summary>
     public AzStaticwebappAppSettings AppSettings => _appSettings ??= new AzStaticwebappAppSettings(_command);
 
     /// <summary>
-    /// az backends sub-commands.
+    /// az staticwebapp backends sub-commands.
     /// </summary>
     public AzStaticwebappBackends Backends => _backends ??= new AzStaticwebappBackends(_command);
 
     /// <summary>
-    /// az enterprise-edge sub-commands.
+    /// az staticwebapp enterprise-edge sub-commands.
     /// </summary>
     public AzStaticwebappEnterpriseEdge EnterpriseEdge => _enterpriseEdge ??= new AzStaticwebappEnterpriseEdge(_command);
 
     /// <summary>
-    /// az environment sub-commands.
+    /// az staticwebapp environment sub-commands.
     /// </summary>
     public AzStaticwebappEnvironment Environment => _environment ??= new AzStaticwebappEnvironment(_command);
 
     /// <summary>
-    /// az functions sub-commands.
+    /// az staticwebapp functions sub-commands.
     /// </summary>
     public AzStaticwebappFunctions Functions => _functions ??= new AzStaticwebappFunctions(_command);
 
     /// <summary>
-    /// az hostname sub-commands.
+    /// az staticwebapp hostname sub-commands.
     /// </summary>
     public AzStaticwebappHostname Hostname => _hostname ??= new AzStaticwebappHostname(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az staticwebapp identity sub-commands.
     /// </summary>
     public AzStaticwebappIdentity Identity => _identity ??= new AzStaticwebappIdentity(_command);
 
     /// <summary>
-    /// az secrets sub-commands.
+    /// az staticwebapp secrets sub-commands.
     /// </summary>
     public AzStaticwebappSecrets Secrets => _secrets ??= new AzStaticwebappSecrets(_command);
 
     /// <summary>
-    /// az users sub-commands.
+    /// az staticwebapp users sub-commands.
     /// </summary>
     public AzStaticwebappUsers Users => _users ??= new AzStaticwebappUsers(_command);
 

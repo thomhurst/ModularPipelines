@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az cluster commands.
+/// az monitor log-analytics cluster commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorLogAnalyticsCluster
@@ -33,7 +33,7 @@ public class AzMonitorLogAnalyticsCluster
     #region Sub-command Groups
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az monitor log-analytics cluster identity sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsClusterIdentity Identity => _identity ??= new AzMonitorLogAnalyticsClusterIdentity(_command);
 

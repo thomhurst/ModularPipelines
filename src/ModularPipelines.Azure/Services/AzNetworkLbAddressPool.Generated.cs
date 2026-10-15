@@ -14,13 +14,14 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az address-pool commands.
+/// az network lb address-pool commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkLbAddressPool
 {
     private readonly ICommandContext _command;
     private AzNetworkLbAddressPoolAddress? _address;
+    private AzNetworkLbAddressPoolTunnelInterface? _tunnelInterface;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkLbAddressPool"/> class.
@@ -33,9 +34,14 @@ public class AzNetworkLbAddressPool
     #region Sub-command Groups
 
     /// <summary>
-    /// az address sub-commands.
+    /// az network lb address-pool address sub-commands.
     /// </summary>
     public AzNetworkLbAddressPoolAddress Address => _address ??= new AzNetworkLbAddressPoolAddress(_command);
+
+    /// <summary>
+    /// az network lb address-pool tunnel-interface sub-commands.
+    /// </summary>
+    public AzNetworkLbAddressPoolTunnelInterface TunnelInterface => _tunnelInterface ??= new AzNetworkLbAddressPoolTunnelInterface(_command);
 
     #endregion
 

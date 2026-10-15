@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az classification commands.
+/// az synapse sql pool classification commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapseSqlPoolClassification
@@ -33,7 +33,7 @@ public class AzSynapseSqlPoolClassification
     #region Sub-command Groups
 
     /// <summary>
-    /// az recommendation sub-commands.
+    /// az synapse sql pool classification recommendation sub-commands.
     /// </summary>
     public AzSynapseSqlPoolClassificationRecommendation Recommendation => _recommendation ??= new AzSynapseSqlPoolClassificationRecommendation(_command);
 

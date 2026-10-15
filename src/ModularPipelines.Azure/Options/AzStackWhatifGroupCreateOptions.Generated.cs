@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -150,6 +151,7 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
     /// </summary>
+    [SecretValue]
     [CliOption("--query-string", ShortForm = "-q")]
     public string? QueryString { get; set; }
 

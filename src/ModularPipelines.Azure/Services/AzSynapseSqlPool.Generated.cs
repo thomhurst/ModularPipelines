@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az pool commands.
+/// az synapse sql pool commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapseSqlPool
@@ -36,22 +36,22 @@ public class AzSynapseSqlPool
     #region Sub-command Groups
 
     /// <summary>
-    /// az audit-policy sub-commands.
+    /// az synapse sql pool audit-policy sub-commands.
     /// </summary>
     public AzSynapseSqlPoolAuditPolicy AuditPolicy => _auditPolicy ??= new AzSynapseSqlPoolAuditPolicy(_command);
 
     /// <summary>
-    /// az classification sub-commands.
+    /// az synapse sql pool classification sub-commands.
     /// </summary>
     public AzSynapseSqlPoolClassification Classification => _classification ??= new AzSynapseSqlPoolClassification(_command);
 
     /// <summary>
-    /// az tde sub-commands.
+    /// az synapse sql pool tde sub-commands.
     /// </summary>
     public AzSynapseSqlPoolTde Tde => _tde ??= new AzSynapseSqlPoolTde(_command);
 
     /// <summary>
-    /// az threat-policy sub-commands.
+    /// az synapse sql pool threat-policy sub-commands.
     /// </summary>
     public AzSynapseSqlPoolThreatPolicy ThreatPolicy => _threatPolicy ??= new AzSynapseSqlPoolThreatPolicy(_command);
 

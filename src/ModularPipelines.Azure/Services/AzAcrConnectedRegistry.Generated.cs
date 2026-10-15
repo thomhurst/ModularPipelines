@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az connected-registry commands.
+/// az acr connected-registry commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAcrConnectedRegistry
@@ -33,7 +33,7 @@ public class AzAcrConnectedRegistry
     #region Sub-command Groups
 
     /// <summary>
-    /// az permissions sub-commands.
+    /// az acr connected-registry permissions sub-commands.
     /// </summary>
     public AzAcrConnectedRegistryPermissions Permissions => _permissions ??= new AzAcrConnectedRegistryPermissions(_command);
 
@@ -125,6 +125,21 @@ public class AzAcrConnectedRegistry
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
         AzAcrConnectedRegistryListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Trigger a manual resync between the connected registry and
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ResyncAsync(
+        AzAcrConnectedRegistryResyncOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

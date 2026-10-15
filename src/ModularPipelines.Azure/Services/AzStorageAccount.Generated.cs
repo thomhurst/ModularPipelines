@@ -14,12 +14,13 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az account commands.
+/// az storage account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageAccount
 {
     private readonly ICommandContext _command;
+    private AzStorageAccountBlobInventoryPolicy? _blobInventoryPolicy;
     private AzStorageAccountBlobServiceProperties? _blobServiceProperties;
     private AzStorageAccountEncryptionScope? _encryptionScope;
     private AzStorageAccountFileServiceProperties? _fileServiceProperties;
@@ -31,6 +32,8 @@ public class AzStorageAccount
     private AzStorageAccountNetworkRule? _networkRule;
     private AzStorageAccountNetworkSecurityPerimeterConfiguration? _networkSecurityPerimeterConfiguration;
     private AzStorageAccountOrPolicy? _orPolicy;
+    private AzStorageAccountPrivateEndpointConnection? _privateEndpointConnection;
+    private AzStorageAccountPrivateLinkResource? _privateLinkResource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageAccount"/> class.
@@ -43,59 +46,74 @@ public class AzStorageAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az blob-service-properties sub-commands.
+    /// az storage account blob-inventory-policy sub-commands.
+    /// </summary>
+    public AzStorageAccountBlobInventoryPolicy BlobInventoryPolicy => _blobInventoryPolicy ??= new AzStorageAccountBlobInventoryPolicy(_command);
+
+    /// <summary>
+    /// az storage account blob-service-properties sub-commands.
     /// </summary>
     public AzStorageAccountBlobServiceProperties BlobServiceProperties => _blobServiceProperties ??= new AzStorageAccountBlobServiceProperties(_command);
 
     /// <summary>
-    /// az encryption-scope sub-commands.
+    /// az storage account encryption-scope sub-commands.
     /// </summary>
     public AzStorageAccountEncryptionScope EncryptionScope => _encryptionScope ??= new AzStorageAccountEncryptionScope(_command);
 
     /// <summary>
-    /// az file-service-properties sub-commands.
+    /// az storage account file-service-properties sub-commands.
     /// </summary>
     public AzStorageAccountFileServiceProperties FileServiceProperties => _fileServiceProperties ??= new AzStorageAccountFileServiceProperties(_command);
 
     /// <summary>
-    /// az hns-migration sub-commands.
+    /// az storage account hns-migration sub-commands.
     /// </summary>
     public AzStorageAccountHnsMigration HnsMigration => _hnsMigration ??= new AzStorageAccountHnsMigration(_command);
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az storage account keys sub-commands.
     /// </summary>
     public AzStorageAccountKeys Keys => _keys ??= new AzStorageAccountKeys(_command);
 
     /// <summary>
-    /// az local-user sub-commands.
+    /// az storage account local-user sub-commands.
     /// </summary>
     public AzStorageAccountLocalUser LocalUser => _localUser ??= new AzStorageAccountLocalUser(_command);
 
     /// <summary>
-    /// az management-policy sub-commands.
+    /// az storage account management-policy sub-commands.
     /// </summary>
     public AzStorageAccountManagementPolicy ManagementPolicy => _managementPolicy ??= new AzStorageAccountManagementPolicy(_command);
 
     /// <summary>
-    /// az migration sub-commands.
+    /// az storage account migration sub-commands.
     /// </summary>
     public AzStorageAccountMigration Migration => _migration ??= new AzStorageAccountMigration(_command);
 
     /// <summary>
-    /// az network-rule sub-commands.
+    /// az storage account network-rule sub-commands.
     /// </summary>
     public AzStorageAccountNetworkRule NetworkRule => _networkRule ??= new AzStorageAccountNetworkRule(_command);
 
     /// <summary>
-    /// az network-security-perimeter-configuration sub-commands.
+    /// az storage account network-security-perimeter-configuration sub-commands.
     /// </summary>
     public AzStorageAccountNetworkSecurityPerimeterConfiguration NetworkSecurityPerimeterConfiguration => _networkSecurityPerimeterConfiguration ??= new AzStorageAccountNetworkSecurityPerimeterConfiguration(_command);
 
     /// <summary>
-    /// az or-policy sub-commands.
+    /// az storage account or-policy sub-commands.
     /// </summary>
     public AzStorageAccountOrPolicy OrPolicy => _orPolicy ??= new AzStorageAccountOrPolicy(_command);
+
+    /// <summary>
+    /// az storage account private-endpoint-connection sub-commands.
+    /// </summary>
+    public AzStorageAccountPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzStorageAccountPrivateEndpointConnection(_command);
+
+    /// <summary>
+    /// az storage account private-link-resource sub-commands.
+    /// </summary>
+    public AzStorageAccountPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzStorageAccountPrivateLinkResource(_command);
 
     #endregion
 

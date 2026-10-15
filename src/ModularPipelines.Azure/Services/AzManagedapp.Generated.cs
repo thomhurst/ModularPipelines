@@ -33,7 +33,7 @@ public class AzManagedapp : IAzManagedapp
     #region Sub-command Groups
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az managedapp definition sub-commands.
     /// </summary>
     public AzManagedappDefinition Definition => _definition ??= new AzManagedappDefinition(_command);
 

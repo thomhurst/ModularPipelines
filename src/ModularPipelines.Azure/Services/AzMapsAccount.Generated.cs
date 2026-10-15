@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az account commands.
+/// az maps account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMapsAccount
@@ -33,7 +33,7 @@ public class AzMapsAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az maps account keys sub-commands.
     /// </summary>
     public AzMapsAccountKeys Keys => _keys ??= new AzMapsAccountKeys(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az restorepoint commands.
+/// az restore-point commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzRestorePoint : IAzRestorePoint
@@ -33,7 +33,7 @@ public class AzRestorePoint : IAzRestorePoint
     #region Sub-command Groups
 
     /// <summary>
-    /// az collection sub-commands.
+    /// az restore-point collection sub-commands.
     /// </summary>
     public AzRestorePointCollection Collection => _collection ??= new AzRestorePointCollection(_command);
 

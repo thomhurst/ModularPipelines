@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az vault commands.
+/// az backup vault commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBackupVault
@@ -36,22 +36,22 @@ public class AzBackupVault
     #region Sub-command Groups
 
     /// <summary>
-    /// az backup-properties sub-commands.
+    /// az backup vault backup-properties sub-commands.
     /// </summary>
     public AzBackupVaultBackupProperties BackupProperties => _backupProperties ??= new AzBackupVaultBackupProperties(_command);
 
     /// <summary>
-    /// az encryption sub-commands.
+    /// az backup vault encryption sub-commands.
     /// </summary>
     public AzBackupVaultEncryption Encryption => _encryption ??= new AzBackupVaultEncryption(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az backup vault identity sub-commands.
     /// </summary>
     public AzBackupVaultIdentity Identity => _identity ??= new AzBackupVaultIdentity(_command);
 
     /// <summary>
-    /// az resource-guard-mapping sub-commands.
+    /// az backup vault resource-guard-mapping sub-commands.
     /// </summary>
     public AzBackupVaultResourceGuardMapping ResourceGuardMapping => _resourceGuardMapping ??= new AzBackupVaultResourceGuardMapping(_command);
 

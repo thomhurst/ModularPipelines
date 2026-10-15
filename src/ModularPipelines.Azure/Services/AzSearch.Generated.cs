@@ -40,42 +40,42 @@ public class AzSearch : IAzSearch
     #region Sub-command Groups
 
     /// <summary>
-    /// az admin-key sub-commands.
+    /// az search admin-key sub-commands.
     /// </summary>
     public AzSearchAdminKey AdminKey => _adminKey ??= new AzSearchAdminKey(_command);
 
     /// <summary>
-    /// az offering sub-commands.
+    /// az search offering sub-commands.
     /// </summary>
     public AzSearchOffering Offering => _offering ??= new AzSearchOffering(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az search private-endpoint-connection sub-commands.
     /// </summary>
     public AzSearchPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzSearchPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az search private-link-resource sub-commands.
     /// </summary>
     public AzSearchPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzSearchPrivateLinkResource(_command);
 
     /// <summary>
-    /// az query-key sub-commands.
+    /// az search query-key sub-commands.
     /// </summary>
     public AzSearchQueryKey QueryKey => _queryKey ??= new AzSearchQueryKey(_command);
 
     /// <summary>
-    /// az service sub-commands.
+    /// az search service sub-commands.
     /// </summary>
     public AzSearchService Service => _service ??= new AzSearchService(_command);
 
     /// <summary>
-    /// az shared-private-link-resource sub-commands.
+    /// az search shared-private-link-resource sub-commands.
     /// </summary>
     public AzSearchSharedPrivateLinkResource SharedPrivateLinkResource => _sharedPrivateLinkResource ??= new AzSearchSharedPrivateLinkResource(_command);
 
     /// <summary>
-    /// az usage sub-commands.
+    /// az search usage sub-commands.
     /// </summary>
     public AzSearchUsage Usage => _usage ??= new AzSearchUsage(_command);
 

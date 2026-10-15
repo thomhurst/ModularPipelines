@@ -37,27 +37,27 @@ public class AzDeployment : IAzDeployment
     #region Sub-command Groups
 
     /// <summary>
-    /// az group sub-commands.
+    /// az deployment group sub-commands.
     /// </summary>
     public AzDeploymentGroup Group => _group ??= new AzDeploymentGroup(_command);
 
     /// <summary>
-    /// az mg sub-commands.
+    /// az deployment mg sub-commands.
     /// </summary>
     public AzDeploymentMg Mg => _mg ??= new AzDeploymentMg(_command);
 
     /// <summary>
-    /// az operation sub-commands.
+    /// az deployment operation sub-commands.
     /// </summary>
     public AzDeploymentOperation Operation => _operation ??= new AzDeploymentOperation(_command);
 
     /// <summary>
-    /// az sub sub-commands.
+    /// az deployment sub sub-commands.
     /// </summary>
     public AzDeploymentSub Sub => _sub ??= new AzDeploymentSub(_command);
 
     /// <summary>
-    /// az tenant sub-commands.
+    /// az deployment tenant sub-commands.
     /// </summary>
     public AzDeploymentTenant Tenant => _tenant ??= new AzDeploymentTenant(_command);
 

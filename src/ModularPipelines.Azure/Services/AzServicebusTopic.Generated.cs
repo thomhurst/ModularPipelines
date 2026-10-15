@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az topic commands.
+/// az servicebus topic commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzServicebusTopic
@@ -34,12 +34,12 @@ public class AzServicebusTopic
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az servicebus topic authorization-rule sub-commands.
     /// </summary>
     public AzServicebusTopicAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzServicebusTopicAuthorizationRule(_command);
 
     /// <summary>
-    /// az subscription sub-commands.
+    /// az servicebus topic subscription sub-commands.
     /// </summary>
     public AzServicebusTopicSubscription Subscription => _subscription ??= new AzServicebusTopicSubscription(_command);
 

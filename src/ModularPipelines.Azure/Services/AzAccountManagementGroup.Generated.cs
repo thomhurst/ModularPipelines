@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az management-group commands.
+/// az account management-group commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAccountManagementGroup
@@ -36,22 +36,22 @@ public class AzAccountManagementGroup
     #region Sub-command Groups
 
     /// <summary>
-    /// az entities sub-commands.
+    /// az account management-group entities sub-commands.
     /// </summary>
     public AzAccountManagementGroupEntities Entities => _entities ??= new AzAccountManagementGroupEntities(_command);
 
     /// <summary>
-    /// az hierarchy-settings sub-commands.
+    /// az account management-group hierarchy-settings sub-commands.
     /// </summary>
     public AzAccountManagementGroupHierarchySettings HierarchySettings => _hierarchySettings ??= new AzAccountManagementGroupHierarchySettings(_command);
 
     /// <summary>
-    /// az subscription sub-commands.
+    /// az account management-group subscription sub-commands.
     /// </summary>
     public AzAccountManagementGroupSubscription Subscription => _subscription ??= new AzAccountManagementGroupSubscription(_command);
 
     /// <summary>
-    /// az tenant-backfill sub-commands.
+    /// az account management-group tenant-backfill sub-commands.
     /// </summary>
     public AzAccountManagementGroupTenantBackfill TenantBackfill => _tenantBackfill ??= new AzAccountManagementGroupTenantBackfill(_command);
 

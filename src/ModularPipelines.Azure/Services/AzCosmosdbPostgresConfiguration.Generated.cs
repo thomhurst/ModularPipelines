@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az configuration commands.
+/// az cosmosdb postgres configuration commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbPostgresConfiguration
@@ -35,17 +35,17 @@ public class AzCosmosdbPostgresConfiguration
     #region Sub-command Groups
 
     /// <summary>
-    /// az coordinator sub-commands.
+    /// az cosmosdb postgres configuration coordinator sub-commands.
     /// </summary>
     public AzCosmosdbPostgresConfigurationCoordinator Coordinator => _coordinator ??= new AzCosmosdbPostgresConfigurationCoordinator(_command);
 
     /// <summary>
-    /// az node sub-commands.
+    /// az cosmosdb postgres configuration node sub-commands.
     /// </summary>
     public AzCosmosdbPostgresConfigurationNode Node => _node ??= new AzCosmosdbPostgresConfigurationNode(_command);
 
     /// <summary>
-    /// az server sub-commands.
+    /// az cosmosdb postgres configuration server sub-commands.
     /// </summary>
     public AzCosmosdbPostgresConfigurationServer Server => _server ??= new AzCosmosdbPostgresConfigurationServer(_command);
 

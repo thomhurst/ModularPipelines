@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az cluster commands.
+/// az sf cluster commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSfCluster
@@ -39,37 +39,37 @@ public class AzSfCluster
     #region Sub-command Groups
 
     /// <summary>
-    /// az client-certificate sub-commands.
+    /// az sf cluster client-certificate sub-commands.
     /// </summary>
     public AzSfClusterClientCertificate ClientCertificate => _clientCertificate ??= new AzSfClusterClientCertificate(_command);
 
     /// <summary>
-    /// az durability sub-commands.
+    /// az sf cluster durability sub-commands.
     /// </summary>
     public AzSfClusterDurability Durability => _durability ??= new AzSfClusterDurability(_command);
 
     /// <summary>
-    /// az node sub-commands.
+    /// az sf cluster node sub-commands.
     /// </summary>
     public AzSfClusterNode Node => _node ??= new AzSfClusterNode(_command);
 
     /// <summary>
-    /// az node-type sub-commands.
+    /// az sf cluster node-type sub-commands.
     /// </summary>
     public AzSfClusterNodeType NodeType => _nodeType ??= new AzSfClusterNodeType(_command);
 
     /// <summary>
-    /// az reliability sub-commands.
+    /// az sf cluster reliability sub-commands.
     /// </summary>
     public AzSfClusterReliability Reliability => _reliability ??= new AzSfClusterReliability(_command);
 
     /// <summary>
-    /// az setting sub-commands.
+    /// az sf cluster setting sub-commands.
     /// </summary>
     public AzSfClusterSetting Setting => _setting ??= new AzSfClusterSetting(_command);
 
     /// <summary>
-    /// az upgrade-type sub-commands.
+    /// az sf cluster upgrade-type sub-commands.
     /// </summary>
     public AzSfClusterUpgradeType UpgradeType => _upgradeType ??= new AzSfClusterUpgradeType(_command);
 

@@ -439,6 +439,7 @@ public record AzHdinsightCreateOptions : AzOptions
     /// <summary>
     /// The storage account key. A key can be retrieved automatically if the user has access to the storage account.
     /// </summary>
+    [SecretValue]
     [CliOption("--storage-account-key")]
     public string? StorageAccountKey { get; set; }
 

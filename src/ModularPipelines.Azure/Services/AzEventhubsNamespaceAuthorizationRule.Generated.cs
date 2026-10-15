@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az authorization-rule commands.
+/// az eventhubs namespace authorization-rule commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzEventhubsNamespaceAuthorizationRule
@@ -33,7 +33,7 @@ public class AzEventhubsNamespaceAuthorizationRule
     #region Sub-command Groups
 
     /// <summary>
-    /// az keys sub-commands.
+    /// az eventhubs namespace authorization-rule keys sub-commands.
     /// </summary>
     public AzEventhubsNamespaceAuthorizationRuleKeys Keys => _keys ??= new AzEventhubsNamespaceAuthorizationRuleKeys(_command);
 

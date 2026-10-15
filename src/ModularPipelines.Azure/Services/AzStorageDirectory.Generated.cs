@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az directory commands.
+/// az storage directory commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageDirectory
@@ -33,7 +33,7 @@ public class AzStorageDirectory
     #region Sub-command Groups
 
     /// <summary>
-    /// az metadata sub-commands.
+    /// az storage directory metadata sub-commands.
     /// </summary>
     public AzStorageDirectoryMetadata Metadata => _metadata ??= new AzStorageDirectoryMetadata(_command);
 

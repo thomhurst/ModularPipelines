@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az workspace commands.
+/// az monitor log-analytics workspace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorLogAnalyticsWorkspace
@@ -39,37 +39,37 @@ public class AzMonitorLogAnalyticsWorkspace
     #region Sub-command Groups
 
     /// <summary>
-    /// az data-export sub-commands.
+    /// az monitor log-analytics workspace data-export sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspaceDataExport DataExport => _dataExport ??= new AzMonitorLogAnalyticsWorkspaceDataExport(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az monitor log-analytics workspace identity sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspaceIdentity Identity => _identity ??= new AzMonitorLogAnalyticsWorkspaceIdentity(_command);
 
     /// <summary>
-    /// az linked-service sub-commands.
+    /// az monitor log-analytics workspace linked-service sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspaceLinkedService LinkedService => _linkedService ??= new AzMonitorLogAnalyticsWorkspaceLinkedService(_command);
 
     /// <summary>
-    /// az linked-storage sub-commands.
+    /// az monitor log-analytics workspace linked-storage sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspaceLinkedStorage LinkedStorage => _linkedStorage ??= new AzMonitorLogAnalyticsWorkspaceLinkedStorage(_command);
 
     /// <summary>
-    /// az pack sub-commands.
+    /// az monitor log-analytics workspace pack sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspacePack Pack => _pack ??= new AzMonitorLogAnalyticsWorkspacePack(_command);
 
     /// <summary>
-    /// az saved-search sub-commands.
+    /// az monitor log-analytics workspace saved-search sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspaceSavedSearch SavedSearch => _savedSearch ??= new AzMonitorLogAnalyticsWorkspaceSavedSearch(_command);
 
     /// <summary>
-    /// az table sub-commands.
+    /// az monitor log-analytics workspace table sub-commands.
     /// </summary>
     public AzMonitorLogAnalyticsWorkspaceTable Table => _table ??= new AzMonitorLogAnalyticsWorkspaceTable(_command);
 

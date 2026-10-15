@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az application commands.
+/// az sf application commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSfApplication
@@ -33,7 +33,7 @@ public class AzSfApplication
     #region Sub-command Groups
 
     /// <summary>
-    /// az certificate sub-commands.
+    /// az sf application certificate sub-commands.
     /// </summary>
     public AzSfApplicationCertificate Certificate => _certificate ??= new AzSfApplicationCertificate(_command);
 

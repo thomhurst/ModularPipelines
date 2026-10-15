@@ -48,7 +48,9 @@ internal partial class Az : IAz
         IAzCognitiveservices cognitiveservices,
         IAzComputeFleet computeFleet,
         IAzComputeRecommender computeRecommender,
+        IAzConfig config,
         IAzConnection connection,
+        IAzConsumption consumption,
         IAzContainer container,
         IAzContainerapp containerapp,
         IAzCosmosdb cosmosdb,
@@ -60,6 +62,7 @@ internal partial class Az : IAz
         IAzDisk disk,
         IAzDiskAccess diskAccess,
         IAzDiskEncryptionSet diskEncryptionSet,
+        IAzDls dls,
         IAzDms dms,
         IAzEventgrid eventgrid,
         IAzEventhubs eventhubs,
@@ -72,6 +75,7 @@ internal partial class Az : IAz
         IAzImage image,
         IAzIot iot,
         IAzKeyvault keyvault,
+        IAzLab lab,
         IAzLock @lock,
         IAzLogicapp logicapp,
         IAzManagedapp managedapp,
@@ -111,6 +115,7 @@ internal partial class Az : IAz
         IAzStorage storage,
         IAzSynapse synapse,
         IAzTag tag,
+        IAzTerm term,
         IAzTs ts,
         IAzVm vm,
         IAzVmss vmss,
@@ -141,7 +146,9 @@ internal partial class Az : IAz
         Cognitiveservices = cognitiveservices;
         ComputeFleet = computeFleet;
         ComputeRecommender = computeRecommender;
+        Config = config;
         Connection = connection;
+        Consumption = consumption;
         Container = container;
         Containerapp = containerapp;
         Cosmosdb = cosmosdb;
@@ -153,6 +160,7 @@ internal partial class Az : IAz
         Disk = disk;
         DiskAccess = diskAccess;
         DiskEncryptionSet = diskEncryptionSet;
+        Dls = dls;
         Dms = dms;
         Eventgrid = eventgrid;
         Eventhubs = eventhubs;
@@ -165,6 +173,7 @@ internal partial class Az : IAz
         Image = image;
         Iot = iot;
         Keyvault = keyvault;
+        Lab = lab;
         Lock = @lock;
         Logicapp = logicapp;
         Managedapp = managedapp;
@@ -204,6 +213,7 @@ internal partial class Az : IAz
         Storage = storage;
         Synapse = synapse;
         Tag = tag;
+        Term = term;
         Ts = ts;
         Vm = vm;
         Vmss = vmss;
@@ -283,7 +293,13 @@ internal partial class Az : IAz
     public IAzComputeRecommender ComputeRecommender { get; }
 
     /// <inheritdoc />
+    public IAzConfig Config { get; }
+
+    /// <inheritdoc />
     public IAzConnection Connection { get; }
+
+    /// <inheritdoc />
+    public IAzConsumption Consumption { get; }
 
     /// <inheritdoc />
     public IAzContainer Container { get; }
@@ -317,6 +333,9 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public IAzDiskEncryptionSet DiskEncryptionSet { get; }
+
+    /// <inheritdoc />
+    public IAzDls Dls { get; }
 
     /// <inheritdoc />
     public IAzDms Dms { get; }
@@ -353,6 +372,9 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public IAzKeyvault Keyvault { get; }
+
+    /// <inheritdoc />
+    public IAzLab Lab { get; }
 
     /// <inheritdoc />
     public IAzLock Lock { get; }
@@ -470,6 +492,9 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public IAzTag Tag { get; }
+
+    /// <inheritdoc />
+    public IAzTerm Term { get; }
 
     /// <inheritdoc />
     public IAzTs Ts { get; }

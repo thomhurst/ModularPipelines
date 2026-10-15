@@ -22,23 +22,28 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzCognitiveservices
 {
     /// <summary>
-    /// az account sub-commands.
+    /// az cognitiveservices account sub-commands.
     /// </summary>
-    AzCognitiveservicesAccount Account => throw new System.NotSupportedException();
+    AzCognitiveservicesAccount Account { get; }
 
     /// <summary>
-    /// az commitment-tier sub-commands.
+    /// az cognitiveservices agent sub-commands.
     /// </summary>
-    AzCognitiveservicesCommitmentTier CommitmentTier => throw new System.NotSupportedException();
+    AzCognitiveservicesAgent Agent { get; }
 
     /// <summary>
-    /// az model sub-commands.
+    /// az cognitiveservices commitment-tier sub-commands.
     /// </summary>
-    AzCognitiveservicesModel Model => throw new System.NotSupportedException();
+    AzCognitiveservicesCommitmentTier CommitmentTier { get; }
 
     /// <summary>
-    /// az usage sub-commands.
+    /// az cognitiveservices model sub-commands.
     /// </summary>
-    AzCognitiveservicesUsage Usage => throw new System.NotSupportedException();
+    AzCognitiveservicesModel Model { get; }
+
+    /// <summary>
+    /// az cognitiveservices usage sub-commands.
+    /// </summary>
+    AzCognitiveservicesUsage Usage { get; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -45,6 +46,7 @@ public record AzRedisExportOptions : AzOptions
     /// <summary>
     /// SAS url for container where data needs to be exported to.
     /// </summary>
+    [SecretValue]
     [CliOption("--container")]
     public string Container { get; private init; }
 

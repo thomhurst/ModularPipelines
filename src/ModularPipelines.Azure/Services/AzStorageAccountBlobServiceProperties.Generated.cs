@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az blob-service-properties commands.
+/// az storage account blob-service-properties commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageAccountBlobServiceProperties
@@ -33,7 +33,7 @@ public class AzStorageAccountBlobServiceProperties
     #region Sub-command Groups
 
     /// <summary>
-    /// az cors-rule sub-commands.
+    /// az storage account blob-service-properties cors-rule sub-commands.
     /// </summary>
     public AzStorageAccountBlobServicePropertiesCorsRule CorsRule => _corsRule ??= new AzStorageAccountBlobServicePropertiesCorsRule(_command);
 

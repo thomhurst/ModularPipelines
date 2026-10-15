@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az link commands.
+/// az network private-dns link commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkPrivateDnsLink
@@ -33,7 +33,7 @@ public class AzNetworkPrivateDnsLink
     #region Sub-command Groups
 
     /// <summary>
-    /// az vnet sub-commands.
+    /// az network private-dns link vnet sub-commands.
     /// </summary>
     public AzNetworkPrivateDnsLinkVnet Vnet => _vnet ??= new AzNetworkPrivateDnsLinkVnet(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az deployment commands.
+/// az webapp deployment commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzWebappDeployment
@@ -37,27 +37,27 @@ public class AzWebappDeployment
     #region Sub-command Groups
 
     /// <summary>
-    /// az container sub-commands.
+    /// az webapp deployment container sub-commands.
     /// </summary>
     public AzWebappDeploymentContainer Container => _container ??= new AzWebappDeploymentContainer(_command);
 
     /// <summary>
-    /// az github-actions sub-commands.
+    /// az webapp deployment github-actions sub-commands.
     /// </summary>
     public AzWebappDeploymentGithubActions GithubActions => _githubActions ??= new AzWebappDeploymentGithubActions(_command);
 
     /// <summary>
-    /// az slot sub-commands.
+    /// az webapp deployment slot sub-commands.
     /// </summary>
     public AzWebappDeploymentSlot Slot => _slot ??= new AzWebappDeploymentSlot(_command);
 
     /// <summary>
-    /// az source sub-commands.
+    /// az webapp deployment source sub-commands.
     /// </summary>
     public AzWebappDeploymentSource Source => _source ??= new AzWebappDeploymentSource(_command);
 
     /// <summary>
-    /// az user sub-commands.
+    /// az webapp deployment user sub-commands.
     /// </summary>
     public AzWebappDeploymentUser User => _user ??= new AzWebappDeploymentUser(_command);
 

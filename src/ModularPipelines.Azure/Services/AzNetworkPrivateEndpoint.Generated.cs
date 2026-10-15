@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az private-endpoint commands.
+/// az network private-endpoint commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkPrivateEndpoint
@@ -35,17 +35,17 @@ public class AzNetworkPrivateEndpoint
     #region Sub-command Groups
 
     /// <summary>
-    /// az asg sub-commands.
+    /// az network private-endpoint asg sub-commands.
     /// </summary>
     public AzNetworkPrivateEndpointAsg Asg => _asg ??= new AzNetworkPrivateEndpointAsg(_command);
 
     /// <summary>
-    /// az dns-zone-group sub-commands.
+    /// az network private-endpoint dns-zone-group sub-commands.
     /// </summary>
     public AzNetworkPrivateEndpointDnsZoneGroup DnsZoneGroup => _dnsZoneGroup ??= new AzNetworkPrivateEndpointDnsZoneGroup(_command);
 
     /// <summary>
-    /// az ip-config sub-commands.
+    /// az network private-endpoint ip-config sub-commands.
     /// </summary>
     public AzNetworkPrivateEndpointIpConfig IpConfig => _ipConfig ??= new AzNetworkPrivateEndpointIpConfig(_command);
 

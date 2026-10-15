@@ -29,6 +29,8 @@ public class AzMonitor : IAzMonitor
     private AzMonitorLogAnalytics? _logAnalytics;
     private AzMonitorLogProfiles? _logProfiles;
     private AzMonitorMetrics? _metrics;
+    private AzMonitorPrivateLinkScope? _privateLinkScope;
+    private AzMonitorSli? _sli;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitor"/> class.
@@ -41,49 +43,78 @@ public class AzMonitor : IAzMonitor
     #region Sub-command Groups
 
     /// <summary>
-    /// az account sub-commands.
+    /// az monitor account sub-commands.
     /// </summary>
     public AzMonitorAccount Account => _account ??= new AzMonitorAccount(_command);
 
     /// <summary>
-    /// az action-group sub-commands.
+    /// az monitor action-group sub-commands.
     /// </summary>
     public AzMonitorActionGroup ActionGroup => _actionGroup ??= new AzMonitorActionGroup(_command);
 
     /// <summary>
-    /// az activity-log sub-commands.
+    /// az monitor activity-log sub-commands.
     /// </summary>
     public AzMonitorActivityLog ActivityLog => _activityLog ??= new AzMonitorActivityLog(_command);
 
     /// <summary>
-    /// az autoscale sub-commands.
+    /// az monitor autoscale sub-commands.
     /// </summary>
     public AzMonitorAutoscale Autoscale => _autoscale ??= new AzMonitorAutoscale(_command);
 
     /// <summary>
-    /// az dashboard sub-commands.
+    /// az monitor dashboard sub-commands.
     /// </summary>
     public AzMonitorDashboard Dashboard => _dashboard ??= new AzMonitorDashboard(_command);
 
     /// <summary>
-    /// az diagnostic-settings sub-commands.
+    /// az monitor diagnostic-settings sub-commands.
     /// </summary>
     public AzMonitorDiagnosticSettings DiagnosticSettings => _diagnosticSettings ??= new AzMonitorDiagnosticSettings(_command);
 
     /// <summary>
-    /// az log-analytics sub-commands.
+    /// az monitor log-analytics sub-commands.
     /// </summary>
     public AzMonitorLogAnalytics LogAnalytics => _logAnalytics ??= new AzMonitorLogAnalytics(_command);
 
     /// <summary>
-    /// az log-profiles sub-commands.
+    /// az monitor log-profiles sub-commands.
     /// </summary>
     public AzMonitorLogProfiles LogProfiles => _logProfiles ??= new AzMonitorLogProfiles(_command);
 
     /// <summary>
-    /// az metrics sub-commands.
+    /// az monitor metrics sub-commands.
     /// </summary>
     public AzMonitorMetrics Metrics => _metrics ??= new AzMonitorMetrics(_command);
+
+    /// <summary>
+    /// az monitor private-link-scope sub-commands.
+    /// </summary>
+    public AzMonitorPrivateLinkScope PrivateLinkScope => _privateLinkScope ??= new AzMonitorPrivateLinkScope(_command);
+
+    /// <summary>
+    /// az monitor sli sub-commands.
+    /// </summary>
+    public AzMonitorSli Sli => _sli ??= new AzMonitorSli(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Clone metrics alert rules from one resource to another resource.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CloneAsync(
+        AzMonitorCloneOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
 
     #endregion
 }

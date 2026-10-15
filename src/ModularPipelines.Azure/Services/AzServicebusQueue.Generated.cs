@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az queue commands.
+/// az servicebus queue commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzServicebusQueue
@@ -33,7 +33,7 @@ public class AzServicebusQueue
     #region Sub-command Groups
 
     /// <summary>
-    /// az authorization-rule sub-commands.
+    /// az servicebus queue authorization-rule sub-commands.
     /// </summary>
     public AzServicebusQueueAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzServicebusQueueAuthorizationRule(_command);
 

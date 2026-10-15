@@ -22,13 +22,13 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzAdvisor
 {
     /// <summary>
-    /// az configuration sub-commands.
+    /// az advisor configuration sub-commands.
     /// </summary>
-    AzAdvisorConfiguration Configuration => throw new System.NotSupportedException();
+    AzAdvisorConfiguration Configuration { get; }
 
     /// <summary>
-    /// az recommendation sub-commands.
+    /// az advisor recommendation sub-commands.
     /// </summary>
-    AzAdvisorRecommendation Recommendation => throw new System.NotSupportedException();
+    AzAdvisorRecommendation Recommendation { get; }
 
 }

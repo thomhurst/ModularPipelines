@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az auth commands.
+/// az containerapp auth commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappAuth
@@ -39,37 +39,37 @@ public class AzContainerappAuth
     #region Sub-command Groups
 
     /// <summary>
-    /// az apple sub-commands.
+    /// az containerapp auth apple sub-commands.
     /// </summary>
     public AzContainerappAuthApple Apple => _apple ??= new AzContainerappAuthApple(_command);
 
     /// <summary>
-    /// az facebook sub-commands.
+    /// az containerapp auth facebook sub-commands.
     /// </summary>
     public AzContainerappAuthFacebook Facebook => _facebook ??= new AzContainerappAuthFacebook(_command);
 
     /// <summary>
-    /// az github sub-commands.
+    /// az containerapp auth github sub-commands.
     /// </summary>
     public AzContainerappAuthGithub Github => _github ??= new AzContainerappAuthGithub(_command);
 
     /// <summary>
-    /// az google sub-commands.
+    /// az containerapp auth google sub-commands.
     /// </summary>
     public AzContainerappAuthGoogle Google => _google ??= new AzContainerappAuthGoogle(_command);
 
     /// <summary>
-    /// az microsoft sub-commands.
+    /// az containerapp auth microsoft sub-commands.
     /// </summary>
     public AzContainerappAuthMicrosoft Microsoft => _microsoft ??= new AzContainerappAuthMicrosoft(_command);
 
     /// <summary>
-    /// az openid-connect sub-commands.
+    /// az containerapp auth openid-connect sub-commands.
     /// </summary>
     public AzContainerappAuthOpenidConnect OpenidConnect => _openidConnect ??= new AzContainerappAuthOpenidConnect(_command);
 
     /// <summary>
-    /// az twitter sub-commands.
+    /// az containerapp auth twitter sub-commands.
     /// </summary>
     public AzContainerappAuthTwitter Twitter => _twitter ??= new AzContainerappAuthTwitter(_command);
 

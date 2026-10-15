@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az mi commands.
+/// az sql mi commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlMi
@@ -44,62 +44,62 @@ public class AzSqlMi
     #region Sub-command Groups
 
     /// <summary>
-    /// az ad-admin sub-commands.
+    /// az sql mi ad-admin sub-commands.
     /// </summary>
     public AzSqlMiAdAdmin AdAdmin => _adAdmin ??= new AzSqlMiAdAdmin(_command);
 
     /// <summary>
-    /// az ad-only-auth sub-commands.
+    /// az sql mi ad-only-auth sub-commands.
     /// </summary>
     public AzSqlMiAdOnlyAuth AdOnlyAuth => _adOnlyAuth ??= new AzSqlMiAdOnlyAuth(_command);
 
     /// <summary>
-    /// az advanced-threat-protection-setting sub-commands.
+    /// az sql mi advanced-threat-protection-setting sub-commands.
     /// </summary>
     public AzSqlMiAdvancedThreatProtectionSetting AdvancedThreatProtectionSetting => _advancedThreatProtectionSetting ??= new AzSqlMiAdvancedThreatProtectionSetting(_command);
 
     /// <summary>
-    /// az dtc sub-commands.
+    /// az sql mi dtc sub-commands.
     /// </summary>
     public AzSqlMiDtc Dtc => _dtc ??= new AzSqlMiDtc(_command);
 
     /// <summary>
-    /// az endpoint-cert sub-commands.
+    /// az sql mi endpoint-cert sub-commands.
     /// </summary>
     public AzSqlMiEndpointCert EndpointCert => _endpointCert ??= new AzSqlMiEndpointCert(_command);
 
     /// <summary>
-    /// az key sub-commands.
+    /// az sql mi key sub-commands.
     /// </summary>
     public AzSqlMiKey Key => _key ??= new AzSqlMiKey(_command);
 
     /// <summary>
-    /// az link sub-commands.
+    /// az sql mi link sub-commands.
     /// </summary>
     public AzSqlMiLink Link => _link ??= new AzSqlMiLink(_command);
 
     /// <summary>
-    /// az op sub-commands.
+    /// az sql mi op sub-commands.
     /// </summary>
     public AzSqlMiOp Op => _op ??= new AzSqlMiOp(_command);
 
     /// <summary>
-    /// az partner-cert sub-commands.
+    /// az sql mi partner-cert sub-commands.
     /// </summary>
     public AzSqlMiPartnerCert PartnerCert => _partnerCert ??= new AzSqlMiPartnerCert(_command);
 
     /// <summary>
-    /// az server-configuration-option sub-commands.
+    /// az sql mi server-configuration-option sub-commands.
     /// </summary>
     public AzSqlMiServerConfigurationOption ServerConfigurationOption => _serverConfigurationOption ??= new AzSqlMiServerConfigurationOption(_command);
 
     /// <summary>
-    /// az start-stop-schedule sub-commands.
+    /// az sql mi start-stop-schedule sub-commands.
     /// </summary>
     public AzSqlMiStartStopSchedule StartStopSchedule => _startStopSchedule ??= new AzSqlMiStartStopSchedule(_command);
 
     /// <summary>
-    /// az tde-key sub-commands.
+    /// az sql mi tde-key sub-commands.
     /// </summary>
     public AzSqlMiTdeKey TdeKey => _tdeKey ??= new AzSqlMiTdeKey(_command);
 

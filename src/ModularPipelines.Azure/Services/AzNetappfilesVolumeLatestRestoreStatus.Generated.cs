@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az latest-restore-status commands.
+/// az netappfiles volume latest-restore-status commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetappfilesVolumeLatestRestoreStatus
@@ -33,7 +33,7 @@ public class AzNetappfilesVolumeLatestRestoreStatus
     #region Sub-command Groups
 
     /// <summary>
-    /// az current sub-commands.
+    /// az netappfiles volume latest-restore-status current sub-commands.
     /// </summary>
     public AzNetappfilesVolumeLatestRestoreStatusCurrent Current => _current ??= new AzNetappfilesVolumeLatestRestoreStatusCurrent(_command);
 

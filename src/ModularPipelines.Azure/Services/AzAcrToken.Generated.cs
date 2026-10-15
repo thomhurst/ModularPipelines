@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az token commands.
+/// az acr token commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAcrToken
@@ -33,7 +33,7 @@ public class AzAcrToken
     #region Sub-command Groups
 
     /// <summary>
-    /// az credential sub-commands.
+    /// az acr token credential sub-commands.
     /// </summary>
     public AzAcrTokenCredential Credential => _credential ??= new AzAcrTokenCredential(_command);
 

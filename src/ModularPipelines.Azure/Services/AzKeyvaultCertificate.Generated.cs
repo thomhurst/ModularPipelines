@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az certificate commands.
+/// az keyvault certificate commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzKeyvaultCertificate
@@ -35,17 +35,17 @@ public class AzKeyvaultCertificate
     #region Sub-command Groups
 
     /// <summary>
-    /// az contact sub-commands.
+    /// az keyvault certificate contact sub-commands.
     /// </summary>
     public AzKeyvaultCertificateContact Contact => _contact ??= new AzKeyvaultCertificateContact(_command);
 
     /// <summary>
-    /// az issuer sub-commands.
+    /// az keyvault certificate issuer sub-commands.
     /// </summary>
     public AzKeyvaultCertificateIssuer Issuer => _issuer ??= new AzKeyvaultCertificateIssuer(_command);
 
     /// <summary>
-    /// az pending sub-commands.
+    /// az keyvault certificate pending sub-commands.
     /// </summary>
     public AzKeyvaultCertificatePending Pending => _pending ??= new AzKeyvaultCertificatePending(_command);
 

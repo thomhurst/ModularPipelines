@@ -14,12 +14,13 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az asg commands.
+/// az network asg commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkAsg
 {
     private readonly ICommandContext _command;
+    private AzNetworkAsgAddressPrefixSet? _addressPrefixSet;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkAsg"/> class.
@@ -28,6 +29,15 @@ public class AzNetworkAsg
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az network asg address-prefix-set sub-commands.
+    /// </summary>
+    public AzNetworkAsgAddressPrefixSet AddressPrefixSet => _addressPrefixSet ??= new AzNetworkAsgAddressPrefixSet(_command);
+
+    #endregion
 
     #region Commands
 

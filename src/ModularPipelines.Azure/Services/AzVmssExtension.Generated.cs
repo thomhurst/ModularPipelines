@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az extension commands.
+/// az vmss extension commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzVmssExtension
@@ -33,7 +33,7 @@ public class AzVmssExtension
     #region Sub-command Groups
 
     /// <summary>
-    /// az image sub-commands.
+    /// az vmss extension image sub-commands.
     /// </summary>
     public AzVmssExtensionImage Image => _image ??= new AzVmssExtensionImage(_command);
 

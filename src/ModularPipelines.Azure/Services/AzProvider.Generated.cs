@@ -34,12 +34,12 @@ public class AzProvider : IAzProvider
     #region Sub-command Groups
 
     /// <summary>
-    /// az operation sub-commands.
+    /// az provider operation sub-commands.
     /// </summary>
     public AzProviderOperation Operation => _operation ??= new AzProviderOperation(_command);
 
     /// <summary>
-    /// az permission sub-commands.
+    /// az provider permission sub-commands.
     /// </summary>
     public AzProviderPermission Permission => _permission ??= new AzProviderPermission(_command);
 

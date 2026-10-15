@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -82,6 +83,7 @@ public record AzContainerappEnvStorageSetOptions : AzOptions
     /// <summary>
     /// Key of the AzureFile storage account.
     /// </summary>
+    [SecretValue]
     [CliOption("--azure-file-account-key", ShortForm = "-k")]
     public string AzureFileAccountKey { get; private init; }
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az rewrite-rule commands.
+/// az network application-gateway rewrite-rule commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkApplicationGatewayRewriteRule
@@ -34,12 +34,12 @@ public class AzNetworkApplicationGatewayRewriteRule
     #region Sub-command Groups
 
     /// <summary>
-    /// az condition sub-commands.
+    /// az network application-gateway rewrite-rule condition sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayRewriteRuleCondition Condition => _condition ??= new AzNetworkApplicationGatewayRewriteRuleCondition(_command);
 
     /// <summary>
-    /// az set sub-commands.
+    /// az network application-gateway rewrite-rule set sub-commands.
     /// </summary>
     public AzNetworkApplicationGatewayRewriteRuleSet Set => _set ??= new AzNetworkApplicationGatewayRewriteRuleSet(_command);
 

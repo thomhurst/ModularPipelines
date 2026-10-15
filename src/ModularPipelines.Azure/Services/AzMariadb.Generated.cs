@@ -35,17 +35,17 @@ public class AzMariadb : IAzMariadb
     #region Sub-command Groups
 
     /// <summary>
-    /// az db sub-commands.
+    /// az mariadb db sub-commands.
     /// </summary>
     public AzMariadbDb Db => _db ??= new AzMariadbDb(_command);
 
     /// <summary>
-    /// az server sub-commands.
+    /// az mariadb server sub-commands.
     /// </summary>
     public AzMariadbServer Server => _server ??= new AzMariadbServer(_command);
 
     /// <summary>
-    /// az server-logs sub-commands.
+    /// az mariadb server-logs sub-commands.
     /// </summary>
     public AzMariadbServerLogs ServerLogs => _serverLogs ??= new AzMariadbServerLogs(_command);
 

@@ -22,44 +22,44 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzSignalr
 {
     /// <summary>
-    /// az cors sub-commands.
+    /// az signalr cors sub-commands.
     /// </summary>
-    AzSignalrCors Cors => throw new System.NotSupportedException();
+    AzSignalrCors Cors { get; }
 
     /// <summary>
-    /// az custom-certificate sub-commands.
+    /// az signalr custom-certificate sub-commands.
     /// </summary>
-    AzSignalrCustomCertificate CustomCertificate => throw new System.NotSupportedException();
+    AzSignalrCustomCertificate CustomCertificate { get; }
 
     /// <summary>
-    /// az custom-domain sub-commands.
+    /// az signalr custom-domain sub-commands.
     /// </summary>
-    AzSignalrCustomDomain CustomDomain => throw new System.NotSupportedException();
+    AzSignalrCustomDomain CustomDomain { get; }
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az signalr identity sub-commands.
     /// </summary>
-    AzSignalrIdentity Identity => throw new System.NotSupportedException();
+    AzSignalrIdentity Identity { get; }
 
     /// <summary>
-    /// az key sub-commands.
+    /// az signalr key sub-commands.
     /// </summary>
-    AzSignalrKey Key => throw new System.NotSupportedException();
+    AzSignalrKey Key { get; }
 
     /// <summary>
-    /// az network-rule sub-commands.
+    /// az signalr network-rule sub-commands.
     /// </summary>
-    AzSignalrNetworkRule NetworkRule => throw new System.NotSupportedException();
+    AzSignalrNetworkRule NetworkRule { get; }
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az signalr replica sub-commands.
     /// </summary>
-    AzSignalrReplica Replica => throw new System.NotSupportedException();
+    AzSignalrReplica Replica { get; }
 
     /// <summary>
-    /// az upstream sub-commands.
+    /// az signalr upstream sub-commands.
     /// </summary>
-    AzSignalrUpstream Upstream => throw new System.NotSupportedException();
+    AzSignalrUpstream Upstream { get; }
 
     /// <summary>
     /// Creates a SignalR Service.
@@ -68,8 +68,7 @@ public interface IAzSignalr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzSignalrCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzSignalrCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a SignalR Service.
@@ -78,8 +77,7 @@ public interface IAzSignalr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzSignalrDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzSignalrDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the SignalR Service under the current subscription.
@@ -88,8 +86,7 @@ public interface IAzSignalr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzSignalrListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzSignalrListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restart an existing SignalR Service.
@@ -98,8 +95,7 @@ public interface IAzSignalr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestartAsync(AzSignalrRestartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestartAsync(AzSignalrRestartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of a SignalR Service.
@@ -108,8 +104,7 @@ public interface IAzSignalr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzSignalrShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzSignalrShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start an existing SignalR Service.
@@ -118,8 +113,7 @@ public interface IAzSignalr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAsync(AzSignalrStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAsync(AzSignalrStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stop an existing SignalR Service.
@@ -128,8 +122,7 @@ public interface IAzSignalr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAsync(AzSignalrStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAsync(AzSignalrStopOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an existing SignalR Service.
@@ -138,7 +131,6 @@ public interface IAzSignalr
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzSignalrUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzSignalrUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

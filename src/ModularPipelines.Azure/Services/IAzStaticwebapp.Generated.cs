@@ -22,49 +22,49 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzStaticwebapp
 {
     /// <summary>
-    /// az appsettings sub-commands.
+    /// az staticwebapp appsettings sub-commands.
     /// </summary>
-    AzStaticwebappAppSettings AppSettings => throw new System.NotSupportedException();
+    AzStaticwebappAppSettings AppSettings { get; }
 
     /// <summary>
-    /// az backends sub-commands.
+    /// az staticwebapp backends sub-commands.
     /// </summary>
-    AzStaticwebappBackends Backends => throw new System.NotSupportedException();
+    AzStaticwebappBackends Backends { get; }
 
     /// <summary>
-    /// az enterprise-edge sub-commands.
+    /// az staticwebapp enterprise-edge sub-commands.
     /// </summary>
-    AzStaticwebappEnterpriseEdge EnterpriseEdge => throw new System.NotSupportedException();
+    AzStaticwebappEnterpriseEdge EnterpriseEdge { get; }
 
     /// <summary>
-    /// az environment sub-commands.
+    /// az staticwebapp environment sub-commands.
     /// </summary>
-    AzStaticwebappEnvironment Environment => throw new System.NotSupportedException();
+    AzStaticwebappEnvironment Environment { get; }
 
     /// <summary>
-    /// az functions sub-commands.
+    /// az staticwebapp functions sub-commands.
     /// </summary>
-    AzStaticwebappFunctions Functions => throw new System.NotSupportedException();
+    AzStaticwebappFunctions Functions { get; }
 
     /// <summary>
-    /// az hostname sub-commands.
+    /// az staticwebapp hostname sub-commands.
     /// </summary>
-    AzStaticwebappHostname Hostname => throw new System.NotSupportedException();
+    AzStaticwebappHostname Hostname { get; }
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az staticwebapp identity sub-commands.
     /// </summary>
-    AzStaticwebappIdentity Identity => throw new System.NotSupportedException();
+    AzStaticwebappIdentity Identity { get; }
 
     /// <summary>
-    /// az secrets sub-commands.
+    /// az staticwebapp secrets sub-commands.
     /// </summary>
-    AzStaticwebappSecrets Secrets => throw new System.NotSupportedException();
+    AzStaticwebappSecrets Secrets { get; }
 
     /// <summary>
-    /// az users sub-commands.
+    /// az staticwebapp users sub-commands.
     /// </summary>
-    AzStaticwebappUsers Users => throw new System.NotSupportedException();
+    AzStaticwebappUsers Users { get; }
 
     /// <summary>
     /// Create a static app. To provide content to the static web app and
@@ -73,8 +73,7 @@ public interface IAzStaticwebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(AzStaticwebappCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(AzStaticwebappCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a static app.
@@ -83,8 +82,7 @@ public interface IAzStaticwebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(AzStaticwebappDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(AzStaticwebappDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disconnect source control to enable connecting to a different repo.
@@ -93,8 +91,7 @@ public interface IAzStaticwebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisconnectAsync(AzStaticwebappDisconnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisconnectAsync(AzStaticwebappDisconnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all static app resources in a subscription, or in resource group if
@@ -103,8 +100,7 @@ public interface IAzStaticwebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(AzStaticwebappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(AzStaticwebappListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Connect to a repo and branch following a disconnect command.
@@ -113,8 +109,7 @@ public interface IAzStaticwebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReconnectAsync(AzStaticwebappReconnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReconnectAsync(AzStaticwebappReconnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show details of a static app.
@@ -123,8 +118,7 @@ public interface IAzStaticwebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzStaticwebappShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShowAsync(AzStaticwebappShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a static app. Return the app updated.
@@ -133,7 +127,6 @@ public interface IAzStaticwebapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AzStaticwebappUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AzStaticwebappUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

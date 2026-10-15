@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az group commands.
+/// az ad group commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAdGroup
@@ -34,12 +34,12 @@ public class AzAdGroup
     #region Sub-command Groups
 
     /// <summary>
-    /// az member sub-commands.
+    /// az ad group member sub-commands.
     /// </summary>
     public AzAdGroupMember Member => _member ??= new AzAdGroupMember(_command);
 
     /// <summary>
-    /// az owner sub-commands.
+    /// az ad group owner sub-commands.
     /// </summary>
     public AzAdGroupOwner Owner => _owner ??= new AzAdGroupOwner(_command);
 

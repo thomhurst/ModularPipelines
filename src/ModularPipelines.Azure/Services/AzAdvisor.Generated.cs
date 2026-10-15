@@ -34,12 +34,12 @@ public class AzAdvisor : IAzAdvisor
     #region Sub-command Groups
 
     /// <summary>
-    /// az configuration sub-commands.
+    /// az advisor configuration sub-commands.
     /// </summary>
     public AzAdvisorConfiguration Configuration => _configuration ??= new AzAdvisorConfiguration(_command);
 
     /// <summary>
-    /// az recommendation sub-commands.
+    /// az advisor recommendation sub-commands.
     /// </summary>
     public AzAdvisorRecommendation Recommendation => _recommendation ??= new AzAdvisorRecommendation(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az network-rule commands.
+/// az signalr network-rule commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSignalrNetworkRule
@@ -33,7 +33,7 @@ public class AzSignalrNetworkRule
     #region Sub-command Groups
 
     /// <summary>
-    /// az ip-rule sub-commands.
+    /// az signalr network-rule ip-rule sub-commands.
     /// </summary>
     public AzSignalrNetworkRuleIpRule IpRule => _ipRule ??= new AzSignalrNetworkRuleIpRule(_command);
 

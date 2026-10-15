@@ -14,13 +14,18 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az kusto commands.
+/// az synapse kusto commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapseKusto
 {
     private readonly ICommandContext _command;
+    private AzSynapseKustoAttachedDatabaseConfiguration? _attachedDatabaseConfiguration;
+    private AzSynapseKustoDatabase? _database;
+    private AzSynapseKustoDatabasePrincipalAssignment? _databasePrincipalAssignment;
+    private AzSynapseKustoDataConnection? _dataConnection;
     private AzSynapseKustoPool? _pool;
+    private AzSynapseKustoPoolPrincipalAssignment? _poolPrincipalAssignment;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseKusto"/> class.
@@ -33,9 +38,34 @@ public class AzSynapseKusto
     #region Sub-command Groups
 
     /// <summary>
-    /// az pool sub-commands.
+    /// az synapse kusto attached-database-configuration sub-commands.
+    /// </summary>
+    public AzSynapseKustoAttachedDatabaseConfiguration AttachedDatabaseConfiguration => _attachedDatabaseConfiguration ??= new AzSynapseKustoAttachedDatabaseConfiguration(_command);
+
+    /// <summary>
+    /// az synapse kusto database sub-commands.
+    /// </summary>
+    public AzSynapseKustoDatabase Database => _database ??= new AzSynapseKustoDatabase(_command);
+
+    /// <summary>
+    /// az synapse kusto database-principal-assignment sub-commands.
+    /// </summary>
+    public AzSynapseKustoDatabasePrincipalAssignment DatabasePrincipalAssignment => _databasePrincipalAssignment ??= new AzSynapseKustoDatabasePrincipalAssignment(_command);
+
+    /// <summary>
+    /// az synapse kusto data-connection sub-commands.
+    /// </summary>
+    public AzSynapseKustoDataConnection DataConnection => _dataConnection ??= new AzSynapseKustoDataConnection(_command);
+
+    /// <summary>
+    /// az synapse kusto pool sub-commands.
     /// </summary>
     public AzSynapseKustoPool Pool => _pool ??= new AzSynapseKustoPool(_command);
+
+    /// <summary>
+    /// az synapse kusto pool-principal-assignment sub-commands.
+    /// </summary>
+    public AzSynapseKustoPoolPrincipalAssignment PoolPrincipalAssignment => _poolPrincipalAssignment ??= new AzSynapseKustoPoolPrincipalAssignment(_command);
 
     #endregion
 }

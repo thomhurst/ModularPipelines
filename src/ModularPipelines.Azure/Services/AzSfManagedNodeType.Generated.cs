@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az managed-node-type commands.
+/// az sf managed-node-type commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSfManagedNodeType
@@ -35,17 +35,17 @@ public class AzSfManagedNodeType
     #region Sub-command Groups
 
     /// <summary>
-    /// az node sub-commands.
+    /// az sf managed-node-type node sub-commands.
     /// </summary>
     public AzSfManagedNodeTypeNode Node => _node ??= new AzSfManagedNodeTypeNode(_command);
 
     /// <summary>
-    /// az vm-extension sub-commands.
+    /// az sf managed-node-type vm-extension sub-commands.
     /// </summary>
     public AzSfManagedNodeTypeVmExtension VmExtension => _vmExtension ??= new AzSfManagedNodeTypeVmExtension(_command);
 
     /// <summary>
-    /// az vm-secret sub-commands.
+    /// az sf managed-node-type vm-secret sub-commands.
     /// </summary>
     public AzSfManagedNodeTypeVmSecret VmSecret => _vmSecret ??= new AzSfManagedNodeTypeVmSecret(_command);
 

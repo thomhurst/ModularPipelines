@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az gremlin commands.
+/// az cosmosdb gremlin commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbGremlin
@@ -37,27 +37,27 @@ public class AzCosmosdbGremlin
     #region Sub-command Groups
 
     /// <summary>
-    /// az database sub-commands.
+    /// az cosmosdb gremlin database sub-commands.
     /// </summary>
     public AzCosmosdbGremlinDatabase Database => _database ??= new AzCosmosdbGremlinDatabase(_command);
 
     /// <summary>
-    /// az graph sub-commands.
+    /// az cosmosdb gremlin graph sub-commands.
     /// </summary>
     public AzCosmosdbGremlinGraph Graph => _graph ??= new AzCosmosdbGremlinGraph(_command);
 
     /// <summary>
-    /// az restorable-database sub-commands.
+    /// az cosmosdb gremlin restorable-database sub-commands.
     /// </summary>
     public AzCosmosdbGremlinRestorableDatabase RestorableDatabase => _restorableDatabase ??= new AzCosmosdbGremlinRestorableDatabase(_command);
 
     /// <summary>
-    /// az restorable-graph sub-commands.
+    /// az cosmosdb gremlin restorable-graph sub-commands.
     /// </summary>
     public AzCosmosdbGremlinRestorableGraph RestorableGraph => _restorableGraph ??= new AzCosmosdbGremlinRestorableGraph(_command);
 
     /// <summary>
-    /// az restorable-resource sub-commands.
+    /// az cosmosdb gremlin restorable-resource sub-commands.
     /// </summary>
     public AzCosmosdbGremlinRestorableResource RestorableResource => _restorableResource ??= new AzCosmosdbGremlinRestorableResource(_command);
 

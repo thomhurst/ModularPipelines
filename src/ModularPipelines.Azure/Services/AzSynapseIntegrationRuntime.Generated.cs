@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az integration-runtime commands.
+/// az synapse integration-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSynapseIntegrationRuntime
@@ -34,18 +34,33 @@ public class AzSynapseIntegrationRuntime
     #region Sub-command Groups
 
     /// <summary>
-    /// az managed sub-commands.
+    /// az synapse integration-runtime managed sub-commands.
     /// </summary>
     public AzSynapseIntegrationRuntimeManaged Managed => _managed ??= new AzSynapseIntegrationRuntimeManaged(_command);
 
     /// <summary>
-    /// az self-hosted sub-commands.
+    /// az synapse integration-runtime self-hosted sub-commands.
     /// </summary>
     public AzSynapseIntegrationRuntimeSelfHosted SelfHosted => _selfHosted ??= new AzSynapseIntegrationRuntimeSelfHosted(_command);
 
     #endregion
 
     #region Commands
+
+    /// <summary>
+    /// Create an integration runtime.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzSynapseIntegrationRuntimeCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Delete an integration runtime.

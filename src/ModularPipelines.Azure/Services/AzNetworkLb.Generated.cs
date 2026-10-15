@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az lb commands.
+/// az network lb commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkLb
@@ -39,37 +39,37 @@ public class AzNetworkLb
     #region Sub-command Groups
 
     /// <summary>
-    /// az address-pool sub-commands.
+    /// az network lb address-pool sub-commands.
     /// </summary>
     public AzNetworkLbAddressPool AddressPool => _addressPool ??= new AzNetworkLbAddressPool(_command);
 
     /// <summary>
-    /// az frontend-ip sub-commands.
+    /// az network lb frontend-ip sub-commands.
     /// </summary>
     public AzNetworkLbFrontendIp FrontendIp => _frontendIp ??= new AzNetworkLbFrontendIp(_command);
 
     /// <summary>
-    /// az inbound-nat-pool sub-commands.
+    /// az network lb inbound-nat-pool sub-commands.
     /// </summary>
     public AzNetworkLbInboundNatPool InboundNatPool => _inboundNatPool ??= new AzNetworkLbInboundNatPool(_command);
 
     /// <summary>
-    /// az inbound-nat-rule sub-commands.
+    /// az network lb inbound-nat-rule sub-commands.
     /// </summary>
     public AzNetworkLbInboundNatRule InboundNatRule => _inboundNatRule ??= new AzNetworkLbInboundNatRule(_command);
 
     /// <summary>
-    /// az outbound-rule sub-commands.
+    /// az network lb outbound-rule sub-commands.
     /// </summary>
     public AzNetworkLbOutboundRule OutboundRule => _outboundRule ??= new AzNetworkLbOutboundRule(_command);
 
     /// <summary>
-    /// az probe sub-commands.
+    /// az network lb probe sub-commands.
     /// </summary>
     public AzNetworkLbProbe Probe => _probe ??= new AzNetworkLbProbe(_command);
 
     /// <summary>
-    /// az rule sub-commands.
+    /// az network lb rule sub-commands.
     /// </summary>
     public AzNetworkLbRule Rule => _rule ??= new AzNetworkLbRule(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az fleetspace commands.
+/// az cosmosdb fleetspace commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbFleetspace
@@ -33,7 +33,7 @@ public class AzCosmosdbFleetspace
     #region Sub-command Groups
 
     /// <summary>
-    /// az account sub-commands.
+    /// az cosmosdb fleetspace account sub-commands.
     /// </summary>
     public AzCosmosdbFleetspaceAccount Account => _account ??= new AzCosmosdbFleetspaceAccount(_command);
 

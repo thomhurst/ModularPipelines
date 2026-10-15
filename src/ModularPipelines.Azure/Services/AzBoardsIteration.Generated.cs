@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az iteration commands.
+/// az boards iteration commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBoardsIteration
@@ -34,12 +34,12 @@ public class AzBoardsIteration
     #region Sub-command Groups
 
     /// <summary>
-    /// az project sub-commands.
+    /// az boards iteration project sub-commands.
     /// </summary>
     public AzBoardsIterationProject Project => _project ??= new AzBoardsIterationProject(_command);
 
     /// <summary>
-    /// az team sub-commands.
+    /// az boards iteration team sub-commands.
     /// </summary>
     public AzBoardsIterationTeam Team => _team ??= new AzBoardsIterationTeam(_command);
 

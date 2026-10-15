@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az table commands.
+/// az storage table commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageTable
@@ -33,7 +33,7 @@ public class AzStorageTable
     #region Sub-command Groups
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az storage table policy sub-commands.
     /// </summary>
     public AzStorageTablePolicy Policy => _policy ??= new AzStorageTablePolicy(_command);
 

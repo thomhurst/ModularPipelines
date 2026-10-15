@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az server commands.
+/// az mysql server commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMysqlServer
@@ -40,42 +40,42 @@ public class AzMysqlServer
     #region Sub-command Groups
 
     /// <summary>
-    /// az ad-admin sub-commands.
+    /// az mysql server ad-admin sub-commands.
     /// </summary>
     public AzMysqlServerAdAdmin AdAdmin => _adAdmin ??= new AzMysqlServerAdAdmin(_command);
 
     /// <summary>
-    /// az configuration sub-commands.
+    /// az mysql server configuration sub-commands.
     /// </summary>
     public AzMysqlServerConfiguration Configuration => _configuration ??= new AzMysqlServerConfiguration(_command);
 
     /// <summary>
-    /// az firewall-rule sub-commands.
+    /// az mysql server firewall-rule sub-commands.
     /// </summary>
     public AzMysqlServerFirewallRule FirewallRule => _firewallRule ??= new AzMysqlServerFirewallRule(_command);
 
     /// <summary>
-    /// az key sub-commands.
+    /// az mysql server key sub-commands.
     /// </summary>
     public AzMysqlServerKey Key => _key ??= new AzMysqlServerKey(_command);
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az mysql server private-endpoint-connection sub-commands.
     /// </summary>
     public AzMysqlServerPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzMysqlServerPrivateEndpointConnection(_command);
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az mysql server private-link-resource sub-commands.
     /// </summary>
     public AzMysqlServerPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzMysqlServerPrivateLinkResource(_command);
 
     /// <summary>
-    /// az replica sub-commands.
+    /// az mysql server replica sub-commands.
     /// </summary>
     public AzMysqlServerReplica Replica => _replica ??= new AzMysqlServerReplica(_command);
 
     /// <summary>
-    /// az vnet-rule sub-commands.
+    /// az mysql server vnet-rule sub-commands.
     /// </summary>
     public AzMysqlServerVnetRule VnetRule => _vnetRule ??= new AzMysqlServerVnetRule(_command);
 

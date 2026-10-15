@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az operation commands.
+/// az deployment operation commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzDeploymentOperation
@@ -36,22 +36,22 @@ public class AzDeploymentOperation
     #region Sub-command Groups
 
     /// <summary>
-    /// az group sub-commands.
+    /// az deployment operation group sub-commands.
     /// </summary>
     public AzDeploymentOperationGroup Group => _group ??= new AzDeploymentOperationGroup(_command);
 
     /// <summary>
-    /// az mg sub-commands.
+    /// az deployment operation mg sub-commands.
     /// </summary>
     public AzDeploymentOperationMg Mg => _mg ??= new AzDeploymentOperationMg(_command);
 
     /// <summary>
-    /// az sub sub-commands.
+    /// az deployment operation sub sub-commands.
     /// </summary>
     public AzDeploymentOperationSub Sub => _sub ??= new AzDeploymentOperationSub(_command);
 
     /// <summary>
-    /// az tenant sub-commands.
+    /// az deployment operation tenant sub-commands.
     /// </summary>
     public AzDeploymentOperationTenant Tenant => _tenant ??= new AzDeploymentOperationTenant(_command);
 

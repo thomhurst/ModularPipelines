@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az builder commands.
+/// az image builder commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzImageBuilder
@@ -39,37 +39,37 @@ public class AzImageBuilder
     #region Sub-command Groups
 
     /// <summary>
-    /// az customizer sub-commands.
+    /// az image builder customizer sub-commands.
     /// </summary>
     public AzImageBuilderCustomizer Customizer => _customizer ??= new AzImageBuilderCustomizer(_command);
 
     /// <summary>
-    /// az error-handler sub-commands.
+    /// az image builder error-handler sub-commands.
     /// </summary>
     public AzImageBuilderErrorHandler ErrorHandler => _errorHandler ??= new AzImageBuilderErrorHandler(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az image builder identity sub-commands.
     /// </summary>
     public AzImageBuilderIdentity Identity => _identity ??= new AzImageBuilderIdentity(_command);
 
     /// <summary>
-    /// az optimizer sub-commands.
+    /// az image builder optimizer sub-commands.
     /// </summary>
     public AzImageBuilderOptimizer Optimizer => _optimizer ??= new AzImageBuilderOptimizer(_command);
 
     /// <summary>
-    /// az output sub-commands.
+    /// az image builder output sub-commands.
     /// </summary>
     public AzImageBuilderOutput Output => _output ??= new AzImageBuilderOutput(_command);
 
     /// <summary>
-    /// az trigger sub-commands.
+    /// az image builder trigger sub-commands.
     /// </summary>
     public AzImageBuilderTrigger Trigger => _trigger ??= new AzImageBuilderTrigger(_command);
 
     /// <summary>
-    /// az validator sub-commands.
+    /// az image builder validator sub-commands.
     /// </summary>
     public AzImageBuilderValidator Validator => _validator ??= new AzImageBuilderValidator(_command);
 

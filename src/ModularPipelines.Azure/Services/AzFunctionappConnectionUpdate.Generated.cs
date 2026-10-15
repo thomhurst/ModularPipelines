@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az update commands.
+/// az functionapp connection update commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappConnectionUpdate
@@ -242,6 +242,21 @@ public class AzFunctionappConnectionUpdate
     }
 
     /// <summary>
+    /// Update a functionapp to mysql connection.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MysqlAsync(
+        AzFunctionappConnectionUpdateMysqlOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConnectionUpdateMysqlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Update a functionapp to neon-postgres
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -269,6 +284,21 @@ public class AzFunctionappConnectionUpdate
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConnectionUpdatePostgresFlexibleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Update a functionapp to postgres connection.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PostgresAsync(
+        AzFunctionappConnectionUpdatePostgresOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappConnectionUpdatePostgresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

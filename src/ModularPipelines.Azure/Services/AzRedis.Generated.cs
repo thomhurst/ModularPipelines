@@ -38,32 +38,32 @@ public class AzRedis : IAzRedis
     #region Sub-command Groups
 
     /// <summary>
-    /// az access-policy sub-commands.
+    /// az redis access-policy sub-commands.
     /// </summary>
     public AzRedisAccessPolicy AccessPolicy => _accessPolicy ??= new AzRedisAccessPolicy(_command);
 
     /// <summary>
-    /// az access-policy-assignment sub-commands.
+    /// az redis access-policy-assignment sub-commands.
     /// </summary>
     public AzRedisAccessPolicyAssignment AccessPolicyAssignment => _accessPolicyAssignment ??= new AzRedisAccessPolicyAssignment(_command);
 
     /// <summary>
-    /// az firewall-rules sub-commands.
+    /// az redis firewall-rules sub-commands.
     /// </summary>
     public AzRedisFirewallRules FirewallRules => _firewallRules ??= new AzRedisFirewallRules(_command);
 
     /// <summary>
-    /// az identity sub-commands.
+    /// az redis identity sub-commands.
     /// </summary>
     public AzRedisIdentity Identity => _identity ??= new AzRedisIdentity(_command);
 
     /// <summary>
-    /// az patch-schedule sub-commands.
+    /// az redis patch-schedule sub-commands.
     /// </summary>
     public AzRedisPatchSchedule PatchSchedule => _patchSchedule ??= new AzRedisPatchSchedule(_command);
 
     /// <summary>
-    /// az server-link sub-commands.
+    /// az redis server-link sub-commands.
     /// </summary>
     public AzRedisServerLink ServerLink => _serverLink ??= new AzRedisServerLink(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az vpn-connection commands.
+/// az network vpn-connection commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkVpnConnection
@@ -35,17 +35,17 @@ public class AzNetworkVpnConnection
     #region Sub-command Groups
 
     /// <summary>
-    /// az ipsec-policy sub-commands.
+    /// az network vpn-connection ipsec-policy sub-commands.
     /// </summary>
     public AzNetworkVpnConnectionIpsecPolicy IpsecPolicy => _ipsecPolicy ??= new AzNetworkVpnConnectionIpsecPolicy(_command);
 
     /// <summary>
-    /// az packet-capture sub-commands.
+    /// az network vpn-connection packet-capture sub-commands.
     /// </summary>
     public AzNetworkVpnConnectionPacketCapture PacketCapture => _packetCapture ??= new AzNetworkVpnConnectionPacketCapture(_command);
 
     /// <summary>
-    /// az shared-key sub-commands.
+    /// az network vpn-connection shared-key sub-commands.
     /// </summary>
     public AzNetworkVpnConnectionSharedKey SharedKey => _sharedKey ??= new AzNetworkVpnConnectionSharedKey(_command);
 
@@ -84,6 +84,21 @@ public class AzNetworkVpnConnection
     }
 
     /// <summary>
+    /// List IKE Security Associations for a VPN connection.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListIkeSasAsync(
+        AzNetworkVpnConnectionListIkeSasOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVpnConnectionListIkeSasOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List all VPN connections.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -92,6 +107,21 @@ public class AzNetworkVpnConnection
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
         AzNetworkVpnConnectionListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get a XML format representation for VPN
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowDeviceConfigScriptAsync(
+        AzNetworkVpnConnectionShowDeviceConfigScriptOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

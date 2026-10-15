@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az release commands.
+/// az pipelines release commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzPipelinesRelease
@@ -33,7 +33,7 @@ public class AzPipelinesRelease
     #region Sub-command Groups
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az pipelines release definition sub-commands.
     /// </summary>
     public AzPipelinesReleaseDefinition Definition => _definition ??= new AzPipelinesReleaseDefinition(_command);
 

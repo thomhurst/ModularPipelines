@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az log commands.
+/// az functionapp log commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappLog
@@ -33,7 +33,7 @@ public class AzFunctionappLog
     #region Sub-command Groups
 
     /// <summary>
-    /// az deployment sub-commands.
+    /// az functionapp log deployment sub-commands.
     /// </summary>
     public AzFunctionappLogDeployment Deployment => _deployment ??= new AzFunctionappLogDeployment(_command);
 

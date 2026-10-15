@@ -51,7 +51,9 @@ public static class AzExtensions
         services.TryAddScoped<IAzCognitiveservices, AzCognitiveservices>();
         services.TryAddScoped<IAzComputeFleet, AzComputeFleet>();
         services.TryAddScoped<IAzComputeRecommender, AzComputeRecommender>();
+        services.TryAddScoped<IAzConfig, AzConfig>();
         services.TryAddScoped<IAzConnection, AzConnection>();
+        services.TryAddScoped<IAzConsumption, AzConsumption>();
         services.TryAddScoped<IAzContainer, AzContainer>();
         services.TryAddScoped<IAzContainerapp, AzContainerapp>();
         services.TryAddScoped<IAzCosmosdb, AzCosmosdb>();
@@ -63,6 +65,7 @@ public static class AzExtensions
         services.TryAddScoped<IAzDisk, AzDisk>();
         services.TryAddScoped<IAzDiskAccess, AzDiskAccess>();
         services.TryAddScoped<IAzDiskEncryptionSet, AzDiskEncryptionSet>();
+        services.TryAddScoped<IAzDls, AzDls>();
         services.TryAddScoped<IAzDms, AzDms>();
         services.TryAddScoped<IAzEventgrid, AzEventgrid>();
         services.TryAddScoped<IAzEventhubs, AzEventhubs>();
@@ -75,6 +78,7 @@ public static class AzExtensions
         services.TryAddScoped<IAzImage, AzImage>();
         services.TryAddScoped<IAzIot, AzIot>();
         services.TryAddScoped<IAzKeyvault, AzKeyvault>();
+        services.TryAddScoped<IAzLab, AzLab>();
         services.TryAddScoped<IAzLock, AzLock>();
         services.TryAddScoped<IAzLogicapp, AzLogicapp>();
         services.TryAddScoped<IAzManagedapp, AzManagedapp>();
@@ -114,6 +118,7 @@ public static class AzExtensions
         services.TryAddScoped<IAzStorage, AzStorage>();
         services.TryAddScoped<IAzSynapse, AzSynapse>();
         services.TryAddScoped<IAzTag, AzTag>();
+        services.TryAddScoped<IAzTerm, AzTerm>();
         services.TryAddScoped<IAzTs, AzTs>();
         services.TryAddScoped<IAzVm, AzVm>();
         services.TryAddScoped<IAzVmss, AzVmss>();

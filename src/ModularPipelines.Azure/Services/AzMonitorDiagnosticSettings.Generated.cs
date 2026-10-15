@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az diagnostic-settings commands.
+/// az monitor diagnostic-settings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzMonitorDiagnosticSettings
@@ -34,12 +34,12 @@ public class AzMonitorDiagnosticSettings
     #region Sub-command Groups
 
     /// <summary>
-    /// az categories sub-commands.
+    /// az monitor diagnostic-settings categories sub-commands.
     /// </summary>
     public AzMonitorDiagnosticSettingsCategories Categories => _categories ??= new AzMonitorDiagnosticSettingsCategories(_command);
 
     /// <summary>
-    /// az subscription sub-commands.
+    /// az monitor diagnostic-settings subscription sub-commands.
     /// </summary>
     public AzMonitorDiagnosticSettingsSubscription Subscription => _subscription ??= new AzMonitorDiagnosticSettingsSubscription(_command);
 

@@ -14,13 +14,14 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az log commands.
+/// az webapp log commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzWebappLog
 {
     private readonly ICommandContext _command;
     private AzWebappLogDeployment? _deployment;
+    private AzWebappLogStartup? _startup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzWebappLog"/> class.
@@ -33,9 +34,14 @@ public class AzWebappLog
     #region Sub-command Groups
 
     /// <summary>
-    /// az deployment sub-commands.
+    /// az webapp log deployment sub-commands.
     /// </summary>
     public AzWebappLogDeployment Deployment => _deployment ??= new AzWebappLogDeployment(_command);
+
+    /// <summary>
+    /// az webapp log startup sub-commands.
+    /// </summary>
+    public AzWebappLogStartup Startup => _startup ??= new AzWebappLogStartup(_command);
 
     #endregion
 

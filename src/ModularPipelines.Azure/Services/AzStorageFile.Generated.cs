@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az file commands.
+/// az storage file commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageFile
@@ -36,22 +36,22 @@ public class AzStorageFile
     #region Sub-command Groups
 
     /// <summary>
-    /// az copy sub-commands.
+    /// az storage file copy sub-commands.
     /// </summary>
     public AzStorageFileCopy Copy => _copy ??= new AzStorageFileCopy(_command);
 
     /// <summary>
-    /// az hard-link sub-commands.
+    /// az storage file hard-link sub-commands.
     /// </summary>
     public AzStorageFileHardLink HardLink => _hardLink ??= new AzStorageFileHardLink(_command);
 
     /// <summary>
-    /// az metadata sub-commands.
+    /// az storage file metadata sub-commands.
     /// </summary>
     public AzStorageFileMetadata Metadata => _metadata ??= new AzStorageFileMetadata(_command);
 
     /// <summary>
-    /// az symbolic-link sub-commands.
+    /// az storage file symbolic-link sub-commands.
     /// </summary>
     public AzStorageFileSymbolicLink SymbolicLink => _symbolicLink ??= new AzStorageFileSymbolicLink(_command);
 

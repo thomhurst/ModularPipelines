@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az mongodb commands.
+/// az cosmosdb mongodb commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbMongodb
@@ -39,37 +39,37 @@ public class AzCosmosdbMongodb
     #region Sub-command Groups
 
     /// <summary>
-    /// az collection sub-commands.
+    /// az cosmosdb mongodb collection sub-commands.
     /// </summary>
     public AzCosmosdbMongodbCollection Collection => _collection ??= new AzCosmosdbMongodbCollection(_command);
 
     /// <summary>
-    /// az database sub-commands.
+    /// az cosmosdb mongodb database sub-commands.
     /// </summary>
     public AzCosmosdbMongodbDatabase Database => _database ??= new AzCosmosdbMongodbDatabase(_command);
 
     /// <summary>
-    /// az restorable-collection sub-commands.
+    /// az cosmosdb mongodb restorable-collection sub-commands.
     /// </summary>
     public AzCosmosdbMongodbRestorableCollection RestorableCollection => _restorableCollection ??= new AzCosmosdbMongodbRestorableCollection(_command);
 
     /// <summary>
-    /// az restorable-database sub-commands.
+    /// az cosmosdb mongodb restorable-database sub-commands.
     /// </summary>
     public AzCosmosdbMongodbRestorableDatabase RestorableDatabase => _restorableDatabase ??= new AzCosmosdbMongodbRestorableDatabase(_command);
 
     /// <summary>
-    /// az restorable-resource sub-commands.
+    /// az cosmosdb mongodb restorable-resource sub-commands.
     /// </summary>
     public AzCosmosdbMongodbRestorableResource RestorableResource => _restorableResource ??= new AzCosmosdbMongodbRestorableResource(_command);
 
     /// <summary>
-    /// az role sub-commands.
+    /// az cosmosdb mongodb role sub-commands.
     /// </summary>
     public AzCosmosdbMongodbRole Role => _role ??= new AzCosmosdbMongodbRole(_command);
 
     /// <summary>
-    /// az user sub-commands.
+    /// az cosmosdb mongodb user sub-commands.
     /// </summary>
     public AzCosmosdbMongodbUser User => _user ??= new AzCosmosdbMongodbUser(_command);
 

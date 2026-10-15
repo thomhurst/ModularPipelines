@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az central commands.
+/// az iot central commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzIotCentral
@@ -33,7 +33,7 @@ public class AzIotCentral
     #region Sub-command Groups
 
     /// <summary>
-    /// az app sub-commands.
+    /// az iot central app sub-commands.
     /// </summary>
     public AzIotCentralApp App => _app ??= new AzIotCentralApp(_command);
 

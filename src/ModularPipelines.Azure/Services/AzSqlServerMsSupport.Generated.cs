@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az ms-support commands.
+/// az sql server ms-support commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlServerMsSupport
@@ -33,7 +33,7 @@ public class AzSqlServerMsSupport
     #region Sub-command Groups
 
     /// <summary>
-    /// az audit-policy sub-commands.
+    /// az sql server ms-support audit-policy sub-commands.
     /// </summary>
     public AzSqlServerMsSupportAuditPolicy AuditPolicy => _auditPolicy ??= new AzSqlServerMsSupportAuditPolicy(_command);
 

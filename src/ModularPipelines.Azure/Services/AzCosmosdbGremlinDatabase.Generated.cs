@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az database commands.
+/// az cosmosdb gremlin database commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbGremlinDatabase
@@ -33,7 +33,7 @@ public class AzCosmosdbGremlinDatabase
     #region Sub-command Groups
 
     /// <summary>
-    /// az throughput sub-commands.
+    /// az cosmosdb gremlin database throughput sub-commands.
     /// </summary>
     public AzCosmosdbGremlinDatabaseThroughput Throughput => _throughput ??= new AzCosmosdbGremlinDatabaseThroughput(_command);
 

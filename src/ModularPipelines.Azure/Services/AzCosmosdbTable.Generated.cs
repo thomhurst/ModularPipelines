@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az table commands.
+/// az cosmosdb table commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzCosmosdbTable
@@ -35,17 +35,17 @@ public class AzCosmosdbTable
     #region Sub-command Groups
 
     /// <summary>
-    /// az restorable-resource sub-commands.
+    /// az cosmosdb table restorable-resource sub-commands.
     /// </summary>
     public AzCosmosdbTableRestorableResource RestorableResource => _restorableResource ??= new AzCosmosdbTableRestorableResource(_command);
 
     /// <summary>
-    /// az restorable-table sub-commands.
+    /// az cosmosdb table restorable-table sub-commands.
     /// </summary>
     public AzCosmosdbTableRestorableTable RestorableTable => _restorableTable ??= new AzCosmosdbTableRestorableTable(_command);
 
     /// <summary>
-    /// az throughput sub-commands.
+    /// az cosmosdb table throughput sub-commands.
     /// </summary>
     public AzCosmosdbTableThroughput Throughput => _throughput ??= new AzCosmosdbTableThroughput(_command);
 

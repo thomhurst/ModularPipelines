@@ -34,12 +34,12 @@ public class AzMaps : IAzMaps
     #region Sub-command Groups
 
     /// <summary>
-    /// az account sub-commands.
+    /// az maps account sub-commands.
     /// </summary>
     public AzMapsAccount Account => _account ??= new AzMapsAccount(_command);
 
     /// <summary>
-    /// az map sub-commands.
+    /// az maps map sub-commands.
     /// </summary>
     public AzMapsMap Map => _map ??= new AzMapsMap(_command);
 

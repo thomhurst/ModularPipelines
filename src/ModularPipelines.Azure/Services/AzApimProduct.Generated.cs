@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az product commands.
+/// az apim product commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzApimProduct
@@ -33,7 +33,7 @@ public class AzApimProduct
     #region Sub-command Groups
 
     /// <summary>
-    /// az api sub-commands.
+    /// az apim product api sub-commands.
     /// </summary>
     public AzApimProductApi Api => _api ??= new AzApimProductApi(_command);
 

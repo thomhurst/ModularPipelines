@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az webjob commands.
+/// az webapp webjob commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzWebappWebjob
@@ -34,12 +34,12 @@ public class AzWebappWebjob
     #region Sub-command Groups
 
     /// <summary>
-    /// az continuous sub-commands.
+    /// az webapp webjob continuous sub-commands.
     /// </summary>
     public AzWebappWebjobContinuous Continuous => _continuous ??= new AzWebappWebjobContinuous(_command);
 
     /// <summary>
-    /// az triggered sub-commands.
+    /// az webapp webjob triggered sub-commands.
     /// </summary>
     public AzWebappWebjobTriggered Triggered => _triggered ??= new AzWebappWebjobTriggered(_command);
 

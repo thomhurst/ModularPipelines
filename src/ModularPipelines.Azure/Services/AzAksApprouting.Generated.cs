@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az approuting commands.
+/// az aks approuting commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzAksApprouting
@@ -34,12 +34,12 @@ public class AzAksApprouting
     #region Sub-command Groups
 
     /// <summary>
-    /// az gateway sub-commands.
+    /// az aks approuting gateway sub-commands.
     /// </summary>
     public AzAksApproutingGateway Gateway => _gateway ??= new AzAksApproutingGateway(_command);
 
     /// <summary>
-    /// az zone sub-commands.
+    /// az aks approuting zone sub-commands.
     /// </summary>
     public AzAksApproutingZone Zone => _zone ??= new AzAksApproutingZone(_command);
 

@@ -25,17 +25,22 @@ public record AzAcrRunOptions : AzOptions
     /// Queues a quick run providing streamed logs for an Azure Container Registry.
     /// </summary>
     /// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+    /// <param name="SourceLocation">The local source code directory path (e.g., './src'), or the URL to a git repository (e.g., 'https://github.com/Azure-Samples/acr-build- helloworld-node.git'), or a remote tarball (e.g., 'http://server/context.tar.gz'), or the repository of an OCI artifact in an Azure container registry (e.g., 'oci://myregistry.azurecr.io/myartifact:mytag'). If '/dev/null' is specified, the value will be set to None and ignored.</param>
     public AzAcrRunOptions(
-        string Registry
+        string Registry,
+        string SourceLocation
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Registry);
         this.Registry = Registry;
+        global::System.ArgumentNullException.ThrowIfNull(SourceLocation);
+        this.SourceLocation = SourceLocation;
     }
 
-    public void Deconstruct(out string Registry)
+    public void Deconstruct(out string Registry, out string SourceLocation)
     {
         Registry = this.Registry;
+        SourceLocation = this.SourceLocation;
     }
 
     /// <summary>
@@ -140,5 +145,11 @@ public record AzAcrRunOptions : AzOptions
     /// </summary>
     [CliOption("--subscription")]
     public string? Subscription { get; set; }
+
+    /// <summary>
+    /// The local source code directory path (e.g., './src'), or the URL to a git repository (e.g., 'https://github.com/Azure-Samples/acr-build- helloworld-node.git'), or a remote tarball (e.g., 'http://server/context.tar.gz'), or the repository of an OCI artifact in an Azure container registry (e.g., 'oci://myregistry.azurecr.io/myartifact:mytag'). If '/dev/null' is specified, the value will be set to None and ignored.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SourceLocation { get; private init; }
 
 }

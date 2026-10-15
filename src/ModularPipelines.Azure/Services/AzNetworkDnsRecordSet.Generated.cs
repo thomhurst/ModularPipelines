@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az record-set commands.
+/// az network dns record-set commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkDnsRecordSet
@@ -24,11 +24,14 @@ public class AzNetworkDnsRecordSet
     private AzNetworkDnsRecordSetAaaa? _aaaa;
     private AzNetworkDnsRecordSetCaa? _caa;
     private AzNetworkDnsRecordSetCname? _cname;
+    private AzNetworkDnsRecordSetDs? _ds;
     private AzNetworkDnsRecordSetMx? _mx;
+    private AzNetworkDnsRecordSetNaptr? _naptr;
     private AzNetworkDnsRecordSetNs? _ns;
     private AzNetworkDnsRecordSetPtr? _ptr;
     private AzNetworkDnsRecordSetSoa? _soa;
     private AzNetworkDnsRecordSetSrv? _srv;
+    private AzNetworkDnsRecordSetTlsa? _tlsa;
     private AzNetworkDnsRecordSetTxt? _txt;
 
     /// <summary>
@@ -42,52 +45,67 @@ public class AzNetworkDnsRecordSet
     #region Sub-command Groups
 
     /// <summary>
-    /// az a sub-commands.
+    /// az network dns record-set a sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetA A => _a ??= new AzNetworkDnsRecordSetA(_command);
 
     /// <summary>
-    /// az aaaa sub-commands.
+    /// az network dns record-set aaaa sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetAaaa Aaaa => _aaaa ??= new AzNetworkDnsRecordSetAaaa(_command);
 
     /// <summary>
-    /// az caa sub-commands.
+    /// az network dns record-set caa sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetCaa Caa => _caa ??= new AzNetworkDnsRecordSetCaa(_command);
 
     /// <summary>
-    /// az cname sub-commands.
+    /// az network dns record-set cname sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetCname Cname => _cname ??= new AzNetworkDnsRecordSetCname(_command);
 
     /// <summary>
-    /// az mx sub-commands.
+    /// az network dns record-set ds sub-commands.
+    /// </summary>
+    public AzNetworkDnsRecordSetDs Ds => _ds ??= new AzNetworkDnsRecordSetDs(_command);
+
+    /// <summary>
+    /// az network dns record-set mx sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetMx Mx => _mx ??= new AzNetworkDnsRecordSetMx(_command);
 
     /// <summary>
-    /// az ns sub-commands.
+    /// az network dns record-set naptr sub-commands.
+    /// </summary>
+    public AzNetworkDnsRecordSetNaptr Naptr => _naptr ??= new AzNetworkDnsRecordSetNaptr(_command);
+
+    /// <summary>
+    /// az network dns record-set ns sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetNs Ns => _ns ??= new AzNetworkDnsRecordSetNs(_command);
 
     /// <summary>
-    /// az ptr sub-commands.
+    /// az network dns record-set ptr sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetPtr Ptr => _ptr ??= new AzNetworkDnsRecordSetPtr(_command);
 
     /// <summary>
-    /// az soa sub-commands.
+    /// az network dns record-set soa sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetSoa Soa => _soa ??= new AzNetworkDnsRecordSetSoa(_command);
 
     /// <summary>
-    /// az srv sub-commands.
+    /// az network dns record-set srv sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetSrv Srv => _srv ??= new AzNetworkDnsRecordSetSrv(_command);
 
     /// <summary>
-    /// az txt sub-commands.
+    /// az network dns record-set tlsa sub-commands.
+    /// </summary>
+    public AzNetworkDnsRecordSetTlsa Tlsa => _tlsa ??= new AzNetworkDnsRecordSetTlsa(_command);
+
+    /// <summary>
+    /// az network dns record-set txt sub-commands.
     /// </summary>
     public AzNetworkDnsRecordSetTxt Txt => _txt ??= new AzNetworkDnsRecordSetTxt(_command);
 

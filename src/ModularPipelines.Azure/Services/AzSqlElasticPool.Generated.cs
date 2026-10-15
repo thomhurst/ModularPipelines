@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az elastic-pool commands.
+/// az sql elastic-pool commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSqlElasticPool
@@ -33,7 +33,7 @@ public class AzSqlElasticPool
     #region Sub-command Groups
 
     /// <summary>
-    /// az op sub-commands.
+    /// az sql elastic-pool op sub-commands.
     /// </summary>
     public AzSqlElasticPoolOp Op => _op ??= new AzSqlElasticPoolOp(_command);
 

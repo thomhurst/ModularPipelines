@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az item commands.
+/// az backup item commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBackupItem
@@ -33,7 +33,7 @@ public class AzBackupItem
     #region Sub-command Groups
 
     /// <summary>
-    /// az source-scan-configuration sub-commands.
+    /// az backup item source-scan-configuration sub-commands.
     /// </summary>
     public AzBackupItemSourceScanConfiguration SourceScanConfiguration => _sourceScanConfiguration ??= new AzBackupItemSourceScanConfiguration(_command);
 

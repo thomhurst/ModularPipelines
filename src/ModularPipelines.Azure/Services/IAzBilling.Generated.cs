@@ -22,23 +22,93 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzBilling
 {
     /// <summary>
-    /// az enrollment-account sub-commands.
+    /// az billing account sub-commands.
     /// </summary>
-    AzBillingEnrollmentAccount EnrollmentAccount => throw new System.NotSupportedException();
+    AzBillingAccount Account { get; }
 
     /// <summary>
-    /// az invoice sub-commands.
+    /// az billing agreement sub-commands.
     /// </summary>
-    AzBillingInvoice Invoice => throw new System.NotSupportedException();
+    AzBillingAgreement Agreement { get; }
 
     /// <summary>
-    /// az period sub-commands.
+    /// az billing balance sub-commands.
     /// </summary>
-    AzBillingPeriod Period => throw new System.NotSupportedException();
+    AzBillingBalance Balance { get; }
 
     /// <summary>
-    /// az transfer sub-commands.
+    /// az billing customer sub-commands.
     /// </summary>
-    AzBillingTransfer Transfer => throw new System.NotSupportedException();
+    AzBillingCustomer Customer { get; }
+
+    /// <summary>
+    /// az billing enrollment-account sub-commands.
+    /// </summary>
+    AzBillingEnrollmentAccount EnrollmentAccount { get; }
+
+    /// <summary>
+    /// az billing instruction sub-commands.
+    /// </summary>
+    AzBillingInstruction Instruction { get; }
+
+    /// <summary>
+    /// az billing invoice sub-commands.
+    /// </summary>
+    AzBillingInvoice Invoice { get; }
+
+    /// <summary>
+    /// az billing period sub-commands.
+    /// </summary>
+    AzBillingPeriod Period { get; }
+
+    /// <summary>
+    /// az billing permission sub-commands.
+    /// </summary>
+    AzBillingPermission Permission { get; }
+
+    /// <summary>
+    /// az billing policy sub-commands.
+    /// </summary>
+    AzBillingPolicy Policy { get; }
+
+    /// <summary>
+    /// az billing product sub-commands.
+    /// </summary>
+    AzBillingProduct Product { get; }
+
+    /// <summary>
+    /// az billing profile sub-commands.
+    /// </summary>
+    AzBillingProfile Profile { get; }
+
+    /// <summary>
+    /// az billing property sub-commands.
+    /// </summary>
+    AzBillingProperty Property { get; }
+
+    /// <summary>
+    /// az billing role-assignment sub-commands.
+    /// </summary>
+    AzBillingRoleAssignment RoleAssignment { get; }
+
+    /// <summary>
+    /// az billing role-definition sub-commands.
+    /// </summary>
+    AzBillingRoleDefinition RoleDefinition { get; }
+
+    /// <summary>
+    /// az billing subscription sub-commands.
+    /// </summary>
+    AzBillingSubscription Subscription { get; }
+
+    /// <summary>
+    /// az billing transaction sub-commands.
+    /// </summary>
+    AzBillingTransaction Transaction { get; }
+
+    /// <summary>
+    /// az billing transfer sub-commands.
+    /// </summary>
+    AzBillingTransfer Transfer { get; }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az atp commands.
+/// az security atp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzSecurityAtp
@@ -34,12 +34,12 @@ public class AzSecurityAtp
     #region Sub-command Groups
 
     /// <summary>
-    /// az cosmosdb sub-commands.
+    /// az security atp cosmosdb sub-commands.
     /// </summary>
     public AzSecurityAtpCosmosdb Cosmosdb => _cosmosdb ??= new AzSecurityAtpCosmosdb(_command);
 
     /// <summary>
-    /// az storage sub-commands.
+    /// az security atp storage sub-commands.
     /// </summary>
     public AzSecurityAtpStorage Storage => _storage ??= new AzSecurityAtpStorage(_command);
 

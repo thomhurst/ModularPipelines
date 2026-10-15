@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az watcher commands.
+/// az network watcher commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkWatcher
@@ -36,22 +36,22 @@ public class AzNetworkWatcher
     #region Sub-command Groups
 
     /// <summary>
-    /// az connection-monitor sub-commands.
+    /// az network watcher connection-monitor sub-commands.
     /// </summary>
     public AzNetworkWatcherConnectionMonitor ConnectionMonitor => _connectionMonitor ??= new AzNetworkWatcherConnectionMonitor(_command);
 
     /// <summary>
-    /// az flow-log sub-commands.
+    /// az network watcher flow-log sub-commands.
     /// </summary>
     public AzNetworkWatcherFlowLog FlowLog => _flowLog ??= new AzNetworkWatcherFlowLog(_command);
 
     /// <summary>
-    /// az packet-capture sub-commands.
+    /// az network watcher packet-capture sub-commands.
     /// </summary>
     public AzNetworkWatcherPacketCapture PacketCapture => _packetCapture ??= new AzNetworkWatcherPacketCapture(_command);
 
     /// <summary>
-    /// az troubleshooting sub-commands.
+    /// az network watcher troubleshooting sub-commands.
     /// </summary>
     public AzNetworkWatcherTroubleshooting Troubleshooting => _troubleshooting ??= new AzNetworkWatcherTroubleshooting(_command);
 
@@ -132,6 +132,21 @@ public class AzNetworkWatcher
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkWatcherShowTopologyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Test if a connection can be established between a Virtual
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> TestConnectivityAsync(
+        AzNetworkWatcherTestConnectivityOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

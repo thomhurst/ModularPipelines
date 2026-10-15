@@ -33,7 +33,7 @@ public class AzIdentity : IAzIdentity
     #region Sub-command Groups
 
     /// <summary>
-    /// az federated-credential sub-commands.
+    /// az identity federated-credential sub-commands.
     /// </summary>
     public AzIdentityFederatedCredential FederatedCredential => _federatedCredential ??= new AzIdentityFederatedCredential(_command);
 

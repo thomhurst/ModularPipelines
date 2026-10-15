@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az area commands.
+/// az boards area commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzBoardsArea
@@ -34,12 +34,12 @@ public class AzBoardsArea
     #region Sub-command Groups
 
     /// <summary>
-    /// az project sub-commands.
+    /// az boards area project sub-commands.
     /// </summary>
     public AzBoardsAreaProject Project => _project ??= new AzBoardsAreaProject(_command);
 
     /// <summary>
-    /// az team sub-commands.
+    /// az boards area team sub-commands.
     /// </summary>
     public AzBoardsAreaTeam Team => _team ??= new AzBoardsAreaTeam(_command);
 

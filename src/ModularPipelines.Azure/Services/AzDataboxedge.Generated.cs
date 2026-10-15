@@ -36,22 +36,22 @@ public class AzDataboxedge : IAzDataboxedge
     #region Sub-command Groups
 
     /// <summary>
-    /// az alert sub-commands.
+    /// az databoxedge alert sub-commands.
     /// </summary>
     public AzDataboxedgeAlert Alert => _alert ??= new AzDataboxedgeAlert(_command);
 
     /// <summary>
-    /// az bandwidth-schedule sub-commands.
+    /// az databoxedge bandwidth-schedule sub-commands.
     /// </summary>
     public AzDataboxedgeBandwidthSchedule BandwidthSchedule => _bandwidthSchedule ??= new AzDataboxedgeBandwidthSchedule(_command);
 
     /// <summary>
-    /// az device sub-commands.
+    /// az databoxedge device sub-commands.
     /// </summary>
     public AzDataboxedgeDevice Device => _device ??= new AzDataboxedgeDevice(_command);
 
     /// <summary>
-    /// az order sub-commands.
+    /// az databoxedge order sub-commands.
     /// </summary>
     public AzDataboxedgeOrder Order => _order ??= new AzDataboxedgeOrder(_command);
 

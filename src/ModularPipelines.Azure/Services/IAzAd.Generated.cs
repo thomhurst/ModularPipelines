@@ -22,28 +22,28 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzAd
 {
     /// <summary>
-    /// az app sub-commands.
+    /// az ad app sub-commands.
     /// </summary>
-    AzAdApp App => throw new System.NotSupportedException();
+    AzAdApp App { get; }
 
     /// <summary>
-    /// az group sub-commands.
+    /// az ad group sub-commands.
     /// </summary>
-    AzAdGroup Group => throw new System.NotSupportedException();
+    AzAdGroup Group { get; }
 
     /// <summary>
-    /// az signed-in-user sub-commands.
+    /// az ad signed-in-user sub-commands.
     /// </summary>
-    AzAdSignedInUser SignedInUser => throw new System.NotSupportedException();
+    AzAdSignedInUser SignedInUser { get; }
 
     /// <summary>
-    /// az sp sub-commands.
+    /// az ad sp sub-commands.
     /// </summary>
-    AzAdSp Sp => throw new System.NotSupportedException();
+    AzAdSp Sp { get; }
 
     /// <summary>
-    /// az user sub-commands.
+    /// az ad user sub-commands.
     /// </summary>
-    AzAdUser User => throw new System.NotSupportedException();
+    AzAdUser User { get; }
 
 }

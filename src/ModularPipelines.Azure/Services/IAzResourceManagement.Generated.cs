@@ -22,8 +22,8 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzResourceManagement
 {
     /// <summary>
-    /// az private-link sub-commands.
+    /// az resourcemanagement private-link sub-commands.
     /// </summary>
-    AzResourceManagementPrivateLink PrivateLink => throw new System.NotSupportedException();
+    AzResourceManagementPrivateLink PrivateLink { get; }
 
 }

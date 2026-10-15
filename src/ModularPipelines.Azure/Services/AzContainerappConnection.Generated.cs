@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az connection commands.
+/// az containerapp connection commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzContainerappConnection
@@ -34,12 +34,12 @@ public class AzContainerappConnection
     #region Sub-command Groups
 
     /// <summary>
-    /// az create sub-commands.
+    /// az containerapp connection create sub-commands.
     /// </summary>
     public AzContainerappConnectionCreate Create => _create ??= new AzContainerappConnectionCreate(_command);
 
     /// <summary>
-    /// az update sub-commands.
+    /// az containerapp connection update sub-commands.
     /// </summary>
     public AzContainerappConnectionUpdate Update => _update ??= new AzContainerappConnectionUpdate(_command);
 

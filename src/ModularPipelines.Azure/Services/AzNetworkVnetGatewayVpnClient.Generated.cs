@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az vpn-client commands.
+/// az network vnet-gateway vpn-client commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzNetworkVnetGatewayVpnClient
@@ -33,7 +33,7 @@ public class AzNetworkVnetGatewayVpnClient
     #region Sub-command Groups
 
     /// <summary>
-    /// az ipsec-policy sub-commands.
+    /// az network vnet-gateway vpn-client ipsec-policy sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayVpnClientIpsecPolicy IpsecPolicy => _ipsecPolicy ??= new AzNetworkVnetGatewayVpnClientIpsecPolicy(_command);
 
@@ -54,6 +54,21 @@ public class AzNetworkVnetGatewayVpnClient
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayVpnClientGenerateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get the VPN client connection health detail per
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowHealthAsync(
+        AzNetworkVnetGatewayVpnClientShowHealthOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayVpnClientShowHealthOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

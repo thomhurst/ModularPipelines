@@ -33,7 +33,7 @@ public class AzCapacity : IAzCapacity
     #region Sub-command Groups
 
     /// <summary>
-    /// az reservation sub-commands.
+    /// az capacity reservation sub-commands.
     /// </summary>
     public AzCapacityReservation Reservation => _reservation ??= new AzCapacityReservation(_command);
 

@@ -42,52 +42,52 @@ public class AzPolicy : IAzPolicy
     #region Sub-command Groups
 
     /// <summary>
-    /// az assignment sub-commands.
+    /// az policy assignment sub-commands.
     /// </summary>
     public AzPolicyAssignment Assignment => _assignment ??= new AzPolicyAssignment(_command);
 
     /// <summary>
-    /// az attestation sub-commands.
+    /// az policy attestation sub-commands.
     /// </summary>
     public AzPolicyAttestation Attestation => _attestation ??= new AzPolicyAttestation(_command);
 
     /// <summary>
-    /// az definition sub-commands.
+    /// az policy definition sub-commands.
     /// </summary>
     public AzPolicyDefinition Definition => _definition ??= new AzPolicyDefinition(_command);
 
     /// <summary>
-    /// az enrollment sub-commands.
+    /// az policy enrollment sub-commands.
     /// </summary>
     public AzPolicyEnrollment Enrollment => _enrollment ??= new AzPolicyEnrollment(_command);
 
     /// <summary>
-    /// az event sub-commands.
+    /// az policy event sub-commands.
     /// </summary>
     public AzPolicyEvent Event => _event ??= new AzPolicyEvent(_command);
 
     /// <summary>
-    /// az exemption sub-commands.
+    /// az policy exemption sub-commands.
     /// </summary>
     public AzPolicyExemption Exemption => _exemption ??= new AzPolicyExemption(_command);
 
     /// <summary>
-    /// az metadata sub-commands.
+    /// az policy metadata sub-commands.
     /// </summary>
     public AzPolicyMetadata Metadata => _metadata ??= new AzPolicyMetadata(_command);
 
     /// <summary>
-    /// az remediation sub-commands.
+    /// az policy remediation sub-commands.
     /// </summary>
     public AzPolicyRemediation Remediation => _remediation ??= new AzPolicyRemediation(_command);
 
     /// <summary>
-    /// az set-definition sub-commands.
+    /// az policy set-definition sub-commands.
     /// </summary>
     public AzPolicySetDefinition SetDefinition => _setDefinition ??= new AzPolicySetDefinition(_command);
 
     /// <summary>
-    /// az state sub-commands.
+    /// az policy state sub-commands.
     /// </summary>
     public AzPolicyState State => _state ??= new AzPolicyState(_command);
 

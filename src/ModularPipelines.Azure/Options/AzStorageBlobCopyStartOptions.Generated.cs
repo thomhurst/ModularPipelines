@@ -113,6 +113,7 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// The storage account key of the source blob.
     /// </summary>
+    [SecretValue]
     [CliOption("--source-account-key")]
     public string? SourceAccountKey { get; set; }
 
@@ -167,6 +168,7 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// A URL of up to 2 KB in length that specifies an Azure file or blob. The value should be URL-encoded as it would appear in a request URI. If the source is in another account, the source must either be public or must be authenticated via a shared access signature. If the source is public, no authentication is required. Examples: `https://myaccount.blob.core.windows.net/mycon tainer/myblob`, `https://myaccount.blob.core.windows.net /mycontainer/myblob?snapshot=&lt;DateTime&gt;`, `https://other account.blob.core.windows.net/mycontainer/myblob?sastoke n`.
     /// </summary>
+    [SecretValue]
     [CliOption("--source-uri", ShortForm = "-u")]
     public string? SourceUri { get; set; }
 
@@ -209,6 +211,7 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
+    [SecretValue]
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
@@ -227,6 +230,7 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
+    [SecretValue]
     [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 

@@ -22,43 +22,43 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzSearch
 {
     /// <summary>
-    /// az admin-key sub-commands.
+    /// az search admin-key sub-commands.
     /// </summary>
-    AzSearchAdminKey AdminKey => throw new System.NotSupportedException();
+    AzSearchAdminKey AdminKey { get; }
 
     /// <summary>
-    /// az offering sub-commands.
+    /// az search offering sub-commands.
     /// </summary>
-    AzSearchOffering Offering => throw new System.NotSupportedException();
+    AzSearchOffering Offering { get; }
 
     /// <summary>
-    /// az private-endpoint-connection sub-commands.
+    /// az search private-endpoint-connection sub-commands.
     /// </summary>
-    AzSearchPrivateEndpointConnection PrivateEndpointConnection => throw new System.NotSupportedException();
+    AzSearchPrivateEndpointConnection PrivateEndpointConnection { get; }
 
     /// <summary>
-    /// az private-link-resource sub-commands.
+    /// az search private-link-resource sub-commands.
     /// </summary>
-    AzSearchPrivateLinkResource PrivateLinkResource => throw new System.NotSupportedException();
+    AzSearchPrivateLinkResource PrivateLinkResource { get; }
 
     /// <summary>
-    /// az query-key sub-commands.
+    /// az search query-key sub-commands.
     /// </summary>
-    AzSearchQueryKey QueryKey => throw new System.NotSupportedException();
+    AzSearchQueryKey QueryKey { get; }
 
     /// <summary>
-    /// az service sub-commands.
+    /// az search service sub-commands.
     /// </summary>
-    AzSearchService Service => throw new System.NotSupportedException();
+    AzSearchService Service { get; }
 
     /// <summary>
-    /// az shared-private-link-resource sub-commands.
+    /// az search shared-private-link-resource sub-commands.
     /// </summary>
-    AzSearchSharedPrivateLinkResource SharedPrivateLinkResource => throw new System.NotSupportedException();
+    AzSearchSharedPrivateLinkResource SharedPrivateLinkResource { get; }
 
     /// <summary>
-    /// az usage sub-commands.
+    /// az search usage sub-commands.
     /// </summary>
-    AzSearchUsage Usage => throw new System.NotSupportedException();
+    AzSearchUsage Usage { get; }
 
 }

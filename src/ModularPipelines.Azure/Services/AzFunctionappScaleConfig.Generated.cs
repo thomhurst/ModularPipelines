@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az config commands.
+/// az functionapp scale config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzFunctionappScaleConfig
@@ -33,7 +33,7 @@ public class AzFunctionappScaleConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// az always-ready sub-commands.
+    /// az functionapp scale config always-ready sub-commands.
     /// </summary>
     public AzFunctionappScaleConfigAlwaysReady AlwaysReady => _alwaysReady ??= new AzFunctionappScaleConfigAlwaysReady(_command);
 

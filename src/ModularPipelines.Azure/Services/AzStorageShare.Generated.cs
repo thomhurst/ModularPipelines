@@ -14,7 +14,7 @@ using ModularPipelines.Azure.Options;
 namespace ModularPipelines.Azure.Services;
 
 /// <summary>
-/// az share commands.
+/// az storage share commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AzStorageShare
@@ -34,12 +34,12 @@ public class AzStorageShare
     #region Sub-command Groups
 
     /// <summary>
-    /// az metadata sub-commands.
+    /// az storage share metadata sub-commands.
     /// </summary>
     public AzStorageShareMetadata Metadata => _metadata ??= new AzStorageShareMetadata(_command);
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az storage share policy sub-commands.
     /// </summary>
     public AzStorageSharePolicy Policy => _policy ??= new AzStorageSharePolicy(_command);
 

@@ -21,6 +21,7 @@ public class AzStorage : IAzStorage
 {
     private readonly ICommandContext _command;
     private AzStorageAccount? _account;
+    private AzStorageAdvancedPlatformMetric? _advancedPlatformMetric;
     private AzStorageBlob? _blob;
     private AzStorageContainer? _container;
     private AzStorageContainerRm? _containerRm;
@@ -30,7 +31,9 @@ public class AzStorage : IAzStorage
     private AzStorageFile? _file;
     private AzStorageFs? _fs;
     private AzStorageLogging? _logging;
+    private AzStorageMessage? _message;
     private AzStorageMetrics? _metrics;
+    private AzStorageQueue? _queue;
     private AzStorageShare? _share;
     private AzStorageShareRm? _shareRm;
     private AzStorageSku? _sku;
@@ -47,77 +50,92 @@ public class AzStorage : IAzStorage
     #region Sub-command Groups
 
     /// <summary>
-    /// az account sub-commands.
+    /// az storage account sub-commands.
     /// </summary>
     public AzStorageAccount Account => _account ??= new AzStorageAccount(_command);
 
     /// <summary>
-    /// az blob sub-commands.
+    /// az storage advanced-platform-metric sub-commands.
+    /// </summary>
+    public AzStorageAdvancedPlatformMetric AdvancedPlatformMetric => _advancedPlatformMetric ??= new AzStorageAdvancedPlatformMetric(_command);
+
+    /// <summary>
+    /// az storage blob sub-commands.
     /// </summary>
     public AzStorageBlob Blob => _blob ??= new AzStorageBlob(_command);
 
     /// <summary>
-    /// az container sub-commands.
+    /// az storage container sub-commands.
     /// </summary>
     public AzStorageContainer Container => _container ??= new AzStorageContainer(_command);
 
     /// <summary>
-    /// az container-rm sub-commands.
+    /// az storage container-rm sub-commands.
     /// </summary>
     public AzStorageContainerRm ContainerRm => _containerRm ??= new AzStorageContainerRm(_command);
 
     /// <summary>
-    /// az cors sub-commands.
+    /// az storage cors sub-commands.
     /// </summary>
     public AzStorageCors Cors => _cors ??= new AzStorageCors(_command);
 
     /// <summary>
-    /// az directory sub-commands.
+    /// az storage directory sub-commands.
     /// </summary>
     public AzStorageDirectory Directory => _directory ??= new AzStorageDirectory(_command);
 
     /// <summary>
-    /// az entity sub-commands.
+    /// az storage entity sub-commands.
     /// </summary>
     public AzStorageEntity Entity => _entity ??= new AzStorageEntity(_command);
 
     /// <summary>
-    /// az file sub-commands.
+    /// az storage file sub-commands.
     /// </summary>
     public AzStorageFile File => _file ??= new AzStorageFile(_command);
 
     /// <summary>
-    /// az fs sub-commands.
+    /// az storage fs sub-commands.
     /// </summary>
     public AzStorageFs Fs => _fs ??= new AzStorageFs(_command);
 
     /// <summary>
-    /// az logging sub-commands.
+    /// az storage logging sub-commands.
     /// </summary>
     public AzStorageLogging Logging => _logging ??= new AzStorageLogging(_command);
 
     /// <summary>
-    /// az metrics sub-commands.
+    /// az storage message sub-commands.
+    /// </summary>
+    public AzStorageMessage Message => _message ??= new AzStorageMessage(_command);
+
+    /// <summary>
+    /// az storage metrics sub-commands.
     /// </summary>
     public AzStorageMetrics Metrics => _metrics ??= new AzStorageMetrics(_command);
 
     /// <summary>
-    /// az share sub-commands.
+    /// az storage queue sub-commands.
+    /// </summary>
+    public AzStorageQueue Queue => _queue ??= new AzStorageQueue(_command);
+
+    /// <summary>
+    /// az storage share sub-commands.
     /// </summary>
     public AzStorageShare Share => _share ??= new AzStorageShare(_command);
 
     /// <summary>
-    /// az share-rm sub-commands.
+    /// az storage share-rm sub-commands.
     /// </summary>
     public AzStorageShareRm ShareRm => _shareRm ??= new AzStorageShareRm(_command);
 
     /// <summary>
-    /// az sku sub-commands.
+    /// az storage sku sub-commands.
     /// </summary>
     public AzStorageSku Sku => _sku ??= new AzStorageSku(_command);
 
     /// <summary>
-    /// az table sub-commands.
+    /// az storage table sub-commands.
     /// </summary>
     public AzStorageTable Table => _table ??= new AzStorageTable(_command);
 

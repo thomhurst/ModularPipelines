@@ -39,37 +39,37 @@ public class AzEventgrid : IAzEventgrid
     #region Sub-command Groups
 
     /// <summary>
-    /// az domain sub-commands.
+    /// az eventgrid domain sub-commands.
     /// </summary>
     public AzEventgridDomain Domain => _domain ??= new AzEventgridDomain(_command);
 
     /// <summary>
-    /// az event-subscription sub-commands.
+    /// az eventgrid event-subscription sub-commands.
     /// </summary>
     public AzEventgridEventSubscription EventSubscription => _eventSubscription ??= new AzEventgridEventSubscription(_command);
 
     /// <summary>
-    /// az extension-topic sub-commands.
+    /// az eventgrid extension-topic sub-commands.
     /// </summary>
     public AzEventgridExtensionTopic ExtensionTopic => _extensionTopic ??= new AzEventgridExtensionTopic(_command);
 
     /// <summary>
-    /// az partner sub-commands.
+    /// az eventgrid partner sub-commands.
     /// </summary>
     public AzEventgridPartner Partner => _partner ??= new AzEventgridPartner(_command);
 
     /// <summary>
-    /// az system-topic sub-commands.
+    /// az eventgrid system-topic sub-commands.
     /// </summary>
     public AzEventgridSystemTopic SystemTopic => _systemTopic ??= new AzEventgridSystemTopic(_command);
 
     /// <summary>
-    /// az topic sub-commands.
+    /// az eventgrid topic sub-commands.
     /// </summary>
     public AzEventgridTopic Topic => _topic ??= new AzEventgridTopic(_command);
 
     /// <summary>
-    /// az topic-type sub-commands.
+    /// az eventgrid topic-type sub-commands.
     /// </summary>
     public AzEventgridTopicType TopicType => _topicType ??= new AzEventgridTopicType(_command);
 

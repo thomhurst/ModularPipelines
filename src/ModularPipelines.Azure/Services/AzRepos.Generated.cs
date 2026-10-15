@@ -36,22 +36,22 @@ public class AzRepos : IAzRepos
     #region Sub-command Groups
 
     /// <summary>
-    /// az import sub-commands.
+    /// az repos import sub-commands.
     /// </summary>
     public AzReposImport Import => _import ??= new AzReposImport(_command);
 
     /// <summary>
-    /// az policy sub-commands.
+    /// az repos policy sub-commands.
     /// </summary>
     public AzReposPolicy Policy => _policy ??= new AzReposPolicy(_command);
 
     /// <summary>
-    /// az pr sub-commands.
+    /// az repos pr sub-commands.
     /// </summary>
     public AzReposPr Pr => _pr ??= new AzReposPr(_command);
 
     /// <summary>
-    /// az ref sub-commands.
+    /// az repos ref sub-commands.
     /// </summary>
     public AzReposRef Ref => _ref ??= new AzReposRef(_command);
 
