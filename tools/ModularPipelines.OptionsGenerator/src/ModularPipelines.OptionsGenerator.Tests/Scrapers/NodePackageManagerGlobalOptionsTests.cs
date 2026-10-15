@@ -191,7 +191,7 @@ public class NodePackageManagerGlobalOptionsTests
 
     private sealed class FixtureExecutor(string root, string child) : ICliCommandExecutor
     {
-        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, string? workingDirectory = null, CancellationToken cancellationToken = default) =>
             Task.FromResult(new CliCommandResult { StandardOutput = arguments == "--help" ? root : arguments == "--version" ? "4.18.1" : child, StandardError = "", ExitCode = 0 });
 
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);

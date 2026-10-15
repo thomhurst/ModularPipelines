@@ -340,14 +340,21 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
                 continue;
             }
 
-            var globalEnum = globalOptions?.FirstOrDefault(option => option.SwitchName == switchName)?.EnumDefinition;
-            var sharesGlobalEnum = globalEnum is not null && globalEnum.Values.Select(value => value.CliValue)
-                .ToHashSet(StringComparer.Ordinal).SetEquals(block.PossibleValues.Select(value => value.Value));
-            var option = CreateClapOption(match, sharesGlobalEnum ? "PnpmOptions" : className, propertyName, switchName, block);
+            var enumClassName = GetEnumClassName(className, switchName, block, globalOptions);
+            var option = CreateClapOption(match, enumClassName, propertyName, switchName, block);
             options.Add(ApplyOptionMetadata(option, block));
         }
 
         return options;
+    }
+
+    private static string GetEnumClassName(string className, string switchName, ClapOptionBlock block,
+        IReadOnlyList<CliOptionDefinition>? globalOptions)
+    {
+        var globalEnum = globalOptions?.FirstOrDefault(option => option.SwitchName == switchName)?.EnumDefinition;
+        var sharesGlobalEnum = globalEnum is not null && globalEnum.Values.Select(value => value.CliValue)
+            .ToHashSet(StringComparer.Ordinal).SetEquals(block.PossibleValues.Select(value => value.Value));
+        return sharesGlobalEnum ? "PnpmOptions" : className;
     }
 
     private static CliOptionDefinition ApplyOptionMetadata(CliOptionDefinition option, ClapOptionBlock block)
