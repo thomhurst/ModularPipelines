@@ -1,0 +1,9 @@
+Tab Completion for npm
+
+Usage:
+npm completion
+
+Options:
+
+
+Run "npm help completion" for more info

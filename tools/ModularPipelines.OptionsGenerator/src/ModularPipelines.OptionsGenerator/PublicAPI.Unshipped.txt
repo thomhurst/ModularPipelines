@@ -301,6 +301,7 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.MavenCliScraper.ParseOpti
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ExtractSubcommands(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.MaxParallelism.get -> int
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.IsSkippableSubcommand(string! subcommand) -> bool
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.GetHelpArguments(string![]! commandPath) -> string!

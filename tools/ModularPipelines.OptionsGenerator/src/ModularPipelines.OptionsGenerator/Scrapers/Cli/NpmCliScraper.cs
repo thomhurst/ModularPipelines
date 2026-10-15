@@ -33,12 +33,19 @@ public partial class NpmCliScraper(
         CommandCoverage = new CliCommandCoveragePolicy
         {
             MinimumCommandCount = 50,
-            SentinelCommands = ["npm install", "npm exec", "npm access list packages", "npm token revoke", "npm version", "npm root", "npm org set", "npm org rm", "npm org ls"],
+            SentinelCommands = ["npm install", "npm exec", "npm access list packages", "npm token revoke", "npm version", "npm root", "npm org set", "npm org rm", "npm org ls", "npm help", "npm completion"],
         },
     };
 
     // Each npm help process starts Node.js; keep the traversal's memory bounded.
     protected override int MaxParallelism => 2;
+
+    /// <inheritdoc />
+    protected override bool IsSkippableSubcommand(string subcommand) =>
+        // npm exposes these as supported user commands, rather than internal CLI helpers.
+        !subcommand.Equals("help", StringComparison.OrdinalIgnoreCase)
+        && !subcommand.Equals("completion", StringComparison.OrdinalIgnoreCase)
+        && base.IsSkippableSubcommand(subcommand);
 
     protected override IReadOnlySet<string> AdditionalSkipSubcommands =>
         new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -76,6 +83,12 @@ public partial class NpmCliScraper(
             }
 
             usage = SynopsisExplanationPattern().Replace(usage, string.Empty);
+            // npm help spells its repeated trailing terms with two dots.
+            if (usage.StartsWith("npm help ", StringComparison.Ordinal))
+            {
+                usage = usage.Replace("<terms..>", "<terms...>", StringComparison.Ordinal);
+            }
+
             // npm org's help omits angle brackets around these parameter names.
             return usage.StartsWith("npm org ", StringComparison.Ordinal)
                 ? BareOrgOperandPattern().Replace(usage, "<${name}>")

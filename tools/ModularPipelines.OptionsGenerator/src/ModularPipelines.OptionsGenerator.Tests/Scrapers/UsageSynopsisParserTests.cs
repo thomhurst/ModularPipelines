@@ -10,6 +10,31 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    [Arguments("help")]
+    [Arguments("command")]
+    [Arguments("options")]
+    public async Task Literal_Control_Names_Can_Match_Command_Paths(string command)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool {command} <target>", ["tool", command]);
+
+        await Assert.That(usage.CommandMatched).IsTrue();
+        await Assert.That(usage.MatchedCommandPartCount).IsEqualTo(2);
+        await Assert.That(usage.PositionalArguments.Single().PropertyName).IsEqualTo("Target");
+        await Assert.That(usage.PositionalArguments.Single().IsRequired).IsTrue();
+    }
+
+    [Test]
+    [Arguments("[command]")]
+    [Arguments("<help>")]
+    public async Task Wrapped_Control_Placeholders_Do_Not_Match_Command_Paths(string placeholder)
+    {
+        var command = placeholder[1..^1];
+        var usage = UsageSynopsisParser.Parse($"Usage: tool {placeholder} <target>", ["tool", command]);
+
+        await Assert.That(usage.CommandMatched).IsFalse();
+    }
+
+    [Test]
     public async Task Packed_And_Separate_Command_Path_Entries_Have_The_Same_Operands()
     {
         const string helpText = "Usage: tool group run <target> [value]";
