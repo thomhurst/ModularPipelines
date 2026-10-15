@@ -20,6 +20,7 @@ namespace ModularPipelines.DotNet.Services;
 public class DotNetWorkload : IDotNetWorkload
 {
     private readonly ICommandContext _command;
+    private DotNetWorkloadSearch? _search;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DotNetWorkload"/> class.
@@ -28,6 +29,15 @@ public class DotNetWorkload : IDotNetWorkload
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// dotnet search sub-commands.
+    /// </summary>
+    public DotNetWorkloadSearch Search => _search ??= new DotNetWorkloadSearch(_command);
+
+    #endregion
 
     #region Commands
 
@@ -149,21 +159,6 @@ public class DotNetWorkload : IDotNetWorkload
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadRestoreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Search for available workloads.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SearchAsync(
-        DotNetWorkloadSearchOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadSearchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

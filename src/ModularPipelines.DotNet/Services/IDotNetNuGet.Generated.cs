@@ -24,45 +24,44 @@ public interface IDotNetNuGet
     /// <summary>
     /// dotnet add sub-commands.
     /// </summary>
-    DotNetNuGetAdd Add => throw new System.NotSupportedException();
+    DotNetNuGetAdd Add { get; }
 
     /// <summary>
     /// dotnet config sub-commands.
     /// </summary>
-    DotNetNuGetConfig Config => throw new System.NotSupportedException();
+    DotNetNuGetConfig Config { get; }
 
     /// <summary>
     /// dotnet disable sub-commands.
     /// </summary>
-    DotNetNuGetDisable Disable => throw new System.NotSupportedException();
+    DotNetNuGetDisable Disable { get; }
 
     /// <summary>
     /// dotnet enable sub-commands.
     /// </summary>
-    DotNetNuGetEnable Enable => throw new System.NotSupportedException();
+    DotNetNuGetEnable Enable { get; }
 
     /// <summary>
     /// dotnet list sub-commands.
     /// </summary>
-    DotNetNuGetList List => throw new System.NotSupportedException();
+    DotNetNuGetList List { get; }
 
     /// <summary>
     /// dotnet remove sub-commands.
     /// </summary>
-    DotNetNuGetRemove Remove => throw new System.NotSupportedException();
+    DotNetNuGetRemove Remove { get; }
 
     /// <summary>
     /// dotnet trust sub-commands.
     /// </summary>
-    DotNetNuGetTrust Trust => throw new System.NotSupportedException();
+    DotNetNuGetTrust Trust { get; }
 
     /// <summary>
     /// dotnet update sub-commands.
     /// </summary>
-    DotNetNuGetUpdate Update => throw new System.NotSupportedException();
+    DotNetNuGetUpdate Update { get; }
 
-    public Task<CommandResult> ExecuteAsync(DotNetNuGetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(DotNetNuGetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a package from the server.
@@ -71,8 +70,7 @@ public interface IDotNetNuGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(DotNetNuGetDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(DotNetNuGetDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Clears or lists local NuGet resources such as http requests cache, packages folder, plugin operations cache  or machine-wide global packages folder.
@@ -81,8 +79,7 @@ public interface IDotNetNuGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LocalsAsync(DotNetNuGetLocalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LocalsAsync(DotNetNuGetLocalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Pushes a package to the server and publishes it.
@@ -91,8 +88,7 @@ public interface IDotNetNuGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PushAsync(DotNetNuGetPushOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PushAsync(DotNetNuGetPushOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Signs NuGet package(s) at &lt;package-paths&gt; with the specified certificate.
@@ -101,8 +97,7 @@ public interface IDotNetNuGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SignAsync(DotNetNuGetSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SignAsync(DotNetNuGetSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Verifies a signed NuGet package.
@@ -111,8 +106,7 @@ public interface IDotNetNuGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyAsync(DotNetNuGetVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyAsync(DotNetNuGetVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shows the dependency graph for a particular package for a given project or solution.
@@ -121,7 +115,6 @@ public interface IDotNetNuGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WhyAsync(DotNetNuGetWhyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> WhyAsync(DotNetNuGetWhyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

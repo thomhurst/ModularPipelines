@@ -67,6 +67,12 @@ public record DotNetNewInstallOptions : DotNetOptions
     public bool? Force { get; set; }
 
     /// <summary>
+    /// Allows prerelease template packages to be installed when no version is specified. [default: False]
+    /// </summary>
+    [CliFlag("--prerelease")]
+    public bool? Prerelease { get; set; }
+
+    /// <summary>
     /// Sets the verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], and diag[nostic]. [default: normal]
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]

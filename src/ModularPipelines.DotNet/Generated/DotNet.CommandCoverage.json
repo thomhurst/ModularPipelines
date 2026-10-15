@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "dotnet",
-  "toolVersion": "10.0.401",
-  "commandCount": 97,
-  "commandTreeSha256": "5a6ae5c35827884fff645cc37ecfe24e941dde2425778fae8feb055e1a0e1155",
+  "toolVersion": "11.0.100-rc.1.26425.128",
+  "commandCount": 98,
+  "commandTreeSha256": "eed537b73d9d73bb7a6de99960f507f14cdb627e7e78c64ef4318fd828a9147e",
   "commands": [
     "dotnet build",
     "dotnet build-server",
@@ -100,6 +100,7 @@
     "dotnet workload repair",
     "dotnet workload restore",
     "dotnet workload search",
+    "dotnet workload search version",
     "dotnet workload uninstall",
     "dotnet workload update"
   ],
@@ -121,7 +122,8 @@
     "dotnet sdk",
     "dotnet solution",
     "dotnet tool",
-    "dotnet workload"
+    "dotnet workload",
+    "dotnet workload search"
   ],
   "exclusions": []
 }
