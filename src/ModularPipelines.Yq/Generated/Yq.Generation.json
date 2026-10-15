@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "yq",
   "toolVersion": "yq (https://github.com/mikefarah/yq/) version v4.54.1",
   "commandTreeSha256": "328b5b077fb40b3d69b15529bbcc453b6d65385140018db3cd2467f0e69454ee",
-  "generatorSourceSha256": "b3a1da8fbbfa1143e100c81017831aaa7e11744215b1f41f18c0f90bd2cbbeb6"
+  "generatorSourceSha256": "a9173f7243e365e427b7d8db7994f67535e4651e3cf59bb6e5418926ce3f24aa"
 }
