@@ -24,17 +24,17 @@ public interface IFluxGet
     /// <summary>
     /// flux artifacts sub-commands.
     /// </summary>
-    FluxGetArtifacts Artifacts => throw new System.NotSupportedException();
+    FluxGetArtifacts Artifacts { get; }
 
     /// <summary>
     /// flux images sub-commands.
     /// </summary>
-    FluxGetImages Images => throw new System.NotSupportedException();
+    FluxGetImages Images { get; }
 
     /// <summary>
     /// flux sources sub-commands.
     /// </summary>
-    FluxGetSources Sources => throw new System.NotSupportedException();
+    FluxGetSources Sources { get; }
 
     /// <summary>
     /// The get sub-commands print the statuses of Flux resources.
@@ -43,8 +43,7 @@ public interface IFluxGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(FluxGetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(FluxGetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The get alert-provider command prints the statuses of the resources.
@@ -53,8 +52,7 @@ public interface IFluxGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlertProvidersAsync(FluxGetAlertProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlertProvidersAsync(FluxGetAlertProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The get alert command prints the statuses of the resources.
@@ -63,8 +61,7 @@ public interface IFluxGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlertsAsync(FluxGetAlertsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlertsAsync(FluxGetAlertsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The get all command print the statuses of all resources.
@@ -73,8 +70,7 @@ public interface IFluxGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AllAsync(FluxGetAllOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AllAsync(FluxGetAllOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The get helmreleases command prints the statuses of the resources.
@@ -83,8 +79,7 @@ public interface IFluxGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HelmreleasesAsync(FluxGetHelmreleasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HelmreleasesAsync(FluxGetHelmreleasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The get kustomizations command prints the statuses of the resources.
@@ -93,8 +88,7 @@ public interface IFluxGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> KustomizationsAsync(FluxGetKustomizationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> KustomizationsAsync(FluxGetKustomizationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The get receiver command prints the statuses of the resources.
@@ -103,7 +97,6 @@ public interface IFluxGet
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReceiversAsync(FluxGetReceiversOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReceiversAsync(FluxGetReceiversOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

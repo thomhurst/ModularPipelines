@@ -24,17 +24,17 @@ public interface IFluxCreate
     /// <summary>
     /// flux image sub-commands.
     /// </summary>
-    FluxCreateImage Image => throw new System.NotSupportedException();
+    FluxCreateImage Image { get; }
 
     /// <summary>
     /// flux secret sub-commands.
     /// </summary>
-    FluxCreateSecret Secret => throw new System.NotSupportedException();
+    FluxCreateSecret Secret { get; }
 
     /// <summary>
     /// flux source sub-commands.
     /// </summary>
-    FluxCreateSource Source => throw new System.NotSupportedException();
+    FluxCreateSource Source { get; }
 
     /// <summary>
     /// The create sub-commands generate sources and resources.
@@ -43,8 +43,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(FluxCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(FluxCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create alert command generates a Alert resource.
@@ -53,8 +52,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlertAsync(FluxCreateAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlertAsync(FluxCreateAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create alert-provider command generates a Provider resource.
@@ -63,8 +61,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlertProviderAsync(FluxCreateAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlertProviderAsync(FluxCreateAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The helmrelease create command generates a HelmRelease resource for a given HelmRepository source.
@@ -73,8 +70,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HelmreleaseAsync(FluxCreateHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HelmreleaseAsync(FluxCreateHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create command generates a Kustomization resource for a given source.
@@ -83,8 +79,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> KustomizationAsync(FluxCreateKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> KustomizationAsync(FluxCreateKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create receiver command generates a Receiver resource.
@@ -93,8 +88,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReceiverAsync(FluxCreateReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReceiverAsync(FluxCreateReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create tenant command generates namespaces, service accounts and role bindings to limit the
@@ -103,7 +97,6 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TenantAsync(FluxCreateTenantOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TenantAsync(FluxCreateTenantOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

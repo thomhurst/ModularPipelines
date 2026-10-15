@@ -23,92 +23,92 @@ public partial interface IFlux
     /// <summary>
     /// Gets the bootstrap sub-domain service.
     /// </summary>
-    IFluxBootstrap Bootstrap => throw new System.NotSupportedException();
+    IFluxBootstrap Bootstrap { get; }
 
     /// <summary>
     /// Gets the build sub-domain service.
     /// </summary>
-    IFluxBuild Build => throw new System.NotSupportedException();
+    IFluxBuild Build { get; }
 
     /// <summary>
     /// Gets the create sub-domain service.
     /// </summary>
-    IFluxCreate Create => throw new System.NotSupportedException();
+    IFluxCreate Create { get; }
 
     /// <summary>
     /// Gets the debug sub-domain service.
     /// </summary>
-    IFluxDebug Debug => throw new System.NotSupportedException();
+    IFluxDebug Debug { get; }
 
     /// <summary>
     /// Gets the delete sub-domain service.
     /// </summary>
-    IFluxDelete Delete => throw new System.NotSupportedException();
+    IFluxDelete Delete { get; }
 
     /// <summary>
     /// Gets the diff sub-domain service.
     /// </summary>
-    IFluxDiff Diff => throw new System.NotSupportedException();
+    IFluxDiff Diff { get; }
 
     /// <summary>
     /// Gets the export sub-domain service.
     /// </summary>
-    IFluxExport Export => throw new System.NotSupportedException();
+    IFluxExport Export { get; }
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    IFluxGet Get => throw new System.NotSupportedException();
+    IFluxGet Get { get; }
 
     /// <summary>
     /// Gets the list sub-domain service.
     /// </summary>
-    IFluxList List => throw new System.NotSupportedException();
+    IFluxList List { get; }
 
     /// <summary>
     /// Gets the plugin sub-domain service.
     /// </summary>
-    IFluxPlugin Plugin => throw new System.NotSupportedException();
+    IFluxPlugin Plugin { get; }
 
     /// <summary>
     /// Gets the pull sub-domain service.
     /// </summary>
-    IFluxPull Pull => throw new System.NotSupportedException();
+    IFluxPull Pull { get; }
 
     /// <summary>
     /// Gets the push sub-domain service.
     /// </summary>
-    IFluxPush Push => throw new System.NotSupportedException();
+    IFluxPush Push { get; }
 
     /// <summary>
     /// Gets the reconcile sub-domain service.
     /// </summary>
-    IFluxReconcile Reconcile => throw new System.NotSupportedException();
+    IFluxReconcile Reconcile { get; }
 
     /// <summary>
     /// Gets the resume sub-domain service.
     /// </summary>
-    IFluxResume Resume => throw new System.NotSupportedException();
+    IFluxResume Resume { get; }
 
     /// <summary>
     /// Gets the suspend sub-domain service.
     /// </summary>
-    IFluxSuspend Suspend => throw new System.NotSupportedException();
+    IFluxSuspend Suspend { get; }
 
     /// <summary>
     /// Gets the tag sub-domain service.
     /// </summary>
-    IFluxTag Tag => throw new System.NotSupportedException();
+    IFluxTag Tag { get; }
 
     /// <summary>
     /// Gets the tree sub-domain service.
     /// </summary>
-    IFluxTree Tree => throw new System.NotSupportedException();
+    IFluxTree Tree { get; }
 
     /// <summary>
     /// Gets the trigger sub-domain service.
     /// </summary>
-    IFluxTrigger Trigger => throw new System.NotSupportedException();
+    IFluxTrigger Trigger { get; }
 
     #endregion
 
@@ -121,8 +121,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckAsync(FluxCheckOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckAsync(FluxCheckOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The envsubst command substitutes the values of environment variables
@@ -131,8 +130,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnvsubstAsync(FluxEnvsubstOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnvsubstAsync(FluxEnvsubstOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The events sub-command shows Kubernetes events from Flux resources
@@ -141,8 +139,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EventsAsync(FluxEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EventsAsync(FluxEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The install command deploys Flux in the specified namespace.
@@ -151,8 +148,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InstallAsync(FluxInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InstallAsync(FluxInstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The logs command displays formatted logs from various Flux components.
@@ -161,8 +157,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LogsAsync(FluxLogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LogsAsync(FluxLogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The migrate command must be run before a Flux minor version upgrade.
@@ -171,8 +166,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MigrateAsync(FluxMigrateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MigrateAsync(FluxMigrateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The stats command prints a report of Flux custom resources present on a cluster,
@@ -181,8 +175,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StatsAsync(FluxStatsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StatsAsync(FluxStatsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The trace command shows how one or more objects are managed by Flux,
@@ -191,8 +184,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TraceAsync(FluxTraceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TraceAsync(FluxTraceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The uninstall command removes the Flux components and the toolkit.fluxcd.io resources from the cluster.
@@ -201,8 +193,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UninstallAsync(FluxUninstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UninstallAsync(FluxUninstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Print the client and server-side components version information for the current context.
@@ -211,8 +202,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(FluxVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(FluxVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

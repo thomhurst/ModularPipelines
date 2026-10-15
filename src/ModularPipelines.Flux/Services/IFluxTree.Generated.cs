@@ -24,7 +24,7 @@ public interface IFluxTree
     /// <summary>
     /// flux artifact sub-commands.
     /// </summary>
-    FluxTreeArtifact Artifact => throw new System.NotSupportedException();
+    FluxTreeArtifact Artifact { get; }
 
     /// <summary>
     /// The tree command shows the list of resources reconciled by a Flux object.
@@ -33,8 +33,7 @@ public interface IFluxTree
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(FluxTreeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(FluxTreeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The tree command prints the resource list reconciled by a Kustomization.'
@@ -43,7 +42,6 @@ public interface IFluxTree
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> KustomizationAsync(FluxTreeKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> KustomizationAsync(FluxTreeKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

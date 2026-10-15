@@ -24,12 +24,12 @@ public interface IFluxReconcile
     /// <summary>
     /// flux image sub-commands.
     /// </summary>
-    FluxReconcileImage Image => throw new System.NotSupportedException();
+    FluxReconcileImage Image { get; }
 
     /// <summary>
     /// flux source sub-commands.
     /// </summary>
-    FluxReconcileSource Source => throw new System.NotSupportedException();
+    FluxReconcileSource Source { get; }
 
     /// <summary>
     /// The reconcile sub-commands trigger a reconciliation of sources and resources.
@@ -38,8 +38,7 @@ public interface IFluxReconcile
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(FluxReconcileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(FluxReconcileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The reconcile helmrelease command triggers a reconciliation of a HelmRelease resource and waits for it to finish.
@@ -48,8 +47,7 @@ public interface IFluxReconcile
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HelmreleaseAsync(FluxReconcileHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HelmreleaseAsync(FluxReconcileHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The reconcile kustomization command triggers a reconciliation of a Kustomization resource and waits for it to finish.
@@ -58,8 +56,7 @@ public interface IFluxReconcile
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> KustomizationAsync(FluxReconcileKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> KustomizationAsync(FluxReconcileKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The reconcile receiver command triggers a reconciliation of a Receiver resource and waits for it to finish.
@@ -68,7 +65,6 @@ public interface IFluxReconcile
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReceiverAsync(FluxReconcileReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReceiverAsync(FluxReconcileReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
