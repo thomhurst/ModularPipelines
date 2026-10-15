@@ -1,4 +1,9 @@
+using System.Reflection;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
+using ModularPipelines.Generated;
+using ModularPipelines.Helpers.Internal;
+using ModularPipelines.OptionsGenerator.Tests.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -12,6 +17,58 @@ public class BrewCliScraperTests
         + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-q\t--quiet\tMake output quieter.\n"
         + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-v\t--verbose\tMake output more verbose.\n"
         + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-h\t--help\tShow this message.\n";
+    private static readonly string[] ForwardedArgs = ["printf", "--", "two words", "--debug"];
+
+    [Test]
+    [Arguments("as-brew-user", false)]
+    [Arguments("as-brew-user", true)]
+    [Arguments("as-console-user", false)]
+    [Arguments("as-console-user", true)]
+    public async Task User_Wrappers_Render_Global_Flags_Before_Forwarded_Command(string name, bool includeArgs)
+    {
+        var scraper = new TestBrewCliScraper(new GlobalMetadataExecutor(false));
+        await foreach (var scrapedCommand in scraper.ScrapeAsync())
+        {
+            _ = scrapedCommand;
+        }
+
+        var command = (await scraper.Parse(["brew", name], $"Usage: brew {name} <command> [<args> ...]"))!;
+        var tool = scraper.CreateToolDefinition() with { Commands = [command] };
+        var files = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool))
+            .Concat(await new OptionsClassGenerator().GenerateAsync(tool));
+        var assembly = PackageManagerGlobalRenderingTests.Compile(files.Select(file => file.Content));
+        var type = assembly.GetType($"{tool.TargetNamespace}.Options.{command.ClassName}")!;
+        var instance = Activator.CreateInstance(type, "exec")!;
+        type.GetProperty("Debug")!.SetValue(instance, true);
+        type.GetProperty("Quiet")!.SetValue(instance, true);
+        type.GetProperty("Verbose")!.SetValue(instance, true);
+        if (includeArgs)
+        {
+            type.GetProperty("Args")!.SetValue(instance, ForwardedArgs);
+        }
+
+        var parts = type.GetProperties().Select(property =>
+            property.GetCustomAttribute<CliArgumentAttribute>() is { } argument
+                ? (PropertyCommandLinePart) new ArgumentPart(property.Name, property.GetValue, argument) { HasExplicitPosition = true }
+                : new FlagPart(property.Name, property.GetValue, property.GetCustomAttribute<CliFlagAttribute>()!)).ToArray();
+        string[] expected = includeArgs
+            ? ["--debug", "--quiet", "--verbose", "exec", "printf", "--", "two words", "--debug"]
+            : ["--debug", "--quiet", "--verbose", "exec"];
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["Command", "Args"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+            await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(command.PositionalArguments[1].IsRequired).IsFalse();
+            await Assert.That(command.PositionalArguments[1].IsVariadic).IsTrue();
+            await Assert.That(new CommandArgumentBuilder().BuildArguments(parts, instance))
+                .IsEquivalentTo(expected, TUnit.Assertions.Enums.CollectionOrdering.Matching);
+            var exception = await Assert.That(() => Activator.CreateInstance(type, [null]))
+                .Throws<TargetInvocationException>();
+            await Assert.That(exception!.InnerException).IsTypeOf<ArgumentNullException>();
+        }
+    }
 
     [Test]
     [Arguments(false)]
