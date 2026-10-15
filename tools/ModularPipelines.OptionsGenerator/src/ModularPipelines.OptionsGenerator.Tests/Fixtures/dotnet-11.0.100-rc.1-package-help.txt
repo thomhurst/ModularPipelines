@@ -1,0 +1,16 @@
+Description:
+
+Usage:
+  dotnet package [command] [options]
+
+Options:
+  -?, -h, --help  Show command line help.
+
+Commands:
+  search <SearchTerm>                                                                                                                                                                                                                                                        Searches one or more package sources for packages that match a search term. If no sources are specified, all sources defined in the NuGet.Config are used.
+  add <coverlet.collector|microsoft.win32.systemevents|mstest.testadapter|mstest.testframework|newtonsoft.json|system.drawing.common|system.reflection.emit|system.reflection.metadata|system.security.accesscontrol|system.security.permissions|system.windows.extensions>  Add a NuGet package reference to the project.
+  list                                                                                                                                                                                                                                                                       List all package references of the project or solution.
+  remove <PACKAGE_NAME>                                                                                                                                                                                                                                                      Remove a NuGet package reference from the project.
+  update <packages>                                                                                                                                                                                                                                                          Update referenced packages in a project or solution.
+  download <packages>                                                                                                                                                                                                                                                        Downloads a NuGet package to a local folder without requiring a project file.
+
