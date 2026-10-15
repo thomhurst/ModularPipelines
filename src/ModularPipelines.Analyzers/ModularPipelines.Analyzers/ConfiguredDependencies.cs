@@ -18,10 +18,7 @@ internal static class ConfiguredDependencies
 
         var name = (invocation.Expression as MemberAccessExpressionSyntax)?.Name.Identifier.ValueText;
         if (name is not ("DependsOn" or "DependsOnOptional" or "DependsOnIf")
-            || invocation.FirstAncestorOrSelf<MethodDeclarationSyntax>() is not { } declaration
-            || !IsInMethodBody(invocation, declaration)
-            || semanticModel.GetDeclaredSymbol(declaration, cancellationToken) is not IMethodSymbol method
-            || !IsConfigure(method, semanticModel.Compilation)
+            || !TryGetConfigureMethod(invocation, semanticModel, cancellationToken, out var method)
             || semanticModel.GetOperation(invocation, cancellationToken) is not IInvocationOperation operation
             || !IsBuilderMethod(operation.TargetMethod, semanticModel.Compilation)
             || !UsesBuilderParameter(operation.Instance, method.Parameters[0], semanticModel.Compilation))
@@ -29,17 +26,7 @@ internal static class ConfiguredDependencies
             return false;
         }
 
-        ITypeSymbol? dependency = null;
-        if (operation.TargetMethod.IsGenericMethod)
-        {
-            dependency = operation.TargetMethod.TypeArguments[0];
-        }
-        else if (operation.Arguments.FirstOrDefault(argument => argument.Parameter?.Name == "moduleType")?.Value is ITypeOfOperation typeOf)
-        {
-            dependency = typeOf.TypeOperand;
-        }
-
-        if (dependency is not INamedTypeSymbol namedType)
+        if (GetDependencyType(operation) is not INamedTypeSymbol namedType)
         {
             return false;
         }
@@ -47,6 +34,40 @@ internal static class ConfiguredDependencies
         configureMethod = method;
         dependencyType = namedType;
         return true;
+    }
+
+    private static bool TryGetConfigureMethod(
+        InvocationExpressionSyntax invocation,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken,
+        out IMethodSymbol configureMethod)
+    {
+        configureMethod = null!;
+        if (invocation.FirstAncestorOrSelf<MethodDeclarationSyntax>() is not { } declaration
+            || !IsInMethodBody(invocation, declaration)
+            || semanticModel.GetDeclaredSymbol(declaration, cancellationToken) is not IMethodSymbol method
+            || !IsConfigure(method, semanticModel.Compilation))
+        {
+            return false;
+        }
+
+        configureMethod = method;
+        return true;
+    }
+
+    private static ITypeSymbol? GetDependencyType(IInvocationOperation operation)
+    {
+        if (operation.TargetMethod.IsGenericMethod)
+        {
+            return operation.TargetMethod.TypeArguments[0];
+        }
+
+        if (operation.Arguments.FirstOrDefault(argument => argument.Parameter?.Name == "moduleType")?.Value is ITypeOfOperation typeOf)
+        {
+            return typeOf.TypeOperand;
+        }
+
+        return null;
     }
 
     internal static IEnumerable<INamedTypeSymbol> GetDependencies(
