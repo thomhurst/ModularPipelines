@@ -5,7 +5,7 @@ namespace ModularPipelines.Helpers.Internal;
 /// <summary>
 /// Receives one output stream of a command: captures the raw text and passes each complete line to a logger.
 /// Lines end at <c>\n</c>, <c>\r</c> or <c>\r\n</c>, as <see cref="TextReader.ReadLine"/> splits them.
-/// Logged lines retain at most 65,536 characters, followed by a truncation marker when longer.
+/// Logged lines retain at most 65,536 characters. Longer lines are replaced with a truncation marker.
 /// </summary>
 internal sealed class CommandOutputTarget(
     BoundedCommandOutputBuffer buffer,
@@ -76,8 +76,9 @@ internal sealed class CommandOutputTarget(
 
     private void FlushLine(bool truncated = false)
     {
-        var line = _line.ToString();
+        // A retained prefix could expose part of a secret that crosses the cutoff.
+        var line = truncated ? "[line truncated]" : _line.ToString();
         _line.Clear();
-        logLine!(truncated ? line + " ... [line truncated]" : line);
+        logLine!(line);
     }
 }

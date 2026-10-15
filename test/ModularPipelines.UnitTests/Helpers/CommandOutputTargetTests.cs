@@ -67,7 +67,7 @@ public class CommandOutputTargetTests
         target.Append((output + terminator).AsSpan());
         target.Complete();
 
-        var expected = length > 65536 ? output[..65536] + " ... [line truncated]" : output;
+        var expected = length > 65536 ? "[line truncated]" : output;
         await Assert.That(lines).IsEquivalentTo([expected]);
         await Assert.That(buffer.ToString()).IsEqualTo(output + terminator);
         await Assert.That(completeBuffer.ToString()).IsEqualTo(output + terminator);
@@ -88,7 +88,7 @@ public class CommandOutputTargetTests
 
         await Assert.That(lines).IsEmpty();
         target.Append("overflow".AsSpan());
-        var expectedLine = new string('x', 65536) + " ... [line truncated]";
+        var expectedLine = "[line truncated]";
         await Assert.That(lines).IsEquivalentTo([expectedLine]);
 
         for (var i = 0; i < 1024; i++)
@@ -117,9 +117,36 @@ public class CommandOutputTargetTests
         target.Append(nextChunk.AsSpan());
         target.Complete();
 
-        var truncatedLine = new string('x', 65536) + " ... [line truncated]";
+        var truncatedLine = "[line truncated]";
         await Assert.That(lines).IsEquivalentTo([truncatedLine, "", "next", truncatedLine]);
         await Assert.That(buffer.ToString()).IsEqualTo(longLine + terminator + nextChunk);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Does_Not_Log_Partial_Secret_At_Truncation_Boundary(bool splitAcrossChunks)
+    {
+        var (target, buffer, lines) = CreateTarget();
+        const string secret = "sensitive-token-value";
+        var padding = new string('x', 65536 - 8);
+        var output = padding + secret;
+
+        if (splitAcrossChunks)
+        {
+            target.Append(output.AsSpan(0, 65536));
+            target.Append(output.AsSpan(65536));
+        }
+        else
+        {
+            target.Append(output.AsSpan());
+        }
+
+        target.Append("\nnext".AsSpan());
+        target.Complete();
+
+        await Assert.That(lines).IsEquivalentTo(["[line truncated]", "next"]);
+        await Assert.That(buffer.ToString()).IsEqualTo(output + "\nnext");
     }
 
     private static (CommandOutputTarget Target, BoundedCommandOutputBuffer Buffer, List<string> Lines) CreateTarget()
