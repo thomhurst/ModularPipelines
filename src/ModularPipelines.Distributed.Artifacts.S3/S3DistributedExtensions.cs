@@ -28,18 +28,42 @@ public static class S3DistributedExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configures the S3-compatible service.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddS3ModuleCache(
+        this PipelineBuilder builder,
+        Func<S3StorageOptions, S3StorageOptions> configure) =>
+        builder.AddS3ModuleCache(configure, null);
+
+    /// <summary>
+    /// Enables a shareable S3-backed module cache without enabling distributed execution.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="configure">Configures the S3-compatible service.</param>
     /// <param name="configureCache">Optionally transforms the immutable <see cref="ModuleCacheOptions"/>.</param>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddS3ModuleCache(
         this PipelineBuilder builder,
         Func<S3StorageOptions, S3StorageOptions> configure,
-        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
         TransformOptionsFactory<S3StorageOptions>.Configure(builder.Services, configure, ModuleCacheOptionsName);
         return AddS3ModuleCacheServices(builder, configureCache);
     }
+
+    /// <summary>
+    /// Enables a shareable S3-backed module cache from configuration without enabling distributed execution.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="section">The configuration section bound to <see cref="S3StorageOptions"/>.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    [RequiresUnreferencedCode("Configuration binding requires members of S3StorageOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
+    public static PipelineBuilder AddS3ModuleCache(
+        this PipelineBuilder builder,
+        IConfigurationSection section) =>
+        builder.AddS3ModuleCache(section, null);
 
     /// <summary>
     /// Enables a shareable S3-backed module cache from configuration without enabling distributed execution.
@@ -53,7 +77,7 @@ public static class S3DistributedExtensions
     public static PipelineBuilder AddS3ModuleCache(
         this PipelineBuilder builder,
         IConfigurationSection section,
-        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(section);
