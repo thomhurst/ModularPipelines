@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "git",
   "toolVersion": "git version 2.55.0",
   "commandTreeSha256": "b3dd2c42e4d7200c3fcaa16a5cdee8b9e4c2bf690bcf4f91e4169c6d6dfe983f",
-  "generatorSourceSha256": "afccdffa78c2fffb68d3b082c27643e8ad9968078785b7b94d14c7237cfbae48"
+  "generatorSourceSha256": "67d63ab5504275cb9b438ae63c760815d5927f7c1ab48d783250f8570b5a5fd8"
 }
