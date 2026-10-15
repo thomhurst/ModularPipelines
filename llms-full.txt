@@ -50495,69 +50495,110 @@ Global options are rendered after the selected subcommand.
 
 ## Commands[​](#commands "Direct link to Commands")
 
-| CLI command                       | Options record                          |
-| --------------------------------- | --------------------------------------- |
-| `kubectl annotate`                | `KubernetesAnnotateOptions`             |
-| `kubectl apply`                   | `KubernetesApplyOptions`                |
-| `kubectl apply edit-last-applied` | `KubernetesApplyEditLastAppliedOptions` |
-| `kubectl apply set-last-applied`  | `KubernetesApplySetLastAppliedOptions`  |
-| `kubectl apply view-last-applied` | `KubernetesApplyViewLastAppliedOptions` |
-| `kubectl attach`                  | `KubernetesAttachOptions`               |
-| `kubectl auth`                    | `KubernetesAuthOptions`                 |
-| `kubectl auth can-i`              | `KubernetesAuthCanIOptions`             |
-| `kubectl auth reconcile`          | `KubernetesAuthReconcileOptions`        |
-| `kubectl auth whoami`             | `KubernetesAuthWhoamiOptions`           |
-| `kubectl autoscale`               | `KubernetesAutoscaleOptions`            |
-| `kubectl certificate`             | `KubernetesCertificateOptions`          |
-| `kubectl certificate approve`     | `KubernetesCertificateApproveOptions`   |
-| `kubectl certificate deny`        | `KubernetesCertificateDenyOptions`      |
-| `kubectl cluster-info`            | `KubernetesClusterInfoOptions`          |
-| `kubectl cluster-info dump`       | `KubernetesClusterInfoDumpOptions`      |
-| `kubectl config`                  | `KubernetesConfigOptions`               |
-| `kubectl config delete-cluster`   | `KubernetesConfigDeleteClusterOptions`  |
-| `kubectl config delete-context`   | `KubernetesConfigDeleteContextOptions`  |
-| `kubectl config delete-user`      | `KubernetesConfigDeleteUserOptions`     |
-| `kubectl config get-contexts`     | `KubernetesConfigGetContextsOptions`    |
-| `kubectl config rename-context`   | `KubernetesConfigRenameContextOptions`  |
-| `kubectl config set`              | `KubernetesConfigSetOptions`            |
-| `kubectl config set-cluster`      | `KubernetesConfigSetClusterOptions`     |
-| `kubectl config set-context`      | `KubernetesConfigSetContextOptions`     |
-| `kubectl config set-credentials`  | `KubernetesConfigSetCredentialsOptions` |
-| `kubectl config unset`            | `KubernetesConfigUnsetOptions`          |
-| `kubectl config use-context`      | `KubernetesConfigUseContextOptions`     |
-| `kubectl config view`             | `KubernetesConfigViewOptions`           |
-| `kubectl cordon`                  | `KubernetesCordonOptions`               |
-| `kubectl cp`                      | `KubernetesCpOptions`                   |
-| `kubectl debug`                   | `KubernetesDebugOptions`                |
-| `kubectl describe`                | `KubernetesDescribeOptions`             |
-| `kubectl diff`                    | `KubernetesDiffOptions`                 |
-| `kubectl drain`                   | `KubernetesDrainOptions`                |
-| `kubectl events`                  | `KubernetesEventsOptions`               |
-| `kubectl exec`                    | `KubernetesExecOptions`                 |
-| `kubectl kuberc`                  | `KubernetesKubercOptions`               |
-| `kubectl kuberc set`              | `KubernetesKubercSetOptions`            |
-| `kubectl kuberc view`             | `KubernetesKubercViewOptions`           |
-| `kubectl label`                   | `KubernetesLabelOptions`                |
-| `kubectl logs`                    | `KubernetesLogsOptions`                 |
-| `kubectl patch`                   | `KubernetesPatchOptions`                |
-| `kubectl port-forward`            | `KubernetesPortForwardOptions`          |
-| `kubectl proxy`                   | `KubernetesProxyOptions`                |
-| `kubectl replace`                 | `KubernetesReplaceOptions`              |
-| `kubectl rollout`                 | `KubernetesRolloutOptions`              |
-| `kubectl rollout history`         | `KubernetesRolloutHistoryOptions`       |
-| `kubectl rollout pause`           | `KubernetesRolloutPauseOptions`         |
-| `kubectl rollout restart`         | `KubernetesRolloutRestartOptions`       |
-| `kubectl rollout resume`          | `KubernetesRolloutResumeOptions`        |
-| `kubectl rollout status`          | `KubernetesRolloutStatusOptions`        |
-| `kubectl rollout undo`            | `KubernetesRolloutUndoOptions`          |
-| `kubectl scale`                   | `KubernetesScaleOptions`                |
-| `kubectl taint`                   | `KubernetesTaintOptions`                |
-| `kubectl top`                     | `KubernetesTopOptions`                  |
-| `kubectl top node`                | `KubernetesTopNodeOptions`              |
-| `kubectl top pod`                 | `KubernetesTopPodOptions`               |
-| `kubectl uncordon`                | `KubernetesUncordonOptions`             |
-| `kubectl version`                 | `KubernetesVersionOptions`              |
-| `kubectl wait`                    | `KubernetesWaitOptions`                 |
+| CLI command                             | Options record                                |
+| --------------------------------------- | --------------------------------------------- |
+| `kubectl annotate`                      | `KubernetesAnnotateOptions`                   |
+| `kubectl apply`                         | `KubernetesApplyOptions`                      |
+| `kubectl apply edit-last-applied`       | `KubernetesApplyEditLastAppliedOptions`       |
+| `kubectl apply set-last-applied`        | `KubernetesApplySetLastAppliedOptions`        |
+| `kubectl apply view-last-applied`       | `KubernetesApplyViewLastAppliedOptions`       |
+| `kubectl attach`                        | `KubernetesAttachOptions`                     |
+| `kubectl auth`                          | `KubernetesAuthOptions`                       |
+| `kubectl auth can-i`                    | `KubernetesAuthCanIOptions`                   |
+| `kubectl auth reconcile`                | `KubernetesAuthReconcileOptions`              |
+| `kubectl auth whoami`                   | `KubernetesAuthWhoamiOptions`                 |
+| `kubectl autoscale`                     | `KubernetesAutoscaleOptions`                  |
+| `kubectl certificate`                   | `KubernetesCertificateOptions`                |
+| `kubectl certificate approve`           | `KubernetesCertificateApproveOptions`         |
+| `kubectl certificate deny`              | `KubernetesCertificateDenyOptions`            |
+| `kubectl cluster-info`                  | `KubernetesClusterInfoOptions`                |
+| `kubectl cluster-info dump`             | `KubernetesClusterInfoDumpOptions`            |
+| `kubectl config`                        | `KubernetesConfigOptions`                     |
+| `kubectl config current-context`        | `KubernetesConfigCurrentContextOptions`       |
+| `kubectl config delete-cluster`         | `KubernetesConfigDeleteClusterOptions`        |
+| `kubectl config delete-context`         | `KubernetesConfigDeleteContextOptions`        |
+| `kubectl config delete-user`            | `KubernetesConfigDeleteUserOptions`           |
+| `kubectl config get-clusters`           | `KubernetesConfigGetClustersOptions`          |
+| `kubectl config get-contexts`           | `KubernetesConfigGetContextsOptions`          |
+| `kubectl config get-users`              | `KubernetesConfigGetUsersOptions`             |
+| `kubectl config rename-context`         | `KubernetesConfigRenameContextOptions`        |
+| `kubectl config set`                    | `KubernetesConfigSetOptions`                  |
+| `kubectl config set-cluster`            | `KubernetesConfigSetClusterOptions`           |
+| `kubectl config set-context`            | `KubernetesConfigSetContextOptions`           |
+| `kubectl config set-credentials`        | `KubernetesConfigSetCredentialsOptions`       |
+| `kubectl config unset`                  | `KubernetesConfigUnsetOptions`                |
+| `kubectl config use-context`            | `KubernetesConfigUseContextOptions`           |
+| `kubectl config view`                   | `KubernetesConfigViewOptions`                 |
+| `kubectl cordon`                        | `KubernetesCordonOptions`                     |
+| `kubectl cp`                            | `KubernetesCpOptions`                         |
+| `kubectl create`                        | `KubernetesCreateOptions`                     |
+| `kubectl create clusterrole`            | `KubernetesCreateClusterroleOptions`          |
+| `kubectl create clusterrolebinding`     | `KubernetesCreateClusterrolebindingOptions`   |
+| `kubectl create configmap`              | `KubernetesCreateConfigmapOptions`            |
+| `kubectl create cronjob`                | `KubernetesCreateCronjobOptions`              |
+| `kubectl create deployment`             | `KubernetesCreateDeploymentOptions`           |
+| `kubectl create ingress`                | `KubernetesCreateIngressOptions`              |
+| `kubectl create job`                    | `KubernetesCreateJobOptions`                  |
+| `kubectl create namespace`              | `KubernetesCreateNamespaceOptions`            |
+| `kubectl create poddisruptionbudget`    | `KubernetesCreatePoddisruptionbudgetOptions`  |
+| `kubectl create priorityclass`          | `KubernetesCreatePriorityclassOptions`        |
+| `kubectl create quota`                  | `KubernetesCreateQuotaOptions`                |
+| `kubectl create role`                   | `KubernetesCreateRoleOptions`                 |
+| `kubectl create rolebinding`            | `KubernetesCreateRolebindingOptions`          |
+| `kubectl create secret`                 | `KubernetesCreateSecretOptions`               |
+| `kubectl create secret docker-registry` | `KubernetesCreateSecretDockerRegistryOptions` |
+| `kubectl create secret generic`         | `KubernetesCreateSecretGenericOptions`        |
+| `kubectl create secret tls`             | `KubernetesCreateSecretTlsOptions`            |
+| `kubectl create service`                | `KubernetesCreateServiceOptions`              |
+| `kubectl create service clusterip`      | `KubernetesCreateServiceClusteripOptions`     |
+| `kubectl create service externalname`   | `KubernetesCreateServiceExternalnameOptions`  |
+| `kubectl create service loadbalancer`   | `KubernetesCreateServiceLoadbalancerOptions`  |
+| `kubectl create service nodeport`       | `KubernetesCreateServiceNodeportOptions`      |
+| `kubectl create serviceaccount`         | `KubernetesCreateServiceaccountOptions`       |
+| `kubectl create token`                  | `KubernetesCreateTokenOptions`                |
+| `kubectl debug`                         | `KubernetesDebugOptions`                      |
+| `kubectl delete`                        | `KubernetesDeleteOptions`                     |
+| `kubectl describe`                      | `KubernetesDescribeOptions`                   |
+| `kubectl diff`                          | `KubernetesDiffOptions`                       |
+| `kubectl drain`                         | `KubernetesDrainOptions`                      |
+| `kubectl edit`                          | `KubernetesEditOptions`                       |
+| `kubectl events`                        | `KubernetesEventsOptions`                     |
+| `kubectl exec`                          | `KubernetesExecOptions`                       |
+| `kubectl explain`                       | `KubernetesExplainOptions`                    |
+| `kubectl expose`                        | `KubernetesExposeOptions`                     |
+| `kubectl get`                           | `KubernetesGetOptions`                        |
+| `kubectl kuberc`                        | `KubernetesKubercOptions`                     |
+| `kubectl kuberc set`                    | `KubernetesKubercSetOptions`                  |
+| `kubectl kuberc view`                   | `KubernetesKubercViewOptions`                 |
+| `kubectl label`                         | `KubernetesLabelOptions`                      |
+| `kubectl logs`                          | `KubernetesLogsOptions`                       |
+| `kubectl patch`                         | `KubernetesPatchOptions`                      |
+| `kubectl port-forward`                  | `KubernetesPortForwardOptions`                |
+| `kubectl proxy`                         | `KubernetesProxyOptions`                      |
+| `kubectl replace`                       | `KubernetesReplaceOptions`                    |
+| `kubectl rollout`                       | `KubernetesRolloutOptions`                    |
+| `kubectl rollout history`               | `KubernetesRolloutHistoryOptions`             |
+| `kubectl rollout pause`                 | `KubernetesRolloutPauseOptions`               |
+| `kubectl rollout restart`               | `KubernetesRolloutRestartOptions`             |
+| `kubectl rollout resume`                | `KubernetesRolloutResumeOptions`              |
+| `kubectl rollout status`                | `KubernetesRolloutStatusOptions`              |
+| `kubectl rollout undo`                  | `KubernetesRolloutUndoOptions`                |
+| `kubectl run`                           | `KubernetesRunOptions`                        |
+| `kubectl scale`                         | `KubernetesScaleOptions`                      |
+| `kubectl set`                           | `KubernetesSetOptions`                        |
+| `kubectl set env`                       | `KubernetesSetEnvOptions`                     |
+| `kubectl set image`                     | `KubernetesSetImageOptions`                   |
+| `kubectl set resources`                 | `KubernetesSetResourcesOptions`               |
+| `kubectl set selector`                  | `KubernetesSetSelectorOptions`                |
+| `kubectl set serviceaccount`            | `KubernetesSetServiceaccountOptions`          |
+| `kubectl set subject`                   | `KubernetesSetSubjectOptions`                 |
+| `kubectl taint`                         | `KubernetesTaintOptions`                      |
+| `kubectl top`                           | `KubernetesTopOptions`                        |
+| `kubectl top node`                      | `KubernetesTopNodeOptions`                    |
+| `kubectl top pod`                       | `KubernetesTopPodOptions`                     |
+| `kubectl uncordon`                      | `KubernetesUncordonOptions`                   |
+| `kubectl version`                       | `KubernetesVersionOptions`                    |
+| `kubectl wait`                          | `KubernetesWaitOptions`                       |
 
 
 ---
