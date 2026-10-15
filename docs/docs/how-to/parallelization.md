@@ -4,126 +4,130 @@ title: Parallelization
 
 # Parallelization Disabling
 
-As mentioned, modules will try to run in parallel by default, waiting on any dependencies if they need to.
+Modules run in parallel by default once their dependencies have completed, subject to the pipeline's concurrency limits.
 
-However, sometimes modules don't have any dependencies, but also it isn't a good idea trying to run them in parallel.
+Use `NotInParallel` when modules access a resource that cannot safely be shared. For example, application installers may need exclusive access to the machine.
 
-As example of this could be installing applications. Windows for instance, doesn't like you trying to install multiple applications at the same time.
-
-So if you want any modules to be run without parallelisation, there is the `NotInParallel` attribute.
-
-These modules will attempt to run first, before all other modules that can be run in parallel.
-If these have any dependencies, they will be triggered too.
+Without constraint keys, `[NotInParallel]` prevents a module from running alongside any other module. Its dependencies must still complete before it can run.
 
 ## Example
 
 ```csharp
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines;
+
 [NotInParallel]
-public class MyModule : Module<IDictionary<string, object>>
+public class MyModule : Module
 {
-    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // Do something
+        // Perform work that must not overlap with any other module.
+        return Task.CompletedTask;
     }
 }
 ```
 
-Not `NotInParallel` attribute can also take a `ConstraintKey` parameter.
-If this is set, then a module will not run in parallel with other modules containing the same constraint key.
-If another module has a different constraint key, these will still run in parallel.
+Pass constraint keys to the `NotInParallel` constructor to restrict exclusion to modules with a shared key.
+Modules with different keys can run in parallel, unless another constraint prevents it.
 
 ## Example
 
 ```csharp
-[NotInParallel(ConstraintKey = "Install")]
-public class InstallModule1 : Module<IDictionary<string, object>>
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines;
+
+[NotInParallel("Install")]
+public class InstallModule1 : Module
 {
-    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // Do something
+        // Install the first application here.
+        return Task.CompletedTask;
     }
 }
 
-[NotInParallel(ConstraintKey = "Install")]
-public class InstallModule2 : Module<IDictionary<string, object>>
+[NotInParallel("Install")]
+public class InstallModule2 : Module
 {
-    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // Do something
+        // Install the second application here.
+        return Task.CompletedTask;
     }
 }
 
-[NotInParallel(ConstraintKey = "Build")]
-public class BuildProjectModule : Module<IDictionary<string, object>>
+[NotInParallel("Build")]
+public class BuildProjectModule : Module
 {
-    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // Do something
+        // Build the project here.
+        return Task.CompletedTask;
     }
 }
 ```
 
-In the above example, `InstallModule1` and `InstallModule2` will not run at the same time. However, either of them could run at the same time as `BuildProjectModule`.
+`InstallModule1` and `InstallModule2` cannot run at the same time. Either can run alongside `BuildProjectModule`.
+You can also pass multiple keys, such as `[NotInParallel("Install", "Build")]`, to exclude modules sharing either key.
 
 # Parallel Limiter
 
-ModularPipelines allows the user to control the parallel limit on specific modules.
+Use `[ParallelLimiter<TParallelLimit>]` to cap the number of modules that can run at the same time with a shared limit type.
+The type must implement `IParallelLimit`, which declares `static abstract int Limit { get; }`.
+Implement it with a public static `int Limit` property that returns a positive limit. No instance or public parameterless constructor is required.
 
-To do this, we add a `[ParallelLimiter<>]` attribute.
-
-You'll notice this has a generic type argument - You must give it a type that implements `IParallelLimit` and has a public empty constructor. That interface requires you to define what the limit is for those modules.
-
-If a module doesn't have a parallel limit defined, it'll try and eagerly run when the .NET thread pool allows it to do so.
-
-If it does have a parallel limit defined, be aware that that parallel limit is shared for any modules with that same `Type` of parallel limit. 
-
-In the example below, `MyParallelLimit` has a limit of `2`. Now any module that has this parallel limit attribute applied to it, will only be processed 2 at a time. 
-
-Other modules without this attribute may run alongside them still. 
-
-And other modules with a different `Type` of parallel limit may also run alongside them still, but limited amongst themselves by their shared `Type` and limit.
-
-So be aware that limits are only shared among modules with that same `IParallelLimit` `Type`.
+The limit is shared by modules using the same limit type within a pipeline. Modules without this attribute and modules using a different limit type can run alongside them, subject to their own constraints and the pipeline's concurrency limits.
 
 ## Example
 
+This is a complete `Program.cs` for a .NET console application with a reference to `ModularPipelines`.
+It registers three modules that share `MyParallelLimit`, so at most two of them execute at once.
+Replace the delays with your module work.
+
 ```csharp
-using TUnit.Core;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines;
+using ModularPipelines.Attributes;
 
-namespace MyTestProject;
+var builder = Pipeline.CreateBuilder(args);
+builder.AddModule<InstallModule1>();
+builder.AddModule<InstallModule2>();
+builder.AddModule<BuildProjectModule>();
+
+await builder.RunAsync();
 
 [ParallelLimiter<MyParallelLimit>]
-public class InstallModule1 : Module<IDictionary<string, object>>
+public class InstallModule1 : Module
 {
-    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // Do something
+        return Task.Delay(1000, cancellationToken);
     }
 }
 
 [ParallelLimiter<MyParallelLimit>]
-public class InstallModule2 : Module<IDictionary<string, object>>
+public class InstallModule2 : Module
 {
-    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // Do something
+        return Task.Delay(1000, cancellationToken);
     }
 }
 
 [ParallelLimiter<MyParallelLimit>]
-public class BuildProjectModule : Module<IDictionary<string, object>>
+public class BuildProjectModule : Module
 {
-    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // Do something
+        return Task.Delay(1000, cancellationToken);
     }
 }
 
-public record MyParallelLimit : IParallelLimit
+public sealed class MyParallelLimit : IParallelLimit
 {
     public static int Limit => 2;
 }
 ```
-
-## Caveats
-If a test uses `[DependsOn(nameof(OtherTest))]` and the other test has its own different parallel limit, this isn't guaranteed to be honoured.
