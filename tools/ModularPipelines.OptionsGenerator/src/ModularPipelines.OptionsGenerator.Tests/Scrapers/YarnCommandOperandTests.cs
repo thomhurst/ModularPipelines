@@ -42,8 +42,8 @@ public class YarnCommandOperandTests
         var command = commands.Single();
         var expectedPhase = commandName == "workspace" ? CommandLinePhase.EarlyOperand : CommandLinePhase.Passthrough;
         await Assert.That(command.PositionalArguments.All(argument => argument.Phase == expectedPhase)).IsTrue();
-        await Assert.That(command.PositionalArguments.Last().IsRequired).IsTrue();
-        await Assert.That(command.PositionalArguments.Last().IsVariadic).IsTrue();
+        await Assert.That(command.PositionalArguments[^1].IsRequired).IsTrue();
+        await Assert.That(command.PositionalArguments[^1].IsVariadic).IsTrue();
 
         var tool = scraper.CreateToolDefinition() with { Commands = commands };
         var files = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool))
