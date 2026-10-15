@@ -14,6 +14,89 @@ public class InMemoryDistributedCoordinatorTests
         }));
 
     [Test]
+    public async Task Concurrent_Dequeue_Retries_Claim_Only_One_Module()
+    {
+        var coordinator = Create();
+        var claimId = Guid.NewGuid();
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        var first = coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, timeout.Token);
+        var retry = coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, timeout.Token);
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(new ModuleId("First")), CancellationToken.None);
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(new ModuleId("Second")), CancellationToken.None);
+
+        var leases = await Task.WhenAll(first, retry);
+
+        await Assert.That(leases[1]).IsSameReferenceAs(leases[0]);
+        await Assert.That(await coordinator.GetActiveLeasesAsync(CancellationToken.None)).HasSingleItem();
+    }
+
+    [Test]
+    public async Task Claim_Ids_Are_Scoped_To_Their_Worker()
+    {
+        var coordinator = Create();
+        var claimId = Guid.NewGuid();
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(new ModuleId("First")), CancellationToken.None);
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(new ModuleId("Second")), CancellationToken.None);
+        var first = await coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, CancellationToken.None);
+        var secondWorker = new WorkerId("other");
+        var second = await coordinator.DequeueModuleAsync(secondWorker, new HashSet<Capability>(), claimId, CancellationToken.None);
+
+        await Assert.That(second!.WorkerId).IsEqualTo(secondWorker);
+        await Assert.That(second.Assignment.ModuleId).IsNotEqualTo(first!.Assignment.ModuleId);
+    }
+
+    [Test]
+    public async Task Canceling_A_Pending_Claim_Does_Not_Poison_Its_Retry()
+    {
+        var coordinator = Create();
+        var claimId = Guid.NewGuid();
+        using var cancellation = new CancellationTokenSource();
+        var pending = coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, cancellation.Token);
+        await cancellation.CancelAsync();
+        await Assert.That(async () => await pending).Throws<OperationCanceledException>();
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(new ModuleId("Module")), CancellationToken.None);
+
+        var retry = await coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, CancellationToken.None);
+
+        await Assert.That(retry!.Assignment.ModuleId).IsEqualTo(new ModuleId("Module"));
+    }
+
+    [Test]
+    public async Task Publishing_A_Result_Clears_The_Claim()
+    {
+        var coordinator = Create();
+        var claimId = Guid.NewGuid();
+        var moduleId = new ModuleId("First");
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(moduleId), CancellationToken.None);
+        var first = await coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, CancellationToken.None);
+        await coordinator.PublishResultAsync(DistributedTestData.Result(moduleId), first, CancellationToken.None);
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(new ModuleId("Second")), CancellationToken.None);
+
+        var next = await coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, CancellationToken.None);
+
+        await Assert.That(next!.Assignment.ModuleId).IsEqualTo(new ModuleId("Second"));
+    }
+
+    [Test]
+    public async Task Expiring_A_Lease_Clears_The_Claim()
+    {
+        var clock = new FakeTimeProvider();
+        var coordinator = new InMemoryDistributedCoordinator(
+            MsOptions.Create(new DistributedOptions { WorkerTimeout = TimeSpan.FromSeconds(10) }), clock);
+        var claimId = Guid.NewGuid();
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(new ModuleId("Module")), CancellationToken.None);
+        var first = await coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, CancellationToken.None);
+        clock.Advance(TimeSpan.FromSeconds(11));
+        await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None);
+
+        var retry = await coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), claimId, CancellationToken.None);
+
+        await Assert.That(retry!.Assignment.ModuleId).IsEqualTo(first!.Assignment.ModuleId);
+        await Assert.That(retry.LeaseId).IsNotEqualTo(first.LeaseId);
+        await Assert.That(await coordinator.GetActiveLeasesAsync(CancellationToken.None)).HasSingleItem();
+    }
+
+    [Test]
     public Task Enqueue_And_Dequeue_RoundTrips() =>
         DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync(Create());
 
