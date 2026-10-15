@@ -263,6 +263,13 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             CreateNoWindow = true
         };
 
+        if (Path.GetFileNameWithoutExtension(executablePath).Equals("dotnet", StringComparison.OrdinalIgnoreCase))
+        {
+            // SDK 11's Native AOT CLI can lose SDK-relative tool paths and omit commands
+            // from help. Probe the managed CLI from the same selected SDK instead.
+            startInfo.Environment["DOTNET_CLI_ENABLEAOT"] = "false";
+        }
+
         if (!string.IsNullOrEmpty(workingDirectory))
         {
             startInfo.WorkingDirectory = workingDirectory;

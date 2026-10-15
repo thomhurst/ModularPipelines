@@ -12,6 +12,39 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class DotNetCliScraperTests
 {
     [Test]
+    [Arguments("dotnet")]
+    [Arguments("dotnet.exe")]
+    public async Task DotNet_Probes_Use_Managed_Cli_Without_Changing_Parent_Environment(string executableName)
+    {
+        var inheritedValue = Environment.GetEnvironmentVariable("DOTNET_CLI_ENABLEAOT");
+        var executable = Path.Combine(Path.GetTempPath(), "sdk with spaces", executableName);
+        var startInfo = ProcessCliCommandExecutor.CreateStartInfo(executable, "nuget --help");
+
+        await Assert.That(startInfo.Environment["DOTNET_CLI_ENABLEAOT"]).IsEqualTo("false");
+        await Assert.That(Environment.GetEnvironmentVariable("DOTNET_CLI_ENABLEAOT")).IsEqualTo(inheritedValue);
+        await Assert.That(startInfo.FileName).IsEqualTo(executable);
+        await Assert.That(startInfo.Arguments).IsEqualTo("nuget --help");
+    }
+
+    [Test]
+    public async Task Other_Cli_Probes_Preserve_Inherited_Aot_Setting()
+    {
+        var startInfo = ProcessCliCommandExecutor.CreateStartInfo("other-dotnet", "--help");
+        startInfo.Environment.TryGetValue("DOTNET_CLI_ENABLEAOT", out var value);
+        await Assert.That(value).IsEqualTo(Environment.GetEnvironmentVariable("DOTNET_CLI_ENABLEAOT"));
+    }
+
+    [Test]
+    [Arguments("package", "search,add,list,remove,update,download")]
+    [Arguments("format", "whitespace,style,analyzers")]
+    [Arguments("nuget", "config,why,delete,push,locals,verify,sign,trust,add,disable,enable,list,remove,update")]
+    public async Task Managed_Help_Discovers_Command_Families(string command, string expectedCommands)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", $"dotnet-11.0.100-rc.1-{command}-help.txt"));
+        await Assert.That(new TestDotNetCliScraper().Extract(help)).IsEquivalentTo(expectedCommands.Split(','));
+    }
+
+    [Test]
     public async Task Sdk_Root_Inherits_Only_Diagnostics()
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "dotnet-10.0.401-root-help.txt"));

@@ -1,0 +1,27 @@
+Description:
+
+Usage:
+  NuGet.CommandLine.XPlat [command] [options]
+
+Options:
+  --force-english-output  Forces the application to run using an invariant, English-based culture.
+  -?, -h, --help          Show help and usage information
+  --version               Show version information
+
+Commands:
+  nuget
+  config                                 NuGet configuration CLI
+  why <PROJECT|SOLUTION|FILE> <PACKAGE>  Shows the dependency graph for a particular package for a given project or solution.
+  delete <PackageId> <PackageVersion>    Deletes a package from the server.
+  push <package-paths>                   Pushes a package to the server and publishes it.
+  locals <Cache Location(s)>             Clears or lists local NuGet resources such as http requests cache, packages folder, plugin operations cache  or machine-wide global packages folder.
+  verify <package-paths>                 Verifies a signed NuGet package.
+  sign <package-paths>                   Signs NuGet package(s) at <package-paths> with the specified certificate.
+  trust                                  Manage the trusted signers.
+  add                                    Add a NuGet source.
+  disable                                Disable a NuGet source.
+  enable                                 Enable a NuGet source.
+  list                                   List configured NuGet sources.
+  remove                                 Remove a NuGet source.
+  update                                 Update a NuGet source.
+
