@@ -37,7 +37,7 @@ public interface IKubernetesKuberc
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetAsync(KubernetesKubercSetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetAsync(KubernetesKubercSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Display the contents of the kuberc file in the specified output format.

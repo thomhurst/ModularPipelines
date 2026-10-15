@@ -16,10 +16,13 @@ namespace ModularPipelines.Kubernetes.Options;
 /// <summary>
 /// Creates an autoscaler that automatically chooses and sets the number of pods that run in a Kubernetes cluster. The command will attempt to use the autoscaling/v2 API first, in case of an error, it will fall back to autoscaling/v1 API.
 /// </summary>
+/// <param name="Max">The upper limit for the number of pods that can be set by the autoscaler. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscale")]
-public record KubernetesAutoscaleOptions : KubernetesOptions
+public record KubernetesAutoscaleOptions(
+    [property: CliOption("--max", Format = OptionFormat.EqualsSeparated)] int Max
+) : KubernetesOptions
 {
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
@@ -56,12 +59,6 @@ public record KubernetesAutoscaleOptions : KubernetesOptions
     /// </summary>
     [CliOption("--kustomize", ShortForm = "-k", Format = OptionFormat.EqualsSeparated)]
     public string? Kustomize { get; set; }
-
-    /// <summary>
-    /// The upper limit for the number of pods that can be set by the autoscaler. Required.
-    /// </summary>
-    [CliOption("--max", Format = OptionFormat.EqualsSeparated)]
-    public int? Max { get; set; }
 
     /// <summary>
     /// Target memory utilization over all the pods. When specified  as a percentage (e.g."60%" for 60% of requested memory) it will target average utilization. When specified as quantity (e.g."200Mi" for 200 MiB, "1Gi" for 1 GiB) it will target average value. Value without units is treated as a quantity with mebibytes being the unit (e.g."200" is "200Mi").

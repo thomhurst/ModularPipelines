@@ -23,17 +23,22 @@ public record KubernetesAttachOptions : KubernetesOptions
     /// <summary>
     /// Attach to a process that is already running inside an existing container.
     /// </summary>
+    /// <param name="Container">Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen</param>
     /// <param name="Pod">The POD operand.</param>
     public KubernetesAttachOptions(
+        string Container,
         string Pod
     )
     {
+        global::System.ArgumentNullException.ThrowIfNull(Container);
+        this.Container = Container;
         global::System.ArgumentNullException.ThrowIfNull(Pod);
         this.Pod = Pod;
     }
 
-    public void Deconstruct(out string Pod)
+    public void Deconstruct(out string Container, out string Pod)
     {
+        Container = this.Container;
         Pod = this.Pod;
     }
 
@@ -41,7 +46,7 @@ public record KubernetesAttachOptions : KubernetesOptions
     /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
     /// </summary>
     [CliOption("--container", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? Container { get; set; }
+    public string Container { get; private init; }
 
     /// <summary>
     /// Override the key sequence for detaching a container

@@ -37,7 +37,7 @@ public interface IKubernetesApply
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EditLastAppliedAsync(KubernetesApplyEditLastAppliedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> EditLastAppliedAsync(KubernetesApplyEditLastAppliedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set the latest last-applied-configuration annotations by setting it to match the contents of a file. This results in the last-applied-configuration being updated as though 'kubectl apply -f&lt;file&gt; ' was run, without updating any other parts of the object.
@@ -46,7 +46,7 @@ public interface IKubernetesApply
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetLastAppliedAsync(KubernetesApplySetLastAppliedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> SetLastAppliedAsync(KubernetesApplySetLastAppliedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// View the latest last-applied-configuration annotations by type/name or file.

@@ -21,6 +21,40 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesDiffOptions : KubernetesOptions
 {
     /// <summary>
+    /// Diff configurations specified by file name or stdin between the current online configuration, and the configuration as it would be if applied.
+    /// </summary>
+    /// <param name="Filename">Filename, directory, or URL to files contains the configuration to diff</param>
+    public KubernetesDiffOptions(
+        IEnumerable<string> Filename
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filename);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filename));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filename));
+            }
+
+            Filename = materialized;
+        }
+        this.Filename = Filename;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Filename)
+    {
+        Filename = this.Filename;
+    }
+
+    /// <summary>
+    /// Filename, directory, or URL to files contains the configuration to diff
+    /// </summary>
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Filename { get; private init; }
+
+    /// <summary>
     /// Number of objects to process in parallel when diffing against the live version. Larger number = faster, but more memory, I/O and CPU over that shorter period of time.
     /// </summary>
     [CliOption("--concurrency", Format = OptionFormat.EqualsSeparated)]
@@ -31,12 +65,6 @@ public record KubernetesDiffOptions : KubernetesOptions
     /// </summary>
     [CliOption("--field-manager", Format = OptionFormat.EqualsSeparated)]
     public string? FieldManager { get; set; }
-
-    /// <summary>
-    /// Filename, directory, or URL to files contains the configuration to diff
-    /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>
     /// If true, server-side apply will force the changes against conflicts.

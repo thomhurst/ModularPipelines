@@ -22,6 +22,40 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesAuthReconcileOptions : KubernetesOptions
 {
     /// <summary>
+    /// Reconciles rules for RBAC role, role binding, cluster role, and cluster role binding objects.
+    /// </summary>
+    /// <param name="Filename">Filename, directory, or URL to files identifying the resource to reconcile.</param>
+    public KubernetesAuthReconcileOptions(
+        IEnumerable<string> Filename
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filename);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filename));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filename));
+            }
+
+            Filename = materialized;
+        }
+        this.Filename = Filename;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Filename)
+    {
+        Filename = this.Filename;
+    }
+
+    /// <summary>
+    /// Filename, directory, or URL to files identifying the resource to reconcile.
+    /// </summary>
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Filename { get; private init; }
+
+    /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
     [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
@@ -32,12 +66,6 @@ public record KubernetesAuthReconcileOptions : KubernetesOptions
     /// </summary>
     [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
     public KubernetesAuthReconcileDryRun? DryRun { get; set; }
-
-    /// <summary>
-    /// Filename, directory, or URL to files identifying the resource to reconcile.
-    /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>
     /// Process the kustomization directory. This flag can't be used together with -f or -R.

@@ -14,7 +14,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Services;
 
 /// <summary>
-/// kubectl clusterinfo commands.
+/// kubectl cluster-info commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class KubernetesClusterInfo : IKubernetesClusterInfo
