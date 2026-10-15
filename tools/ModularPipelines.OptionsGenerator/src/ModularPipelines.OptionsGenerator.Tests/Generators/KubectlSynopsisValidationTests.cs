@@ -13,6 +13,7 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     private static readonly string[] KubectlGetResourceNames = ["pods", "web"];
+    private static readonly string[] KubectlDeleteResourceNames = ["baz", "foo"];
 
     [Test]
     public async Task Kubectl_Delete_Preserves_Multiple_Names_And_Selection_Alternatives()
@@ -23,7 +24,7 @@ public partial class RequiredConstructorValidationTests
         var options = await CompileSetOptions(command);
         var instance = Activator.CreateInstance(options)!;
         options.GetProperty("Type")!.SetValue(instance, "pod,service");
-        options.GetProperty("Name")!.SetValue(instance, new[] { "baz", "foo" });
+        options.GetProperty("Name")!.SetValue(instance, KubectlDeleteResourceNames);
         await Assert.That(RenderResourceOperands(instance)).IsEquivalentTo(["pod,service", "baz", "foo"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
