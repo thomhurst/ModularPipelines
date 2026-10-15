@@ -17,7 +17,7 @@ public class BrewCliScraperTests
         + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-q\t--quiet\tMake output quieter.\n"
         + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-v\t--verbose\tMake output more verbose.\n"
         + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-h\t--help\tShow this message.\n";
-    private static readonly string[] value = new[] { "printf", "--", "two words", "--debug" };
+    private static readonly string[] ForwardedArgs = ["printf", "--", "two words", "--debug"];
 
     [Test]
     [Arguments("as-brew-user", false)]
@@ -44,7 +44,7 @@ public class BrewCliScraperTests
         type.GetProperty("Verbose")!.SetValue(instance, true);
         if (includeArgs)
         {
-            type.GetProperty("Args")!.SetValue(instance, value);
+            type.GetProperty("Args")!.SetValue(instance, ForwardedArgs);
         }
 
         var parts = type.GetProperties().Select(property =>
