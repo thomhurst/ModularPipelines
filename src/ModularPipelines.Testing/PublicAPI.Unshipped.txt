@@ -65,3 +65,6 @@ static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.Creat
 *REMOVED*ModularPipelines.Testing.ModuleTestRun.Result.get -> ModularPipelines.Models.IModuleResult!
 ModularPipelines.Testing.ModuleTestRun.Result.get -> ModularPipelines.IModuleResult!
 static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CompletionClosesRegistrationAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+ModularPipelines.Testing.ModuleTestBuilder<TModule>.InterceptHttp(System.Func<System.Net.Http.HttpRequestMessage!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<System.Net.Http.HttpResponseMessage!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptHttp(System.Func<System.Net.Http.HttpRequestMessage!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<System.Net.Http.HttpResponseMessage!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+ModularPipelines.Testing.ModuleTestRun.HttpRequests.get -> System.Collections.Generic.IReadOnlyList<System.Net.Http.HttpRequestMessage!>!
