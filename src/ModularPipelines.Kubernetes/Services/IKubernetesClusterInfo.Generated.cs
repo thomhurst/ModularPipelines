@@ -13,7 +13,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Services;
 
 /// <summary>
-/// kubectl clusterinfo commands.
+/// kubectl cluster-info commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.

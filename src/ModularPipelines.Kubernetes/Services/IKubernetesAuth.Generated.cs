@@ -46,7 +46,7 @@ public interface IKubernetesAuth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReconcileAsync(KubernetesAuthReconcileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    public Task<CommandResult> ReconcileAsync(KubernetesAuthReconcileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Experimental: Check who you are and your attributes (groups, extra).

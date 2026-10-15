@@ -31,6 +31,15 @@ public interface IKubernetesConfig
     public Task<CommandResult> ExecuteAsync(KubernetesConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Display the current-context.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CurrentContextAsync(KubernetesConfigCurrentContextOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Delete the specified cluster from the kubeconfig.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -58,6 +67,15 @@ public interface IKubernetesConfig
     public Task<CommandResult> DeleteUserAsync(KubernetesConfigDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Display clusters defined in the kubeconfig.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetClustersAsync(KubernetesConfigGetClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Display one or many contexts from the kubeconfig file.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -65,6 +83,15 @@ public interface IKubernetesConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> GetContextsAsync(KubernetesConfigGetContextsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Display users defined in the kubeconfig.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetUsersAsync(KubernetesConfigGetUsersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renames a context from the kubeconfig file.

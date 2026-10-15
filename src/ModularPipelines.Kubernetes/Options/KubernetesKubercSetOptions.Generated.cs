@@ -22,6 +22,40 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesKubercSetOptions : KubernetesOptions
 {
     /// <summary>
+    /// Set values in the kuberc configuration file.
+    /// </summary>
+    /// <param name="Command">Command to configure (e.g., 'get', 'create', 'set env')</param>
+    /// <param name="Section">Section to modify: 'defaults', 'aliases', or 'credentialplugin'</param>
+    public KubernetesKubercSetOptions(
+        string Command,
+        string Section
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+        global::System.ArgumentNullException.ThrowIfNull(Section);
+        this.Section = Section;
+    }
+
+    public void Deconstruct(out string Command, out string Section)
+    {
+        Command = this.Command;
+        Section = this.Section;
+    }
+
+    /// <summary>
+    /// Command to configure (e.g., 'get', 'create', 'set env')
+    /// </summary>
+    [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
+    public string Command { get; private init; }
+
+    /// <summary>
+    /// Section to modify: 'defaults', 'aliases', or 'credentialplugin'
+    /// </summary>
+    [CliOption("--section", Format = OptionFormat.EqualsSeparated)]
+    public string Section { get; private init; }
+
+    /// <summary>
     /// Allowlist entry the form field=value (can be specified multiple times)
     /// </summary>
     [CliOption("--allowlist-entry", Format = OptionFormat.EqualsSeparated)]
@@ -32,12 +66,6 @@ public record KubernetesKubercSetOptions : KubernetesOptions
     /// </summary>
     [CliOption("--appendarg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Appendarg { get; set; }
-
-    /// <summary>
-    /// Command to configure (e.g., 'get', 'create', 'set env')
-    /// </summary>
-    [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
-    public string? Command { get; set; }
 
     /// <summary>
     /// Path to the kuberc file to use for preferences. This can be disabled by exporting KUBECTL_KUBERC=false feature gate or turning off the feature KUBERC=off.
@@ -78,11 +106,5 @@ public record KubernetesKubercSetOptions : KubernetesOptions
     /// </summary>
     [CliOption("--prependarg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Prependarg { get; set; }
-
-    /// <summary>
-    /// Section to modify: 'defaults', 'aliases', or 'credentialplugin'
-    /// </summary>
-    [CliOption("--section", Format = OptionFormat.EqualsSeparated)]
-    public string? Section { get; set; }
 
 }

@@ -22,6 +22,40 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesReplaceOptions : KubernetesOptions
 {
     /// <summary>
+    /// Replace a resource by file name or stdin.
+    /// </summary>
+    /// <param name="Filename">The files, directories or URLs that contain the configurations to replace.</param>
+    public KubernetesReplaceOptions(
+        IEnumerable<string> Filename
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filename);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filename));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filename));
+            }
+
+            Filename = materialized;
+        }
+        this.Filename = Filename;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Filename)
+    {
+        Filename = this.Filename;
+    }
+
+    /// <summary>
+    /// The files, directories or URLs that contain the configurations to replace.
+    /// </summary>
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Filename { get; private init; }
+
+    /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
     [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
@@ -44,12 +78,6 @@ public record KubernetesReplaceOptions : KubernetesOptions
     /// </summary>
     [CliOption("--field-manager", Format = OptionFormat.EqualsSeparated)]
     public string? FieldManager { get; set; }
-
-    /// <summary>
-    /// The files, directories or URLs that contain the configurations to replace.
-    /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>
     /// If true, immediately remove resources from API and bypass graceful deletion. Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation.

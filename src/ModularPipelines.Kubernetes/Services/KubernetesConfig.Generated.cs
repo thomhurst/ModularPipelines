@@ -47,6 +47,21 @@ public class KubernetesConfig : IKubernetesConfig
     }
 
     /// <summary>
+    /// Display the current-context.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CurrentContextAsync(
+        KubernetesConfigCurrentContextOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesConfigCurrentContextOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Delete the specified cluster from the kubeconfig.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -92,6 +107,21 @@ public class KubernetesConfig : IKubernetesConfig
     }
 
     /// <summary>
+    /// Display clusters defined in the kubeconfig.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetClustersAsync(
+        KubernetesConfigGetClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesConfigGetClustersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Display one or many contexts from the kubeconfig file.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -104,6 +134,21 @@ public class KubernetesConfig : IKubernetesConfig
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesConfigGetContextsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Display users defined in the kubeconfig.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetUsersAsync(
+        KubernetesConfigGetUsersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesConfigGetUsersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
