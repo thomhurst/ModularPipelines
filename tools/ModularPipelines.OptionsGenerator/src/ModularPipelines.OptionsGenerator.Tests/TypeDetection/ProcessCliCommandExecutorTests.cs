@@ -97,15 +97,18 @@ public class ProcessCliCommandExecutorTests
             }
 
             var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
-            var result = await executor.ExecuteAsync(executable, "--help");
+            // Launch failures must finish before the executor's default 30-second timeout.
+            using var cancellation = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            var result = await executor.ExecuteAsync(executable, "--help", cancellationToken: cancellation.Token);
 
             using (Assert.Multiple())
             {
                 await Assert.That(result.ExecutionFailed).IsTrue();
                 await Assert.That(result.Unavailable).IsTrue();
                 await Assert.That(result.TimedOut).IsFalse();
+                await Assert.That(result.HasProcessExitCode).IsFalse();
                 await Assert.That(result.StandardError).IsNotEmpty();
-                await Assert.That(await executor.IsAvailableAsync(executable, "--help")).IsFalse();
+                await Assert.That(await executor.IsAvailableAsync(executable, "--help", cancellation.Token)).IsFalse();
             }
         }
         finally
