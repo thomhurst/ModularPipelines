@@ -100,6 +100,7 @@ public static class S3DistributedExtensions
 
     private static void AddValidation(IServiceCollection services, string name)
     {
+        OptionsRegistration.Register<S3StorageOptions>(services, name);
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IValidateOptions<S3StorageOptions>, S3StorageOptionsValidator>());
         services.AddOptions<S3StorageOptions>(name).ValidateOnStart();
     }

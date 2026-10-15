@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.DependencyInjection;
@@ -56,6 +57,7 @@ internal class OptionsProvider : IOptionsProvider
 
     private readonly IPipelineServiceContainerWrapper _pipelineServiceContainerWrapper;
     private readonly IServiceProvider _serviceProvider;
+    private readonly OptionsRegistration[] _registrations;
 
     /// <summary>
     /// Thread-safe lazy-initialized cache of option types. Populated on first access since
@@ -67,6 +69,8 @@ internal class OptionsProvider : IOptionsProvider
     {
         _pipelineServiceContainerWrapper = pipelineServiceContainerWrapper;
         _serviceProvider = serviceProvider;
+        _registrations = [.. serviceProvider.GetServices<OptionsRegistration>().DistinctBy(registration => (registration.OptionsType, registration.Name))];
+        var registeredTypes = _registrations.Select(registration => registration.OptionsType).ToHashSet();
 
         // Use Lazy<T> for thread-safe initialization
         _cachedOptionTypes = new Lazy<IReadOnlyList<Type>>(
@@ -74,6 +78,7 @@ internal class OptionsProvider : IOptionsProvider
                 .Select(sd => sd.ServiceType)
                 .Where(t => t.IsGenericType && t.IsConstructedGenericType && IsOptionsType(t.GetGenericTypeDefinition()))
                 .Select(s => s.GetGenericArguments()[0])
+                .Where(type => !registeredTypes.Contains(type))
                 .Distinct()],
             LazyThreadSafetyMode.ExecutionAndPublication);
     }
@@ -91,6 +96,11 @@ internal class OptionsProvider : IOptionsProvider
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(LoggerFilterOptions))]
     public IEnumerable<object?> GetOptions()
     {
+        foreach (var registration in _registrations)
+        {
+            yield return registration.GetValue(_serviceProvider);
+        }
+
         foreach (var t in _cachedOptionTypes.Value)
         {
             var optionsType = IOptionsTypeCache.GetOrAdd(t, CreateOptionsType);

@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Distributed.Artifacts.S3;
 
@@ -30,12 +31,14 @@ public sealed record S3StorageOptions
     /// Gets the access key. Required for non-AWS providers or explicit auth.
     /// Set together with <see cref="SecretKey"/>.
     /// </summary>
+    [SecretValue]
     public string? AccessKey { get; init; }
 
     /// <summary>
     /// Gets the secret key. Required for non-AWS providers or explicit auth.
     /// Set together with <see cref="AccessKey"/>.
     /// </summary>
+    [SecretValue]
     public string? SecretKey { get; init; }
 
     /// <summary>
