@@ -1,0 +1,14 @@
+Description:
+  Search for available workloads.
+
+Usage:
+  dotnet workload search [<SEARCH_STRING>] [command] [options]
+
+Arguments:
+  <SEARCH_STRING>  The text to search for in the IDs and descriptions of available workloads.
+
+Options:
+  -?, -h, --help  Show command line help.
+
+Commands:
+  version <WORKLOAD_VERSION>  Search for available workload versions or what comprises a workload version. Use 'dotnet workload search version --help' for more information.

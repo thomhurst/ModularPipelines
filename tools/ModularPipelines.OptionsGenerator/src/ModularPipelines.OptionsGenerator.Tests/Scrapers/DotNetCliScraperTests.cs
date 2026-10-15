@@ -9,7 +9,7 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
-public class DotNetCliScraperTests
+public partial class DotNetCliScraperTests
 {
     [Test]
     [Arguments("dotnet")]
@@ -454,10 +454,16 @@ public class DotNetCliScraperTests
 
         public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
+            var usage = UsageSynopsisParser.Parse(helpText, commandPath);
+            if (ExtractSubcommands(helpText).Any())
+            {
+                usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(usage);
+            }
+
             var command = await ParseCommandAsync(
                 commandPath,
                 helpText,
-                UsageSynopsisParser.Parse(helpText, commandPath),
+                usage,
                 CancellationToken.None);
             return command is null ? null : ApplyIgnoredOptionPolicy(command);
         }

@@ -1,0 +1,12 @@
+Description:
+  Generate a .slnx file from a .sln file.
+
+Usage:
+  dotnet solution [<SLN_FILE>] migrate [options]
+
+Arguments:
+  <SLN_FILE>  The solution file to operate on. If not specified, the command will search the current directory for one. [default: C:\work\]
+
+Options:
+  -?, -h, --help  Show command line help.
+

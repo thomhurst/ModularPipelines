@@ -452,6 +452,9 @@ public class GeneratorHardeningTests
 
         await Assert.That(repoService.Content).Contains("ToolVexRepoOptions? options = null");
         await Assert.That(repoService.Content).Contains("public virtual async Task<CommandResult> ExecuteAsync(");
+        await Assert.That(repoService.Content).Contains("/// tool vex repo commands.");
+        var facade = subDomainFiles.Single(file => Path.GetFileName(file.RelativePath) == "IToolVex.Generated.cs");
+        await Assert.That(facade.Content).Contains("/// tool vex repo sub-commands.");
     }
 
     [Test]
