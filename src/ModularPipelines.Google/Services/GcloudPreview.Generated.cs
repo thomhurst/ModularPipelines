@@ -34,12 +34,12 @@ public class GcloudPreview : IGcloudPreview
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud compute sub-commands.
+    /// gcloud preview compute sub-commands.
     /// </summary>
     public GcloudPreviewCompute Compute => _compute ??= new GcloudPreviewCompute(_command);
 
     /// <summary>
-    /// gcloud config sub-commands.
+    /// gcloud preview config sub-commands.
     /// </summary>
     public GcloudPreviewConfig Config => _config ??= new GcloudPreviewConfig(_command);
 

@@ -26,26 +26,26 @@ public record GcloudBillingAccountsAddIamPolicyBindingOptions : GcloudOptions
     /// </summary>
     /// <param name="Member">The principal to add the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
     /// <param name="Role">Role name to assign to the principal. The role name is the complete path of a predefined role, such as roles/logging.viewer, or the role ID for a custom role, such as organizations/{ORGANIZATION_ID}/roles/logging.viewer.</param>
-    /// <param name="Account">Account resource - Name of the Cloud Billing account for which to add the IAM policy binding. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.</param>
+    /// <param name="AccountsAccount">Account resource - Name of the Cloud Billing account for which to add the IAM policy binding. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.</param>
     public GcloudBillingAccountsAddIamPolicyBindingOptions(
         string Member,
         string Role,
-        string Account
+        string AccountsAccount
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Member);
         this.Member = Member;
         global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
-        global::System.ArgumentNullException.ThrowIfNull(Account);
-        this.Account = Account;
+        global::System.ArgumentNullException.ThrowIfNull(AccountsAccount);
+        this.AccountsAccount = AccountsAccount;
     }
 
-    public void Deconstruct(out string Member, out string Role, out string Account)
+    public void Deconstruct(out string Member, out string Role, out string AccountsAccount)
     {
         Member = this.Member;
         Role = this.Role;
-        Account = this.Account;
+        AccountsAccount = this.AccountsAccount;
     }
 
     /// <summary>
@@ -64,6 +64,6 @@ public record GcloudBillingAccountsAddIamPolicyBindingOptions : GcloudOptions
     /// Account resource - Name of the Cloud Billing account for which to add the IAM policy binding. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string Account { get; private init; }
+    public string AccountsAccount { get; private init; }
 
 }

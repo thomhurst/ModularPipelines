@@ -91,7 +91,11 @@ public record GcloudSccBqexportsUpdateOptions : GcloudOptions, IValidatableObjec
     /// At most one of these can be specified: Project (id or number) where the BigQuery export resides. Formatted as projects/789 or just 789.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// ID of the BigQuery export e.g. my-bq-export or the full resource name of the BigQuery export e.g. organizations/123/bigQueryExports/my-bq-export.

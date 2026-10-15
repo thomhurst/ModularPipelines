@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud release-channel-settings commands.
+/// gcloud gemini release-channel-settings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudGeminiReleaseChannelSettings
@@ -33,7 +33,7 @@ public class GcloudGeminiReleaseChannelSettings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud setting-bindings sub-commands.
+    /// gcloud gemini release-channel-settings setting-bindings sub-commands.
     /// </summary>
     public GcloudGeminiReleaseChannelSettingsSettingBindings SettingBindings => _settingBindings ??= new GcloudGeminiReleaseChannelSettingsSettingBindings(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud inventory-reports commands.
+/// gcloud storage insights inventory-reports commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudStorageInsightsInventoryReports
@@ -33,7 +33,7 @@ public class GcloudStorageInsightsInventoryReports
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud details sub-commands.
+    /// gcloud storage insights inventory-reports details sub-commands.
     /// </summary>
     public GcloudStorageInsightsInventoryReportsDetails Details => _details ??= new GcloudStorageInsightsInventoryReportsDetails(_command);
 

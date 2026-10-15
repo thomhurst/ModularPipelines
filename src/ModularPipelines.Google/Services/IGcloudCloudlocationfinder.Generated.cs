@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudCloudlocationfinder
 {
     /// <summary>
-    /// gcloud cloud-locations sub-commands.
+    /// gcloud cloudlocationfinder cloud-locations sub-commands.
     /// </summary>
-    GcloudCloudlocationfinderCloudLocations CloudLocations => throw new System.NotSupportedException();
+    GcloudCloudlocationfinderCloudLocations CloudLocations { get; }
 
     /// <summary>
     /// manage Cloudlocationfinder resources
@@ -33,7 +33,6 @@ public interface IGcloudCloudlocationfinder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudCloudlocationfinderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudCloudlocationfinderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

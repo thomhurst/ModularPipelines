@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud agentregistry commands.
+/// gcloud agent-registry commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,34 +22,34 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudAgentRegistry
 {
     /// <summary>
-    /// gcloud agents sub-commands.
+    /// gcloud agent-registry agents sub-commands.
     /// </summary>
-    GcloudAgentRegistryAgents Agents => throw new System.NotSupportedException();
+    GcloudAgentRegistryAgents Agents { get; }
 
     /// <summary>
-    /// gcloud bindings sub-commands.
+    /// gcloud agent-registry bindings sub-commands.
     /// </summary>
-    GcloudAgentRegistryBindings Bindings => throw new System.NotSupportedException();
+    GcloudAgentRegistryBindings Bindings { get; }
 
     /// <summary>
-    /// gcloud endpoints sub-commands.
+    /// gcloud agent-registry endpoints sub-commands.
     /// </summary>
-    GcloudAgentRegistryEndpoints Endpoints => throw new System.NotSupportedException();
+    GcloudAgentRegistryEndpoints Endpoints { get; }
 
     /// <summary>
-    /// gcloud mcp-servers sub-commands.
+    /// gcloud agent-registry mcp-servers sub-commands.
     /// </summary>
-    GcloudAgentRegistryMcpServers McpServers => throw new System.NotSupportedException();
+    GcloudAgentRegistryMcpServers McpServers { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud agent-registry operations sub-commands.
     /// </summary>
-    GcloudAgentRegistryOperations Operations => throw new System.NotSupportedException();
+    GcloudAgentRegistryOperations Operations { get; }
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud agent-registry services sub-commands.
     /// </summary>
-    GcloudAgentRegistryServices Services => throw new System.NotSupportedException();
+    GcloudAgentRegistryServices Services { get; }
 
     /// <summary>
     /// manage Agent Registry resources
@@ -58,7 +58,6 @@ public interface IGcloudAgentRegistry
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAgentRegistryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAgentRegistryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

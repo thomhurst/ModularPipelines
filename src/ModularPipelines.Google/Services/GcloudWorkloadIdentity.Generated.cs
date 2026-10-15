@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workloadidentity commands.
+/// gcloud workload-identity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudWorkloadIdentity : IGcloudWorkloadIdentity
@@ -33,7 +33,7 @@ public class GcloudWorkloadIdentity : IGcloudWorkloadIdentity
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud service-agents sub-commands.
+    /// gcloud workload-identity service-agents sub-commands.
     /// </summary>
     public GcloudWorkloadIdentityServiceAgents ServiceAgents => _serviceAgents ??= new GcloudWorkloadIdentityServiceAgents(_command);
 

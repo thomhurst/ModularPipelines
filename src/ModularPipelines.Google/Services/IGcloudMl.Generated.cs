@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudMl
 {
     /// <summary>
-    /// gcloud language sub-commands.
+    /// gcloud ml language sub-commands.
     /// </summary>
-    GcloudMlLanguage Language => throw new System.NotSupportedException();
+    GcloudMlLanguage Language { get; }
 
     /// <summary>
-    /// gcloud speech sub-commands.
+    /// gcloud ml speech sub-commands.
     /// </summary>
-    GcloudMlSpeech Speech => throw new System.NotSupportedException();
+    GcloudMlSpeech Speech { get; }
 
     /// <summary>
-    /// gcloud video sub-commands.
+    /// gcloud ml video sub-commands.
     /// </summary>
-    GcloudMlVideo Video => throw new System.NotSupportedException();
+    GcloudMlVideo Video { get; }
 
     /// <summary>
-    /// gcloud vision sub-commands.
+    /// gcloud ml vision sub-commands.
     /// </summary>
-    GcloudMlVision Vision => throw new System.NotSupportedException();
+    GcloudMlVision Vision { get; }
 
     /// <summary>
     /// use Google Cloud machine learning capabilities
@@ -48,7 +48,6 @@ public interface IGcloudMl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudMlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudMlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

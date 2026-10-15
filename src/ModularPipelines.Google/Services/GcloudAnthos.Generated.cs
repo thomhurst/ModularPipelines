@@ -34,12 +34,12 @@ public class GcloudAnthos : IGcloudAnthos
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud auth sub-commands.
+    /// gcloud anthos auth sub-commands.
     /// </summary>
     public GcloudAnthosAuth Auth => _auth ??= new GcloudAnthosAuth(_command);
 
     /// <summary>
-    /// gcloud config sub-commands.
+    /// gcloud anthos config sub-commands.
     /// </summary>
     public GcloudAnthosConfig Config => _config ??= new GcloudAnthosConfig(_command);
 

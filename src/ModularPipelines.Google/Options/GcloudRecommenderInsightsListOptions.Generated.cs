@@ -78,7 +78,11 @@ public record GcloudRecommenderInsightsListOptions : GcloudOptions, IValidatable
     /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform project ID. Overrides the default core/project property value for this command invocation.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

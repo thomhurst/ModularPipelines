@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud backup-collections commands.
+/// gcloud memorystore backup-collections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMemorystoreBackupCollections
@@ -33,7 +33,7 @@ public class GcloudMemorystoreBackupCollections
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud memorystore backup-collections backups sub-commands.
     /// </summary>
     public GcloudMemorystoreBackupCollectionsBackups Backups => _backups ??= new GcloudMemorystoreBackupCollectionsBackups(_command);
 

@@ -36,22 +36,22 @@ public class GcloudLooker : IGcloudLooker
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud looker backups sub-commands.
     /// </summary>
     public GcloudLookerBackups Backups => _backups ??= new GcloudLookerBackups(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud looker instances sub-commands.
     /// </summary>
     public GcloudLookerInstances Instances => _instances ??= new GcloudLookerInstances(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud looker operations sub-commands.
     /// </summary>
     public GcloudLookerOperations Operations => _operations ??= new GcloudLookerOperations(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud looker regions sub-commands.
     /// </summary>
     public GcloudLookerRegions Regions => _regions ??= new GcloudLookerRegions(_command);
 

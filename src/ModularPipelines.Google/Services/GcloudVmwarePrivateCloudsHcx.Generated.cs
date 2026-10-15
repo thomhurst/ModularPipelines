@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud hcx commands.
+/// gcloud vmware private-clouds hcx commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwarePrivateCloudsHcx
@@ -33,7 +33,7 @@ public class GcloudVmwarePrivateCloudsHcx
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud activationkeys sub-commands.
+    /// gcloud vmware private-clouds hcx activationkeys sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsHcxActivationkeys Activationkeys => _activationkeys ??= new GcloudVmwarePrivateCloudsHcxActivationkeys(_command);
 

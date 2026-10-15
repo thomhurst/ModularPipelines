@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud monitoring-points commands.
+/// gcloud network-management network-monitoring-providers monitoring-points commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints

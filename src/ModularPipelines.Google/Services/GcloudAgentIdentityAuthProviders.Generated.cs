@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud auth-providers commands.
+/// gcloud agent-identity auth-providers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAgentIdentityAuthProviders
@@ -33,7 +33,7 @@ public class GcloudAgentIdentityAuthProviders
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud authorizations sub-commands.
+    /// gcloud agent-identity auth-providers authorizations sub-commands.
     /// </summary>
     public GcloudAgentIdentityAuthProvidersAuthorizations Authorizations => _authorizations ??= new GcloudAgentIdentityAuthProvidersAuthorizations(_command);
 

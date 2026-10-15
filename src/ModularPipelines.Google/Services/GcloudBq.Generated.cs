@@ -33,7 +33,7 @@ public class GcloudBq : IGcloudBq
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud migration-workflows sub-commands.
+    /// gcloud bq migration-workflows sub-commands.
     /// </summary>
     public GcloudBqMigrationWorkflows MigrationWorkflows => _migrationWorkflows ??= new GcloudBqMigrationWorkflows(_command);
 

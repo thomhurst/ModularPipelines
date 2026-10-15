@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud adjuster commands.
+/// gcloud quotas adjuster commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudQuotasAdjuster
@@ -33,7 +33,7 @@ public class GcloudQuotasAdjuster
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud quotas adjuster settings sub-commands.
     /// </summary>
     public GcloudQuotasAdjusterSettings Settings => _settings ??= new GcloudQuotasAdjusterSettings(_command);
 

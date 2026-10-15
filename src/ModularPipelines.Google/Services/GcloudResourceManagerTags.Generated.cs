@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud tags commands.
+/// gcloud resource-manager tags commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudResourceManagerTags
@@ -36,22 +36,22 @@ public class GcloudResourceManagerTags
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud bindings sub-commands.
+    /// gcloud resource-manager tags bindings sub-commands.
     /// </summary>
     public GcloudResourceManagerTagsBindings Bindings => _bindings ??= new GcloudResourceManagerTagsBindings(_command);
 
     /// <summary>
-    /// gcloud holds sub-commands.
+    /// gcloud resource-manager tags holds sub-commands.
     /// </summary>
     public GcloudResourceManagerTagsHolds Holds => _holds ??= new GcloudResourceManagerTagsHolds(_command);
 
     /// <summary>
-    /// gcloud keys sub-commands.
+    /// gcloud resource-manager tags keys sub-commands.
     /// </summary>
     public GcloudResourceManagerTagsKeys Keys => _keys ??= new GcloudResourceManagerTagsKeys(_command);
 
     /// <summary>
-    /// gcloud values sub-commands.
+    /// gcloud resource-manager tags values sub-commands.
     /// </summary>
     public GcloudResourceManagerTagsValues Values => _values ??= new GcloudResourceManagerTagsValues(_command);
 

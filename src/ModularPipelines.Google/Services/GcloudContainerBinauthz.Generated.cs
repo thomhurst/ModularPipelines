@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud binauthz commands.
+/// gcloud container binauthz commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerBinauthz
@@ -35,17 +35,17 @@ public class GcloudContainerBinauthz
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud attestations sub-commands.
+    /// gcloud container binauthz attestations sub-commands.
     /// </summary>
     public GcloudContainerBinauthzAttestations Attestations => _attestations ??= new GcloudContainerBinauthzAttestations(_command);
 
     /// <summary>
-    /// gcloud attestors sub-commands.
+    /// gcloud container binauthz attestors sub-commands.
     /// </summary>
     public GcloudContainerBinauthzAttestors Attestors => _attestors ??= new GcloudContainerBinauthzAttestors(_command);
 
     /// <summary>
-    /// gcloud policy sub-commands.
+    /// gcloud container binauthz policy sub-commands.
     /// </summary>
     public GcloudContainerBinauthzPolicy Policy => _policy ??= new GcloudContainerBinauthzPolicy(_command);
 

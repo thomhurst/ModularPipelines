@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud config commands.
+/// gcloud anthos config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAnthosConfig
@@ -34,12 +34,12 @@ public class GcloudAnthosConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud controller sub-commands.
+    /// gcloud anthos config controller sub-commands.
     /// </summary>
     public GcloudAnthosConfigController Controller => _controller ??= new GcloudAnthosConfigController(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud anthos config operations sub-commands.
     /// </summary>
     public GcloudAnthosConfigOperations Operations => _operations ??= new GcloudAnthosConfigOperations(_command);
 

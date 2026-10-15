@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudLustre
 {
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud lustre instances sub-commands.
     /// </summary>
-    GcloudLustreInstances Instances => throw new System.NotSupportedException();
+    GcloudLustreInstances Instances { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud lustre operations sub-commands.
     /// </summary>
-    GcloudLustreOperations Operations => throw new System.NotSupportedException();
+    GcloudLustreOperations Operations { get; }
 
     /// <summary>
     /// manage Lustre resources
@@ -38,7 +38,6 @@ public interface IGcloudLustre
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudLustreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudLustreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

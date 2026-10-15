@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud route-tables commands.
+/// gcloud network-connectivity hubs route-tables commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkConnectivityHubsRouteTables
@@ -33,7 +33,7 @@ public class GcloudNetworkConnectivityHubsRouteTables
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud routes sub-commands.
+    /// gcloud network-connectivity hubs route-tables routes sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityHubsRouteTablesRoutes Routes => _routes ??= new GcloudNetworkConnectivityHubsRouteTablesRoutes(_command);
 

@@ -46,72 +46,72 @@ public class GcloudApihub : IGcloudApihub
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud addons sub-commands.
+    /// gcloud apihub addons sub-commands.
     /// </summary>
     public GcloudApihubAddons Addons => _addons ??= new GcloudApihubAddons(_command);
 
     /// <summary>
-    /// gcloud api-hub-instances sub-commands.
+    /// gcloud apihub api-hub-instances sub-commands.
     /// </summary>
     public GcloudApihubApiHubInstances ApiHubInstances => _apiHubInstances ??= new GcloudApihubApiHubInstances(_command);
 
     /// <summary>
-    /// gcloud apis sub-commands.
+    /// gcloud apihub apis sub-commands.
     /// </summary>
     public GcloudApihubApis Apis => _apis ??= new GcloudApihubApis(_command);
 
     /// <summary>
-    /// gcloud attributes sub-commands.
+    /// gcloud apihub attributes sub-commands.
     /// </summary>
     public GcloudApihubAttributes Attributes => _attributes ??= new GcloudApihubAttributes(_command);
 
     /// <summary>
-    /// gcloud curations sub-commands.
+    /// gcloud apihub curations sub-commands.
     /// </summary>
     public GcloudApihubCurations Curations => _curations ??= new GcloudApihubCurations(_command);
 
     /// <summary>
-    /// gcloud dependencies sub-commands.
+    /// gcloud apihub dependencies sub-commands.
     /// </summary>
     public GcloudApihubDependencies Dependencies => _dependencies ??= new GcloudApihubDependencies(_command);
 
     /// <summary>
-    /// gcloud deployments sub-commands.
+    /// gcloud apihub deployments sub-commands.
     /// </summary>
     public GcloudApihubDeployments Deployments => _deployments ??= new GcloudApihubDeployments(_command);
 
     /// <summary>
-    /// gcloud discovered-api-observations sub-commands.
+    /// gcloud apihub discovered-api-observations sub-commands.
     /// </summary>
     public GcloudApihubDiscoveredApiObservations DiscoveredApiObservations => _discoveredApiObservations ??= new GcloudApihubDiscoveredApiObservations(_command);
 
     /// <summary>
-    /// gcloud external-apis sub-commands.
+    /// gcloud apihub external-apis sub-commands.
     /// </summary>
     public GcloudApihubExternalApis ExternalApis => _externalApis ??= new GcloudApihubExternalApis(_command);
 
     /// <summary>
-    /// gcloud host-project-registrations sub-commands.
+    /// gcloud apihub host-project-registrations sub-commands.
     /// </summary>
     public GcloudApihubHostProjectRegistrations HostProjectRegistrations => _hostProjectRegistrations ??= new GcloudApihubHostProjectRegistrations(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud apihub locations sub-commands.
     /// </summary>
     public GcloudApihubLocations Locations => _locations ??= new GcloudApihubLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud apihub operations sub-commands.
     /// </summary>
     public GcloudApihubOperations Operations => _operations ??= new GcloudApihubOperations(_command);
 
     /// <summary>
-    /// gcloud plugins sub-commands.
+    /// gcloud apihub plugins sub-commands.
     /// </summary>
     public GcloudApihubPlugins Plugins => _plugins ??= new GcloudApihubPlugins(_command);
 
     /// <summary>
-    /// gcloud runtime-project-attachments sub-commands.
+    /// gcloud apihub runtime-project-attachments sub-commands.
     /// </summary>
     public GcloudApihubRuntimeProjectAttachments RuntimeProjectAttachments => _runtimeProjectAttachments ??= new GcloudApihubRuntimeProjectAttachments(_command);
 

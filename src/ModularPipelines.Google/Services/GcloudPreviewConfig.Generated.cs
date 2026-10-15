@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud config commands.
+/// gcloud preview config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewConfig
@@ -33,7 +33,7 @@ public class GcloudPreviewConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud configurations sub-commands.
+    /// gcloud preview config configurations sub-commands.
     /// </summary>
     public GcloudPreviewConfigConfigurations Configurations => _configurations ??= new GcloudPreviewConfigConfigurations(_command);
 

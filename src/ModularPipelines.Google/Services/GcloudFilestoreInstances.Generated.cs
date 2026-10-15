@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud instances commands.
+/// gcloud filestore instances commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFilestoreInstances
@@ -33,7 +33,7 @@ public class GcloudFilestoreInstances
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud snapshots sub-commands.
+    /// gcloud filestore instances snapshots sub-commands.
     /// </summary>
     public GcloudFilestoreInstancesSnapshots Snapshots => _snapshots ??= new GcloudFilestoreInstancesSnapshots(_command);
 

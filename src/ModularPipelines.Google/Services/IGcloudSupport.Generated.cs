@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudSupport
 {
     /// <summary>
-    /// gcloud support-event-subscriptions sub-commands.
+    /// gcloud support support-event-subscriptions sub-commands.
     /// </summary>
-    GcloudSupportSupportEventSubscriptions SupportEventSubscriptions => throw new System.NotSupportedException();
+    GcloudSupportSupportEventSubscriptions SupportEventSubscriptions { get; }
 
     /// <summary>
     /// manage Support resources
@@ -33,7 +33,6 @@ public interface IGcloudSupport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudSupportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

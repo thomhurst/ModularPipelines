@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud odb-networks commands.
+/// gcloud oracle-database odb-networks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabaseOdbNetworks
@@ -33,7 +33,7 @@ public class GcloudOracleDatabaseOdbNetworks
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud odb-subnets sub-commands.
+    /// gcloud oracle-database odb-networks odb-subnets sub-commands.
     /// </summary>
     public GcloudOracleDatabaseOdbNetworksOdbSubnets OdbSubnets => _odbSubnets ??= new GcloudOracleDatabaseOdbNetworksOdbSubnets(_command);
 

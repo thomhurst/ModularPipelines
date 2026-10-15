@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud certificatemanager commands.
+/// gcloud certificate-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudCertificateManager : IGcloudCertificateManager
@@ -38,32 +38,32 @@ public class GcloudCertificateManager : IGcloudCertificateManager
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud certificates sub-commands.
+    /// gcloud certificate-manager certificates sub-commands.
     /// </summary>
     public GcloudCertificateManagerCertificates Certificates => _certificates ??= new GcloudCertificateManagerCertificates(_command);
 
     /// <summary>
-    /// gcloud dns-authorizations sub-commands.
+    /// gcloud certificate-manager dns-authorizations sub-commands.
     /// </summary>
     public GcloudCertificateManagerDnsAuthorizations DnsAuthorizations => _dnsAuthorizations ??= new GcloudCertificateManagerDnsAuthorizations(_command);
 
     /// <summary>
-    /// gcloud issuance-configs sub-commands.
+    /// gcloud certificate-manager issuance-configs sub-commands.
     /// </summary>
     public GcloudCertificateManagerIssuanceConfigs IssuanceConfigs => _issuanceConfigs ??= new GcloudCertificateManagerIssuanceConfigs(_command);
 
     /// <summary>
-    /// gcloud maps sub-commands.
+    /// gcloud certificate-manager maps sub-commands.
     /// </summary>
     public GcloudCertificateManagerMaps Maps => _maps ??= new GcloudCertificateManagerMaps(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud certificate-manager operations sub-commands.
     /// </summary>
     public GcloudCertificateManagerOperations Operations => _operations ??= new GcloudCertificateManagerOperations(_command);
 
     /// <summary>
-    /// gcloud trust-configs sub-commands.
+    /// gcloud certificate-manager trust-configs sub-commands.
     /// </summary>
     public GcloudCertificateManagerTrustConfigs TrustConfigs => _trustConfigs ??= new GcloudCertificateManagerTrustConfigs(_command);
 

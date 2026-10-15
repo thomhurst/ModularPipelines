@@ -32,7 +32,11 @@ public record GcloudKmsAutokeyConfigShowEffectiveConfigOptions : GcloudOptions, 
     /// At most one of these can be specified: The project id in which the AutokeyConfig resource exists.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

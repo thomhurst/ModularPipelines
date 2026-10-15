@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud instances commands.
+/// gcloud bigtable instances commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBigtableInstances
@@ -33,7 +33,7 @@ public class GcloudBigtableInstances
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud tables sub-commands.
+    /// gcloud bigtable instances tables sub-commands.
     /// </summary>
     public GcloudBigtableInstancesTables Tables => _tables ??= new GcloudBigtableInstancesTables(_command);
 

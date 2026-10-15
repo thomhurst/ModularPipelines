@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud routers commands.
+/// gcloud compute routers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeRouters
@@ -33,7 +33,7 @@ public class GcloudComputeRouters
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud nats sub-commands.
+    /// gcloud compute routers nats sub-commands.
     /// </summary>
     public GcloudComputeRoutersNats Nats => _nats ??= new GcloudComputeRoutersNats(_command);
 

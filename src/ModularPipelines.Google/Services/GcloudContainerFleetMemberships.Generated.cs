@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud memberships commands.
+/// gcloud container fleet memberships commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerFleetMemberships
@@ -34,12 +34,12 @@ public class GcloudContainerFleetMemberships
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud bindings sub-commands.
+    /// gcloud container fleet memberships bindings sub-commands.
     /// </summary>
     public GcloudContainerFleetMembershipsBindings Bindings => _bindings ??= new GcloudContainerFleetMembershipsBindings(_command);
 
     /// <summary>
-    /// gcloud support-access sub-commands.
+    /// gcloud container fleet memberships support-access sub-commands.
     /// </summary>
     public GcloudContainerFleetMembershipsSupportAccess SupportAccess => _supportAccess ??= new GcloudContainerFleetMembershipsSupportAccess(_command);
 

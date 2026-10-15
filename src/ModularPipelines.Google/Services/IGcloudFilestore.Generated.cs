@@ -22,34 +22,34 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudFilestore
 {
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud filestore backups sub-commands.
     /// </summary>
-    GcloudFilestoreBackups Backups => throw new System.NotSupportedException();
+    GcloudFilestoreBackups Backups { get; }
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud filestore instances sub-commands.
     /// </summary>
-    GcloudFilestoreInstances Instances => throw new System.NotSupportedException();
+    GcloudFilestoreInstances Instances { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud filestore locations sub-commands.
     /// </summary>
-    GcloudFilestoreLocations Locations => throw new System.NotSupportedException();
+    GcloudFilestoreLocations Locations { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud filestore operations sub-commands.
     /// </summary>
-    GcloudFilestoreOperations Operations => throw new System.NotSupportedException();
+    GcloudFilestoreOperations Operations { get; }
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud filestore regions sub-commands.
     /// </summary>
-    GcloudFilestoreRegions Regions => throw new System.NotSupportedException();
+    GcloudFilestoreRegions Regions { get; }
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud filestore zones sub-commands.
     /// </summary>
-    GcloudFilestoreZones Zones => throw new System.NotSupportedException();
+    GcloudFilestoreZones Zones { get; }
 
     /// <summary>
     /// create and manipulate Filestore resources
@@ -58,7 +58,6 @@ public interface IGcloudFilestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudFilestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudFilestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

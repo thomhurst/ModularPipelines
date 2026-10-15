@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud os-login commands.
+/// gcloud compute os-login commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeOsLogin
@@ -33,7 +33,7 @@ public class GcloudComputeOsLogin
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud ssh-keys sub-commands.
+    /// gcloud compute os-login ssh-keys sub-commands.
     /// </summary>
     public GcloudComputeOsLoginSshKeys SshKeys => _sshKeys ??= new GcloudComputeOsLoginSshKeys(_command);
 

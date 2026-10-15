@@ -33,7 +33,7 @@ public class GcloudPublicca : IGcloudPublicca
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud external-account-keys sub-commands.
+    /// gcloud publicca external-account-keys sub-commands.
     /// </summary>
     public GcloudPubliccaExternalAccountKeys ExternalAccountKeys => _externalAccountKeys ??= new GcloudPubliccaExternalAccountKeys(_command);
 

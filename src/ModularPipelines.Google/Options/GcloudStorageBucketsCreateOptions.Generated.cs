@@ -59,13 +59,13 @@ public record GcloudStorageBucketsCreateOptions : GcloudOptions
     /// <summary>
     /// Set the default KMS key using the full path to the key, which has the following form: projects/[project-id]/locations/[location]/keyRings/[key-ring]/cryptoKeys/[my-key].
     /// </summary>
-    [CliOption("--default-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--default-encryption-key", ShortForm = "-k", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultEncryptionKey { get; set; }
 
     /// <summary>
     /// Default storage class (https://cloud.google.com/storage/docs/storage-classes) for the bucket. If not specified, the default storage class used by Cloud Storage is "Standard".
     /// </summary>
-    [CliOption("--default-storage-class", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--default-storage-class", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultStorageClass { get; set; }
 
     /// <summary>
@@ -101,7 +101,7 @@ public record GcloudStorageBucketsCreateOptions : GcloudOptions
     /// <summary>
     /// Location (https://cloud.google.com/storage/docs/locations) for the bucket. If not specified, the location used by Cloud Storage is us. A bucket's location cannot be changed after creation.
     /// </summary>
-    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--location", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
@@ -113,7 +113,7 @@ public record GcloudStorageBucketsCreateOptions : GcloudOptions
     /// <summary>
     /// Sets the recovery point objective (https://cloud.google.com/architecture/dr-scenarios-planning-guide#basics_of_dr_planning) of a bucket. This flag can only be used with multi-region and dual-region buckets. DEFAULT option is valid for multi-region and dual-regions buckets. ASYNC_TURBO option is only valid for dual-region buckets. If unspecified when the bucket is created, it defaults to DEFAULT for dual-region and multi-region buckets. For more information, see replication in Cloud Storage (https://cloud.google.com/storage/docs/availability-durability#cross-region-redundancy). SETTING must be one of: ASYNC_TURBO, DEFAULT.
     /// </summary>
-    [CliOption("--recovery-point-objective", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--recovery-point-objective", ShortForm = "--rpo", Format = OptionFormat.EqualsSeparated)]
     public GcloudStorageBucketsCreateRecoveryPointObjective? RecoveryPointObjective { get; set; }
 
     /// <summary>
@@ -131,7 +131,7 @@ public record GcloudStorageBucketsCreateOptions : GcloudOptions
     /// <summary>
     /// Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
     /// </summary>
-    [CliFlag("--uniform-bucket-level-access", NegatedName = "--no-uniform-bucket-level-access")]
+    [CliFlag("--uniform-bucket-level-access", ShortForm = "-b", NegatedName = "--no-uniform-bucket-level-access")]
     public bool? UniformBucketLevelAccess { get; set; }
 
     /// <summary>

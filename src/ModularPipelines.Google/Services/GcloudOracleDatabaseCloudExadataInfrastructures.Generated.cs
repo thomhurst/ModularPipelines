@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud cloud-exadata-infrastructures commands.
+/// gcloud oracle-database cloud-exadata-infrastructures commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabaseCloudExadataInfrastructures
@@ -33,7 +33,7 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud db-servers sub-commands.
+    /// gcloud oracle-database cloud-exadata-infrastructures db-servers sub-commands.
     /// </summary>
     public GcloudOracleDatabaseCloudExadataInfrastructuresDbServers DbServers => _dbServers ??= new GcloudOracleDatabaseCloudExadataInfrastructuresDbServers(_command);
 
@@ -125,6 +125,21 @@ public class GcloudOracleDatabaseCloudExadataInfrastructures
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
         GcloudOracleDatabaseCloudExadataInfrastructuresListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// update labels     of an ExadataInfrastructure
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        GcloudOracleDatabaseCloudExadataInfrastructuresUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

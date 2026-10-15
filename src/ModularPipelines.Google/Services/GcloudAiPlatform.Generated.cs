@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud aiplatform commands.
+/// gcloud ai-platform commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAiPlatform : IGcloudAiPlatform
@@ -37,27 +37,27 @@ public class GcloudAiPlatform : IGcloudAiPlatform
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud ai-platform jobs sub-commands.
     /// </summary>
     public GcloudAiPlatformJobs Jobs => _jobs ??= new GcloudAiPlatformJobs(_command);
 
     /// <summary>
-    /// gcloud local sub-commands.
+    /// gcloud ai-platform local sub-commands.
     /// </summary>
     public GcloudAiPlatformLocal Local => _local ??= new GcloudAiPlatformLocal(_command);
 
     /// <summary>
-    /// gcloud models sub-commands.
+    /// gcloud ai-platform models sub-commands.
     /// </summary>
     public GcloudAiPlatformModels Models => _models ??= new GcloudAiPlatformModels(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud ai-platform operations sub-commands.
     /// </summary>
     public GcloudAiPlatformOperations Operations => _operations ??= new GcloudAiPlatformOperations(_command);
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud ai-platform versions sub-commands.
     /// </summary>
     public GcloudAiPlatformVersions Versions => _versions ??= new GcloudAiPlatformVersions(_command);
 

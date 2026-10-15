@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud backup-vaults commands.
+/// gcloud netapp backup-vaults commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetappBackupVaults
@@ -33,7 +33,7 @@ public class GcloudNetappBackupVaults
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud netapp backup-vaults backups sub-commands.
     /// </summary>
     public GcloudNetappBackupVaultsBackups Backups => _backups ??= new GcloudNetappBackupVaultsBackups(_command);
 

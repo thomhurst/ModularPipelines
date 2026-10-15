@@ -22,29 +22,29 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudIap
 {
     /// <summary>
-    /// gcloud oauth-brands sub-commands.
+    /// gcloud iap oauth-brands sub-commands.
     /// </summary>
-    GcloudIapOauthBrands OauthBrands => throw new System.NotSupportedException();
+    GcloudIapOauthBrands OauthBrands { get; }
 
     /// <summary>
-    /// gcloud oauth-clients sub-commands.
+    /// gcloud iap oauth-clients sub-commands.
     /// </summary>
-    GcloudIapOauthClients OauthClients => throw new System.NotSupportedException();
+    GcloudIapOauthClients OauthClients { get; }
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud iap settings sub-commands.
     /// </summary>
-    GcloudIapSettings Settings => throw new System.NotSupportedException();
+    GcloudIapSettings Settings { get; }
 
     /// <summary>
-    /// gcloud tcp sub-commands.
+    /// gcloud iap tcp sub-commands.
     /// </summary>
-    GcloudIapTcp Tcp => throw new System.NotSupportedException();
+    GcloudIapTcp Tcp { get; }
 
     /// <summary>
-    /// gcloud web sub-commands.
+    /// gcloud iap web sub-commands.
     /// </summary>
-    GcloudIapWeb Web => throw new System.NotSupportedException();
+    GcloudIapWeb Web { get; }
 
     /// <summary>
     /// manage IAP policies
@@ -53,7 +53,6 @@ public interface IGcloudIap
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudIapOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudIapOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

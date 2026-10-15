@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud instance-groups commands.
+/// gcloud compute instance-groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeInstanceGroups
@@ -34,12 +34,12 @@ public class GcloudComputeInstanceGroups
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud managed sub-commands.
+    /// gcloud compute instance-groups managed sub-commands.
     /// </summary>
     public GcloudComputeInstanceGroupsManaged Managed => _managed ??= new GcloudComputeInstanceGroupsManaged(_command);
 
     /// <summary>
-    /// gcloud unmanaged sub-commands.
+    /// gcloud compute instance-groups unmanaged sub-commands.
     /// </summary>
     public GcloudComputeInstanceGroupsUnmanaged Unmanaged => _unmanaged ??= new GcloudComputeInstanceGroupsUnmanaged(_command);
 

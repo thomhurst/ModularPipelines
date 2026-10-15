@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud deploymentmanager commands.
+/// gcloud deployment-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDeploymentManager : IGcloudDeploymentManager
@@ -37,27 +37,27 @@ public class GcloudDeploymentManager : IGcloudDeploymentManager
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud deployments sub-commands.
+    /// gcloud deployment-manager deployments sub-commands.
     /// </summary>
     public GcloudDeploymentManagerDeployments Deployments => _deployments ??= new GcloudDeploymentManagerDeployments(_command);
 
     /// <summary>
-    /// gcloud manifests sub-commands.
+    /// gcloud deployment-manager manifests sub-commands.
     /// </summary>
     public GcloudDeploymentManagerManifests Manifests => _manifests ??= new GcloudDeploymentManagerManifests(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud deployment-manager operations sub-commands.
     /// </summary>
     public GcloudDeploymentManagerOperations Operations => _operations ??= new GcloudDeploymentManagerOperations(_command);
 
     /// <summary>
-    /// gcloud resources sub-commands.
+    /// gcloud deployment-manager resources sub-commands.
     /// </summary>
     public GcloudDeploymentManagerResources Resources => _resources ??= new GcloudDeploymentManagerResources(_command);
 
     /// <summary>
-    /// gcloud types sub-commands.
+    /// gcloud deployment-manager types sub-commands.
     /// </summary>
     public GcloudDeploymentManagerTypes Types => _types ??= new GcloudDeploymentManagerTypes(_command);
 

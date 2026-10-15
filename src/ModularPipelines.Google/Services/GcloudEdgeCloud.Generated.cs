@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud edgecloud commands.
+/// gcloud edge-cloud commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgeCloud : IGcloudEdgeCloud
@@ -39,37 +39,37 @@ public class GcloudEdgeCloud : IGcloudEdgeCloud
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud api-keys sub-commands.
+    /// gcloud edge-cloud api-keys sub-commands.
     /// </summary>
     public GcloudEdgeCloudApiKeys ApiKeys => _apiKeys ??= new GcloudEdgeCloudApiKeys(_command);
 
     /// <summary>
-    /// gcloud container sub-commands.
+    /// gcloud edge-cloud container sub-commands.
     /// </summary>
     public GcloudEdgeCloudContainer Container => _container ??= new GcloudEdgeCloudContainer(_command);
 
     /// <summary>
-    /// gcloud networking sub-commands.
+    /// gcloud edge-cloud networking sub-commands.
     /// </summary>
     public GcloudEdgeCloudNetworking Networking => _networking ??= new GcloudEdgeCloudNetworking(_command);
 
     /// <summary>
-    /// gcloud projects sub-commands.
+    /// gcloud edge-cloud projects sub-commands.
     /// </summary>
     public GcloudEdgeCloudProjects Projects => _projects ??= new GcloudEdgeCloudProjects(_command);
 
     /// <summary>
-    /// gcloud service-accounts sub-commands.
+    /// gcloud edge-cloud service-accounts sub-commands.
     /// </summary>
     public GcloudEdgeCloudServiceAccounts ServiceAccounts => _serviceAccounts ??= new GcloudEdgeCloudServiceAccounts(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud edge-cloud services sub-commands.
     /// </summary>
     public GcloudEdgeCloudServices Services => _services ??= new GcloudEdgeCloudServices(_command);
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud edge-cloud zones sub-commands.
     /// </summary>
     public GcloudEdgeCloudZones Zones => _zones ??= new GcloudEdgeCloudZones(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud tasks commands.
+/// gcloud dataplex tasks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataplexTasks
@@ -33,7 +33,7 @@ public class GcloudDataplexTasks
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud dataplex tasks jobs sub-commands.
     /// </summary>
     public GcloudDataplexTasksJobs Jobs => _jobs ??= new GcloudDataplexTasksJobs(_command);
 

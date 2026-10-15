@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud perimeters commands.
+/// gcloud access-context-manager perimeters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAccessContextManagerPerimeters
@@ -33,7 +33,7 @@ public class GcloudAccessContextManagerPerimeters
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud dry-run sub-commands.
+    /// gcloud access-context-manager perimeters dry-run sub-commands.
     /// </summary>
     public GcloudAccessContextManagerPerimetersDryRun DryRun => _dryRun ??= new GcloudAccessContextManagerPerimetersDryRun(_command);
 

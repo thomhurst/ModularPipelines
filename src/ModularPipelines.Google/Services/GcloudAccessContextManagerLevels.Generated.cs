@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud levels commands.
+/// gcloud access-context-manager levels commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAccessContextManagerLevels
@@ -33,7 +33,7 @@ public class GcloudAccessContextManagerLevels
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud conditions sub-commands.
+    /// gcloud access-context-manager levels conditions sub-commands.
     /// </summary>
     public GcloudAccessContextManagerLevelsConditions Conditions => _conditions ??= new GcloudAccessContextManagerLevelsConditions(_command);
 

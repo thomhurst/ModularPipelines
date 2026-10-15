@@ -22,39 +22,39 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudBms
 {
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud bms instances sub-commands.
     /// </summary>
-    GcloudBmsInstances Instances => throw new System.NotSupportedException();
+    GcloudBmsInstances Instances { get; }
 
     /// <summary>
-    /// gcloud networks sub-commands.
+    /// gcloud bms networks sub-commands.
     /// </summary>
-    GcloudBmsNetworks Networks => throw new System.NotSupportedException();
+    GcloudBmsNetworks Networks { get; }
 
     /// <summary>
-    /// gcloud nfs-shares sub-commands.
+    /// gcloud bms nfs-shares sub-commands.
     /// </summary>
-    GcloudBmsNfsShares NfsShares => throw new System.NotSupportedException();
+    GcloudBmsNfsShares NfsShares { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud bms operations sub-commands.
     /// </summary>
-    GcloudBmsOperations Operations => throw new System.NotSupportedException();
+    GcloudBmsOperations Operations { get; }
 
     /// <summary>
-    /// gcloud os-images sub-commands.
+    /// gcloud bms os-images sub-commands.
     /// </summary>
-    GcloudBmsOsImages OsImages => throw new System.NotSupportedException();
+    GcloudBmsOsImages OsImages { get; }
 
     /// <summary>
-    /// gcloud ssh-keys sub-commands.
+    /// gcloud bms ssh-keys sub-commands.
     /// </summary>
-    GcloudBmsSshKeys SshKeys => throw new System.NotSupportedException();
+    GcloudBmsSshKeys SshKeys { get; }
 
     /// <summary>
-    /// gcloud volumes sub-commands.
+    /// gcloud bms volumes sub-commands.
     /// </summary>
-    GcloudBmsVolumes Volumes => throw new System.NotSupportedException();
+    GcloudBmsVolumes Volumes { get; }
 
     /// <summary>
     /// manage Bare Metal Solution resources
@@ -63,7 +63,6 @@ public interface IGcloudBms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudBmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudBmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

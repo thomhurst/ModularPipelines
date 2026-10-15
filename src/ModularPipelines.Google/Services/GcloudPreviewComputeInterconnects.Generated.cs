@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud interconnects commands.
+/// gcloud preview compute interconnects commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInterconnects
@@ -40,42 +40,42 @@ public class GcloudPreviewComputeInterconnects
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud application-awareness sub-commands.
+    /// gcloud preview compute interconnects application-awareness sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsApplicationAwareness ApplicationAwareness => _applicationAwareness ??= new GcloudPreviewComputeInterconnectsApplicationAwareness(_command);
 
     /// <summary>
-    /// gcloud attachments sub-commands.
+    /// gcloud preview compute interconnects attachments sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsAttachments Attachments => _attachments ??= new GcloudPreviewComputeInterconnectsAttachments(_command);
 
     /// <summary>
-    /// gcloud cross-site-networks sub-commands.
+    /// gcloud preview compute interconnects cross-site-networks sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsCrossSiteNetworks CrossSiteNetworks => _crossSiteNetworks ??= new GcloudPreviewComputeInterconnectsCrossSiteNetworks(_command);
 
     /// <summary>
-    /// gcloud groups sub-commands.
+    /// gcloud preview compute interconnects groups sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsGroups Groups => _groups ??= new GcloudPreviewComputeInterconnectsGroups(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud preview compute interconnects locations sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsLocations Locations => _locations ??= new GcloudPreviewComputeInterconnectsLocations(_command);
 
     /// <summary>
-    /// gcloud macsec sub-commands.
+    /// gcloud preview compute interconnects macsec sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsMacsec Macsec => _macsec ??= new GcloudPreviewComputeInterconnectsMacsec(_command);
 
     /// <summary>
-    /// gcloud remote-locations sub-commands.
+    /// gcloud preview compute interconnects remote-locations sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsRemoteLocations RemoteLocations => _remoteLocations ??= new GcloudPreviewComputeInterconnectsRemoteLocations(_command);
 
     /// <summary>
-    /// gcloud wire-groups sub-commands.
+    /// gcloud preview compute interconnects wire-groups sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsWireGroups WireGroups => _wireGroups ??= new GcloudPreviewComputeInterconnectsWireGroups(_command);
 

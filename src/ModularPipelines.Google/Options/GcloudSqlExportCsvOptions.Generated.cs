@@ -63,7 +63,7 @@ public record GcloudSqlExportCsvOptions : GcloudOptions
     /// <summary>
     /// Database(s) from which the export is made. Information on requirements can be found here: https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/export#exportContext.databases Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--database", ShortForm = "-d", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Database { get; set; }
 
     /// <summary>

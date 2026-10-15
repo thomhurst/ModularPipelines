@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud ios commands.
+/// gcloud firebase test ios commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFirebaseTestIos
@@ -35,17 +35,17 @@ public class GcloudFirebaseTestIos
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud locales sub-commands.
+    /// gcloud firebase test ios locales sub-commands.
     /// </summary>
     public GcloudFirebaseTestIosLocales Locales => _locales ??= new GcloudFirebaseTestIosLocales(_command);
 
     /// <summary>
-    /// gcloud models sub-commands.
+    /// gcloud firebase test ios models sub-commands.
     /// </summary>
     public GcloudFirebaseTestIosModels Models => _models ??= new GcloudFirebaseTestIosModels(_command);
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud firebase test ios versions sub-commands.
     /// </summary>
     public GcloudFirebaseTestIosVersions Versions => _versions ??= new GcloudFirebaseTestIosVersions(_command);
 

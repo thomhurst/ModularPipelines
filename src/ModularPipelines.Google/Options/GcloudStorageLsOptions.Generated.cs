@@ -32,19 +32,19 @@ public record GcloudStorageLsOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Include noncurrent object versions in the listing. This flag is typically only useful for buckets with object versioning (https://cloud.google.com/storage/docs/object-versioning) enabled. If combined with the --long option, the metageneration for each listed object is also included.
     /// </summary>
-    [CliFlag("--all-versions")]
+    [CliFlag("--all-versions", ShortForm = "-a")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
     /// When given a bucket URL, only return buckets. Useful for avoiding the rule that prints the top-level objects of buckets matching a query. Typically used in combination with --full to get the full metadata of buckets.
     /// </summary>
-    [CliFlag("--buckets")]
+    [CliFlag("--buckets", ShortForm = "-b")]
     public bool? Buckets { get; set; }
 
     /// <summary>
     /// Include ETag metadata in listings that use the --long flag.
     /// </summary>
-    [CliFlag("--etag")]
+    [CliFlag("--etag", ShortForm = "-e")]
     public bool? Etag { get; set; }
 
     /// <summary>
@@ -63,7 +63,11 @@ public record GcloudStorageLsOptions : GcloudOptions, IValidatableObject
     /// Use "gsutil" to get the style of the older gsutil CLI. (e.g. "--format=gsutil"). Other format values (e.g. "json") do not work. See different ls flags and commands for alternative formatting.
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public new string? Format
+    {
+        get => base.Format;
+        set => base.Format = value;
+    }
 
     /// <summary>
     /// Server side filtering for objects. Works only for Google Cloud Storage URLs. The filter only works for objects, and not directories or buckets, which means commands like storage ls and storage du will still list directories or buckets even if they do not contain any objects matching the filter. See https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax for more details.
@@ -81,7 +85,7 @@ public record GcloudStorageLsOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Read the list of URLs from stdin.
     /// </summary>
-    [CliFlag("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin", ShortForm = "-I")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>
@@ -99,19 +103,19 @@ public record GcloudStorageLsOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// At most one of these can be specified: List all available metadata about items in rows.
     /// </summary>
-    [CliFlag("--full")]
+    [CliFlag("--full", ShortForm = "-L")]
     public bool? Full { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: List all available metadata about items as a JSON dump.
     /// </summary>
-    [CliFlag("--json")]
+    [CliFlag("--json", ShortForm = "-j")]
     public bool? Json { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: For objects only. List size in bytes, creation time, and URL.
     /// </summary>
-    [CliFlag("--long")]
+    [CliFlag("--long", ShortForm = "-l")]
     public bool? Long { get; set; }
 
     /// <summary>

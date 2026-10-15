@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud accesscontextmanager commands.
+/// gcloud access-context-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAccessContextManager : IGcloudAccessContextManager
@@ -39,37 +39,37 @@ public class GcloudAccessContextManager : IGcloudAccessContextManager
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud authorized-orgs sub-commands.
+    /// gcloud access-context-manager authorized-orgs sub-commands.
     /// </summary>
     public GcloudAccessContextManagerAuthorizedOrgs AuthorizedOrgs => _authorizedOrgs ??= new GcloudAccessContextManagerAuthorizedOrgs(_command);
 
     /// <summary>
-    /// gcloud cloud-bindings sub-commands.
+    /// gcloud access-context-manager cloud-bindings sub-commands.
     /// </summary>
     public GcloudAccessContextManagerCloudBindings CloudBindings => _cloudBindings ??= new GcloudAccessContextManagerCloudBindings(_command);
 
     /// <summary>
-    /// gcloud levels sub-commands.
+    /// gcloud access-context-manager levels sub-commands.
     /// </summary>
     public GcloudAccessContextManagerLevels Levels => _levels ??= new GcloudAccessContextManagerLevels(_command);
 
     /// <summary>
-    /// gcloud perimeters sub-commands.
+    /// gcloud access-context-manager perimeters sub-commands.
     /// </summary>
     public GcloudAccessContextManagerPerimeters Perimeters => _perimeters ??= new GcloudAccessContextManagerPerimeters(_command);
 
     /// <summary>
-    /// gcloud policies sub-commands.
+    /// gcloud access-context-manager policies sub-commands.
     /// </summary>
     public GcloudAccessContextManagerPolicies Policies => _policies ??= new GcloudAccessContextManagerPolicies(_command);
 
     /// <summary>
-    /// gcloud supported-permissions sub-commands.
+    /// gcloud access-context-manager supported-permissions sub-commands.
     /// </summary>
     public GcloudAccessContextManagerSupportedPermissions SupportedPermissions => _supportedPermissions ??= new GcloudAccessContextManagerSupportedPermissions(_command);
 
     /// <summary>
-    /// gcloud supported-services sub-commands.
+    /// gcloud access-context-manager supported-services sub-commands.
     /// </summary>
     public GcloudAccessContextManagerSupportedServices SupportedServices => _supportedServices ??= new GcloudAccessContextManagerSupportedServices(_command);
 

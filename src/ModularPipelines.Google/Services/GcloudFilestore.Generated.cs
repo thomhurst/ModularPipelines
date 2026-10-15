@@ -38,32 +38,32 @@ public class GcloudFilestore : IGcloudFilestore
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud filestore backups sub-commands.
     /// </summary>
     public GcloudFilestoreBackups Backups => _backups ??= new GcloudFilestoreBackups(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud filestore instances sub-commands.
     /// </summary>
     public GcloudFilestoreInstances Instances => _instances ??= new GcloudFilestoreInstances(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud filestore locations sub-commands.
     /// </summary>
     public GcloudFilestoreLocations Locations => _locations ??= new GcloudFilestoreLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud filestore operations sub-commands.
     /// </summary>
     public GcloudFilestoreOperations Operations => _operations ??= new GcloudFilestoreOperations(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud filestore regions sub-commands.
     /// </summary>
     public GcloudFilestoreRegions Regions => _regions ??= new GcloudFilestoreRegions(_command);
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud filestore zones sub-commands.
     /// </summary>
     public GcloudFilestoreZones Zones => _zones ??= new GcloudFilestoreZones(_command);
 

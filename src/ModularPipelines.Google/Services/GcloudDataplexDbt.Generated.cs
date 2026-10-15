@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud dbt commands.
+/// gcloud dataplex dbt commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataplexDbt
@@ -33,7 +33,7 @@ public class GcloudDataplexDbt
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud metadata-jobs sub-commands.
+    /// gcloud dataplex dbt metadata-jobs sub-commands.
     /// </summary>
     public GcloudDataplexDbtMetadataJobs MetadataJobs => _metadataJobs ??= new GcloudDataplexDbtMetadataJobs(_command);
 

@@ -42,52 +42,52 @@ public class GcloudStorage : IGcloudStorage
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud batch-operations sub-commands.
+    /// gcloud storage batch-operations sub-commands.
     /// </summary>
     public GcloudStorageBatchOperations BatchOperations => _batchOperations ??= new GcloudStorageBatchOperations(_command);
 
     /// <summary>
-    /// gcloud buckets sub-commands.
+    /// gcloud storage buckets sub-commands.
     /// </summary>
     public GcloudStorageBuckets Buckets => _buckets ??= new GcloudStorageBuckets(_command);
 
     /// <summary>
-    /// gcloud folders sub-commands.
+    /// gcloud storage folders sub-commands.
     /// </summary>
     public GcloudStorageFolders Folders => _folders ??= new GcloudStorageFolders(_command);
 
     /// <summary>
-    /// gcloud hmac sub-commands.
+    /// gcloud storage hmac sub-commands.
     /// </summary>
     public GcloudStorageHmac Hmac => _hmac ??= new GcloudStorageHmac(_command);
 
     /// <summary>
-    /// gcloud insights sub-commands.
+    /// gcloud storage insights sub-commands.
     /// </summary>
     public GcloudStorageInsights Insights => _insights ??= new GcloudStorageInsights(_command);
 
     /// <summary>
-    /// gcloud intelligence-configs sub-commands.
+    /// gcloud storage intelligence-configs sub-commands.
     /// </summary>
     public GcloudStorageIntelligenceConfigs IntelligenceConfigs => _intelligenceConfigs ??= new GcloudStorageIntelligenceConfigs(_command);
 
     /// <summary>
-    /// gcloud intelligence-findings sub-commands.
+    /// gcloud storage intelligence-findings sub-commands.
     /// </summary>
     public GcloudStorageIntelligenceFindings IntelligenceFindings => _intelligenceFindings ??= new GcloudStorageIntelligenceFindings(_command);
 
     /// <summary>
-    /// gcloud managed-folders sub-commands.
+    /// gcloud storage managed-folders sub-commands.
     /// </summary>
     public GcloudStorageManagedFolders ManagedFolders => _managedFolders ??= new GcloudStorageManagedFolders(_command);
 
     /// <summary>
-    /// gcloud objects sub-commands.
+    /// gcloud storage objects sub-commands.
     /// </summary>
     public GcloudStorageObjects Objects => _objects ??= new GcloudStorageObjects(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud storage operations sub-commands.
     /// </summary>
     public GcloudStorageOperations Operations => _operations ??= new GcloudStorageOperations(_command);
 

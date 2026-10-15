@@ -778,7 +778,7 @@ public record GcloudDataprocClustersCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// At most one of these can be specified: The compute zone (such as us-central1-a) for the cluster. If empty and --region is set to a value other than global, Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) will pick a zone in the region. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zone", ShortForm = "-z", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>

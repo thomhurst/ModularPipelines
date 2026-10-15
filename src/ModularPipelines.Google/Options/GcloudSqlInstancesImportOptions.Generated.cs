@@ -52,7 +52,7 @@ public record GcloudSqlInstancesImportOptions : GcloudOptions
     /// <summary>
     /// Database to which the import is made. The database needs to be created before importing. If not set, it is assumed that the database is specified in the file to be imported. If your SQL dump file includes a database statement, it will override the database set in this flag.
     /// </summary>
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--database", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
     /// <summary>

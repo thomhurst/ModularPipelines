@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud android commands.
+/// gcloud firebase test android commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFirebaseTestAndroid
@@ -35,17 +35,17 @@ public class GcloudFirebaseTestAndroid
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud locales sub-commands.
+    /// gcloud firebase test android locales sub-commands.
     /// </summary>
     public GcloudFirebaseTestAndroidLocales Locales => _locales ??= new GcloudFirebaseTestAndroidLocales(_command);
 
     /// <summary>
-    /// gcloud models sub-commands.
+    /// gcloud firebase test android models sub-commands.
     /// </summary>
     public GcloudFirebaseTestAndroidModels Models => _models ??= new GcloudFirebaseTestAndroidModels(_command);
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud firebase test android versions sub-commands.
     /// </summary>
     public GcloudFirebaseTestAndroidVersions Versions => _versions ??= new GcloudFirebaseTestAndroidVersions(_command);
 

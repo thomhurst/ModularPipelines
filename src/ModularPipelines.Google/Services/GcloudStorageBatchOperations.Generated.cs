@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud batch-operations commands.
+/// gcloud storage batch-operations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudStorageBatchOperations
@@ -34,12 +34,12 @@ public class GcloudStorageBatchOperations
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud bucket-operations sub-commands.
+    /// gcloud storage batch-operations bucket-operations sub-commands.
     /// </summary>
     public GcloudStorageBatchOperationsBucketOperations BucketOperations => _bucketOperations ??= new GcloudStorageBatchOperationsBucketOperations(_command);
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud storage batch-operations jobs sub-commands.
     /// </summary>
     public GcloudStorageBatchOperationsJobs Jobs => _jobs ??= new GcloudStorageBatchOperationsJobs(_command);
 

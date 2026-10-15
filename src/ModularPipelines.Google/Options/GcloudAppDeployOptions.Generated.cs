@@ -72,7 +72,7 @@ public record GcloudAppDeployOptions : GcloudOptions
     /// <summary>
     /// The version of the app that will be created or replaced by this deployment. If you do not specify a version, one will be generated for you.
     /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--version", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
     /// <summary>

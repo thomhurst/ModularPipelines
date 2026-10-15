@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudLooker
 {
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud looker backups sub-commands.
     /// </summary>
-    GcloudLookerBackups Backups => throw new System.NotSupportedException();
+    GcloudLookerBackups Backups { get; }
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud looker instances sub-commands.
     /// </summary>
-    GcloudLookerInstances Instances => throw new System.NotSupportedException();
+    GcloudLookerInstances Instances { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud looker operations sub-commands.
     /// </summary>
-    GcloudLookerOperations Operations => throw new System.NotSupportedException();
+    GcloudLookerOperations Operations { get; }
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud looker regions sub-commands.
     /// </summary>
-    GcloudLookerRegions Regions => throw new System.NotSupportedException();
+    GcloudLookerRegions Regions { get; }
 
     /// <summary>
     /// manage Looker resources
@@ -48,7 +48,6 @@ public interface IGcloudLooker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudLookerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudLookerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

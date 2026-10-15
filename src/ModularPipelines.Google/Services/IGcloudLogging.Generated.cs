@@ -22,69 +22,69 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudLogging
 {
     /// <summary>
-    /// gcloud buckets sub-commands.
+    /// gcloud logging buckets sub-commands.
     /// </summary>
-    GcloudLoggingBuckets Buckets => throw new System.NotSupportedException();
+    GcloudLoggingBuckets Buckets { get; }
 
     /// <summary>
-    /// gcloud links sub-commands.
+    /// gcloud logging links sub-commands.
     /// </summary>
-    GcloudLoggingLinks Links => throw new System.NotSupportedException();
+    GcloudLoggingLinks Links { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud logging locations sub-commands.
     /// </summary>
-    GcloudLoggingLocations Locations => throw new System.NotSupportedException();
+    GcloudLoggingLocations Locations { get; }
 
     /// <summary>
-    /// gcloud logs sub-commands.
+    /// gcloud logging logs sub-commands.
     /// </summary>
-    GcloudLoggingLogs Logs => throw new System.NotSupportedException();
+    GcloudLoggingLogs Logs { get; }
 
     /// <summary>
-    /// gcloud metrics sub-commands.
+    /// gcloud logging metrics sub-commands.
     /// </summary>
-    GcloudLoggingMetrics Metrics => throw new System.NotSupportedException();
+    GcloudLoggingMetrics Metrics { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud logging operations sub-commands.
     /// </summary>
-    GcloudLoggingOperations Operations => throw new System.NotSupportedException();
+    GcloudLoggingOperations Operations { get; }
 
     /// <summary>
-    /// gcloud recent-queries sub-commands.
+    /// gcloud logging recent-queries sub-commands.
     /// </summary>
-    GcloudLoggingRecentQueries RecentQueries => throw new System.NotSupportedException();
+    GcloudLoggingRecentQueries RecentQueries { get; }
 
     /// <summary>
-    /// gcloud resource-descriptors sub-commands.
+    /// gcloud logging resource-descriptors sub-commands.
     /// </summary>
-    GcloudLoggingResourceDescriptors ResourceDescriptors => throw new System.NotSupportedException();
+    GcloudLoggingResourceDescriptors ResourceDescriptors { get; }
 
     /// <summary>
-    /// gcloud saved-queries sub-commands.
+    /// gcloud logging saved-queries sub-commands.
     /// </summary>
-    GcloudLoggingSavedQueries SavedQueries => throw new System.NotSupportedException();
+    GcloudLoggingSavedQueries SavedQueries { get; }
 
     /// <summary>
-    /// gcloud scopes sub-commands.
+    /// gcloud logging scopes sub-commands.
     /// </summary>
-    GcloudLoggingScopes Scopes => throw new System.NotSupportedException();
+    GcloudLoggingScopes Scopes { get; }
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud logging settings sub-commands.
     /// </summary>
-    GcloudLoggingSettings Settings => throw new System.NotSupportedException();
+    GcloudLoggingSettings Settings { get; }
 
     /// <summary>
-    /// gcloud sinks sub-commands.
+    /// gcloud logging sinks sub-commands.
     /// </summary>
-    GcloudLoggingSinks Sinks => throw new System.NotSupportedException();
+    GcloudLoggingSinks Sinks { get; }
 
     /// <summary>
-    /// gcloud views sub-commands.
+    /// gcloud logging views sub-commands.
     /// </summary>
-    GcloudLoggingViews Views => throw new System.NotSupportedException();
+    GcloudLoggingViews Views { get; }
 
     /// <summary>
     /// manage Cloud Logging
@@ -93,8 +93,7 @@ public interface IGcloudLogging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudLoggingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudLoggingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// copy log entries
@@ -103,8 +102,7 @@ public interface IGcloudLogging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyAsync(GcloudLoggingCopyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyAsync(GcloudLoggingCopyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// read log entries
@@ -113,8 +111,7 @@ public interface IGcloudLogging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReadAsync(GcloudLoggingReadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReadAsync(GcloudLoggingReadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// write a log entry
@@ -123,7 +120,6 @@ public interface IGcloudLogging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WriteAsync(GcloudLoggingWriteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> WriteAsync(GcloudLoggingWriteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -26,26 +26,26 @@ public record GcloudBillingAccountsRemoveIamPolicyBindingOptions : GcloudOptions
     /// </summary>
     /// <param name="Member">The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
     /// <param name="Role">The role to remove the principal from.</param>
-    /// <param name="Account">Account resource - Name of the Cloud Billing account for which to remove the IAM policy binding. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.</param>
+    /// <param name="AccountsAccount">Account resource - Name of the Cloud Billing account for which to remove the IAM policy binding. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.</param>
     public GcloudBillingAccountsRemoveIamPolicyBindingOptions(
         string Member,
         string Role,
-        string Account
+        string AccountsAccount
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Member);
         this.Member = Member;
         global::System.ArgumentNullException.ThrowIfNull(Role);
         this.Role = Role;
-        global::System.ArgumentNullException.ThrowIfNull(Account);
-        this.Account = Account;
+        global::System.ArgumentNullException.ThrowIfNull(AccountsAccount);
+        this.AccountsAccount = AccountsAccount;
     }
 
-    public void Deconstruct(out string Member, out string Role, out string Account)
+    public void Deconstruct(out string Member, out string Role, out string AccountsAccount)
     {
         Member = this.Member;
         Role = this.Role;
-        Account = this.Account;
+        AccountsAccount = this.AccountsAccount;
     }
 
     /// <summary>
@@ -64,6 +64,6 @@ public record GcloudBillingAccountsRemoveIamPolicyBindingOptions : GcloudOptions
     /// Account resource - Name of the Cloud Billing account for which to remove the IAM policy binding. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string Account { get; private init; }
+    public string AccountsAccount { get; private init; }
 
 }

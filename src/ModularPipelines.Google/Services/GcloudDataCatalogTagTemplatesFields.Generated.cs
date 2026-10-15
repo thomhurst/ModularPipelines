@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud fields commands.
+/// gcloud data-catalog tag-templates fields commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataCatalogTagTemplatesFields
@@ -33,7 +33,7 @@ public class GcloudDataCatalogTagTemplatesFields
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud enum-values sub-commands.
+    /// gcloud data-catalog tag-templates fields enum-values sub-commands.
     /// </summary>
     public GcloudDataCatalogTagTemplatesFieldsEnumValues EnumValues => _enumValues ??= new GcloudDataCatalogTagTemplatesFieldsEnumValues(_command);
 

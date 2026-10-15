@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud vcenter commands.
+/// gcloud vmware private-clouds vcenter commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwarePrivateCloudsVcenter
@@ -33,7 +33,7 @@ public class GcloudVmwarePrivateCloudsVcenter
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud credentials sub-commands.
+    /// gcloud vmware private-clouds vcenter credentials sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsVcenterCredentials Credentials => _credentials ??= new GcloudVmwarePrivateCloudsVcenterCredentials(_command);
 

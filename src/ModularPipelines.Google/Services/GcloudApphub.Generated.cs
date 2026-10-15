@@ -39,37 +39,37 @@ public class GcloudApphub : IGcloudApphub
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud applications sub-commands.
+    /// gcloud apphub applications sub-commands.
     /// </summary>
     public GcloudApphubApplications Applications => _applications ??= new GcloudApphubApplications(_command);
 
     /// <summary>
-    /// gcloud boundary sub-commands.
+    /// gcloud apphub boundary sub-commands.
     /// </summary>
     public GcloudApphubBoundary Boundary => _boundary ??= new GcloudApphubBoundary(_command);
 
     /// <summary>
-    /// gcloud discovered-services sub-commands.
+    /// gcloud apphub discovered-services sub-commands.
     /// </summary>
     public GcloudApphubDiscoveredServices DiscoveredServices => _discoveredServices ??= new GcloudApphubDiscoveredServices(_command);
 
     /// <summary>
-    /// gcloud discovered-workloads sub-commands.
+    /// gcloud apphub discovered-workloads sub-commands.
     /// </summary>
     public GcloudApphubDiscoveredWorkloads DiscoveredWorkloads => _discoveredWorkloads ??= new GcloudApphubDiscoveredWorkloads(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud apphub locations sub-commands.
     /// </summary>
     public GcloudApphubLocations Locations => _locations ??= new GcloudApphubLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud apphub operations sub-commands.
     /// </summary>
     public GcloudApphubOperations Operations => _operations ??= new GcloudApphubOperations(_command);
 
     /// <summary>
-    /// gcloud service-projects sub-commands.
+    /// gcloud apphub service-projects sub-commands.
     /// </summary>
     public GcloudApphubServiceProjects ServiceProjects => _serviceProjects ??= new GcloudApphubServiceProjects(_command);
 

@@ -22,59 +22,59 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudBigtable
 {
     /// <summary>
-    /// gcloud app-profiles sub-commands.
+    /// gcloud bigtable app-profiles sub-commands.
     /// </summary>
-    GcloudBigtableAppProfiles AppProfiles => throw new System.NotSupportedException();
+    GcloudBigtableAppProfiles AppProfiles { get; }
 
     /// <summary>
-    /// gcloud authorized-views sub-commands.
+    /// gcloud bigtable authorized-views sub-commands.
     /// </summary>
-    GcloudBigtableAuthorizedViews AuthorizedViews => throw new System.NotSupportedException();
+    GcloudBigtableAuthorizedViews AuthorizedViews { get; }
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud bigtable backups sub-commands.
     /// </summary>
-    GcloudBigtableBackups Backups => throw new System.NotSupportedException();
+    GcloudBigtableBackups Backups { get; }
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud bigtable clusters sub-commands.
     /// </summary>
-    GcloudBigtableClusters Clusters => throw new System.NotSupportedException();
+    GcloudBigtableClusters Clusters { get; }
 
     /// <summary>
-    /// gcloud hot-tablets sub-commands.
+    /// gcloud bigtable hot-tablets sub-commands.
     /// </summary>
-    GcloudBigtableHotTablets HotTablets => throw new System.NotSupportedException();
+    GcloudBigtableHotTablets HotTablets { get; }
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud bigtable instances sub-commands.
     /// </summary>
-    GcloudBigtableInstances Instances => throw new System.NotSupportedException();
+    GcloudBigtableInstances Instances { get; }
 
     /// <summary>
-    /// gcloud logical-views sub-commands.
+    /// gcloud bigtable logical-views sub-commands.
     /// </summary>
-    GcloudBigtableLogicalViews LogicalViews => throw new System.NotSupportedException();
+    GcloudBigtableLogicalViews LogicalViews { get; }
 
     /// <summary>
-    /// gcloud materialized-views sub-commands.
+    /// gcloud bigtable materialized-views sub-commands.
     /// </summary>
-    GcloudBigtableMaterializedViews MaterializedViews => throw new System.NotSupportedException();
+    GcloudBigtableMaterializedViews MaterializedViews { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud bigtable operations sub-commands.
     /// </summary>
-    GcloudBigtableOperations Operations => throw new System.NotSupportedException();
+    GcloudBigtableOperations Operations { get; }
 
     /// <summary>
-    /// gcloud schema-bundles sub-commands.
+    /// gcloud bigtable schema-bundles sub-commands.
     /// </summary>
-    GcloudBigtableSchemaBundles SchemaBundles => throw new System.NotSupportedException();
+    GcloudBigtableSchemaBundles SchemaBundles { get; }
 
     /// <summary>
-    /// gcloud tables sub-commands.
+    /// gcloud bigtable tables sub-commands.
     /// </summary>
-    GcloudBigtableTables Tables => throw new System.NotSupportedException();
+    GcloudBigtableTables Tables { get; }
 
     /// <summary>
     /// manage your Cloud Bigtable storage
@@ -83,7 +83,6 @@ public interface IGcloudBigtable
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudBigtableOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudBigtableOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

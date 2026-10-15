@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud datascans commands.
+/// gcloud dataplex datascans commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataplexDatascans
@@ -35,17 +35,17 @@ public class GcloudDataplexDatascans
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud create sub-commands.
+    /// gcloud dataplex datascans create sub-commands.
     /// </summary>
     public GcloudDataplexDatascansCreate Create => _create ??= new GcloudDataplexDatascansCreate(_command);
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud dataplex datascans jobs sub-commands.
     /// </summary>
     public GcloudDataplexDatascansJobs Jobs => _jobs ??= new GcloudDataplexDatascansJobs(_command);
 
     /// <summary>
-    /// gcloud update sub-commands.
+    /// gcloud dataplex datascans update sub-commands.
     /// </summary>
     public GcloudDataplexDatascansUpdate Update => _update ??= new GcloudDataplexDatascansUpdate(_command);
 

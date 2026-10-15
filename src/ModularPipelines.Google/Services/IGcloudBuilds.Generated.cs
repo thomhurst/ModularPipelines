@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudBuilds
 {
     /// <summary>
-    /// gcloud connections sub-commands.
+    /// gcloud builds connections sub-commands.
     /// </summary>
-    GcloudBuildsConnections Connections => throw new System.NotSupportedException();
+    GcloudBuildsConnections Connections { get; }
 
     /// <summary>
-    /// gcloud repositories sub-commands.
+    /// gcloud builds repositories sub-commands.
     /// </summary>
-    GcloudBuildsRepositories Repositories => throw new System.NotSupportedException();
+    GcloudBuildsRepositories Repositories { get; }
 
     /// <summary>
-    /// gcloud triggers sub-commands.
+    /// gcloud builds triggers sub-commands.
     /// </summary>
-    GcloudBuildsTriggers Triggers => throw new System.NotSupportedException();
+    GcloudBuildsTriggers Triggers { get; }
 
     /// <summary>
-    /// gcloud worker-pools sub-commands.
+    /// gcloud builds worker-pools sub-commands.
     /// </summary>
-    GcloudBuildsWorkerPools WorkerPools => throw new System.NotSupportedException();
+    GcloudBuildsWorkerPools WorkerPools { get; }
 
     /// <summary>
     /// create and manage builds for Google Cloud Build
@@ -48,8 +48,7 @@ public interface IGcloudBuilds
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudBuildsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudBuildsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// cancel an ongoing build
@@ -58,8 +57,7 @@ public interface IGcloudBuilds
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelAsync(GcloudBuildsCancelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelAsync(GcloudBuildsCancelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// get information about a particular build
@@ -68,8 +66,7 @@ public interface IGcloudBuilds
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAsync(GcloudBuildsDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAsync(GcloudBuildsDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// get the default service account     for a project
@@ -78,8 +75,7 @@ public interface IGcloudBuilds
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDefaultServiceAccountAsync(GcloudBuildsGetDefaultServiceAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDefaultServiceAccountAsync(GcloudBuildsGetDefaultServiceAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list builds
@@ -88,8 +84,7 @@ public interface IGcloudBuilds
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(GcloudBuildsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(GcloudBuildsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// stream the logs for a build
@@ -98,8 +93,7 @@ public interface IGcloudBuilds
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LogAsync(GcloudBuildsLogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LogAsync(GcloudBuildsLogOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// submit a build using Cloud Build
@@ -108,7 +102,6 @@ public interface IGcloudBuilds
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SubmitAsync(GcloudBuildsSubmitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SubmitAsync(GcloudBuildsSubmitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

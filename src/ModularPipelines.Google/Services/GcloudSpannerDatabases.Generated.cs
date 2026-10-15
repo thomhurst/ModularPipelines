@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud databases commands.
+/// gcloud spanner databases commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudSpannerDatabases
@@ -36,22 +36,22 @@ public class GcloudSpannerDatabases
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud ddl sub-commands.
+    /// gcloud spanner databases ddl sub-commands.
     /// </summary>
     public GcloudSpannerDatabasesDdl Ddl => _ddl ??= new GcloudSpannerDatabasesDdl(_command);
 
     /// <summary>
-    /// gcloud roles sub-commands.
+    /// gcloud spanner databases roles sub-commands.
     /// </summary>
     public GcloudSpannerDatabasesRoles Roles => _roles ??= new GcloudSpannerDatabasesRoles(_command);
 
     /// <summary>
-    /// gcloud sessions sub-commands.
+    /// gcloud spanner databases sessions sub-commands.
     /// </summary>
     public GcloudSpannerDatabasesSessions Sessions => _sessions ??= new GcloudSpannerDatabasesSessions(_command);
 
     /// <summary>
-    /// gcloud splits sub-commands.
+    /// gcloud spanner databases splits sub-commands.
     /// </summary>
     public GcloudSpannerDatabasesSplits Splits => _splits ??= new GcloudSpannerDatabasesSplits(_command);
 

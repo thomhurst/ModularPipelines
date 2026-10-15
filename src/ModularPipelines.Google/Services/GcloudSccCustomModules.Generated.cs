@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud custom-modules commands.
+/// gcloud scc custom-modules commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudSccCustomModules
@@ -33,7 +33,7 @@ public class GcloudSccCustomModules
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud sha sub-commands.
+    /// gcloud scc custom-modules sha sub-commands.
     /// </summary>
     public GcloudSccCustomModulesSha Sha => _sha ??= new GcloudSccCustomModulesSha(_command);
 

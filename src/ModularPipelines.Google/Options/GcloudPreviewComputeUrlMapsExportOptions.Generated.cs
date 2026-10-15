@@ -40,7 +40,7 @@ public record GcloudPreviewComputeUrlMapsExportOptions : GcloudOptions, IValidat
     }
 
     /// <summary>
-    /// Path to a YAML file where the configuration will be exported. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/UrlMap.yaml.
+    /// Path to a YAML file where the configuration will be exported. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/preview/UrlMap.yaml.
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }

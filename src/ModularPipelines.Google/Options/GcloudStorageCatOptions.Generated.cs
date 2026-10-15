@@ -58,13 +58,13 @@ public record GcloudStorageCatOptions : GcloudOptions
     /// <summary>
     /// Prints the header before each object.
     /// </summary>
-    [CliFlag("--display-url")]
+    [CliFlag("--display-url", ShortForm = "-d")]
     public bool? DisplayUrl { get; set; }
 
     /// <summary>
     /// Causes gcloud storage to output just the specified byte range of the object. In a case where "start" = 'x', and "end" = 'y', ranges take the form: x-y (e.g., -r 256-5939), x- (e.g., -r 256-), -y (e.g., -r -5) When offsets start at 0, x-y means to return bytes x through y (inclusive), x- means to return bytes x through the end of the object, and -y changes the role of y. If -y is present, then it returns the last y bytes of the object. If the bytes are out of range of the object, then nothing is printed
     /// </summary>
-    [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--range", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
     public string? Range { get; set; }
 
     /// <summary>

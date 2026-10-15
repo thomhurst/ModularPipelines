@@ -60,13 +60,13 @@ public record GcloudDataprocWorkflowTemplatesAddJobHiveOptions : GcloudOptions, 
     /// <summary>
     /// Exactly one of these must be specified: A Hive query to execute as part of the job.
     /// </summary>
-    [CliOption("--execute", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--execute", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public string? Execute { get; set; }
 
     /// <summary>
     /// Exactly one of these must be specified: HCFS URI of file containing Hive script to execute as the job.
     /// </summary>
-    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
 
     /// <summary>

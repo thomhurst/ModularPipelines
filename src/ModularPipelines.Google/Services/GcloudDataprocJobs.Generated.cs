@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud jobs commands.
+/// gcloud dataproc jobs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataprocJobs
@@ -33,7 +33,7 @@ public class GcloudDataprocJobs
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud submit sub-commands.
+    /// gcloud dataproc jobs submit sub-commands.
     /// </summary>
     public GcloudDataprocJobsSubmit Submit => _submit ??= new GcloudDataprocJobsSubmit(_command);
 

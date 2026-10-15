@@ -53,107 +53,107 @@ public class GcloudArtifacts : IGcloudArtifacts
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud apt sub-commands.
+    /// gcloud artifacts apt sub-commands.
     /// </summary>
     public GcloudArtifactsApt Apt => _apt ??= new GcloudArtifactsApt(_command);
 
     /// <summary>
-    /// gcloud attachments sub-commands.
+    /// gcloud artifacts attachments sub-commands.
     /// </summary>
     public GcloudArtifactsAttachments Attachments => _attachments ??= new GcloudArtifactsAttachments(_command);
 
     /// <summary>
-    /// gcloud docker sub-commands.
+    /// gcloud artifacts docker sub-commands.
     /// </summary>
     public GcloudArtifactsDocker Docker => _docker ??= new GcloudArtifactsDocker(_command);
 
     /// <summary>
-    /// gcloud files sub-commands.
+    /// gcloud artifacts files sub-commands.
     /// </summary>
     public GcloudArtifactsFiles Files => _files ??= new GcloudArtifactsFiles(_command);
 
     /// <summary>
-    /// gcloud generic sub-commands.
+    /// gcloud artifacts generic sub-commands.
     /// </summary>
     public GcloudArtifactsGeneric Generic => _generic ??= new GcloudArtifactsGeneric(_command);
 
     /// <summary>
-    /// gcloud go sub-commands.
+    /// gcloud artifacts go sub-commands.
     /// </summary>
     public GcloudArtifactsGo Go => _go ??= new GcloudArtifactsGo(_command);
 
     /// <summary>
-    /// gcloud image-streaming-cache sub-commands.
+    /// gcloud artifacts image-streaming-cache sub-commands.
     /// </summary>
     public GcloudArtifactsImageStreamingCache ImageStreamingCache => _imageStreamingCache ??= new GcloudArtifactsImageStreamingCache(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud artifacts locations sub-commands.
     /// </summary>
     public GcloudArtifactsLocations Locations => _locations ??= new GcloudArtifactsLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud artifacts operations sub-commands.
     /// </summary>
     public GcloudArtifactsOperations Operations => _operations ??= new GcloudArtifactsOperations(_command);
 
     /// <summary>
-    /// gcloud packages sub-commands.
+    /// gcloud artifacts packages sub-commands.
     /// </summary>
     public GcloudArtifactsPackages Packages => _packages ??= new GcloudArtifactsPackages(_command);
 
     /// <summary>
-    /// gcloud print-settings sub-commands.
+    /// gcloud artifacts print-settings sub-commands.
     /// </summary>
     public GcloudArtifactsPrintSettings PrintSettings => _printSettings ??= new GcloudArtifactsPrintSettings(_command);
 
     /// <summary>
-    /// gcloud projects sub-commands.
+    /// gcloud artifacts projects sub-commands.
     /// </summary>
     public GcloudArtifactsProjects Projects => _projects ??= new GcloudArtifactsProjects(_command);
 
     /// <summary>
-    /// gcloud repositories sub-commands.
+    /// gcloud artifacts repositories sub-commands.
     /// </summary>
     public GcloudArtifactsRepositories Repositories => _repositories ??= new GcloudArtifactsRepositories(_command);
 
     /// <summary>
-    /// gcloud rules sub-commands.
+    /// gcloud artifacts rules sub-commands.
     /// </summary>
     public GcloudArtifactsRules Rules => _rules ??= new GcloudArtifactsRules(_command);
 
     /// <summary>
-    /// gcloud sbom sub-commands.
+    /// gcloud artifacts sbom sub-commands.
     /// </summary>
     public GcloudArtifactsSbom Sbom => _sbom ??= new GcloudArtifactsSbom(_command);
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud artifacts settings sub-commands.
     /// </summary>
     public GcloudArtifactsSettings Settings => _settings ??= new GcloudArtifactsSettings(_command);
 
     /// <summary>
-    /// gcloud tags sub-commands.
+    /// gcloud artifacts tags sub-commands.
     /// </summary>
     public GcloudArtifactsTags Tags => _tags ??= new GcloudArtifactsTags(_command);
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud artifacts versions sub-commands.
     /// </summary>
     public GcloudArtifactsVersions Versions => _versions ??= new GcloudArtifactsVersions(_command);
 
     /// <summary>
-    /// gcloud vpcsc-config sub-commands.
+    /// gcloud artifacts vpcsc-config sub-commands.
     /// </summary>
     public GcloudArtifactsVpcscConfig VpcscConfig => _vpcscConfig ??= new GcloudArtifactsVpcscConfig(_command);
 
     /// <summary>
-    /// gcloud vulnerabilities sub-commands.
+    /// gcloud artifacts vulnerabilities sub-commands.
     /// </summary>
     public GcloudArtifactsVulnerabilities Vulnerabilities => _vulnerabilities ??= new GcloudArtifactsVulnerabilities(_command);
 
     /// <summary>
-    /// gcloud yum sub-commands.
+    /// gcloud artifacts yum sub-commands.
     /// </summary>
     public GcloudArtifactsYum Yum => _yum ??= new GcloudArtifactsYum(_command);
 

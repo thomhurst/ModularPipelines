@@ -34,12 +34,12 @@ public class GcloudRecaptcha : IGcloudRecaptcha
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud firewall-policies sub-commands.
+    /// gcloud recaptcha firewall-policies sub-commands.
     /// </summary>
     public GcloudRecaptchaFirewallPolicies FirewallPolicies => _firewallPolicies ??= new GcloudRecaptchaFirewallPolicies(_command);
 
     /// <summary>
-    /// gcloud keys sub-commands.
+    /// gcloud recaptcha keys sub-commands.
     /// </summary>
     public GcloudRecaptchaKeys Keys => _keys ??= new GcloudRecaptchaKeys(_command);
 

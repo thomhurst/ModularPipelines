@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud instances commands.
+/// gcloud preview compute instances commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInstances
@@ -36,22 +36,22 @@ public class GcloudPreviewComputeInstances
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud bulk sub-commands.
+    /// gcloud preview compute instances bulk sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstancesBulk Bulk => _bulk ??= new GcloudPreviewComputeInstancesBulk(_command);
 
     /// <summary>
-    /// gcloud network-interfaces sub-commands.
+    /// gcloud preview compute instances network-interfaces sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstancesNetworkInterfaces NetworkInterfaces => _networkInterfaces ??= new GcloudPreviewComputeInstancesNetworkInterfaces(_command);
 
     /// <summary>
-    /// gcloud ops-agents sub-commands.
+    /// gcloud preview compute instances ops-agents sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstancesOpsAgents OpsAgents => _opsAgents ??= new GcloudPreviewComputeInstancesOpsAgents(_command);
 
     /// <summary>
-    /// gcloud os-inventory sub-commands.
+    /// gcloud preview compute instances os-inventory sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstancesOsInventory OsInventory => _osInventory ??= new GcloudPreviewComputeInstancesOsInventory(_command);
 

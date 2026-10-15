@@ -64,6 +64,12 @@ public record GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions : GcloudOpti
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Description of the policy orchestrator.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
     /// Absolute path to the OS policy assignment file on your local client. File must be in either JSON or YAML format. This file defines the OS policies that you want to apply to your VMs, the target VMs that you want to apply the policies to, and the rollout rate at which to apply the OS policies on a zonal level. For more information about this resource and sample OS policy assignment files, see https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies#os-policy-assignment.
     /// </summary>
     [CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)]

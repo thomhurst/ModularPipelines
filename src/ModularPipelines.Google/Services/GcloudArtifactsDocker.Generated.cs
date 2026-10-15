@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud docker commands.
+/// gcloud artifacts docker commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudArtifactsDocker
@@ -35,17 +35,17 @@ public class GcloudArtifactsDocker
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud images sub-commands.
+    /// gcloud artifacts docker images sub-commands.
     /// </summary>
     public GcloudArtifactsDockerImages Images => _images ??= new GcloudArtifactsDockerImages(_command);
 
     /// <summary>
-    /// gcloud tags sub-commands.
+    /// gcloud artifacts docker tags sub-commands.
     /// </summary>
     public GcloudArtifactsDockerTags Tags => _tags ??= new GcloudArtifactsDockerTags(_command);
 
     /// <summary>
-    /// gcloud upgrade sub-commands.
+    /// gcloud artifacts docker upgrade sub-commands.
     /// </summary>
     public GcloudArtifactsDockerUpgrade Upgrade => _upgrade ??= new GcloudArtifactsDockerUpgrade(_command);
 

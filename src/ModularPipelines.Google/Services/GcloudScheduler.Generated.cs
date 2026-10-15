@@ -36,22 +36,22 @@ public class GcloudScheduler : IGcloudScheduler
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud cmek-config sub-commands.
+    /// gcloud scheduler cmek-config sub-commands.
     /// </summary>
     public GcloudSchedulerCmekConfig CmekConfig => _cmekConfig ??= new GcloudSchedulerCmekConfig(_command);
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud scheduler jobs sub-commands.
     /// </summary>
     public GcloudSchedulerJobs Jobs => _jobs ??= new GcloudSchedulerJobs(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud scheduler locations sub-commands.
     /// </summary>
     public GcloudSchedulerLocations Locations => _locations ??= new GcloudSchedulerLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud scheduler operations sub-commands.
     /// </summary>
     public GcloudSchedulerOperations Operations => _operations ??= new GcloudSchedulerOperations(_command);
 

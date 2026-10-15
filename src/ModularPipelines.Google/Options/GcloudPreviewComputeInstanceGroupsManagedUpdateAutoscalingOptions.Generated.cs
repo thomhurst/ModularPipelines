@@ -40,12 +40,6 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateAutoscalingOptions 
     }
 
     /// <summary>
-    /// Indicates whether to use a predictive algorithm when scaling based on CPU. CPU_UTILIZATION_PREDICTIVE_METHOD must be one of: none (Default) No predictions are made when calculating the number of VM instances. optimize-availability Predictive autoscaling predicts the future values of the scaling metric and scales the group in advance to ensure that new VM instances are ready in time to cover the predicted peak.
-    /// </summary>
-    [CliOption("--cpu-utilization-predictive-method", Format = OptionFormat.EqualsSeparated)]
-    public string? CpuUtilizationPredictiveMethod { get; set; }
-
-    /// <summary>
     /// Maximum number of replicas Autoscaler can set.
     /// </summary>
     [CliOption("--max-num-replicas", Format = OptionFormat.EqualsSeparated)]
@@ -80,6 +74,30 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateAutoscalingOptions 
     /// </summary>
     [CliOption("--scale-in-control", Format = OptionFormat.EqualsSeparated)]
     public string? ScaleInControl { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Indicates whether to use a predictive algorithm when scaling based on CPU. CPU_UTILIZATION_PREDICTIVE_METHOD must be one of: none (Default) No predictions are made when calculating the number of VM instances. optimize-availability Predictive autoscaling predicts the future values of the scaling metric and scales the group in advance to ensure that new VM instances are ready in time to cover the predicted peak.
+    /// </summary>
+    [CliOption("--cpu-utilization-predictive-method", Format = OptionFormat.EqualsSeparated)]
+    public string? CpuUtilizationPredictiveMethod { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at most one of these can be specified: If specified, the CPU utilization range boundaries (--min-cpu-utilization and --max-cpu-utilization) will be cleared.
+    /// </summary>
+    [CliFlag("--clear-cpu-range-boundaries")]
+    public bool? ClearCpuRangeBoundaries { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Maximum CPU utilization for range-based scaling.
+    /// </summary>
+    [CliOption("--max-cpu-utilization", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxCpuUtilization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Minimum CPU utilization for range-based scaling.
+    /// </summary>
+    [CliOption("--min-cpu-utilization", Format = OptionFormat.EqualsSeparated)]
+    public string? MinCpuUtilization { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Name of the scaling schedule to be disabled. When a scaling schedule is disabled its configuration persists but the scaling schedule itself never becomes active. If you disable a scaling schedule that is currently active the disabled scaling schedule stops being effective immediately after it moves into DISABLED state. If there is no need to maintain capacity, the autoscaler starts removing instances after the usual stabilization period and after scale-in controls (if configured). For more information, see Delays in scaling in (https://cloud.google.com/compute/docs/autoscaler/understanding-autoscaler-decisions#delays_in_scaling_in) and Scale-in controls (https://cloud.google.com/compute/docs/autoscaler/understanding-autoscaler-decisions#scale-in_controls). This ensures you don't accidentally lose capacity immediately after the scaling schedule ends.
@@ -165,6 +183,14 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateAutoscalingOptions 
         if ((ClearScaleInControl == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ScaleInControl) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearScaleInControl or ScaleInControl may be specified.", [nameof(ClearScaleInControl), nameof(ScaleInControl)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CpuUtilizationPredictiveMethod) ? 1 : 0) + ((ClearCpuRangeBoundaries == true || !string.IsNullOrWhiteSpace(MaxCpuUtilization) || !string.IsNullOrWhiteSpace(MinCpuUtilization)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CpuUtilizationPredictiveMethod or (ClearCpuRangeBoundaries, MaxCpuUtilization, or MinCpuUtilization) may be specified.", [nameof(CpuUtilizationPredictiveMethod), nameof(ClearCpuRangeBoundaries), nameof(MaxCpuUtilization), nameof(MinCpuUtilization)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CpuUtilizationPredictiveMethod) || ClearCpuRangeBoundaries == true || !string.IsNullOrWhiteSpace(MaxCpuUtilization) || !string.IsNullOrWhiteSpace(MinCpuUtilization)) && ((ClearCpuRangeBoundaries == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaxCpuUtilization) || !string.IsNullOrWhiteSpace(MinCpuUtilization)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearCpuRangeBoundaries or (MaxCpuUtilization or MinCpuUtilization) may be specified.", [nameof(ClearCpuRangeBoundaries), nameof(MaxCpuUtilization), nameof(MinCpuUtilization)]);
         }
         if ((!string.IsNullOrWhiteSpace(DisableSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(EnableSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SetSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(UpdateSchedule) ? 1 : 0) > 1)
         {

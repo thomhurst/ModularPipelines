@@ -1603,6 +1603,156 @@ public record GcloudApihubApisUpdateOptions : GcloudOptions, IValidatableObject
     public string? SelectedVersion { get; set; }
 
     /// <summary>
+    /// The attribute values associated with resource. Set googleCloudApihubV1Api.serviceType back to default value.
+    /// </summary>
+    [CliFlag("--clear-service-type")]
+    public bool? ClearServiceType { get; set; }
+
+    /// <summary>
+    /// The attribute values of data type enum. Update service_type_enum_values. At most one of these can be specified: Set service_type_enum_values to new value. The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▫ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▫ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --service-type-enum-values=description=string,displayName=string,id=string,immutable=boolean --service-type-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --service-type-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --service-type-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--service-type-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ServiceTypeEnumValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __ServiceTypeEnumValuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ServiceTypeEnumValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ServiceTypeEnumValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __ServiceTypeEnumValuesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The attribute values of data type enum. Update service_type_enum_values. At most one of these can be specified: Or at least one of these can be specified: Add new value to service_type_enum_values list. The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ◇ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ◇ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --add-service-type-enum-values=description=string,displayName=string,id=string,immutable=boolean --add-service-type-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --add-service-type-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --add-service-type-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-service-type-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddServiceTypeEnumValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddServiceTypeEnumValuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddServiceTypeEnumValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddServiceTypeEnumValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddServiceTypeEnumValuesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The attribute values of data type enum. Update service_type_enum_values. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear service_type_enum_values value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-service-type-enum-values")]
+    public bool? ClearServiceTypeEnumValues { get; set; }
+
+    /// <summary>
+    /// The attribute values of data type enum. Update service_type_enum_values. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from service_type_enum_values list. The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▹ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▹ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --remove-service-type-enum-values=description=string,displayName=string,id=string,immutable=boolean --remove-service-type-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --remove-service-type-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --remove-service-type-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-service-type-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveServiceTypeEnumValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveServiceTypeEnumValuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveServiceTypeEnumValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveServiceTypeEnumValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveServiceTypeEnumValuesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
     /// The attribute values associated with resource. Set googleCloudApihubV1Api.targetUser back to default value.
     /// </summary>
     [CliFlag("--clear-target-user")]
@@ -2156,6 +2306,14 @@ public record GcloudApihubApisUpdateOptions : GcloudOptions, IValidatableObject
         if ((ClearSelectedVersion == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SelectedVersion)) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ClearSelectedVersion or (SelectedVersion) may be specified.", [nameof(ClearSelectedVersion), nameof(SelectedVersion)]);
+        }
+        if ((((object?)ServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ServiceTypeEnumValues, static item => item is not null) : ((object?)ServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)ServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(ServiceTypeEnumValues?.ToString()) : ((object?)ServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ServiceTypeEnumValues, static item => item is not null) : (ServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ServiceTypeEnumValues), static item => item is not null))))) ? 1 : 0) + ((((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddServiceTypeEnumValues, static item => item is not null) : ((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(AddServiceTypeEnumValues?.ToString()) : ((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddServiceTypeEnumValues, static item => item is not null) : (AddServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddServiceTypeEnumValues), static item => item is not null))))) || ClearServiceTypeEnumValues == true || ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveServiceTypeEnumValues, static item => item is not null) : ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(RemoveServiceTypeEnumValues?.ToString()) : ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveServiceTypeEnumValues, static item => item is not null) : (RemoveServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveServiceTypeEnumValues), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServiceTypeEnumValues or (AddServiceTypeEnumValues, ClearServiceTypeEnumValues, or RemoveServiceTypeEnumValues) may be specified.", [nameof(ServiceTypeEnumValues), nameof(AddServiceTypeEnumValues), nameof(ClearServiceTypeEnumValues), nameof(RemoveServiceTypeEnumValues)]);
+        }
+        if ((((object?)ServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ServiceTypeEnumValues, static item => item is not null) : ((object?)ServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)ServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(ServiceTypeEnumValues?.ToString()) : ((object?)ServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ServiceTypeEnumValues, static item => item is not null) : (ServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ServiceTypeEnumValues), static item => item is not null))))) || ((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddServiceTypeEnumValues, static item => item is not null) : ((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(AddServiceTypeEnumValues?.ToString()) : ((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddServiceTypeEnumValues, static item => item is not null) : (AddServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddServiceTypeEnumValues), static item => item is not null))))) || ClearServiceTypeEnumValues == true || ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveServiceTypeEnumValues, static item => item is not null) : ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(RemoveServiceTypeEnumValues?.ToString()) : ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveServiceTypeEnumValues, static item => item is not null) : (RemoveServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveServiceTypeEnumValues), static item => item is not null)))))) && (((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddServiceTypeEnumValues, static item => item is not null) : ((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(AddServiceTypeEnumValues?.ToString()) : ((object?)AddServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddServiceTypeEnumValues, static item => item is not null) : (AddServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddServiceTypeEnumValues), static item => item is not null))))) || ClearServiceTypeEnumValues == true || ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveServiceTypeEnumValues, static item => item is not null) : ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(RemoveServiceTypeEnumValues?.ToString()) : ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveServiceTypeEnumValues, static item => item is not null) : (RemoveServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveServiceTypeEnumValues), static item => item is not null)))))) && ((ClearServiceTypeEnumValues == true ? 1 : 0) + (((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveServiceTypeEnumValues, static item => item is not null) : ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveServiceTypeEnumValues is not string || !string.IsNullOrWhiteSpace(RemoveServiceTypeEnumValues?.ToString()) : ((object?)RemoveServiceTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveServiceTypeEnumValues, static item => item is not null) : (RemoveServiceTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveServiceTypeEnumValues), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearServiceTypeEnumValues or RemoveServiceTypeEnumValues may be specified.", [nameof(ClearServiceTypeEnumValues), nameof(RemoveServiceTypeEnumValues)]);
         }
         if (((((object?)TargetUserJsonValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetUserJsonValues is not string || !string.IsNullOrWhiteSpace(TargetUserJsonValues?.ToString()) : ((object?)TargetUserJsonValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetUserJsonValues, static item => item is not null) : (TargetUserJsonValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetUserJsonValues), static item => item is not null))))) ? 1 : 0) + ((((object?)TargetUserStringValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetUserStringValues is not string || !string.IsNullOrWhiteSpace(TargetUserStringValues?.ToString()) : ((object?)TargetUserStringValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetUserStringValues, static item => item is not null) : (TargetUserStringValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetUserStringValues), static item => item is not null))))) ? 1 : 0) + ((((object?)TargetUserUriValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetUserUriValues is not string || !string.IsNullOrWhiteSpace(TargetUserUriValues?.ToString()) : ((object?)TargetUserUriValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetUserUriValues, static item => item is not null) : (TargetUserUriValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetUserUriValues), static item => item is not null)))) || ((object?)TargetUserEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)TargetUserEnumValues, static item => item is not null) : ((object?)TargetUserEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetUserEnumValues is not string || !string.IsNullOrWhiteSpace(TargetUserEnumValues?.ToString()) : ((object?)TargetUserEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetUserEnumValues, static item => item is not null) : (TargetUserEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetUserEnumValues), static item => item is not null))))) || ((object?)AddTargetUserEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddTargetUserEnumValues, static item => item is not null) : ((object?)AddTargetUserEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddTargetUserEnumValues is not string || !string.IsNullOrWhiteSpace(AddTargetUserEnumValues?.ToString()) : ((object?)AddTargetUserEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddTargetUserEnumValues, static item => item is not null) : (AddTargetUserEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddTargetUserEnumValues), static item => item is not null))))) || ClearTargetUserEnumValues == true || ((object?)RemoveTargetUserEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveTargetUserEnumValues, static item => item is not null) : ((object?)RemoveTargetUserEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveTargetUserEnumValues is not string || !string.IsNullOrWhiteSpace(RemoveTargetUserEnumValues?.ToString()) : ((object?)RemoveTargetUserEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveTargetUserEnumValues, static item => item is not null) : (RemoveTargetUserEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveTargetUserEnumValues), static item => item is not null)))))) ? 1 : 0) > 1)
         {

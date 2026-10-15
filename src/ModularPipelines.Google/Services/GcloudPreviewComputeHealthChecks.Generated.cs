@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud health-checks commands.
+/// gcloud preview compute health-checks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeHealthChecks
@@ -34,12 +34,12 @@ public class GcloudPreviewComputeHealthChecks
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud create sub-commands.
+    /// gcloud preview compute health-checks create sub-commands.
     /// </summary>
     public GcloudPreviewComputeHealthChecksCreate Create => _create ??= new GcloudPreviewComputeHealthChecksCreate(_command);
 
     /// <summary>
-    /// gcloud update sub-commands.
+    /// gcloud preview compute health-checks update sub-commands.
     /// </summary>
     public GcloudPreviewComputeHealthChecksUpdate Update => _update ??= new GcloudPreviewComputeHealthChecksUpdate(_command);
 

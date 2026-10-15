@@ -282,7 +282,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions, IValidatabl
     public string? Network { get; set; }
 
     /// <summary>
-    /// Network configs. Network resource - The name of the VPC that this instance is in. Format: projects/{project_id}/global/networks/{network_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Type of the network interface card. NIC_TYPE must be one of: VIRTIGO_NET, GVNIC.
+    /// Network configs. Network resource - The name of the VPC that this instance is in. Format: projects/{project_id}/global/networks/{network_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Type of the network interface card. NIC_TYPE must be one of: VIRTIO_NET, GVNIC.
     /// </summary>
     [CliOption("--nic-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudWorkbenchInstancesCreateNicType? NicType { get; set; }

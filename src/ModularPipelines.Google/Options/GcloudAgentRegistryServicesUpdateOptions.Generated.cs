@@ -76,52 +76,16 @@ public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions, IValidat
     public string? AgentSpecContent { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The type of the agent spec content. AGENT_SPEC_TYPE must be one of: a2a-agent-card The content is an A2A Agent Card following the A2A specification. The interfaces field must be empty. no-spec There is no spec for the Agent. The content field must be empty.
-    /// </summary>
-    [CliOption("--agent-spec-type", Format = OptionFormat.EqualsSeparated)]
-    public string? AgentSpecType { get; set; }
-
-    /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. Set service.agentSpec back to default value.
-    /// </summary>
-    [CliFlag("--clear-agent-spec")]
-    public bool? ClearAgentSpec { get; set; }
-
-    /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the endpoint. Set service.endpointSpec back to default value.
-    /// </summary>
-    [CliFlag("--clear-endpoint-spec")]
-    public bool? ClearEndpointSpec { get; set; }
-
-    /// <summary>
     /// Arguments for the spec. At most one of these can be specified: The spec of the endpoint. The content of the endpoint spec. Reserved for future use.
     /// </summary>
     [CliOption("--endpoint-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointSpecContent { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the endpoint. The type of the endpoint spec content. ENDPOINT_SPEC_TYPE must be (only one value is supported): no-spec There is no spec for the Endpoint. The content field must be empty.
-    /// </summary>
-    [CliOption("--endpoint-spec-type", Format = OptionFormat.EqualsSeparated)]
-    public string? EndpointSpecType { get; set; }
-
-    /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the MCP Server. Set service.mcpServerSpec back to default value.
-    /// </summary>
-    [CliFlag("--clear-mcp-server-spec")]
-    public bool? ClearMcpServerSpec { get; set; }
-
-    /// <summary>
     /// Arguments for the spec. At most one of these can be specified: The spec of the MCP Server. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
     /// </summary>
     [CliOption("--mcp-server-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? McpServerSpecContent { get; set; }
-
-    /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the MCP Server. The type of the MCP Server spec content. MCP_SERVER_SPEC_TYPE must be one of: no-spec There is no spec for the MCP Server. The content field must be empty. tool-spec The content is a MCP Tool Spec following the One MCP specification. The payload is the same as the tools/list response.
-    /// </summary>
-    [CliOption("--mcp-server-spec-type", Format = OptionFormat.EqualsSeparated)]
-    public string? McpServerSpecType { get; set; }
 
     /// <summary>
     /// Update interfaces. At most one of these can be specified: Set interfaces to new value. The connection details for the Service. protocolBinding The protocol binding of the interface. url The destination URL. Shorthand Example: --interfaces=protocolBinding=string,url=string --interfaces=protocolBinding=string,url=string JSON Example: --interfaces='[{"protocolBinding": "string", "url": "string"}]' File Example: --interfaces=path_to_file.(yaml|json)
@@ -276,9 +240,9 @@ public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions, IValidat
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (((!string.IsNullOrWhiteSpace(AgentSpecContent) || !string.IsNullOrWhiteSpace(AgentSpecType) || ClearAgentSpec == true) ? 1 : 0) + ((ClearEndpointSpec == true || !string.IsNullOrWhiteSpace(EndpointSpecContent) || !string.IsNullOrWhiteSpace(EndpointSpecType)) ? 1 : 0) + ((ClearMcpServerSpec == true || !string.IsNullOrWhiteSpace(McpServerSpecContent) || !string.IsNullOrWhiteSpace(McpServerSpecType)) ? 1 : 0) > 1)
+        if (((!string.IsNullOrWhiteSpace(AgentSpecContent)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(EndpointSpecContent)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(McpServerSpecContent)) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of (AgentSpecContent, AgentSpecType, or ClearAgentSpec), (ClearEndpointSpec, EndpointSpecContent, or EndpointSpecType), or (ClearMcpServerSpec, McpServerSpecContent, or McpServerSpecType) may be specified.", [nameof(AgentSpecContent), nameof(AgentSpecType), nameof(ClearAgentSpec), nameof(ClearEndpointSpec), nameof(EndpointSpecContent), nameof(EndpointSpecType), nameof(ClearMcpServerSpec), nameof(McpServerSpecContent), nameof(McpServerSpecType)]);
+            yield return new ValidationResult("At most one of (AgentSpecContent), (EndpointSpecContent), or (McpServerSpecContent) may be specified.", [nameof(AgentSpecContent), nameof(EndpointSpecContent), nameof(McpServerSpecContent)]);
         }
         if ((((object?)Interfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Interfaces, static item => item is not null) : ((object?)Interfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)Interfaces is not string || !string.IsNullOrWhiteSpace(Interfaces?.ToString()) : ((object?)Interfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Interfaces, static item => item is not null) : (Interfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Interfaces), static item => item is not null))))) ? 1 : 0) + ((((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddInterfaces, static item => item is not null) : ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddInterfaces is not string || !string.IsNullOrWhiteSpace(AddInterfaces?.ToString()) : ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddInterfaces, static item => item is not null) : (AddInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddInterfaces), static item => item is not null))))) || ClearInterfaces == true || ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveInterfaces, static item => item is not null) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveInterfaces is not string || !string.IsNullOrWhiteSpace(RemoveInterfaces?.ToString()) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveInterfaces, static item => item is not null) : (RemoveInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveInterfaces), static item => item is not null)))))) ? 1 : 0) > 1)
         {

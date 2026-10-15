@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud ops-agents commands.
+/// gcloud preview compute instances ops-agents commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInstancesOpsAgents
@@ -33,7 +33,7 @@ public class GcloudPreviewComputeInstancesOpsAgents
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud policies sub-commands.
+    /// gcloud preview compute instances ops-agents policies sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstancesOpsAgentsPolicies Policies => _policies ??= new GcloudPreviewComputeInstancesOpsAgentsPolicies(_command);
 

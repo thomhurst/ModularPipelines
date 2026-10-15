@@ -22,39 +22,39 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudDatastream
 {
     /// <summary>
-    /// gcloud connection-profiles sub-commands.
+    /// gcloud datastream connection-profiles sub-commands.
     /// </summary>
-    GcloudDatastreamConnectionProfiles ConnectionProfiles => throw new System.NotSupportedException();
+    GcloudDatastreamConnectionProfiles ConnectionProfiles { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud datastream locations sub-commands.
     /// </summary>
-    GcloudDatastreamLocations Locations => throw new System.NotSupportedException();
+    GcloudDatastreamLocations Locations { get; }
 
     /// <summary>
-    /// gcloud objects sub-commands.
+    /// gcloud datastream objects sub-commands.
     /// </summary>
-    GcloudDatastreamObjects Objects => throw new System.NotSupportedException();
+    GcloudDatastreamObjects Objects { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud datastream operations sub-commands.
     /// </summary>
-    GcloudDatastreamOperations Operations => throw new System.NotSupportedException();
+    GcloudDatastreamOperations Operations { get; }
 
     /// <summary>
-    /// gcloud private-connections sub-commands.
+    /// gcloud datastream private-connections sub-commands.
     /// </summary>
-    GcloudDatastreamPrivateConnections PrivateConnections => throw new System.NotSupportedException();
+    GcloudDatastreamPrivateConnections PrivateConnections { get; }
 
     /// <summary>
-    /// gcloud routes sub-commands.
+    /// gcloud datastream routes sub-commands.
     /// </summary>
-    GcloudDatastreamRoutes Routes => throw new System.NotSupportedException();
+    GcloudDatastreamRoutes Routes { get; }
 
     /// <summary>
-    /// gcloud streams sub-commands.
+    /// gcloud datastream streams sub-commands.
     /// </summary>
-    GcloudDatastreamStreams Streams => throw new System.NotSupportedException();
+    GcloudDatastreamStreams Streams { get; }
 
     /// <summary>
     /// manage Cloud Datastream resources
@@ -63,7 +63,6 @@ public interface IGcloudDatastream
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDatastreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDatastreamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

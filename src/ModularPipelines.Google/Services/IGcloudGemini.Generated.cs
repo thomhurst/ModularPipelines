@@ -22,49 +22,49 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudGemini
 {
     /// <summary>
-    /// gcloud code-repository-indexes sub-commands.
+    /// gcloud gemini code-repository-indexes sub-commands.
     /// </summary>
-    GcloudGeminiCodeRepositoryIndexes CodeRepositoryIndexes => throw new System.NotSupportedException();
+    GcloudGeminiCodeRepositoryIndexes CodeRepositoryIndexes { get; }
 
     /// <summary>
-    /// gcloud code-tools-settings sub-commands.
+    /// gcloud gemini code-tools-settings sub-commands.
     /// </summary>
-    GcloudGeminiCodeToolsSettings CodeToolsSettings => throw new System.NotSupportedException();
+    GcloudGeminiCodeToolsSettings CodeToolsSettings { get; }
 
     /// <summary>
-    /// gcloud data-sharing-with-google-settings sub-commands.
+    /// gcloud gemini data-sharing-with-google-settings sub-commands.
     /// </summary>
-    GcloudGeminiDataSharingWithGoogleSettings DataSharingWithGoogleSettings => throw new System.NotSupportedException();
+    GcloudGeminiDataSharingWithGoogleSettings DataSharingWithGoogleSettings { get; }
 
     /// <summary>
-    /// gcloud gda-observability-settings sub-commands.
+    /// gcloud gemini gda-observability-settings sub-commands.
     /// </summary>
-    GcloudGeminiGdaObservabilitySettings GdaObservabilitySettings => throw new System.NotSupportedException();
+    GcloudGeminiGdaObservabilitySettings GdaObservabilitySettings { get; }
 
     /// <summary>
-    /// gcloud gemini-gcp-enablement-settings sub-commands.
+    /// gcloud gemini gemini-gcp-enablement-settings sub-commands.
     /// </summary>
-    GcloudGeminiGeminiGcpEnablementSettings GeminiGcpEnablementSettings => throw new System.NotSupportedException();
+    GcloudGeminiGeminiGcpEnablementSettings GeminiGcpEnablementSettings { get; }
 
     /// <summary>
-    /// gcloud gibq-observability-settings sub-commands.
+    /// gcloud gemini gibq-observability-settings sub-commands.
     /// </summary>
-    GcloudGeminiGibqObservabilitySettings GibqObservabilitySettings => throw new System.NotSupportedException();
+    GcloudGeminiGibqObservabilitySettings GibqObservabilitySettings { get; }
 
     /// <summary>
-    /// gcloud logging-settings sub-commands.
+    /// gcloud gemini logging-settings sub-commands.
     /// </summary>
-    GcloudGeminiLoggingSettings LoggingSettings => throw new System.NotSupportedException();
+    GcloudGeminiLoggingSettings LoggingSettings { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud gemini operations sub-commands.
     /// </summary>
-    GcloudGeminiOperations Operations => throw new System.NotSupportedException();
+    GcloudGeminiOperations Operations { get; }
 
     /// <summary>
-    /// gcloud release-channel-settings sub-commands.
+    /// gcloud gemini release-channel-settings sub-commands.
     /// </summary>
-    GcloudGeminiReleaseChannelSettings ReleaseChannelSettings => throw new System.NotSupportedException();
+    GcloudGeminiReleaseChannelSettings ReleaseChannelSettings { get; }
 
     /// <summary>
     /// manage resources associated with Gemini Code Assist and     Gemini Cloud Assist
@@ -73,7 +73,6 @@ public interface IGcloudGemini
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudGeminiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudGeminiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

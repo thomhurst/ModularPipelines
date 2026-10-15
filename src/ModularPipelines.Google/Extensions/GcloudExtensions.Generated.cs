@@ -151,7 +151,6 @@ public static class GcloudExtensions
         services.TryAddScoped<IGcloudStorage, GcloudStorage>();
         services.TryAddScoped<IGcloudSupport, GcloudSupport>();
         services.TryAddScoped<IGcloudTasks, GcloudTasks>();
-        services.TryAddScoped<IGcloudTelcoAutomation, GcloudTelcoAutomation>();
         services.TryAddScoped<IGcloudTranscoder, GcloudTranscoder>();
         services.TryAddScoped<IGcloudTransfer, GcloudTransfer>();
         services.TryAddScoped<IGcloudVectorSearch, GcloudVectorSearch>();

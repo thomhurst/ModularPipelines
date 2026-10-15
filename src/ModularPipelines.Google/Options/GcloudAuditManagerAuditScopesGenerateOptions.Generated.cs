@@ -94,7 +94,11 @@ public record GcloudAuditManagerAuditScopesGenerateOptions : GcloudOptions, IVal
     /// Exactly one of these must be specified: Project Id for which to generate audit scope
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// The directory path where the scope report should be created .

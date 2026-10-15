@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud security-policies commands.
+/// gcloud compute security-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeSecurityPolicies
@@ -33,7 +33,7 @@ public class GcloudComputeSecurityPolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud rules sub-commands.
+    /// gcloud compute security-policies rules sub-commands.
     /// </summary>
     public GcloudComputeSecurityPoliciesRules Rules => _rules ??= new GcloudComputeSecurityPoliciesRules(_command);
 

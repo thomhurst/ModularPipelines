@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud jobs commands.
+/// gcloud scheduler jobs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudSchedulerJobs
@@ -34,12 +34,12 @@ public class GcloudSchedulerJobs
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud create sub-commands.
+    /// gcloud scheduler jobs create sub-commands.
     /// </summary>
     public GcloudSchedulerJobsCreate Create => _create ??= new GcloudSchedulerJobsCreate(_command);
 
     /// <summary>
-    /// gcloud update sub-commands.
+    /// gcloud scheduler jobs update sub-commands.
     /// </summary>
     public GcloudSchedulerJobsUpdate Update => _update ??= new GcloudSchedulerJobsUpdate(_command);
 

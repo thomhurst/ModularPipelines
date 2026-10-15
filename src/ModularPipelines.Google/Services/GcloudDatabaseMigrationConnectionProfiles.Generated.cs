@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud connection-profiles commands.
+/// gcloud database-migration connection-profiles commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDatabaseMigrationConnectionProfiles
@@ -33,7 +33,7 @@ public class GcloudDatabaseMigrationConnectionProfiles
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud create sub-commands.
+    /// gcloud database-migration connection-profiles create sub-commands.
     /// </summary>
     public GcloudDatabaseMigrationConnectionProfilesCreate Create => _create ??= new GcloudDatabaseMigrationConnectionProfilesCreate(_command);
 

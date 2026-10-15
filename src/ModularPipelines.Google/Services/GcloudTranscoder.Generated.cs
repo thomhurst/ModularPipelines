@@ -34,12 +34,12 @@ public class GcloudTranscoder : IGcloudTranscoder
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud transcoder jobs sub-commands.
     /// </summary>
     public GcloudTranscoderJobs Jobs => _jobs ??= new GcloudTranscoderJobs(_command);
 
     /// <summary>
-    /// gcloud templates sub-commands.
+    /// gcloud transcoder templates sub-commands.
     /// </summary>
     public GcloudTranscoderTemplates Templates => _templates ??= new GcloudTranscoderTemplates(_command);
 

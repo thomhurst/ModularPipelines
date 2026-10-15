@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud connections commands.
+/// gcloud builds connections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBuildsConnections
@@ -34,12 +34,12 @@ public class GcloudBuildsConnections
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud create sub-commands.
+    /// gcloud builds connections create sub-commands.
     /// </summary>
     public GcloudBuildsConnectionsCreate Create => _create ??= new GcloudBuildsConnectionsCreate(_command);
 
     /// <summary>
-    /// gcloud update sub-commands.
+    /// gcloud builds connections update sub-commands.
     /// </summary>
     public GcloudBuildsConnectionsUpdate Update => _update ??= new GcloudBuildsConnectionsUpdate(_command);
 

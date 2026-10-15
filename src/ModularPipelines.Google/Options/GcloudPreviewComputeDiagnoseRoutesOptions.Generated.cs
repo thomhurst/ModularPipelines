@@ -56,7 +56,7 @@ public record GcloudPreviewComputeDiagnoseRoutesOptions : GcloudOptions, IValida
     /// <summary>
     /// Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out.
     /// </summary>
-    [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--regexp", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
 
     /// <summary>

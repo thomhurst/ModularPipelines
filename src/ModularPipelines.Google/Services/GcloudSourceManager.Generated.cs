@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud sourcemanager commands.
+/// gcloud source-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudSourceManager : IGcloudSourceManager
@@ -36,22 +36,22 @@ public class GcloudSourceManager : IGcloudSourceManager
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud source-manager instances sub-commands.
     /// </summary>
     public GcloudSourceManagerInstances Instances => _instances ??= new GcloudSourceManagerInstances(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud source-manager locations sub-commands.
     /// </summary>
     public GcloudSourceManagerLocations Locations => _locations ??= new GcloudSourceManagerLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud source-manager operations sub-commands.
     /// </summary>
     public GcloudSourceManagerOperations Operations => _operations ??= new GcloudSourceManagerOperations(_command);
 
     /// <summary>
-    /// gcloud repos sub-commands.
+    /// gcloud source-manager repos sub-commands.
     /// </summary>
     public GcloudSourceManagerRepos Repos => _repos ??= new GcloudSourceManagerRepos(_command);
 

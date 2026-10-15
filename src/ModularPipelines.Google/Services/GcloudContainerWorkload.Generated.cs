@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workload commands.
+/// gcloud container workload commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerWorkload
@@ -33,7 +33,7 @@ public class GcloudContainerWorkload
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud profiles sub-commands.
+    /// gcloud container workload profiles sub-commands.
     /// </summary>
     public GcloudContainerWorkloadProfiles Profiles => _profiles ??= new GcloudContainerWorkloadProfiles(_command);
 

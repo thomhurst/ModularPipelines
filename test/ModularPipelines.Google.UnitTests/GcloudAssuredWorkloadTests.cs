@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Google.Enums;
 using ModularPipelines.Google.Options;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
@@ -52,6 +53,7 @@ public class GcloudAssuredWorkloadTests
             "--location=us-central1",
             "--organization=123",
             "--target-project=projects/456",
+            "--version=v2",
         };
         if (expectedIdentity is not null)
         {
@@ -66,12 +68,17 @@ public class GcloudAssuredWorkloadTests
         }
     }
 
-    private static GcloudAssuredV2WorkloadsCreateOptions CreateOptions() =>
-        new("fedramp-moderate", "us-central1", "123") { TargetProject = "projects/456" };
+    private static GcloudAssuredWorkloadsCreateOptions CreateOptions() =>
+        new("us-central1", "123")
+        {
+            Framework = "fedramp-moderate",
+            TargetProject = "projects/456",
+            Version = GcloudAssuredWorkloadsCreateVersion.V2,
+        };
 
     private static PropertyInfo[] IdentityProperties()
     {
-        var properties = typeof(GcloudAssuredV2WorkloadsCreateOptions).GetProperties();
+        var properties = typeof(GcloudAssuredWorkloadsCreateOptions).GetProperties();
         return
         [
             properties.Single(property => property.GetCustomAttribute<CliArgumentAttribute>() is not null),

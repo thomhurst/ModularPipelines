@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud apptopology commands.
+/// gcloud app-topology commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAppTopology : IGcloudAppTopology
@@ -35,17 +35,17 @@ public class GcloudAppTopology : IGcloudAppTopology
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud domains sub-commands.
+    /// gcloud app-topology domains sub-commands.
     /// </summary>
     public GcloudAppTopologyDomains Domains => _domains ??= new GcloudAppTopologyDomains(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud app-topology locations sub-commands.
     /// </summary>
     public GcloudAppTopologyLocations Locations => _locations ??= new GcloudAppTopologyLocations(_command);
 
     /// <summary>
-    /// gcloud resources-graph sub-commands.
+    /// gcloud app-topology resources-graph sub-commands.
     /// </summary>
     public GcloudAppTopologyResourcesGraph ResourcesGraph => _resourcesGraph ??= new GcloudAppTopologyResourcesGraph(_command);
 

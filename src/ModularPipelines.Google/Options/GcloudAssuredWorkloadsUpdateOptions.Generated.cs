@@ -12,6 +12,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -53,32 +54,80 @@ public record GcloudAssuredWorkloadsUpdateOptions : GcloudOptions, IValidatableO
     public string? Organization { get; set; }
 
     /// <summary>
-    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The new display name of the Assured Workloads environment.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
-    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
-    public string? DisplayName { get; set; }
-
-    /// <summary>
-    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The new labels of the Assured Workloads environment, for example, LabelKey1=LabelValue1,LabelKey2=LabelValue2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
-    /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Labels
-    {
-        get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
-    }
-
-    /// <summary>
-    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The notification setting of the Assured Workloads environment.
-    /// </summary>
-    [CliOption("--violation-notifications-enabled", Format = OptionFormat.EqualsSeparated)]
-    public string? ViolationNotificationsEnabled { get; set; }
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
 
     /// <summary>
     /// The etag acquired by reading the Assured Workloads environment before updating.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Assured Workloads API version to use. Options are v1 and v2. Defaults to v1. VERSION must be one of: v1, v2.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAssuredWorkloadsUpdateVersion? Version { get; set; }
+
+    /// <summary>
+    /// V1 UPDATE FLAGS Settings that can be updated on the Assured Workloads environment. The new display name of the Assured Workloads environment (V1).
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// V1 UPDATE FLAGS Settings that can be updated on the Assured Workloads environment. The new labels of the Assured Workloads environment, for example, LabelKey1=LabelValue1,LabelKey2=LabelValue2 (V1). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// V1 UPDATE FLAGS Settings that can be updated on the Assured Workloads environment. The notification setting of the Assured Workloads environment (V1).
+    /// </summary>
+    [CliOption("--violation-notifications-enabled", Format = OptionFormat.EqualsSeparated)]
+    public string? ViolationNotificationsEnabled { get; set; }
+
+    /// <summary>
+    /// V2 UPDATE FLAGS Updated major revision ID for the workload (V2).
+    /// </summary>
+    [CliOption("--framework-major-revision", Format = OptionFormat.EqualsSeparated)]
+    public string? FrameworkMajorRevision { get; set; }
+
+    /// <summary>
+    /// V2 UPDATE FLAGS At most one of these can be specified: Updated repeated inline control configuration (V2). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--cloud-control-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CloudControlConfig
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CloudControlConfigSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CloudControlConfigSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// V2 UPDATE FLAGS At most one of these can be specified: Path to JSON/YAML file specifying updated control configurations (V2).
+    /// </summary>
+    [CliOption("--cloud-control-configs-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudControlConfigsFromFile { get; set; }
 
     /// <summary>
     /// Workload resource - The Assured Workloads environment resource to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workload or fully qualified identifier for the workload. To set the workload attribute: ▸ provide the argument workload on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
@@ -89,9 +138,9 @@ public record GcloudAssuredWorkloadsUpdateOptions : GcloudOptions, IValidatableO
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (!(!string.IsNullOrWhiteSpace(DisplayName) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ViolationNotificationsEnabled)))
+        if ((((object?)CloudControlConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)CloudControlConfig is not string || !string.IsNullOrWhiteSpace(CloudControlConfig?.ToString()) : ((object?)CloudControlConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CloudControlConfig, static item => item is not null) : (CloudControlConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CloudControlConfig), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(CloudControlConfigsFromFile) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At least one of DisplayName, Labels, or ViolationNotificationsEnabled must be specified.", [nameof(DisplayName), nameof(Labels), nameof(ViolationNotificationsEnabled)]);
+            yield return new ValidationResult("At most one of CloudControlConfig or CloudControlConfigsFromFile may be specified.", [nameof(CloudControlConfig), nameof(CloudControlConfigsFromFile)]);
         }
         yield break;
     }

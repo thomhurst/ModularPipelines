@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud vpc-access commands.
+/// gcloud preview compute networks vpc-access commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeNetworksVpcAccess
@@ -35,17 +35,17 @@ public class GcloudPreviewComputeNetworksVpcAccess
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud connectors sub-commands.
+    /// gcloud preview compute networks vpc-access connectors sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworksVpcAccessConnectors Connectors => _connectors ??= new GcloudPreviewComputeNetworksVpcAccessConnectors(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud preview compute networks vpc-access locations sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworksVpcAccessLocations Locations => _locations ??= new GcloudPreviewComputeNetworksVpcAccessLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud preview compute networks vpc-access operations sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworksVpcAccessOperations Operations => _operations ??= new GcloudPreviewComputeNetworksVpcAccessOperations(_command);
 

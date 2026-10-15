@@ -34,12 +34,12 @@ public class GcloudParameterManager : IGcloudParameterManager
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud parameters sub-commands.
+    /// gcloud parametermanager parameters sub-commands.
     /// </summary>
     public GcloudParameterManagerParameters Parameters => _parameters ??= new GcloudParameterManagerParameters(_command);
 
     /// <summary>
-    /// gcloud templates sub-commands.
+    /// gcloud parametermanager templates sub-commands.
     /// </summary>
     public GcloudParameterManagerTemplates Templates => _templates ??= new GcloudParameterManagerTemplates(_command);
 

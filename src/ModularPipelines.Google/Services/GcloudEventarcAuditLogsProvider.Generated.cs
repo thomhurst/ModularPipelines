@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud audit-logs-provider commands.
+/// gcloud eventarc audit-logs-provider commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEventarcAuditLogsProvider
@@ -34,12 +34,12 @@ public class GcloudEventarcAuditLogsProvider
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud method-names sub-commands.
+    /// gcloud eventarc audit-logs-provider method-names sub-commands.
     /// </summary>
     public GcloudEventarcAuditLogsProviderMethodNames MethodNames => _methodNames ??= new GcloudEventarcAuditLogsProviderMethodNames(_command);
 
     /// <summary>
-    /// gcloud service-names sub-commands.
+    /// gcloud eventarc audit-logs-provider service-names sub-commands.
     /// </summary>
     public GcloudEventarcAuditLogsProviderServiceNames ServiceNames => _serviceNames ??= new GcloudEventarcAuditLogsProviderServiceNames(_command);
 

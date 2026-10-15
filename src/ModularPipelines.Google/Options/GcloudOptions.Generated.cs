@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +21,92 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("gcloud")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record GcloudOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// A file path to read the access token. Use this flag to authenticate gcloud with an access token. The credentials of the active account (if exists) will be ignored. The file should only contain an access token with no other information. Overrides the default auth/access_token_file property value for this command invocation.
+    /// </summary>
+    [CliOption("--access-token-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? AccessTokenFile { get; set; }
+
+    /// <summary>
+    /// Google Cloud user account to use for invocation. Overrides the default core/account property value for this command invocation.
+    /// </summary>
+    [CliOption("--account", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Account { get; set; }
+
+    /// <summary>
+    /// The Google Cloud project that will be charged quota for operations performed in gcloud. If you need to operate on one project, but need quota against a different project, you can use this flag to specify the billing project. If both billing/quota_project and --billing-project are specified, --billing-project takes precedence. Run $ gcloud config set --help to see more information about billing/quota_project.
+    /// </summary>
+    [CliOption("--billing-project", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? BillingProject { get; set; }
+
+    /// <summary>
+    /// File name of the configuration to use for this command invocation. For more information on how to use configurations, run: gcloud topic configurations. You can also use the CLOUDSDK_ACTIVE_CONFIG_NAME environment variable to set the equivalent of this flag for a terminal session.
+    /// </summary>
+    [CliOption("--configuration", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Configuration { get; set; }
+
+    /// <summary>
+    /// A YAML or JSON file that specifies a --flag:value dictionary. Useful for specifying complex flag values with special characters that work with any command interpreter. Additionally, each --flags-file arg is replaced by its constituent flags. See $ gcloud topic flags-file for more information.
+    /// </summary>
+    [CliOption("--flags-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? FlagsFile { get; set; }
+
+    /// <summary>
+    /// Flatten name[] output resource slices in KEY into separate records for each item in each slice. Multiple keys and slices may be specified. This also flattens keys for --format and --filter. For example, --flatten=abc.def flattens abc.def[].ghi references to abc.def.ghi. A resource record containing abc.def[] with N elements will expand to N records in the flattened output. This allows us to specify what resource-key the filter will operate on. This flag interacts with other flags that are applied in this order: --flatten, --sort-by, --filter, --limit. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--flatten", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public virtual IEnumerable<string>? Flatten { get; set; }
+
+    /// <summary>
+    /// Sets the format for printing command output resources. The default is a command-specific human-friendly output format. If both core/format and --format are specified, --format takes precedence. --format and core/format both take precedence over core/default_format. The supported formats are limited to: config, csv, default, diff, disable, flattened, get, json, list, multi, none, object, table, text, value, yaml. For more details run $ gcloud topic formats. Run $ gcloud config set --help to see more information about core/format
+    /// </summary>
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Format { get; set; }
+
+    /// <summary>
+    /// For this gcloud invocation, all API requests will be made as the given service account or target service account in an impersonation delegation chain instead of the currently selected account. You can specify either a single service account as the impersonator, or a comma-separated list of service accounts to create an impersonation delegation chain. The impersonation is done without needing to create, download, and activate a key for the service account or accounts. In order to make API requests as a service account, your currently selected account must have an IAM role that includes the iam.serviceAccounts.getAccessToken permission for the service account or accounts. The roles/iam.serviceAccountTokenCreator role has the iam.serviceAccounts.getAccessToken permission. You can also create a custom role. You can specify a list of service accounts, separated with commas. This creates an impersonation delegation chain in which each service account delegates its permissions to the next service account in the chain. Each service account in the list must have the roles/iam.serviceAccountTokenCreator role on the next service account in the list. For example, when --impersonate-service-account= SERVICE_ACCOUNT_1,SERVICE_ACCOUNT_2, the active account must have the roles/iam.serviceAccountTokenCreator role on SERVICE_ACCOUNT_1, which must have the roles/iam.serviceAccountTokenCreator role on SERVICE_ACCOUNT_2. SERVICE_ACCOUNT_1 is the impersonated service account and SERVICE_ACCOUNT_2 is the delegate. Overrides the default auth/impersonate_service_account property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--impersonate-service-account", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public virtual IEnumerable<string>? ImpersonateServiceAccount { get; set; }
+
+    /// <summary>
+    /// Log all HTTP server requests and responses to stderr. Overrides the default core/log_http property value for this command invocation.
+    /// </summary>
+    [CliFlag("--log-http")]
+    public virtual bool? LogHttp { get; set; }
+
+    /// <summary>
+    /// The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Project { get; set; }
+
+    /// <summary>
+    /// Disable all interactive prompts when running gcloud commands. If input is required, defaults will be used, or an error will be raised. Overrides the default core/disable_prompts property value for this command invocation. This is equivalent to setting the environment variable CLOUDSDK_CORE_DISABLE_PROMPTS to 1.
+    /// </summary>
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public virtual bool? Quiet { get; set; }
+
+    /// <summary>
+    /// Token used to route traces of service requests for investigation of issues. Overrides the default core/trace_token property value for this command invocation.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--trace-token", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? TraceToken { get; set; }
+
+    /// <summary>
+    /// Print user intended output to the console. Overrides the default core/user_output_enabled property value for this command invocation. Use --no-user-output-enabled to disable.
+    /// </summary>
+    [CliFlag("--user-output-enabled", NegatedName = "--no-user-output-enabled")]
+    public virtual bool? UserOutputEnabled { get; set; }
+
+    /// <summary>
+    /// Override the default verbosity for this command. Overrides the default core/verbosity property value for this command invocation. VERBOSITY must be one of: debug, info, warning, error, critical, none.
+    /// </summary>
+    [CliOption("--verbosity", Format = OptionFormat.EqualsSeparated)]
+    public virtual GcloudVerbosity? Verbosity { get; set; }
+
 }

@@ -22,19 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudBiglake
 {
     /// <summary>
-    /// gcloud data-product-sharing sub-commands.
+    /// gcloud biglake data-product-sharing sub-commands.
     /// </summary>
-    GcloudBiglakeDataProductSharing DataProductSharing => throw new System.NotSupportedException();
+    GcloudBiglakeDataProductSharing DataProductSharing { get; }
 
     /// <summary>
-    /// gcloud delta-sharing sub-commands.
+    /// gcloud biglake delta-sharing sub-commands.
     /// </summary>
-    GcloudBiglakeDeltaSharing DeltaSharing => throw new System.NotSupportedException();
+    GcloudBiglakeDeltaSharing DeltaSharing { get; }
 
     /// <summary>
-    /// gcloud iceberg sub-commands.
+    /// gcloud biglake hive sub-commands.
     /// </summary>
-    GcloudBiglakeIceberg Iceberg => throw new System.NotSupportedException();
+    GcloudBiglakeHive Hive { get; }
+
+    /// <summary>
+    /// gcloud biglake iceberg sub-commands.
+    /// </summary>
+    GcloudBiglakeIceberg Iceberg { get; }
 
     /// <summary>
     /// create and manage Google Cloud BigLake resources
@@ -43,7 +48,6 @@ public interface IGcloudBiglake
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudBiglakeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudBiglakeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

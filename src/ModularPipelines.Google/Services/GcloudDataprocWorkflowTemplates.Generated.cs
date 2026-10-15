@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workflow-templates commands.
+/// gcloud dataproc workflow-templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataprocWorkflowTemplates
@@ -33,7 +33,7 @@ public class GcloudDataprocWorkflowTemplates
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud add-job sub-commands.
+    /// gcloud dataproc workflow-templates add-job sub-commands.
     /// </summary>
     public GcloudDataprocWorkflowTemplatesAddJob AddJob => _addJob ??= new GcloudDataprocWorkflowTemplatesAddJob(_command);
 

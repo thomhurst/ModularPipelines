@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud model-garden commands.
+/// gcloud ai model-garden commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAiModelGarden
@@ -33,7 +33,7 @@ public class GcloudAiModelGarden
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud models sub-commands.
+    /// gcloud ai model-garden models sub-commands.
     /// </summary>
     public GcloudAiModelGardenModels Models => _models ??= new GcloudAiModelGardenModels(_command);
 

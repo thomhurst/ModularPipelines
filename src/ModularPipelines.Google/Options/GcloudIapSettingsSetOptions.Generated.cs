@@ -55,7 +55,11 @@ public record GcloudIapSettingsSetOptions : GcloudOptions
     /// Project ID.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// Region name. Not applicable for app-engine. Required when resource-type=compute and regional scoped. Not applicable for global scoped compute. Required when resource-type=cloud-run.

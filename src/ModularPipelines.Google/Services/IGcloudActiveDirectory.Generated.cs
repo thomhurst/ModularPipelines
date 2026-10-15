@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud activedirectory commands.
+/// gcloud active-directory commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudActiveDirectory
 {
     /// <summary>
-    /// gcloud domains sub-commands.
+    /// gcloud active-directory domains sub-commands.
     /// </summary>
-    GcloudActiveDirectoryDomains Domains => throw new System.NotSupportedException();
+    GcloudActiveDirectoryDomains Domains { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud active-directory operations sub-commands.
     /// </summary>
-    GcloudActiveDirectoryOperations Operations => throw new System.NotSupportedException();
+    GcloudActiveDirectoryOperations Operations { get; }
 
     /// <summary>
-    /// gcloud peerings sub-commands.
+    /// gcloud active-directory peerings sub-commands.
     /// </summary>
-    GcloudActiveDirectoryPeerings Peerings => throw new System.NotSupportedException();
+    GcloudActiveDirectoryPeerings Peerings { get; }
 
     /// <summary>
     /// manage Managed Microsoft AD resources
@@ -43,7 +43,6 @@ public interface IGcloudActiveDirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudActiveDirectoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudActiveDirectoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

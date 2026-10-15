@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud os-policy-assignments commands.
+/// gcloud compute os-config os-policy-assignments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeOsConfigOsPolicyAssignments
@@ -33,7 +33,7 @@ public class GcloudComputeOsConfigOsPolicyAssignments
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud compute os-config os-policy-assignments operations sub-commands.
     /// </summary>
     public GcloudComputeOsConfigOsPolicyAssignmentsOperations Operations => _operations ??= new GcloudComputeOsConfigOsPolicyAssignmentsOperations(_command);
 

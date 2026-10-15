@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud private-connections commands.
+/// gcloud vmware private-connections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwarePrivateConnections
@@ -33,7 +33,7 @@ public class GcloudVmwarePrivateConnections
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud routes sub-commands.
+    /// gcloud vmware private-connections routes sub-commands.
     /// </summary>
     public GcloudVmwarePrivateConnectionsRoutes Routes => _routes ??= new GcloudVmwarePrivateConnectionsRoutes(_command);
 

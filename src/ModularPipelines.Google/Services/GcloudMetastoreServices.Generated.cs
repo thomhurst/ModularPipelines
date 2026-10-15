@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud services commands.
+/// gcloud metastore services commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMetastoreServices
@@ -36,22 +36,22 @@ public class GcloudMetastoreServices
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud metastore services backups sub-commands.
     /// </summary>
     public GcloudMetastoreServicesBackups Backups => _backups ??= new GcloudMetastoreServicesBackups(_command);
 
     /// <summary>
-    /// gcloud export sub-commands.
+    /// gcloud metastore services export sub-commands.
     /// </summary>
     public GcloudMetastoreServicesExport Export => _export ??= new GcloudMetastoreServicesExport(_command);
 
     /// <summary>
-    /// gcloud import sub-commands.
+    /// gcloud metastore services import sub-commands.
     /// </summary>
     public GcloudMetastoreServicesImport Import => _import ??= new GcloudMetastoreServicesImport(_command);
 
     /// <summary>
-    /// gcloud migrations sub-commands.
+    /// gcloud metastore services migrations sub-commands.
     /// </summary>
     public GcloudMetastoreServicesMigrations Migrations => _migrations ??= new GcloudMetastoreServicesMigrations(_command);
 

@@ -14,12 +14,13 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud compute commands.
+/// gcloud preview compute commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewCompute
 {
     private readonly ICommandContext _command;
+    private GcloudPreviewComputeAcceleratorInterconnects? _acceleratorInterconnects;
     private GcloudPreviewComputeAcceleratorTypes? _acceleratorTypes;
     private GcloudPreviewComputeAddresses? _addresses;
     private GcloudPreviewComputeAdvice? _advice;
@@ -98,332 +99,337 @@ public class GcloudPreviewCompute
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud accelerator-types sub-commands.
+    /// gcloud preview compute accelerator-interconnects sub-commands.
+    /// </summary>
+    public GcloudPreviewComputeAcceleratorInterconnects AcceleratorInterconnects => _acceleratorInterconnects ??= new GcloudPreviewComputeAcceleratorInterconnects(_command);
+
+    /// <summary>
+    /// gcloud preview compute accelerator-types sub-commands.
     /// </summary>
     public GcloudPreviewComputeAcceleratorTypes AcceleratorTypes => _acceleratorTypes ??= new GcloudPreviewComputeAcceleratorTypes(_command);
 
     /// <summary>
-    /// gcloud addresses sub-commands.
+    /// gcloud preview compute addresses sub-commands.
     /// </summary>
     public GcloudPreviewComputeAddresses Addresses => _addresses ??= new GcloudPreviewComputeAddresses(_command);
 
     /// <summary>
-    /// gcloud advice sub-commands.
+    /// gcloud preview compute advice sub-commands.
     /// </summary>
     public GcloudPreviewComputeAdvice Advice => _advice ??= new GcloudPreviewComputeAdvice(_command);
 
     /// <summary>
-    /// gcloud backend-buckets sub-commands.
+    /// gcloud preview compute backend-buckets sub-commands.
     /// </summary>
     public GcloudPreviewComputeBackendBuckets BackendBuckets => _backendBuckets ??= new GcloudPreviewComputeBackendBuckets(_command);
 
     /// <summary>
-    /// gcloud backend-services sub-commands.
+    /// gcloud preview compute backend-services sub-commands.
     /// </summary>
     public GcloudPreviewComputeBackendServices BackendServices => _backendServices ??= new GcloudPreviewComputeBackendServices(_command);
 
     /// <summary>
-    /// gcloud commitments sub-commands.
+    /// gcloud preview compute commitments sub-commands.
     /// </summary>
     public GcloudPreviewComputeCommitments Commitments => _commitments ??= new GcloudPreviewComputeCommitments(_command);
 
     /// <summary>
-    /// gcloud diagnose sub-commands.
+    /// gcloud preview compute diagnose sub-commands.
     /// </summary>
     public GcloudPreviewComputeDiagnose Diagnose => _diagnose ??= new GcloudPreviewComputeDiagnose(_command);
 
     /// <summary>
-    /// gcloud disks sub-commands.
+    /// gcloud preview compute disks sub-commands.
     /// </summary>
     public GcloudPreviewComputeDisks Disks => _disks ??= new GcloudPreviewComputeDisks(_command);
 
     /// <summary>
-    /// gcloud disk-types sub-commands.
+    /// gcloud preview compute disk-types sub-commands.
     /// </summary>
     public GcloudPreviewComputeDiskTypes DiskTypes => _diskTypes ??= new GcloudPreviewComputeDiskTypes(_command);
 
     /// <summary>
-    /// gcloud external-vpn-gateways sub-commands.
+    /// gcloud preview compute external-vpn-gateways sub-commands.
     /// </summary>
     public GcloudPreviewComputeExternalVpnGateways ExternalVpnGateways => _externalVpnGateways ??= new GcloudPreviewComputeExternalVpnGateways(_command);
 
     /// <summary>
-    /// gcloud firewall-policies sub-commands.
+    /// gcloud preview compute firewall-policies sub-commands.
     /// </summary>
     public GcloudPreviewComputeFirewallPolicies FirewallPolicies => _firewallPolicies ??= new GcloudPreviewComputeFirewallPolicies(_command);
 
     /// <summary>
-    /// gcloud firewall-rules sub-commands.
+    /// gcloud preview compute firewall-rules sub-commands.
     /// </summary>
     public GcloudPreviewComputeFirewallRules FirewallRules => _firewallRules ??= new GcloudPreviewComputeFirewallRules(_command);
 
     /// <summary>
-    /// gcloud forwarding-rules sub-commands.
+    /// gcloud preview compute forwarding-rules sub-commands.
     /// </summary>
     public GcloudPreviewComputeForwardingRules ForwardingRules => _forwardingRules ??= new GcloudPreviewComputeForwardingRules(_command);
 
     /// <summary>
-    /// gcloud future-reservations sub-commands.
+    /// gcloud preview compute future-reservations sub-commands.
     /// </summary>
     public GcloudPreviewComputeFutureReservations FutureReservations => _futureReservations ??= new GcloudPreviewComputeFutureReservations(_command);
 
     /// <summary>
-    /// gcloud health-checks sub-commands.
+    /// gcloud preview compute health-checks sub-commands.
     /// </summary>
     public GcloudPreviewComputeHealthChecks HealthChecks => _healthChecks ??= new GcloudPreviewComputeHealthChecks(_command);
 
     /// <summary>
-    /// gcloud http-health-checks sub-commands.
+    /// gcloud preview compute http-health-checks sub-commands.
     /// </summary>
     public GcloudPreviewComputeHttpHealthChecks HttpHealthChecks => _httpHealthChecks ??= new GcloudPreviewComputeHttpHealthChecks(_command);
 
     /// <summary>
-    /// gcloud https-health-checks sub-commands.
+    /// gcloud preview compute https-health-checks sub-commands.
     /// </summary>
     public GcloudPreviewComputeHttpsHealthChecks HttpsHealthChecks => _httpsHealthChecks ??= new GcloudPreviewComputeHttpsHealthChecks(_command);
 
     /// <summary>
-    /// gcloud images sub-commands.
+    /// gcloud preview compute images sub-commands.
     /// </summary>
     public GcloudPreviewComputeImages Images => _images ??= new GcloudPreviewComputeImages(_command);
 
     /// <summary>
-    /// gcloud instance-groups sub-commands.
+    /// gcloud preview compute instance-groups sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstanceGroups InstanceGroups => _instanceGroups ??= new GcloudPreviewComputeInstanceGroups(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud preview compute instances sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstances Instances => _instances ??= new GcloudPreviewComputeInstances(_command);
 
     /// <summary>
-    /// gcloud instance-templates sub-commands.
+    /// gcloud preview compute instance-templates sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstanceTemplates InstanceTemplates => _instanceTemplates ??= new GcloudPreviewComputeInstanceTemplates(_command);
 
     /// <summary>
-    /// gcloud instant-snapshots sub-commands.
+    /// gcloud preview compute instant-snapshots sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstantSnapshots InstantSnapshots => _instantSnapshots ??= new GcloudPreviewComputeInstantSnapshots(_command);
 
     /// <summary>
-    /// gcloud interconnects sub-commands.
+    /// gcloud preview compute interconnects sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnects Interconnects => _interconnects ??= new GcloudPreviewComputeInterconnects(_command);
 
     /// <summary>
-    /// gcloud machine-images sub-commands.
+    /// gcloud preview compute machine-images sub-commands.
     /// </summary>
     public GcloudPreviewComputeMachineImages MachineImages => _machineImages ??= new GcloudPreviewComputeMachineImages(_command);
 
     /// <summary>
-    /// gcloud machine-types sub-commands.
+    /// gcloud preview compute machine-types sub-commands.
     /// </summary>
     public GcloudPreviewComputeMachineTypes MachineTypes => _machineTypes ??= new GcloudPreviewComputeMachineTypes(_command);
 
     /// <summary>
-    /// gcloud network-attachments sub-commands.
+    /// gcloud preview compute network-attachments sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworkAttachments NetworkAttachments => _networkAttachments ??= new GcloudPreviewComputeNetworkAttachments(_command);
 
     /// <summary>
-    /// gcloud network-edge-security-services sub-commands.
+    /// gcloud preview compute network-edge-security-services sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworkEdgeSecurityServices NetworkEdgeSecurityServices => _networkEdgeSecurityServices ??= new GcloudPreviewComputeNetworkEdgeSecurityServices(_command);
 
     /// <summary>
-    /// gcloud network-endpoint-groups sub-commands.
+    /// gcloud preview compute network-endpoint-groups sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworkEndpointGroups NetworkEndpointGroups => _networkEndpointGroups ??= new GcloudPreviewComputeNetworkEndpointGroups(_command);
 
     /// <summary>
-    /// gcloud network-firewall-policies sub-commands.
+    /// gcloud preview compute network-firewall-policies sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworkFirewallPolicies NetworkFirewallPolicies => _networkFirewallPolicies ??= new GcloudPreviewComputeNetworkFirewallPolicies(_command);
 
     /// <summary>
-    /// gcloud network-profiles sub-commands.
+    /// gcloud preview compute network-profiles sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworkProfiles NetworkProfiles => _networkProfiles ??= new GcloudPreviewComputeNetworkProfiles(_command);
 
     /// <summary>
-    /// gcloud networks sub-commands.
+    /// gcloud preview compute networks sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworks Networks => _networks ??= new GcloudPreviewComputeNetworks(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud preview compute operations sub-commands.
     /// </summary>
     public GcloudPreviewComputeOperations Operations => _operations ??= new GcloudPreviewComputeOperations(_command);
 
     /// <summary>
-    /// gcloud org-security-policies sub-commands.
+    /// gcloud preview compute org-security-policies sub-commands.
     /// </summary>
     public GcloudPreviewComputeOrgSecurityPolicies OrgSecurityPolicies => _orgSecurityPolicies ??= new GcloudPreviewComputeOrgSecurityPolicies(_command);
 
     /// <summary>
-    /// gcloud packet-mirrorings sub-commands.
+    /// gcloud preview compute packet-mirrorings sub-commands.
     /// </summary>
     public GcloudPreviewComputePacketMirrorings PacketMirrorings => _packetMirrorings ??= new GcloudPreviewComputePacketMirrorings(_command);
 
     /// <summary>
-    /// gcloud preview-features sub-commands.
+    /// gcloud preview compute preview-features sub-commands.
     /// </summary>
     public GcloudPreviewComputePreviewFeatures PreviewFeatures => _previewFeatures ??= new GcloudPreviewComputePreviewFeatures(_command);
 
     /// <summary>
-    /// gcloud project-info sub-commands.
+    /// gcloud preview compute project-info sub-commands.
     /// </summary>
     public GcloudPreviewComputeProjectInfo ProjectInfo => _projectInfo ??= new GcloudPreviewComputeProjectInfo(_command);
 
     /// <summary>
-    /// gcloud project-zonal-metadata sub-commands.
+    /// gcloud preview compute project-zonal-metadata sub-commands.
     /// </summary>
     public GcloudPreviewComputeProjectZonalMetadata ProjectZonalMetadata => _projectZonalMetadata ??= new GcloudPreviewComputeProjectZonalMetadata(_command);
 
     /// <summary>
-    /// gcloud public-advertised-prefixes sub-commands.
+    /// gcloud preview compute public-advertised-prefixes sub-commands.
     /// </summary>
     public GcloudPreviewComputePublicAdvertisedPrefixes PublicAdvertisedPrefixes => _publicAdvertisedPrefixes ??= new GcloudPreviewComputePublicAdvertisedPrefixes(_command);
 
     /// <summary>
-    /// gcloud public-delegated-prefixes sub-commands.
+    /// gcloud preview compute public-delegated-prefixes sub-commands.
     /// </summary>
     public GcloudPreviewComputePublicDelegatedPrefixes PublicDelegatedPrefixes => _publicDelegatedPrefixes ??= new GcloudPreviewComputePublicDelegatedPrefixes(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud preview compute regions sub-commands.
     /// </summary>
     public GcloudPreviewComputeRegions Regions => _regions ??= new GcloudPreviewComputeRegions(_command);
 
     /// <summary>
-    /// gcloud reservations sub-commands.
+    /// gcloud preview compute reservations sub-commands.
     /// </summary>
     public GcloudPreviewComputeReservations Reservations => _reservations ??= new GcloudPreviewComputeReservations(_command);
 
     /// <summary>
-    /// gcloud resource-policies sub-commands.
+    /// gcloud preview compute resource-policies sub-commands.
     /// </summary>
     public GcloudPreviewComputeResourcePolicies ResourcePolicies => _resourcePolicies ??= new GcloudPreviewComputeResourcePolicies(_command);
 
     /// <summary>
-    /// gcloud routers sub-commands.
+    /// gcloud preview compute routers sub-commands.
     /// </summary>
     public GcloudPreviewComputeRouters Routers => _routers ??= new GcloudPreviewComputeRouters(_command);
 
     /// <summary>
-    /// gcloud routes sub-commands.
+    /// gcloud preview compute routes sub-commands.
     /// </summary>
     public GcloudPreviewComputeRoutes Routes => _routes ??= new GcloudPreviewComputeRoutes(_command);
 
     /// <summary>
-    /// gcloud security-policies sub-commands.
+    /// gcloud preview compute security-policies sub-commands.
     /// </summary>
     public GcloudPreviewComputeSecurityPolicies SecurityPolicies => _securityPolicies ??= new GcloudPreviewComputeSecurityPolicies(_command);
 
     /// <summary>
-    /// gcloud service-attachments sub-commands.
+    /// gcloud preview compute service-attachments sub-commands.
     /// </summary>
     public GcloudPreviewComputeServiceAttachments ServiceAttachments => _serviceAttachments ??= new GcloudPreviewComputeServiceAttachments(_command);
 
     /// <summary>
-    /// gcloud shared-vpc sub-commands.
+    /// gcloud preview compute shared-vpc sub-commands.
     /// </summary>
     public GcloudPreviewComputeSharedVpc SharedVpc => _sharedVpc ??= new GcloudPreviewComputeSharedVpc(_command);
 
     /// <summary>
-    /// gcloud snapshots sub-commands.
+    /// gcloud preview compute snapshots sub-commands.
     /// </summary>
     public GcloudPreviewComputeSnapshots Snapshots => _snapshots ??= new GcloudPreviewComputeSnapshots(_command);
 
     /// <summary>
-    /// gcloud snapshot-settings sub-commands.
+    /// gcloud preview compute snapshot-settings sub-commands.
     /// </summary>
     public GcloudPreviewComputeSnapshotSettings SnapshotSettings => _snapshotSettings ??= new GcloudPreviewComputeSnapshotSettings(_command);
 
     /// <summary>
-    /// gcloud sole-tenancy sub-commands.
+    /// gcloud preview compute sole-tenancy sub-commands.
     /// </summary>
     public GcloudPreviewComputeSoleTenancy SoleTenancy => _soleTenancy ??= new GcloudPreviewComputeSoleTenancy(_command);
 
     /// <summary>
-    /// gcloud ssl-certificates sub-commands.
+    /// gcloud preview compute ssl-certificates sub-commands.
     /// </summary>
     public GcloudPreviewComputeSslCertificates SslCertificates => _sslCertificates ??= new GcloudPreviewComputeSslCertificates(_command);
 
     /// <summary>
-    /// gcloud ssl-policies sub-commands.
+    /// gcloud preview compute ssl-policies sub-commands.
     /// </summary>
     public GcloudPreviewComputeSslPolicies SslPolicies => _sslPolicies ??= new GcloudPreviewComputeSslPolicies(_command);
 
     /// <summary>
-    /// gcloud storage-pools sub-commands.
+    /// gcloud preview compute storage-pools sub-commands.
     /// </summary>
     public GcloudPreviewComputeStoragePools StoragePools => _storagePools ??= new GcloudPreviewComputeStoragePools(_command);
 
     /// <summary>
-    /// gcloud storage-pool-types sub-commands.
+    /// gcloud preview compute storage-pool-types sub-commands.
     /// </summary>
     public GcloudPreviewComputeStoragePoolTypes StoragePoolTypes => _storagePoolTypes ??= new GcloudPreviewComputeStoragePoolTypes(_command);
 
     /// <summary>
-    /// gcloud target-grpc-proxies sub-commands.
+    /// gcloud preview compute target-grpc-proxies sub-commands.
     /// </summary>
     public GcloudPreviewComputeTargetGrpcProxies TargetGrpcProxies => _targetGrpcProxies ??= new GcloudPreviewComputeTargetGrpcProxies(_command);
 
     /// <summary>
-    /// gcloud target-http-proxies sub-commands.
+    /// gcloud preview compute target-http-proxies sub-commands.
     /// </summary>
     public GcloudPreviewComputeTargetHttpProxies TargetHttpProxies => _targetHttpProxies ??= new GcloudPreviewComputeTargetHttpProxies(_command);
 
     /// <summary>
-    /// gcloud target-https-proxies sub-commands.
+    /// gcloud preview compute target-https-proxies sub-commands.
     /// </summary>
     public GcloudPreviewComputeTargetHttpsProxies TargetHttpsProxies => _targetHttpsProxies ??= new GcloudPreviewComputeTargetHttpsProxies(_command);
 
     /// <summary>
-    /// gcloud target-instances sub-commands.
+    /// gcloud preview compute target-instances sub-commands.
     /// </summary>
     public GcloudPreviewComputeTargetInstances TargetInstances => _targetInstances ??= new GcloudPreviewComputeTargetInstances(_command);
 
     /// <summary>
-    /// gcloud target-pools sub-commands.
+    /// gcloud preview compute target-pools sub-commands.
     /// </summary>
     public GcloudPreviewComputeTargetPools TargetPools => _targetPools ??= new GcloudPreviewComputeTargetPools(_command);
 
     /// <summary>
-    /// gcloud target-ssl-proxies sub-commands.
+    /// gcloud preview compute target-ssl-proxies sub-commands.
     /// </summary>
     public GcloudPreviewComputeTargetSslProxies TargetSslProxies => _targetSslProxies ??= new GcloudPreviewComputeTargetSslProxies(_command);
 
     /// <summary>
-    /// gcloud target-tcp-proxies sub-commands.
+    /// gcloud preview compute target-tcp-proxies sub-commands.
     /// </summary>
     public GcloudPreviewComputeTargetTcpProxies TargetTcpProxies => _targetTcpProxies ??= new GcloudPreviewComputeTargetTcpProxies(_command);
 
     /// <summary>
-    /// gcloud target-vpn-gateways sub-commands.
+    /// gcloud preview compute target-vpn-gateways sub-commands.
     /// </summary>
     public GcloudPreviewComputeTargetVpnGateways TargetVpnGateways => _targetVpnGateways ??= new GcloudPreviewComputeTargetVpnGateways(_command);
 
     /// <summary>
-    /// gcloud url-maps sub-commands.
+    /// gcloud preview compute url-maps sub-commands.
     /// </summary>
     public GcloudPreviewComputeUrlMaps UrlMaps => _urlMaps ??= new GcloudPreviewComputeUrlMaps(_command);
 
     /// <summary>
-    /// gcloud vpn-gateways sub-commands.
+    /// gcloud preview compute vpn-gateways sub-commands.
     /// </summary>
     public GcloudPreviewComputeVpnGateways VpnGateways => _vpnGateways ??= new GcloudPreviewComputeVpnGateways(_command);
 
     /// <summary>
-    /// gcloud vpn-tunnels sub-commands.
+    /// gcloud preview compute vpn-tunnels sub-commands.
     /// </summary>
     public GcloudPreviewComputeVpnTunnels VpnTunnels => _vpnTunnels ??= new GcloudPreviewComputeVpnTunnels(_command);
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud preview compute zones sub-commands.
     /// </summary>
     public GcloudPreviewComputeZones Zones => _zones ??= new GcloudPreviewComputeZones(_command);
 

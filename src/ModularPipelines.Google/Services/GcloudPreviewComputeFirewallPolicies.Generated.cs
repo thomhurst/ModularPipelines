@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud firewall-policies commands.
+/// gcloud preview compute firewall-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeFirewallPolicies
@@ -34,12 +34,12 @@ public class GcloudPreviewComputeFirewallPolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud associations sub-commands.
+    /// gcloud preview compute firewall-policies associations sub-commands.
     /// </summary>
     public GcloudPreviewComputeFirewallPoliciesAssociations Associations => _associations ??= new GcloudPreviewComputeFirewallPoliciesAssociations(_command);
 
     /// <summary>
-    /// gcloud rules sub-commands.
+    /// gcloud preview compute firewall-policies rules sub-commands.
     /// </summary>
     public GcloudPreviewComputeFirewallPoliciesRules Rules => _rules ??= new GcloudPreviewComputeFirewallPoliciesRules(_command);
 

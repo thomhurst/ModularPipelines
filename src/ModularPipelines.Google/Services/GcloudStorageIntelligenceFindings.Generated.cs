@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud intelligence-findings commands.
+/// gcloud storage intelligence-findings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudStorageIntelligenceFindings
@@ -33,7 +33,7 @@ public class GcloudStorageIntelligenceFindings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud storage intelligence-findings revisions sub-commands.
     /// </summary>
     public GcloudStorageIntelligenceFindingsRevisions Revisions => _revisions ??= new GcloudStorageIntelligenceFindingsRevisions(_command);
 

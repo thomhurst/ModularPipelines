@@ -41,47 +41,47 @@ public class GcloudSpanner : IGcloudSpanner
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud spanner backups sub-commands.
     /// </summary>
     public GcloudSpannerBackups Backups => _backups ??= new GcloudSpannerBackups(_command);
 
     /// <summary>
-    /// gcloud backup-schedules sub-commands.
+    /// gcloud spanner backup-schedules sub-commands.
     /// </summary>
     public GcloudSpannerBackupSchedules BackupSchedules => _backupSchedules ??= new GcloudSpannerBackupSchedules(_command);
 
     /// <summary>
-    /// gcloud databases sub-commands.
+    /// gcloud spanner databases sub-commands.
     /// </summary>
     public GcloudSpannerDatabases Databases => _databases ??= new GcloudSpannerDatabases(_command);
 
     /// <summary>
-    /// gcloud instance-configs sub-commands.
+    /// gcloud spanner instance-configs sub-commands.
     /// </summary>
     public GcloudSpannerInstanceConfigs InstanceConfigs => _instanceConfigs ??= new GcloudSpannerInstanceConfigs(_command);
 
     /// <summary>
-    /// gcloud instance-partitions sub-commands.
+    /// gcloud spanner instance-partitions sub-commands.
     /// </summary>
     public GcloudSpannerInstancePartitions InstancePartitions => _instancePartitions ??= new GcloudSpannerInstancePartitions(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud spanner instances sub-commands.
     /// </summary>
     public GcloudSpannerInstances Instances => _instances ??= new GcloudSpannerInstances(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud spanner operations sub-commands.
     /// </summary>
     public GcloudSpannerOperations Operations => _operations ??= new GcloudSpannerOperations(_command);
 
     /// <summary>
-    /// gcloud rows sub-commands.
+    /// gcloud spanner rows sub-commands.
     /// </summary>
     public GcloudSpannerRows Rows => _rows ??= new GcloudSpannerRows(_command);
 
     /// <summary>
-    /// gcloud samples sub-commands.
+    /// gcloud spanner samples sub-commands.
     /// </summary>
     public GcloudSpannerSamples Samples => _samples ??= new GcloudSpannerSamples(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud services commands.
+/// gcloud run services commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudRunServices
@@ -33,7 +33,7 @@ public class GcloudRunServices
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud logs sub-commands.
+    /// gcloud run services logs sub-commands.
     /// </summary>
     public GcloudRunServicesLogs Logs => _logs ??= new GcloudRunServicesLogs(_command);
 

@@ -78,7 +78,11 @@ public record GcloudRecommenderInsightTypeConfigUpdateOptions : GcloudOptions, I
     /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud project ID. Overrides the default core/project property value for this command invocation.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// Store small amounts of arbitrary data on the insight type configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

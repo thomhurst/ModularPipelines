@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud oauth-clients commands.
+/// gcloud iam oauth-clients commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIamOauthClients
@@ -33,7 +33,7 @@ public class GcloudIamOauthClients
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud credentials sub-commands.
+    /// gcloud iam oauth-clients credentials sub-commands.
     /// </summary>
     public GcloudIamOauthClientsCredentials Credentials => _credentials ??= new GcloudIamOauthClientsCredentials(_command);
 

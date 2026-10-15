@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud storage commands.
+/// gcloud composer environments storage commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComposerEnvironmentsStorage
@@ -35,17 +35,17 @@ public class GcloudComposerEnvironmentsStorage
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud dags sub-commands.
+    /// gcloud composer environments storage dags sub-commands.
     /// </summary>
     public GcloudComposerEnvironmentsStorageDags Dags => _dags ??= new GcloudComposerEnvironmentsStorageDags(_command);
 
     /// <summary>
-    /// gcloud data sub-commands.
+    /// gcloud composer environments storage data sub-commands.
     /// </summary>
     public GcloudComposerEnvironmentsStorageData Data => _data ??= new GcloudComposerEnvironmentsStorageData(_command);
 
     /// <summary>
-    /// gcloud plugins sub-commands.
+    /// gcloud composer environments storage plugins sub-commands.
     /// </summary>
     public GcloudComposerEnvironmentsStoragePlugins Plugins => _plugins ??= new GcloudComposerEnvironmentsStoragePlugins(_command);
 

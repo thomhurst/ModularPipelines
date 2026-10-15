@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud container commands.
+/// gcloud edge-cloud container commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgeCloudContainer
@@ -37,27 +37,27 @@ public class GcloudEdgeCloudContainer
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud edge-cloud container clusters sub-commands.
     /// </summary>
     public GcloudEdgeCloudContainerClusters Clusters => _clusters ??= new GcloudEdgeCloudContainerClusters(_command);
 
     /// <summary>
-    /// gcloud machines sub-commands.
+    /// gcloud edge-cloud container machines sub-commands.
     /// </summary>
     public GcloudEdgeCloudContainerMachines Machines => _machines ??= new GcloudEdgeCloudContainerMachines(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud edge-cloud container operations sub-commands.
     /// </summary>
     public GcloudEdgeCloudContainerOperations Operations => _operations ??= new GcloudEdgeCloudContainerOperations(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud edge-cloud container regions sub-commands.
     /// </summary>
     public GcloudEdgeCloudContainerRegions Regions => _regions ??= new GcloudEdgeCloudContainerRegions(_command);
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud edge-cloud container zones sub-commands.
     /// </summary>
     public GcloudEdgeCloudContainerZones Zones => _zones ??= new GcloudEdgeCloudContainerZones(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud network-firewall-policies commands.
+/// gcloud compute network-firewall-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeNetworkFirewallPolicies
@@ -35,17 +35,17 @@ public class GcloudComputeNetworkFirewallPolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud associations sub-commands.
+    /// gcloud compute network-firewall-policies associations sub-commands.
     /// </summary>
     public GcloudComputeNetworkFirewallPoliciesAssociations Associations => _associations ??= new GcloudComputeNetworkFirewallPoliciesAssociations(_command);
 
     /// <summary>
-    /// gcloud mirroring-rules sub-commands.
+    /// gcloud compute network-firewall-policies mirroring-rules sub-commands.
     /// </summary>
     public GcloudComputeNetworkFirewallPoliciesMirroringRules MirroringRules => _mirroringRules ??= new GcloudComputeNetworkFirewallPoliciesMirroringRules(_command);
 
     /// <summary>
-    /// gcloud rules sub-commands.
+    /// gcloud compute network-firewall-policies rules sub-commands.
     /// </summary>
     public GcloudComputeNetworkFirewallPoliciesRules Rules => _rules ??= new GcloudComputeNetworkFirewallPoliciesRules(_command);
 

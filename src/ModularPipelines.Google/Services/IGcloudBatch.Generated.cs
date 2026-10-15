@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudBatch
 {
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud batch jobs sub-commands.
     /// </summary>
-    GcloudBatchJobs Jobs => throw new System.NotSupportedException();
+    GcloudBatchJobs Jobs { get; }
 
     /// <summary>
-    /// gcloud tasks sub-commands.
+    /// gcloud batch tasks sub-commands.
     /// </summary>
-    GcloudBatchTasks Tasks => throw new System.NotSupportedException();
+    GcloudBatchTasks Tasks { get; }
 
     /// <summary>
     /// manage Batch resources
@@ -38,7 +38,6 @@ public interface IGcloudBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudBatchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudBatchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

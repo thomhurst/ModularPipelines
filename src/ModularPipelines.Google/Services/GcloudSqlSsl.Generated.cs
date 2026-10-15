@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud ssl commands.
+/// gcloud sql ssl commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudSqlSsl
@@ -36,22 +36,22 @@ public class GcloudSqlSsl
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud client-certs sub-commands.
+    /// gcloud sql ssl client-certs sub-commands.
     /// </summary>
     public GcloudSqlSslClientCerts ClientCerts => _clientCerts ??= new GcloudSqlSslClientCerts(_command);
 
     /// <summary>
-    /// gcloud entraid-certs sub-commands.
+    /// gcloud sql ssl entraid-certs sub-commands.
     /// </summary>
     public GcloudSqlSslEntraidCerts EntraidCerts => _entraidCerts ??= new GcloudSqlSslEntraidCerts(_command);
 
     /// <summary>
-    /// gcloud server-ca-certs sub-commands.
+    /// gcloud sql ssl server-ca-certs sub-commands.
     /// </summary>
     public GcloudSqlSslServerCaCerts ServerCaCerts => _serverCaCerts ??= new GcloudSqlSslServerCaCerts(_command);
 
     /// <summary>
-    /// gcloud server-certs sub-commands.
+    /// gcloud sql ssl server-certs sub-commands.
     /// </summary>
     public GcloudSqlSslServerCerts ServerCerts => _serverCerts ??= new GcloudSqlSslServerCerts(_command);
 

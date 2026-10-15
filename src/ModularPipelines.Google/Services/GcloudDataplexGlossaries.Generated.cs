@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud glossaries commands.
+/// gcloud dataplex glossaries commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataplexGlossaries
@@ -34,12 +34,12 @@ public class GcloudDataplexGlossaries
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud categories sub-commands.
+    /// gcloud dataplex glossaries categories sub-commands.
     /// </summary>
     public GcloudDataplexGlossariesCategories Categories => _categories ??= new GcloudDataplexGlossariesCategories(_command);
 
     /// <summary>
-    /// gcloud terms sub-commands.
+    /// gcloud dataplex glossaries terms sub-commands.
     /// </summary>
     public GcloudDataplexGlossariesTerms Terms => _terms ??= new GcloudDataplexGlossariesTerms(_command);
 

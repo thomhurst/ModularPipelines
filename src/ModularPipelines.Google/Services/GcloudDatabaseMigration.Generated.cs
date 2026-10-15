@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud databasemigration commands.
+/// gcloud database-migration commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDatabaseMigration : IGcloudDatabaseMigration
@@ -38,32 +38,32 @@ public class GcloudDatabaseMigration : IGcloudDatabaseMigration
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud connection-profiles sub-commands.
+    /// gcloud database-migration connection-profiles sub-commands.
     /// </summary>
     public GcloudDatabaseMigrationConnectionProfiles ConnectionProfiles => _connectionProfiles ??= new GcloudDatabaseMigrationConnectionProfiles(_command);
 
     /// <summary>
-    /// gcloud conversion-workspaces sub-commands.
+    /// gcloud database-migration conversion-workspaces sub-commands.
     /// </summary>
     public GcloudDatabaseMigrationConversionWorkspaces ConversionWorkspaces => _conversionWorkspaces ??= new GcloudDatabaseMigrationConversionWorkspaces(_command);
 
     /// <summary>
-    /// gcloud migration-jobs sub-commands.
+    /// gcloud database-migration migration-jobs sub-commands.
     /// </summary>
     public GcloudDatabaseMigrationMigrationJobs MigrationJobs => _migrationJobs ??= new GcloudDatabaseMigrationMigrationJobs(_command);
 
     /// <summary>
-    /// gcloud objects sub-commands.
+    /// gcloud database-migration objects sub-commands.
     /// </summary>
     public GcloudDatabaseMigrationObjects Objects => _objects ??= new GcloudDatabaseMigrationObjects(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud database-migration operations sub-commands.
     /// </summary>
     public GcloudDatabaseMigrationOperations Operations => _operations ??= new GcloudDatabaseMigrationOperations(_command);
 
     /// <summary>
-    /// gcloud private-connections sub-commands.
+    /// gcloud database-migration private-connections sub-commands.
     /// </summary>
     public GcloudDatabaseMigrationPrivateConnections PrivateConnections => _privateConnections ??= new GcloudDatabaseMigrationPrivateConnections(_command);
 

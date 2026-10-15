@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud applications commands.
+/// gcloud apphub applications commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudApphubApplications
@@ -34,12 +34,12 @@ public class GcloudApphubApplications
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud apphub applications services sub-commands.
     /// </summary>
     public GcloudApphubApplicationsServices Services => _services ??= new GcloudApphubApplicationsServices(_command);
 
     /// <summary>
-    /// gcloud workloads sub-commands.
+    /// gcloud apphub applications workloads sub-commands.
     /// </summary>
     public GcloudApphubApplicationsWorkloads Workloads => _workloads ??= new GcloudApphubApplicationsWorkloads(_command);
 

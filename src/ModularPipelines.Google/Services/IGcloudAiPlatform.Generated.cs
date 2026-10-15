@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud aiplatform commands.
+/// gcloud ai-platform commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,29 +22,29 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudAiPlatform
 {
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud ai-platform jobs sub-commands.
     /// </summary>
-    GcloudAiPlatformJobs Jobs => throw new System.NotSupportedException();
+    GcloudAiPlatformJobs Jobs { get; }
 
     /// <summary>
-    /// gcloud local sub-commands.
+    /// gcloud ai-platform local sub-commands.
     /// </summary>
-    GcloudAiPlatformLocal Local => throw new System.NotSupportedException();
+    GcloudAiPlatformLocal Local { get; }
 
     /// <summary>
-    /// gcloud models sub-commands.
+    /// gcloud ai-platform models sub-commands.
     /// </summary>
-    GcloudAiPlatformModels Models => throw new System.NotSupportedException();
+    GcloudAiPlatformModels Models { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud ai-platform operations sub-commands.
     /// </summary>
-    GcloudAiPlatformOperations Operations => throw new System.NotSupportedException();
+    GcloudAiPlatformOperations Operations { get; }
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud ai-platform versions sub-commands.
     /// </summary>
-    GcloudAiPlatformVersions Versions => throw new System.NotSupportedException();
+    GcloudAiPlatformVersions Versions { get; }
 
     /// <summary>
     /// manage AI Platform jobs and models
@@ -53,8 +53,7 @@ public interface IGcloudAiPlatform
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAiPlatformOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAiPlatformOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// run AI Platform online prediction
@@ -63,7 +62,6 @@ public interface IGcloudAiPlatform
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PredictAsync(GcloudAiPlatformPredictOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PredictAsync(GcloudAiPlatformPredictOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

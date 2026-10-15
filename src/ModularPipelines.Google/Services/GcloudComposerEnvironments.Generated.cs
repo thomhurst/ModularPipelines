@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud environments commands.
+/// gcloud composer environments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComposerEnvironments
@@ -36,22 +36,22 @@ public class GcloudComposerEnvironments
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud snapshots sub-commands.
+    /// gcloud composer environments snapshots sub-commands.
     /// </summary>
     public GcloudComposerEnvironmentsSnapshots Snapshots => _snapshots ??= new GcloudComposerEnvironmentsSnapshots(_command);
 
     /// <summary>
-    /// gcloud storage sub-commands.
+    /// gcloud composer environments storage sub-commands.
     /// </summary>
     public GcloudComposerEnvironmentsStorage Storage => _storage ??= new GcloudComposerEnvironmentsStorage(_command);
 
     /// <summary>
-    /// gcloud user-workloads-config-maps sub-commands.
+    /// gcloud composer environments user-workloads-config-maps sub-commands.
     /// </summary>
     public GcloudComposerEnvironmentsUserWorkloadsConfigMaps UserWorkloadsConfigMaps => _userWorkloadsConfigMaps ??= new GcloudComposerEnvironmentsUserWorkloadsConfigMaps(_command);
 
     /// <summary>
-    /// gcloud user-workloads-secrets sub-commands.
+    /// gcloud composer environments user-workloads-secrets sub-commands.
     /// </summary>
     public GcloudComposerEnvironmentsUserWorkloadsSecrets UserWorkloadsSecrets => _userWorkloadsSecrets ??= new GcloudComposerEnvironmentsUserWorkloadsSecrets(_command);
 

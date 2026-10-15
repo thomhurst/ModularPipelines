@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud apis commands.
+/// gcloud apihub apis commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudApihubApis
@@ -33,7 +33,7 @@ public class GcloudApihubApis
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud apihub apis versions sub-commands.
     /// </summary>
     public GcloudApihubApisVersions Versions => _versions ??= new GcloudApihubApisVersions(_command);
 

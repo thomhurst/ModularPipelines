@@ -42,52 +42,52 @@ public class GcloudApp : IGcloudApp
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud domain-mappings sub-commands.
+    /// gcloud app domain-mappings sub-commands.
     /// </summary>
     public GcloudAppDomainMappings DomainMappings => _domainMappings ??= new GcloudAppDomainMappings(_command);
 
     /// <summary>
-    /// gcloud firewall-rules sub-commands.
+    /// gcloud app firewall-rules sub-commands.
     /// </summary>
     public GcloudAppFirewallRules FirewallRules => _firewallRules ??= new GcloudAppFirewallRules(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud app instances sub-commands.
     /// </summary>
     public GcloudAppInstances Instances => _instances ??= new GcloudAppInstances(_command);
 
     /// <summary>
-    /// gcloud logs sub-commands.
+    /// gcloud app logs sub-commands.
     /// </summary>
     public GcloudAppLogs Logs => _logs ??= new GcloudAppLogs(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud app operations sub-commands.
     /// </summary>
     public GcloudAppOperations Operations => _operations ??= new GcloudAppOperations(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud app regions sub-commands.
     /// </summary>
     public GcloudAppRegions Regions => _regions ??= new GcloudAppRegions(_command);
 
     /// <summary>
-    /// gcloud runtimes sub-commands.
+    /// gcloud app runtimes sub-commands.
     /// </summary>
     public GcloudAppRuntimes Runtimes => _runtimes ??= new GcloudAppRuntimes(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud app services sub-commands.
     /// </summary>
     public GcloudAppServices Services => _services ??= new GcloudAppServices(_command);
 
     /// <summary>
-    /// gcloud ssl-certificates sub-commands.
+    /// gcloud app ssl-certificates sub-commands.
     /// </summary>
     public GcloudAppSslCertificates SslCertificates => _sslCertificates ??= new GcloudAppSslCertificates(_command);
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud app versions sub-commands.
     /// </summary>
     public GcloudAppVersions Versions => _versions ??= new GcloudAppVersions(_command);
 

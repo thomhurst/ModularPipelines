@@ -36,22 +36,22 @@ public class GcloudBuilds : IGcloudBuilds
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud connections sub-commands.
+    /// gcloud builds connections sub-commands.
     /// </summary>
     public GcloudBuildsConnections Connections => _connections ??= new GcloudBuildsConnections(_command);
 
     /// <summary>
-    /// gcloud repositories sub-commands.
+    /// gcloud builds repositories sub-commands.
     /// </summary>
     public GcloudBuildsRepositories Repositories => _repositories ??= new GcloudBuildsRepositories(_command);
 
     /// <summary>
-    /// gcloud triggers sub-commands.
+    /// gcloud builds triggers sub-commands.
     /// </summary>
     public GcloudBuildsTriggers Triggers => _triggers ??= new GcloudBuildsTriggers(_command);
 
     /// <summary>
-    /// gcloud worker-pools sub-commands.
+    /// gcloud builds worker-pools sub-commands.
     /// </summary>
     public GcloudBuildsWorkerPools WorkerPools => _workerPools ??= new GcloudBuildsWorkerPools(_command);
 

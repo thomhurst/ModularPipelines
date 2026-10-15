@@ -51,13 +51,13 @@ public record GcloudAppInstancesDescribeOptions : GcloudOptions
     /// <summary>
     /// The service ID.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string Service { get; private init; }
 
     /// <summary>
     /// The version ID.
     /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--version", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public string Version { get; private init; }
 
     /// <summary>

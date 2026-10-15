@@ -36,22 +36,22 @@ public class GcloudDatalineage : IGcloudDatalineage
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud config sub-commands.
+    /// gcloud datalineage config sub-commands.
     /// </summary>
     public GcloudDatalineageConfig Config => _config ??= new GcloudDatalineageConfig(_command);
 
     /// <summary>
-    /// gcloud lineage-events sub-commands.
+    /// gcloud datalineage lineage-events sub-commands.
     /// </summary>
     public GcloudDatalineageLineageEvents LineageEvents => _lineageEvents ??= new GcloudDatalineageLineageEvents(_command);
 
     /// <summary>
-    /// gcloud processes sub-commands.
+    /// gcloud datalineage processes sub-commands.
     /// </summary>
     public GcloudDatalineageProcesses Processes => _processes ??= new GcloudDatalineageProcesses(_command);
 
     /// <summary>
-    /// gcloud runs sub-commands.
+    /// gcloud datalineage runs sub-commands.
     /// </summary>
     public GcloudDatalineageRuns Runs => _runs ??= new GcloudDatalineageRuns(_command);
 

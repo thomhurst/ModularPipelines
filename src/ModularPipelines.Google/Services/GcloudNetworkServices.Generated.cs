@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud networkservices commands.
+/// gcloud network-services commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkServices : IGcloudNetworkServices
@@ -54,112 +54,112 @@ public class GcloudNetworkServices : IGcloudNetworkServices
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud agent-connectivity-templates sub-commands.
+    /// gcloud network-services agent-connectivity-templates sub-commands.
     /// </summary>
     public GcloudNetworkServicesAgentConnectivityTemplates AgentConnectivityTemplates => _agentConnectivityTemplates ??= new GcloudNetworkServicesAgentConnectivityTemplates(_command);
 
     /// <summary>
-    /// gcloud agent-gateways sub-commands.
+    /// gcloud network-services agent-gateways sub-commands.
     /// </summary>
     public GcloudNetworkServicesAgentGateways AgentGateways => _agentGateways ??= new GcloudNetworkServicesAgentGateways(_command);
 
     /// <summary>
-    /// gcloud endpoint-policies sub-commands.
+    /// gcloud network-services endpoint-policies sub-commands.
     /// </summary>
     public GcloudNetworkServicesEndpointPolicies EndpointPolicies => _endpointPolicies ??= new GcloudNetworkServicesEndpointPolicies(_command);
 
     /// <summary>
-    /// gcloud gateways sub-commands.
+    /// gcloud network-services gateways sub-commands.
     /// </summary>
     public GcloudNetworkServicesGateways Gateways => _gateways ??= new GcloudNetworkServicesGateways(_command);
 
     /// <summary>
-    /// gcloud grpc-routes sub-commands.
+    /// gcloud network-services grpc-routes sub-commands.
     /// </summary>
     public GcloudNetworkServicesGrpcRoutes GrpcRoutes => _grpcRoutes ??= new GcloudNetworkServicesGrpcRoutes(_command);
 
     /// <summary>
-    /// gcloud http-routes sub-commands.
+    /// gcloud network-services http-routes sub-commands.
     /// </summary>
     public GcloudNetworkServicesHttpRoutes HttpRoutes => _httpRoutes ??= new GcloudNetworkServicesHttpRoutes(_command);
 
     /// <summary>
-    /// gcloud meshes sub-commands.
+    /// gcloud network-services meshes sub-commands.
     /// </summary>
     public GcloudNetworkServicesMeshes Meshes => _meshes ??= new GcloudNetworkServicesMeshes(_command);
 
     /// <summary>
-    /// gcloud multicast-consumer-associations sub-commands.
+    /// gcloud network-services multicast-consumer-associations sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastConsumerAssociations MulticastConsumerAssociations => _multicastConsumerAssociations ??= new GcloudNetworkServicesMulticastConsumerAssociations(_command);
 
     /// <summary>
-    /// gcloud multicast-domain-activations sub-commands.
+    /// gcloud network-services multicast-domain-activations sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastDomainActivations MulticastDomainActivations => _multicastDomainActivations ??= new GcloudNetworkServicesMulticastDomainActivations(_command);
 
     /// <summary>
-    /// gcloud multicast-domain-groups sub-commands.
+    /// gcloud network-services multicast-domain-groups sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastDomainGroups MulticastDomainGroups => _multicastDomainGroups ??= new GcloudNetworkServicesMulticastDomainGroups(_command);
 
     /// <summary>
-    /// gcloud multicast-domains sub-commands.
+    /// gcloud network-services multicast-domains sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastDomains MulticastDomains => _multicastDomains ??= new GcloudNetworkServicesMulticastDomains(_command);
 
     /// <summary>
-    /// gcloud multicast-group-consumer-activations sub-commands.
+    /// gcloud network-services multicast-group-consumer-activations sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastGroupConsumerActivations MulticastGroupConsumerActivations => _multicastGroupConsumerActivations ??= new GcloudNetworkServicesMulticastGroupConsumerActivations(_command);
 
     /// <summary>
-    /// gcloud multicast-group-producer-activations sub-commands.
+    /// gcloud network-services multicast-group-producer-activations sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastGroupProducerActivations MulticastGroupProducerActivations => _multicastGroupProducerActivations ??= new GcloudNetworkServicesMulticastGroupProducerActivations(_command);
 
     /// <summary>
-    /// gcloud multicast-group-range-activations sub-commands.
+    /// gcloud network-services multicast-group-range-activations sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastGroupRangeActivations MulticastGroupRangeActivations => _multicastGroupRangeActivations ??= new GcloudNetworkServicesMulticastGroupRangeActivations(_command);
 
     /// <summary>
-    /// gcloud multicast-group-ranges sub-commands.
+    /// gcloud network-services multicast-group-ranges sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastGroupRanges MulticastGroupRanges => _multicastGroupRanges ??= new GcloudNetworkServicesMulticastGroupRanges(_command);
 
     /// <summary>
-    /// gcloud multicast-producer-associations sub-commands.
+    /// gcloud network-services multicast-producer-associations sub-commands.
     /// </summary>
     public GcloudNetworkServicesMulticastProducerAssociations MulticastProducerAssociations => _multicastProducerAssociations ??= new GcloudNetworkServicesMulticastProducerAssociations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud network-services operations sub-commands.
     /// </summary>
     public GcloudNetworkServicesOperations Operations => _operations ??= new GcloudNetworkServicesOperations(_command);
 
     /// <summary>
-    /// gcloud route-views sub-commands.
+    /// gcloud network-services route-views sub-commands.
     /// </summary>
     public GcloudNetworkServicesRouteViews RouteViews => _routeViews ??= new GcloudNetworkServicesRouteViews(_command);
 
     /// <summary>
-    /// gcloud service-bindings sub-commands.
+    /// gcloud network-services service-bindings sub-commands.
     /// </summary>
     public GcloudNetworkServicesServiceBindings ServiceBindings => _serviceBindings ??= new GcloudNetworkServicesServiceBindings(_command);
 
     /// <summary>
-    /// gcloud service-lb-policies sub-commands.
+    /// gcloud network-services service-lb-policies sub-commands.
     /// </summary>
     public GcloudNetworkServicesServiceLbPolicies ServiceLbPolicies => _serviceLbPolicies ??= new GcloudNetworkServicesServiceLbPolicies(_command);
 
     /// <summary>
-    /// gcloud tcp-routes sub-commands.
+    /// gcloud network-services tcp-routes sub-commands.
     /// </summary>
     public GcloudNetworkServicesTcpRoutes TcpRoutes => _tcpRoutes ??= new GcloudNetworkServicesTcpRoutes(_command);
 
     /// <summary>
-    /// gcloud tls-routes sub-commands.
+    /// gcloud network-services tls-routes sub-commands.
     /// </summary>
     public GcloudNetworkServicesTlsRoutes TlsRoutes => _tlsRoutes ??= new GcloudNetworkServicesTlsRoutes(_command);
 

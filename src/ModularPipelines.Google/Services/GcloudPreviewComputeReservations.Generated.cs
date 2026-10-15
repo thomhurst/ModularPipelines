@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud reservations commands.
+/// gcloud preview compute reservations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeReservations
@@ -35,17 +35,17 @@ public class GcloudPreviewComputeReservations
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud blocks sub-commands.
+    /// gcloud preview compute reservations blocks sub-commands.
     /// </summary>
     public GcloudPreviewComputeReservationsBlocks Blocks => _blocks ??= new GcloudPreviewComputeReservationsBlocks(_command);
 
     /// <summary>
-    /// gcloud slots sub-commands.
+    /// gcloud preview compute reservations slots sub-commands.
     /// </summary>
     public GcloudPreviewComputeReservationsSlots Slots => _slots ??= new GcloudPreviewComputeReservationsSlots(_command);
 
     /// <summary>
-    /// gcloud sub-blocks sub-commands.
+    /// gcloud preview compute reservations sub-blocks sub-commands.
     /// </summary>
     public GcloudPreviewComputeReservationsSubBlocks SubBlocks => _subBlocks ??= new GcloudPreviewComputeReservationsSubBlocks(_command);
 

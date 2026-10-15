@@ -34,12 +34,12 @@ public class GcloudSource : IGcloudSource
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud project-configs sub-commands.
+    /// gcloud source project-configs sub-commands.
     /// </summary>
     public GcloudSourceProjectConfigs ProjectConfigs => _projectConfigs ??= new GcloudSourceProjectConfigs(_command);
 
     /// <summary>
-    /// gcloud repos sub-commands.
+    /// gcloud source repos sub-commands.
     /// </summary>
     public GcloudSourceRepos Repos => _repos ??= new GcloudSourceRepos(_command);
 

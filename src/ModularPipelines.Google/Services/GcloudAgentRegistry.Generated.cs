@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud agentregistry commands.
+/// gcloud agent-registry commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAgentRegistry : IGcloudAgentRegistry
@@ -38,32 +38,32 @@ public class GcloudAgentRegistry : IGcloudAgentRegistry
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud agents sub-commands.
+    /// gcloud agent-registry agents sub-commands.
     /// </summary>
     public GcloudAgentRegistryAgents Agents => _agents ??= new GcloudAgentRegistryAgents(_command);
 
     /// <summary>
-    /// gcloud bindings sub-commands.
+    /// gcloud agent-registry bindings sub-commands.
     /// </summary>
     public GcloudAgentRegistryBindings Bindings => _bindings ??= new GcloudAgentRegistryBindings(_command);
 
     /// <summary>
-    /// gcloud endpoints sub-commands.
+    /// gcloud agent-registry endpoints sub-commands.
     /// </summary>
     public GcloudAgentRegistryEndpoints Endpoints => _endpoints ??= new GcloudAgentRegistryEndpoints(_command);
 
     /// <summary>
-    /// gcloud mcp-servers sub-commands.
+    /// gcloud agent-registry mcp-servers sub-commands.
     /// </summary>
     public GcloudAgentRegistryMcpServers McpServers => _mcpServers ??= new GcloudAgentRegistryMcpServers(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud agent-registry operations sub-commands.
     /// </summary>
     public GcloudAgentRegistryOperations Operations => _operations ??= new GcloudAgentRegistryOperations(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud agent-registry services sub-commands.
     /// </summary>
     public GcloudAgentRegistryServices Services => _services ??= new GcloudAgentRegistryServices(_command);
 

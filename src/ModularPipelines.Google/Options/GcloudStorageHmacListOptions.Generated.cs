@@ -24,19 +24,19 @@ public record GcloudStorageHmacListOptions : GcloudOptions
     /// <summary>
     /// Shows all keys, including recently deleted keys.
     /// </summary>
-    [CliFlag("--all")]
+    [CliFlag("--all", ShortForm = "-a")]
     public bool? All { get; set; }
 
     /// <summary>
     /// Use long listing format, showing the full metadata for each key excluding the secret.
     /// </summary>
-    [CliFlag("--long")]
+    [CliFlag("--long", ShortForm = "-l")]
     public bool? Long { get; set; }
 
     /// <summary>
     /// Filter keys for the provided service account email.
     /// </summary>
-    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service-account", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
 
 }

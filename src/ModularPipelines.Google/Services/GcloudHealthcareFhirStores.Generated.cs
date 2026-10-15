@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud fhir-stores commands.
+/// gcloud healthcare fhir-stores commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudHealthcareFhirStores
@@ -34,12 +34,12 @@ public class GcloudHealthcareFhirStores
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud export sub-commands.
+    /// gcloud healthcare fhir-stores export sub-commands.
     /// </summary>
     public GcloudHealthcareFhirStoresExport Export => _export ??= new GcloudHealthcareFhirStoresExport(_command);
 
     /// <summary>
-    /// gcloud import sub-commands.
+    /// gcloud healthcare fhir-stores import sub-commands.
     /// </summary>
     public GcloudHealthcareFhirStoresImport Import => _import ??= new GcloudHealthcareFhirStoresImport(_command);
 

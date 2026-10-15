@@ -46,72 +46,72 @@ public class GcloudScc : IGcloudScc
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud assets sub-commands.
+    /// gcloud scc assets sub-commands.
     /// </summary>
     public GcloudSccAssets Assets => _assets ??= new GcloudSccAssets(_command);
 
     /// <summary>
-    /// gcloud bqexports sub-commands.
+    /// gcloud scc bqexports sub-commands.
     /// </summary>
     public GcloudSccBqexports Bqexports => _bqexports ??= new GcloudSccBqexports(_command);
 
     /// <summary>
-    /// gcloud custom-modules sub-commands.
+    /// gcloud scc custom-modules sub-commands.
     /// </summary>
     public GcloudSccCustomModules CustomModules => _customModules ??= new GcloudSccCustomModules(_command);
 
     /// <summary>
-    /// gcloud findings sub-commands.
+    /// gcloud scc findings sub-commands.
     /// </summary>
     public GcloudSccFindings Findings => _findings ??= new GcloudSccFindings(_command);
 
     /// <summary>
-    /// gcloud iac-validation-reports sub-commands.
+    /// gcloud scc iac-validation-reports sub-commands.
     /// </summary>
     public GcloudSccIacValidationReports IacValidationReports => _iacValidationReports ??= new GcloudSccIacValidationReports(_command);
 
     /// <summary>
-    /// gcloud manage sub-commands.
+    /// gcloud scc manage sub-commands.
     /// </summary>
     public GcloudSccManage Manage => _manage ??= new GcloudSccManage(_command);
 
     /// <summary>
-    /// gcloud muteconfigs sub-commands.
+    /// gcloud scc muteconfigs sub-commands.
     /// </summary>
     public GcloudSccMuteconfigs Muteconfigs => _muteconfigs ??= new GcloudSccMuteconfigs(_command);
 
     /// <summary>
-    /// gcloud notifications sub-commands.
+    /// gcloud scc notifications sub-commands.
     /// </summary>
     public GcloudSccNotifications Notifications => _notifications ??= new GcloudSccNotifications(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud scc operations sub-commands.
     /// </summary>
     public GcloudSccOperations Operations => _operations ??= new GcloudSccOperations(_command);
 
     /// <summary>
-    /// gcloud posture-deployments sub-commands.
+    /// gcloud scc posture-deployments sub-commands.
     /// </summary>
     public GcloudSccPostureDeployments PostureDeployments => _postureDeployments ??= new GcloudSccPostureDeployments(_command);
 
     /// <summary>
-    /// gcloud posture-operations sub-commands.
+    /// gcloud scc posture-operations sub-commands.
     /// </summary>
     public GcloudSccPostureOperations PostureOperations => _postureOperations ??= new GcloudSccPostureOperations(_command);
 
     /// <summary>
-    /// gcloud postures sub-commands.
+    /// gcloud scc postures sub-commands.
     /// </summary>
     public GcloudSccPostures Postures => _postures ??= new GcloudSccPostures(_command);
 
     /// <summary>
-    /// gcloud posture-templates sub-commands.
+    /// gcloud scc posture-templates sub-commands.
     /// </summary>
     public GcloudSccPostureTemplates PostureTemplates => _postureTemplates ??= new GcloudSccPostureTemplates(_command);
 
     /// <summary>
-    /// gcloud sources sub-commands.
+    /// gcloud scc sources sub-commands.
     /// </summary>
     public GcloudSccSources Sources => _sources ??= new GcloudSccSources(_command);
 

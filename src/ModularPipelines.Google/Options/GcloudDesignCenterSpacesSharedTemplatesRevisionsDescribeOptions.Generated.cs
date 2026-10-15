@@ -61,7 +61,11 @@ public record GcloudDesignCenterSpacesSharedTemplatesRevisionsDescribeOptions : 
     /// At most one of these can be specified: Or at least one of these can be specified: Specify --project and --space for custom shared templates. The project id of the revision resource. To set the project attribute: ▫ provide the argument revision on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: Specify --project and --space for custom shared templates. The space id of the revision resource. To set the space attribute: ▫ provide the argument revision on the command line with a fully specified name; ▫ provide the argument --space on the command line.

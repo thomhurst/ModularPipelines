@@ -127,7 +127,11 @@ public record GcloudAuditManagerAuditSchedulesCreateOptions : GcloudOptions, IVa
     /// Exactly one of these must be specified: Project Id for which to create audit schedule
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// Display name for the audit schedule.

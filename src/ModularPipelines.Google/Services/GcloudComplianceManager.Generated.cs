@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud compliancemanager commands.
+/// gcloud compliance-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComplianceManager : IGcloudComplianceManager
@@ -37,27 +37,27 @@ public class GcloudComplianceManager : IGcloudComplianceManager
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud cloud-control-deployments sub-commands.
+    /// gcloud compliance-manager cloud-control-deployments sub-commands.
     /// </summary>
     public GcloudComplianceManagerCloudControlDeployments CloudControlDeployments => _cloudControlDeployments ??= new GcloudComplianceManagerCloudControlDeployments(_command);
 
     /// <summary>
-    /// gcloud cloud-controls sub-commands.
+    /// gcloud compliance-manager cloud-controls sub-commands.
     /// </summary>
     public GcloudComplianceManagerCloudControls CloudControls => _cloudControls ??= new GcloudComplianceManagerCloudControls(_command);
 
     /// <summary>
-    /// gcloud framework-deployments sub-commands.
+    /// gcloud compliance-manager framework-deployments sub-commands.
     /// </summary>
     public GcloudComplianceManagerFrameworkDeployments FrameworkDeployments => _frameworkDeployments ??= new GcloudComplianceManagerFrameworkDeployments(_command);
 
     /// <summary>
-    /// gcloud frameworks sub-commands.
+    /// gcloud compliance-manager frameworks sub-commands.
     /// </summary>
     public GcloudComplianceManagerFrameworks Frameworks => _frameworks ??= new GcloudComplianceManagerFrameworks(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud compliance-manager operations sub-commands.
     /// </summary>
     public GcloudComplianceManagerOperations Operations => _operations ??= new GcloudComplianceManagerOperations(_command);
 

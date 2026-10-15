@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud deployment-events commands.
+/// gcloud developer-connect insights-configs deployment-events commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDeveloperConnectInsightsConfigsDeploymentEvents

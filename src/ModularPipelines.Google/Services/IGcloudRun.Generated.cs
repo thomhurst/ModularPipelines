@@ -22,44 +22,44 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudRun
 {
     /// <summary>
-    /// gcloud compose sub-commands.
+    /// gcloud run compose sub-commands.
     /// </summary>
-    GcloudRunCompose Compose => throw new System.NotSupportedException();
+    GcloudRunCompose Compose { get; }
 
     /// <summary>
-    /// gcloud domain-mappings sub-commands.
+    /// gcloud run domain-mappings sub-commands.
     /// </summary>
-    GcloudRunDomainMappings DomainMappings => throw new System.NotSupportedException();
+    GcloudRunDomainMappings DomainMappings { get; }
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud run jobs sub-commands.
     /// </summary>
-    GcloudRunJobs Jobs => throw new System.NotSupportedException();
+    GcloudRunJobs Jobs { get; }
 
     /// <summary>
-    /// gcloud multi-region-services sub-commands.
+    /// gcloud run multi-region-services sub-commands.
     /// </summary>
-    GcloudRunMultiRegionServices MultiRegionServices => throw new System.NotSupportedException();
+    GcloudRunMultiRegionServices MultiRegionServices { get; }
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud run regions sub-commands.
     /// </summary>
-    GcloudRunRegions Regions => throw new System.NotSupportedException();
+    GcloudRunRegions Regions { get; }
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud run revisions sub-commands.
     /// </summary>
-    GcloudRunRevisions Revisions => throw new System.NotSupportedException();
+    GcloudRunRevisions Revisions { get; }
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud run services sub-commands.
     /// </summary>
-    GcloudRunServices Services => throw new System.NotSupportedException();
+    GcloudRunServices Services { get; }
 
     /// <summary>
-    /// gcloud worker-pools sub-commands.
+    /// gcloud run worker-pools sub-commands.
     /// </summary>
-    GcloudRunWorkerPools WorkerPools => throw new System.NotSupportedException();
+    GcloudRunWorkerPools WorkerPools { get; }
 
     /// <summary>
     /// manage your Cloud Run applications
@@ -68,8 +68,7 @@ public interface IGcloudRun
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudRunOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// create or update a Cloud Run service
@@ -78,7 +77,6 @@ public interface IGcloudRun
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeployAsync(GcloudRunDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeployAsync(GcloudRunDeployOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud servicehealth commands.
+/// gcloud service-health commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudServiceHealth : IGcloudServiceHealth
@@ -35,17 +35,17 @@ public class GcloudServiceHealth : IGcloudServiceHealth
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud events sub-commands.
+    /// gcloud service-health events sub-commands.
     /// </summary>
     public GcloudServiceHealthEvents Events => _events ??= new GcloudServiceHealthEvents(_command);
 
     /// <summary>
-    /// gcloud organization-events sub-commands.
+    /// gcloud service-health organization-events sub-commands.
     /// </summary>
     public GcloudServiceHealthOrganizationEvents OrganizationEvents => _organizationEvents ??= new GcloudServiceHealthOrganizationEvents(_command);
 
     /// <summary>
-    /// gcloud organization-impacts sub-commands.
+    /// gcloud service-health organization-impacts sub-commands.
     /// </summary>
     public GcloudServiceHealthOrganizationImpacts OrganizationImpacts => _organizationImpacts ??= new GcloudServiceHealthOrganizationImpacts(_command);
 

@@ -48,13 +48,13 @@ public record GcloudStorageMvOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Copy all source versions from a source bucket or folder. If not set, only the live version of each source object is copied. Note: This option is only useful when the destination bucket has Object Versioning enabled. Additionally, the generation numbers of copied versions do not necessarily match the order of the original generation numbers.
     /// </summary>
-    [CliFlag("--all-versions")]
+    [CliFlag("--all-versions", ShortForm = "-A")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
     /// Do not overwrite existing files or objects at the destination. Skipped items will be printed. This option may perform an additional GET request for cloud objects before attempting an upload.
     /// </summary>
-    [CliFlag("--no-clobber")]
+    [CliFlag("--no-clobber", ShortForm = "-n")]
     public bool? NoClobber { get; set; }
 
     /// <summary>
@@ -66,13 +66,13 @@ public record GcloudStorageMvOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
-    [CliFlag("--continue-on-error")]
+    [CliFlag("--continue-on-error", ShortForm = "-c")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
     /// Copy in "daisy chain" mode, which means copying an object by first downloading it to the machine where the command is run, then uploading it to the destination bucket. The default mode is a "copy in the cloud," where data is copied without uploading or downloading. During a copy in the cloud, a source composite object remains composite at its destination. However, you can use daisy chain mode to change a composite object into a non-composite object. Note: Daisy chain mode is automatically used when copying between providers.
     /// </summary>
-    [CliFlag("--daisy-chain")]
+    [CliFlag("--daisy-chain", ShortForm = "-D")]
     public bool? DaisyChain { get; set; }
 
     /// <summary>
@@ -90,55 +90,55 @@ public record GcloudStorageMvOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Outputs a manifest log file with detailed information about each item that was copied. This manifest contains the following information for each item: ◆ Source path. ◆ Destination path. ◆ Source size. ◆ Bytes transferred. ◆ MD5 hash. ◆ Transfer start time and date in UTC and ISO 8601 format. ◆ Transfer completion time and date in UTC and ISO 8601 format. ◆ Final result of the attempted transfer: OK, error, or skipped. ◆ Details, if any. If the manifest file already exists, gcloud storage appends log items to the existing file. Objects that are marked as "OK" or "skipped" in the existing manifest file are not retried by future commands. Objects marked as "error" are retried.
     /// </summary>
-    [CliOption("--manifest-path", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--manifest-path", ShortForm = "-L", Format = OptionFormat.EqualsSeparated)]
     public string? ManifestPath { get; set; }
 
     /// <summary>
     /// Causes POSIX attributes to be preserved when objects are copied. With this feature enabled, gcloud storage will copy several fields provided by the stat command: access time, modification time, owner UID, owner group GID, and the mode (permissions) of the file. For uploads, these attributes are read off of local files and stored in the cloud as custom metadata. For downloads, custom cloud metadata is set as POSIX attributes on files after they are downloaded. On Windows, this flag will only set and restore access time and modification time because Windows doesn't have a notion of POSIX UID, GID, and mode.
     /// </summary>
-    [CliFlag("--preserve-posix")]
+    [CliFlag("--preserve-posix", ShortForm = "-P")]
     public bool? PreservePosix { get; set; }
 
     /// <summary>
     /// Prints the version-specific URL for each copied object.
     /// </summary>
-    [CliFlag("--print-created-message")]
+    [CliFlag("--print-created-message", ShortForm = "-v")]
     public bool? PrintCreatedMessage { get; set; }
 
     /// <summary>
     /// Read the list of resources to copy from stdin. No need to enter a source argument if this flag is present. Example: "storage cp -I gs://bucket/destination". The input format must consist of one path (e.g., "Documents/data/file1.txt") or one object URL (e.g., "gs://example-bucket/event.log") per line. Use a pipe to send the file list to the command. Example: "cat example-file-list.txt | gcloud storage cp --read-paths-from-stdin gs://example-destination-bucket". Note: To copy the contents of one file directly from stdin, use "-" as the source argument without the "-I" flag.
     /// </summary>
-    [CliFlag("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin", ShortForm = "-I")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>
     /// Skip objects with unsupported object types.
     /// </summary>
-    [CliFlag("--skip-unsupported")]
+    [CliFlag("--skip-unsupported", ShortForm = "-U")]
     public bool? SkipUnsupported { get; set; }
 
     /// <summary>
     /// Specify the storage class of the destination object. If not specified, the default storage class of the destination bucket is used. This option is not valid for copying to non-cloud destinations.
     /// </summary>
-    [CliOption("--storage-class", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-class", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? StorageClass { get; set; }
 
     /// <summary>
     /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
     /// </summary>
-    [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--canned-acl", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public string? CannedAcl { get; set; }
 
     /// <summary>
     /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
-    [CliFlag("--preserve-acl", NegatedName = "--no-preserve-acl")]
+    [CliFlag("--preserve-acl", ShortForm = "-p", NegatedName = "--no-preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--gzip-in-flight", ShortForm = "-j", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? GzipInFlight
     {
         get;
@@ -166,13 +166,13 @@ public record GcloudStorageMvOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// At most one of these can be specified: Applies gzip transport encoding to file uploads. This option works like the --gzip-in-flight option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in longer uploads.
     /// </summary>
-    [CliFlag("--gzip-in-flight-all")]
+    [CliFlag("--gzip-in-flight-all", ShortForm = "-J")]
     public bool? GzipInFlightAll { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Applies gzip content encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This saves network bandwidth and space in Cloud Storage. When you specify the --gzip-local option, the data from files is compressed before it is uploaded, but the original files are left uncompressed on the local disk. The uploaded objects retain the Content-Type and name of the original files. However, the Content-Encoding metadata is set to gzip and the Cache-Control metadata set to no-transform. The data remains compressed on Cloud Storage servers and will not be decompressed on download by gcloud storage because of the no-transform field. Since the local gzip option compresses data prior to upload, it is not subject to the same compression buffer bottleneck of the in-flight gzip option. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-local", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--gzip-local", ShortForm = "-z", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? GzipLocal
     {
         get;
@@ -200,7 +200,7 @@ public record GcloudStorageMvOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// At most one of these can be specified: Applies gzip content encoding to file uploads. This option works like the --gzip-local option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in files taking up more space in the cloud than they would if left uncompressed.
     /// </summary>
-    [CliFlag("--gzip-local-all")]
+    [CliFlag("--gzip-local-all", ShortForm = "-Z")]
     public bool? GzipLocalAll { get; set; }
 
     /// <summary>

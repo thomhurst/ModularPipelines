@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud code-tools-settings commands.
+/// gcloud gemini code-tools-settings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudGeminiCodeToolsSettings
@@ -33,7 +33,7 @@ public class GcloudGeminiCodeToolsSettings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud setting-bindings sub-commands.
+    /// gcloud gemini code-tools-settings setting-bindings sub-commands.
     /// </summary>
     public GcloudGeminiCodeToolsSettingsSettingBindings SettingBindings => _settingBindings ??= new GcloudGeminiCodeToolsSettingsSettingBindings(_command);
 

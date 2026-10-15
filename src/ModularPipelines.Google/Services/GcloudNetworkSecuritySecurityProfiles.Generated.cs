@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud security-profiles commands.
+/// gcloud network-security security-profiles commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkSecuritySecurityProfiles
@@ -36,22 +36,22 @@ public class GcloudNetworkSecuritySecurityProfiles
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud custom-intercept sub-commands.
+    /// gcloud network-security security-profiles custom-intercept sub-commands.
     /// </summary>
     public GcloudNetworkSecuritySecurityProfilesCustomIntercept CustomIntercept => _customIntercept ??= new GcloudNetworkSecuritySecurityProfilesCustomIntercept(_command);
 
     /// <summary>
-    /// gcloud custom-mirroring sub-commands.
+    /// gcloud network-security security-profiles custom-mirroring sub-commands.
     /// </summary>
     public GcloudNetworkSecuritySecurityProfilesCustomMirroring CustomMirroring => _customMirroring ??= new GcloudNetworkSecuritySecurityProfilesCustomMirroring(_command);
 
     /// <summary>
-    /// gcloud threat-prevention sub-commands.
+    /// gcloud network-security security-profiles threat-prevention sub-commands.
     /// </summary>
     public GcloudNetworkSecuritySecurityProfilesThreatPrevention ThreatPrevention => _threatPrevention ??= new GcloudNetworkSecuritySecurityProfilesThreatPrevention(_command);
 
     /// <summary>
-    /// gcloud url-filtering sub-commands.
+    /// gcloud network-security security-profiles url-filtering sub-commands.
     /// </summary>
     public GcloudNetworkSecuritySecurityProfilesUrlFiltering UrlFiltering => _urlFiltering ??= new GcloudNetworkSecuritySecurityProfilesUrlFiltering(_command);
 

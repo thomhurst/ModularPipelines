@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud datacatalog commands.
+/// gcloud data-catalog commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,29 +22,29 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudDataCatalog
 {
     /// <summary>
-    /// gcloud entries sub-commands.
+    /// gcloud data-catalog entries sub-commands.
     /// </summary>
-    GcloudDataCatalogEntries Entries => throw new System.NotSupportedException();
+    GcloudDataCatalogEntries Entries { get; }
 
     /// <summary>
-    /// gcloud entry-groups sub-commands.
+    /// gcloud data-catalog entry-groups sub-commands.
     /// </summary>
-    GcloudDataCatalogEntryGroups EntryGroups => throw new System.NotSupportedException();
+    GcloudDataCatalogEntryGroups EntryGroups { get; }
 
     /// <summary>
-    /// gcloud tags sub-commands.
+    /// gcloud data-catalog tags sub-commands.
     /// </summary>
-    GcloudDataCatalogTags Tags => throw new System.NotSupportedException();
+    GcloudDataCatalogTags Tags { get; }
 
     /// <summary>
-    /// gcloud tag-templates sub-commands.
+    /// gcloud data-catalog tag-templates sub-commands.
     /// </summary>
-    GcloudDataCatalogTagTemplates TagTemplates => throw new System.NotSupportedException();
+    GcloudDataCatalogTagTemplates TagTemplates { get; }
 
     /// <summary>
-    /// gcloud taxonomies sub-commands.
+    /// gcloud data-catalog taxonomies sub-commands.
     /// </summary>
-    GcloudDataCatalogTaxonomies Taxonomies => throw new System.NotSupportedException();
+    GcloudDataCatalogTaxonomies Taxonomies { get; }
 
     /// <summary>
     /// manage Data Catalog resources
@@ -53,8 +53,7 @@ public interface IGcloudDataCatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDataCatalogOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDataCatalogOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// search Data Catalog for resources that match a     query
@@ -63,7 +62,6 @@ public interface IGcloudDataCatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAsync(GcloudDataCatalogSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAsync(GcloudDataCatalogSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

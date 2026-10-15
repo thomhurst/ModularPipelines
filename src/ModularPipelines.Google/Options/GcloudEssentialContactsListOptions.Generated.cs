@@ -38,7 +38,11 @@ public record GcloudEssentialContactsListOptions : GcloudOptions, IValidatableOb
     /// At most one of these can be specified: project number or id where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

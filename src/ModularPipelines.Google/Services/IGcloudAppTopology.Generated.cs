@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud apptopology commands.
+/// gcloud app-topology commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudAppTopology
 {
     /// <summary>
-    /// gcloud domains sub-commands.
+    /// gcloud app-topology domains sub-commands.
     /// </summary>
-    GcloudAppTopologyDomains Domains => throw new System.NotSupportedException();
+    GcloudAppTopologyDomains Domains { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud app-topology locations sub-commands.
     /// </summary>
-    GcloudAppTopologyLocations Locations => throw new System.NotSupportedException();
+    GcloudAppTopologyLocations Locations { get; }
 
     /// <summary>
-    /// gcloud resources-graph sub-commands.
+    /// gcloud app-topology resources-graph sub-commands.
     /// </summary>
-    GcloudAppTopologyResourcesGraph ResourcesGraph => throw new System.NotSupportedException();
+    GcloudAppTopologyResourcesGraph ResourcesGraph { get; }
 
     /// <summary>
     /// manage App Topology resources and query topology     graphs
@@ -43,7 +43,6 @@ public interface IGcloudAppTopology
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAppTopologyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAppTopologyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

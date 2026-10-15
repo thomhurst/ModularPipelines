@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud templates commands.
+/// gcloud design-center spaces catalogs templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDesignCenterSpacesCatalogsTemplates
@@ -33,7 +33,7 @@ public class GcloudDesignCenterSpacesCatalogsTemplates
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud design-center spaces catalogs templates revisions sub-commands.
     /// </summary>
     public GcloudDesignCenterSpacesCatalogsTemplatesRevisions Revisions => _revisions ??= new GcloudDesignCenterSpacesCatalogsTemplatesRevisions(_command);
 
