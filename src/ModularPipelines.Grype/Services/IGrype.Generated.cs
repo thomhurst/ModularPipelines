@@ -23,7 +23,7 @@ public partial interface IGrype
     /// <summary>
     /// Gets the db sub-domain service.
     /// </summary>
-    IGrypeDb Db => throw new System.NotSupportedException();
+    IGrypeDb Db { get; }
 
     #endregion
 
@@ -36,8 +36,7 @@ public partial interface IGrype
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExplainAsync(GrypeExplainOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExplainAsync(GrypeExplainOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// show version information
@@ -46,8 +45,7 @@ public partial interface IGrype
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(GrypeVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(GrypeVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
