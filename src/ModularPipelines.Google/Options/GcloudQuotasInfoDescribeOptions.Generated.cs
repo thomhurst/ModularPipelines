@@ -66,7 +66,11 @@ public record GcloudQuotasInfoDescribeOptions : GcloudOptions, IValidatableObjec
     /// Exactly one of these must be specified: Project of the quota info to describe.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// ID of the quota, which is unique within the service.

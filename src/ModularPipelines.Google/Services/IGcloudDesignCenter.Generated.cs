@@ -24,17 +24,17 @@ public interface IGcloudDesignCenter
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudDesignCenterLocations Locations => throw new System.NotSupportedException();
+    GcloudDesignCenterLocations Locations { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDesignCenterOperations Operations => throw new System.NotSupportedException();
+    GcloudDesignCenterOperations Operations { get; }
 
     /// <summary>
     /// gcloud spaces sub-commands.
     /// </summary>
-    GcloudDesignCenterSpaces Spaces => throw new System.NotSupportedException();
+    GcloudDesignCenterSpaces Spaces { get; }
 
     /// <summary>
     /// manage Application Design Center resources
@@ -43,7 +43,6 @@ public interface IGcloudDesignCenter
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDesignCenterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDesignCenterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

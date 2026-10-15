@@ -24,22 +24,22 @@ public interface IGcloudObservability
     /// <summary>
     /// gcloud buckets sub-commands.
     /// </summary>
-    GcloudObservabilityBuckets Buckets => throw new System.NotSupportedException();
+    GcloudObservabilityBuckets Buckets { get; }
 
     /// <summary>
     /// gcloud scopes sub-commands.
     /// </summary>
-    GcloudObservabilityScopes Scopes => throw new System.NotSupportedException();
+    GcloudObservabilityScopes Scopes { get; }
 
     /// <summary>
     /// gcloud settings sub-commands.
     /// </summary>
-    GcloudObservabilitySettings Settings => throw new System.NotSupportedException();
+    GcloudObservabilitySettings Settings { get; }
 
     /// <summary>
     /// gcloud trace-scopes sub-commands.
     /// </summary>
-    GcloudObservabilityTraceScopes TraceScopes => throw new System.NotSupportedException();
+    GcloudObservabilityTraceScopes TraceScopes { get; }
 
     /// <summary>
     /// manage Observability resources
@@ -48,7 +48,6 @@ public interface IGcloudObservability
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudObservabilityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudObservabilityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -24,22 +24,22 @@ public interface IGcloudMetastore
     /// <summary>
     /// gcloud federations sub-commands.
     /// </summary>
-    GcloudMetastoreFederations Federations => throw new System.NotSupportedException();
+    GcloudMetastoreFederations Federations { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudMetastoreLocations Locations => throw new System.NotSupportedException();
+    GcloudMetastoreLocations Locations { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudMetastoreOperations Operations => throw new System.NotSupportedException();
+    GcloudMetastoreOperations Operations { get; }
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudMetastoreServices Services => throw new System.NotSupportedException();
+    GcloudMetastoreServices Services { get; }
 
     /// <summary>
     /// manage Dataproc Metastore resources
@@ -48,7 +48,6 @@ public interface IGcloudMetastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudMetastoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudMetastoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

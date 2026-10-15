@@ -38,7 +38,11 @@ public record GcloudSccCustomModulesShaListDescendantOptions : GcloudOptions, IV
     /// Exactly one of these must be specified: ID or number of the project for listing the Security Health Analytics custom modules at current project level. Formatted as projects/789 or just 789.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

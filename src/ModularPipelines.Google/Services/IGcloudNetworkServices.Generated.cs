@@ -24,112 +24,112 @@ public interface IGcloudNetworkServices
     /// <summary>
     /// gcloud agent-connectivity-templates sub-commands.
     /// </summary>
-    GcloudNetworkServicesAgentConnectivityTemplates AgentConnectivityTemplates => throw new System.NotSupportedException();
+    GcloudNetworkServicesAgentConnectivityTemplates AgentConnectivityTemplates { get; }
 
     /// <summary>
     /// gcloud agent-gateways sub-commands.
     /// </summary>
-    GcloudNetworkServicesAgentGateways AgentGateways => throw new System.NotSupportedException();
+    GcloudNetworkServicesAgentGateways AgentGateways { get; }
 
     /// <summary>
     /// gcloud endpoint-policies sub-commands.
     /// </summary>
-    GcloudNetworkServicesEndpointPolicies EndpointPolicies => throw new System.NotSupportedException();
+    GcloudNetworkServicesEndpointPolicies EndpointPolicies { get; }
 
     /// <summary>
     /// gcloud gateways sub-commands.
     /// </summary>
-    GcloudNetworkServicesGateways Gateways => throw new System.NotSupportedException();
+    GcloudNetworkServicesGateways Gateways { get; }
 
     /// <summary>
     /// gcloud grpc-routes sub-commands.
     /// </summary>
-    GcloudNetworkServicesGrpcRoutes GrpcRoutes => throw new System.NotSupportedException();
+    GcloudNetworkServicesGrpcRoutes GrpcRoutes { get; }
 
     /// <summary>
     /// gcloud http-routes sub-commands.
     /// </summary>
-    GcloudNetworkServicesHttpRoutes HttpRoutes => throw new System.NotSupportedException();
+    GcloudNetworkServicesHttpRoutes HttpRoutes { get; }
 
     /// <summary>
     /// gcloud meshes sub-commands.
     /// </summary>
-    GcloudNetworkServicesMeshes Meshes => throw new System.NotSupportedException();
+    GcloudNetworkServicesMeshes Meshes { get; }
 
     /// <summary>
     /// gcloud multicast-consumer-associations sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastConsumerAssociations MulticastConsumerAssociations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastConsumerAssociations MulticastConsumerAssociations { get; }
 
     /// <summary>
     /// gcloud multicast-domain-activations sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastDomainActivations MulticastDomainActivations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastDomainActivations MulticastDomainActivations { get; }
 
     /// <summary>
     /// gcloud multicast-domain-groups sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastDomainGroups MulticastDomainGroups => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastDomainGroups MulticastDomainGroups { get; }
 
     /// <summary>
     /// gcloud multicast-domains sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastDomains MulticastDomains => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastDomains MulticastDomains { get; }
 
     /// <summary>
     /// gcloud multicast-group-consumer-activations sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastGroupConsumerActivations MulticastGroupConsumerActivations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastGroupConsumerActivations MulticastGroupConsumerActivations { get; }
 
     /// <summary>
     /// gcloud multicast-group-producer-activations sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastGroupProducerActivations MulticastGroupProducerActivations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastGroupProducerActivations MulticastGroupProducerActivations { get; }
 
     /// <summary>
     /// gcloud multicast-group-range-activations sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastGroupRangeActivations MulticastGroupRangeActivations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastGroupRangeActivations MulticastGroupRangeActivations { get; }
 
     /// <summary>
     /// gcloud multicast-group-ranges sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastGroupRanges MulticastGroupRanges => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastGroupRanges MulticastGroupRanges { get; }
 
     /// <summary>
     /// gcloud multicast-producer-associations sub-commands.
     /// </summary>
-    GcloudNetworkServicesMulticastProducerAssociations MulticastProducerAssociations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastProducerAssociations MulticastProducerAssociations { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetworkServicesOperations Operations => throw new System.NotSupportedException();
+    GcloudNetworkServicesOperations Operations { get; }
 
     /// <summary>
     /// gcloud route-views sub-commands.
     /// </summary>
-    GcloudNetworkServicesRouteViews RouteViews => throw new System.NotSupportedException();
+    GcloudNetworkServicesRouteViews RouteViews { get; }
 
     /// <summary>
     /// gcloud service-bindings sub-commands.
     /// </summary>
-    GcloudNetworkServicesServiceBindings ServiceBindings => throw new System.NotSupportedException();
+    GcloudNetworkServicesServiceBindings ServiceBindings { get; }
 
     /// <summary>
     /// gcloud service-lb-policies sub-commands.
     /// </summary>
-    GcloudNetworkServicesServiceLbPolicies ServiceLbPolicies => throw new System.NotSupportedException();
+    GcloudNetworkServicesServiceLbPolicies ServiceLbPolicies { get; }
 
     /// <summary>
     /// gcloud tcp-routes sub-commands.
     /// </summary>
-    GcloudNetworkServicesTcpRoutes TcpRoutes => throw new System.NotSupportedException();
+    GcloudNetworkServicesTcpRoutes TcpRoutes { get; }
 
     /// <summary>
     /// gcloud tls-routes sub-commands.
     /// </summary>
-    GcloudNetworkServicesTlsRoutes TlsRoutes => throw new System.NotSupportedException();
+    GcloudNetworkServicesTlsRoutes TlsRoutes { get; }
 
     /// <summary>
     /// manage Network Services resources
@@ -138,7 +138,6 @@ public interface IGcloudNetworkServices
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudNetworkServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudNetworkServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

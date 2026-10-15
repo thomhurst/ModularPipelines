@@ -51,7 +51,7 @@ public record GcloudSqlUsersAssignRolesOptions : GcloudOptions
     /// <summary>
     /// Cloud SQL instance ID.
     /// </summary>
-    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--instance", ShortForm = "-i", Format = OptionFormat.EqualsSeparated)]
     public string Instance { get; private init; }
 
     /// <summary>

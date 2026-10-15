@@ -24,72 +24,72 @@ public interface IGcloudAi
     /// <summary>
     /// gcloud custom-jobs sub-commands.
     /// </summary>
-    GcloudAiCustomJobs CustomJobs => throw new System.NotSupportedException();
+    GcloudAiCustomJobs CustomJobs { get; }
 
     /// <summary>
     /// gcloud endpoints sub-commands.
     /// </summary>
-    GcloudAiEndpoints Endpoints => throw new System.NotSupportedException();
+    GcloudAiEndpoints Endpoints { get; }
 
     /// <summary>
     /// gcloud hp-tuning-jobs sub-commands.
     /// </summary>
-    GcloudAiHpTuningJobs HpTuningJobs => throw new System.NotSupportedException();
+    GcloudAiHpTuningJobs HpTuningJobs { get; }
 
     /// <summary>
     /// gcloud index-endpoints sub-commands.
     /// </summary>
-    GcloudAiIndexEndpoints IndexEndpoints => throw new System.NotSupportedException();
+    GcloudAiIndexEndpoints IndexEndpoints { get; }
 
     /// <summary>
     /// gcloud indexes sub-commands.
     /// </summary>
-    GcloudAiIndexes Indexes => throw new System.NotSupportedException();
+    GcloudAiIndexes Indexes { get; }
 
     /// <summary>
     /// gcloud model-garden sub-commands.
     /// </summary>
-    GcloudAiModelGarden ModelGarden => throw new System.NotSupportedException();
+    GcloudAiModelGarden ModelGarden { get; }
 
     /// <summary>
     /// gcloud model-monitoring-jobs sub-commands.
     /// </summary>
-    GcloudAiModelMonitoringJobs ModelMonitoringJobs => throw new System.NotSupportedException();
+    GcloudAiModelMonitoringJobs ModelMonitoringJobs { get; }
 
     /// <summary>
     /// gcloud models sub-commands.
     /// </summary>
-    GcloudAiModels Models => throw new System.NotSupportedException();
+    GcloudAiModels Models { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAiOperations Operations => throw new System.NotSupportedException();
+    GcloudAiOperations Operations { get; }
 
     /// <summary>
     /// gcloud persistent-resources sub-commands.
     /// </summary>
-    GcloudAiPersistentResources PersistentResources => throw new System.NotSupportedException();
+    GcloudAiPersistentResources PersistentResources { get; }
 
     /// <summary>
     /// gcloud semantic-governance-policies sub-commands.
     /// </summary>
-    GcloudAiSemanticGovernancePolicies SemanticGovernancePolicies => throw new System.NotSupportedException();
+    GcloudAiSemanticGovernancePolicies SemanticGovernancePolicies { get; }
 
     /// <summary>
     /// gcloud semantic-governance-policy-engine sub-commands.
     /// </summary>
-    GcloudAiSemanticGovernancePolicyEngine SemanticGovernancePolicyEngine => throw new System.NotSupportedException();
+    GcloudAiSemanticGovernancePolicyEngine SemanticGovernancePolicyEngine { get; }
 
     /// <summary>
     /// gcloud tensorboards sub-commands.
     /// </summary>
-    GcloudAiTensorboards Tensorboards => throw new System.NotSupportedException();
+    GcloudAiTensorboards Tensorboards { get; }
 
     /// <summary>
     /// gcloud tuning-jobs sub-commands.
     /// </summary>
-    GcloudAiTuningJobs TuningJobs => throw new System.NotSupportedException();
+    GcloudAiTuningJobs TuningJobs { get; }
 
     /// <summary>
     /// manage entities in Vertex AI
@@ -98,7 +98,6 @@ public interface IGcloudAi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

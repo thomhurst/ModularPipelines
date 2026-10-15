@@ -64,6 +64,12 @@ public record GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions : GcloudOpt
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Arguments for connection logging. Whether to enable connection logging. Default value is CONNECTION_LOGGING_DISABLED when unspecified. Not valid for VPN Tunnel or Interconnect Attachment targets. CONNECTION_LOGGING must be one of: connection-logging-disabled When CONNECTION_LOGGING_DISABLED, connection logging is disabled. connection-logging-enabled When CONNECTION_LOGGING_ENABLED, connection logs are generated for connection attempts. disabled When disabled, connection logging is disabled. enabled When enabled, connection logs are generated for connection attempts.
+    /// </summary>
+    [CliOption("--connection-logging", Format = OptionFormat.EqualsSeparated)]
+    public string? ConnectionLogging { get; set; }
+
+    /// <summary>
     /// Arguments for the cross project metadata. Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. CROSS_PROJECT_METADATA must be one of: cross-project-metadata-disabled When CROSS_PROJECT_METADATA_DISABLED, metadata from other projects will not be included in the logs. cross-project-metadata-enabled When CROSS_PROJECT_METADATA_ENABLED, metadata from other projects will be included in the logs.
     /// </summary>
     [CliOption("--cross-project-metadata", Format = OptionFormat.EqualsSeparated)]

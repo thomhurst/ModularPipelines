@@ -24,12 +24,12 @@ public interface IGcloudRecaptcha
     /// <summary>
     /// gcloud firewall-policies sub-commands.
     /// </summary>
-    GcloudRecaptchaFirewallPolicies FirewallPolicies => throw new System.NotSupportedException();
+    GcloudRecaptchaFirewallPolicies FirewallPolicies { get; }
 
     /// <summary>
     /// gcloud keys sub-commands.
     /// </summary>
-    GcloudRecaptchaKeys Keys => throw new System.NotSupportedException();
+    GcloudRecaptchaKeys Keys { get; }
 
     /// <summary>
     /// manage reCAPTCHA Enterprise Keys
@@ -38,7 +38,6 @@ public interface IGcloudRecaptcha
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudRecaptchaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudRecaptchaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -58,12 +58,6 @@ public record GcloudPreviewComputeInstanceGroupsManagedSetAutoscalingOptions : G
     public string? CoolDownPeriod { get; set; }
 
     /// <summary>
-    /// Indicates whether to use a predictive algorithm when scaling based on CPU. CPU_UTILIZATION_PREDICTIVE_METHOD must be one of: none (Default) No predictions are made when calculating the number of VM instances. optimize-availability Predictive autoscaling predicts the future values of the scaling metric and scales the group in advance to ensure that new VM instances are ready in time to cover the predicted peak.
-    /// </summary>
-    [CliOption("--cpu-utilization-predictive-method", Format = OptionFormat.EqualsSeparated)]
-    public string? CpuUtilizationPredictiveMethod { get; set; }
-
-    /// <summary>
     /// Adds a target metric value for the Autoscaler to use. metric Protocol-free URL of a Google Cloud Monitoring metric. utilization-target Value of the metric Autoscaler aims to maintain (greater than 0.0). utilization-target-type How target is expressed. Valid values: DELTA_PER_MINUTE, DELTA_PER_SECOND, GAUGE. Mutually exclusive with --update-stackdriver-metric.
     /// </summary>
     [CliOption("--custom-metric-utilization", Format = OptionFormat.EqualsSeparated)]
@@ -166,6 +160,24 @@ public record GcloudPreviewComputeInstanceGroupsManagedSetAutoscalingOptions : G
     public string? UpdateStackdriverMetric { get; set; }
 
     /// <summary>
+    /// At most one of these can be specified: Indicates whether to use a predictive algorithm when scaling based on CPU. CPU_UTILIZATION_PREDICTIVE_METHOD must be one of: none (Default) No predictions are made when calculating the number of VM instances. optimize-availability Predictive autoscaling predicts the future values of the scaling metric and scales the group in advance to ensure that new VM instances are ready in time to cover the predicted peak.
+    /// </summary>
+    [CliOption("--cpu-utilization-predictive-method", Format = OptionFormat.EqualsSeparated)]
+    public string? CpuUtilizationPredictiveMethod { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Maximum CPU utilization for range-based scaling. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--max-cpu-utilization", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxCpuUtilization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Minimum CPU utilization for range-based scaling. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--min-cpu-utilization", Format = OptionFormat.EqualsSeparated)]
+    public string? MinCpuUtilization { get; set; }
+
+    /// <summary>
     /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
@@ -216,6 +228,10 @@ public record GcloudPreviewComputeInstanceGroupsManagedSetAutoscalingOptions : G
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
+        if ((!string.IsNullOrWhiteSpace(CpuUtilizationPredictiveMethod) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaxCpuUtilization) || !string.IsNullOrWhiteSpace(MinCpuUtilization)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CpuUtilizationPredictiveMethod or (MaxCpuUtilization or MinCpuUtilization) may be specified.", [nameof(CpuUtilizationPredictiveMethod), nameof(MaxCpuUtilization), nameof(MinCpuUtilization)]);
+        }
         if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);

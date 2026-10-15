@@ -24,37 +24,37 @@ public interface IGcloudEdgeCloud
     /// <summary>
     /// gcloud api-keys sub-commands.
     /// </summary>
-    GcloudEdgeCloudApiKeys ApiKeys => throw new System.NotSupportedException();
+    GcloudEdgeCloudApiKeys ApiKeys { get; }
 
     /// <summary>
     /// gcloud container sub-commands.
     /// </summary>
-    GcloudEdgeCloudContainer Container => throw new System.NotSupportedException();
+    GcloudEdgeCloudContainer Container { get; }
 
     /// <summary>
     /// gcloud networking sub-commands.
     /// </summary>
-    GcloudEdgeCloudNetworking Networking => throw new System.NotSupportedException();
+    GcloudEdgeCloudNetworking Networking { get; }
 
     /// <summary>
     /// gcloud projects sub-commands.
     /// </summary>
-    GcloudEdgeCloudProjects Projects => throw new System.NotSupportedException();
+    GcloudEdgeCloudProjects Projects { get; }
 
     /// <summary>
     /// gcloud service-accounts sub-commands.
     /// </summary>
-    GcloudEdgeCloudServiceAccounts ServiceAccounts => throw new System.NotSupportedException();
+    GcloudEdgeCloudServiceAccounts ServiceAccounts { get; }
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudEdgeCloudServices Services => throw new System.NotSupportedException();
+    GcloudEdgeCloudServices Services { get; }
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    GcloudEdgeCloudZones Zones => throw new System.NotSupportedException();
+    GcloudEdgeCloudZones Zones { get; }
 
     /// <summary>
     /// cloud resources
@@ -63,7 +63,6 @@ public interface IGcloudEdgeCloud
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudEdgeCloudOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudEdgeCloudOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

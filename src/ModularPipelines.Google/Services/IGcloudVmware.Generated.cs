@@ -24,57 +24,57 @@ public interface IGcloudVmware
     /// <summary>
     /// gcloud announcements sub-commands.
     /// </summary>
-    GcloudVmwareAnnouncements Announcements => throw new System.NotSupportedException();
+    GcloudVmwareAnnouncements Announcements { get; }
 
     /// <summary>
     /// gcloud datastores sub-commands.
     /// </summary>
-    GcloudVmwareDatastores Datastores => throw new System.NotSupportedException();
+    GcloudVmwareDatastores Datastores { get; }
 
     /// <summary>
     /// gcloud dns-bind-permission sub-commands.
     /// </summary>
-    GcloudVmwareDnsBindPermission DnsBindPermission => throw new System.NotSupportedException();
+    GcloudVmwareDnsBindPermission DnsBindPermission { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudVmwareLocations Locations => throw new System.NotSupportedException();
+    GcloudVmwareLocations Locations { get; }
 
     /// <summary>
     /// gcloud network-peerings sub-commands.
     /// </summary>
-    GcloudVmwareNetworkPeerings NetworkPeerings => throw new System.NotSupportedException();
+    GcloudVmwareNetworkPeerings NetworkPeerings { get; }
 
     /// <summary>
     /// gcloud network-policies sub-commands.
     /// </summary>
-    GcloudVmwareNetworkPolicies NetworkPolicies => throw new System.NotSupportedException();
+    GcloudVmwareNetworkPolicies NetworkPolicies { get; }
 
     /// <summary>
     /// gcloud networks sub-commands.
     /// </summary>
-    GcloudVmwareNetworks Networks => throw new System.NotSupportedException();
+    GcloudVmwareNetworks Networks { get; }
 
     /// <summary>
     /// gcloud node-types sub-commands.
     /// </summary>
-    GcloudVmwareNodeTypes NodeTypes => throw new System.NotSupportedException();
+    GcloudVmwareNodeTypes NodeTypes { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudVmwareOperations Operations => throw new System.NotSupportedException();
+    GcloudVmwareOperations Operations { get; }
 
     /// <summary>
     /// gcloud private-clouds sub-commands.
     /// </summary>
-    GcloudVmwarePrivateClouds PrivateClouds => throw new System.NotSupportedException();
+    GcloudVmwarePrivateClouds PrivateClouds { get; }
 
     /// <summary>
     /// gcloud private-connections sub-commands.
     /// </summary>
-    GcloudVmwarePrivateConnections PrivateConnections => throw new System.NotSupportedException();
+    GcloudVmwarePrivateConnections PrivateConnections { get; }
 
     /// <summary>
     /// manage Google Cloud VMware Engine resources
@@ -83,7 +83,6 @@ public interface IGcloudVmware
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudVmwareOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudVmwareOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -608,7 +609,7 @@ public record GcloudContainerClustersCreateAutoOptions : GcloudOptions, IValidat
     /// <summary>
     /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zone", ShortForm = "-z", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
@@ -634,6 +635,27 @@ public record GcloudContainerClustersCreateAutoOptions : GcloudOptions, IValidat
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz API key secret, for example, projects/my-project/secrets/my-api-key/versions/1 or projects/my-project/secrets/my-api-key/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-api-key-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorApiKeySecretUri { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz proxy configuration, for example, projects/my-project/secrets/my-proxy-secret/versions/1 or projects/my-project/secrets/my-proxy-secret/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-proxy-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorProxySecretUri { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz registry secret, for example, projects/my-project/secrets/my-registry-secret/versions/1 or projects/my-project/secrets/my-registry-secret/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-registry-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorRegistrySecretUri { get; set; }
 
     /// <summary>
     /// The name of the cluster to create. The name may contain only lowercase alphanumerics and '-', must start with a letter and end with an alphanumeric, and must be no longer than 40 characters.

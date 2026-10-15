@@ -20,6 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudPreviewCompute
 {
     private readonly ICommandContext _command;
+    private GcloudPreviewComputeAcceleratorInterconnects? _acceleratorInterconnects;
     private GcloudPreviewComputeAcceleratorTypes? _acceleratorTypes;
     private GcloudPreviewComputeAddresses? _addresses;
     private GcloudPreviewComputeAdvice? _advice;
@@ -96,6 +97,11 @@ public class GcloudPreviewCompute
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud accelerator-interconnects sub-commands.
+    /// </summary>
+    public GcloudPreviewComputeAcceleratorInterconnects AcceleratorInterconnects => _acceleratorInterconnects ??= new GcloudPreviewComputeAcceleratorInterconnects(_command);
 
     /// <summary>
     /// gcloud accelerator-types sub-commands.

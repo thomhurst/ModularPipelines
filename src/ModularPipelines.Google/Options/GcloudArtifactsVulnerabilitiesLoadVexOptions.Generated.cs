@@ -65,6 +65,10 @@ public record GcloudArtifactsVulnerabilitiesLoadVexOptions : GcloudOptions
     /// The parent project to load security advisory into.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
 }

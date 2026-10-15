@@ -24,22 +24,22 @@ public interface IGcloudScheduler
     /// <summary>
     /// gcloud cmek-config sub-commands.
     /// </summary>
-    GcloudSchedulerCmekConfig CmekConfig => throw new System.NotSupportedException();
+    GcloudSchedulerCmekConfig CmekConfig { get; }
 
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudSchedulerJobs Jobs => throw new System.NotSupportedException();
+    GcloudSchedulerJobs Jobs { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudSchedulerLocations Locations => throw new System.NotSupportedException();
+    GcloudSchedulerLocations Locations { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudSchedulerOperations Operations => throw new System.NotSupportedException();
+    GcloudSchedulerOperations Operations { get; }
 
     /// <summary>
     /// manage Cloud Scheduler jobs and schedules
@@ -48,7 +48,6 @@ public interface IGcloudScheduler
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudSchedulerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudSchedulerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

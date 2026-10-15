@@ -24,17 +24,17 @@ public interface IGcloudAppTopology
     /// <summary>
     /// gcloud domains sub-commands.
     /// </summary>
-    GcloudAppTopologyDomains Domains => throw new System.NotSupportedException();
+    GcloudAppTopologyDomains Domains { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudAppTopologyLocations Locations => throw new System.NotSupportedException();
+    GcloudAppTopologyLocations Locations { get; }
 
     /// <summary>
     /// gcloud resources-graph sub-commands.
     /// </summary>
-    GcloudAppTopologyResourcesGraph ResourcesGraph => throw new System.NotSupportedException();
+    GcloudAppTopologyResourcesGraph ResourcesGraph { get; }
 
     /// <summary>
     /// manage App Topology resources and query topology     graphs
@@ -43,7 +43,6 @@ public interface IGcloudAppTopology
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAppTopologyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAppTopologyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -24,17 +24,17 @@ public interface IGcloudEndpoints
     /// <summary>
     /// gcloud configs sub-commands.
     /// </summary>
-    GcloudEndpointsConfigs Configs => throw new System.NotSupportedException();
+    GcloudEndpointsConfigs Configs { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudEndpointsOperations Operations => throw new System.NotSupportedException();
+    GcloudEndpointsOperations Operations { get; }
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudEndpointsServices Services => throw new System.NotSupportedException();
+    GcloudEndpointsServices Services { get; }
 
     /// <summary>
     /// create, enable and manage API services
@@ -43,7 +43,6 @@ public interface IGcloudEndpoints
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

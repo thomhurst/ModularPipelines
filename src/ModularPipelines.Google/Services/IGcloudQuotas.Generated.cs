@@ -24,17 +24,17 @@ public interface IGcloudQuotas
     /// <summary>
     /// gcloud adjuster sub-commands.
     /// </summary>
-    GcloudQuotasAdjuster Adjuster => throw new System.NotSupportedException();
+    GcloudQuotasAdjuster Adjuster { get; }
 
     /// <summary>
     /// gcloud info sub-commands.
     /// </summary>
-    GcloudQuotasInfo Info => throw new System.NotSupportedException();
+    GcloudQuotasInfo Info { get; }
 
     /// <summary>
     /// gcloud preferences sub-commands.
     /// </summary>
-    GcloudQuotasPreferences Preferences => throw new System.NotSupportedException();
+    GcloudQuotasPreferences Preferences { get; }
 
     /// <summary>
     /// manage Cloud Quotas quota info, quota preferences and quota     adjuster settings
@@ -43,7 +43,6 @@ public interface IGcloudQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudQuotasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudQuotasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

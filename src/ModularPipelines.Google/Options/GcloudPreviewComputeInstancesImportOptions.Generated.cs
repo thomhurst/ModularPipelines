@@ -155,7 +155,7 @@ public record GcloudPreviewComputeInstancesImportOptions : GcloudOptions, IValid
     public string? Os { get; set; }
 
     /// <summary>
-    /// Specifies the RFC1918 IP to assign to the instance. The IP should be in the subnet or legacy network IP range.
+    /// Specifies the internal IPv4 address to assign to the instance. The IP should be in the subnet or legacy network IP range.
     /// </summary>
     [CliOption("--private-network-ip", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateNetworkIp { get; set; }

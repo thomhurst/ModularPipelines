@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,133 +22,292 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "create")]
-public record GcloudAssuredWorkloadsCreateOptions : GcloudOptions
+public record GcloudAssuredWorkloadsCreateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// create a new Assured Workloads     environment
     /// </summary>
-    /// <param name="BillingAccount">The billing account of the new Assured Workloads environment, for example, billingAccounts/0000AA-AAA00A-A0A0A0</param>
-    /// <param name="ComplianceRegime">The compliance regime of the new Assured Workloads environment. COMPLIANCE_REGIME must be one of: assured-workloads-for-partners, au-regions-and-us-support, australia-data-boundary-and-support, ca-protected-b, ca-regions-and-support, canada-controlled-goods, canada-data-boundary-and-support, cjis, data-boundary-for-canada-controlled-goods, data-boundary-for-canada-protected-b, data-boundary-for-cjis, data-boundary-for-fedramp-high, data-boundary-for-fedramp-moderate, data-boundary-for-il2, data-boundary-for-il4, data-boundary-for-il5, data-boundary-for-irs-publication-1075, data-boundary-for-itar, eu-data-boundary-and-support, eu-regions-and-support, fedramp-high, fedramp-moderate, healthcare-and-life-sciences-controls, healthcare-and-life-sciences-controls-us-support, hipaa, hitrust, il2, il4, il5, irs-1075, isr-regions, isr-regions-and-support, israel-data-boundary-and-support, itar, japan-data-boundary, jp-regions-and-support, ksa-data-boundary-with-access-justifications, ksa-regions-and-support-with-sovereignty-controls, regional-controls, regional-data-boundary, switzerland-data-boundary-with-access-justifications, us-data-boundary-and-support, us-data-boundary-for-healthcare-and-life-sciences, us-data-boundary-for-healthcare-and-life-sciences-with-support, us-regional-access.</param>
-    /// <param name="DisplayName">The display name of the new Assured Workloads environment</param>
-    /// <param name="Location">The location of the new Assured Workloads environment. For a current list of supported LOCATION values, see Assured Workloads locations (https://cloud.google.com/assured-workloads/docs/locations).</param>
-    /// <param name="Organization">The parent organization of the new Assured Workloads environment, provided as an organization ID</param>
+    /// <param name="Location">The location of the Assured Workloads environment. For a current list of supported LOCATION values, see Assured Workloads locations (https://cloud.google.com/assured-workloads/docs/locations).</param>
+    /// <param name="Organization">The parent organization of the Assured Workloads environment, provided as an organization ID.</param>
     public GcloudAssuredWorkloadsCreateOptions(
-        string BillingAccount,
-        string ComplianceRegime,
-        string DisplayName,
         string Location,
         string Organization
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(BillingAccount);
-        this.BillingAccount = BillingAccount;
-        global::System.ArgumentNullException.ThrowIfNull(ComplianceRegime);
-        this.ComplianceRegime = ComplianceRegime;
-        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
-        this.DisplayName = DisplayName;
         global::System.ArgumentNullException.ThrowIfNull(Location);
         this.Location = Location;
         global::System.ArgumentNullException.ThrowIfNull(Organization);
         this.Organization = Organization;
     }
 
-    public void Deconstruct(out string BillingAccount, out string ComplianceRegime, out string DisplayName, out string Location, out string Organization)
+    public void Deconstruct(out string Location, out string Organization)
     {
-        BillingAccount = this.BillingAccount;
-        ComplianceRegime = this.ComplianceRegime;
-        DisplayName = this.DisplayName;
         Location = this.Location;
         Organization = this.Organization;
     }
 
     /// <summary>
-    /// The billing account of the new Assured Workloads environment, for example, billingAccounts/0000AA-AAA00A-A0A0A0
-    /// </summary>
-    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
-    public string BillingAccount { get; private init; }
-
-    /// <summary>
-    /// The compliance regime of the new Assured Workloads environment. COMPLIANCE_REGIME must be one of: assured-workloads-for-partners, au-regions-and-us-support, australia-data-boundary-and-support, ca-protected-b, ca-regions-and-support, canada-controlled-goods, canada-data-boundary-and-support, cjis, data-boundary-for-canada-controlled-goods, data-boundary-for-canada-protected-b, data-boundary-for-cjis, data-boundary-for-fedramp-high, data-boundary-for-fedramp-moderate, data-boundary-for-il2, data-boundary-for-il4, data-boundary-for-il5, data-boundary-for-irs-publication-1075, data-boundary-for-itar, eu-data-boundary-and-support, eu-regions-and-support, fedramp-high, fedramp-moderate, healthcare-and-life-sciences-controls, healthcare-and-life-sciences-controls-us-support, hipaa, hitrust, il2, il4, il5, irs-1075, isr-regions, isr-regions-and-support, israel-data-boundary-and-support, itar, japan-data-boundary, jp-regions-and-support, ksa-data-boundary-with-access-justifications, ksa-regions-and-support-with-sovereignty-controls, regional-controls, regional-data-boundary, switzerland-data-boundary-with-access-justifications, us-data-boundary-and-support, us-data-boundary-for-healthcare-and-life-sciences, us-data-boundary-for-healthcare-and-life-sciences-with-support, us-regional-access.
-    /// </summary>
-    [CliOption("--compliance-regime", Format = OptionFormat.EqualsSeparated)]
-    public string ComplianceRegime { get; private init; }
-
-    /// <summary>
-    /// The display name of the new Assured Workloads environment
-    /// </summary>
-    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
-    public string DisplayName { get; private init; }
-
-    /// <summary>
-    /// The location of the new Assured Workloads environment. For a current list of supported LOCATION values, see Assured Workloads locations (https://cloud.google.com/assured-workloads/docs/locations).
+    /// The location of the Assured Workloads environment. For a current list of supported LOCATION values, see Assured Workloads locations (https://cloud.google.com/assured-workloads/docs/locations).
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string Location { get; private init; }
 
     /// <summary>
-    /// The parent organization of the new Assured Workloads environment, provided as an organization ID
+    /// The parent organization of the Assured Workloads environment, provided as an organization ID.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string Organization { get; private init; }
 
     /// <summary>
-    /// If true, enable sovereign controls for the new Assured Workloads environment, currently only supported by EU_REGIONS_AND_SUPPORT
-    /// </summary>
-    [CliOption("--enable-sovereign-controls", Format = OptionFormat.EqualsSeparated)]
-    public string? EnableSovereignControls { get; set; }
-
-    /// <summary>
-    /// The external identifier of the new Assured Workloads environment
+    /// At most one of these can be specified: The external identifier of the Assured Workloads environment.
     /// </summary>
     [CliOption("--external-identifier", Format = OptionFormat.EqualsSeparated)]
     public string? ExternalIdentifier { get; set; }
 
     /// <summary>
-    /// The labels of the new Assured Workloads environment, for example, LabelKey1=LabelValue1,LabelKey2=LabelValue2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// At most one of these can be specified: User-assigned unique identifier for the workload.
+    /// </summary>
+    [CliOption("--workload-id", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadId { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Assured Workloads API version to use. Options are v1 and v2. Defaults to v1. VERSION must be one of: v1, v2.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAssuredWorkloadsCreateVersion? Version { get; set; }
+
+    /// <summary>
+    /// V1 CREATION FLAGS The billing account of the new Assured Workloads environment, for example, billingAccounts/0000AA-AAA00A-A0A0A0 (V1).
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// V1 CREATION FLAGS The compliance regime of the new Assured Workloads environment (V1). COMPLIANCE_REGIME must be one of: assured-workloads-for-partners, au-regions-and-us-support, australia-data-boundary-and-support, ca-protected-b, ca-regions-and-support, canada-controlled-goods, canada-data-boundary-and-support, cjis, data-boundary-for-canada-controlled-goods, data-boundary-for-canada-protected-b, data-boundary-for-cjis, data-boundary-for-fedramp-high, data-boundary-for-fedramp-moderate, data-boundary-for-il2, data-boundary-for-il4, data-boundary-for-il5, data-boundary-for-irs-publication-1075, data-boundary-for-itar, eu-data-boundary-and-support, eu-regions-and-support, fedramp-high, fedramp-moderate, healthcare-and-life-sciences-controls, healthcare-and-life-sciences-controls-us-support, hipaa, hitrust, il2, il4, il5, irs-1075, isr-regions, isr-regions-and-support, israel-data-boundary-and-support, itar, japan-data-boundary, jp-regions-and-support, ksa-data-boundary-with-access-justifications, ksa-regions-and-support-with-sovereignty-controls, regional-controls, regional-data-boundary, switzerland-data-boundary-with-access-justifications, us-data-boundary-and-support, us-data-boundary-for-healthcare-and-life-sciences, us-data-boundary-for-healthcare-and-life-sciences-with-support, us-regional-access.
+    /// </summary>
+    [CliOption("--compliance-regime", Format = OptionFormat.EqualsSeparated)]
+    public string? ComplianceRegime { get; set; }
+
+    /// <summary>
+    /// V1 CREATION FLAGS The display name of the new Assured Workloads environment (V1).
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// V1 CREATION FLAGS If true, enable sovereign controls for the new Assured Workloads environment, currently only supported by EU_REGIONS_AND_SUPPORT
+    /// </summary>
+    [CliOption("--enable-sovereign-controls", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableSovereignControls { get; set; }
+
+    /// <summary>
+    /// V1 CREATION FLAGS The labels of the new Assured Workloads environment, for example, LabelKey1=LabelValue1,LabelKey2=LabelValue2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// The next rotation time of the KMS settings of new Assured Workloads environment, for example, 2020-12-30T10:15:30.00Z
+    /// V1 CREATION FLAGS The next rotation time of the KMS settings of new Assured Workloads environment, for example, 2020-12-30T10:15:30.00Z
     /// </summary>
     [CliOption("--next-rotation-time", Format = OptionFormat.EqualsSeparated)]
     public string? NextRotationTime { get; set; }
 
     /// <summary>
-    /// The partner choice when creating a workload managed by local trusted partners. PARTNER must be one of: local-controls-by-s3ns, sovereign-controls-by-cntxt, sovereign-controls-by-cntxt-no-ekm, sovereign-controls-by-psn, sovereign-controls-by-sia-minsait, sovereign-controls-by-t-systems, spain-data-boundary-by-telefonica.
+    /// V1 CREATION FLAGS The partner choice when creating a workload managed by local trusted partners. PARTNER must be one of: local-controls-by-s3ns, sovereign-controls-by-cntxt, sovereign-controls-by-cntxt-no-ekm, sovereign-controls-by-psn, sovereign-controls-by-sia-minsait, sovereign-controls-by-t-systems, spain-data-boundary-by-telefonica.
     /// </summary>
     [CliOption("--partner", Format = OptionFormat.EqualsSeparated)]
     public string? Partner { get; set; }
 
     /// <summary>
-    /// The partner permissions for the partner regime, for example, data-logs-viewer=true/false Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// V1 CREATION FLAGS The partner permissions for the partner regime, for example, data-logs-viewer=true/false Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--partner-permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PartnerPermissions { get; set; }
 
     /// <summary>
-    /// Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC
+    /// V1 CREATION FLAGS Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC
     /// </summary>
     [CliOption("--partner-services-billing-account", Format = OptionFormat.EqualsSeparated)]
     public string? PartnerServicesBillingAccount { get; set; }
 
     /// <summary>
-    /// The parent of the provisioned projects, for example, folders/{FOLDER_ID}
+    /// V1 CREATION FLAGS The parent of the provisioned projects, for example, folders/{FOLDER_ID}
     /// </summary>
     [CliOption("--provisioned-resources-parent", Format = OptionFormat.EqualsSeparated)]
     public string? ProvisionedResourcesParent { get; set; }
 
     /// <summary>
-    /// A comma-separated, key=value map of custom resource settings such as custom project ids, for example: consumer-project-id={CONSUMER_PROJECT_ID} Note: Currently only consumer-project-id, consumer-project-name, encryption-keys-project-id, encryption-keys-project-name and keyring-id are supported. The encryption-keys-project-id, encryption-keys-project-name and keyring-id settings can be specified only if KMS settings are provided Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// V1 CREATION FLAGS A comma-separated, key=value map of custom resource settings such as custom project ids, for example: consumer-project-id={CONSUMER_PROJECT_ID} Note: Currently only consumer-project-id, consumer-project-name, encryption-keys-project-id, encryption-keys-project-name and keyring-id are supported. The encryption-keys-project-id, encryption-keys-project-name and keyring-id settings can be specified only if KMS settings are provided Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--resource-settings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceSettings { get; set; }
 
     /// <summary>
-    /// The rotation period of the KMS settings of the new Assured Workloads environment, for example, 172800s
+    /// V1 CREATION FLAGS The rotation period of the KMS settings of the new Assured Workloads environment, for example, 172800s
     /// </summary>
     [CliOption("--rotation-period", Format = OptionFormat.EqualsSeparated)]
     public string? RotationPeriod { get; set; }
+
+    /// <summary>
+    /// V2 CREATION FLAGS Dedicated KMS project configuration (valid only with folder targets). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--cmek-dedicated-project-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CmekDedicatedProjectConfig { get; set; }
+
+    /// <summary>
+    /// V2 CREATION FLAGS KMS Key Ring resource path for Customer-Managed Encryption Keys (V2).
+    /// </summary>
+    [CliOption("--cmek-key-ring", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekKeyRing { get; set; }
+
+    /// <summary>
+    /// V2 CREATION FLAGS User-friendly description for the workload (V2).
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// V2 CREATION FLAGS Compliance framework resource name or ID, for example, fedramp-moderate (V2).
+    /// </summary>
+    [CliOption("--framework", Format = OptionFormat.EqualsSeparated)]
+    public string? Framework { get; set; }
+
+    /// <summary>
+    /// V2 CREATION FLAGS Major revision ID of the compliance framework (V2).
+    /// </summary>
+    [CliOption("--framework-major-revision", Format = OptionFormat.EqualsSeparated)]
+    public string? FrameworkMajorRevision { get; set; }
+
+    /// <summary>
+    /// V2 CREATION FLAGS At most one of these can be specified: Repeated inline control configuration (V2). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--cloud-control-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CloudControlConfig
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CloudControlConfigSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CloudControlConfigSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// V2 CREATION FLAGS At most one of these can be specified: Path to JSON/YAML file specifying multiple control configurations (V2).
+    /// </summary>
+    [CliOption("--cloud-control-configs-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudControlConfigsFromFile { get; set; }
+
+    /// <summary>
+    /// V2 CREATION FLAGS At most one of these can be specified: JSON/YAML specification for provisioning a new folder (V2). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--new-folder-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NewFolderConfig
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NewFolderConfigSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NewFolderConfigSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// V2 CREATION FLAGS At most one of these can be specified: JSON/YAML specification for provisioning a new project (V2). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--new-project-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NewProjectConfig
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NewProjectConfigSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NewProjectConfigSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// V2 CREATION FLAGS At most one of these can be specified: Existing Folder ID to onboard into Assured Workloads (V2).
+    /// </summary>
+    [CliOption("--target-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetFolder { get; set; }
+
+    /// <summary>
+    /// V2 CREATION FLAGS At most one of these can be specified: Existing Project ID or project number to onboard into Assured Workloads (V2).
+    /// </summary>
+    [CliOption("--target-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetProject { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: User-assigned unique identifier for the workload. If omitted, generated by the server.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? WorkloadIdArgument { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(WorkloadIdArgument) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ExternalIdentifier) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkloadId) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of WorkloadIdArgument, ExternalIdentifier, or WorkloadId may be specified.", [nameof(WorkloadIdArgument), nameof(ExternalIdentifier), nameof(WorkloadId)]);
+        }
+        if ((((object?)CloudControlConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)CloudControlConfig is not string || !string.IsNullOrWhiteSpace(CloudControlConfig?.ToString()) : ((object?)CloudControlConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CloudControlConfig, static item => item is not null) : (CloudControlConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CloudControlConfig), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(CloudControlConfigsFromFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CloudControlConfig or CloudControlConfigsFromFile may be specified.", [nameof(CloudControlConfig), nameof(CloudControlConfigsFromFile)]);
+        }
+        if ((((object?)NewFolderConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)NewFolderConfig is not string || !string.IsNullOrWhiteSpace(NewFolderConfig?.ToString()) : ((object?)NewFolderConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NewFolderConfig, static item => item is not null) : (NewFolderConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NewFolderConfig), static item => item is not null)))) ? 1 : 0) + (((object?)NewProjectConfig is global::System.Collections.Generic.IEnumerable<char> ? (object?)NewProjectConfig is not string || !string.IsNullOrWhiteSpace(NewProjectConfig?.ToString()) : ((object?)NewProjectConfig is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NewProjectConfig, static item => item is not null) : (NewProjectConfig is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NewProjectConfig), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetFolder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetProject) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of NewFolderConfig, NewProjectConfig, TargetFolder, or TargetProject may be specified.", [nameof(NewFolderConfig), nameof(NewProjectConfig), nameof(TargetFolder), nameof(TargetProject)]);
+        }
+        yield break;
+    }
 
 }

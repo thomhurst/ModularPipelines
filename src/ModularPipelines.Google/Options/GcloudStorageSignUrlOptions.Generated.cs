@@ -54,7 +54,7 @@ public record GcloudStorageSignUrlOptions : GcloudOptions
     /// <summary>
     /// Specifies the duration that the signed url should be valid for, default duration is 1 hour. For example 10s for 10 seconds. See $ gcloud topic datetimes for information on duration formats. The max duration allowed is 12 hours. This limitation exists because the system-managed key used to sign the URL may not remain valid after 12 hours. Alternatively, the max duration allowed is 7 days when signing with either the --private-key-file flag or an account that authorized with gcloud auth activate-service-account.
     /// </summary>
-    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--duration", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
     public string? Duration { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public record GcloudStorageSignUrlOptions : GcloudOptions
     /// <summary>
     /// Specifies the HTTP verb to be authorized for use with the signed URL, default is GET. When using a signed URL to start a resumable upload session, you will need to specify the x-goog-resumable:start header in the request or else signature validation will fail.
     /// </summary>
-    [CliOption("--http-verb", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--http-verb", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
     public string? HttpVerb { get; set; }
 
     /// <summary>
@@ -85,7 +85,7 @@ public record GcloudStorageSignUrlOptions : GcloudOptions
     /// Specifies the PRIVATE_KEY_FILE password instead of prompting.
     /// </summary>
     [SecretValue]
-    [CliOption("--private-key-password", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--private-key-password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKeyPassword { get; set; }
 
     /// <summary>
@@ -97,7 +97,7 @@ public record GcloudStorageSignUrlOptions : GcloudOptions
     /// <summary>
     /// Specifies the region in which the resources for which you are creating signed URLs are stored. Default value is auto which will cause gcloud storage sign-url to fetch the region for the resource. When auto-detecting the region, the current user's credentials, not the credentials from PRIVATE_KEY_FILE, are used to fetch the bucket's metadata.
     /// </summary>
-    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--region", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>

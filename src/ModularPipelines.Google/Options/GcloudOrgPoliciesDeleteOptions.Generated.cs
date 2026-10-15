@@ -55,7 +55,11 @@ public record GcloudOrgPoliciesDeleteOptions : GcloudOptions, IValidatableObject
     /// Resource that is associated with the organization policy. Exactly one of these must be specified: Project ID. Overrides the default core/project property value for this command invocation.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// The current top-level etag of the Policy. If an etag is provided and does not match the current etag of the Policy, deletion will fail with a concurrent error.

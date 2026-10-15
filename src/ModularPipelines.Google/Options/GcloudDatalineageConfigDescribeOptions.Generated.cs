@@ -38,7 +38,11 @@ public record GcloudDatalineageConfigDescribeOptions : GcloudOptions, IValidatab
     /// At most one of these can be specified: Project ID or number. If none of --project, --folder, or --organization are provided, the current project will be used.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

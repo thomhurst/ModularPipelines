@@ -24,12 +24,12 @@ public interface IGcloudEmulators
     /// <summary>
     /// gcloud firestore sub-commands.
     /// </summary>
-    GcloudEmulatorsFirestore Firestore => throw new System.NotSupportedException();
+    GcloudEmulatorsFirestore Firestore { get; }
 
     /// <summary>
     /// gcloud spanner sub-commands.
     /// </summary>
-    GcloudEmulatorsSpanner Spanner => throw new System.NotSupportedException();
+    GcloudEmulatorsSpanner Spanner { get; }
 
     /// <summary>
     /// set up your local development environment using     emulators
@@ -38,7 +38,6 @@ public interface IGcloudEmulators
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudEmulatorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudEmulatorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

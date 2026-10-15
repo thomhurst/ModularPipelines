@@ -53,7 +53,7 @@ public record GcloudPolicyIntelligenceQueryActivityOptions : GcloudOptions
     /// The project ID or number to query the activities.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string Project { get; private init; }
+    public new string Project { get; private init; }
 
     /// <summary>
     /// Max number of query result. Default to be 1000 and max to be unlimited, i.e., --limit=unlimited.

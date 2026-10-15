@@ -24,12 +24,12 @@ public interface IGcloudParameterManager
     /// <summary>
     /// gcloud parameters sub-commands.
     /// </summary>
-    GcloudParameterManagerParameters Parameters => throw new System.NotSupportedException();
+    GcloudParameterManagerParameters Parameters { get; }
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    GcloudParameterManagerTemplates Templates => throw new System.NotSupportedException();
+    GcloudParameterManagerTemplates Templates { get; }
 
     /// <summary>
     /// parameter Manager is a single source of truth for     your parameters
@@ -38,7 +38,6 @@ public interface IGcloudParameterManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudParameterManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudParameterManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

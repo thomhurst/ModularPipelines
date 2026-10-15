@@ -24,12 +24,12 @@ public interface IGcloudSource
     /// <summary>
     /// gcloud project-configs sub-commands.
     /// </summary>
-    GcloudSourceProjectConfigs ProjectConfigs => throw new System.NotSupportedException();
+    GcloudSourceProjectConfigs ProjectConfigs { get; }
 
     /// <summary>
     /// gcloud repos sub-commands.
     /// </summary>
-    GcloudSourceRepos Repos => throw new System.NotSupportedException();
+    GcloudSourceRepos Repos { get; }
 
     /// <summary>
     /// cloud git repository commands
@@ -38,7 +38,6 @@ public interface IGcloudSource
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudSourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

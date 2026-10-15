@@ -24,52 +24,52 @@ public interface IGcloudIam
     /// <summary>
     /// gcloud access-policies sub-commands.
     /// </summary>
-    GcloudIamAccessPolicies AccessPolicies => throw new System.NotSupportedException();
+    GcloudIamAccessPolicies AccessPolicies { get; }
 
     /// <summary>
     /// gcloud oauth-clients sub-commands.
     /// </summary>
-    GcloudIamOauthClients OauthClients => throw new System.NotSupportedException();
+    GcloudIamOauthClients OauthClients { get; }
 
     /// <summary>
     /// gcloud policies sub-commands.
     /// </summary>
-    GcloudIamPolicies Policies => throw new System.NotSupportedException();
+    GcloudIamPolicies Policies { get; }
 
     /// <summary>
     /// gcloud policy-bindings sub-commands.
     /// </summary>
-    GcloudIamPolicyBindings PolicyBindings => throw new System.NotSupportedException();
+    GcloudIamPolicyBindings PolicyBindings { get; }
 
     /// <summary>
     /// gcloud principal-access-boundary-policies sub-commands.
     /// </summary>
-    GcloudIamPrincipalAccessBoundaryPolicies PrincipalAccessBoundaryPolicies => throw new System.NotSupportedException();
+    GcloudIamPrincipalAccessBoundaryPolicies PrincipalAccessBoundaryPolicies { get; }
 
     /// <summary>
     /// gcloud roles sub-commands.
     /// </summary>
-    GcloudIamRoles Roles => throw new System.NotSupportedException();
+    GcloudIamRoles Roles { get; }
 
     /// <summary>
     /// gcloud service-accounts sub-commands.
     /// </summary>
-    GcloudIamServiceAccounts ServiceAccounts => throw new System.NotSupportedException();
+    GcloudIamServiceAccounts ServiceAccounts { get; }
 
     /// <summary>
     /// gcloud simulator sub-commands.
     /// </summary>
-    GcloudIamSimulator Simulator => throw new System.NotSupportedException();
+    GcloudIamSimulator Simulator { get; }
 
     /// <summary>
     /// gcloud workforce-pools sub-commands.
     /// </summary>
-    GcloudIamWorkforcePools WorkforcePools => throw new System.NotSupportedException();
+    GcloudIamWorkforcePools WorkforcePools { get; }
 
     /// <summary>
     /// gcloud workload-identity-pools sub-commands.
     /// </summary>
-    GcloudIamWorkloadIdentityPools WorkloadIdentityPools => throw new System.NotSupportedException();
+    GcloudIamWorkloadIdentityPools WorkloadIdentityPools { get; }
 
     /// <summary>
     /// manage IAM service accounts and keys
@@ -78,8 +78,7 @@ public interface IGcloudIam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudIamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudIamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list IAM grantable roles for a resource
@@ -88,8 +87,7 @@ public interface IGcloudIam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGrantableRolesAsync(GcloudIamListGrantableRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGrantableRolesAsync(GcloudIamListGrantableRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list IAM testable permissions for a     resource
@@ -98,7 +96,6 @@ public interface IGcloudIam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestablePermissionsAsync(GcloudIamListTestablePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestablePermissionsAsync(GcloudIamListTestablePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

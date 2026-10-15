@@ -61,7 +61,11 @@ public record GcloudWorkloadIdentityServiceAgentsGenerateOptions : GcloudOptions
     /// Exactly one of these must be specified: The project number to generate service agents for.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// The location for which to generate the service agents. Defaults to global.

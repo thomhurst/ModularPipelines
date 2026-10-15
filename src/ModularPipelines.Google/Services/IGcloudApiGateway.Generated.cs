@@ -24,22 +24,22 @@ public interface IGcloudApiGateway
     /// <summary>
     /// gcloud api-configs sub-commands.
     /// </summary>
-    GcloudApiGatewayApiConfigs ApiConfigs => throw new System.NotSupportedException();
+    GcloudApiGatewayApiConfigs ApiConfigs { get; }
 
     /// <summary>
     /// gcloud apis sub-commands.
     /// </summary>
-    GcloudApiGatewayApis Apis => throw new System.NotSupportedException();
+    GcloudApiGatewayApis Apis { get; }
 
     /// <summary>
     /// gcloud gateways sub-commands.
     /// </summary>
-    GcloudApiGatewayGateways Gateways => throw new System.NotSupportedException();
+    GcloudApiGatewayGateways Gateways { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudApiGatewayOperations Operations => throw new System.NotSupportedException();
+    GcloudApiGatewayOperations Operations { get; }
 
     /// <summary>
     /// manage Cloud API Gateway resources
@@ -48,7 +48,6 @@ public interface IGcloudApiGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudApiGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudApiGatewayOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

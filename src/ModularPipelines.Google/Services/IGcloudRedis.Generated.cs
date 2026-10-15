@@ -24,32 +24,32 @@ public interface IGcloudRedis
     /// <summary>
     /// gcloud acl-policies sub-commands.
     /// </summary>
-    GcloudRedisAclPolicies AclPolicies => throw new System.NotSupportedException();
+    GcloudRedisAclPolicies AclPolicies { get; }
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudRedisClusters Clusters => throw new System.NotSupportedException();
+    GcloudRedisClusters Clusters { get; }
 
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudRedisInstances Instances => throw new System.NotSupportedException();
+    GcloudRedisInstances Instances { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudRedisOperations Operations => throw new System.NotSupportedException();
+    GcloudRedisOperations Operations { get; }
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    GcloudRedisRegions Regions => throw new System.NotSupportedException();
+    GcloudRedisRegions Regions { get; }
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    GcloudRedisZones Zones => throw new System.NotSupportedException();
+    GcloudRedisZones Zones { get; }
 
     /// <summary>
     /// manage Cloud Memorystore Redis resources
@@ -58,7 +58,6 @@ public interface IGcloudRedis
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudRedisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudRedisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

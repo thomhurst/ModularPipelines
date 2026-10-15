@@ -24,22 +24,22 @@ public interface IGcloudEdgeCache
     /// <summary>
     /// gcloud keysets sub-commands.
     /// </summary>
-    GcloudEdgeCacheKeysets Keysets => throw new System.NotSupportedException();
+    GcloudEdgeCacheKeysets Keysets { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudEdgeCacheOperations Operations => throw new System.NotSupportedException();
+    GcloudEdgeCacheOperations Operations { get; }
 
     /// <summary>
     /// gcloud origins sub-commands.
     /// </summary>
-    GcloudEdgeCacheOrigins Origins => throw new System.NotSupportedException();
+    GcloudEdgeCacheOrigins Origins { get; }
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudEdgeCacheServices Services => throw new System.NotSupportedException();
+    GcloudEdgeCacheServices Services { get; }
 
     /// <summary>
     /// manage Media CDN resources
@@ -48,7 +48,6 @@ public interface IGcloudEdgeCache
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudEdgeCacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudEdgeCacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

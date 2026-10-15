@@ -316,6 +316,18 @@ public record GcloudDatabaseMigrationMigrationJobsUpdateOptions : GcloudOptions,
     public bool? SqlServerPromoteWhenReady { get; set; }
 
     /// <summary>
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous DAG migration config. This is used only for SQL Server to CloudSQL SQL for SQL Server migrations. The name of the linked server that points to the source SQL Server instance.
+    /// </summary>
+    [CliOption("--sqlserver-dag-linked-server", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerDagLinkedServer { get; set; }
+
+    /// <summary>
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous DAG migration config. This is used only for SQL Server to CloudSQL SQL for SQL Server migrations. The name of the source availability group.
+    /// </summary>
+    [CliOption("--sqlserver-dag-source-ag", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerDagSourceAg { get; set; }
+
+    /// <summary>
     /// Migration job resource - The migration job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ▸ provide the argument migration_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
@@ -340,9 +352,9 @@ public record GcloudDatabaseMigrationMigrationJobsUpdateOptions : GcloudOptions,
         {
             yield return new ValidationResult("At most one of PeerVpc, StaticIp, or (Vm, VmIp, VmPort, or Vpc) may be specified.", [nameof(PeerVpc), nameof(StaticIp), nameof(Vm), nameof(VmIp), nameof(VmPort), nameof(Vpc)]);
         }
-        if (((((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<char> ? (object?)SqlServerDatabases is not string || !string.IsNullOrWhiteSpace(SqlServerDatabases?.ToString()) : ((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SqlServerDatabases, static item => item is not null) : (SqlServerDatabases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SqlServerDatabases), static item => item is not null)))) || (object?)SqlServerDiffBackup is not null || !string.IsNullOrWhiteSpace(SqlServerEncryptedDatabases) || (object?)SqlServerPromoteWhenReady is not null) ? 1 : 0) > 1)
+        if (((((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<char> ? (object?)SqlServerDatabases is not string || !string.IsNullOrWhiteSpace(SqlServerDatabases?.ToString()) : ((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SqlServerDatabases, static item => item is not null) : (SqlServerDatabases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SqlServerDatabases), static item => item is not null)))) || (object?)SqlServerDiffBackup is not null || !string.IsNullOrWhiteSpace(SqlServerEncryptedDatabases) || (object?)SqlServerPromoteWhenReady is not null) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SqlServerDagLinkedServer) || !string.IsNullOrWhiteSpace(SqlServerDagSourceAg)) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of (SqlServerDatabases, SqlServerDiffBackup, SqlServerEncryptedDatabases, or SqlServerPromoteWhenReady) may be specified.", [nameof(SqlServerDatabases), nameof(SqlServerDiffBackup), nameof(SqlServerEncryptedDatabases), nameof(SqlServerPromoteWhenReady)]);
+            yield return new ValidationResult("At most one of (SqlServerDatabases, SqlServerDiffBackup, SqlServerEncryptedDatabases, or SqlServerPromoteWhenReady) or (SqlServerDagLinkedServer or SqlServerDagSourceAg) may be specified.", [nameof(SqlServerDatabases), nameof(SqlServerDiffBackup), nameof(SqlServerEncryptedDatabases), nameof(SqlServerPromoteWhenReady), nameof(SqlServerDagLinkedServer), nameof(SqlServerDagSourceAg)]);
         }
         yield break;
     }

@@ -24,17 +24,17 @@ public interface IGcloudAsset
     /// <summary>
     /// gcloud feeds sub-commands.
     /// </summary>
-    GcloudAssetFeeds Feeds => throw new System.NotSupportedException();
+    GcloudAssetFeeds Feeds { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAssetOperations Operations => throw new System.NotSupportedException();
+    GcloudAssetOperations Operations { get; }
 
     /// <summary>
     /// gcloud saved-queries sub-commands.
     /// </summary>
-    GcloudAssetSavedQueries SavedQueries => throw new System.NotSupportedException();
+    GcloudAssetSavedQueries SavedQueries { get; }
 
     /// <summary>
     /// manage the Cloud Asset Inventory
@@ -43,8 +43,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAssetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAssetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// analyzes IAM policies that     match a request asynchronously and writes the results to Google Cloud     Storage or BigQuery destination
@@ -53,8 +52,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeIamPolicyLongrunningAsync(GcloudAssetAnalyzeIamPolicyLongrunningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AnalyzeIamPolicyLongrunningAsync(GcloudAssetAnalyzeIamPolicyLongrunningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// analyzes IAM policies that match a     request
@@ -63,8 +61,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeIamPolicyAsync(GcloudAssetAnalyzeIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AnalyzeIamPolicyAsync(GcloudAssetAnalyzeIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// analyzes resource move
@@ -73,8 +70,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeMoveAsync(GcloudAssetAnalyzeMoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AnalyzeMoveAsync(GcloudAssetAnalyzeMoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// analyze organization policies under a     scope
@@ -83,8 +79,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeOrgPoliciesAsync(GcloudAssetAnalyzeOrgPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AnalyzeOrgPoliciesAsync(GcloudAssetAnalyzeOrgPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// analyze organization     policies governed assets under a scope
@@ -93,8 +88,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeOrgPolicyGovernedAssetsAsync(GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AnalyzeOrgPolicyGovernedAssetsAsync(GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// analyze organization     policies governed containers under a scope
@@ -103,8 +97,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnalyzeOrgPolicyGovernedContainersAsync(GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AnalyzeOrgPolicyGovernedContainersAsync(GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// export the cloud assets to Google Cloud     Storage/BigQuery
@@ -113,8 +106,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportAsync(GcloudAssetExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportAsync(GcloudAssetExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// get effective IAM policies for a     specified list of resources within accessible scope, such as a project,     folder or organization
@@ -123,8 +115,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEffectiveIamPolicyAsync(GcloudAssetGetEffectiveIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEffectiveIamPolicyAsync(GcloudAssetGetEffectiveIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// get the update history of assets that overlaps a     time window
@@ -133,8 +124,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHistoryAsync(GcloudAssetGetHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHistoryAsync(GcloudAssetGetHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list the Cloud assets
@@ -143,8 +133,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(GcloudAssetListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(GcloudAssetListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// query the Cloud assets
@@ -153,8 +142,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QueryAsync(GcloudAssetQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QueryAsync(GcloudAssetQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// searches all IAM policies within the     specified accessible scope, such as a project, folder or organization
@@ -163,8 +151,7 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAllIamPoliciesAsync(GcloudAssetSearchAllIamPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAllIamPoliciesAsync(GcloudAssetSearchAllIamPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// searches all Cloud resources within the     specified accessible scope, such as a project, folder or organization
@@ -173,7 +160,6 @@ public interface IGcloudAsset
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAllResourcesAsync(GcloudAssetSearchAllResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAllResourcesAsync(GcloudAssetSearchAllResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

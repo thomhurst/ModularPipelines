@@ -61,6 +61,6 @@ public record GcloudAuthApplicationDefaultLoginOptions : GcloudOptions
     /// User account used for authorization. When the account specified has valid credentials in the local credential store these credentials will be re-used. Otherwise new ones will be fetched and replace any stored credential. This caching behavior is only available for user credentials.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Account { get; set; }
+    public string? ApplicationDefaultAccount { get; set; }
 
 }

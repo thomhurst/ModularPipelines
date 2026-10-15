@@ -24,12 +24,12 @@ public interface IGcloudAnthos
     /// <summary>
     /// gcloud auth sub-commands.
     /// </summary>
-    GcloudAnthosAuth Auth => throw new System.NotSupportedException();
+    GcloudAnthosAuth Auth { get; }
 
     /// <summary>
     /// gcloud config sub-commands.
     /// </summary>
-    GcloudAnthosConfig Config => throw new System.NotSupportedException();
+    GcloudAnthosConfig Config { get; }
 
     /// <summary>
     /// anthos command Group
@@ -38,8 +38,7 @@ public interface IGcloudAnthos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAnthosOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAnthosOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// generates a login configuration file
@@ -48,7 +47,6 @@ public interface IGcloudAnthos
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLoginConfigAsync(GcloudAnthosCreateLoginConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLoginConfigAsync(GcloudAnthosCreateLoginConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

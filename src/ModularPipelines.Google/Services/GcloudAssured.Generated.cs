@@ -21,7 +21,6 @@ public class GcloudAssured : IGcloudAssured
 {
     private readonly ICommandContext _command;
     private GcloudAssuredOperations? _operations;
-    private GcloudAssuredV2? _v2;
     private GcloudAssuredWorkloads? _workloads;
 
     /// <summary>
@@ -38,11 +37,6 @@ public class GcloudAssured : IGcloudAssured
     /// gcloud operations sub-commands.
     /// </summary>
     public GcloudAssuredOperations Operations => _operations ??= new GcloudAssuredOperations(_command);
-
-    /// <summary>
-    /// gcloud v2 sub-commands.
-    /// </summary>
-    public GcloudAssuredV2 V2 => _v2 ??= new GcloudAssuredV2(_command);
 
     /// <summary>
     /// gcloud workloads sub-commands.

@@ -48,6 +48,10 @@ public record GcloudComputeProjectViewsDescribeOptions : GcloudOptions
     /// Project ID for this request.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
 }

@@ -24,22 +24,22 @@ public interface IGcloudDeveloperConnect
     /// <summary>
     /// gcloud account-connectors sub-commands.
     /// </summary>
-    GcloudDeveloperConnectAccountConnectors AccountConnectors => throw new System.NotSupportedException();
+    GcloudDeveloperConnectAccountConnectors AccountConnectors { get; }
 
     /// <summary>
     /// gcloud connections sub-commands.
     /// </summary>
-    GcloudDeveloperConnectConnections Connections => throw new System.NotSupportedException();
+    GcloudDeveloperConnectConnections Connections { get; }
 
     /// <summary>
     /// gcloud insights-configs sub-commands.
     /// </summary>
-    GcloudDeveloperConnectInsightsConfigs InsightsConfigs => throw new System.NotSupportedException();
+    GcloudDeveloperConnectInsightsConfigs InsightsConfigs { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDeveloperConnectOperations Operations => throw new System.NotSupportedException();
+    GcloudDeveloperConnectOperations Operations { get; }
 
     /// <summary>
     /// manage Developer Connect resources
@@ -48,7 +48,6 @@ public interface IGcloudDeveloperConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDeveloperConnectOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDeveloperConnectOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

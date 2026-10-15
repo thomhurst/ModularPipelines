@@ -24,7 +24,7 @@ public interface IGcloudPublicca
     /// <summary>
     /// gcloud external-account-keys sub-commands.
     /// </summary>
-    GcloudPubliccaExternalAccountKeys ExternalAccountKeys => throw new System.NotSupportedException();
+    GcloudPubliccaExternalAccountKeys ExternalAccountKeys { get; }
 
     /// <summary>
     /// manage accounts for Google Trust Services' Certificate     Authority
@@ -33,7 +33,6 @@ public interface IGcloudPublicca
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudPubliccaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudPubliccaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

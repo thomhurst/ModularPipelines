@@ -30,7 +30,7 @@ public record GcloudPreviewComputeUrlMapsValidateOptions : GcloudOptions, IValid
     public GcloudPreviewComputeUrlMapsValidateLoadBalancingScheme? LoadBalancingScheme { get; set; }
 
     /// <summary>
-    /// Path to a YAML file containing configuration export data. The YAML file must not contain any output-only fields. Alternatively, you may omit this flag to read from standard input. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/UrlMap.yaml.
+    /// Path to a YAML file containing configuration export data. The YAML file must not contain any output-only fields. Alternatively, you may omit this flag to read from standard input. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/preview/UrlMap.yaml.
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

@@ -24,132 +24,132 @@ public interface IGcloudOracleDatabase
     /// <summary>
     /// gcloud autonomous-database-backups sub-commands.
     /// </summary>
-    GcloudOracleDatabaseAutonomousDatabaseBackups AutonomousDatabaseBackups => throw new System.NotSupportedException();
+    GcloudOracleDatabaseAutonomousDatabaseBackups AutonomousDatabaseBackups { get; }
 
     /// <summary>
     /// gcloud autonomous-database-character-sets sub-commands.
     /// </summary>
-    GcloudOracleDatabaseAutonomousDatabaseCharacterSets AutonomousDatabaseCharacterSets => throw new System.NotSupportedException();
+    GcloudOracleDatabaseAutonomousDatabaseCharacterSets AutonomousDatabaseCharacterSets { get; }
 
     /// <summary>
     /// gcloud autonomous-databases sub-commands.
     /// </summary>
-    GcloudOracleDatabaseAutonomousDatabases AutonomousDatabases => throw new System.NotSupportedException();
+    GcloudOracleDatabaseAutonomousDatabases AutonomousDatabases { get; }
 
     /// <summary>
     /// gcloud autonomous-db-versions sub-commands.
     /// </summary>
-    GcloudOracleDatabaseAutonomousDbVersions AutonomousDbVersions => throw new System.NotSupportedException();
+    GcloudOracleDatabaseAutonomousDbVersions AutonomousDbVersions { get; }
 
     /// <summary>
     /// gcloud cloud-exadata-infrastructures sub-commands.
     /// </summary>
-    GcloudOracleDatabaseCloudExadataInfrastructures CloudExadataInfrastructures => throw new System.NotSupportedException();
+    GcloudOracleDatabaseCloudExadataInfrastructures CloudExadataInfrastructures { get; }
 
     /// <summary>
     /// gcloud cloud-vm-clusters sub-commands.
     /// </summary>
-    GcloudOracleDatabaseCloudVmClusters CloudVmClusters => throw new System.NotSupportedException();
+    GcloudOracleDatabaseCloudVmClusters CloudVmClusters { get; }
 
     /// <summary>
     /// gcloud database-character-sets sub-commands.
     /// </summary>
-    GcloudOracleDatabaseDatabaseCharacterSets DatabaseCharacterSets => throw new System.NotSupportedException();
+    GcloudOracleDatabaseDatabaseCharacterSets DatabaseCharacterSets { get; }
 
     /// <summary>
     /// gcloud databases sub-commands.
     /// </summary>
-    GcloudOracleDatabaseDatabases Databases => throw new System.NotSupportedException();
+    GcloudOracleDatabaseDatabases Databases { get; }
 
     /// <summary>
     /// gcloud db-system-initial-storage-sizes sub-commands.
     /// </summary>
-    GcloudOracleDatabaseDbSystemInitialStorageSizes DbSystemInitialStorageSizes => throw new System.NotSupportedException();
+    GcloudOracleDatabaseDbSystemInitialStorageSizes DbSystemInitialStorageSizes { get; }
 
     /// <summary>
     /// gcloud db-systems sub-commands.
     /// </summary>
-    GcloudOracleDatabaseDbSystems DbSystems => throw new System.NotSupportedException();
+    GcloudOracleDatabaseDbSystems DbSystems { get; }
 
     /// <summary>
     /// gcloud db-system-shapes sub-commands.
     /// </summary>
-    GcloudOracleDatabaseDbSystemShapes DbSystemShapes => throw new System.NotSupportedException();
+    GcloudOracleDatabaseDbSystemShapes DbSystemShapes { get; }
 
     /// <summary>
     /// gcloud db-versions sub-commands.
     /// </summary>
-    GcloudOracleDatabaseDbVersions DbVersions => throw new System.NotSupportedException();
+    GcloudOracleDatabaseDbVersions DbVersions { get; }
 
     /// <summary>
     /// gcloud entitlements sub-commands.
     /// </summary>
-    GcloudOracleDatabaseEntitlements Entitlements => throw new System.NotSupportedException();
+    GcloudOracleDatabaseEntitlements Entitlements { get; }
 
     /// <summary>
     /// gcloud exadb-vm-clusters sub-commands.
     /// </summary>
-    GcloudOracleDatabaseExadbVmClusters ExadbVmClusters => throw new System.NotSupportedException();
+    GcloudOracleDatabaseExadbVmClusters ExadbVmClusters { get; }
 
     /// <summary>
     /// gcloud exascale-db-storage-vaults sub-commands.
     /// </summary>
-    GcloudOracleDatabaseExascaleDbStorageVaults ExascaleDbStorageVaults => throw new System.NotSupportedException();
+    GcloudOracleDatabaseExascaleDbStorageVaults ExascaleDbStorageVaults { get; }
 
     /// <summary>
     /// gcloud gi-versions sub-commands.
     /// </summary>
-    GcloudOracleDatabaseGiVersions GiVersions => throw new System.NotSupportedException();
+    GcloudOracleDatabaseGiVersions GiVersions { get; }
 
     /// <summary>
     /// gcloud goldengate-connection-assignments sub-commands.
     /// </summary>
-    GcloudOracleDatabaseGoldengateConnectionAssignments GoldengateConnectionAssignments => throw new System.NotSupportedException();
+    GcloudOracleDatabaseGoldengateConnectionAssignments GoldengateConnectionAssignments { get; }
 
     /// <summary>
     /// gcloud goldengate-connections sub-commands.
     /// </summary>
-    GcloudOracleDatabaseGoldengateConnections GoldengateConnections => throw new System.NotSupportedException();
+    GcloudOracleDatabaseGoldengateConnections GoldengateConnections { get; }
 
     /// <summary>
     /// gcloud goldengate-connection-types sub-commands.
     /// </summary>
-    GcloudOracleDatabaseGoldengateConnectionTypes GoldengateConnectionTypes => throw new System.NotSupportedException();
+    GcloudOracleDatabaseGoldengateConnectionTypes GoldengateConnectionTypes { get; }
 
     /// <summary>
     /// gcloud goldengate-deployment-environments sub-commands.
     /// </summary>
-    GcloudOracleDatabaseGoldengateDeploymentEnvironments GoldengateDeploymentEnvironments => throw new System.NotSupportedException();
+    GcloudOracleDatabaseGoldengateDeploymentEnvironments GoldengateDeploymentEnvironments { get; }
 
     /// <summary>
     /// gcloud goldengate-deployments sub-commands.
     /// </summary>
-    GcloudOracleDatabaseGoldengateDeployments GoldengateDeployments => throw new System.NotSupportedException();
+    GcloudOracleDatabaseGoldengateDeployments GoldengateDeployments { get; }
 
     /// <summary>
     /// gcloud goldengate-deployment-types sub-commands.
     /// </summary>
-    GcloudOracleDatabaseGoldengateDeploymentTypes GoldengateDeploymentTypes => throw new System.NotSupportedException();
+    GcloudOracleDatabaseGoldengateDeploymentTypes GoldengateDeploymentTypes { get; }
 
     /// <summary>
     /// gcloud goldengate-deployment-versions sub-commands.
     /// </summary>
-    GcloudOracleDatabaseGoldengateDeploymentVersions GoldengateDeploymentVersions => throw new System.NotSupportedException();
+    GcloudOracleDatabaseGoldengateDeploymentVersions GoldengateDeploymentVersions { get; }
 
     /// <summary>
     /// gcloud odb-networks sub-commands.
     /// </summary>
-    GcloudOracleDatabaseOdbNetworks OdbNetworks => throw new System.NotSupportedException();
+    GcloudOracleDatabaseOdbNetworks OdbNetworks { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudOracleDatabaseOperations Operations => throw new System.NotSupportedException();
+    GcloudOracleDatabaseOperations Operations { get; }
 
     /// <summary>
     /// gcloud pluggable-databases sub-commands.
     /// </summary>
-    GcloudOracleDatabasePluggableDatabases PluggableDatabases => throw new System.NotSupportedException();
+    GcloudOracleDatabasePluggableDatabases PluggableDatabases { get; }
 
     /// <summary>
     /// manage Oracle Database resources
@@ -158,7 +158,6 @@ public interface IGcloudOracleDatabase
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudOracleDatabaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudOracleDatabaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

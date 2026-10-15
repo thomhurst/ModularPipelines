@@ -24,27 +24,27 @@ public interface IGcloudComplianceManager
     /// <summary>
     /// gcloud cloud-control-deployments sub-commands.
     /// </summary>
-    GcloudComplianceManagerCloudControlDeployments CloudControlDeployments => throw new System.NotSupportedException();
+    GcloudComplianceManagerCloudControlDeployments CloudControlDeployments { get; }
 
     /// <summary>
     /// gcloud cloud-controls sub-commands.
     /// </summary>
-    GcloudComplianceManagerCloudControls CloudControls => throw new System.NotSupportedException();
+    GcloudComplianceManagerCloudControls CloudControls { get; }
 
     /// <summary>
     /// gcloud framework-deployments sub-commands.
     /// </summary>
-    GcloudComplianceManagerFrameworkDeployments FrameworkDeployments => throw new System.NotSupportedException();
+    GcloudComplianceManagerFrameworkDeployments FrameworkDeployments { get; }
 
     /// <summary>
     /// gcloud frameworks sub-commands.
     /// </summary>
-    GcloudComplianceManagerFrameworks Frameworks => throw new System.NotSupportedException();
+    GcloudComplianceManagerFrameworks Frameworks { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudComplianceManagerOperations Operations => throw new System.NotSupportedException();
+    GcloudComplianceManagerOperations Operations { get; }
 
     /// <summary>
     /// manage Compliance Manager resources
@@ -53,7 +53,6 @@ public interface IGcloudComplianceManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudComplianceManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudComplianceManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

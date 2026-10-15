@@ -24,32 +24,32 @@ public interface IGcloudDatabaseMigration
     /// <summary>
     /// gcloud connection-profiles sub-commands.
     /// </summary>
-    GcloudDatabaseMigrationConnectionProfiles ConnectionProfiles => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationConnectionProfiles ConnectionProfiles { get; }
 
     /// <summary>
     /// gcloud conversion-workspaces sub-commands.
     /// </summary>
-    GcloudDatabaseMigrationConversionWorkspaces ConversionWorkspaces => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationConversionWorkspaces ConversionWorkspaces { get; }
 
     /// <summary>
     /// gcloud migration-jobs sub-commands.
     /// </summary>
-    GcloudDatabaseMigrationMigrationJobs MigrationJobs => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationMigrationJobs MigrationJobs { get; }
 
     /// <summary>
     /// gcloud objects sub-commands.
     /// </summary>
-    GcloudDatabaseMigrationObjects Objects => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationObjects Objects { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDatabaseMigrationOperations Operations => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationOperations Operations { get; }
 
     /// <summary>
     /// gcloud private-connections sub-commands.
     /// </summary>
-    GcloudDatabaseMigrationPrivateConnections PrivateConnections => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationPrivateConnections PrivateConnections { get; }
 
     /// <summary>
     /// manage Database Migration Service resources
@@ -58,7 +58,6 @@ public interface IGcloudDatabaseMigration
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDatabaseMigrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDatabaseMigrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

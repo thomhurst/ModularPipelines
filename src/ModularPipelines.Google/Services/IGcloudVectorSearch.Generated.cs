@@ -24,12 +24,12 @@ public interface IGcloudVectorSearch
     /// <summary>
     /// gcloud collections sub-commands.
     /// </summary>
-    GcloudVectorSearchCollections Collections => throw new System.NotSupportedException();
+    GcloudVectorSearchCollections Collections { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudVectorSearchOperations Operations => throw new System.NotSupportedException();
+    GcloudVectorSearchOperations Operations { get; }
 
     /// <summary>
     /// manage Vector Search data objects
@@ -38,7 +38,6 @@ public interface IGcloudVectorSearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudVectorSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudVectorSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

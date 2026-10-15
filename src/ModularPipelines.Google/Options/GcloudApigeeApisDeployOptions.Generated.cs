@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// deploy an API proxy to an environment
+/// deploy an Apigee API proxy to an environment
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

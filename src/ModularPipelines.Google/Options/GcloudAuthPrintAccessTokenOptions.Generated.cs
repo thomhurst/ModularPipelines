@@ -31,6 +31,6 @@ public record GcloudAuthPrintAccessTokenOptions : GcloudOptions
     /// Account to get the access token for. If not specified, the current active account will be used.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Account { get; set; }
+    public string? AuthAccount { get; set; }
 
 }

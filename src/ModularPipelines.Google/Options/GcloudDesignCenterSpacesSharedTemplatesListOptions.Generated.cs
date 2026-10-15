@@ -38,7 +38,11 @@ public record GcloudDesignCenterSpacesSharedTemplatesListOptions : GcloudOptions
     /// Space resource - The parent space for which shared templates are listed in the following format: projects/$project/locations/$location/spaces/$space The following arguments in this group can be used to specify the attributes of this resource. Exactly one of these must be specified: Or at least one of these can be specified: Specify --project and/or --space for custom shared templates. The project id of the space resource. To set the project attribute: ▫ provide the argument --space on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// The location id of the space resource. To set the location attribute: ◆ provide the argument --space on the command line with a fully specified name; ◆ provide the argument --location on the command line.

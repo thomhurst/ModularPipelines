@@ -24,22 +24,22 @@ public interface IGcloudTransfer
     /// <summary>
     /// gcloud agent-pools sub-commands.
     /// </summary>
-    GcloudTransferAgentPools AgentPools => throw new System.NotSupportedException();
+    GcloudTransferAgentPools AgentPools { get; }
 
     /// <summary>
     /// gcloud agents sub-commands.
     /// </summary>
-    GcloudTransferAgents Agents => throw new System.NotSupportedException();
+    GcloudTransferAgents Agents { get; }
 
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudTransferJobs Jobs => throw new System.NotSupportedException();
+    GcloudTransferJobs Jobs { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudTransferOperations Operations => throw new System.NotSupportedException();
+    GcloudTransferOperations Operations { get; }
 
     /// <summary>
     /// manage Transfer Service jobs, operations, and agents
@@ -48,8 +48,7 @@ public interface IGcloudTransfer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudTransferOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudTransferOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// authorize an account for all Storage Transfer     Service features
@@ -58,7 +57,6 @@ public interface IGcloudTransfer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeAsync(GcloudTransferAuthorizeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeAsync(GcloudTransferAuthorizeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -24,37 +24,37 @@ public interface IGcloudDataproc
     /// <summary>
     /// gcloud autoscaling-policies sub-commands.
     /// </summary>
-    GcloudDataprocAutoscalingPolicies AutoscalingPolicies => throw new System.NotSupportedException();
+    GcloudDataprocAutoscalingPolicies AutoscalingPolicies { get; }
 
     /// <summary>
     /// gcloud batches sub-commands.
     /// </summary>
-    GcloudDataprocBatches Batches => throw new System.NotSupportedException();
+    GcloudDataprocBatches Batches { get; }
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudDataprocClusters Clusters => throw new System.NotSupportedException();
+    GcloudDataprocClusters Clusters { get; }
 
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudDataprocJobs Jobs => throw new System.NotSupportedException();
+    GcloudDataprocJobs Jobs { get; }
 
     /// <summary>
     /// gcloud node-groups sub-commands.
     /// </summary>
-    GcloudDataprocNodeGroups NodeGroups => throw new System.NotSupportedException();
+    GcloudDataprocNodeGroups NodeGroups { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDataprocOperations Operations => throw new System.NotSupportedException();
+    GcloudDataprocOperations Operations { get; }
 
     /// <summary>
     /// gcloud workflow-templates sub-commands.
     /// </summary>
-    GcloudDataprocWorkflowTemplates WorkflowTemplates => throw new System.NotSupportedException();
+    GcloudDataprocWorkflowTemplates WorkflowTemplates { get; }
 
     /// <summary>
     /// create and manage Google Cloud Dataproc clusters and jobs
@@ -63,7 +63,6 @@ public interface IGcloudDataproc
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDataprocOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDataprocOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

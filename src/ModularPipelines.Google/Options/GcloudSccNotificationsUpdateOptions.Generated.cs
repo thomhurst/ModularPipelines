@@ -85,7 +85,11 @@ public record GcloudSccNotificationsUpdateOptions : GcloudOptions, IValidatableO
     /// At most one of these can be specified: Project (ID or number) where the notification config resides. Formatted as projects/789 or just 789.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// The ID of the notification config. Formatted as "organizations/123/notificationConfigs/456" or just "456".

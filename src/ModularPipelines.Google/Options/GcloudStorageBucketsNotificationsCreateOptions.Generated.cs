@@ -43,37 +43,37 @@ public record GcloudStorageBucketsNotificationsCreateOptions : GcloudOptions
     /// <summary>
     /// Specifies key:value attributes that are appended to the set of attributes sent to Cloud Pub/Sub for all events associated with this notification configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--custom-attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--custom-attributes", ShortForm = "-m", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomAttributes { get; set; }
 
     /// <summary>
     /// Specify event type filters for this notification configuration. Cloud Storage will send notifications of only these types. By default, Cloud Storage sends notifications for all event types. * OBJECT_FINALIZE: An object has been created. * OBJECT_METADATA_UPDATE: The metadata of an object has changed. * OBJECT_DELETE: An object has been permanently deleted. * OBJECT_ARCHIVE: A live version of an object has become a noncurrent version. NOTIFICATION_EVENT_TYPE must be one of: OBJECT_ARCHIVE, OBJECT_DELETE, OBJECT_FINALIZE, OBJECT_METADATA_UPDATE.
     /// </summary>
-    [CliOption("--event-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--event-types", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<GcloudStorageBucketsNotificationsCreateEventTypes>? EventTypes { get; set; }
 
     /// <summary>
     /// Specifies a prefix path for this notification configuration. Cloud Storage will send notifications for only objects in the bucket whose names begin with the prefix.
     /// </summary>
-    [CliOption("--object-prefix", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--object-prefix", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? ObjectPrefix { get; set; }
 
     /// <summary>
     /// Specifies the payload format of notification messages. Notification details are available in the message attributes. 'none' sends no payload. PAYLOAD_FORMAT must be one of: json, none.
     /// </summary>
-    [CliOption("--payload-format", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--payload-format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public GcloudStorageBucketsNotificationsCreatePayloadFormat? PayloadFormat { get; set; }
 
     /// <summary>
     /// Skips creation and permission assignment of the Cloud Pub/Sub topic. This is useful if the caller does not have permission to access the topic in question, or if the topic already exists and has the appropriate publish permission assigned.
     /// </summary>
-    [CliFlag("--skip-topic-setup")]
+    [CliFlag("--skip-topic-setup", ShortForm = "-s")]
     public bool? SkipTopicSetup { get; set; }
 
     /// <summary>
     /// Specifies the Cloud Pub/Sub topic to send notifications to. If not specified, this command chooses a topic whose project is your default project and whose ID is the same as the Cloud Storage bucket name.
     /// </summary>
-    [CliOption("--topic", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--topic", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Topic { get; set; }
 
     /// <summary>

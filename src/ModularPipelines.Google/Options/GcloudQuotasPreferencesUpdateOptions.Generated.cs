@@ -89,7 +89,11 @@ public record GcloudQuotasPreferencesUpdateOptions : GcloudOptions, IValidatable
     /// Exactly one of these must be specified: Project of the quota preference to update.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// If specified, allows you to reduce your effective limit by more than 10 percent. Default is false.

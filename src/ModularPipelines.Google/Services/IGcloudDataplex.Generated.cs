@@ -24,72 +24,77 @@ public interface IGcloudDataplex
     /// <summary>
     /// gcloud aspect-types sub-commands.
     /// </summary>
-    GcloudDataplexAspectTypes AspectTypes => throw new System.NotSupportedException();
+    GcloudDataplexAspectTypes AspectTypes { get; }
 
     /// <summary>
     /// gcloud assets sub-commands.
     /// </summary>
-    GcloudDataplexAssets Assets => throw new System.NotSupportedException();
+    GcloudDataplexAssets Assets { get; }
 
     /// <summary>
     /// gcloud context sub-commands.
     /// </summary>
-    GcloudDataplexContext Context => throw new System.NotSupportedException();
+    GcloudDataplexContext Context { get; }
+
+    /// <summary>
+    /// gcloud data-products sub-commands.
+    /// </summary>
+    GcloudDataplexDataProducts DataProducts { get; }
 
     /// <summary>
     /// gcloud datascans sub-commands.
     /// </summary>
-    GcloudDataplexDatascans Datascans => throw new System.NotSupportedException();
+    GcloudDataplexDatascans Datascans { get; }
 
     /// <summary>
     /// gcloud dbt sub-commands.
     /// </summary>
-    GcloudDataplexDbt Dbt => throw new System.NotSupportedException();
+    GcloudDataplexDbt Dbt { get; }
 
     /// <summary>
     /// gcloud encryption-config sub-commands.
     /// </summary>
-    GcloudDataplexEncryptionConfig EncryptionConfig => throw new System.NotSupportedException();
+    GcloudDataplexEncryptionConfig EncryptionConfig { get; }
 
     /// <summary>
     /// gcloud entries sub-commands.
     /// </summary>
-    GcloudDataplexEntries Entries => throw new System.NotSupportedException();
+    GcloudDataplexEntries Entries { get; }
 
     /// <summary>
     /// gcloud entry-groups sub-commands.
     /// </summary>
-    GcloudDataplexEntryGroups EntryGroups => throw new System.NotSupportedException();
+    GcloudDataplexEntryGroups EntryGroups { get; }
 
     /// <summary>
     /// gcloud entry-types sub-commands.
     /// </summary>
-    GcloudDataplexEntryTypes EntryTypes => throw new System.NotSupportedException();
+    GcloudDataplexEntryTypes EntryTypes { get; }
 
     /// <summary>
     /// gcloud glossaries sub-commands.
     /// </summary>
-    GcloudDataplexGlossaries Glossaries => throw new System.NotSupportedException();
+    GcloudDataplexGlossaries Glossaries { get; }
 
     /// <summary>
     /// gcloud lakes sub-commands.
     /// </summary>
-    GcloudDataplexLakes Lakes => throw new System.NotSupportedException();
+    GcloudDataplexLakes Lakes { get; }
 
     /// <summary>
     /// gcloud metadata-jobs sub-commands.
     /// </summary>
-    GcloudDataplexMetadataJobs MetadataJobs => throw new System.NotSupportedException();
+    GcloudDataplexMetadataJobs MetadataJobs { get; }
 
     /// <summary>
     /// gcloud tasks sub-commands.
     /// </summary>
-    GcloudDataplexTasks Tasks => throw new System.NotSupportedException();
+    GcloudDataplexTasks Tasks { get; }
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    GcloudDataplexZones Zones => throw new System.NotSupportedException();
+    GcloudDataplexZones Zones { get; }
 
     /// <summary>
     /// manage Dataplex resources
@@ -98,7 +103,6 @@ public interface IGcloudDataplex
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDataplexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDataplexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -60,7 +60,11 @@ public record GcloudEdgeCloudZonesDescribeOptions : GcloudOptions, IValidatableO
     /// Exactly one of these must be specified: Google Cloud Platform project ID for the zone.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// Google Distributed Cloud zone name to describe.

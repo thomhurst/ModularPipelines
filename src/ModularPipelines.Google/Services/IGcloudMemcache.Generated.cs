@@ -24,17 +24,17 @@ public interface IGcloudMemcache
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudMemcacheInstances Instances => throw new System.NotSupportedException();
+    GcloudMemcacheInstances Instances { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudMemcacheOperations Operations => throw new System.NotSupportedException();
+    GcloudMemcacheOperations Operations { get; }
 
     /// <summary>
     /// gcloud regions sub-commands.
     /// </summary>
-    GcloudMemcacheRegions Regions => throw new System.NotSupportedException();
+    GcloudMemcacheRegions Regions { get; }
 
     /// <summary>
     /// manage Cloud Memorystore Memcached resources
@@ -43,7 +43,6 @@ public interface IGcloudMemcache
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudMemcacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudMemcacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

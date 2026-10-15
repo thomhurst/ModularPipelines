@@ -24,17 +24,17 @@ public interface IGcloudActiveDirectory
     /// <summary>
     /// gcloud domains sub-commands.
     /// </summary>
-    GcloudActiveDirectoryDomains Domains => throw new System.NotSupportedException();
+    GcloudActiveDirectoryDomains Domains { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudActiveDirectoryOperations Operations => throw new System.NotSupportedException();
+    GcloudActiveDirectoryOperations Operations { get; }
 
     /// <summary>
     /// gcloud peerings sub-commands.
     /// </summary>
-    GcloudActiveDirectoryPeerings Peerings => throw new System.NotSupportedException();
+    GcloudActiveDirectoryPeerings Peerings { get; }
 
     /// <summary>
     /// manage Managed Microsoft AD resources
@@ -43,7 +43,6 @@ public interface IGcloudActiveDirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudActiveDirectoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudActiveDirectoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

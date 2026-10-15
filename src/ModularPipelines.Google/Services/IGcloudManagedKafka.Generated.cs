@@ -24,37 +24,37 @@ public interface IGcloudManagedKafka
     /// <summary>
     /// gcloud acls sub-commands.
     /// </summary>
-    GcloudManagedKafkaAcls Acls => throw new System.NotSupportedException();
+    GcloudManagedKafkaAcls Acls { get; }
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudManagedKafkaClusters Clusters => throw new System.NotSupportedException();
+    GcloudManagedKafkaClusters Clusters { get; }
 
     /// <summary>
     /// gcloud connect-clusters sub-commands.
     /// </summary>
-    GcloudManagedKafkaConnectClusters ConnectClusters => throw new System.NotSupportedException();
+    GcloudManagedKafkaConnectClusters ConnectClusters { get; }
 
     /// <summary>
     /// gcloud connectors sub-commands.
     /// </summary>
-    GcloudManagedKafkaConnectors Connectors => throw new System.NotSupportedException();
+    GcloudManagedKafkaConnectors Connectors { get; }
 
     /// <summary>
     /// gcloud consumer-groups sub-commands.
     /// </summary>
-    GcloudManagedKafkaConsumerGroups ConsumerGroups => throw new System.NotSupportedException();
+    GcloudManagedKafkaConsumerGroups ConsumerGroups { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudManagedKafkaOperations Operations => throw new System.NotSupportedException();
+    GcloudManagedKafkaOperations Operations { get; }
 
     /// <summary>
     /// gcloud topics sub-commands.
     /// </summary>
-    GcloudManagedKafkaTopics Topics => throw new System.NotSupportedException();
+    GcloudManagedKafkaTopics Topics { get; }
 
     /// <summary>
     /// administer Managed Service for Apache Kafka     clusters, topics, and consumer groups
@@ -63,7 +63,6 @@ public interface IGcloudManagedKafka
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudManagedKafkaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudManagedKafkaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

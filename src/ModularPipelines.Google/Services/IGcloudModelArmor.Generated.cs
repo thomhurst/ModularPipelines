@@ -24,12 +24,12 @@ public interface IGcloudModelArmor
     /// <summary>
     /// gcloud floorsettings sub-commands.
     /// </summary>
-    GcloudModelArmorFloorsettings Floorsettings => throw new System.NotSupportedException();
+    GcloudModelArmorFloorsettings Floorsettings { get; }
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    GcloudModelArmorTemplates Templates => throw new System.NotSupportedException();
+    GcloudModelArmorTemplates Templates { get; }
 
     /// <summary>
     /// agnostic     security and AI safety measures to mitigate risks associated with the     use of large language models (LLMs)
@@ -38,7 +38,6 @@ public interface IGcloudModelArmor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudModelArmorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudModelArmorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

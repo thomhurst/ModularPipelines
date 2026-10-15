@@ -24,62 +24,62 @@ public interface IGcloudKms
     /// <summary>
     /// gcloud autokey-config sub-commands.
     /// </summary>
-    GcloudKmsAutokeyConfig AutokeyConfig => throw new System.NotSupportedException();
+    GcloudKmsAutokeyConfig AutokeyConfig { get; }
 
     /// <summary>
     /// gcloud ekm-config sub-commands.
     /// </summary>
-    GcloudKmsEkmConfig EkmConfig => throw new System.NotSupportedException();
+    GcloudKmsEkmConfig EkmConfig { get; }
 
     /// <summary>
     /// gcloud ekm-connections sub-commands.
     /// </summary>
-    GcloudKmsEkmConnections EkmConnections => throw new System.NotSupportedException();
+    GcloudKmsEkmConnections EkmConnections { get; }
 
     /// <summary>
     /// gcloud import-jobs sub-commands.
     /// </summary>
-    GcloudKmsImportJobs ImportJobs => throw new System.NotSupportedException();
+    GcloudKmsImportJobs ImportJobs { get; }
 
     /// <summary>
     /// gcloud inventory sub-commands.
     /// </summary>
-    GcloudKmsInventory Inventory => throw new System.NotSupportedException();
+    GcloudKmsInventory Inventory { get; }
 
     /// <summary>
     /// gcloud key-handles sub-commands.
     /// </summary>
-    GcloudKmsKeyHandles KeyHandles => throw new System.NotSupportedException();
+    GcloudKmsKeyHandles KeyHandles { get; }
 
     /// <summary>
     /// gcloud keyrings sub-commands.
     /// </summary>
-    GcloudKmsKeyrings Keyrings => throw new System.NotSupportedException();
+    GcloudKmsKeyrings Keyrings { get; }
 
     /// <summary>
     /// gcloud keys sub-commands.
     /// </summary>
-    GcloudKmsKeys Keys => throw new System.NotSupportedException();
+    GcloudKmsKeys Keys { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudKmsLocations Locations => throw new System.NotSupportedException();
+    GcloudKmsLocations Locations { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudKmsOperations Operations => throw new System.NotSupportedException();
+    GcloudKmsOperations Operations { get; }
 
     /// <summary>
     /// gcloud retired-resources sub-commands.
     /// </summary>
-    GcloudKmsRetiredResources RetiredResources => throw new System.NotSupportedException();
+    GcloudKmsRetiredResources RetiredResources { get; }
 
     /// <summary>
     /// gcloud single-tenant-hsm sub-commands.
     /// </summary>
-    GcloudKmsSingleTenantHsm SingleTenantHsm => throw new System.NotSupportedException();
+    GcloudKmsSingleTenantHsm SingleTenantHsm { get; }
 
     /// <summary>
     /// manage cryptographic keys in the cloud
@@ -88,8 +88,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudKmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudKmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// decrypt an input file using an     asymmetric-encryption key version
@@ -98,8 +97,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AsymmetricDecryptAsync(GcloudKmsAsymmetricDecryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AsymmetricDecryptAsync(GcloudKmsAsymmetricDecryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// sign a user input file using an     asymmetric-signing key version
@@ -108,8 +106,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AsymmetricSignAsync(GcloudKmsAsymmetricSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AsymmetricSignAsync(GcloudKmsAsymmetricSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// decapsulate an input file using a     key-encapsulation key version
@@ -118,8 +115,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DecapsulateAsync(GcloudKmsDecapsulateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DecapsulateAsync(GcloudKmsDecapsulateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// decrypt a ciphertext file using a Cloud KMS key
@@ -128,8 +124,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DecryptAsync(GcloudKmsDecryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DecryptAsync(GcloudKmsDecryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// encrypt a plaintext file using a key
@@ -138,8 +133,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EncryptAsync(GcloudKmsEncryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EncryptAsync(GcloudKmsEncryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// sign a user input file using a MAC key version
@@ -148,8 +142,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MacSignAsync(GcloudKmsMacSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MacSignAsync(GcloudKmsMacSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// verify a user signature file using a MAC key     version
@@ -158,8 +151,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MacVerifyAsync(GcloudKmsMacVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MacVerifyAsync(GcloudKmsMacVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// decrypt a ciphertext file using a raw key
@@ -168,8 +160,7 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RawDecryptAsync(GcloudKmsRawDecryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RawDecryptAsync(GcloudKmsRawDecryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// encrypt a plaintext file using a raw key
@@ -178,7 +169,6 @@ public interface IGcloudKms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RawEncryptAsync(GcloudKmsRawEncryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RawEncryptAsync(GcloudKmsRawEncryptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -39,7 +39,11 @@ public record GcloudStorageIntelligenceFindingsSummarizeOptions : GcloudOptions,
     /// At most one of these can be specified: The project to scope the summary to.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// At most one of these can be specified: The sub-folder to scope the summary to.

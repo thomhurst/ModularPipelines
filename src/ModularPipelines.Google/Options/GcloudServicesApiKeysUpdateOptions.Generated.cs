@@ -93,7 +93,7 @@ public record GcloudServicesApiKeysUpdateOptions : GcloudOptions, IValidatableOb
     public IEnumerable<string>? ApiTarget { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Repeatable. Specify multiple allowed applications. The accepted keys are sha1_fingerprint and package_name.
+    /// At most one of these can be specified: Repeatable. Specify multiple allowed applications. The accepted keys are sha1_fingerprint and package_name. sha1_fingerprint accepts both a 20-byte colon-delimited hex string (e.g. DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09) and a 40-character non-delimited hex string (e.g. DA39A3EE5E6B4B0D3255BFEF95601890AFD80709).
     /// </summary>
     [CliOption("--allowed-application", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedApplication

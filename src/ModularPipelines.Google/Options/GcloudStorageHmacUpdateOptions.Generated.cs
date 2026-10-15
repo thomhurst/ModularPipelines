@@ -54,7 +54,7 @@ public record GcloudStorageHmacUpdateOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// If provided, the update will only be performed if the specified etag matches the etag of the stored key.
     /// </summary>
-    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--etag", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>

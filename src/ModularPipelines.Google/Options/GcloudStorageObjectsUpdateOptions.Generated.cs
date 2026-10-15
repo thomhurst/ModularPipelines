@@ -36,7 +36,7 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     /// <summary>
     /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
-    [CliFlag("--continue-on-error")]
+    [CliFlag("--continue-on-error", ShortForm = "-c")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
@@ -48,13 +48,13 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     /// <summary>
     /// Read the list of objects to update from stdin. No need to enter a source argument if this flag is present. Example: "storage objects update -I --content-type=new-type"
     /// </summary>
-    [CliFlag("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin", ShortForm = "-I")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>
     /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Specify the storage class of the object. Using this flag triggers a rewrite of underlying object data.
     /// </summary>
-    [CliOption("--storage-class", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-class", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? StorageClass { get; set; }
 
     /// <summary>
@@ -78,13 +78,13 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     /// <summary>
     /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
     /// </summary>
-    [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--canned-acl", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public string? CannedAcl { get; set; }
 
     /// <summary>
     /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
-    [CliFlag("--preserve-acl", NegatedName = "--no-preserve-acl")]
+    [CliFlag("--preserve-acl", ShortForm = "-p", NegatedName = "--no-preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>

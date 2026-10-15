@@ -61,7 +61,11 @@ public record GcloudSccManageServicesDescribeOptions : GcloudOptions, IValidatab
     /// Exactly one of these must be specified: Project associated with the custom module.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// If provided, only prints module information for modules specified in the list. Provided as a comma separated list of module names in SCREAMING_SNAKE_CASE format (e.g. WEB_UI_ENABLED, API_KEY_NOT_ROTATED). A single module name is also valid.

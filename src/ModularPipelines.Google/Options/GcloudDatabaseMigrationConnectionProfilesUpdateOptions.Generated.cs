@@ -61,7 +61,7 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public string? CaCertificate { get; set; }
 
     /// <summary>
-    /// x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
+    /// x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--client-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? ClientCertificate { get; set; }
@@ -91,6 +91,12 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public string? DatabaseService { get; set; }
 
     /// <summary>
+    /// The Database Mirroring (DBM) port.
+    /// </summary>
+    [CliOption("--dbm-port", Format = OptionFormat.EqualsSeparated)]
+    public string? DbmPort { get; set; }
+
+    /// <summary>
     /// A user-friendly name for the connection profile. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
@@ -115,11 +121,17 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public string? Port { get; set; }
 
     /// <summary>
-    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
+    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--private-key=$(&lt;/path/to/private_key_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKey { get; set; }
+
+    /// <summary>
+    /// List of SSL flags used for establishing SSL connection to the database. Use an equals sign to separate the flag name and value. By default, flags are separated by commas. Example: --ssl-flags ssl_mode=enable,server_certificate_hostname=server.com. If flag values contain commas (such as RFC 2253 distinguished names for server_certificate_dn), use an alternative delimiter with the ^DELIM^ prefix syntax. Example: --ssl-flags="^;^server_certificate_dn=CN=db.example.com,OU=RDS,O=Amazon.com,C=US". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ssl-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SslFlags { get; set; }
 
     /// <summary>
     /// The type of SSL configuration. SSL_TYPE must be one of: SERVER_ONLY, SERVER_CLIENT, REQUIRED, NONE.

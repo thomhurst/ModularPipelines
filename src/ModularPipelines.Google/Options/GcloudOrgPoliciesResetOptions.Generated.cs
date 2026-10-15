@@ -55,7 +55,11 @@ public record GcloudOrgPoliciesResetOptions : GcloudOptions, IValidatableObject
     /// Resource that is associated with the organization policy. Exactly one of these must be specified: Project ID. Overrides the default core/project property value for this command invocation.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// Field mask used to specify the fields to be overwritten in the policy by the set. The fields specified in the update_mask are relative to the policy, not the full request. The update-mask flag can be empty, or have values policy.spec, policy.dry_run_spec or *. If the policy does not contain the dry_run_spec and update-mask flag is not provided, then it defaults to policy.spec.

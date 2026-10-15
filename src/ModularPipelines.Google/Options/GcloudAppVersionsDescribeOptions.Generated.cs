@@ -46,7 +46,7 @@ public record GcloudAppVersionsDescribeOptions : GcloudOptions
     /// <summary>
     /// The service corresponding to the version to show.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string Service { get; private init; }
 
     /// <summary>

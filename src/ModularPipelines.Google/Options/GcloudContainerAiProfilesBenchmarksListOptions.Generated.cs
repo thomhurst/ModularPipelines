@@ -59,7 +59,11 @@ public record GcloudContainerAiProfilesBenchmarksListOptions : GcloudOptions
     /// The format to print the output in. Default is csvprofile, which displays the profile information in a CSV format, including cost conversions.
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public new string? Format
+    {
+        get => base.Format;
+        set => base.Format = value;
+    }
 
     /// <summary>
     /// The instance type. If not specified, this defaults to any instance type.

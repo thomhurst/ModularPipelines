@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -54,5 +55,11 @@ public record GcloudAssuredWorkloadsListOptions : GcloudOptions
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string Organization { get; private init; }
+
+    /// <summary>
+    /// Assured Workloads API version to use. Options are v1 and v2. Defaults to v1. VERSION must be one of: v1, v2.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAssuredWorkloadsListVersion? Version { get; set; }
 
 }

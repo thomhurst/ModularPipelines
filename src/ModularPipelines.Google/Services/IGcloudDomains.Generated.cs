@@ -24,7 +24,7 @@ public interface IGcloudDomains
     /// <summary>
     /// gcloud registrations sub-commands.
     /// </summary>
-    GcloudDomainsRegistrations Registrations => throw new System.NotSupportedException();
+    GcloudDomainsRegistrations Registrations { get; }
 
     /// <summary>
     /// manage domains for your Google Cloud projects
@@ -33,8 +33,7 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// lists the user's verified domains
@@ -43,8 +42,7 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserVerifiedAsync(GcloudDomainsListUserVerifiedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserVerifiedAsync(GcloudDomainsListUserVerifiedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// browser workflow
@@ -53,7 +51,6 @@ public interface IGcloudDomains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyAsync(GcloudDomainsVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyAsync(GcloudDomainsVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

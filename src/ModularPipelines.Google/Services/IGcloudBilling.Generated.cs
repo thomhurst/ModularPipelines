@@ -24,17 +24,17 @@ public interface IGcloudBilling
     /// <summary>
     /// gcloud accounts sub-commands.
     /// </summary>
-    GcloudBillingAccounts Accounts => throw new System.NotSupportedException();
+    GcloudBillingAccounts Accounts { get; }
 
     /// <summary>
     /// gcloud budgets sub-commands.
     /// </summary>
-    GcloudBillingBudgets Budgets => throw new System.NotSupportedException();
+    GcloudBillingBudgets Budgets { get; }
 
     /// <summary>
     /// gcloud projects sub-commands.
     /// </summary>
-    GcloudBillingProjects Projects => throw new System.NotSupportedException();
+    GcloudBillingProjects Projects { get; }
 
     /// <summary>
     /// manage billing accounts and associate them with projects
@@ -43,7 +43,6 @@ public interface IGcloudBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudBillingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudBillingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

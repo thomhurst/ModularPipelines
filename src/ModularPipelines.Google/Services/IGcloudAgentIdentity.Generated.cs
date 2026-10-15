@@ -24,12 +24,12 @@ public interface IGcloudAgentIdentity
     /// <summary>
     /// gcloud access-summaries sub-commands.
     /// </summary>
-    GcloudAgentIdentityAccessSummaries AccessSummaries => throw new System.NotSupportedException();
+    GcloudAgentIdentityAccessSummaries AccessSummaries { get; }
 
     /// <summary>
     /// gcloud auth-providers sub-commands.
     /// </summary>
-    GcloudAgentIdentityAuthProviders AuthProviders => throw new System.NotSupportedException();
+    GcloudAgentIdentityAuthProviders AuthProviders { get; }
 
     /// <summary>
     /// manage Agent Identity resources
@@ -38,7 +38,6 @@ public interface IGcloudAgentIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAgentIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAgentIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

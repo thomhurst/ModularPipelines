@@ -24,57 +24,57 @@ public interface IGcloudEventarc
     /// <summary>
     /// gcloud audit-logs-provider sub-commands.
     /// </summary>
-    GcloudEventarcAuditLogsProvider AuditLogsProvider => throw new System.NotSupportedException();
+    GcloudEventarcAuditLogsProvider AuditLogsProvider { get; }
 
     /// <summary>
     /// gcloud channel-connections sub-commands.
     /// </summary>
-    GcloudEventarcChannelConnections ChannelConnections => throw new System.NotSupportedException();
+    GcloudEventarcChannelConnections ChannelConnections { get; }
 
     /// <summary>
     /// gcloud channels sub-commands.
     /// </summary>
-    GcloudEventarcChannels Channels => throw new System.NotSupportedException();
+    GcloudEventarcChannels Channels { get; }
 
     /// <summary>
     /// gcloud enrollments sub-commands.
     /// </summary>
-    GcloudEventarcEnrollments Enrollments => throw new System.NotSupportedException();
+    GcloudEventarcEnrollments Enrollments { get; }
 
     /// <summary>
     /// gcloud google-api-sources sub-commands.
     /// </summary>
-    GcloudEventarcGoogleApiSources GoogleApiSources => throw new System.NotSupportedException();
+    GcloudEventarcGoogleApiSources GoogleApiSources { get; }
 
     /// <summary>
     /// gcloud google-channels sub-commands.
     /// </summary>
-    GcloudEventarcGoogleChannels GoogleChannels => throw new System.NotSupportedException();
+    GcloudEventarcGoogleChannels GoogleChannels { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudEventarcLocations Locations => throw new System.NotSupportedException();
+    GcloudEventarcLocations Locations { get; }
 
     /// <summary>
     /// gcloud message-buses sub-commands.
     /// </summary>
-    GcloudEventarcMessageBuses MessageBuses => throw new System.NotSupportedException();
+    GcloudEventarcMessageBuses MessageBuses { get; }
 
     /// <summary>
     /// gcloud pipelines sub-commands.
     /// </summary>
-    GcloudEventarcPipelines Pipelines => throw new System.NotSupportedException();
+    GcloudEventarcPipelines Pipelines { get; }
 
     /// <summary>
     /// gcloud providers sub-commands.
     /// </summary>
-    GcloudEventarcProviders Providers => throw new System.NotSupportedException();
+    GcloudEventarcProviders Providers { get; }
 
     /// <summary>
     /// gcloud triggers sub-commands.
     /// </summary>
-    GcloudEventarcTriggers Triggers => throw new System.NotSupportedException();
+    GcloudEventarcTriggers Triggers { get; }
 
     /// <summary>
     /// manage Eventarc resources
@@ -83,7 +83,6 @@ public interface IGcloudEventarc
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudEventarcOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudEventarcOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

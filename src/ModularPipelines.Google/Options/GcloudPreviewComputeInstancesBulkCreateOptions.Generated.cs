@@ -221,18 +221,6 @@ public record GcloudPreviewComputeInstancesBulkCreateOptions : GcloudOptions, IV
     public bool? IdentityCertificate { get; set; }
 
     /// <summary>
-    /// Named selection of machine types with an optional rank. For example, --instance-selection="name=instance-selection-1,machine-type=e2-standard-8,machine-type=t2d-standard-8,rank=0"
-    /// </summary>
-    [CliOption("--instance-selection", Format = OptionFormat.EqualsSeparated)]
-    public string? InstanceSelection { get; set; }
-
-    /// <summary>
-    /// A single selection of machine types. If not provided, the machine type specified in the instance template is used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
-    /// </summary>
-    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<string>? InstanceSelectionMachineTypes { get; set; }
-
-    /// <summary>
     /// Specifies the termination action that will be taken upon VM preemption (--provisioning-model=SPOT) or automatic instance termination (--max-run-duration or --termination-time). INSTANCE_TERMINATION_ACTION must be one of: DELETE Permanently delete the VM. STOP Default only for Spot VMs. Stop the VM without preserving memory. The VM can be restarted later.
     /// </summary>
     [CliOption("--instance-termination-action", Format = OptionFormat.EqualsSeparated)]
@@ -287,7 +275,7 @@ public record GcloudPreviewComputeInstancesBulkCreateOptions : GcloudOptions, IV
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// Same as --metadata except that the value for the entry will be read from a local file. A value can be read from standard input by specifying ``-'' as the file path. This is useful for values that are too large such as startup-script contents. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFromFile { get; set; }
@@ -545,6 +533,68 @@ public record GcloudPreviewComputeInstancesBulkCreateOptions : GcloudOptions, IV
     public string? SourceSnapshot { get; set; }
 
     /// <summary>
+    /// At most one of these can be specified: Instance flexibility configuration containing the named selections of machine types with optional ranks. This flag can contain multiple instance selections. Use this flag to specify additional instance overrides, such as minimum CPU platform and disks. For example, --instance-flexibility-policy={"instanceSelections":{"instance-selection-1":{"rank":1,"machineTypes":["e2-standard-8","n1-standard-1"],"minCpuPlatform":"MIN_CPU_PLATFORM" ,"disks":[{"deviceName":"disk-name","boot":true}]},{"instance-selection-2":{"rank":2,"machineTypes":["n1-standard-2"]}}}} Instead of --instance-flexibility-policy flag, you can also use one of the following flags to specify instance selections. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instance-flexibility-policy", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? InstanceFlexibilityPolicy
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __InstanceFlexibilityPolicySnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __InstanceFlexibilityPolicySnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Named selection of machine types with optional rank. Repeat this flag for each selection of instances. You can use this flag for overriding minimum CPU platform but not disks. For example, --instance-selection="name=instance-selection-1,machine-type=e2-standard-8,machine-type=t2d-standard-8,rank=0,min-cpu-platform=MIN_CPU_PLATFORM"
+    /// </summary>
+    [CliOption("--instance-selection", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceSelection { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: A single selection of machine types. If not provided, the machine type specified in the instance template is used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? InstanceSelectionMachineTypes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __InstanceSelectionMachineTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __InstanceSelectionMachineTypesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
     /// Maintenance Behavior. At most one of these can be specified: (DEPRECATED) Specifies the behavior of the VMs when their host machines undergo maintenance. The default is MIGRATE. For more information, see https://cloud.google.com/compute/docs/instances/host-maintenance-options. The --maintenance-policy flag is now deprecated. Please use --on-host-maintenance instead. MAINTENANCE_POLICY must be one of: MIGRATE The instances should be migrated to a new host. This will temporarily impact the performance of instances during a migration event. TERMINATE The instances should be terminated.
     /// </summary>
     [CliOption("--maintenance-policy", Format = OptionFormat.EqualsSeparated)]
@@ -656,6 +706,10 @@ public record GcloudPreviewComputeInstancesBulkCreateOptions : GcloudOptions, IV
         if ((!string.IsNullOrWhiteSpace(Image) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ImageFamily) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceSnapshot) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of Image, ImageFamily, or SourceSnapshot may be specified.", [nameof(Image), nameof(ImageFamily), nameof(SourceSnapshot)]);
+        }
+        if ((((object?)InstanceFlexibilityPolicy is global::System.Collections.Generic.IEnumerable<char> ? (object?)InstanceFlexibilityPolicy is not string || !string.IsNullOrWhiteSpace(InstanceFlexibilityPolicy?.ToString()) : ((object?)InstanceFlexibilityPolicy is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InstanceFlexibilityPolicy, static item => item is not null) : (InstanceFlexibilityPolicy is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InstanceFlexibilityPolicy), static item => item is not null)))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(InstanceSelection) || ((object?)InstanceSelectionMachineTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)InstanceSelectionMachineTypes is not string || !string.IsNullOrWhiteSpace(InstanceSelectionMachineTypes?.ToString()) : ((object?)InstanceSelectionMachineTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InstanceSelectionMachineTypes, static item => item is not null) : (InstanceSelectionMachineTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InstanceSelectionMachineTypes), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InstanceFlexibilityPolicy or (InstanceSelection or InstanceSelectionMachineTypes) may be specified.", [nameof(InstanceFlexibilityPolicy), nameof(InstanceSelection), nameof(InstanceSelectionMachineTypes)]);
         }
         if ((!string.IsNullOrWhiteSpace(MaintenancePolicy) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OnHostMaintenance) ? 1 : 0) > 1)
         {

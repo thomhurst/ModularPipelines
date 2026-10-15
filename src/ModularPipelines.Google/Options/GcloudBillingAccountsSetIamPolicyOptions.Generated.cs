@@ -24,22 +24,22 @@ public record GcloudBillingAccountsSetIamPolicyOptions : GcloudOptions
     /// <summary>
     /// set the IAM policy for a Cloud     Billing account
     /// </summary>
-    /// <param name="Account">Account resource - The Cloud Billing account for which to display the IAM policy. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.</param>
+    /// <param name="AccountsAccount">Account resource - The Cloud Billing account for which to display the IAM policy. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.</param>
     /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
     public GcloudBillingAccountsSetIamPolicyOptions(
-        string Account,
+        string AccountsAccount,
         string PolicyFile
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Account);
-        this.Account = Account;
+        global::System.ArgumentNullException.ThrowIfNull(AccountsAccount);
+        this.AccountsAccount = AccountsAccount;
         global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
         this.PolicyFile = PolicyFile;
     }
 
-    public void Deconstruct(out string Account, out string PolicyFile)
+    public void Deconstruct(out string AccountsAccount, out string PolicyFile)
     {
-        Account = this.Account;
+        AccountsAccount = this.AccountsAccount;
         PolicyFile = this.PolicyFile;
     }
 
@@ -47,7 +47,7 @@ public record GcloudBillingAccountsSetIamPolicyOptions : GcloudOptions
     /// Account resource - The Cloud Billing account for which to display the IAM policy. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string Account { get; private init; }
+    public string AccountsAccount { get; private init; }
 
     /// <summary>
     /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).

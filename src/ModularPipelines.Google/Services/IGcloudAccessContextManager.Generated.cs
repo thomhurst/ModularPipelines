@@ -24,37 +24,37 @@ public interface IGcloudAccessContextManager
     /// <summary>
     /// gcloud authorized-orgs sub-commands.
     /// </summary>
-    GcloudAccessContextManagerAuthorizedOrgs AuthorizedOrgs => throw new System.NotSupportedException();
+    GcloudAccessContextManagerAuthorizedOrgs AuthorizedOrgs { get; }
 
     /// <summary>
     /// gcloud cloud-bindings sub-commands.
     /// </summary>
-    GcloudAccessContextManagerCloudBindings CloudBindings => throw new System.NotSupportedException();
+    GcloudAccessContextManagerCloudBindings CloudBindings { get; }
 
     /// <summary>
     /// gcloud levels sub-commands.
     /// </summary>
-    GcloudAccessContextManagerLevels Levels => throw new System.NotSupportedException();
+    GcloudAccessContextManagerLevels Levels { get; }
 
     /// <summary>
     /// gcloud perimeters sub-commands.
     /// </summary>
-    GcloudAccessContextManagerPerimeters Perimeters => throw new System.NotSupportedException();
+    GcloudAccessContextManagerPerimeters Perimeters { get; }
 
     /// <summary>
     /// gcloud policies sub-commands.
     /// </summary>
-    GcloudAccessContextManagerPolicies Policies => throw new System.NotSupportedException();
+    GcloudAccessContextManagerPolicies Policies { get; }
 
     /// <summary>
     /// gcloud supported-permissions sub-commands.
     /// </summary>
-    GcloudAccessContextManagerSupportedPermissions SupportedPermissions => throw new System.NotSupportedException();
+    GcloudAccessContextManagerSupportedPermissions SupportedPermissions { get; }
 
     /// <summary>
     /// gcloud supported-services sub-commands.
     /// </summary>
-    GcloudAccessContextManagerSupportedServices SupportedServices => throw new System.NotSupportedException();
+    GcloudAccessContextManagerSupportedServices SupportedServices { get; }
 
     /// <summary>
     /// manage Access Context Manager resources
@@ -63,8 +63,7 @@ public interface IGcloudAccessContextManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAccessContextManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAccessContextManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// look up the     configured VPC Service Controls service perimeter for a resource
@@ -73,7 +72,6 @@ public interface IGcloudAccessContextManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LookupConfiguredPerimeterAsync(GcloudAccessContextManagerLookupConfiguredPerimeterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LookupConfiguredPerimeterAsync(GcloudAccessContextManagerLookupConfiguredPerimeterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -24,13 +24,13 @@ public record GcloudAppInstancesDisableDebugOptions : GcloudOptions
     /// <summary>
     /// If specified, only match instances belonging to the given service. This affects both interactive and non-interactive selection.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
     /// <summary>
     /// If specified, only match instances belonging to the given version. This affects both interactive and non-interactive selection.
     /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--version", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
     /// <summary>

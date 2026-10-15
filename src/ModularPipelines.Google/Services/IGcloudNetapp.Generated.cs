@@ -24,47 +24,47 @@ public interface IGcloudNetapp
     /// <summary>
     /// gcloud active-directories sub-commands.
     /// </summary>
-    GcloudNetappActiveDirectories ActiveDirectories => throw new System.NotSupportedException();
+    GcloudNetappActiveDirectories ActiveDirectories { get; }
 
     /// <summary>
     /// gcloud backup-policies sub-commands.
     /// </summary>
-    GcloudNetappBackupPolicies BackupPolicies => throw new System.NotSupportedException();
+    GcloudNetappBackupPolicies BackupPolicies { get; }
 
     /// <summary>
     /// gcloud backup-vaults sub-commands.
     /// </summary>
-    GcloudNetappBackupVaults BackupVaults => throw new System.NotSupportedException();
+    GcloudNetappBackupVaults BackupVaults { get; }
 
     /// <summary>
     /// gcloud host-groups sub-commands.
     /// </summary>
-    GcloudNetappHostGroups HostGroups => throw new System.NotSupportedException();
+    GcloudNetappHostGroups HostGroups { get; }
 
     /// <summary>
     /// gcloud kms-configs sub-commands.
     /// </summary>
-    GcloudNetappKmsConfigs KmsConfigs => throw new System.NotSupportedException();
+    GcloudNetappKmsConfigs KmsConfigs { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudNetappLocations Locations => throw new System.NotSupportedException();
+    GcloudNetappLocations Locations { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetappOperations Operations => throw new System.NotSupportedException();
+    GcloudNetappOperations Operations { get; }
 
     /// <summary>
     /// gcloud storage-pools sub-commands.
     /// </summary>
-    GcloudNetappStoragePools StoragePools => throw new System.NotSupportedException();
+    GcloudNetappStoragePools StoragePools { get; }
 
     /// <summary>
     /// gcloud volumes sub-commands.
     /// </summary>
-    GcloudNetappVolumes Volumes => throw new System.NotSupportedException();
+    GcloudNetappVolumes Volumes { get; }
 
     /// <summary>
     /// create and manipulate Cloud NetApp Files resources
@@ -73,7 +73,6 @@ public interface IGcloudNetapp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudNetappOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudNetappOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

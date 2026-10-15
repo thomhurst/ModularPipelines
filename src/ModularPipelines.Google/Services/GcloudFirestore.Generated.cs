@@ -21,6 +21,7 @@ public class GcloudFirestore : IGcloudFirestore
 {
     private readonly ICommandContext _command;
     private GcloudFirestoreBackups? _backups;
+    private GcloudFirestoreChangeStreams? _changeStreams;
     private GcloudFirestoreDatabases? _databases;
     private GcloudFirestoreFields? _fields;
     private GcloudFirestoreIndexes? _indexes;
@@ -42,6 +43,11 @@ public class GcloudFirestore : IGcloudFirestore
     /// gcloud backups sub-commands.
     /// </summary>
     public GcloudFirestoreBackups Backups => _backups ??= new GcloudFirestoreBackups(_command);
+
+    /// <summary>
+    /// gcloud change-streams sub-commands.
+    /// </summary>
+    public GcloudFirestoreChangeStreams ChangeStreams => _changeStreams ??= new GcloudFirestoreChangeStreams(_command);
 
     /// <summary>
     /// gcloud databases sub-commands.

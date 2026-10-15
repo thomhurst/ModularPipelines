@@ -24,32 +24,32 @@ public interface IGcloudAgentRegistry
     /// <summary>
     /// gcloud agents sub-commands.
     /// </summary>
-    GcloudAgentRegistryAgents Agents => throw new System.NotSupportedException();
+    GcloudAgentRegistryAgents Agents { get; }
 
     /// <summary>
     /// gcloud bindings sub-commands.
     /// </summary>
-    GcloudAgentRegistryBindings Bindings => throw new System.NotSupportedException();
+    GcloudAgentRegistryBindings Bindings { get; }
 
     /// <summary>
     /// gcloud endpoints sub-commands.
     /// </summary>
-    GcloudAgentRegistryEndpoints Endpoints => throw new System.NotSupportedException();
+    GcloudAgentRegistryEndpoints Endpoints { get; }
 
     /// <summary>
     /// gcloud mcp-servers sub-commands.
     /// </summary>
-    GcloudAgentRegistryMcpServers McpServers => throw new System.NotSupportedException();
+    GcloudAgentRegistryMcpServers McpServers { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAgentRegistryOperations Operations => throw new System.NotSupportedException();
+    GcloudAgentRegistryOperations Operations { get; }
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudAgentRegistryServices Services => throw new System.NotSupportedException();
+    GcloudAgentRegistryServices Services { get; }
 
     /// <summary>
     /// manage Agent Registry resources
@@ -58,7 +58,6 @@ public interface IGcloudAgentRegistry
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAgentRegistryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAgentRegistryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

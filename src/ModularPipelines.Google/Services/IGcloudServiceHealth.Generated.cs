@@ -24,17 +24,17 @@ public interface IGcloudServiceHealth
     /// <summary>
     /// gcloud events sub-commands.
     /// </summary>
-    GcloudServiceHealthEvents Events => throw new System.NotSupportedException();
+    GcloudServiceHealthEvents Events { get; }
 
     /// <summary>
     /// gcloud organization-events sub-commands.
     /// </summary>
-    GcloudServiceHealthOrganizationEvents OrganizationEvents => throw new System.NotSupportedException();
+    GcloudServiceHealthOrganizationEvents OrganizationEvents { get; }
 
     /// <summary>
     /// gcloud organization-impacts sub-commands.
     /// </summary>
-    GcloudServiceHealthOrganizationImpacts OrganizationImpacts => throw new System.NotSupportedException();
+    GcloudServiceHealthOrganizationImpacts OrganizationImpacts { get; }
 
     /// <summary>
     /// request events that are relevant to your project or     organization
@@ -43,7 +43,6 @@ public interface IGcloudServiceHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudServiceHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudServiceHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

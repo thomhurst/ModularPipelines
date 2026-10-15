@@ -24,17 +24,17 @@ public interface IGcloudPam
     /// <summary>
     /// gcloud entitlements sub-commands.
     /// </summary>
-    GcloudPamEntitlements Entitlements => throw new System.NotSupportedException();
+    GcloudPamEntitlements Entitlements { get; }
 
     /// <summary>
     /// gcloud grants sub-commands.
     /// </summary>
-    GcloudPamGrants Grants => throw new System.NotSupportedException();
+    GcloudPamGrants Grants { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudPamOperations Operations => throw new System.NotSupportedException();
+    GcloudPamOperations Operations { get; }
 
     /// <summary>
     /// manage Privileged Access Manager entitlements and grants
@@ -43,8 +43,7 @@ public interface IGcloudPam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudPamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudPamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// check Privileged Access Manager     onboarding status for a resource
@@ -53,7 +52,6 @@ public interface IGcloudPam
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckOnboardingStatusAsync(GcloudPamCheckOnboardingStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckOnboardingStatusAsync(GcloudPamCheckOnboardingStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

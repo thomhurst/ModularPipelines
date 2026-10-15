@@ -74,6 +74,12 @@ public record GcloudComputeOsConfigPolicyOrchestratorsCreateOptions : GcloudOpti
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Description of the policy orchestrator.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
     /// Applies policy to selected folders. Comma-separated list of folder numbers. Can beused together with --include-projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--include-folders", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]

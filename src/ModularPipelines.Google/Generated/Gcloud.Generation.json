@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "gcloud",
-  "toolVersion": "Google Cloud SDK 587.0.0 alpha 2026.09.25 beta 2026.09.25 bq 2.1.39 bundled-python3-unix 3.14.7 core 2026.09.25 gcloud-crc32c 1.0.0 gsutil 5.37 preview 2026.09.25",
-  "commandTreeSha256": "21f664061720d265597aefbcb804efddb7c2ff5ab3471640aca86b962b1dfd1a",
-  "generatorSourceSha256": "5c102d41600d652c33f7b5e133c003975da4f42214423a8e7ead211376db62f2"
+  "toolVersion": "Google Cloud SDK 589.0.0 alpha 2026.10.09 beta 2026.10.09 bq 2.1.40 bundled-python3-unix 3.14.8 core 2026.10.09 gcloud-crc32c 1.0.0 gsutil 5.37 preview 2026.10.09",
+  "commandTreeSha256": "079bbdca7d4bf50be31bc48a88e110a5aedd7f4ac661fe6fac38418917eca479",
+  "generatorSourceSha256": "12a8a1f5b039a2fa7fe93c8ae665a000944ce34e5c7a7b036f8c22dc1bc7a634"
 }

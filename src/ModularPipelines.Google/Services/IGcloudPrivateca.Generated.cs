@@ -24,37 +24,37 @@ public interface IGcloudPrivateca
     /// <summary>
     /// gcloud certificates sub-commands.
     /// </summary>
-    GcloudPrivatecaCertificates Certificates => throw new System.NotSupportedException();
+    GcloudPrivatecaCertificates Certificates { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudPrivatecaLocations Locations => throw new System.NotSupportedException();
+    GcloudPrivatecaLocations Locations { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudPrivatecaOperations Operations => throw new System.NotSupportedException();
+    GcloudPrivatecaOperations Operations { get; }
 
     /// <summary>
     /// gcloud pools sub-commands.
     /// </summary>
-    GcloudPrivatecaPools Pools => throw new System.NotSupportedException();
+    GcloudPrivatecaPools Pools { get; }
 
     /// <summary>
     /// gcloud roots sub-commands.
     /// </summary>
-    GcloudPrivatecaRoots Roots => throw new System.NotSupportedException();
+    GcloudPrivatecaRoots Roots { get; }
 
     /// <summary>
     /// gcloud subordinates sub-commands.
     /// </summary>
-    GcloudPrivatecaSubordinates Subordinates => throw new System.NotSupportedException();
+    GcloudPrivatecaSubordinates Subordinates { get; }
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    GcloudPrivatecaTemplates Templates => throw new System.NotSupportedException();
+    GcloudPrivatecaTemplates Templates { get; }
 
     /// <summary>
     /// manage private Certificate Authorities on Google Cloud
@@ -63,7 +63,6 @@ public interface IGcloudPrivateca
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudPrivatecaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudPrivatecaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -24,32 +24,32 @@ public interface IGcloudServiceExtensions
     /// <summary>
     /// gcloud authz-extensions sub-commands.
     /// </summary>
-    GcloudServiceExtensionsAuthzExtensions AuthzExtensions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsAuthzExtensions AuthzExtensions { get; }
 
     /// <summary>
     /// gcloud lb-edge-extensions sub-commands.
     /// </summary>
-    GcloudServiceExtensionsLbEdgeExtensions LbEdgeExtensions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsLbEdgeExtensions LbEdgeExtensions { get; }
 
     /// <summary>
     /// gcloud lb-route-extensions sub-commands.
     /// </summary>
-    GcloudServiceExtensionsLbRouteExtensions LbRouteExtensions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsLbRouteExtensions LbRouteExtensions { get; }
 
     /// <summary>
     /// gcloud lb-traffic-extensions sub-commands.
     /// </summary>
-    GcloudServiceExtensionsLbTrafficExtensions LbTrafficExtensions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsLbTrafficExtensions LbTrafficExtensions { get; }
 
     /// <summary>
     /// gcloud wasm-plugins sub-commands.
     /// </summary>
-    GcloudServiceExtensionsWasmPlugins WasmPlugins => throw new System.NotSupportedException();
+    GcloudServiceExtensionsWasmPlugins WasmPlugins { get; }
 
     /// <summary>
     /// gcloud wasm-plugin-versions sub-commands.
     /// </summary>
-    GcloudServiceExtensionsWasmPluginVersions WasmPluginVersions => throw new System.NotSupportedException();
+    GcloudServiceExtensionsWasmPluginVersions WasmPluginVersions { get; }
 
     /// <summary>
     /// manage Service Extensions resources
@@ -58,7 +58,6 @@ public interface IGcloudServiceExtensions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudServiceExtensionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudServiceExtensionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

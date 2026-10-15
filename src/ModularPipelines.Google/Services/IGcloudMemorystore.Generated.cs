@@ -24,27 +24,27 @@ public interface IGcloudMemorystore
     /// <summary>
     /// gcloud acl-policies sub-commands.
     /// </summary>
-    GcloudMemorystoreAclPolicies AclPolicies => throw new System.NotSupportedException();
+    GcloudMemorystoreAclPolicies AclPolicies { get; }
 
     /// <summary>
     /// gcloud backup-collections sub-commands.
     /// </summary>
-    GcloudMemorystoreBackupCollections BackupCollections => throw new System.NotSupportedException();
+    GcloudMemorystoreBackupCollections BackupCollections { get; }
 
     /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
-    GcloudMemorystoreInstances Instances => throw new System.NotSupportedException();
+    GcloudMemorystoreInstances Instances { get; }
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudMemorystoreLocations Locations => throw new System.NotSupportedException();
+    GcloudMemorystoreLocations Locations { get; }
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudMemorystoreOperations Operations => throw new System.NotSupportedException();
+    GcloudMemorystoreOperations Operations { get; }
 
     /// <summary>
     /// manage Memorystore resources
@@ -53,7 +53,6 @@ public interface IGcloudMemorystore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudMemorystoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudMemorystoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -79,6 +79,12 @@ public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions :
     public GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlRole? Role { get; set; }
 
     /// <summary>
+    /// List of SSL flags used for establishing SSL connection to the database. Use an equals sign to separate the flag name and value. By default, flags are separated by commas. Example: --ssl-flags ssl_mode=enable,server_certificate_hostname=server.com. If flag values contain commas (such as RFC 2253 distinguished names for server_certificate_dn), use an alternative delimiter with the ^DELIM^ prefix syntax. Example: --ssl-flags="^;^server_certificate_dn=CN=db.example.com,OU=RDS,O=Amazon.com,C=US". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ssl-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SslFlags { get; set; }
+
+    /// <summary>
     /// If the destination is an AlloyDB cluster, use this field to provide the AlloyDB cluster ID.
     /// </summary>
     [CliOption("--alloydb-cluster", Format = OptionFormat.EqualsSeparated)]
@@ -146,13 +152,13 @@ public record GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions :
     public GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlSslType? SslType { get; set; }
 
     /// <summary>
-    /// x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
+    /// x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--client-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? ClientCertificate { get; set; }
 
     /// <summary>
-    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
+    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--private-key=$(&lt;/path/to/private_key_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]

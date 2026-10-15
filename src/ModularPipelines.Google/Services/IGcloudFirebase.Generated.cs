@@ -24,7 +24,7 @@ public interface IGcloudFirebase
     /// <summary>
     /// gcloud test sub-commands.
     /// </summary>
-    GcloudFirebaseTest Test => throw new System.NotSupportedException();
+    GcloudFirebaseTest Test { get; }
 
     /// <summary>
     /// work with Google Firebase
@@ -33,7 +33,6 @@ public interface IGcloudFirebase
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudFirebaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudFirebaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

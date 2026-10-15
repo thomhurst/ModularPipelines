@@ -24,7 +24,7 @@ public interface IGcloudIdentity
     /// <summary>
     /// gcloud groups sub-commands.
     /// </summary>
-    GcloudIdentityGroups Groups => throw new System.NotSupportedException();
+    GcloudIdentityGroups Groups { get; }
 
     /// <summary>
     /// manage Cloud Identity Groups and Memberships resources
@@ -33,7 +33,6 @@ public interface IGcloudIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
