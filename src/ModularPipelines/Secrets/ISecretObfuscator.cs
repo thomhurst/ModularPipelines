@@ -26,6 +26,15 @@ internal interface ISecretObfuscator
     /// <param name="optionsObject">An options object that may contain sensitive properties.</param>
     /// <returns>The input with sensitive information obfuscated.</returns>
     string Obfuscate(string? input, object? optionsObject);
+
+    /// <summary>
+    /// Obfuscates complete secrets and secret fragments at omitted output boundaries.
+    /// </summary>
+    string ObfuscateTruncated(string input, object? optionsObject, bool truncatedStart, bool truncatedEnd)
+    {
+        // Obfuscators without boundary tracking must conservatively mask the entire fragment.
+        return Obfuscate(truncatedStart || truncatedEnd ? Constants.LoggingConstants.SecretMask : input, optionsObject);
+    }
 }
 
 internal interface ITrackedSecretObfuscator : ISecretObfuscator
