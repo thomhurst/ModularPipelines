@@ -38,6 +38,11 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                     ProjectSolution = Path.Combine(gitRoot, solution),
                     Configuration = "Release",
                     NoRestore = true,
+                    // The combined generated integrations exhaust the shared compiler's memory in CI.
+                    // Compile one project at a time and release each compiler after its project finishes.
+                    Arguments = solution == "ModularPipelines.All.slnx"
+                        ? ["/m:1", "-p:UseSharedCompilation=false"]
+                        : [],
                 }, cancellationToken: cancellationToken))
                 .ProcessOneAtATime();
         }
