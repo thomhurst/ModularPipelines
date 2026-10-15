@@ -7,6 +7,12 @@ internal static class SafeWalk
         IgnoreInaccessible = true,
     };
 
+    private static readonly EnumerationOptions SafeDirectoryEnumerationOptions = new()
+    {
+        IgnoreInaccessible = true,
+        AttributesToSkip = SafeEnumerationOptions.AttributesToSkip | FileAttributes.ReparsePoint,
+    };
+
     public static IEnumerable<string> EnumerateFiles(FolderPath path, Func<FolderPath, bool> directoryExclusionFilters)
     {
         foreach (var file in Directory.EnumerateFiles(path, "*", SafeEnumerationOptions))
@@ -14,37 +20,27 @@ internal static class SafeWalk
             yield return file;
         }
 
-        var innerFiles = new List<string>();
-        foreach (var folder in Directory.EnumerateDirectories(path, "*", SafeEnumerationOptions)
+        foreach (var folder in Directory.EnumerateDirectories(path, "*", SafeDirectoryEnumerationOptions)
                      .Where(x => !directoryExclusionFilters(x!)))
         {
-            innerFiles.AddRange(EnumerateFiles(folder!, directoryExclusionFilters));
-
-            foreach (var innerFile in innerFiles)
+            foreach (var innerFile in EnumerateFiles(folder!, directoryExclusionFilters))
             {
                 yield return innerFile;
             }
-
-            innerFiles.Clear();
         }
     }
 
     public static IEnumerable<string> EnumerateFolders(FolderPath path, Func<FolderPath, bool> exclusionFilters)
     {
-        var innerFolders = new List<string>();
-        foreach (var folder in Directory.EnumerateDirectories(path, "*", SafeEnumerationOptions)
+        foreach (var folder in Directory.EnumerateDirectories(path, "*", SafeDirectoryEnumerationOptions)
                      .Where(x => !exclusionFilters(x!)))
         {
             yield return folder;
 
-            innerFolders.AddRange(EnumerateFolders(folder!, exclusionFilters));
-
-            foreach (var innerFolder in innerFolders)
+            foreach (var innerFolder in EnumerateFolders(folder!, exclusionFilters))
             {
                 yield return innerFolder;
             }
-
-            innerFolders.Clear();
         }
     }
 }
