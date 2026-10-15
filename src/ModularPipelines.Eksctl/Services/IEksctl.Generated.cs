@@ -23,77 +23,77 @@ public partial interface IEksctl
     /// <summary>
     /// Gets the associate sub-domain service.
     /// </summary>
-    IEksctlAssociate Associate => throw new System.NotSupportedException();
+    IEksctlAssociate Associate { get; }
 
     /// <summary>
     /// Gets the create sub-domain service.
     /// </summary>
-    IEksctlCreate Create => throw new System.NotSupportedException();
+    IEksctlCreate Create { get; }
 
     /// <summary>
     /// Gets the delete sub-domain service.
     /// </summary>
-    IEksctlDelete Delete => throw new System.NotSupportedException();
+    IEksctlDelete Delete { get; }
 
     /// <summary>
     /// Gets the deregister sub-domain service.
     /// </summary>
-    IEksctlDeregister Deregister => throw new System.NotSupportedException();
+    IEksctlDeregister Deregister { get; }
 
     /// <summary>
     /// Gets the disassociate sub-domain service.
     /// </summary>
-    IEksctlDisassociate Disassociate => throw new System.NotSupportedException();
+    IEksctlDisassociate Disassociate { get; }
 
     /// <summary>
     /// Gets the drain sub-domain service.
     /// </summary>
-    IEksctlDrain Drain => throw new System.NotSupportedException();
+    IEksctlDrain Drain { get; }
 
     /// <summary>
     /// Gets the enable sub-domain service.
     /// </summary>
-    IEksctlEnable Enable => throw new System.NotSupportedException();
+    IEksctlEnable Enable { get; }
 
     /// <summary>
     /// Gets the get sub-domain service.
     /// </summary>
-    IEksctlGet Get => throw new System.NotSupportedException();
+    IEksctlGet Get { get; }
 
     /// <summary>
     /// Gets the register sub-domain service.
     /// </summary>
-    IEksctlRegister Register => throw new System.NotSupportedException();
+    IEksctlRegister Register { get; }
 
     /// <summary>
     /// Gets the scale sub-domain service.
     /// </summary>
-    IEksctlScale Scale => throw new System.NotSupportedException();
+    IEksctlScale Scale { get; }
 
     /// <summary>
     /// Gets the set sub-domain service.
     /// </summary>
-    IEksctlSet Set => throw new System.NotSupportedException();
+    IEksctlSet Set { get; }
 
     /// <summary>
     /// Gets the unset sub-domain service.
     /// </summary>
-    IEksctlUnset Unset => throw new System.NotSupportedException();
+    IEksctlUnset Unset { get; }
 
     /// <summary>
     /// Gets the update sub-domain service.
     /// </summary>
-    IEksctlUpdate Update => throw new System.NotSupportedException();
+    IEksctlUpdate Update { get; }
 
     /// <summary>
     /// Gets the upgrade sub-domain service.
     /// </summary>
-    IEksctlUpgrade Upgrade => throw new System.NotSupportedException();
+    IEksctlUpgrade Upgrade { get; }
 
     /// <summary>
     /// Gets the utils sub-domain service.
     /// </summary>
-    IEksctlUtils Utils => throw new System.NotSupportedException();
+    IEksctlUtils Utils { get; }
 
     #endregion
 
@@ -106,8 +106,7 @@ public partial interface IEksctl
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(EksctlVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(EksctlVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
