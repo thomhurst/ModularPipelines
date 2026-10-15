@@ -24,17 +24,17 @@ public interface IFluxExport
     /// <summary>
     /// flux artifact sub-commands.
     /// </summary>
-    FluxExportArtifact Artifact => throw new System.NotSupportedException();
+    FluxExportArtifact Artifact { get; }
 
     /// <summary>
     /// flux image sub-commands.
     /// </summary>
-    FluxExportImage Image => throw new System.NotSupportedException();
+    FluxExportImage Image { get; }
 
     /// <summary>
     /// flux source sub-commands.
     /// </summary>
-    FluxExportSource Source => throw new System.NotSupportedException();
+    FluxExportSource Source { get; }
 
     /// <summary>
     /// The export sub-commands export resources in YAML format.
@@ -43,8 +43,7 @@ public interface IFluxExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(FluxExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(FluxExportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The export alert command exports one or all Alert resources in YAML format.
@@ -53,8 +52,7 @@ public interface IFluxExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlertAsync(FluxExportAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlertAsync(FluxExportAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The export alert-provider command exports one or all Provider resources in YAML format.
@@ -63,8 +61,7 @@ public interface IFluxExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlertProviderAsync(FluxExportAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlertProviderAsync(FluxExportAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The export helmrelease command exports one or all HelmRelease resources in YAML format.
@@ -73,8 +70,7 @@ public interface IFluxExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HelmreleaseAsync(FluxExportHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HelmreleaseAsync(FluxExportHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The export kustomization command exports one or all Kustomization resources in YAML format.
@@ -83,8 +79,7 @@ public interface IFluxExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> KustomizationAsync(FluxExportKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> KustomizationAsync(FluxExportKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The export receiver command exports one or all Receiver resources in YAML format.
@@ -93,7 +88,6 @@ public interface IFluxExport
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReceiverAsync(FluxExportReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReceiverAsync(FluxExportReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

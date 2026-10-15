@@ -24,12 +24,12 @@ public interface IFluxSuspend
     /// <summary>
     /// flux image sub-commands.
     /// </summary>
-    FluxSuspendImage Image => throw new System.NotSupportedException();
+    FluxSuspendImage Image { get; }
 
     /// <summary>
     /// flux source sub-commands.
     /// </summary>
-    FluxSuspendSource Source => throw new System.NotSupportedException();
+    FluxSuspendSource Source { get; }
 
     /// <summary>
     /// The suspend sub-commands suspend the reconciliation of a resource.
@@ -38,8 +38,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(FluxSuspendOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(FluxSuspendOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a Alert resource.
@@ -48,8 +47,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlertAsync(FluxSuspendAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlertAsync(FluxSuspendAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a Provider resource.
@@ -58,8 +56,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AlertProviderAsync(FluxSuspendAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AlertProviderAsync(FluxSuspendAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a HelmRelease resource.
@@ -68,8 +65,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HelmreleaseAsync(FluxSuspendHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HelmreleaseAsync(FluxSuspendHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a Kustomization resource.
@@ -78,8 +74,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> KustomizationAsync(FluxSuspendKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> KustomizationAsync(FluxSuspendKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a Receiver resource.
@@ -88,7 +83,6 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReceiverAsync(FluxSuspendReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReceiverAsync(FluxSuspendReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
