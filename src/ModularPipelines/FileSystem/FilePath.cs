@@ -328,9 +328,10 @@ public class FilePath : IEquatable<FilePath>
     /// <returns>A new FilePath instance at the destination path.</returns>
     public async Task<FilePath> MoveToAsync(FolderPath folder, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, folder);
 
-        await folder.CreateAsync().ConfigureAwait(false);
+        await folder.CreateAsync(cancellationToken).ConfigureAwait(false);
         return await MoveToAsync(_provider.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
 #pragma warning restore RS0026
