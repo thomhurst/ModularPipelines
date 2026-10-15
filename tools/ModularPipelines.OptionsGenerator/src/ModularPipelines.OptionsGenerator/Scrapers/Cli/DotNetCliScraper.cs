@@ -164,6 +164,18 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
         {
             positionalArgs.AddRange(usagePositionalArgs);
         }
+        else if (commandParts.Length > 1 && usage.CommandMatched
+                 && usage.MatchedCommandPartCount == commandPath.Length
+                 && usage.UnparsedOperandTokens.Count == 0 && usagePositionalArgs.Count > 0)
+        {
+            // System.CommandLine includes ancestor operands before the child command in help.
+            // Only operands following the selected command belong to that child.
+            positionalArgs = [.. usagePositionalArgs.Select(argument => argument with
+            {
+                Description = positionalArgs.FirstOrDefault(documented =>
+                    documented.PropertyName.Equals(argument.PropertyName, StringComparison.OrdinalIgnoreCase))?.Description,
+            })];
+        }
         else
         {
             positionalArgs = ApplyUsageCardinality(positionalArgs, usagePositionalArgs);
@@ -220,11 +232,10 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
             }
 
             var description = helpText[descStart..descEnd].Trim();
-            // Take first line only
-            var firstLine = description.Split('\n')[0].Trim();
-            if (!string.IsNullOrEmpty(firstLine))
+            if (!string.IsNullOrEmpty(description))
             {
-                return firstLine;
+                return string.Join(" ", description.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(line => line.Trim()).Where(line => line.Length > 0));
             }
         }
 
@@ -307,6 +318,9 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
             }
 
             var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
+            // Some SDK versions describe optional values in prose, even with a required-looking
+            // placeholder or a boolean default. Preserve both the bare switch and its value.
+            hasOptionalValue |= description.Contains("Optionally accepts", StringComparison.OrdinalIgnoreCase);
 
             var propertyName = NormalizePropertyName(primaryFlag);
             if (propertyName is null)
@@ -322,7 +336,8 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                                          || description.Contains(
                                              "[default: True]",
                                              StringComparison.OrdinalIgnoreCase);
-            var isFlag = string.IsNullOrEmpty(valueHint)
+            var hasNumericDefault = NumericDefaultPattern().IsMatch(description);
+            var isFlag = !hasOptionalValue && !hasNumericDefault && string.IsNullOrEmpty(valueHint)
                          && (declaresBooleanDefault
                              || !IsLikelyValueOption(primaryFlag, description));
             var isRequired = false;
@@ -349,6 +364,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 ValueArity = hasOptionalValue
                     ? CliOptionValueArity.Optional
                     : CliOptionValueArity.Required,
+                HasVerifiedValueShape = hasOptionalValue || hasNumericDefault,
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
@@ -619,7 +635,8 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
 
         // Check for numeric types
         if (lowerHint.Contains("count") || lowerHint.Contains("number") ||
-            lowerDesc.Contains("integer") || lowerDesc.Contains("number of"))
+            lowerDesc.Contains("integer") || lowerDesc.Contains("number of") ||
+            NumericDefaultPattern().IsMatch(description))
         {
             return "int?";
         }
@@ -748,8 +765,11 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// --ucr, --use-current-runtime        Description    (multiple long aliases)
     /// -v, -verbosity <LEVEL>              Description    (single-dash MSBuild aliases)
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<switch>--?[\w?][\w?-]*)(?:[,|]\s*(?<switch>--?[\w?][\w?-]*))*(?:\s+(?:<(?<value>[^>]+)>|\[<(?<optionalValue>[^>]+)>\]))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?<switch>--?[\w?][\w?-]*)(?:[,|]\s*(?<switch>--?[\w?][\w?-]*))*(?:\s+(?:<(?<value>[^>]+)>|\[<(?<optionalValue>[^>]+)>\]|\[(?!(?i:default):)(?<optionalValue>[^\]]+)\]))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex DotNetOptionPattern();
+
+    [GeneratedRegex(@"\[default:\s*[+-]?\d+\]", RegexOptions.IgnoreCase)]
+    private static partial Regex NumericDefaultPattern();
 
     /// <summary>
     /// Matches positional argument lines with various bracket styles:

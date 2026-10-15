@@ -68,6 +68,7 @@ public class SubDomainClassGenerator : ICodeGenerator
                 tree,
                 tool,
                 files,
+                $"{tool.ToolName} {commands[0].CommandParts[0]}",
                 parentCommand);
         }
 
@@ -78,6 +79,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         CommandTreeNode node,
         CliToolDefinition tool,
         List<GeneratedFile> files,
+        string commandPath,
         CliCommandDefinition? parentCommand = null)
     {
         // Build map of commands that collide with child property names
@@ -91,6 +93,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         var content = GenerateNodeClass(
             node,
             tool,
+            commandPath,
             parentCommand,
             excludedCommands);
 
@@ -101,6 +104,7 @@ public class SubDomainClassGenerator : ICodeGenerator
             var interfaceContent = GenerateNodeInterface(
                 node,
                 tool,
+                commandPath,
                 parentCommand,
                 excludedCommands);
             var interfaceFileName = $"I{node.ClassName}.Generated.cs";
@@ -131,6 +135,7 @@ public class SubDomainClassGenerator : ICodeGenerator
                 child,
                 tool,
                 files,
+                $"{commandPath} {child.Segment}",
                 childParentCommand);
         }
     }
@@ -138,6 +143,7 @@ public class SubDomainClassGenerator : ICodeGenerator
     private static string GenerateNodeInterface(
         CommandTreeNode node,
         CliToolDefinition tool,
+        string commandPath,
         CliCommandDefinition? parentCommand,
         HashSet<CliCommandDefinition> excludedCommands)
     {
@@ -153,7 +159,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"namespace {tool.TargetNamespace}.Services;");
         sb.AppendLine();
         sb.AppendLine("/// <summary>");
-        sb.AppendLine($"/// {tool.ToolName} {node.Segment.ToLowerInvariant()} commands.");
+        sb.AppendLine($"/// {commandPath} commands.");
         sb.AppendLine("/// </summary>");
         sb.AppendLine("/// <remarks>");
         sb.AppendLine("/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.");
@@ -165,7 +171,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         foreach (var child in node.Children.Values.OrderBy(child => child.PascalSegment))
         {
             sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");
+            sb.AppendLine($"    /// {commandPath} {child.Segment} sub-commands.");
             sb.AppendLine("    /// </summary>");
             sb.AppendLine(
                 $"    {child.ClassName} {child.PascalSegment} {{ get; }}");
@@ -201,6 +207,7 @@ public class SubDomainClassGenerator : ICodeGenerator
     private static string GenerateNodeClass(
         CommandTreeNode node,
         CliToolDefinition tool,
+        string commandPath,
         CliCommandDefinition? parentCommand = null,
         HashSet<CliCommandDefinition>? excludedCommands = null)
     {
@@ -221,7 +228,7 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         // Class documentation
         sb.AppendLine($"/// <summary>");
-        sb.AppendLine($"/// {tool.ToolName} {node.Segment.ToLowerInvariant()} commands.");
+        sb.AppendLine($"/// {commandPath} commands.");
         sb.AppendLine($"/// </summary>");
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         var interfaceClause = node.Depth == 0 ? $" : I{node.ClassName}" : string.Empty;
@@ -229,7 +236,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("{");
 
         AppendStateAndConstructor(sb, node);
-        AppendChildProperties(sb, node, tool);
+        AppendChildProperties(sb, node, commandPath);
         AppendCommandMethods(sb, node, tool, parentCommand, excludedCommands);
 
         sb.AppendLine("}");
@@ -257,7 +264,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("    }");
     }
 
-    private static void AppendChildProperties(StringBuilder sb, CommandTreeNode node, CliToolDefinition tool)
+    private static void AppendChildProperties(StringBuilder sb, CommandTreeNode node, string commandPath)
     {
         if (node.Children.Count == 0)
         {
@@ -272,7 +279,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         {
             var fieldName = GetSafeFieldName(child.PascalSegment);
             sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");
+            sb.AppendLine($"    /// {commandPath} {child.Segment} sub-commands.");
             sb.AppendLine("    /// </summary>");
             sb.AppendLine($"    public {child.ClassName} {child.PascalSegment} => {fieldName} ??= new {child.ClassName}(_command);");
             sb.AppendLine();
