@@ -4432,7 +4432,8 @@ public class DependencyGraphExporterTests
             await Assert.That(_planningDisposals).IsEqualTo(1);
         }
 
-        await Assert.That(_planningDisposals).IsEqualTo(1);
+        // The planning scope owns the copy; the pipeline owns the runtime instance.
+        await Assert.That(_planningDisposals).IsEqualTo(2);
     }
 
     [Test]

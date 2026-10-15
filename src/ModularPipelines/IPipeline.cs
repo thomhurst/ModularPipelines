@@ -7,6 +7,11 @@ namespace ModularPipelines;
 /// <summary>
 /// Represents a built pipeline ready for execution.
 /// </summary>
+/// <remarks>
+/// Modules registered through the pipeline builder remain alive until the pipeline is disposed,
+/// including after <see cref="RunAsync"/> completes. Dispose the pipeline with <c>await using</c>
+/// to release module resources, including resources held by modules that did not execute.
+/// </remarks>
 public interface IPipeline : IAsyncDisposable
 {
     /// <summary>
