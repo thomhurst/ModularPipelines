@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "newman",
   "toolVersion": "6.2.3",
   "commandTreeSha256": "ced9ddeba1af07157ce673dfef4b2f598ce1042109b01550b39b5f7ea93e9c38",
-  "generatorSourceSha256": "afccdffa78c2fffb68d3b082c27643e8ad9968078785b7b94d14c7237cfbae48"
+  "generatorSourceSha256": "eab45451e2689d8718262c7bc521a808f9b00c250ad38da039ed9e27640721fc"
 }
