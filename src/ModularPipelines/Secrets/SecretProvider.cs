@@ -102,10 +102,10 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             return;
         }
 
-        var patterns = SecretMaskingPatternGenerator.Generate(secret);
+        var minimumLength = Math.Max(1, _maskingOptions.Value.MinimumSecretLength);
+        var patterns = SecretMaskingPatternGenerator.Generate(secret, minimumLength);
         RegisterNativeMaskPatterns(patterns);
 
-        var minimumLength = Math.Max(1, _maskingOptions.Value.MinimumSecretLength);
         if (secret.Length < minimumLength)
         {
             if (_shortSecretWarnings.TryAdd(secret, 0))

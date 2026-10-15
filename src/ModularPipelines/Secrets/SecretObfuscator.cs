@@ -276,9 +276,7 @@ internal class SecretObfuscator : ITrackedSecretObfuscator, IInitializer
             {
                 optionsSecretCache.MinimumSecretLength = minimumLength;
                 optionsSecretCache.ExtraSecrets = extraSecrets;
-                optionsSecretCache.Patterns = extraSecrets
-                    .SelectMany(SecretMaskingPatternGenerator.Generate)
-                    .ToArray();
+                optionsSecretCache.Patterns = [.. extraSecrets.SelectMany(secret => SecretMaskingPatternGenerator.Generate(secret, minimumLength))];
             }
 
             var missingPatterns = optionsSecretCache.Patterns

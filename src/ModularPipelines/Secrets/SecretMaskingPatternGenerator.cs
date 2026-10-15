@@ -10,28 +10,45 @@ namespace ModularPipelines.Secrets;
 /// </summary>
 internal static class SecretMaskingPatternGenerator
 {
-    public static IReadOnlyList<string> Generate(string secret)
+    public static IReadOnlyList<string> Generate(string secret, int minimumSecretLength = 1)
     {
-        var jsonEscaped = JsonEncodedText.Encode(secret).ToString();
-        var patterns = new HashSet<string>(StringComparer.Ordinal)
-        {
-            secret,
-            Convert.ToBase64String(Encoding.UTF8.GetBytes(secret)),
-            Uri.EscapeDataString(secret),
-            WebUtility.UrlEncode(secret),
-            jsonEscaped,
-        };
+        var patterns = new HashSet<string>(StringComparer.Ordinal);
+        AddPatterns(patterns, secret);
 
+        if (secret.Contains('\r') || secret.Contains('\n'))
+        {
+            var normalized = secret.Replace("\r\n", "\n").Replace('\r', '\n');
+            AddPatterns(patterns, normalized);
+            AddPatterns(patterns, normalized.Replace("\n", "\r\n"));
+
+            // Command streams and native CI maskers match one line at a time.
+            foreach (var line in normalized.Split('\n'))
+            {
+                if (line.Length >= Math.Max(1, minimumSecretLength) && !string.IsNullOrWhiteSpace(line))
+                {
+                    AddPatterns(patterns, line);
+                }
+            }
+        }
+
+        return [.. patterns];
+    }
+
+    private static void AddPatterns(HashSet<string> patterns, string secret)
+    {
+        patterns.Add(secret);
+        patterns.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(secret)));
+        patterns.Add(Uri.EscapeDataString(secret));
+        patterns.Add(WebUtility.UrlEncode(secret));
+        patterns.Add(JsonEncodedText.Encode(secret).ToString());
         AddArgumentEscapedPatterns(patterns, secret);
 
         var commandScriptEscaped = secret.Replace("\"", "\"\"");
         patterns.Add(commandScriptEscaped);
         AddArgumentEscapedPatterns(patterns, commandScriptEscaped);
-
-        return patterns.ToArray();
     }
 
-    private static void AddArgumentEscapedPatterns(ISet<string> patterns, string secret)
+    private static void AddArgumentEscapedPatterns(HashSet<string> patterns, string secret)
     {
         var escaped = CommandLineArguments.Escape(secret);
         patterns.Add(escaped);
