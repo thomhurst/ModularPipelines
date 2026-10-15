@@ -39,9 +39,9 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                     Configuration = "Release",
                     NoRestore = true,
                     // The combined generated integrations exhaust the shared compiler's memory in CI.
-                    // Compile one project at a time and release each compiler after its project finishes.
+                    // Bound concurrency without serializing every project; each compiler exits after its project.
                     Arguments = solution == "ModularPipelines.All.slnx"
-                        ? ["/m:1", "-p:UseSharedCompilation=false"]
+                        ? ["/m:2", "-p:UseSharedCompilation=false"]
                         : [],
                 }, cancellationToken: cancellationToken))
                 .ProcessOneAtATime();
