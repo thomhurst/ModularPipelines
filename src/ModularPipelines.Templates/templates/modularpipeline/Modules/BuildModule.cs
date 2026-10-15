@@ -1,9 +1,7 @@
 using Microsoft.Extensions.Options;
-using ModularPipelines.Attributes;
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
 using TemplatePipeline.Settings;
 
 namespace TemplatePipeline.Modules;

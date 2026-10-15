@@ -61,22 +61,43 @@
       "type": "parameter",
       "datatype": "bool",
       "displayName": "Skip restore",
-      "description": "Skip restoring the generated pipeline project.",
+      "description": "Skip restoring the generated projects.",
+      "defaultValue": "false"
+    },
+    "tests": {
+      "type": "parameter",
+      "datatype": "bool",
+      "displayName": "Include module tests",
+      "description": "Include a TUnit project demonstrating isolated module tests with ModularPipelines.Testing.",
       "defaultValue": "false"
     }
   },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(!tests)",
+          "exclude": ["Tests/**"]
+        }
+      ]
+    }
+  ],
   "primaryOutputs": [
     {
       "path": "TemplatePipeline.csproj"
+    },
+    {
+      "condition": "(tests)",
+      "path": "Tests/TemplatePipeline.Tests.csproj"
     }
   ],
   "postActions": [
     {
       "condition": "(!skipRestore)",
-      "description": "Restore NuGet packages required by this project.",
+      "description": "Restore NuGet packages required by the generated projects.",
       "manualInstructions": [
         {
-          "text": "Run 'dotnet restore'."
+          "text": "Run 'dotnet restore' for each generated project."
         }
       ],
       "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",

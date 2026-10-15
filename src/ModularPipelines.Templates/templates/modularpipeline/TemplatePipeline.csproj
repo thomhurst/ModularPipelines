@@ -5,6 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <!--#if (tests)-->
+  <ItemGroup>
+    <Compile Remove="Tests/**/*.cs" />
+    <None Remove="Tests/**" />
+  </ItemGroup>
+  <!--#endif-->
   <ItemGroup>
     <PackageReference Include="ModularPipelines" />
     <PackageReference Include="ModularPipelines.DotNet" />
