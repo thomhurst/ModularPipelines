@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "npx",
   "toolVersion": "11.11.0",
   "commandTreeSha256": "7c2a28952d52623862fcaf24dae08cddf49e82946269ed0be843a0ac97daef62",
-  "generatorSourceSha256": "f88771daff773c287e6c9599a8c58c8ef6076ca16f39e6ca3c8bc6856e800a06"
+  "generatorSourceSha256": "4688c375866e04a3d94481878966c4e5eede007b0a4d3414506533e3d366d80d"
 }

@@ -26,13 +26,21 @@ public record NpmUnstarOptions : NpmOptions
     /// The base URL of the npm registry.
     /// </summary>
     [CliOption("--registry")]
-    public string? Registry { get; set; }
+    public new string? Registry
+    {
+        get => base.Registry;
+        set => base.Registry = value;
+    }
 
     /// <summary>
     /// When set to true, npm uses unicode characters in the tree output.  When
     /// </summary>
     [CliFlag("--unicode", NegatedName = "--no-unicode")]
-    public bool? Unicode { get; set; }
+    public new bool? Unicode
+    {
+        get => base.Unicode;
+        set => base.Unicode = value;
+    }
 
     /// <summary>
     /// This is a one-time password from a two-factor authenticator.  It's needed

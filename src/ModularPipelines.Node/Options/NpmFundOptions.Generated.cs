@@ -37,7 +37,11 @@ public record NpmFundOptions : NpmOptions
     /// When set to true, npm uses unicode characters in the tree output.  When
     /// </summary>
     [CliFlag("--unicode", NegatedName = "--no-unicode")]
-    public bool? Unicode { get; set; }
+    public new bool? Unicode
+    {
+        get => base.Unicode;
+        set => base.Unicode = value;
+    }
 
     /// <summary>
     /// Enable running a command in the context of the configured workspaces of the

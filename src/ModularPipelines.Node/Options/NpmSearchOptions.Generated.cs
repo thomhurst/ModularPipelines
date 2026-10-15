@@ -59,7 +59,11 @@ public record NpmSearchOptions : NpmOptions
     /// If false, never shows colors.  If `"always"` then always shows colors.
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public new string? Color
+    {
+        get => base.Color;
+        set => base.Color = value;
+    }
 
     /// <summary>
     /// Output parseable results from commands that write to standard output. For
@@ -95,25 +99,41 @@ public record NpmSearchOptions : NpmOptions
     /// The base URL of the npm registry.
     /// </summary>
     [CliOption("--registry")]
-    public string? Registry { get; set; }
+    public new string? Registry
+    {
+        get => base.Registry;
+        set => base.Registry = value;
+    }
 
     /// <summary>
     /// If true, staleness checks for cached data will be forced, making the CLI
     /// </summary>
     [CliFlag("--prefer-online")]
-    public bool? PreferOnline { get; set; }
+    public new bool? PreferOnline
+    {
+        get => base.PreferOnline;
+        set => base.PreferOnline = value;
+    }
 
     /// <summary>
     /// If true, staleness checks for cached data will be bypassed, but missing
     /// </summary>
     [CliFlag("--prefer-offline")]
-    public bool? PreferOffline { get; set; }
+    public new bool? PreferOffline
+    {
+        get => base.PreferOffline;
+        set => base.PreferOffline = value;
+    }
 
     /// <summary>
     /// Force offline mode: no network requests will be done during install. To allow
     /// </summary>
     [CliFlag("--offline")]
-    public bool? Offline { get; set; }
+    public new bool? Offline
+    {
+        get => base.Offline;
+        set => base.Offline = value;
+    }
 
     /// <summary>
     /// The &lt;search term&gt; operand.

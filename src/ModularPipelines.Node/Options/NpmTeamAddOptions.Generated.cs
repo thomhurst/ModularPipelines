@@ -48,7 +48,11 @@ public record NpmTeamAddOptions : NpmOptions
     /// The base URL of the npm registry.
     /// </summary>
     [CliOption("--registry")]
-    public string? Registry { get; set; }
+    public new string? Registry
+    {
+        get => base.Registry;
+        set => base.Registry = value;
+    }
 
     /// <summary>
     /// This is a one-time password from a two-factor authenticator.  It's needed

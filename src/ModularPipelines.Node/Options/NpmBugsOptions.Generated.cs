@@ -31,7 +31,11 @@ public record NpmBugsOptions : NpmOptions
     /// The base URL of the npm registry.
     /// </summary>
     [CliOption("--registry")]
-    public string? Registry { get; set; }
+    public new string? Registry
+    {
+        get => base.Registry;
+        set => base.Registry = value;
+    }
 
     /// <summary>
     /// Enable running a command in the context of the configured workspaces of the

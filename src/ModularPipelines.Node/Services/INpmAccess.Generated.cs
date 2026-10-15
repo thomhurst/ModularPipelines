@@ -24,12 +24,12 @@ public interface INpmAccess
     /// <summary>
     /// npm get sub-commands.
     /// </summary>
-    NpmAccessGet Get => throw new System.NotSupportedException();
+    NpmAccessGet Get { get; }
 
     /// <summary>
     /// npm list sub-commands.
     /// </summary>
-    NpmAccessList List => throw new System.NotSupportedException();
+    NpmAccessList List { get; }
 
     /// <summary>
     /// Set access level on published packages
@@ -38,8 +38,7 @@ public interface INpmAccess
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GrantAsync(NpmAccessGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GrantAsync(NpmAccessGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set access level on published packages
@@ -48,8 +47,7 @@ public interface INpmAccess
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeAsync(NpmAccessRevokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeAsync(NpmAccessRevokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set access level on published packages
@@ -58,7 +56,6 @@ public interface INpmAccess
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetAsync(NpmAccessSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetAsync(NpmAccessSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

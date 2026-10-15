@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "npm",
   "toolVersion": "11.11.0",
-  "commandCount": 100,
-  "commandTreeSha256": "47c6cf9ebe988b804935abe2bd2c0e189da9d8bb8fd427a3b5b121e18eed7abd",
+  "commandCount": 101,
+  "commandTreeSha256": "dd66a1293eedd17791b70598871f9cbfc9233dcc5e13958b13a46781871040bd",
   "commands": [
     "npm access get status",
     "npm access grant",
@@ -83,6 +83,7 @@
     "npm sbom",
     "npm search",
     "npm set",
+    "npm shrinkwrap",
     "npm star",
     "npm stars",
     "npm start",

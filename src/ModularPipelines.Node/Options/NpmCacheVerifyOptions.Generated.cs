@@ -25,6 +25,10 @@ public record NpmCacheVerifyOptions : NpmOptions
     /// The location of npm's cache directory.
     /// </summary>
     [CliOption("--cache")]
-    public string? Cache { get; set; }
+    public new string? Cache
+    {
+        get => base.Cache;
+        set => base.Cache = value;
+    }
 
 }

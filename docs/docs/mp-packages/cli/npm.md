@@ -46,6 +46,40 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options
+
+Global options are rendered after the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| [`--ca`](https://docs.npmjs.com/cli/v11/using-npm/config#ca) | `Ca` | All editions | Trusted certificate authority certificates in PEM format. |
+| [`--cache`](https://docs.npmjs.com/cli/v11/using-npm/config#cache) | `Cache` | All editions | Directory used for npm's cache. |
+| [`--cafile`](https://docs.npmjs.com/cli/v11/using-npm/config#cafile) | `Cafile` | All editions | File containing trusted certificate authority certificates. |
+| [`--color`](https://docs.npmjs.com/cli/v11/using-npm/config#color) | `Color` | All editions | Color output policy: true, false or always. |
+| [`--fetch-retries`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-retries) | `FetchRetries` | All editions | Number of retries for registry reads. |
+| [`--fetch-retry-factor`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-retry-factor) | `FetchRetryFactor` | All editions | Exponential factor used for retry delays. |
+| [`--fetch-retry-maxtimeout`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-retry-maxtimeout) | `FetchRetryMaxtimeout` | All editions | Maximum retry delay in milliseconds. |
+| [`--fetch-retry-mintimeout`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-retry-mintimeout) | `FetchRetryMintimeout` | All editions | Minimum retry delay in milliseconds. |
+| [`--fetch-timeout`](https://docs.npmjs.com/cli/v11/using-npm/config#fetch-timeout) | `FetchTimeout` | All editions | Maximum request duration in milliseconds. |
+| [`--globalconfig`](https://docs.npmjs.com/cli/v11/using-npm/config#globalconfig) | `Globalconfig` | All editions | Read global configuration from this file. |
+| [`--heading`](https://docs.npmjs.com/cli/v11/using-npm/config#heading) | `Heading` | All editions | Prefix used for debugging log output. |
+| [`--https-proxy`](https://docs.npmjs.com/cli/v11/using-npm/config#https-proxy) | `HttpsProxy` | All editions | Proxy URL for HTTPS requests; may contain credentials. |
+| [`--loglevel`](https://docs.npmjs.com/cli/v11/using-npm/config#loglevel) | `Loglevel` | All editions | Log verbosity: silent, error, warn, notice, http, info, verbose or silly. |
+| [`--logs-dir`](https://docs.npmjs.com/cli/v11/using-npm/config#logs-dir) | `LogsDir` | All editions | Directory used for npm's log files. |
+| [`--logs-max`](https://docs.npmjs.com/cli/v11/using-npm/config#logs-max) | `LogsMax` | All editions | Maximum number of log files to retain; zero disables log files. |
+| [`--noproxy`](https://docs.npmjs.com/cli/v11/using-npm/config#noproxy) | `Noproxy` | All editions | Hosts that bypass the proxy. |
+| [`--offline`](https://docs.npmjs.com/cli/v11/using-npm/config#offline) | `Offline` | All editions | Use the cache without network requests. |
+| [`--prefer-offline`](https://docs.npmjs.com/cli/v11/using-npm/config#prefer-offline) | `PreferOffline` | All editions | Skip cache staleness checks but fetch missing data. |
+| [`--prefer-online`](https://docs.npmjs.com/cli/v11/using-npm/config#prefer-online) | `PreferOnline` | All editions | Check cached data for freshness immediately. |
+| [`--prefix`](https://docs.npmjs.com/cli/v11/using-npm/config#prefix) | `Prefix` | All editions | Run non-global commands in this directory; also sets the global installation prefix. |
+| [`--progress`](https://docs.npmjs.com/cli/v11/using-npm/config#progress) | `Progress` | All editions | Display progress during time-intensive operations. |
+| [`--proxy`](https://docs.npmjs.com/cli/v11/using-npm/config#proxy) | `Proxy` | All editions | Proxy URL for HTTP requests; may contain credentials. |
+| [`--registry`](https://docs.npmjs.com/cli/v11/using-npm/config#registry) | `Registry` | All editions | Base URL of the package registry. |
+| [`--strict-ssl`](https://docs.npmjs.com/cli/v11/using-npm/config#strict-ssl) | `StrictSsl` | All editions | Validate TLS certificates for registry requests. |
+| [`--timing`](https://docs.npmjs.com/cli/v11/using-npm/config#timing) | `Timing` | All editions | Write timing information for this invocation. |
+| [`--unicode`](https://docs.npmjs.com/cli/v11/using-npm/config#unicode) | `Unicode` | All editions | Use Unicode characters instead of ASCII in output. |
+| [`--userconfig`](https://docs.npmjs.com/cli/v11/using-npm/config#userconfig) | `Userconfig` | All editions | Read user configuration from this file. |
+
 ## Commands
 
 | CLI command | Options record |
@@ -128,6 +162,7 @@ public class RunCommandModule : Module<CommandResult>
 | `npm sbom` | `NpmSbomOptions` |
 | `npm search` | `NpmSearchOptions` |
 | `npm set` | `NpmSetOptions` |
+| `npm shrinkwrap` | `NpmShrinkwrapOptions` |
 | `npm star` | `NpmStarOptions` |
 | `npm stars` | `NpmStarsOptions` |
 | `npm start` | `NpmStartOptions` |

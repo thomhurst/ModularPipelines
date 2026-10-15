@@ -26,7 +26,11 @@ public record NpmProfileDisableNumber2faOptions : NpmOptions
     /// The base URL of the npm registry.
     /// </summary>
     [CliOption("--registry")]
-    public string? Registry { get; set; }
+    public new string? Registry
+    {
+        get => base.Registry;
+        set => base.Registry = value;
+    }
 
     /// <summary>
     /// Whether or not to output JSON data, rather than the normal output.

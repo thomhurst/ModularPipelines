@@ -24,7 +24,7 @@ public interface INpmCache
     /// <summary>
     /// npm npx sub-commands.
     /// </summary>
-    NpmCacheNpx Npx => throw new System.NotSupportedException();
+    NpmCacheNpx Npx { get; }
 
     /// <summary>
     /// Manipulates packages and npx cache
@@ -33,8 +33,7 @@ public interface INpmCache
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddAsync(NpmCacheAddOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddAsync(NpmCacheAddOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Manipulates packages and npx cache
@@ -43,8 +42,7 @@ public interface INpmCache
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CleanAsync(NpmCacheCleanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CleanAsync(NpmCacheCleanOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Manipulates packages and npx cache
@@ -53,8 +51,7 @@ public interface INpmCache
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LsAsync(NpmCacheLsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LsAsync(NpmCacheLsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Manipulates packages and npx cache
@@ -63,7 +60,6 @@ public interface INpmCache
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyAsync(NpmCacheVerifyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyAsync(NpmCacheVerifyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

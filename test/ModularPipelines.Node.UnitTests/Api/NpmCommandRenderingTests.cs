@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.Node.Options;
 using ModularPipelines.TestHelpers;
@@ -11,6 +12,7 @@ public class NpmCommandRenderingTests : TestBase
     [Arguments("pack")]
     [Arguments("publish")]
     [Arguments("run")]
+    [Arguments("shrinkwrap")]
     public async Task Current_Project_Commands_Render_Without_Operands(string verb)
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -19,9 +21,28 @@ public class NpmCommandRenderingTests : TestBase
             "ls" => new NpmLsOptions(),
             "pack" => new NpmPackOptions(),
             "publish" => new NpmPublishOptions(),
+            "shrinkwrap" => new NpmShrinkwrapOptions(),
             _ => new NpmRunOptions(),
         };
         await Assert.That(builder.Build(options).ToString()).IsEqualTo($"npm {verb}");
+    }
+
+    [Test]
+    public async Task Shrinkwrap_Remains_In_Command_Coverage()
+    {
+        using var manifest = typeof(NpmCommandRenderingTests).Assembly.GetManifestResourceStream("Npm.CommandCoverage.json")!;
+        using var coverage = await JsonDocument.ParseAsync(manifest);
+        await Assert.That(coverage.RootElement.GetProperty("commands").EnumerateArray()
+            .Any(command => command.GetString() == "npm shrinkwrap")).IsTrue();
+    }
+
+    [Test]
+    public async Task Shrinkwrap_Renders_Inherited_Global_Options()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var commandLine = builder.Build(new NpmShrinkwrapOptions { Prefix = "project", Userconfig = "npmrc" });
+        await Assert.That(commandLine.Arguments
+            .SequenceEqual(["shrinkwrap", "--prefix=project", "--userconfig=npmrc"])).IsTrue();
     }
 
     [Test]

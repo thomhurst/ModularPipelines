@@ -25,7 +25,11 @@ public record NpmDoctorOptions : NpmOptions
     /// The base URL of the npm registry.
     /// </summary>
     [CliOption("--registry")]
-    public string? Registry { get; set; }
+    public new string? Registry
+    {
+        get => base.Registry;
+        set => base.Registry = value;
+    }
 
     /// <summary>
     /// The connection operand.
@@ -61,6 +65,6 @@ public record NpmDoctorOptions : NpmOptions
     /// The cache operand.
     /// </summary>
     [CliArgument(5, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Cache { get; set; }
+    public string? CacheArgument { get; set; }
 
 }

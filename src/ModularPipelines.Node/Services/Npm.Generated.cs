@@ -444,6 +444,15 @@ internal partial class Npm : INpm
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> ShrinkwrapAsync(
+        NpmShrinkwrapOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new NpmShrinkwrapOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> StarAsync(
         NpmStarOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
