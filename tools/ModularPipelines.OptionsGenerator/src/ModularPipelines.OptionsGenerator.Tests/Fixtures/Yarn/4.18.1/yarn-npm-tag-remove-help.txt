@@ -1,0 +1,14 @@
+Remove a tag from a package
+
+Usage
+
+$ yarn npm tag remove <package> <tag>
+
+Details
+
+This command will remove a tag from a package from the npm registry.
+
+Examples
+
+Remove the `beta` tag from package `my-pkg`
+  $ yarn npm tag remove my-pkg beta

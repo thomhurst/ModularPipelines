@@ -1,0 +1,30 @@
+Explain a set of peer requirements
+
+Usage
+
+$ yarn explain peer-requirements [hash]
+
+Details
+
+A peer requirement represents all peer requests that a subject must satisfy when
+providing a requested package to requesters.
+
+When the hash argument is specified, this command prints a detailed explanation
+of the peer requirement corresponding to the hash and whether it is satisfied or
+not.
+
+When used without arguments, this command lists all peer requirements and the
+corresponding hash that can be used to get detailed information about a given
+requirement.
+
+**Note:** A hash is a seven-letter code consisting of the letter 'p' followed by
+six characters that can be obtained from peer dependency warnings or from the
+list of all peer requirements(`yarn explain peer-requirements`).
+
+Examples
+
+Explain the corresponding peer requirement for a hash
+  $ yarn explain peer-requirements p1a4ed
+
+List all peer requirements
+  $ yarn explain peer-requirements

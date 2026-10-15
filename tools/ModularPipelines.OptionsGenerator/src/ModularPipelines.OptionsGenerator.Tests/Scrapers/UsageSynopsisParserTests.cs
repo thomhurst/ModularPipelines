@@ -10,6 +10,18 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Packed_And_Separate_Command_Path_Entries_Have_The_Same_Operands()
+    {
+        const string helpText = "Usage: tool group run <target> [value]";
+        var separate = UsageSynopsisParser.Parse(helpText, ["tool", "group", "run"]);
+        var packed = UsageSynopsisParser.Parse(helpText, ["tool", "group run"]);
+
+        await Assert.That(packed.CommandMatched).IsTrue();
+        await Assert.That(packed.MatchedCommandPartCount).IsEqualTo(separate.MatchedCommandPartCount);
+        await Assert.That(packed.PositionalArguments).IsEquivalentTo(separate.PositionalArguments);
+    }
+
+    [Test]
     [Arguments("--file=FILE")]
     [Arguments("--file FILE")]
     public async Task Presence_Only_Flag_Alternative_Preserves_Its_Target(string fileBranch)
