@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using ModularPipelines.Attributes;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -44,43 +45,32 @@ internal enum ModuleExecutionState
 /// Thread Safety: State and mutable collections are accessed under lock by ModuleScheduler.
 /// Dependencies are published as immutable snapshots for lock-free worker reads.
 /// </remarks>
-internal class ModuleState
+internal class ModuleState(IModule module, Type moduleType, IModuleScheduler? scheduler = null)
 {
-    private ImmutableDictionary<Type, bool> _dependencies = ImmutableDictionary<Type, bool>.Empty;
+    private ImmutableDictionary<Type, bool> _dependencies = [];
     private int _readyEventsStarted;
     private SkipDecision _skipResult = SkipDecision.DoNotSkip;
-
-    public ModuleState(IModule module, Type moduleType, IModuleScheduler? scheduler = null)
-    {
-        Module = module;
-        ModuleType = moduleType;
-        Scheduler = scheduler;
-        CompletionSource = new TaskCompletionSource<IModule>(TaskCreationOptions.RunContinuationsAsynchronously);
-        UnresolvedDependencies = new HashSet<Type>();
-        DependentModules = new List<ModuleState>();
-        RequiredLockKeys = Array.Empty<string>();
-    }
 
     /// <summary>
     /// Gets the module being tracked.
     /// </summary>
-    public IModule Module { get; }
+    public IModule Module { get; } = module;
 
     /// <summary>
     /// Gets the concrete type of the module.
     /// </summary>
-    public Type ModuleType { get; }
+    public Type ModuleType { get; } = moduleType;
 
     /// <summary>
     /// Gets the engine-owned scheduler for locally planned execution.
     /// Remote worker states intentionally have no scheduler.
     /// </summary>
-    public IModuleScheduler? Scheduler { get; }
+    public IModuleScheduler? Scheduler { get; } = scheduler;
 
     /// <summary>
     /// Gets completion source to signal when module execution finishes.
     /// </summary>
-    public TaskCompletionSource<IModule> CompletionSource { get; }
+    public TaskCompletionSource<IModule> CompletionSource { get; } = new TaskCompletionSource<IModule>(TaskCreationOptions.RunContinuationsAsynchronously);
 
     /// <summary>
     /// Gets all dependency types and whether each dependency is optional.
@@ -102,12 +92,12 @@ internal class ModuleState
     /// <summary>
     /// Gets set of dependency types that haven't completed yet.
     /// </summary>
-    public HashSet<Type> UnresolvedDependencies { get; }
+    public HashSet<Type> UnresolvedDependencies { get; } = [];
 
     /// <summary>
     /// Gets modules that depend on this module (reverse dependencies).
     /// </summary>
-    public List<ModuleState> DependentModules { get; }
+    public List<ModuleState> DependentModules { get; } = [];
 
     /// <summary>
     /// Gets or sets the current execution state of this module.
@@ -137,7 +127,7 @@ internal class ModuleState
     /// <summary>
     /// Gets or sets lock keys that this module requires (for keyed NotInParallel constraints).
     /// </summary>
-    public string[] RequiredLockKeys { get; set; }
+    public string[] RequiredLockKeys { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the execution priority of this module.
@@ -159,6 +149,16 @@ internal class ModuleState
     /// Gets or sets the resource-usage hint for throttling.
     /// </summary>
     public ExecutionHint ExecutionHint { get; set; } = ExecutionHint.Default;
+
+    /// <summary>
+    /// Gets or sets the configured capacity for this module's execution hint.
+    /// </summary>
+    public int? ExecutionHintLimit { get; set; }
+
+    /// <summary>
+    /// Gets or sets the custom parallel limiter shared with other modules.
+    /// </summary>
+    public ParallelLimiterAttribute? ParallelLimiter { get; set; }
 
     /// <summary>
     /// Gets or sets when all dependencies were satisfied and the module became ready.

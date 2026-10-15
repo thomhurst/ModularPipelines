@@ -38,7 +38,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly SchedulerExitConditions _exitConditions;
     private readonly Channel<ModuleState> _readyChannel;
     private readonly SemaphoreSlim _schedulerNotification;
-    private readonly ReaderWriterLockSlim _stateLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+    private readonly ReaderWriterLockSlim _stateLock = new(LockRecursionPolicy.NoRecursion);
     private readonly IModuleStateTracker _stateTracker;
     private readonly ISafeModuleEstimatedTimeProvider? _estimatedTimeProvider;
 
@@ -69,9 +69,9 @@ internal class ModuleScheduler : IModuleScheduler
         _statusReporter = statusReporter;
         _estimatedTimeProvider = estimatedTimeProvider;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
-        _pendingReadyModules = new HashSet<ModuleState>();
-        _queuedModules = new HashSet<ModuleState>();
-        _executingModules = new HashSet<ModuleState>();
+        _pendingReadyModules = [];
+        _queuedModules = [];
+        _executingModules = [];
         _stateQueries = new ModuleStateQueries(_moduleStates);
         _stateCounters = new ModuleStateCounters();
         _exitConditions = new SchedulerExitConditions();
@@ -331,6 +331,21 @@ internal class ModuleScheduler : IModuleScheduler
                 moduleType.Name,
                 state.ExecutionHint);
         }
+
+        state.ExecutionHintLimit = state.ExecutionHint switch
+        {
+            ExecutionHint.CpuBound => _options.MaxCpuIntensiveModules,
+            ExecutionHint.IoBound => _options.MaxIoIntensiveModules,
+            _ => null,
+        };
+        state.ParallelLimiter = moduleType.GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault();
+        if (state.ParallelLimiter is { Limit: <= 0 } limiter)
+        {
+            throw new ArgumentException(
+                $"Parallel limit for type '{limiter.Type.FullName}' must be a positive integer, but was {limiter.Limit}.");
+        }
+
+        _hasSchedulingConstraints |= state.ExecutionHintLimit.HasValue || state.ParallelLimiter is not null;
     }
 
     private void ApplyParallelConstraints(ModuleState state, IReadOnlyList<string>? constraintKeys)
@@ -442,11 +457,10 @@ internal class ModuleScheduler : IModuleScheduler
             isDeadlocked = shouldExit && isPotentiallyDeadlocked;
             requiresDeadlockConfirmation = isPotentiallyDeadlocked && !shouldExit;
             pendingModules = isDeadlocked
-                ? _moduleStates.Values
+                ? [.. _moduleStates.Values
                     .Where(x => x.State == ModuleExecutionState.Pending)
                     .Select(x => x.ModuleType.Name)
-                    .OrderBy(x => x, StringComparer.Ordinal)
-                    .ToArray()
+                    .OrderBy(x => x, StringComparer.Ordinal)]
                 : [];
 
             if (shouldExit)
@@ -559,13 +573,11 @@ internal class ModuleScheduler : IModuleScheduler
             List<ModuleState>? activeModules = null;
             if (_hasSchedulingConstraints)
             {
-                activeModules = new List<ModuleState>(_queuedModules.Count + _executingModules.Count);
-                activeModules.AddRange(_queuedModules);
-                activeModules.AddRange(_executingModules);
+                activeModules = [.. _queuedModules, .. _executingModules];
             }
 
-            modulesToQueue = new List<ModuleState>();
-            metricsData = new List<(Type, DateTimeOffset, ModulePriority, ExecutionHint, DateTimeOffset)>();
+            modulesToQueue = [];
+            metricsData = [];
 
             foreach (var moduleState in potentiallyReadyModules)
             {
@@ -654,7 +666,7 @@ internal class ModuleScheduler : IModuleScheduler
                 .ConfigureAwait(false);
         }
 
-        CalculateCriticalPathWeights(_moduleStates.Values.ToArray(), cancellationToken);
+        CalculateCriticalPathWeights([.. _moduleStates.Values], cancellationToken);
     }
 
     internal static void CalculateCriticalPathWeights(

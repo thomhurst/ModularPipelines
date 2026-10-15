@@ -2,7 +2,7 @@ namespace ModularPipelines.Engine.Scheduling;
 
 /// <summary>
 /// Responsible for evaluating module execution constraints such as
-/// NotInParallel attributes and lock key conflicts.
+/// NotInParallel attributes, lock key conflicts, and parallel limits.
 /// </summary>
 internal interface IModuleConstraintEvaluator
 {

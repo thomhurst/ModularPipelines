@@ -4,16 +4,11 @@ using ModularPipelines.Helpers;
 namespace ModularPipelines.Engine.Scheduling;
 
 /// <summary>
-/// Evaluates module execution constraints (NotInParallel, lock keys).
+/// Evaluates module execution constraints (NotInParallel, lock keys, and parallel limits).
 /// </summary>
-internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
+internal class ModuleConstraintEvaluator(ILogger<ModuleConstraintEvaluator> logger) : IModuleConstraintEvaluator
 {
-    private readonly ILogger<ModuleConstraintEvaluator> _logger;
-
-    public ModuleConstraintEvaluator(ILogger<ModuleConstraintEvaluator> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<ModuleConstraintEvaluator> _logger = logger;
 
     /// <inheritdoc />
     public bool CanQueue(ModuleState moduleState, IEnumerable<ModuleState> activeModules)
@@ -32,7 +27,8 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
             return false;
         }
 
-        return true;
+        // Queued modules reserve capacity too, so limiter waiters never fill the worker pool.
+        return CheckParallelLimits(moduleState, activeCollection);
     }
 
     /// <inheritdoc />
@@ -57,7 +53,41 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
 
     private static IReadOnlyCollection<ModuleState> AsReadOnlyCollection(IEnumerable<ModuleState> modules)
     {
-        return modules as IReadOnlyCollection<ModuleState> ?? modules.ToArray();
+        return modules as IReadOnlyCollection<ModuleState> ?? [.. modules];
+    }
+
+    private static bool CheckParallelLimits(ModuleState moduleState, IReadOnlyCollection<ModuleState> activeModules)
+    {
+        var limiter = moduleState.ParallelLimiter;
+        var hintLimit = moduleState.ExecutionHintLimit;
+        if (limiter is null && !hintLimit.HasValue)
+        {
+            return true;
+        }
+
+        var limiterCount = 0;
+        var hintCount = 0;
+        foreach (var active in activeModules)
+        {
+            if (active == moduleState)
+            {
+                continue;
+            }
+
+            if (limiter is not null && active.ParallelLimiter?.Type == limiter.Type
+                && ++limiterCount >= limiter.Limit)
+            {
+                return false;
+            }
+
+            if (hintLimit.HasValue && active.ExecutionHint == moduleState.ExecutionHint
+                && ++hintCount >= hintLimit.Value)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private bool CheckLockKeyConstraints(
