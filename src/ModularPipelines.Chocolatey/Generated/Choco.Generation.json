@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "choco",
   "toolVersion": "2.7.4",
   "commandTreeSha256": "dbe8fe8a94432faaf1b5dd5f654b165f5722a9fd59318ccb9d8ce3681cafb72c",
-  "generatorSourceSha256": "326b2142907ab989d056b552afe093e76476c6ded1d8f1599d69d014a2247882"
+  "generatorSourceSha256": "3e7b53a3243991ba7602f33213ac71dc3d28466ae2192b3ab16a3617de02c3aa"
 }
