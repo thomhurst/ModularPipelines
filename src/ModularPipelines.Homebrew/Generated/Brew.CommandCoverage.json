@@ -1,11 +1,12 @@
 {
   "formatVersion": 1,
   "toolName": "brew",
-  "toolVersion": "Homebrew 7.0.6",
-  "commandCount": 124,
-  "commandTreeSha256": "b9bc491964db5025a9226c50ddcd5931068c38239471e3e36517ca999bfc5c4c",
+  "toolVersion": "Homebrew 7.0.7",
+  "commandCount": 126,
+  "commandTreeSha256": "b97ddd8650aaeae4adfa6c751d8bcd12bb50a54fcf686b06fbb19682c1287d8b",
   "commands": [
     "brew alias",
+    "brew as-brew-user",
     "brew as-console-user",
     "brew audit",
     "brew autoremove",
@@ -71,6 +72,7 @@
     "brew list",
     "brew livecheck",
     "brew log",
+    "brew mcp-server",
     "brew migrate",
     "brew missing",
     "brew nodenv-sync",
