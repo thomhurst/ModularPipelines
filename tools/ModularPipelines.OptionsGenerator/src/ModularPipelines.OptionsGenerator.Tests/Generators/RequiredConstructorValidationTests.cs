@@ -427,6 +427,7 @@ public partial class RequiredConstructorValidationTests
                 {
                     public CommandLinePhase Phase { get; set; }
                     public bool IsVariadic { get; set; }
+                    public bool PrependOptionTerminator { get; set; }
                     public bool Required { get; set; }
                 }
                 public sealed class CliFlagAttribute(string name) : System.Attribute

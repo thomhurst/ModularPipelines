@@ -1,0 +1,39 @@
+
+Command
+    az config get : Get a configuration.
+        WARNING: Command group 'config' is experimental and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+Arguments
+    --local            : Include local configuration. Scan from the working directory up to the root
+                         drive, then the global configuration and return the first occurrence.
+
+Positional
+    <KEY>              : The configuration to get. If not provided, all sections and configurations
+                         will be listed. If `section` is provided, all configurations under the
+                         specified section will be listed. If `<section>.<key>` is provided, only
+                         the corresponding configuration is shown.
+
+Global Arguments
+    --debug            : Increase logging verbosity to show all debug logs.
+    --help -h          : Show this help message and exit.
+    --only-show-errors : Only show errors, suppressing warnings.
+    --output -o        : Output format.  Allowed values: json, jsonc, none, table, tsv, yaml, yamlc.
+                         Default: json.
+    --query            : JMESPath query string. See http://jmespath.org/ for more information and
+                         examples.
+    --verbose          : Increase logging verbosity. Use --debug for full debug logs.
+
+Examples
+    Get all configurations.
+        az config get
+
+    Get configurations in `core` section.
+        az config get core
+
+    Get the configuration of key `core.no_color`.
+        az config get core.no_color
+
+To search AI knowledge base for examples, use: az find "az config get"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--___SUBSCRIPTION": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--local": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "key": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}}

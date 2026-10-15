@@ -1,0 +1,49 @@
+
+Command
+    az config set : Set a configuration.
+        For available configuration options, see https://learn.microsoft.com/cli/azure/azure-cli-
+        configuration.
+        By default without specifying --local, the configuration will be saved to `~/.azure/config`.
+        WARNING: Command group 'config' is experimental and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+
+Arguments
+    --local            : Set as a local configuration in the working directory.
+
+Positional
+    <KEY_VALUE>        : Space-separated configurations in the form of `<section>.<key>=<value>`.
+
+Global Arguments
+    --debug            : Increase logging verbosity to show all debug logs.
+    --help -h          : Show this help message and exit.
+    --only-show-errors : Only show errors, suppressing warnings.
+    --output -o        : Output format.  Allowed values: json, jsonc, none, table, tsv, yaml, yamlc.
+                         Default: json.
+    --query            : JMESPath query string. See http://jmespath.org/ for more information and
+                         examples.
+    --verbose          : Increase logging verbosity. Use --debug for full debug logs.
+
+Examples
+    Disable color with `core.no_color`.
+        az config set core.no_color=true
+
+    Hide warnings and only show errors with `core.only_show_errors`.
+        az config set core.only_show_errors=true
+
+    Turn on client-side telemetry.
+        az config set core.collect_telemetry=true
+
+    Turn on file logging and set its location.
+        az config set logging.enable_log_file=true
+        az config set logging.log_dir=~/az-logs
+
+    Set the default location to `westus2` and default resource group to `myRG`.
+        az config set defaults.location=westus2 defaults.group=MyResourceGroup
+
+    Set the default resource group to `myRG` on a local scope.
+        az config set defaults.group=myRG --local
+
+To search AI knowledge base for examples, use: az find "az config set"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--___SUBSCRIPTION": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--local": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "key_value": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}}

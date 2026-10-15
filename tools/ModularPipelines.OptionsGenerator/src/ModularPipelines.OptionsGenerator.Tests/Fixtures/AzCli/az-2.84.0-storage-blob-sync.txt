@@ -1,0 +1,87 @@
+
+Command
+    az storage blob sync : Sync blobs recursively to a storage blob container.
+        WARNING: This command is in preview and under development. Reference and support levels:
+        https://aka.ms/CLI_refstatus
+Arguments
+    --container -c      [Required] : The sync destination container.
+    --source -s         [Required] : The source file path to sync from.
+    --auth-mode                    : The mode in which to run the command. "login" mode will
+                                     directly use your login credentials for the authentication. The
+                                     legacy "key" mode will attempt to query for an account key if
+                                     no authentication parameters for the account are provided.
+                                     Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values:
+                                     key, login.
+    --destination -d               : The destination path that will be prepended to the blob name.
+
+Additional Flags Arguments
+    --delete-destination           : Defines whether to delete extra files from the destination that
+                                     are not present at the source. Could be set to true, false, or
+                                     prompt. If set to prompt, the user will be asked a question
+                                     before scheduling files and blobs for deletion.  Allowed
+                                     values: false, prompt, true.  Default: true.
+    --exclude-path                 : Exclude these paths. This option does not support wildcard
+                                     characters (*). Checks relative path prefix. For example:
+                                     myFolder;myFolder/subDirName/file.pdf.
+    --exclude-pattern              : Exclude these files where the name matches the pattern list.
+                                     For example: *.jpg;*.pdf;exactName. This option supports
+                                     wildcard characters (*).
+    --include-pattern              : Include only these files where the name matches the pattern
+                                     list. For example: *.jpg;*.pdf;exactName. This option supports
+                                     wildcard characters (*).
+
+Positional
+    <EXTRA_OPTIONS> [Experimental] : Other options which will be passed through to azcopy as it is.
+                                     Please put all the extra options after a `--`.
+        WARNING: Positional argument '<EXTRA_OPTIONS>' is experimental and under development.
+        Reference and support levels: https://aka.ms/CLI_refstatus
+
+Storage Account Arguments
+    --account-key                  : Storage account key. Must be used in conjunction with storage
+                                     account name or service endpoint. Environment variable:
+                                     AZURE_STORAGE_KEY.
+    --account-name                 : Storage account name. Related environment variable:
+                                     AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either
+                                     storage account key or a SAS token. If neither are present, the
+                                     command will try to query the storage account key using the
+                                     authenticated Azure account. If a large number of storage
+                                     commands are executed the API quota may be hit.
+    --connection-string            : Storage account connection string. Environment variable:
+                                     AZURE_STORAGE_CONNECTION_STRING.
+    --sas-token                    : A Shared Access Signature (SAS). Must be used in conjunction
+                                     with storage account name or service endpoint. Environment
+                                     variable: AZURE_STORAGE_SAS_TOKEN.
+    --service-endpoint             : Storage data service endpoint. Must be used in conjunction with
+                                     either storage account key or a SAS token. You can find each
+                                     service primary endpoint with `az storage account show`.
+                                     Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+
+Global Arguments
+    --debug                        : Increase logging verbosity to show all debug logs.
+    --help -h                      : Show this help message and exit.
+    --only-show-errors             : Only show errors, suppressing warnings.
+    --output -o                    : Output format.  Allowed values: json, jsonc, none, table, tsv,
+                                     yaml, yamlc.  Default: json.
+    --query                        : JMESPath query string. See http://jmespath.org/ for more
+                                     information and examples.
+    --subscription                 : Name or ID of subscription. You can configure the default
+                                     subscription using `az account set -s NAME_OR_ID`.
+    --verbose                      : Increase logging verbosity. Use --debug for full debug logs.
+
+Examples
+    Sync a single blob to a container.
+        az storage blob sync -c mycontainer -s "path/to/file" -d NewBlob
+
+    Sync a directory to a container.
+        az storage blob sync -c mycontainer --account-name mystorageccount --account-key 00000000 -s
+        "path/to/directory"
+
+    Sync a directory to a container with azcopy options pass-through (in this case capping the
+    upload bandwith to 20 MBit/s).
+        az storage blob sync -c mycontainer --account-name mystorageccount --account-key 00000000 -s
+        "path/to/directory" -- --cap-mbps=20
+
+To search AI knowledge base for examples, use: az find "az storage blob sync"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--__DESTINATION": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--account-key": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--account-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--auth-mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--connection-string": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--container": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--delete-destination": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--destination": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--exclude-path": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--exclude-pattern": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--include-pattern": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--sas-token": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--service-endpoint": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--source": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-c": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-d": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-s": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "extra_options": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}}

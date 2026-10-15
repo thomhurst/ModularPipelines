@@ -252,6 +252,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
         // Parse options from the help text
         var options = ParseOptions(helpText, argumentShapes);
+        var positionalArguments = ParsePositionalArguments(helpText, argumentShapes);
         // Command help also lists globals that are not registered on the root parser.
         // Keep those local, and prefer an Arguments definition over a duplicate global row.
         var commandSwitches = options.SelectMany(option => option.GetSwitchNames()).ToHashSet(StringComparer.Ordinal);
@@ -261,7 +262,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         var globalOptions = EffectiveGlobalOptions;
         options.RemoveAll(option => globalOptions.Any(global => CliGlobalOptionMerger.HasSameShape(global, option)));
         // Leaf commands can expose inherited globals without having local arguments.
-        if (options.Count == 0 && (globalOptions.Count == 0
+        if (options.Count == 0 && positionalArguments.Count == 0 && (globalOptions.Count == 0
                                   || helpText.Contains("Subgroups:") || helpText.Contains("Commands:")))
         {
             return Task.FromResult<CliCommandDefinition?>(null);
@@ -285,7 +286,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             Description = description,
             DocumentationUrl = null,
             Options = options,
-            PositionalArguments = [],
+            PositionalArguments = positionalArguments,
             SubDomainGroup = subDomain,
             Enums = enums,
         };
@@ -384,6 +385,71 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
         return options;
     }
+
+    private static List<CliPositionalArgument> ParsePositionalArguments(
+        string helpText,
+        IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes)
+    {
+        var arguments = new List<CliPositionalArgument>();
+        foreach (Match section in SectionHeaderPattern().Matches(helpText))
+        {
+            if (!section.Groups["name"].Value.TrimEnd(':').Trim().Equals("Positional", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var lines = GetSectionLines(helpText, section);
+            for (var i = 0; i < lines.Length; i++)
+            {
+                var match = AzPositionalPattern().Match(lines[i]);
+                if (!match.Success)
+                {
+                    if (IsPositionalRow(lines[i]))
+                    {
+                        throw new InvalidOperationException($"Unrecognized Azure CLI positional row '{lines[i].Trim()}'.");
+                    }
+
+                    continue;
+                }
+
+                var name = match.Groups["name"].Value;
+                var shape = argumentShapes?.FirstOrDefault(pair => pair.Key.Equals(name, StringComparison.OrdinalIgnoreCase)).Value
+                    ?? throw new InvalidOperationException($"Azure CLI positional '{name}' has no verified argument metadata.");
+                if (shape.IsFlag)
+                {
+                    throw new InvalidOperationException($"Azure CLI positional '{name}' has unsupported zero arity.");
+                }
+
+                var propertyName = NormalizePropertyName(name)
+                    ?? throw new InvalidOperationException($"Azure CLI positional '{name}' has no valid property name.");
+                var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"],
+                    IsPositionalRow);
+                var passthrough = AzPositionalTerminatorPattern().IsMatch(description);
+                var type = shape.IsInteger ? "int" : "string";
+                if (shape.IsCollection)
+                {
+                    type = $"IEnumerable<{type}>";
+                }
+
+                arguments.Add(new CliPositionalArgument
+                {
+                    PropertyName = propertyName,
+                    CSharpType = shape.IsOptional ? type + "?" : type,
+                    Description = description,
+                    PositionIndex = arguments.Count,
+                    IsRequired = !shape.IsOptional,
+                    IsVariadic = shape.IsCollection,
+                    Phase = passthrough ? CommandLinePhase.Passthrough : CommandLinePhase.EarlyOperand,
+                    PrependOptionTerminator = passthrough,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, false, description),
+                });
+            }
+        }
+
+        return arguments;
+    }
+
+    private static bool IsPositionalRow(string line) => line.TrimStart().StartsWith('<');
 
     private static bool IsCommandArgumentsSection(string sectionName) =>
         sectionName.EndsWith("Arguments", StringComparison.OrdinalIgnoreCase)
@@ -841,6 +907,12 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// </summary>
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?:(?<required>Required)|[^\]\r\n]+)\])*\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
+
+    [GeneratedRegex(@"^[ \t]+<(?<name>[\w-]+)>(?:[ \t]+\[[^\]\r\n]+\])*[ \t]*:[ \t]*(?<desc>.*)$")]
+    private static partial Regex AzPositionalPattern();
+
+    [GeneratedRegex(@"\bafter\s+(?:a\s+)?[`'"" ]*--(?:[`'""\s.]|$)", RegexOptions.IgnoreCase)]
+    private static partial Regex AzPositionalTerminatorPattern();
 
     [GeneratedRegex(@"^(?:do not\b|don't\b|force\b|reset\b|use the current time\b|show\b|list all\b|disable colou?r\b|(?:a |the )?(?:boolean )?flag\b|DenySettings apply to child scopes\b)", RegexOptions.IgnoreCase)]
     private static partial Regex PresenceOnlyDescriptionPattern();

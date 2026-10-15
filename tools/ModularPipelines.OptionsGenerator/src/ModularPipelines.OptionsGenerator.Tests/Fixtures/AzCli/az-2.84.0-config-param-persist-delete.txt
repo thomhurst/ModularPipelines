@@ -1,0 +1,45 @@
+
+Command
+    az config param-persist delete : Delete parameter persistence data.
+        WARNING: Command group 'config param-persist' is experimental and under development.
+        Reference and support levels: https://aka.ms/CLI_refstatus
+Arguments
+    --all              : Clear all parameter persistence data. Either positional name argument  or
+                         --all can be specified.
+    --purge            : Delete parameter persistence file from working directory. Only available
+                         when --all is specified.
+    --recursive        : Indicate this is recursive delete of parameter persistence. Only available
+                         when --all is specified.
+    --yes -y           : Do not prompt for confirmation. Only available when --all is specified.
+
+Positional
+    <NAME>             : Space-separated list of parameter persistence names. Either positional name
+                         argument or --all can be specified.
+
+Global Arguments
+    --debug            : Increase logging verbosity to show all debug logs.
+    --help -h          : Show this help message and exit.
+    --only-show-errors : Only show errors, suppressing warnings.
+    --output -o        : Output format.  Allowed values: json, jsonc, none, table, tsv, yaml, yamlc.
+                         Default: json.
+    --query            : JMESPath query string. See http://jmespath.org/ for more information and
+                         examples.
+    --verbose          : Increase logging verbosity. Use --debug for full debug logs.
+
+Examples
+    Delete resource_group_name from parameter persistence
+        az config param-persist delete resource_group_name
+
+    Clear all parameter persistence data
+        az config param-persist delete --all
+
+    Delete parameter persistence file
+        az config param-persist delete --all --purge
+
+    Delete parameter persistence file recursively
+        az config param-persist delete --all --purge --recursive
+
+To search AI knowledge base for examples, use: az find "az config param-persist delete"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--___SUBSCRIPTION": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--all": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--purge": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--recursive": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--yes": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-y": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "name": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}}

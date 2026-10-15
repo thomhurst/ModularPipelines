@@ -26,7 +26,8 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
         parser = cli.invocation.parser
         command = ' '.join(sys.argv[1:-1])
         selected = parser.subparser_map.get(command, parser)
-        actions = list(selected._actions)
+        # Subparser actions select commands; they are not positional operands.
+        actions = [action for action in selected._actions if not isinstance(action, argparse._SubParsersAction)]
         if sys.argv[1:] == ['--help']:
             # Root help hides globals. Only root parser actions are universal;
             # subscription is registered separately by commands that support it.
@@ -46,7 +47,7 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
                 'IsInteger': action.type is int,
                 'IsRepeated': isinstance(action, argparse._AppendAction)
             }
-            for action in actions for option in action.option_strings
+            for action in actions for option in (action.option_strings or [action.dest])
         }
         print('\n__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:' + json.dumps(shapes, sort_keys=True))
         """;

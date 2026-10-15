@@ -1,0 +1,30 @@
+
+Command
+    az config unset : Unset a configuration.
+        WARNING: Command group 'config' is experimental and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+Arguments
+    --local            : Include local configuration. Scan from the working directory up to the root
+                         drive, then the global configuration and unset the first occurrence.
+
+Positional
+    <KEY>              : The configuration to unset, in the form of `<section>.<key>`.
+
+Global Arguments
+    --debug            : Increase logging verbosity to show all debug logs.
+    --help -h          : Show this help message and exit.
+    --only-show-errors : Only show errors, suppressing warnings.
+    --output -o        : Output format.  Allowed values: json, jsonc, none, table, tsv, yaml, yamlc.
+                         Default: json.
+    --query            : JMESPath query string. See http://jmespath.org/ for more information and
+                         examples.
+    --verbose          : Increase logging verbosity. Use --debug for full debug logs.
+
+Examples
+    Unset the configuration of key `core.no_color`.
+        az config unset core.no_color
+
+To search AI knowledge base for examples, use: az find "az config unset"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--___SUBSCRIPTION": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--local": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "key": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}}
