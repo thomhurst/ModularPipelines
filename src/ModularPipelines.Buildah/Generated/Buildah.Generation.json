@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "buildah",
   "toolVersion": "buildah version 1.33.7 (image-spec 1.1.0-rc.5, runtime-spec 1.1.0)",
   "commandTreeSha256": "6e05611b293df560d3677b63b74487fe09cd87c09e0aeb7c85a94a72202e5e19",
-  "generatorSourceSha256": "afccdffa78c2fffb68d3b082c27643e8ad9968078785b7b94d14c7237cfbae48"
+  "generatorSourceSha256": "e94895a2e7a74b32cb79152bd895093f9fce9fe998233b7db33e73cf9397e7d5"
 }
