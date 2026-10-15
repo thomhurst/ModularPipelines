@@ -94,6 +94,9 @@ public class FolderPathCancellationTests
         using var cancellation = new CancellationTokenSource();
         var provider = new Mock<IFileSystemProvider>();
         var source = new FolderPath("/source", provider.Object);
+        provider.Setup(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>()))
+            .Returns((string from, string to) => Path.GetRelativePath(from, to));
         provider.Setup(p => p.EnumerateDirectories(source.Path, "*", SearchOption.AllDirectories))
             .Returns(() => directories ? CancelThenEnumerate() : []);
         provider.Setup(p => p.EnumerateFiles(source.Path, "*", SearchOption.AllDirectories))
@@ -101,8 +104,7 @@ public class FolderPathCancellationTests
 
         await Assert.ThrowsAsync<OperationCanceledException>(() => source.CopyToAsync("/destination", cancellation.Token));
 
-        provider.Verify(p => p.CreateDirectory("/destination"), Times.Once);
-        provider.Verify(p => p.CreateDirectory(It.IsAny<string>()), Times.Once);
+        provider.Verify(p => p.CreateDirectory(It.IsAny<string>()), Times.Never);
         provider.Verify(p => p.OpenRead(It.IsAny<string>()), Times.Never);
         provider.Verify(p => p.Create(It.IsAny<string>()), Times.Never);
         provider.Verify(p => p.SetAttributes(It.IsAny<string>(), It.IsAny<FileAttributes>()), Times.Never);
@@ -126,9 +128,11 @@ public class FolderPathCancellationTests
         var destinationStream = new Mock<Stream>();
         var source = new FolderPath("/source", provider.Object);
         var file = Path.Combine(source.Path, "file.txt");
+        provider.Setup(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>()))
+            .Returns((string from, string to) => Path.GetRelativePath(from, to));
         provider.Setup(p => p.EnumerateDirectories(source.Path, "*", SearchOption.AllDirectories)).Returns([]);
         provider.Setup(p => p.EnumerateFiles(source.Path, "*", SearchOption.AllDirectories)).Returns([file]);
-        provider.Setup(p => p.GetRelativePath(source.Path, file)).Returns("file.txt");
         provider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] paths) => Path.Combine(paths));
         provider.Setup(p => p.OpenRead(file)).Returns(sourceStream.Object);
         provider.Setup(p => p.Create(It.IsAny<string>())).Returns(destinationStream.Object);
