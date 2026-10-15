@@ -49,6 +49,7 @@ $corePaths = @(
     'BuildSolutions.txt',
     'src/ModularPipelines.Build/*',
     '.github/workflows/dotnet.yml',
+    '.github/actions/run-pipeline/*',
     'scripts/Resolve-FullPipelineValidation.ps1',
     'scripts/Test-FullPipelineValidation.ps1',
     'scripts/Resolve-ChangedIntegrationValidation.ps1',

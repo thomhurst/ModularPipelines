@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": { "test": "node --test *.test.mjs" },
+  "dependencies": { "@actions/artifact": "6.3.1" }
+}

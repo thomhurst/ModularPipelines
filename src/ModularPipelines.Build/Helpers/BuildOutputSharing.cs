@@ -8,7 +8,10 @@ namespace ModularPipelines.Build.Helpers;
 /// Shares one build-output restore per distributed pipeline process.
 /// Standalone runs use the existing checkout without copying or archiving it.
 /// </summary>
-internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options, IHostApplicationLifetime applicationLifetime)
+internal sealed class BuildOutputSharing(
+    IOptions<DistributedOptions> options,
+    IHostApplicationLifetime applicationLifetime,
+    IBuildOutputTransport? transport = null)
 {
     private readonly Lock _restoreLock = new();
     private Task? _restoreTask;
@@ -17,6 +20,18 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options, I
     /// Gets whether build outputs must be shared between pipeline instances.
     /// </summary>
     public bool IsEnabled => options.Value.TotalInstances > 1;
+
+    public async Task PublishAsync(IArtifactContext artifacts, string repositoryRoot, CancellationToken cancellationToken)
+    {
+        if (transport is not null)
+        {
+            await transport.PublishAsync(repositoryRoot, cancellationToken).ConfigureAwait(false);
+        }
+        else
+        {
+            await artifacts.PublishFileAsync("build-output", Path.Combine(repositoryRoot, BuildOutputArchive.FileName), cancellationToken).ConfigureAwait(false);
+        }
+    }
 
     /// <summary>
     /// Restores build outputs once, sharing the download and outcome with every consumer.
@@ -52,7 +67,14 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options, I
         var archivePath = Path.Combine(repositoryRoot, BuildOutputArchive.FileName);
         try
         {
-            await artifacts.DownloadAsync(producerModuleId, "build-output", archivePath, applicationLifetime.ApplicationStopping).ConfigureAwait(false);
+            if (transport is not null)
+            {
+                await transport.DownloadAsync(repositoryRoot, applicationLifetime.ApplicationStopping).ConfigureAwait(false);
+            }
+            else
+            {
+                await artifacts.DownloadAsync(producerModuleId, "build-output", archivePath, applicationLifetime.ApplicationStopping).ConfigureAwait(false);
+            }
             await BuildOutputArchive.RestoreAsync(repositoryRoot, applicationLifetime.ApplicationStopping).ConfigureAwait(false);
         }
         finally

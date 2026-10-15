@@ -25,6 +25,89 @@ public class BuildOutputSharingTests
     private static readonly ModuleId Producer = new("build.application");
 
     [Test]
+    public async Task Configured_Transport_Publishes_And_Restores_Without_Using_Redis_Artifacts()
+    {
+        var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
+        var transport = new RecordingTransport();
+        var sharing = new BuildOutputSharing(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2, InstanceIndex = 1 }),
+            Mock.Of<IHostApplicationLifetime>(), transport);
+
+        await sharing.PublishAsync(artifacts.Object, RepositoryRoot, CancellationToken.None);
+        await Task.WhenAll(Enumerable.Range(0, 16).Select(_ =>
+            sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, CancellationToken.None)));
+
+        await Assert.That(transport.Publications).IsEqualTo(1);
+        await Assert.That(transport.Downloads).IsEqualTo(1);
+        await Assert.That(transport.RepositoryRoot).IsEqualTo(RepositoryRoot);
+        artifacts.VerifyNoOtherCalls();
+        await Assert.That(File.Exists(ArchivePath)).IsFalse();
+    }
+
+    [Test]
+    public async Task Configured_Transport_Failure_Is_Cached_Without_Falling_Back_To_Redis()
+    {
+        var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
+        var transport = new RecordingTransport { DownloadFailure = new IOException("GitHub unavailable") };
+        var sharing = new BuildOutputSharing(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2, InstanceIndex = 1 }),
+            Mock.Of<IHostApplicationLifetime>(), transport);
+
+        for (var consumer = 0; consumer < 2; consumer++)
+        {
+            await Assert.That(() => sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, CancellationToken.None))
+                .Throws<IOException>();
+        }
+
+        await Assert.That(transport.Downloads).IsEqualTo(1);
+        artifacts.VerifyNoOtherCalls();
+    }
+
+    private sealed class RecordingTransport : IBuildOutputTransport
+    {
+        public int Publications { get; private set; }
+
+        public int Downloads { get; private set; }
+
+        public string? RepositoryRoot { get; private set; }
+
+        public Exception? DownloadFailure { get; init; }
+
+        public Task PublishAsync(string repositoryRoot, CancellationToken cancellationToken)
+        {
+            Publications++;
+            RepositoryRoot = repositoryRoot;
+            return Task.CompletedTask;
+        }
+
+        public Task DownloadAsync(string repositoryRoot, CancellationToken cancellationToken)
+        {
+            Downloads++;
+            RepositoryRoot = repositoryRoot;
+            return DownloadFailure is null ? Task.CompletedTask : Task.FromException(DownloadFailure);
+        }
+    }
+
+    [Test]
+    public async Task Unconfigured_Transport_Publishes_Through_The_Pipeline_Artifact_Store()
+    {
+        var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
+        artifacts.Setup(x => x.PublishFileAsync("build-output", ArchivePath, CancellationToken.None))
+            .ReturnsAsync(new ArtifactReference
+            {
+                ArtifactId = "archive",
+                Name = "build-output",
+                ModuleId = Producer,
+                SizeBytes = 0,
+                UploadedAt = DateTimeOffset.UtcNow,
+            });
+
+        await CreateSharing().PublishAsync(artifacts.Object, RepositoryRoot, CancellationToken.None);
+
+        artifacts.Verify(x => x.PublishFileAsync("build-output", ArchivePath, CancellationToken.None), Times.Once);
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Host_Shutdown_Cancels_Shared_Download_After_Consumer_Cancellation(

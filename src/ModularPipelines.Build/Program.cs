@@ -34,6 +34,10 @@ builder.Configuration
 
 builder.Services.Configure<PipelineSettings>(builder.Configuration.GetSection("Pipeline"));
 builder.Services.AddSingleton<BuildOutputSharing>();
+if (Environment.GetEnvironmentVariable("MODULARPIPELINES_GITHUB_ARTIFACTS") == "true")
+{
+    builder.Services.AddSingleton<IBuildOutputTransport, GitHubBuildOutputTransport>();
+}
 builder.Services.Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"));
 builder.Services.Configure<LocalNuGetSettings>(builder.Configuration.GetSection("LocalNuGet"));
 builder.Services.Configure<GitHubSettings>(builder.Configuration.GetSection("GitHub"));
