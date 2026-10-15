@@ -15,6 +15,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
+using ModularPipelines.UnitTests.Attributes;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
@@ -1244,10 +1245,12 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
-    public async Task ProcessTree_Kill_Kills_Process_And_Descendants()
+    [Arguments("parent")]
+    [Arguments("threaded-parent")]
+    public async Task ProcessTree_Kill_Kills_Process_And_Descendants(string role)
     {
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        fixture.Start(await GetService<ICommandContext>(), role, TimeSpan.FromMilliseconds(50));
         var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
 
@@ -1258,6 +1261,23 @@ public class CommandTests : TestBase
             await Assert.That(await WaitForExitAsync(parent, TimeSpan.FromSeconds(5))).IsTrue();
             await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(5))).IsTrue();
         }
+    }
+
+    [Test]
+    [LinuxOnlyTest]
+    [RequiresTool("dotnet")]
+    public async Task ProcessTree_Discovers_Children_Spawned_By_Worker_Threads()
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "threaded-parent", TimeSpan.FromMilliseconds(50));
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(10));
+
+        await Assert.That(ProcessTree.GetDescendantProcessIds(parent.Id)).Contains(child.Id);
+        fixture.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
+        await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(2))).IsTrue();
     }
 
     [Test]

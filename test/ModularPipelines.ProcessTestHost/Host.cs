@@ -40,7 +40,7 @@ public static class Host
         var role = args[0];
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
+        var name = role is "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
         // Every fixture process publishes its own identity. A parent killed between starting a
         // child and publishing its PID would otherwise leave an orphan that cleanup cannot find,
         // holding the command's output pipes open.
@@ -85,6 +85,14 @@ public static class Host
                     await WaitForPublishedFile(directory, "child.ready");
                 }
 
+                break;
+            case "threaded-parent":
+                // Keep the spawning thread alive so Linux retains the child under that thread's task.
+                await Task.Factory.StartNew(() =>
+                {
+                    using var child = StartChild("child", directory, runtimeConfiguration);
+                    child.WaitForExit();
+                }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
                 break;
             case "orphaning-parent":
                 // Simulates a parent killed after starting a child but before publishing its PID.
