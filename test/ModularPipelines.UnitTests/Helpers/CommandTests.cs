@@ -1162,7 +1162,7 @@ public class CommandTests : TestBase
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => ProcessRunner.RunAsync(
             new ProcessCommand("unused", [], string.Empty, Environment.CurrentDirectory, new Dictionary<string, string?>(), null),
-            target, target, TimeSpan.FromMilliseconds(milliseconds), _ => started = true, CancellationToken.None));
+            target, target, Encoding.UTF8, TimeSpan.FromMilliseconds(milliseconds), _ => started = true, CancellationToken.None));
 
         await Assert.That(started).IsFalse();
     }
