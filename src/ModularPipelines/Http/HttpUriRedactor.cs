@@ -23,17 +23,7 @@ internal static class HttpUriRedactor
             return Redact(absoluteUri, options)["https:".Length..];
         }
 
-        var text = uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.OriginalString;
-        if (uri.IsAbsoluteUri && !string.IsNullOrEmpty(uri.UserInfo))
-        {
-            var schemeDelimiter = text.IndexOf("://", StringComparison.Ordinal);
-            var authorityStart = schemeDelimiter >= 0 ? schemeDelimiter + 3 : uri.Scheme.Length + 1;
-            var userInfoEnd = text.IndexOf('@', authorityStart);
-            if (userInfoEnd >= authorityStart)
-            {
-                text = text[..authorityStart] + LoggingConstants.SecretMask + text[userInfoEnd..];
-            }
-        }
+        var text = RedactUserInfo(uri);
 
         if (uri.IsAbsoluteUri && IsWebhook(uri))
         {
@@ -41,6 +31,30 @@ internal static class HttpUriRedactor
             return uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.UriEscaped) + "/" + LoggingConstants.SecretMask;
         }
 
+        return RedactQuery(text, options ?? HttpLoggingOptions.Default);
+    }
+
+    private static string RedactUserInfo(Uri uri)
+    {
+        var text = uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.OriginalString;
+        if (!uri.IsAbsoluteUri || string.IsNullOrEmpty(uri.UserInfo))
+        {
+            return text;
+        }
+
+        var schemeDelimiter = text.IndexOf("://", StringComparison.Ordinal);
+        var authorityStart = schemeDelimiter >= 0 ? schemeDelimiter + 3 : uri.Scheme.Length + 1;
+        var userInfoEnd = text.IndexOf('@', authorityStart);
+        if (userInfoEnd >= authorityStart)
+        {
+            return text[..authorityStart] + LoggingConstants.SecretMask + text[userInfoEnd..];
+        }
+
+        return text;
+    }
+
+    private static string RedactQuery(string text, HttpLoggingOptions options)
+    {
         var fragmentStart = text.IndexOf('#');
         var queryEnd = fragmentStart >= 0 ? fragmentStart : text.Length;
         var queryStart = text.IndexOf('?');
@@ -49,7 +63,7 @@ internal static class HttpUriRedactor
             return text;
         }
 
-        var sensitiveNames = (options ?? HttpLoggingOptions.Default).SensitiveQueryParameterNames;
+        var sensitiveNames = options.SensitiveQueryParameterNames;
         var result = new StringBuilder(text[..(queryStart + 1)]);
         var parameters = text[(queryStart + 1)..queryEnd].Split('&');
         for (var index = 0; index < parameters.Length; index++)
