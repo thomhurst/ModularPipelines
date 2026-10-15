@@ -14,8 +14,8 @@ public static class Host
     {
         if (args[0] == "write-bytes")
         {
-            using var standardOutput = Console.OpenStandardOutput();
-            using var standardError = Console.OpenStandardError();
+            using var standardOutput = System.Console.OpenStandardOutput();
+            using var standardError = System.Console.OpenStandardError();
             await standardOutput.WriteAsync(Convert.FromBase64String(args[1]));
             await standardError.WriteAsync(Convert.FromBase64String(args[2]));
             return 0;
@@ -119,8 +119,8 @@ public static class Host
                     if (role is "parent-exit" or "parent-error-exit" or "draining-parent")
                     {
                         await WaitForTrigger(directory, "parent-exit");
-                        Console.Out.Write("parent output");
-                        Console.Error.Write("parent error");
+                        System.Console.Out.Write("parent output");
+                        System.Console.Error.Write("parent error");
                     }
                     else
                     {
@@ -144,8 +144,8 @@ public static class Host
                 break;
             case "draining-child":
                 await WaitForTrigger(directory, "child-exit");
-                Console.Out.Write("child output");
-                Console.Error.Write("child error");
+                System.Console.Out.Write("child output");
+                System.Console.Error.Write("child error");
                 break;
             case "child":
             case "grandchild":
