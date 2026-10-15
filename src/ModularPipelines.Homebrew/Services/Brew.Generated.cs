@@ -41,6 +41,15 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> AsBrewUserAsync(
+        BrewAsBrewUserOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> AsConsoleUserAsync(
         BrewAsConsoleUserOptions options,
         CommandExecutionOptions? executionOptions = null,

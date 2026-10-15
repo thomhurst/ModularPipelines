@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "brew",
-  "toolVersion": "Homebrew 7.0.6",
-  "commandTreeSha256": "b9bc491964db5025a9226c50ddcd5931068c38239471e3e36517ca999bfc5c4c",
-  "generatorSourceSha256": "28f0dccceb277a59da820ca4136cc242a2992b06cef7c83155e9dcacc4883245"
+  "toolVersion": "Homebrew 7.0.7",
+  "commandTreeSha256": "da1ee6b01868ee0ca53db982a92aaaca7335a7e35368148a66a2335fa3442c57",
+  "generatorSourceSha256": "0de5be3d2d8286deb67fa5dce48dba32f0e8c9f7a7ea76d51d3edf0a023597ff"
 }

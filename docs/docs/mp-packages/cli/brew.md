@@ -45,6 +45,7 @@ Global options are rendered after the selected subcommand.
 | CLI command | Options record |
 | --- | --- |
 | `brew alias` | `BrewAliasOptions` |
+| `brew as-brew-user` | `BrewAsBrewUserOptions` |
 | `brew as-console-user` | `BrewAsConsoleUserOptions` |
 | `brew audit` | `BrewAuditOptions` |
 | `brew autoremove` | `BrewAutoremoveOptions` |
