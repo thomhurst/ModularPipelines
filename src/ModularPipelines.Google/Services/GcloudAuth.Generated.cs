@@ -34,12 +34,12 @@ public class GcloudAuth : IGcloudAuth
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud application-default sub-commands.
+    /// gcloud auth application-default sub-commands.
     /// </summary>
     public GcloudAuthApplicationDefault ApplicationDefault => _applicationDefault ??= new GcloudAuthApplicationDefault(_command);
 
     /// <summary>
-    /// gcloud enterprise-certificate-config sub-commands.
+    /// gcloud auth enterprise-certificate-config sub-commands.
     /// </summary>
     public GcloudAuthEnterpriseCertificateConfig EnterpriseCertificateConfig => _enterpriseCertificateConfig ??= new GcloudAuthEnterpriseCertificateConfig(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud admin-clusters commands.
+/// gcloud container bare-metal admin-clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerBareMetalAdminClusters

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud hmac commands.
+/// gcloud storage hmac commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudStorageHmac

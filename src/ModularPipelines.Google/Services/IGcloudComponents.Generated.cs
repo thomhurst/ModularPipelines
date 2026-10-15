@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudComponents
 {
     /// <summary>
-    /// gcloud repositories sub-commands.
+    /// gcloud components repositories sub-commands.
     /// </summary>
-    GcloudComponentsRepositories Repositories => throw new System.NotSupportedException();
+    GcloudComponentsRepositories Repositories { get; }
 
     /// <summary>
     /// list, install, update, or remove Google Cloud CLI     components
@@ -33,8 +33,7 @@ public interface IGcloudComponents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// install one or more Google Cloud CLI components
@@ -43,8 +42,7 @@ public interface IGcloudComponents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InstallAsync(GcloudComponentsInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InstallAsync(GcloudComponentsInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list the status of all Google Cloud CLI components
@@ -53,8 +51,7 @@ public interface IGcloudComponents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(GcloudComponentsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(GcloudComponentsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// reinstall the Google Cloud CLI with the same     components you have now
@@ -63,8 +60,7 @@ public interface IGcloudComponents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReinstallAsync(GcloudComponentsReinstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReinstallAsync(GcloudComponentsReinstallOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// remove one or more installed components
@@ -73,8 +69,7 @@ public interface IGcloudComponents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveAsync(GcloudComponentsRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveAsync(GcloudComponentsRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// update all of your installed components to the     latest version
@@ -83,7 +78,6 @@ public interface IGcloudComponents
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(GcloudComponentsUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(GcloudComponentsUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

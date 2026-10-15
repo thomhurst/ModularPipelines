@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud servicehealth commands.
+/// gcloud service-health commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudServiceHealth
 {
     /// <summary>
-    /// gcloud events sub-commands.
+    /// gcloud service-health events sub-commands.
     /// </summary>
-    GcloudServiceHealthEvents Events => throw new System.NotSupportedException();
+    GcloudServiceHealthEvents Events { get; }
 
     /// <summary>
-    /// gcloud organization-events sub-commands.
+    /// gcloud service-health organization-events sub-commands.
     /// </summary>
-    GcloudServiceHealthOrganizationEvents OrganizationEvents => throw new System.NotSupportedException();
+    GcloudServiceHealthOrganizationEvents OrganizationEvents { get; }
 
     /// <summary>
-    /// gcloud organization-impacts sub-commands.
+    /// gcloud service-health organization-impacts sub-commands.
     /// </summary>
-    GcloudServiceHealthOrganizationImpacts OrganizationImpacts => throw new System.NotSupportedException();
+    GcloudServiceHealthOrganizationImpacts OrganizationImpacts { get; }
 
     /// <summary>
     /// request events that are relevant to your project or     organization
@@ -43,7 +43,6 @@ public interface IGcloudServiceHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudServiceHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudServiceHealthOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud edgecache commands.
+/// gcloud edge-cache commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudEdgeCache
 {
     /// <summary>
-    /// gcloud keysets sub-commands.
+    /// gcloud edge-cache keysets sub-commands.
     /// </summary>
-    GcloudEdgeCacheKeysets Keysets => throw new System.NotSupportedException();
+    GcloudEdgeCacheKeysets Keysets { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud edge-cache operations sub-commands.
     /// </summary>
-    GcloudEdgeCacheOperations Operations => throw new System.NotSupportedException();
+    GcloudEdgeCacheOperations Operations { get; }
 
     /// <summary>
-    /// gcloud origins sub-commands.
+    /// gcloud edge-cache origins sub-commands.
     /// </summary>
-    GcloudEdgeCacheOrigins Origins => throw new System.NotSupportedException();
+    GcloudEdgeCacheOrigins Origins { get; }
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud edge-cache services sub-commands.
     /// </summary>
-    GcloudEdgeCacheServices Services => throw new System.NotSupportedException();
+    GcloudEdgeCacheServices Services { get; }
 
     /// <summary>
     /// manage Media CDN resources
@@ -48,7 +48,6 @@ public interface IGcloudEdgeCache
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudEdgeCacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudEdgeCacheOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

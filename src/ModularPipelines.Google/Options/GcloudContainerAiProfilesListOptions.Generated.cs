@@ -25,7 +25,11 @@ public record GcloudContainerAiProfilesListOptions : GcloudOptions
     /// The output format. Default is profile, which displays the profile information in a table format, including cost conversions. csvprofile displays the profile information in a CSV format.Options include csvprofile, profile, and yaml.
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public new string? Format
+    {
+        get => base.Format;
+        set => base.Format = value;
+    }
 
     /// <summary>
     /// The model.

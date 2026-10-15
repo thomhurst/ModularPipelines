@@ -59,7 +59,7 @@ public record GcloudDnsRecordSetsUpdateOptions : GcloudOptions, IValidatableObje
     /// <summary>
     /// Name of the managed zone whose record sets you want to manage.
     /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zone", ShortForm = "-z", Format = OptionFormat.EqualsSeparated)]
     public string Zone { get; private init; }
 
     /// <summary>

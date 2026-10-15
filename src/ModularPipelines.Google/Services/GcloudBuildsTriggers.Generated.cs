@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud triggers commands.
+/// gcloud builds triggers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBuildsTriggers
@@ -34,12 +34,12 @@ public class GcloudBuildsTriggers
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud create sub-commands.
+    /// gcloud builds triggers create sub-commands.
     /// </summary>
     public GcloudBuildsTriggersCreate Create => _create ??= new GcloudBuildsTriggersCreate(_command);
 
     /// <summary>
-    /// gcloud update sub-commands.
+    /// gcloud builds triggers update sub-commands.
     /// </summary>
     public GcloudBuildsTriggersUpdate Update => _update ??= new GcloudBuildsTriggersUpdate(_command);
 

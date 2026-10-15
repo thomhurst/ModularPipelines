@@ -35,17 +35,17 @@ public class GcloudTasks : IGcloudTasks
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud cmek-config sub-commands.
+    /// gcloud tasks cmek-config sub-commands.
     /// </summary>
     public GcloudTasksCmekConfig CmekConfig => _cmekConfig ??= new GcloudTasksCmekConfig(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud tasks locations sub-commands.
     /// </summary>
     public GcloudTasksLocations Locations => _locations ??= new GcloudTasksLocations(_command);
 
     /// <summary>
-    /// gcloud queues sub-commands.
+    /// gcloud tasks queues sub-commands.
     /// </summary>
     public GcloudTasksQueues Queues => _queues ??= new GcloudTasksQueues(_command);
 

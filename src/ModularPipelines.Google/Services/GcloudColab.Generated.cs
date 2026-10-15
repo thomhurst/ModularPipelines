@@ -36,22 +36,22 @@ public class GcloudColab : IGcloudColab
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud executions sub-commands.
+    /// gcloud colab executions sub-commands.
     /// </summary>
     public GcloudColabExecutions Executions => _executions ??= new GcloudColabExecutions(_command);
 
     /// <summary>
-    /// gcloud runtimes sub-commands.
+    /// gcloud colab runtimes sub-commands.
     /// </summary>
     public GcloudColabRuntimes Runtimes => _runtimes ??= new GcloudColabRuntimes(_command);
 
     /// <summary>
-    /// gcloud runtime-templates sub-commands.
+    /// gcloud colab runtime-templates sub-commands.
     /// </summary>
     public GcloudColabRuntimeTemplates RuntimeTemplates => _runtimeTemplates ??= new GcloudColabRuntimeTemplates(_command);
 
     /// <summary>
-    /// gcloud schedules sub-commands.
+    /// gcloud colab schedules sub-commands.
     /// </summary>
     public GcloudColabSchedules Schedules => _schedules ??= new GcloudColabSchedules(_command);
 

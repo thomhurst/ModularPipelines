@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud public-advertised-prefixes commands.
+/// gcloud preview compute public-advertised-prefixes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputePublicAdvertisedPrefixes

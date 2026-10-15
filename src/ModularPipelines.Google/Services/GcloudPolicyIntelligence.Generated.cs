@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud policyintelligence commands.
+/// gcloud policy-intelligence commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPolicyIntelligence : IGcloudPolicyIntelligence
@@ -34,12 +34,12 @@ public class GcloudPolicyIntelligence : IGcloudPolicyIntelligence
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud simulate sub-commands.
+    /// gcloud policy-intelligence simulate sub-commands.
     /// </summary>
     public GcloudPolicyIntelligenceSimulate Simulate => _simulate ??= new GcloudPolicyIntelligenceSimulate(_command);
 
     /// <summary>
-    /// gcloud troubleshoot-policy sub-commands.
+    /// gcloud policy-intelligence troubleshoot-policy sub-commands.
     /// </summary>
     public GcloudPolicyIntelligenceTroubleshootPolicy TroubleshootPolicy => _troubleshootPolicy ??= new GcloudPolicyIntelligenceTroubleshootPolicy(_command);
 

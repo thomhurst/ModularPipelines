@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud cloud-vm-clusters commands.
+/// gcloud oracle-database cloud-vm-clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabaseCloudVmClusters
@@ -33,7 +33,7 @@ public class GcloudOracleDatabaseCloudVmClusters
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud db-nodes sub-commands.
+    /// gcloud oracle-database cloud-vm-clusters db-nodes sub-commands.
     /// </summary>
     public GcloudOracleDatabaseCloudVmClustersDbNodes DbNodes => _dbNodes ??= new GcloudOracleDatabaseCloudVmClustersDbNodes(_command);
 
@@ -110,6 +110,21 @@ public class GcloudOracleDatabaseCloudVmClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
         GcloudOracleDatabaseCloudVmClustersListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// update labels of a     CloudVmCluster
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        GcloudOracleDatabaseCloudVmClustersUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

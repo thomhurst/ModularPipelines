@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud keys commands.
+/// gcloud kms keys commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudKmsKeys
@@ -33,7 +33,7 @@ public class GcloudKmsKeys
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud kms keys versions sub-commands.
     /// </summary>
     public GcloudKmsKeysVersions Versions => _versions ??= new GcloudKmsKeysVersions(_command);
 

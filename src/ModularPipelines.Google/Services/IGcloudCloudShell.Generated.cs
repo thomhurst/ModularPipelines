@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud cloudshell commands.
+/// gcloud cloud-shell commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IGcloudCloudShell
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudCloudShellOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudCloudShellOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// prints a command to mount the Cloud     Shell home directory via sshfs
@@ -38,8 +37,7 @@ public interface IGcloudCloudShell
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMountCommandAsync(GcloudCloudShellGetMountCommandOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMountCommandAsync(GcloudCloudShellGetMountCommandOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// copies files between Cloud Shell and the local     machine
@@ -48,8 +46,7 @@ public interface IGcloudCloudShell
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ScpAsync(GcloudCloudShellScpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ScpAsync(GcloudCloudShellScpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// allows you to establish an interactive SSH session     with Cloud Shell
@@ -58,7 +55,6 @@ public interface IGcloudCloudShell
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SshAsync(GcloudCloudShellSshOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SshAsync(GcloudCloudShellSshOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

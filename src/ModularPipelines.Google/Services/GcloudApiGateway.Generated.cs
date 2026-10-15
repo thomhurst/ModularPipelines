@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud apigateway commands.
+/// gcloud api-gateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudApiGateway : IGcloudApiGateway
@@ -36,22 +36,22 @@ public class GcloudApiGateway : IGcloudApiGateway
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud api-configs sub-commands.
+    /// gcloud api-gateway api-configs sub-commands.
     /// </summary>
     public GcloudApiGatewayApiConfigs ApiConfigs => _apiConfigs ??= new GcloudApiGatewayApiConfigs(_command);
 
     /// <summary>
-    /// gcloud apis sub-commands.
+    /// gcloud api-gateway apis sub-commands.
     /// </summary>
     public GcloudApiGatewayApis Apis => _apis ??= new GcloudApiGatewayApis(_command);
 
     /// <summary>
-    /// gcloud gateways sub-commands.
+    /// gcloud api-gateway gateways sub-commands.
     /// </summary>
     public GcloudApiGatewayGateways Gateways => _gateways ??= new GcloudApiGatewayGateways(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud api-gateway operations sub-commands.
     /// </summary>
     public GcloudApiGatewayOperations Operations => _operations ??= new GcloudApiGatewayOperations(_command);
 

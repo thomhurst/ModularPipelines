@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud goldengate-deployment-environments commands.
+/// gcloud oracle-database goldengate-deployment-environments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabaseGoldengateDeploymentEnvironments

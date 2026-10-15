@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud registrations commands.
+/// gcloud domains registrations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDomainsRegistrations
@@ -36,22 +36,22 @@ public class GcloudDomainsRegistrations
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud authorization-code sub-commands.
+    /// gcloud domains registrations authorization-code sub-commands.
     /// </summary>
     public GcloudDomainsRegistrationsAuthorizationCode AuthorizationCode => _authorizationCode ??= new GcloudDomainsRegistrationsAuthorizationCode(_command);
 
     /// <summary>
-    /// gcloud configure sub-commands.
+    /// gcloud domains registrations configure sub-commands.
     /// </summary>
     public GcloudDomainsRegistrationsConfigure Configure => _configure ??= new GcloudDomainsRegistrationsConfigure(_command);
 
     /// <summary>
-    /// gcloud google-domains-dns sub-commands.
+    /// gcloud domains registrations google-domains-dns sub-commands.
     /// </summary>
     public GcloudDomainsRegistrationsGoogleDomainsDns GoogleDomainsDns => _googleDomainsDns ??= new GcloudDomainsRegistrationsGoogleDomainsDns(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud domains registrations operations sub-commands.
     /// </summary>
     public GcloudDomainsRegistrationsOperations Operations => _operations ??= new GcloudDomainsRegistrationsOperations(_command);
 

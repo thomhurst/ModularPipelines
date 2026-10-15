@@ -35,17 +35,17 @@ public class GcloudQuotas : IGcloudQuotas
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud adjuster sub-commands.
+    /// gcloud quotas adjuster sub-commands.
     /// </summary>
     public GcloudQuotasAdjuster Adjuster => _adjuster ??= new GcloudQuotasAdjuster(_command);
 
     /// <summary>
-    /// gcloud info sub-commands.
+    /// gcloud quotas info sub-commands.
     /// </summary>
     public GcloudQuotasInfo Info => _info ??= new GcloudQuotasInfo(_command);
 
     /// <summary>
-    /// gcloud preferences sub-commands.
+    /// gcloud quotas preferences sub-commands.
     /// </summary>
     public GcloudQuotasPreferences Preferences => _preferences ??= new GcloudQuotasPreferences(_command);
 

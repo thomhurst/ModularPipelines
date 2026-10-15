@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud dedicated commands.
+/// gcloud preview compute interconnects attachments dedicated commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInterconnectsAttachmentsDedicated

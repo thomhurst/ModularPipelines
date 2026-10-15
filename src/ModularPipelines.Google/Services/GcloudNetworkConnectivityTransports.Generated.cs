@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud transports commands.
+/// gcloud network-connectivity transports commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkConnectivityTransports
@@ -33,7 +33,7 @@ public class GcloudNetworkConnectivityTransports
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud remote-profiles sub-commands.
+    /// gcloud network-connectivity transports remote-profiles sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityTransportsRemoteProfiles RemoteProfiles => _remoteProfiles ??= new GcloudNetworkConnectivityTransportsRemoteProfiles(_command);
 

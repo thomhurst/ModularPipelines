@@ -43,57 +43,57 @@ public class GcloudEventarc : IGcloudEventarc
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud audit-logs-provider sub-commands.
+    /// gcloud eventarc audit-logs-provider sub-commands.
     /// </summary>
     public GcloudEventarcAuditLogsProvider AuditLogsProvider => _auditLogsProvider ??= new GcloudEventarcAuditLogsProvider(_command);
 
     /// <summary>
-    /// gcloud channel-connections sub-commands.
+    /// gcloud eventarc channel-connections sub-commands.
     /// </summary>
     public GcloudEventarcChannelConnections ChannelConnections => _channelConnections ??= new GcloudEventarcChannelConnections(_command);
 
     /// <summary>
-    /// gcloud channels sub-commands.
+    /// gcloud eventarc channels sub-commands.
     /// </summary>
     public GcloudEventarcChannels Channels => _channels ??= new GcloudEventarcChannels(_command);
 
     /// <summary>
-    /// gcloud enrollments sub-commands.
+    /// gcloud eventarc enrollments sub-commands.
     /// </summary>
     public GcloudEventarcEnrollments Enrollments => _enrollments ??= new GcloudEventarcEnrollments(_command);
 
     /// <summary>
-    /// gcloud google-api-sources sub-commands.
+    /// gcloud eventarc google-api-sources sub-commands.
     /// </summary>
     public GcloudEventarcGoogleApiSources GoogleApiSources => _googleApiSources ??= new GcloudEventarcGoogleApiSources(_command);
 
     /// <summary>
-    /// gcloud google-channels sub-commands.
+    /// gcloud eventarc google-channels sub-commands.
     /// </summary>
     public GcloudEventarcGoogleChannels GoogleChannels => _googleChannels ??= new GcloudEventarcGoogleChannels(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud eventarc locations sub-commands.
     /// </summary>
     public GcloudEventarcLocations Locations => _locations ??= new GcloudEventarcLocations(_command);
 
     /// <summary>
-    /// gcloud message-buses sub-commands.
+    /// gcloud eventarc message-buses sub-commands.
     /// </summary>
     public GcloudEventarcMessageBuses MessageBuses => _messageBuses ??= new GcloudEventarcMessageBuses(_command);
 
     /// <summary>
-    /// gcloud pipelines sub-commands.
+    /// gcloud eventarc pipelines sub-commands.
     /// </summary>
     public GcloudEventarcPipelines Pipelines => _pipelines ??= new GcloudEventarcPipelines(_command);
 
     /// <summary>
-    /// gcloud providers sub-commands.
+    /// gcloud eventarc providers sub-commands.
     /// </summary>
     public GcloudEventarcProviders Providers => _providers ??= new GcloudEventarcProviders(_command);
 
     /// <summary>
-    /// gcloud triggers sub-commands.
+    /// gcloud eventarc triggers sub-commands.
     /// </summary>
     public GcloudEventarcTriggers Triggers => _triggers ??= new GcloudEventarcTriggers(_command);
 

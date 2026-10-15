@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudTranscoder
 {
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud transcoder jobs sub-commands.
     /// </summary>
-    GcloudTranscoderJobs Jobs => throw new System.NotSupportedException();
+    GcloudTranscoderJobs Jobs { get; }
 
     /// <summary>
-    /// gcloud templates sub-commands.
+    /// gcloud transcoder templates sub-commands.
     /// </summary>
-    GcloudTranscoderTemplates Templates => throw new System.NotSupportedException();
+    GcloudTranscoderTemplates Templates { get; }
 
     /// <summary>
     /// manage Transcoder jobs and job templates
@@ -38,7 +38,6 @@ public interface IGcloudTranscoder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudTranscoderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudTranscoderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

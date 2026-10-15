@@ -45,67 +45,67 @@ public class GcloudLogging : IGcloudLogging
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud buckets sub-commands.
+    /// gcloud logging buckets sub-commands.
     /// </summary>
     public GcloudLoggingBuckets Buckets => _buckets ??= new GcloudLoggingBuckets(_command);
 
     /// <summary>
-    /// gcloud links sub-commands.
+    /// gcloud logging links sub-commands.
     /// </summary>
     public GcloudLoggingLinks Links => _links ??= new GcloudLoggingLinks(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud logging locations sub-commands.
     /// </summary>
     public GcloudLoggingLocations Locations => _locations ??= new GcloudLoggingLocations(_command);
 
     /// <summary>
-    /// gcloud logs sub-commands.
+    /// gcloud logging logs sub-commands.
     /// </summary>
     public GcloudLoggingLogs Logs => _logs ??= new GcloudLoggingLogs(_command);
 
     /// <summary>
-    /// gcloud metrics sub-commands.
+    /// gcloud logging metrics sub-commands.
     /// </summary>
     public GcloudLoggingMetrics Metrics => _metrics ??= new GcloudLoggingMetrics(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud logging operations sub-commands.
     /// </summary>
     public GcloudLoggingOperations Operations => _operations ??= new GcloudLoggingOperations(_command);
 
     /// <summary>
-    /// gcloud recent-queries sub-commands.
+    /// gcloud logging recent-queries sub-commands.
     /// </summary>
     public GcloudLoggingRecentQueries RecentQueries => _recentQueries ??= new GcloudLoggingRecentQueries(_command);
 
     /// <summary>
-    /// gcloud resource-descriptors sub-commands.
+    /// gcloud logging resource-descriptors sub-commands.
     /// </summary>
     public GcloudLoggingResourceDescriptors ResourceDescriptors => _resourceDescriptors ??= new GcloudLoggingResourceDescriptors(_command);
 
     /// <summary>
-    /// gcloud saved-queries sub-commands.
+    /// gcloud logging saved-queries sub-commands.
     /// </summary>
     public GcloudLoggingSavedQueries SavedQueries => _savedQueries ??= new GcloudLoggingSavedQueries(_command);
 
     /// <summary>
-    /// gcloud scopes sub-commands.
+    /// gcloud logging scopes sub-commands.
     /// </summary>
     public GcloudLoggingScopes Scopes => _scopes ??= new GcloudLoggingScopes(_command);
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud logging settings sub-commands.
     /// </summary>
     public GcloudLoggingSettings Settings => _settings ??= new GcloudLoggingSettings(_command);
 
     /// <summary>
-    /// gcloud sinks sub-commands.
+    /// gcloud logging sinks sub-commands.
     /// </summary>
     public GcloudLoggingSinks Sinks => _sinks ??= new GcloudLoggingSinks(_command);
 
     /// <summary>
-    /// gcloud views sub-commands.
+    /// gcloud logging views sub-commands.
     /// </summary>
     public GcloudLoggingViews Views => _views ??= new GcloudLoggingViews(_command);
 

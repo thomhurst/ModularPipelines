@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud rolling-action commands.
+/// gcloud preview compute instance-groups managed rolling-action commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInstanceGroupsManagedRollingAction

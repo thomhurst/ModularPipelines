@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud vpc-peerings commands.
+/// gcloud services vpc-peerings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudServicesVpcPeerings
@@ -33,7 +33,7 @@ public class GcloudServicesVpcPeerings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud services vpc-peerings operations sub-commands.
     /// </summary>
     public GcloudServicesVpcPeeringsOperations Operations => _operations ??= new GcloudServicesVpcPeeringsOperations(_command);
 

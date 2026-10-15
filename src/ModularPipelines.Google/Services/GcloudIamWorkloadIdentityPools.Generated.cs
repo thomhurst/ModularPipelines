@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workload-identity-pools commands.
+/// gcloud iam workload-identity-pools commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIamWorkloadIdentityPools
@@ -36,22 +36,22 @@ public class GcloudIamWorkloadIdentityPools
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud managed-identities sub-commands.
+    /// gcloud iam workload-identity-pools managed-identities sub-commands.
     /// </summary>
     public GcloudIamWorkloadIdentityPoolsManagedIdentities ManagedIdentities => _managedIdentities ??= new GcloudIamWorkloadIdentityPoolsManagedIdentities(_command);
 
     /// <summary>
-    /// gcloud namespaces sub-commands.
+    /// gcloud iam workload-identity-pools namespaces sub-commands.
     /// </summary>
     public GcloudIamWorkloadIdentityPoolsNamespaces Namespaces => _namespaces ??= new GcloudIamWorkloadIdentityPoolsNamespaces(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud iam workload-identity-pools operations sub-commands.
     /// </summary>
     public GcloudIamWorkloadIdentityPoolsOperations Operations => _operations ??= new GcloudIamWorkloadIdentityPoolsOperations(_command);
 
     /// <summary>
-    /// gcloud providers sub-commands.
+    /// gcloud iam workload-identity-pools providers sub-commands.
     /// </summary>
     public GcloudIamWorkloadIdentityPoolsProviders Providers => _providers ??= new GcloudIamWorkloadIdentityPoolsProviders(_command);
 

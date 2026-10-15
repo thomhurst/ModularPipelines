@@ -57,7 +57,11 @@ public record GcloudLoggingReadOptions : GcloudOptions, IValidatableObject
     /// At most one of these can be specified: Project of the log entries to read. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// At most one of these can be specified: Resource name(s) to read logs from. A resource can either be an top-level resource (e.g., "projects/my-project") or a full log view resource path (e.g., "projects/my-project/locations/my-location/buckets/my-bucket/views/my-view"). Multiple resources can be specified, separated by a comma. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

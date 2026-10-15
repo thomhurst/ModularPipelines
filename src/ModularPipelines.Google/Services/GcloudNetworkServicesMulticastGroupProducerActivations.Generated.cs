@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud multicast-group-producer-activations commands.
+/// gcloud network-services multicast-group-producer-activations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkServicesMulticastGroupProducerActivations

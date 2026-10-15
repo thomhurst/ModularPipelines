@@ -58,7 +58,7 @@ public record GcloudEndpointsServicesDeployOptions : GcloudOptions
     /// <summary>
     /// Force the deployment even if any hazardous changes to the service configuration are detected.
     /// </summary>
-    [CliFlag("--force")]
+    [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
 
     /// <summary>

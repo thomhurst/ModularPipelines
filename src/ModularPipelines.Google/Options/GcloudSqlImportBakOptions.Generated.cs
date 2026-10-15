@@ -49,7 +49,7 @@ public record GcloudSqlImportBakOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// A new database into which the import is made.
     /// </summary>
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--database", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
     public string Database { get; private init; }
 
     /// <summary>

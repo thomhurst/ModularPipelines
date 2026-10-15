@@ -36,22 +36,22 @@ public class GcloudMetastore : IGcloudMetastore
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud federations sub-commands.
+    /// gcloud metastore federations sub-commands.
     /// </summary>
     public GcloudMetastoreFederations Federations => _federations ??= new GcloudMetastoreFederations(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud metastore locations sub-commands.
     /// </summary>
     public GcloudMetastoreLocations Locations => _locations ??= new GcloudMetastoreLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud metastore operations sub-commands.
     /// </summary>
     public GcloudMetastoreOperations Operations => _operations ??= new GcloudMetastoreOperations(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud metastore services sub-commands.
     /// </summary>
     public GcloudMetastoreServices Services => _services ??= new GcloudMetastoreServices(_command);
 

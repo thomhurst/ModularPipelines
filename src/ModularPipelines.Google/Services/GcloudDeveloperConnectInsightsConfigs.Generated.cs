@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud insights-configs commands.
+/// gcloud developer-connect insights-configs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDeveloperConnectInsightsConfigs
@@ -33,7 +33,7 @@ public class GcloudDeveloperConnectInsightsConfigs
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud deployment-events sub-commands.
+    /// gcloud developer-connect insights-configs deployment-events sub-commands.
     /// </summary>
     public GcloudDeveloperConnectInsightsConfigsDeploymentEvents DeploymentEvents => _deploymentEvents ??= new GcloudDeveloperConnectInsightsConfigsDeploymentEvents(_command);
 

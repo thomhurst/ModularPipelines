@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud clusters commands.
+/// gcloud edge-cloud container clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgeCloudContainerClusters
@@ -33,7 +33,7 @@ public class GcloudEdgeCloudContainerClusters
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud node-pools sub-commands.
+    /// gcloud edge-cloud container clusters node-pools sub-commands.
     /// </summary>
     public GcloudEdgeCloudContainerClustersNodePools NodePools => _nodePools ??= new GcloudEdgeCloudContainerClustersNodePools(_command);
 

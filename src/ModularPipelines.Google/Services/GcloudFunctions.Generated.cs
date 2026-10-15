@@ -36,22 +36,22 @@ public class GcloudFunctions : IGcloudFunctions
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud event-types sub-commands.
+    /// gcloud functions event-types sub-commands.
     /// </summary>
     public GcloudFunctionsEventTypes EventTypes => _eventTypes ??= new GcloudFunctionsEventTypes(_command);
 
     /// <summary>
-    /// gcloud logs sub-commands.
+    /// gcloud functions logs sub-commands.
     /// </summary>
     public GcloudFunctionsLogs Logs => _logs ??= new GcloudFunctionsLogs(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud functions regions sub-commands.
     /// </summary>
     public GcloudFunctionsRegions Regions => _regions ??= new GcloudFunctionsRegions(_command);
 
     /// <summary>
-    /// gcloud runtimes sub-commands.
+    /// gcloud functions runtimes sub-commands.
     /// </summary>
     public GcloudFunctionsRuntimes Runtimes => _runtimes ??= new GcloudFunctionsRuntimes(_command);
 

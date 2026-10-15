@@ -24,7 +24,7 @@ public record GcloudSqlBackupsListOptions : GcloudOptions
     /// <summary>
     /// Cloud SQL instance ID or "-" for all instances.
     /// </summary>
-    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--instance", ShortForm = "-i", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }
 
 }

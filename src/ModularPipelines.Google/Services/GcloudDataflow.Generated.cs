@@ -36,22 +36,22 @@ public class GcloudDataflow : IGcloudDataflow
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud flex-template sub-commands.
+    /// gcloud dataflow flex-template sub-commands.
     /// </summary>
     public GcloudDataflowFlexTemplate FlexTemplate => _flexTemplate ??= new GcloudDataflowFlexTemplate(_command);
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud dataflow jobs sub-commands.
     /// </summary>
     public GcloudDataflowJobs Jobs => _jobs ??= new GcloudDataflowJobs(_command);
 
     /// <summary>
-    /// gcloud snapshots sub-commands.
+    /// gcloud dataflow snapshots sub-commands.
     /// </summary>
     public GcloudDataflowSnapshots Snapshots => _snapshots ??= new GcloudDataflowSnapshots(_command);
 
     /// <summary>
-    /// gcloud yaml sub-commands.
+    /// gcloud dataflow yaml sub-commands.
     /// </summary>
     public GcloudDataflowYaml Yaml => _yaml ??= new GcloudDataflowYaml(_command);
 

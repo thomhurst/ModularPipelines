@@ -22,49 +22,49 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudSpanner
 {
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud spanner backups sub-commands.
     /// </summary>
-    GcloudSpannerBackups Backups => throw new System.NotSupportedException();
+    GcloudSpannerBackups Backups { get; }
 
     /// <summary>
-    /// gcloud backup-schedules sub-commands.
+    /// gcloud spanner backup-schedules sub-commands.
     /// </summary>
-    GcloudSpannerBackupSchedules BackupSchedules => throw new System.NotSupportedException();
+    GcloudSpannerBackupSchedules BackupSchedules { get; }
 
     /// <summary>
-    /// gcloud databases sub-commands.
+    /// gcloud spanner databases sub-commands.
     /// </summary>
-    GcloudSpannerDatabases Databases => throw new System.NotSupportedException();
+    GcloudSpannerDatabases Databases { get; }
 
     /// <summary>
-    /// gcloud instance-configs sub-commands.
+    /// gcloud spanner instance-configs sub-commands.
     /// </summary>
-    GcloudSpannerInstanceConfigs InstanceConfigs => throw new System.NotSupportedException();
+    GcloudSpannerInstanceConfigs InstanceConfigs { get; }
 
     /// <summary>
-    /// gcloud instance-partitions sub-commands.
+    /// gcloud spanner instance-partitions sub-commands.
     /// </summary>
-    GcloudSpannerInstancePartitions InstancePartitions => throw new System.NotSupportedException();
+    GcloudSpannerInstancePartitions InstancePartitions { get; }
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud spanner instances sub-commands.
     /// </summary>
-    GcloudSpannerInstances Instances => throw new System.NotSupportedException();
+    GcloudSpannerInstances Instances { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud spanner operations sub-commands.
     /// </summary>
-    GcloudSpannerOperations Operations => throw new System.NotSupportedException();
+    GcloudSpannerOperations Operations { get; }
 
     /// <summary>
-    /// gcloud rows sub-commands.
+    /// gcloud spanner rows sub-commands.
     /// </summary>
-    GcloudSpannerRows Rows => throw new System.NotSupportedException();
+    GcloudSpannerRows Rows { get; }
 
     /// <summary>
-    /// gcloud samples sub-commands.
+    /// gcloud spanner samples sub-commands.
     /// </summary>
-    GcloudSpannerSamples Samples => throw new System.NotSupportedException();
+    GcloudSpannerSamples Samples { get; }
 
     /// <summary>
     /// command groups for Cloud Spanner
@@ -73,8 +73,7 @@ public interface IGcloudSpanner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudSpannerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudSpannerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// an interactive shell for Spanner
@@ -83,7 +82,6 @@ public interface IGcloudSpanner
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CliAsync(GcloudSpannerCliOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CliAsync(GcloudSpannerCliOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

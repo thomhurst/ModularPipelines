@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud os-config commands.
+/// gcloud compute os-config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeOsConfig
@@ -40,42 +40,42 @@ public class GcloudComputeOsConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud inventories sub-commands.
+    /// gcloud compute os-config inventories sub-commands.
     /// </summary>
     public GcloudComputeOsConfigInventories Inventories => _inventories ??= new GcloudComputeOsConfigInventories(_command);
 
     /// <summary>
-    /// gcloud os-policy-assignment-reports sub-commands.
+    /// gcloud compute os-config os-policy-assignment-reports sub-commands.
     /// </summary>
     public GcloudComputeOsConfigOsPolicyAssignmentReports OsPolicyAssignmentReports => _osPolicyAssignmentReports ??= new GcloudComputeOsConfigOsPolicyAssignmentReports(_command);
 
     /// <summary>
-    /// gcloud os-policy-assignments sub-commands.
+    /// gcloud compute os-config os-policy-assignments sub-commands.
     /// </summary>
     public GcloudComputeOsConfigOsPolicyAssignments OsPolicyAssignments => _osPolicyAssignments ??= new GcloudComputeOsConfigOsPolicyAssignments(_command);
 
     /// <summary>
-    /// gcloud patch-deployments sub-commands.
+    /// gcloud compute os-config patch-deployments sub-commands.
     /// </summary>
     public GcloudComputeOsConfigPatchDeployments PatchDeployments => _patchDeployments ??= new GcloudComputeOsConfigPatchDeployments(_command);
 
     /// <summary>
-    /// gcloud patch-jobs sub-commands.
+    /// gcloud compute os-config patch-jobs sub-commands.
     /// </summary>
     public GcloudComputeOsConfigPatchJobs PatchJobs => _patchJobs ??= new GcloudComputeOsConfigPatchJobs(_command);
 
     /// <summary>
-    /// gcloud policy-orchestrators sub-commands.
+    /// gcloud compute os-config policy-orchestrators sub-commands.
     /// </summary>
     public GcloudComputeOsConfigPolicyOrchestrators PolicyOrchestrators => _policyOrchestrators ??= new GcloudComputeOsConfigPolicyOrchestrators(_command);
 
     /// <summary>
-    /// gcloud project-feature-settings sub-commands.
+    /// gcloud compute os-config project-feature-settings sub-commands.
     /// </summary>
     public GcloudComputeOsConfigProjectFeatureSettings ProjectFeatureSettings => _projectFeatureSettings ??= new GcloudComputeOsConfigProjectFeatureSettings(_command);
 
     /// <summary>
-    /// gcloud vulnerability-reports sub-commands.
+    /// gcloud compute os-config vulnerability-reports sub-commands.
     /// </summary>
     public GcloudComputeOsConfigVulnerabilityReports VulnerabilityReports => _vulnerabilityReports ??= new GcloudComputeOsConfigVulnerabilityReports(_command);
 

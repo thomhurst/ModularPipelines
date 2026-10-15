@@ -41,47 +41,47 @@ public class GcloudGemini : IGcloudGemini
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud code-repository-indexes sub-commands.
+    /// gcloud gemini code-repository-indexes sub-commands.
     /// </summary>
     public GcloudGeminiCodeRepositoryIndexes CodeRepositoryIndexes => _codeRepositoryIndexes ??= new GcloudGeminiCodeRepositoryIndexes(_command);
 
     /// <summary>
-    /// gcloud code-tools-settings sub-commands.
+    /// gcloud gemini code-tools-settings sub-commands.
     /// </summary>
     public GcloudGeminiCodeToolsSettings CodeToolsSettings => _codeToolsSettings ??= new GcloudGeminiCodeToolsSettings(_command);
 
     /// <summary>
-    /// gcloud data-sharing-with-google-settings sub-commands.
+    /// gcloud gemini data-sharing-with-google-settings sub-commands.
     /// </summary>
     public GcloudGeminiDataSharingWithGoogleSettings DataSharingWithGoogleSettings => _dataSharingWithGoogleSettings ??= new GcloudGeminiDataSharingWithGoogleSettings(_command);
 
     /// <summary>
-    /// gcloud gda-observability-settings sub-commands.
+    /// gcloud gemini gda-observability-settings sub-commands.
     /// </summary>
     public GcloudGeminiGdaObservabilitySettings GdaObservabilitySettings => _gdaObservabilitySettings ??= new GcloudGeminiGdaObservabilitySettings(_command);
 
     /// <summary>
-    /// gcloud gemini-gcp-enablement-settings sub-commands.
+    /// gcloud gemini gemini-gcp-enablement-settings sub-commands.
     /// </summary>
     public GcloudGeminiGeminiGcpEnablementSettings GeminiGcpEnablementSettings => _geminiGcpEnablementSettings ??= new GcloudGeminiGeminiGcpEnablementSettings(_command);
 
     /// <summary>
-    /// gcloud gibq-observability-settings sub-commands.
+    /// gcloud gemini gibq-observability-settings sub-commands.
     /// </summary>
     public GcloudGeminiGibqObservabilitySettings GibqObservabilitySettings => _gibqObservabilitySettings ??= new GcloudGeminiGibqObservabilitySettings(_command);
 
     /// <summary>
-    /// gcloud logging-settings sub-commands.
+    /// gcloud gemini logging-settings sub-commands.
     /// </summary>
     public GcloudGeminiLoggingSettings LoggingSettings => _loggingSettings ??= new GcloudGeminiLoggingSettings(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud gemini operations sub-commands.
     /// </summary>
     public GcloudGeminiOperations Operations => _operations ??= new GcloudGeminiOperations(_command);
 
     /// <summary>
-    /// gcloud release-channel-settings sub-commands.
+    /// gcloud gemini release-channel-settings sub-commands.
     /// </summary>
     public GcloudGeminiReleaseChannelSettings ReleaseChannelSettings => _releaseChannelSettings ??= new GcloudGeminiReleaseChannelSettings(_command);
 

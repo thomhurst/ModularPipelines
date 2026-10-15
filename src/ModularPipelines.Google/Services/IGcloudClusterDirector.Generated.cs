@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud clusterdirector commands.
+/// gcloud cluster-director commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudClusterDirector
 {
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud cluster-director clusters sub-commands.
     /// </summary>
-    GcloudClusterDirectorClusters Clusters => throw new System.NotSupportedException();
+    GcloudClusterDirectorClusters Clusters { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud cluster-director locations sub-commands.
     /// </summary>
-    GcloudClusterDirectorLocations Locations => throw new System.NotSupportedException();
+    GcloudClusterDirectorLocations Locations { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud cluster-director operations sub-commands.
     /// </summary>
-    GcloudClusterDirectorOperations Operations => throw new System.NotSupportedException();
+    GcloudClusterDirectorOperations Operations { get; }
 
     /// <summary>
     /// manage Cluster Director resources
@@ -43,7 +43,6 @@ public interface IGcloudClusterDirector
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudClusterDirectorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudClusterDirectorOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

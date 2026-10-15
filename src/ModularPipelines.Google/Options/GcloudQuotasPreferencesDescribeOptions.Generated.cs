@@ -55,7 +55,11 @@ public record GcloudQuotasPreferencesDescribeOptions : GcloudOptions, IValidatab
     /// Exactly one of these must be specified: Project of the quota preference to describe.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// ID of the Quota Preference object, must be unique under its parent.

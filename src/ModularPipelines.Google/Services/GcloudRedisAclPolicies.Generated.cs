@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud acl-policies commands.
+/// gcloud redis acl-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudRedisAclPolicies
@@ -33,7 +33,7 @@ public class GcloudRedisAclPolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud redis acl-policies revisions sub-commands.
     /// </summary>
     public GcloudRedisAclPoliciesRevisions Revisions => _revisions ??= new GcloudRedisAclPoliciesRevisions(_command);
 

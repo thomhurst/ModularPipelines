@@ -30,13 +30,13 @@ public record GcloudAppBrowseOptions : GcloudOptions
     /// <summary>
     /// The service that should be opened. If not specified, use the default service. May be used in conjunction with --version.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
     /// <summary>
     /// The version of the app that should be opened. If not specified, choose a version based on the service's traffic split.
     /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--version", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
 }

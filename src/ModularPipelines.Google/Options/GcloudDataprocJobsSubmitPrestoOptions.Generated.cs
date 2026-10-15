@@ -42,13 +42,13 @@ public record GcloudDataprocJobsSubmitPrestoOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// Exactly one of these must be specified: A Presto query to execute.
     /// </summary>
-    [CliOption("--execute", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--execute", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public string? Execute { get; set; }
 
     /// <summary>
     /// Exactly one of these must be specified: HCFS URI of file containing the Presto script to execute.
     /// </summary>
-    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
 
     /// <summary>

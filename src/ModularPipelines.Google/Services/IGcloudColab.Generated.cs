@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudColab
 {
     /// <summary>
-    /// gcloud executions sub-commands.
+    /// gcloud colab executions sub-commands.
     /// </summary>
-    GcloudColabExecutions Executions => throw new System.NotSupportedException();
+    GcloudColabExecutions Executions { get; }
 
     /// <summary>
-    /// gcloud runtimes sub-commands.
+    /// gcloud colab runtimes sub-commands.
     /// </summary>
-    GcloudColabRuntimes Runtimes => throw new System.NotSupportedException();
+    GcloudColabRuntimes Runtimes { get; }
 
     /// <summary>
-    /// gcloud runtime-templates sub-commands.
+    /// gcloud colab runtime-templates sub-commands.
     /// </summary>
-    GcloudColabRuntimeTemplates RuntimeTemplates => throw new System.NotSupportedException();
+    GcloudColabRuntimeTemplates RuntimeTemplates { get; }
 
     /// <summary>
-    /// gcloud schedules sub-commands.
+    /// gcloud colab schedules sub-commands.
     /// </summary>
-    GcloudColabSchedules Schedules => throw new System.NotSupportedException();
+    GcloudColabSchedules Schedules { get; }
 
     /// <summary>
     /// manage Colab Enterprise resources
@@ -48,7 +48,6 @@ public interface IGcloudColab
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudColabOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudColabOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workspaceaddons commands.
+/// gcloud workspace-add-ons commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudWorkspaceAddOns
 {
     /// <summary>
-    /// gcloud deployments sub-commands.
+    /// gcloud workspace-add-ons deployments sub-commands.
     /// </summary>
-    GcloudWorkspaceAddOnsDeployments Deployments => throw new System.NotSupportedException();
+    GcloudWorkspaceAddOnsDeployments Deployments { get; }
 
     /// <summary>
     /// ons resources
@@ -33,8 +33,7 @@ public interface IGcloudWorkspaceAddOns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudWorkspaceAddOnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudWorkspaceAddOnsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// gets the authorization     information for deployments in a given project
@@ -43,7 +42,6 @@ public interface IGcloudWorkspaceAddOns
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAuthorizationAsync(GcloudWorkspaceAddOnsGetAuthorizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAuthorizationAsync(GcloudWorkspaceAddOnsGetAuthorizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

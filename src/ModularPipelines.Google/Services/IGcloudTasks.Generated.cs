@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudTasks
 {
     /// <summary>
-    /// gcloud cmek-config sub-commands.
+    /// gcloud tasks cmek-config sub-commands.
     /// </summary>
-    GcloudTasksCmekConfig CmekConfig => throw new System.NotSupportedException();
+    GcloudTasksCmekConfig CmekConfig { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud tasks locations sub-commands.
     /// </summary>
-    GcloudTasksLocations Locations => throw new System.NotSupportedException();
+    GcloudTasksLocations Locations { get; }
 
     /// <summary>
-    /// gcloud queues sub-commands.
+    /// gcloud tasks queues sub-commands.
     /// </summary>
-    GcloudTasksQueues Queues => throw new System.NotSupportedException();
+    GcloudTasksQueues Queues { get; }
 
     /// <summary>
     /// manage Cloud Tasks queues and tasks
@@ -43,8 +43,7 @@ public interface IGcloudTasks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// buffers a task into a queue
@@ -53,8 +52,7 @@ public interface IGcloudTasks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BufferAsync(GcloudTasksBufferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BufferAsync(GcloudTasksBufferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// create and add a task that targets     App Engine
@@ -63,8 +61,7 @@ public interface IGcloudTasks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppEngineTaskAsync(GcloudTasksCreateAppEngineTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppEngineTaskAsync(GcloudTasksCreateAppEngineTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// create and add a task that targets a HTTP     endpoint
@@ -73,8 +70,7 @@ public interface IGcloudTasks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHttpTaskAsync(GcloudTasksCreateHttpTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHttpTaskAsync(GcloudTasksCreateHttpTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// delete a task from a queue
@@ -83,8 +79,7 @@ public interface IGcloudTasks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(GcloudTasksDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(GcloudTasksDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// show details about a task
@@ -93,8 +88,7 @@ public interface IGcloudTasks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAsync(GcloudTasksDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAsync(GcloudTasksDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list tasks
@@ -103,8 +97,7 @@ public interface IGcloudTasks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(GcloudTasksListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(GcloudTasksListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// force a task to run now
@@ -113,7 +106,6 @@ public interface IGcloudTasks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RunAsync(GcloudTasksRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RunAsync(GcloudTasksRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

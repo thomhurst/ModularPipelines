@@ -46,7 +46,7 @@ public record GcloudDnsOperationsDescribeOptions : GcloudOptions
     /// <summary>
     /// Name of zone to get operations from.
     /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zone", ShortForm = "-z", Format = OptionFormat.EqualsSeparated)]
     public string Zone { get; private init; }
 
     /// <summary>

@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud auditmanager commands.
+/// gcloud audit-manager commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,29 +22,29 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudAuditManager
 {
     /// <summary>
-    /// gcloud audit-reports sub-commands.
+    /// gcloud audit-manager audit-reports sub-commands.
     /// </summary>
-    GcloudAuditManagerAuditReports AuditReports => throw new System.NotSupportedException();
+    GcloudAuditManagerAuditReports AuditReports { get; }
 
     /// <summary>
-    /// gcloud audit-schedules sub-commands.
+    /// gcloud audit-manager audit-schedules sub-commands.
     /// </summary>
-    GcloudAuditManagerAuditSchedules AuditSchedules => throw new System.NotSupportedException();
+    GcloudAuditManagerAuditSchedules AuditSchedules { get; }
 
     /// <summary>
-    /// gcloud audit-scopes sub-commands.
+    /// gcloud audit-manager audit-scopes sub-commands.
     /// </summary>
-    GcloudAuditManagerAuditScopes AuditScopes => throw new System.NotSupportedException();
+    GcloudAuditManagerAuditScopes AuditScopes { get; }
 
     /// <summary>
-    /// gcloud enrollments sub-commands.
+    /// gcloud audit-manager enrollments sub-commands.
     /// </summary>
-    GcloudAuditManagerEnrollments Enrollments => throw new System.NotSupportedException();
+    GcloudAuditManagerEnrollments Enrollments { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud audit-manager operations sub-commands.
     /// </summary>
-    GcloudAuditManagerOperations Operations => throw new System.NotSupportedException();
+    GcloudAuditManagerOperations Operations { get; }
 
     /// <summary>
     /// enroll resources, audit workloads and generate     reports
@@ -53,7 +53,6 @@ public interface IGcloudAuditManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAuditManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAuditManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

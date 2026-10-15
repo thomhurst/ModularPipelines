@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud providers commands.
+/// gcloud iam workforce-pools providers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIamWorkforcePoolsProviders
@@ -35,17 +35,17 @@ public class GcloudIamWorkforcePoolsProviders
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud keys sub-commands.
+    /// gcloud iam workforce-pools providers keys sub-commands.
     /// </summary>
     public GcloudIamWorkforcePoolsProvidersKeys Keys => _keys ??= new GcloudIamWorkforcePoolsProvidersKeys(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud iam workforce-pools providers operations sub-commands.
     /// </summary>
     public GcloudIamWorkforcePoolsProvidersOperations Operations => _operations ??= new GcloudIamWorkforcePoolsProvidersOperations(_command);
 
     /// <summary>
-    /// gcloud scim-tenants sub-commands.
+    /// gcloud iam workforce-pools providers scim-tenants sub-commands.
     /// </summary>
     public GcloudIamWorkforcePoolsProvidersScimTenants ScimTenants => _scimTenants ??= new GcloudIamWorkforcePoolsProvidersScimTenants(_command);
 

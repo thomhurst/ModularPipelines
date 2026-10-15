@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud gemini-gcp-enablement-settings commands.
+/// gcloud gemini gemini-gcp-enablement-settings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudGeminiGeminiGcpEnablementSettings
@@ -33,7 +33,7 @@ public class GcloudGeminiGeminiGcpEnablementSettings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud setting-bindings sub-commands.
+    /// gcloud gemini gemini-gcp-enablement-settings setting-bindings sub-commands.
     /// </summary>
     public GcloudGeminiGeminiGcpEnablementSettingsSettingBindings SettingBindings => _settingBindings ??= new GcloudGeminiGeminiGcpEnablementSettingsSettingBindings(_command);
 

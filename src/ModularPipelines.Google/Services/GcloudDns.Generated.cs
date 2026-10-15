@@ -39,37 +39,37 @@ public class GcloudDns : IGcloudDns
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud dns-keys sub-commands.
+    /// gcloud dns dns-keys sub-commands.
     /// </summary>
     public GcloudDnsDnsKeys DnsKeys => _dnsKeys ??= new GcloudDnsDnsKeys(_command);
 
     /// <summary>
-    /// gcloud managed-zones sub-commands.
+    /// gcloud dns managed-zones sub-commands.
     /// </summary>
     public GcloudDnsManagedZones ManagedZones => _managedZones ??= new GcloudDnsManagedZones(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud dns operations sub-commands.
     /// </summary>
     public GcloudDnsOperations Operations => _operations ??= new GcloudDnsOperations(_command);
 
     /// <summary>
-    /// gcloud policies sub-commands.
+    /// gcloud dns policies sub-commands.
     /// </summary>
     public GcloudDnsPolicies Policies => _policies ??= new GcloudDnsPolicies(_command);
 
     /// <summary>
-    /// gcloud project-info sub-commands.
+    /// gcloud dns project-info sub-commands.
     /// </summary>
     public GcloudDnsProjectInfo ProjectInfo => _projectInfo ??= new GcloudDnsProjectInfo(_command);
 
     /// <summary>
-    /// gcloud record-sets sub-commands.
+    /// gcloud dns record-sets sub-commands.
     /// </summary>
     public GcloudDnsRecordSets RecordSets => _recordSets ??= new GcloudDnsRecordSets(_command);
 
     /// <summary>
-    /// gcloud response-policies sub-commands.
+    /// gcloud dns response-policies sub-commands.
     /// </summary>
     public GcloudDnsResponsePolicies ResponsePolicies => _responsePolicies ??= new GcloudDnsResponsePolicies(_command);
 

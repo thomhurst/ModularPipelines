@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud record-sets commands.
+/// gcloud dns record-sets commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDnsRecordSets
@@ -34,12 +34,12 @@ public class GcloudDnsRecordSets
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud changes sub-commands.
+    /// gcloud dns record-sets changes sub-commands.
     /// </summary>
     public GcloudDnsRecordSetsChanges Changes => _changes ??= new GcloudDnsRecordSetsChanges(_command);
 
     /// <summary>
-    /// gcloud transaction sub-commands.
+    /// gcloud dns record-sets transaction sub-commands.
     /// </summary>
     public GcloudDnsRecordSetsTransaction Transaction => _transaction ??= new GcloudDnsRecordSetsTransaction(_command);
 

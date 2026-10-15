@@ -30,7 +30,7 @@ public record GcloudAppVersionsListOptions : GcloudOptions
     /// <summary>
     /// Only show versions from this service.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
 }

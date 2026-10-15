@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud domains commands.
+/// gcloud active-directory domains commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudActiveDirectoryDomains
@@ -34,12 +34,12 @@ public class GcloudActiveDirectoryDomains
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud active-directory domains backups sub-commands.
     /// </summary>
     public GcloudActiveDirectoryDomainsBackups Backups => _backups ??= new GcloudActiveDirectoryDomainsBackups(_command);
 
     /// <summary>
-    /// gcloud trusts sub-commands.
+    /// gcloud active-directory domains trusts sub-commands.
     /// </summary>
     public GcloudActiveDirectoryDomainsTrusts Trusts => _trusts ??= new GcloudActiveDirectoryDomainsTrusts(_command);
 

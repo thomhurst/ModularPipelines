@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud gi-versions commands.
+/// gcloud oracle-database gi-versions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabaseGiVersions
@@ -33,7 +33,7 @@ public class GcloudOracleDatabaseGiVersions
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud minor-versions sub-commands.
+    /// gcloud oracle-database gi-versions minor-versions sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGiVersionsMinorVersions MinorVersions => _minorVersions ??= new GcloudOracleDatabaseGiVersionsMinorVersions(_command);
 

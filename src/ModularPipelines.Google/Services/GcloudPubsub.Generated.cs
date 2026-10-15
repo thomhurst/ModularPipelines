@@ -41,47 +41,47 @@ public class GcloudPubsub : IGcloudPubsub
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud lite-operations sub-commands.
+    /// gcloud pubsub lite-operations sub-commands.
     /// </summary>
     public GcloudPubsubLiteOperations LiteOperations => _liteOperations ??= new GcloudPubsubLiteOperations(_command);
 
     /// <summary>
-    /// gcloud lite-reservations sub-commands.
+    /// gcloud pubsub lite-reservations sub-commands.
     /// </summary>
     public GcloudPubsubLiteReservations LiteReservations => _liteReservations ??= new GcloudPubsubLiteReservations(_command);
 
     /// <summary>
-    /// gcloud lite-subscriptions sub-commands.
+    /// gcloud pubsub lite-subscriptions sub-commands.
     /// </summary>
     public GcloudPubsubLiteSubscriptions LiteSubscriptions => _liteSubscriptions ??= new GcloudPubsubLiteSubscriptions(_command);
 
     /// <summary>
-    /// gcloud lite-topics sub-commands.
+    /// gcloud pubsub lite-topics sub-commands.
     /// </summary>
     public GcloudPubsubLiteTopics LiteTopics => _liteTopics ??= new GcloudPubsubLiteTopics(_command);
 
     /// <summary>
-    /// gcloud message-transforms sub-commands.
+    /// gcloud pubsub message-transforms sub-commands.
     /// </summary>
     public GcloudPubsubMessageTransforms MessageTransforms => _messageTransforms ??= new GcloudPubsubMessageTransforms(_command);
 
     /// <summary>
-    /// gcloud schemas sub-commands.
+    /// gcloud pubsub schemas sub-commands.
     /// </summary>
     public GcloudPubsubSchemas Schemas => _schemas ??= new GcloudPubsubSchemas(_command);
 
     /// <summary>
-    /// gcloud snapshots sub-commands.
+    /// gcloud pubsub snapshots sub-commands.
     /// </summary>
     public GcloudPubsubSnapshots Snapshots => _snapshots ??= new GcloudPubsubSnapshots(_command);
 
     /// <summary>
-    /// gcloud subscriptions sub-commands.
+    /// gcloud pubsub subscriptions sub-commands.
     /// </summary>
     public GcloudPubsubSubscriptions Subscriptions => _subscriptions ??= new GcloudPubsubSubscriptions(_command);
 
     /// <summary>
-    /// gcloud topics sub-commands.
+    /// gcloud pubsub topics sub-commands.
     /// </summary>
     public GcloudPubsubTopics Topics => _topics ??= new GcloudPubsubTopics(_command);
 

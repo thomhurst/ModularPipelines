@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud intercept-endpoint-group-associations commands.
+/// gcloud network-security intercept-endpoint-group-associations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkSecurityInterceptEndpointGroupAssociations

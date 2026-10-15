@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud networkmanagement commands.
+/// gcloud network-management commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudNetworkManagement
 {
     /// <summary>
-    /// gcloud connectivity-tests sub-commands.
+    /// gcloud network-management connectivity-tests sub-commands.
     /// </summary>
-    GcloudNetworkManagementConnectivityTests ConnectivityTests => throw new System.NotSupportedException();
+    GcloudNetworkManagementConnectivityTests ConnectivityTests { get; }
 
     /// <summary>
-    /// gcloud network-monitoring-providers sub-commands.
+    /// gcloud network-management network-monitoring-providers sub-commands.
     /// </summary>
-    GcloudNetworkManagementNetworkMonitoringProviders NetworkMonitoringProviders => throw new System.NotSupportedException();
+    GcloudNetworkManagementNetworkMonitoringProviders NetworkMonitoringProviders { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud network-management operations sub-commands.
     /// </summary>
-    GcloudNetworkManagementOperations Operations => throw new System.NotSupportedException();
+    GcloudNetworkManagementOperations Operations { get; }
 
     /// <summary>
-    /// gcloud vpc-flow-logs-configs sub-commands.
+    /// gcloud network-management vpc-flow-logs-configs sub-commands.
     /// </summary>
-    GcloudNetworkManagementVpcFlowLogsConfigs VpcFlowLogsConfigs => throw new System.NotSupportedException();
+    GcloudNetworkManagementVpcFlowLogsConfigs VpcFlowLogsConfigs { get; }
 
     /// <summary>
     /// manage Network Management resources
@@ -48,7 +48,6 @@ public interface IGcloudNetworkManagement
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudNetworkManagementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudNetworkManagementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

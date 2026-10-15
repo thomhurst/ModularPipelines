@@ -61,7 +61,11 @@ public record GcloudSccManageCustomModulesShaDescribeOptions : GcloudOptions, IV
     /// At most one of these can be specified: Project associated with the custom module.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// The custom module ID or name. The expected format is {parent}/[locations/global]/securityHealthAnalyticsCustomModules/{module_id} or just {module_id}. Where module_id is a numeric identifier 1-20 characters in length. Parent is of the form organizations/{id}, projects/{id or name}, folders/{id}.

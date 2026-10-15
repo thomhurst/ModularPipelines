@@ -63,7 +63,7 @@ public record GcloudSqlInstancesExecuteSqlOptions : GcloudOptions
     /// <summary>
     /// Database on which the statement is executed.
     /// </summary>
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--database", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
     /// <summary>

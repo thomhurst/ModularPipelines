@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud service-accounts commands.
+/// gcloud iam service-accounts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIamServiceAccounts
@@ -33,7 +33,7 @@ public class GcloudIamServiceAccounts
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud keys sub-commands.
+    /// gcloud iam service-accounts keys sub-commands.
     /// </summary>
     public GcloudIamServiceAccountsKeys Keys => _keys ??= new GcloudIamServiceAccountsKeys(_command);
 

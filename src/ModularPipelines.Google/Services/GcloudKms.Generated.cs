@@ -44,62 +44,62 @@ public class GcloudKms : IGcloudKms
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud autokey-config sub-commands.
+    /// gcloud kms autokey-config sub-commands.
     /// </summary>
     public GcloudKmsAutokeyConfig AutokeyConfig => _autokeyConfig ??= new GcloudKmsAutokeyConfig(_command);
 
     /// <summary>
-    /// gcloud ekm-config sub-commands.
+    /// gcloud kms ekm-config sub-commands.
     /// </summary>
     public GcloudKmsEkmConfig EkmConfig => _ekmConfig ??= new GcloudKmsEkmConfig(_command);
 
     /// <summary>
-    /// gcloud ekm-connections sub-commands.
+    /// gcloud kms ekm-connections sub-commands.
     /// </summary>
     public GcloudKmsEkmConnections EkmConnections => _ekmConnections ??= new GcloudKmsEkmConnections(_command);
 
     /// <summary>
-    /// gcloud import-jobs sub-commands.
+    /// gcloud kms import-jobs sub-commands.
     /// </summary>
     public GcloudKmsImportJobs ImportJobs => _importJobs ??= new GcloudKmsImportJobs(_command);
 
     /// <summary>
-    /// gcloud inventory sub-commands.
+    /// gcloud kms inventory sub-commands.
     /// </summary>
     public GcloudKmsInventory Inventory => _inventory ??= new GcloudKmsInventory(_command);
 
     /// <summary>
-    /// gcloud key-handles sub-commands.
+    /// gcloud kms key-handles sub-commands.
     /// </summary>
     public GcloudKmsKeyHandles KeyHandles => _keyHandles ??= new GcloudKmsKeyHandles(_command);
 
     /// <summary>
-    /// gcloud keyrings sub-commands.
+    /// gcloud kms keyrings sub-commands.
     /// </summary>
     public GcloudKmsKeyrings Keyrings => _keyrings ??= new GcloudKmsKeyrings(_command);
 
     /// <summary>
-    /// gcloud keys sub-commands.
+    /// gcloud kms keys sub-commands.
     /// </summary>
     public GcloudKmsKeys Keys => _keys ??= new GcloudKmsKeys(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud kms locations sub-commands.
     /// </summary>
     public GcloudKmsLocations Locations => _locations ??= new GcloudKmsLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud kms operations sub-commands.
     /// </summary>
     public GcloudKmsOperations Operations => _operations ??= new GcloudKmsOperations(_command);
 
     /// <summary>
-    /// gcloud retired-resources sub-commands.
+    /// gcloud kms retired-resources sub-commands.
     /// </summary>
     public GcloudKmsRetiredResources RetiredResources => _retiredResources ??= new GcloudKmsRetiredResources(_command);
 
     /// <summary>
-    /// gcloud single-tenant-hsm sub-commands.
+    /// gcloud kms single-tenant-hsm sub-commands.
     /// </summary>
     public GcloudKmsSingleTenantHsm SingleTenantHsm => _singleTenantHsm ??= new GcloudKmsSingleTenantHsm(_command);
 

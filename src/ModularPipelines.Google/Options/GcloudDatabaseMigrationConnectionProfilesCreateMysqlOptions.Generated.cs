@@ -97,13 +97,13 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : Gclo
     public GcloudDatabaseMigrationConnectionProfilesCreateMysqlSslType? SslType { get; set; }
 
     /// <summary>
-    /// x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
+    /// x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--client-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? ClientCertificate { get; set; }
 
     /// <summary>
-    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
+    /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--private-key=$(&lt;/path/to/private_key_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
     [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]

@@ -52,7 +52,7 @@ public record GcloudAppVersionsStartOptions : GcloudOptions
     /// <summary>
     /// If specified, only start versions from the given service.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
     /// <summary>

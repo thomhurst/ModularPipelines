@@ -41,47 +41,47 @@ public class GcloudNetapp : IGcloudNetapp
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud active-directories sub-commands.
+    /// gcloud netapp active-directories sub-commands.
     /// </summary>
     public GcloudNetappActiveDirectories ActiveDirectories => _activeDirectories ??= new GcloudNetappActiveDirectories(_command);
 
     /// <summary>
-    /// gcloud backup-policies sub-commands.
+    /// gcloud netapp backup-policies sub-commands.
     /// </summary>
     public GcloudNetappBackupPolicies BackupPolicies => _backupPolicies ??= new GcloudNetappBackupPolicies(_command);
 
     /// <summary>
-    /// gcloud backup-vaults sub-commands.
+    /// gcloud netapp backup-vaults sub-commands.
     /// </summary>
     public GcloudNetappBackupVaults BackupVaults => _backupVaults ??= new GcloudNetappBackupVaults(_command);
 
     /// <summary>
-    /// gcloud host-groups sub-commands.
+    /// gcloud netapp host-groups sub-commands.
     /// </summary>
     public GcloudNetappHostGroups HostGroups => _hostGroups ??= new GcloudNetappHostGroups(_command);
 
     /// <summary>
-    /// gcloud kms-configs sub-commands.
+    /// gcloud netapp kms-configs sub-commands.
     /// </summary>
     public GcloudNetappKmsConfigs KmsConfigs => _kmsConfigs ??= new GcloudNetappKmsConfigs(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud netapp locations sub-commands.
     /// </summary>
     public GcloudNetappLocations Locations => _locations ??= new GcloudNetappLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud netapp operations sub-commands.
     /// </summary>
     public GcloudNetappOperations Operations => _operations ??= new GcloudNetappOperations(_command);
 
     /// <summary>
-    /// gcloud storage-pools sub-commands.
+    /// gcloud netapp storage-pools sub-commands.
     /// </summary>
     public GcloudNetappStoragePools StoragePools => _storagePools ??= new GcloudNetappStoragePools(_command);
 
     /// <summary>
-    /// gcloud volumes sub-commands.
+    /// gcloud netapp volumes sub-commands.
     /// </summary>
     public GcloudNetappVolumes Volumes => _volumes ??= new GcloudNetappVolumes(_command);
 

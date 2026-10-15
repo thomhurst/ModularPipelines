@@ -148,7 +148,6 @@ internal partial class Gcloud : IGcloud
         IGcloudStorage storage,
         IGcloudSupport support,
         IGcloudTasks tasks,
-        IGcloudTelcoAutomation telcoAutomation,
         IGcloudTranscoder transcoder,
         IGcloudTransfer transfer,
         IGcloudVectorSearch vectorSearch,
@@ -284,7 +283,6 @@ internal partial class Gcloud : IGcloud
         Storage = storage;
         Support = support;
         Tasks = tasks;
-        TelcoAutomation = telcoAutomation;
         Transcoder = transcoder;
         Transfer = transfer;
         VectorSearch = vectorSearch;
@@ -669,9 +667,6 @@ internal partial class Gcloud : IGcloud
     public IGcloudTasks Tasks { get; }
 
     /// <inheritdoc />
-    public IGcloudTelcoAutomation TelcoAutomation { get; }
-
-    /// <inheritdoc />
     public IGcloudTranscoder Transcoder { get; }
 
     /// <inheritdoc />
@@ -754,6 +749,15 @@ internal partial class Gcloud : IGcloud
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSurveyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        GcloudVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -34,12 +34,12 @@ public class GcloudWorkstations : IGcloudWorkstations
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud workstations clusters sub-commands.
     /// </summary>
     public GcloudWorkstationsClusters Clusters => _clusters ??= new GcloudWorkstationsClusters(_command);
 
     /// <summary>
-    /// gcloud configs sub-commands.
+    /// gcloud workstations configs sub-commands.
     /// </summary>
     public GcloudWorkstationsConfigs Configs => _configs ??= new GcloudWorkstationsConfigs(_command);
 

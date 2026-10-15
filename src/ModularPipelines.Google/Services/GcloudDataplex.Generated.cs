@@ -23,6 +23,7 @@ public class GcloudDataplex : IGcloudDataplex
     private GcloudDataplexAspectTypes? _aspectTypes;
     private GcloudDataplexAssets? _assets;
     private GcloudDataplexContext? _context;
+    private GcloudDataplexDataProducts? _dataProducts;
     private GcloudDataplexDatascans? _datascans;
     private GcloudDataplexDbt? _dbt;
     private GcloudDataplexEncryptionConfig? _encryptionConfig;
@@ -46,72 +47,77 @@ public class GcloudDataplex : IGcloudDataplex
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud aspect-types sub-commands.
+    /// gcloud dataplex aspect-types sub-commands.
     /// </summary>
     public GcloudDataplexAspectTypes AspectTypes => _aspectTypes ??= new GcloudDataplexAspectTypes(_command);
 
     /// <summary>
-    /// gcloud assets sub-commands.
+    /// gcloud dataplex assets sub-commands.
     /// </summary>
     public GcloudDataplexAssets Assets => _assets ??= new GcloudDataplexAssets(_command);
 
     /// <summary>
-    /// gcloud context sub-commands.
+    /// gcloud dataplex context sub-commands.
     /// </summary>
     public GcloudDataplexContext Context => _context ??= new GcloudDataplexContext(_command);
 
     /// <summary>
-    /// gcloud datascans sub-commands.
+    /// gcloud dataplex data-products sub-commands.
+    /// </summary>
+    public GcloudDataplexDataProducts DataProducts => _dataProducts ??= new GcloudDataplexDataProducts(_command);
+
+    /// <summary>
+    /// gcloud dataplex datascans sub-commands.
     /// </summary>
     public GcloudDataplexDatascans Datascans => _datascans ??= new GcloudDataplexDatascans(_command);
 
     /// <summary>
-    /// gcloud dbt sub-commands.
+    /// gcloud dataplex dbt sub-commands.
     /// </summary>
     public GcloudDataplexDbt Dbt => _dbt ??= new GcloudDataplexDbt(_command);
 
     /// <summary>
-    /// gcloud encryption-config sub-commands.
+    /// gcloud dataplex encryption-config sub-commands.
     /// </summary>
     public GcloudDataplexEncryptionConfig EncryptionConfig => _encryptionConfig ??= new GcloudDataplexEncryptionConfig(_command);
 
     /// <summary>
-    /// gcloud entries sub-commands.
+    /// gcloud dataplex entries sub-commands.
     /// </summary>
     public GcloudDataplexEntries Entries => _entries ??= new GcloudDataplexEntries(_command);
 
     /// <summary>
-    /// gcloud entry-groups sub-commands.
+    /// gcloud dataplex entry-groups sub-commands.
     /// </summary>
     public GcloudDataplexEntryGroups EntryGroups => _entryGroups ??= new GcloudDataplexEntryGroups(_command);
 
     /// <summary>
-    /// gcloud entry-types sub-commands.
+    /// gcloud dataplex entry-types sub-commands.
     /// </summary>
     public GcloudDataplexEntryTypes EntryTypes => _entryTypes ??= new GcloudDataplexEntryTypes(_command);
 
     /// <summary>
-    /// gcloud glossaries sub-commands.
+    /// gcloud dataplex glossaries sub-commands.
     /// </summary>
     public GcloudDataplexGlossaries Glossaries => _glossaries ??= new GcloudDataplexGlossaries(_command);
 
     /// <summary>
-    /// gcloud lakes sub-commands.
+    /// gcloud dataplex lakes sub-commands.
     /// </summary>
     public GcloudDataplexLakes Lakes => _lakes ??= new GcloudDataplexLakes(_command);
 
     /// <summary>
-    /// gcloud metadata-jobs sub-commands.
+    /// gcloud dataplex metadata-jobs sub-commands.
     /// </summary>
     public GcloudDataplexMetadataJobs MetadataJobs => _metadataJobs ??= new GcloudDataplexMetadataJobs(_command);
 
     /// <summary>
-    /// gcloud tasks sub-commands.
+    /// gcloud dataplex tasks sub-commands.
     /// </summary>
     public GcloudDataplexTasks Tasks => _tasks ??= new GcloudDataplexTasks(_command);
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud dataplex zones sub-commands.
     /// </summary>
     public GcloudDataplexZones Zones => _zones ??= new GcloudDataplexZones(_command);
 

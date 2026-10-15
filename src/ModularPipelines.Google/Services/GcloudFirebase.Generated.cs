@@ -33,7 +33,7 @@ public class GcloudFirebase : IGcloudFirebase
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud test sub-commands.
+    /// gcloud firebase test sub-commands.
     /// </summary>
     public GcloudFirebaseTest Test => _test ??= new GcloudFirebaseTest(_command);
 

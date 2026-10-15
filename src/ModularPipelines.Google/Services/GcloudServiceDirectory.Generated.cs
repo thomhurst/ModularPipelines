@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud servicedirectory commands.
+/// gcloud service-directory commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudServiceDirectory : IGcloudServiceDirectory
@@ -36,22 +36,22 @@ public class GcloudServiceDirectory : IGcloudServiceDirectory
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud endpoints sub-commands.
+    /// gcloud service-directory endpoints sub-commands.
     /// </summary>
     public GcloudServiceDirectoryEndpoints Endpoints => _endpoints ??= new GcloudServiceDirectoryEndpoints(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud service-directory locations sub-commands.
     /// </summary>
     public GcloudServiceDirectoryLocations Locations => _locations ??= new GcloudServiceDirectoryLocations(_command);
 
     /// <summary>
-    /// gcloud namespaces sub-commands.
+    /// gcloud service-directory namespaces sub-commands.
     /// </summary>
     public GcloudServiceDirectoryNamespaces Namespaces => _namespaces ??= new GcloudServiceDirectoryNamespaces(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud service-directory services sub-commands.
     /// </summary>
     public GcloudServiceDirectoryServices Services => _services ??= new GcloudServiceDirectoryServices(_command);
 

@@ -39,37 +39,37 @@ public class GcloudApigee : IGcloudApigee
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud apis sub-commands.
+    /// gcloud apigee apis sub-commands.
     /// </summary>
     public GcloudApigeeApis Apis => _apis ??= new GcloudApigeeApis(_command);
 
     /// <summary>
-    /// gcloud applications sub-commands.
+    /// gcloud apigee applications sub-commands.
     /// </summary>
     public GcloudApigeeApplications Applications => _applications ??= new GcloudApigeeApplications(_command);
 
     /// <summary>
-    /// gcloud deployments sub-commands.
+    /// gcloud apigee deployments sub-commands.
     /// </summary>
     public GcloudApigeeDeployments Deployments => _deployments ??= new GcloudApigeeDeployments(_command);
 
     /// <summary>
-    /// gcloud developers sub-commands.
+    /// gcloud apigee developers sub-commands.
     /// </summary>
     public GcloudApigeeDevelopers Developers => _developers ??= new GcloudApigeeDevelopers(_command);
 
     /// <summary>
-    /// gcloud environments sub-commands.
+    /// gcloud apigee environments sub-commands.
     /// </summary>
     public GcloudApigeeEnvironments Environments => _environments ??= new GcloudApigeeEnvironments(_command);
 
     /// <summary>
-    /// gcloud organizations sub-commands.
+    /// gcloud apigee organizations sub-commands.
     /// </summary>
     public GcloudApigeeOrganizations Organizations => _organizations ??= new GcloudApigeeOrganizations(_command);
 
     /// <summary>
-    /// gcloud products sub-commands.
+    /// gcloud apigee products sub-commands.
     /// </summary>
     public GcloudApigeeProducts Products => _products ??= new GcloudApigeeProducts(_command);
 

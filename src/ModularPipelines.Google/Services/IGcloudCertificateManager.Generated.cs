@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud certificatemanager commands.
+/// gcloud certificate-manager commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,34 +22,34 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudCertificateManager
 {
     /// <summary>
-    /// gcloud certificates sub-commands.
+    /// gcloud certificate-manager certificates sub-commands.
     /// </summary>
-    GcloudCertificateManagerCertificates Certificates => throw new System.NotSupportedException();
+    GcloudCertificateManagerCertificates Certificates { get; }
 
     /// <summary>
-    /// gcloud dns-authorizations sub-commands.
+    /// gcloud certificate-manager dns-authorizations sub-commands.
     /// </summary>
-    GcloudCertificateManagerDnsAuthorizations DnsAuthorizations => throw new System.NotSupportedException();
+    GcloudCertificateManagerDnsAuthorizations DnsAuthorizations { get; }
 
     /// <summary>
-    /// gcloud issuance-configs sub-commands.
+    /// gcloud certificate-manager issuance-configs sub-commands.
     /// </summary>
-    GcloudCertificateManagerIssuanceConfigs IssuanceConfigs => throw new System.NotSupportedException();
+    GcloudCertificateManagerIssuanceConfigs IssuanceConfigs { get; }
 
     /// <summary>
-    /// gcloud maps sub-commands.
+    /// gcloud certificate-manager maps sub-commands.
     /// </summary>
-    GcloudCertificateManagerMaps Maps => throw new System.NotSupportedException();
+    GcloudCertificateManagerMaps Maps { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud certificate-manager operations sub-commands.
     /// </summary>
-    GcloudCertificateManagerOperations Operations => throw new System.NotSupportedException();
+    GcloudCertificateManagerOperations Operations { get; }
 
     /// <summary>
-    /// gcloud trust-configs sub-commands.
+    /// gcloud certificate-manager trust-configs sub-commands.
     /// </summary>
-    GcloudCertificateManagerTrustConfigs TrustConfigs => throw new System.NotSupportedException();
+    GcloudCertificateManagerTrustConfigs TrustConfigs { get; }
 
     /// <summary>
     /// manage SSL certificates for your Google Cloud     projects
@@ -58,7 +58,6 @@ public interface IGcloudCertificateManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudCertificateManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudCertificateManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

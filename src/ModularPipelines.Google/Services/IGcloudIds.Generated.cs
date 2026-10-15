@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudIds
 {
     /// <summary>
-    /// gcloud endpoints sub-commands.
+    /// gcloud ids endpoints sub-commands.
     /// </summary>
-    GcloudIdsEndpoints Endpoints => throw new System.NotSupportedException();
+    GcloudIdsEndpoints Endpoints { get; }
 
     /// <summary>
     /// manage Cloud IDS
@@ -33,7 +33,6 @@ public interface IGcloudIds
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudIdsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudIdsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

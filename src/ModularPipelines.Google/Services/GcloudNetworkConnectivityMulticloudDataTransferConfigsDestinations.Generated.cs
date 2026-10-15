@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud destinations commands.
+/// gcloud network-connectivity multicloud-data-transfer-configs destinations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations

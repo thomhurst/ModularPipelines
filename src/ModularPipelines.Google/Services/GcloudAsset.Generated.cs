@@ -35,17 +35,17 @@ public class GcloudAsset : IGcloudAsset
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud feeds sub-commands.
+    /// gcloud asset feeds sub-commands.
     /// </summary>
     public GcloudAssetFeeds Feeds => _feeds ??= new GcloudAssetFeeds(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud asset operations sub-commands.
     /// </summary>
     public GcloudAssetOperations Operations => _operations ??= new GcloudAssetOperations(_command);
 
     /// <summary>
-    /// gcloud saved-queries sub-commands.
+    /// gcloud asset saved-queries sub-commands.
     /// </summary>
     public GcloudAssetSavedQueries SavedQueries => _savedQueries ??= new GcloudAssetSavedQueries(_command);
 

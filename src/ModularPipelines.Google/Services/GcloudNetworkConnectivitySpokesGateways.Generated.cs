@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud gateways commands.
+/// gcloud network-connectivity spokes gateways commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkConnectivitySpokesGateways
@@ -33,7 +33,7 @@ public class GcloudNetworkConnectivitySpokesGateways
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud advertised-routes sub-commands.
+    /// gcloud network-connectivity spokes gateways advertised-routes sub-commands.
     /// </summary>
     public GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutes AdvertisedRoutes => _advertisedRoutes ??= new GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutes(_command);
 

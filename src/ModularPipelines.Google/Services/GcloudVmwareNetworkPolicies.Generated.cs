@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud network-policies commands.
+/// gcloud vmware network-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwareNetworkPolicies
@@ -33,7 +33,7 @@ public class GcloudVmwareNetworkPolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud external-access-rules sub-commands.
+    /// gcloud vmware network-policies external-access-rules sub-commands.
     /// </summary>
     public GcloudVmwareNetworkPoliciesExternalAccessRules ExternalAccessRules => _externalAccessRules ??= new GcloudVmwareNetworkPoliciesExternalAccessRules(_command);
 

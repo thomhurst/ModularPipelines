@@ -76,6 +76,12 @@ public record GcloudBiglakeDeltaSharingCatalogsUpdateOptions : GcloudOptions
     public string? RefreshInterval { get; set; }
 
     /// <summary>
+    /// The service directory resource name for private networking.
+    /// </summary>
+    [CliOption("--service-directory-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceDirectoryName { get; set; }
+
+    /// <summary>
     /// Catalog resource - The Delta Sharing catalog to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]

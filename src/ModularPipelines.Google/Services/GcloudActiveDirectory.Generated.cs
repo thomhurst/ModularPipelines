@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud activedirectory commands.
+/// gcloud active-directory commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudActiveDirectory : IGcloudActiveDirectory
@@ -35,17 +35,17 @@ public class GcloudActiveDirectory : IGcloudActiveDirectory
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud domains sub-commands.
+    /// gcloud active-directory domains sub-commands.
     /// </summary>
     public GcloudActiveDirectoryDomains Domains => _domains ??= new GcloudActiveDirectoryDomains(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud active-directory operations sub-commands.
     /// </summary>
     public GcloudActiveDirectoryOperations Operations => _operations ??= new GcloudActiveDirectoryOperations(_command);
 
     /// <summary>
-    /// gcloud peerings sub-commands.
+    /// gcloud active-directory peerings sub-commands.
     /// </summary>
     public GcloudActiveDirectoryPeerings Peerings => _peerings ??= new GcloudActiveDirectoryPeerings(_command);
 

@@ -36,22 +36,22 @@ public class GcloudObservability : IGcloudObservability
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud buckets sub-commands.
+    /// gcloud observability buckets sub-commands.
     /// </summary>
     public GcloudObservabilityBuckets Buckets => _buckets ??= new GcloudObservabilityBuckets(_command);
 
     /// <summary>
-    /// gcloud scopes sub-commands.
+    /// gcloud observability scopes sub-commands.
     /// </summary>
     public GcloudObservabilityScopes Scopes => _scopes ??= new GcloudObservabilityScopes(_command);
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud observability settings sub-commands.
     /// </summary>
     public GcloudObservabilitySettings Settings => _settings ??= new GcloudObservabilitySettings(_command);
 
     /// <summary>
-    /// gcloud trace-scopes sub-commands.
+    /// gcloud observability trace-scopes sub-commands.
     /// </summary>
     public GcloudObservabilityTraceScopes TraceScopes => _traceScopes ??= new GcloudObservabilityTraceScopes(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud delta-sharing commands.
+/// gcloud biglake delta-sharing commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBiglakeDeltaSharing
@@ -36,22 +36,22 @@ public class GcloudBiglakeDeltaSharing
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud catalogs sub-commands.
+    /// gcloud biglake delta-sharing catalogs sub-commands.
     /// </summary>
     public GcloudBiglakeDeltaSharingCatalogs Catalogs => _catalogs ??= new GcloudBiglakeDeltaSharingCatalogs(_command);
 
     /// <summary>
-    /// gcloud schemas sub-commands.
+    /// gcloud biglake delta-sharing schemas sub-commands.
     /// </summary>
     public GcloudBiglakeDeltaSharingSchemas Schemas => _schemas ??= new GcloudBiglakeDeltaSharingSchemas(_command);
 
     /// <summary>
-    /// gcloud shares sub-commands.
+    /// gcloud biglake delta-sharing shares sub-commands.
     /// </summary>
     public GcloudBiglakeDeltaSharingShares Shares => _shares ??= new GcloudBiglakeDeltaSharingShares(_command);
 
     /// <summary>
-    /// gcloud tables sub-commands.
+    /// gcloud biglake delta-sharing tables sub-commands.
     /// </summary>
     public GcloudBiglakeDeltaSharingTables Tables => _tables ??= new GcloudBiglakeDeltaSharingTables(_command);
 

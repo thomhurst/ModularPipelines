@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud hub commands.
+/// gcloud container hub commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerHub
@@ -51,97 +51,97 @@ public class GcloudContainerHub
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud cloudrun sub-commands.
+    /// gcloud container hub cloudrun sub-commands.
     /// </summary>
     public GcloudContainerHubCloudrun Cloudrun => _cloudrun ??= new GcloudContainerHubCloudrun(_command);
 
     /// <summary>
-    /// gcloud clusterupgrade sub-commands.
+    /// gcloud container hub clusterupgrade sub-commands.
     /// </summary>
     public GcloudContainerHubClusterupgrade Clusterupgrade => _clusterupgrade ??= new GcloudContainerHubClusterupgrade(_command);
 
     /// <summary>
-    /// gcloud config-management sub-commands.
+    /// gcloud container hub config-management sub-commands.
     /// </summary>
     public GcloudContainerHubConfigManagement ConfigManagement => _configManagement ??= new GcloudContainerHubConfigManagement(_command);
 
     /// <summary>
-    /// gcloud dataplane-v2-encryption sub-commands.
+    /// gcloud container hub dataplane-v2-encryption sub-commands.
     /// </summary>
     public GcloudContainerHubDataplaneV2Encryption DataplaneV2Encryption => _dataplaneV2Encryption ??= new GcloudContainerHubDataplaneV2Encryption(_command);
 
     /// <summary>
-    /// gcloud features sub-commands.
+    /// gcloud container hub features sub-commands.
     /// </summary>
     public GcloudContainerHubFeatures Features => _features ??= new GcloudContainerHubFeatures(_command);
 
     /// <summary>
-    /// gcloud fleetobservability sub-commands.
+    /// gcloud container hub fleetobservability sub-commands.
     /// </summary>
     public GcloudContainerHubFleetobservability Fleetobservability => _fleetobservability ??= new GcloudContainerHubFleetobservability(_command);
 
     /// <summary>
-    /// gcloud identity-service sub-commands.
+    /// gcloud container hub identity-service sub-commands.
     /// </summary>
     public GcloudContainerHubIdentityService IdentityService => _identityService ??= new GcloudContainerHubIdentityService(_command);
 
     /// <summary>
-    /// gcloud ingress sub-commands.
+    /// gcloud container hub ingress sub-commands.
     /// </summary>
     public GcloudContainerHubIngress Ingress => _ingress ??= new GcloudContainerHubIngress(_command);
 
     /// <summary>
-    /// gcloud memberships sub-commands.
+    /// gcloud container hub memberships sub-commands.
     /// </summary>
     public GcloudContainerHubMemberships Memberships => _memberships ??= new GcloudContainerHubMemberships(_command);
 
     /// <summary>
-    /// gcloud mesh sub-commands.
+    /// gcloud container hub mesh sub-commands.
     /// </summary>
     public GcloudContainerHubMesh Mesh => _mesh ??= new GcloudContainerHubMesh(_command);
 
     /// <summary>
-    /// gcloud multi-cluster-services sub-commands.
+    /// gcloud container hub multi-cluster-services sub-commands.
     /// </summary>
     public GcloudContainerHubMultiClusterServices MultiClusterServices => _multiClusterServices ??= new GcloudContainerHubMultiClusterServices(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud container hub operations sub-commands.
     /// </summary>
     public GcloudContainerHubOperations Operations => _operations ??= new GcloudContainerHubOperations(_command);
 
     /// <summary>
-    /// gcloud packages sub-commands.
+    /// gcloud container hub packages sub-commands.
     /// </summary>
     public GcloudContainerHubPackages Packages => _packages ??= new GcloudContainerHubPackages(_command);
 
     /// <summary>
-    /// gcloud policycontroller sub-commands.
+    /// gcloud container hub policycontroller sub-commands.
     /// </summary>
     public GcloudContainerHubPolicycontroller Policycontroller => _policycontroller ??= new GcloudContainerHubPolicycontroller(_command);
 
     /// <summary>
-    /// gcloud rbacrolebindingactuation sub-commands.
+    /// gcloud container hub rbacrolebindingactuation sub-commands.
     /// </summary>
     public GcloudContainerHubRbacrolebindingactuation Rbacrolebindingactuation => _rbacrolebindingactuation ??= new GcloudContainerHubRbacrolebindingactuation(_command);
 
     /// <summary>
-    /// gcloud rollouts sub-commands.
+    /// gcloud container hub rollouts sub-commands.
     /// </summary>
     public GcloudContainerHubRollouts Rollouts => _rollouts ??= new GcloudContainerHubRollouts(_command);
 
     /// <summary>
-    /// gcloud rolloutsequences sub-commands.
+    /// gcloud container hub rolloutsequences sub-commands.
     /// </summary>
     public GcloudContainerHubRolloutsequences Rolloutsequences => _rolloutsequences ??= new GcloudContainerHubRolloutsequences(_command);
 
     /// <summary>
-    /// gcloud scopes sub-commands.
+    /// gcloud container hub scopes sub-commands.
     /// </summary>
     public GcloudContainerHubScopes Scopes => _scopes ??= new GcloudContainerHubScopes(_command);
 
     /// <summary>
-    /// gcloud workload-identity sub-commands.
+    /// gcloud container hub workload-identity sub-commands.
     /// </summary>
     public GcloudContainerHubWorkloadIdentity WorkloadIdentity => _workloadIdentity ??= new GcloudContainerHubWorkloadIdentity(_command);
 

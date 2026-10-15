@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud tag-templates commands.
+/// gcloud data-catalog tag-templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataCatalogTagTemplates
@@ -33,7 +33,7 @@ public class GcloudDataCatalogTagTemplates
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud fields sub-commands.
+    /// gcloud data-catalog tag-templates fields sub-commands.
     /// </summary>
     public GcloudDataCatalogTagTemplatesFields Fields => _fields ??= new GcloudDataCatalogTagTemplatesFields(_command);
 

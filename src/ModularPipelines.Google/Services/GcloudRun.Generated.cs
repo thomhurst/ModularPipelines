@@ -40,42 +40,42 @@ public class GcloudRun : IGcloudRun
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud compose sub-commands.
+    /// gcloud run compose sub-commands.
     /// </summary>
     public GcloudRunCompose Compose => _compose ??= new GcloudRunCompose(_command);
 
     /// <summary>
-    /// gcloud domain-mappings sub-commands.
+    /// gcloud run domain-mappings sub-commands.
     /// </summary>
     public GcloudRunDomainMappings DomainMappings => _domainMappings ??= new GcloudRunDomainMappings(_command);
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud run jobs sub-commands.
     /// </summary>
     public GcloudRunJobs Jobs => _jobs ??= new GcloudRunJobs(_command);
 
     /// <summary>
-    /// gcloud multi-region-services sub-commands.
+    /// gcloud run multi-region-services sub-commands.
     /// </summary>
     public GcloudRunMultiRegionServices MultiRegionServices => _multiRegionServices ??= new GcloudRunMultiRegionServices(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud run regions sub-commands.
     /// </summary>
     public GcloudRunRegions Regions => _regions ??= new GcloudRunRegions(_command);
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud run revisions sub-commands.
     /// </summary>
     public GcloudRunRevisions Revisions => _revisions ??= new GcloudRunRevisions(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud run services sub-commands.
     /// </summary>
     public GcloudRunServices Services => _services ??= new GcloudRunServices(_command);
 
     /// <summary>
-    /// gcloud worker-pools sub-commands.
+    /// gcloud run worker-pools sub-commands.
     /// </summary>
     public GcloudRunWorkerPools WorkerPools => _workerPools ??= new GcloudRunWorkerPools(_command);
 

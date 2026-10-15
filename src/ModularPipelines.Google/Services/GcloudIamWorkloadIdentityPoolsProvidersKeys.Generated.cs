@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud keys commands.
+/// gcloud iam workload-identity-pools providers keys commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIamWorkloadIdentityPoolsProvidersKeys
@@ -33,7 +33,7 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud iam workload-identity-pools providers keys operations sub-commands.
     /// </summary>
     public GcloudIamWorkloadIdentityPoolsProvidersKeysOperations Operations => _operations ??= new GcloudIamWorkloadIdentityPoolsProvidersKeysOperations(_command);
 

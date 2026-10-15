@@ -35,17 +35,17 @@ public class GcloudSecrets : IGcloudSecrets
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud secrets locations sub-commands.
     /// </summary>
     public GcloudSecretsLocations Locations => _locations ??= new GcloudSecretsLocations(_command);
 
     /// <summary>
-    /// gcloud replication sub-commands.
+    /// gcloud secrets replication sub-commands.
     /// </summary>
     public GcloudSecretsReplication Replication => _replication ??= new GcloudSecretsReplication(_command);
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud secrets versions sub-commands.
     /// </summary>
     public GcloudSecretsVersions Versions => _versions ??= new GcloudSecretsVersions(_command);
 

@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudWorkflows
 {
     /// <summary>
-    /// gcloud executions sub-commands.
+    /// gcloud workflows executions sub-commands.
     /// </summary>
-    GcloudWorkflowsExecutions Executions => throw new System.NotSupportedException();
+    GcloudWorkflowsExecutions Executions { get; }
 
     /// <summary>
     /// manage your Cloud Workflows resources
@@ -33,8 +33,7 @@ public interface IGcloudWorkflows
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudWorkflowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudWorkflowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// delete a workflow
@@ -43,8 +42,7 @@ public interface IGcloudWorkflows
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(GcloudWorkflowsDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(GcloudWorkflowsDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// create or update a workflow
@@ -53,8 +51,7 @@ public interface IGcloudWorkflows
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeployAsync(GcloudWorkflowsDeployOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeployAsync(GcloudWorkflowsDeployOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// show metadata for a workflow
@@ -63,8 +60,7 @@ public interface IGcloudWorkflows
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAsync(GcloudWorkflowsDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAsync(GcloudWorkflowsDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// execute a workflow
@@ -73,8 +69,7 @@ public interface IGcloudWorkflows
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteCommandAsync(GcloudWorkflowsExecuteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteCommandAsync(GcloudWorkflowsExecuteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list workflows
@@ -83,8 +78,7 @@ public interface IGcloudWorkflows
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(GcloudWorkflowsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(GcloudWorkflowsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// execute a workflow and wait for the execution to     complete
@@ -93,7 +87,6 @@ public interface IGcloudWorkflows
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RunAsync(GcloudWorkflowsRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RunAsync(GcloudWorkflowsRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

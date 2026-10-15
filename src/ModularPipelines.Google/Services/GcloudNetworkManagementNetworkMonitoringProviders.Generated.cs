@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud network-monitoring-providers commands.
+/// gcloud network-management network-monitoring-providers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkManagementNetworkMonitoringProviders
@@ -35,17 +35,17 @@ public class GcloudNetworkManagementNetworkMonitoringProviders
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud monitoring-points sub-commands.
+    /// gcloud network-management network-monitoring-providers monitoring-points sub-commands.
     /// </summary>
     public GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints MonitoringPoints => _monitoringPoints ??= new GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints(_command);
 
     /// <summary>
-    /// gcloud network-paths sub-commands.
+    /// gcloud network-management network-monitoring-providers network-paths sub-commands.
     /// </summary>
     public GcloudNetworkManagementNetworkMonitoringProvidersNetworkPaths NetworkPaths => _networkPaths ??= new GcloudNetworkManagementNetworkMonitoringProvidersNetworkPaths(_command);
 
     /// <summary>
-    /// gcloud web-paths sub-commands.
+    /// gcloud network-management network-monitoring-providers web-paths sub-commands.
     /// </summary>
     public GcloudNetworkManagementNetworkMonitoringProvidersWebPaths WebPaths => _webPaths ??= new GcloudNetworkManagementNetworkMonitoringProvidersWebPaths(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud sole-tenancy commands.
+/// gcloud preview compute sole-tenancy commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeSoleTenancy
@@ -35,17 +35,17 @@ public class GcloudPreviewComputeSoleTenancy
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud node-groups sub-commands.
+    /// gcloud preview compute sole-tenancy node-groups sub-commands.
     /// </summary>
     public GcloudPreviewComputeSoleTenancyNodeGroups NodeGroups => _nodeGroups ??= new GcloudPreviewComputeSoleTenancyNodeGroups(_command);
 
     /// <summary>
-    /// gcloud node-templates sub-commands.
+    /// gcloud preview compute sole-tenancy node-templates sub-commands.
     /// </summary>
     public GcloudPreviewComputeSoleTenancyNodeTemplates NodeTemplates => _nodeTemplates ??= new GcloudPreviewComputeSoleTenancyNodeTemplates(_command);
 
     /// <summary>
-    /// gcloud node-types sub-commands.
+    /// gcloud preview compute sole-tenancy node-types sub-commands.
     /// </summary>
     public GcloudPreviewComputeSoleTenancyNodeTypes NodeTypes => _nodeTypes ??= new GcloudPreviewComputeSoleTenancyNodeTypes(_command);
 

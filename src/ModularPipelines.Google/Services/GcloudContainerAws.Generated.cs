@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud aws commands.
+/// gcloud container aws commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerAws
@@ -35,17 +35,17 @@ public class GcloudContainerAws
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud container aws clusters sub-commands.
     /// </summary>
     public GcloudContainerAwsClusters Clusters => _clusters ??= new GcloudContainerAwsClusters(_command);
 
     /// <summary>
-    /// gcloud node-pools sub-commands.
+    /// gcloud container aws node-pools sub-commands.
     /// </summary>
     public GcloudContainerAwsNodePools NodePools => _nodePools ??= new GcloudContainerAwsNodePools(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud container aws operations sub-commands.
     /// </summary>
     public GcloudContainerAwsOperations Operations => _operations ??= new GcloudContainerAwsOperations(_command);
 

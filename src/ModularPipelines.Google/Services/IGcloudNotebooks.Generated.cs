@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudNotebooks
 {
     /// <summary>
-    /// gcloud environments sub-commands.
+    /// gcloud notebooks environments sub-commands.
     /// </summary>
-    GcloudNotebooksEnvironments Environments => throw new System.NotSupportedException();
+    GcloudNotebooksEnvironments Environments { get; }
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud notebooks instances sub-commands.
     /// </summary>
-    GcloudNotebooksInstances Instances => throw new System.NotSupportedException();
+    GcloudNotebooksInstances Instances { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud notebooks locations sub-commands.
     /// </summary>
-    GcloudNotebooksLocations Locations => throw new System.NotSupportedException();
+    GcloudNotebooksLocations Locations { get; }
 
     /// <summary>
-    /// gcloud runtimes sub-commands.
+    /// gcloud notebooks runtimes sub-commands.
     /// </summary>
-    GcloudNotebooksRuntimes Runtimes => throw new System.NotSupportedException();
+    GcloudNotebooksRuntimes Runtimes { get; }
 
     /// <summary>
     /// notebooks Command Group
@@ -48,7 +48,6 @@ public interface IGcloudNotebooks
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudNotebooksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudNotebooksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

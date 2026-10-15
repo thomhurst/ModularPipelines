@@ -35,17 +35,17 @@ public class GcloudEndpoints : IGcloudEndpoints
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud configs sub-commands.
+    /// gcloud endpoints configs sub-commands.
     /// </summary>
     public GcloudEndpointsConfigs Configs => _configs ??= new GcloudEndpointsConfigs(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud endpoints operations sub-commands.
     /// </summary>
     public GcloudEndpointsOperations Operations => _operations ??= new GcloudEndpointsOperations(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud endpoints services sub-commands.
     /// </summary>
     public GcloudEndpointsServices Services => _services ??= new GcloudEndpointsServices(_command);
 

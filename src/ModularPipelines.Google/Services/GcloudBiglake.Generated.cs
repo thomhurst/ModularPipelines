@@ -22,6 +22,7 @@ public class GcloudBiglake : IGcloudBiglake
     private readonly ICommandContext _command;
     private GcloudBiglakeDataProductSharing? _dataProductSharing;
     private GcloudBiglakeDeltaSharing? _deltaSharing;
+    private GcloudBiglakeHive? _hive;
     private GcloudBiglakeIceberg? _iceberg;
 
     /// <summary>
@@ -35,17 +36,22 @@ public class GcloudBiglake : IGcloudBiglake
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud data-product-sharing sub-commands.
+    /// gcloud biglake data-product-sharing sub-commands.
     /// </summary>
     public GcloudBiglakeDataProductSharing DataProductSharing => _dataProductSharing ??= new GcloudBiglakeDataProductSharing(_command);
 
     /// <summary>
-    /// gcloud delta-sharing sub-commands.
+    /// gcloud biglake delta-sharing sub-commands.
     /// </summary>
     public GcloudBiglakeDeltaSharing DeltaSharing => _deltaSharing ??= new GcloudBiglakeDeltaSharing(_command);
 
     /// <summary>
-    /// gcloud iceberg sub-commands.
+    /// gcloud biglake hive sub-commands.
+    /// </summary>
+    public GcloudBiglakeHive Hive => _hive ??= new GcloudBiglakeHive(_command);
+
+    /// <summary>
+    /// gcloud biglake iceberg sub-commands.
     /// </summary>
     public GcloudBiglakeIceberg Iceberg => _iceberg ??= new GcloudBiglakeIceberg(_command);
 

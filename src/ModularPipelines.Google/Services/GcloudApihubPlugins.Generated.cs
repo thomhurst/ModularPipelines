@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud plugins commands.
+/// gcloud apihub plugins commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudApihubPlugins
@@ -33,7 +33,7 @@ public class GcloudApihubPlugins
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud apihub plugins instances sub-commands.
     /// </summary>
     public GcloudApihubPluginsInstances Instances => _instances ??= new GcloudApihubPluginsInstances(_command);
 

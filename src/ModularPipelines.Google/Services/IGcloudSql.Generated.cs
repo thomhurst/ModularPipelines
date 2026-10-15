@@ -22,59 +22,59 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudSql
 {
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud sql backups sub-commands.
     /// </summary>
-    GcloudSqlBackups Backups => throw new System.NotSupportedException();
+    GcloudSqlBackups Backups { get; }
 
     /// <summary>
-    /// gcloud databases sub-commands.
+    /// gcloud sql databases sub-commands.
     /// </summary>
-    GcloudSqlDatabases Databases => throw new System.NotSupportedException();
+    GcloudSqlDatabases Databases { get; }
 
     /// <summary>
-    /// gcloud export sub-commands.
+    /// gcloud sql export sub-commands.
     /// </summary>
-    GcloudSqlExport Export => throw new System.NotSupportedException();
+    GcloudSqlExport Export { get; }
 
     /// <summary>
-    /// gcloud flags sub-commands.
+    /// gcloud sql flags sub-commands.
     /// </summary>
-    GcloudSqlFlags Flags => throw new System.NotSupportedException();
+    GcloudSqlFlags Flags { get; }
 
     /// <summary>
-    /// gcloud import sub-commands.
+    /// gcloud sql import sub-commands.
     /// </summary>
-    GcloudSqlImport Import => throw new System.NotSupportedException();
+    GcloudSqlImport Import { get; }
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud sql instances sub-commands.
     /// </summary>
-    GcloudSqlInstances Instances => throw new System.NotSupportedException();
+    GcloudSqlInstances Instances { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud sql operations sub-commands.
     /// </summary>
-    GcloudSqlOperations Operations => throw new System.NotSupportedException();
+    GcloudSqlOperations Operations { get; }
 
     /// <summary>
-    /// gcloud ssl sub-commands.
+    /// gcloud sql ssl sub-commands.
     /// </summary>
-    GcloudSqlSsl Ssl => throw new System.NotSupportedException();
+    GcloudSqlSsl Ssl { get; }
 
     /// <summary>
-    /// gcloud ssl-certs sub-commands.
+    /// gcloud sql ssl-certs sub-commands.
     /// </summary>
-    GcloudSqlSslCerts SslCerts => throw new System.NotSupportedException();
+    GcloudSqlSslCerts SslCerts { get; }
 
     /// <summary>
-    /// gcloud tiers sub-commands.
+    /// gcloud sql tiers sub-commands.
     /// </summary>
-    GcloudSqlTiers Tiers => throw new System.NotSupportedException();
+    GcloudSqlTiers Tiers { get; }
 
     /// <summary>
-    /// gcloud users sub-commands.
+    /// gcloud sql users sub-commands.
     /// </summary>
-    GcloudSqlUsers Users => throw new System.NotSupportedException();
+    GcloudSqlUsers Users { get; }
 
     /// <summary>
     /// create and manage Google Cloud SQL databases
@@ -83,8 +83,7 @@ public interface IGcloudSql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudSqlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudSqlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// connects to a Cloud SQL instance
@@ -93,8 +92,7 @@ public interface IGcloudSql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConnectAsync(GcloudSqlConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConnectAsync(GcloudSqlConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// generate an IAM login token for Cloud SQL
@@ -103,8 +101,7 @@ public interface IGcloudSql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateLoginTokenAsync(GcloudSqlGenerateLoginTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateLoginTokenAsync(GcloudSqlGenerateLoginTokenOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// reschedule a Cloud SQL instance's     maintenance
@@ -113,7 +110,6 @@ public interface IGcloudSql
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RescheduleMaintenanceAsync(GcloudSqlRescheduleMaintenanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RescheduleMaintenanceAsync(GcloudSqlRescheduleMaintenanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

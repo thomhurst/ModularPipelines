@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud servicedirectory commands.
+/// gcloud service-directory commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudServiceDirectory
 {
     /// <summary>
-    /// gcloud endpoints sub-commands.
+    /// gcloud service-directory endpoints sub-commands.
     /// </summary>
-    GcloudServiceDirectoryEndpoints Endpoints => throw new System.NotSupportedException();
+    GcloudServiceDirectoryEndpoints Endpoints { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud service-directory locations sub-commands.
     /// </summary>
-    GcloudServiceDirectoryLocations Locations => throw new System.NotSupportedException();
+    GcloudServiceDirectoryLocations Locations { get; }
 
     /// <summary>
-    /// gcloud namespaces sub-commands.
+    /// gcloud service-directory namespaces sub-commands.
     /// </summary>
-    GcloudServiceDirectoryNamespaces Namespaces => throw new System.NotSupportedException();
+    GcloudServiceDirectoryNamespaces Namespaces { get; }
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud service-directory services sub-commands.
     /// </summary>
-    GcloudServiceDirectoryServices Services => throw new System.NotSupportedException();
+    GcloudServiceDirectoryServices Services { get; }
 
     /// <summary>
     /// command groups for Service Directory
@@ -48,7 +48,6 @@ public interface IGcloudServiceDirectory
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudServiceDirectoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudServiceDirectoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

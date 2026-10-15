@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud networking commands.
+/// gcloud edge-cloud networking commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgeCloudNetworking
@@ -38,32 +38,32 @@ public class GcloudEdgeCloudNetworking
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud interconnects sub-commands.
+    /// gcloud edge-cloud networking interconnects sub-commands.
     /// </summary>
     public GcloudEdgeCloudNetworkingInterconnects Interconnects => _interconnects ??= new GcloudEdgeCloudNetworkingInterconnects(_command);
 
     /// <summary>
-    /// gcloud networks sub-commands.
+    /// gcloud edge-cloud networking networks sub-commands.
     /// </summary>
     public GcloudEdgeCloudNetworkingNetworks Networks => _networks ??= new GcloudEdgeCloudNetworkingNetworks(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud edge-cloud networking operations sub-commands.
     /// </summary>
     public GcloudEdgeCloudNetworkingOperations Operations => _operations ??= new GcloudEdgeCloudNetworkingOperations(_command);
 
     /// <summary>
-    /// gcloud routers sub-commands.
+    /// gcloud edge-cloud networking routers sub-commands.
     /// </summary>
     public GcloudEdgeCloudNetworkingRouters Routers => _routers ??= new GcloudEdgeCloudNetworkingRouters(_command);
 
     /// <summary>
-    /// gcloud subnets sub-commands.
+    /// gcloud edge-cloud networking subnets sub-commands.
     /// </summary>
     public GcloudEdgeCloudNetworkingSubnets Subnets => _subnets ??= new GcloudEdgeCloudNetworkingSubnets(_command);
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud edge-cloud networking zones sub-commands.
     /// </summary>
     public GcloudEdgeCloudNetworkingZones Zones => _zones ??= new GcloudEdgeCloudNetworkingZones(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud developerconnect commands.
+/// gcloud developer-connect commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDeveloperConnect : IGcloudDeveloperConnect
@@ -36,22 +36,22 @@ public class GcloudDeveloperConnect : IGcloudDeveloperConnect
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud account-connectors sub-commands.
+    /// gcloud developer-connect account-connectors sub-commands.
     /// </summary>
     public GcloudDeveloperConnectAccountConnectors AccountConnectors => _accountConnectors ??= new GcloudDeveloperConnectAccountConnectors(_command);
 
     /// <summary>
-    /// gcloud connections sub-commands.
+    /// gcloud developer-connect connections sub-commands.
     /// </summary>
     public GcloudDeveloperConnectConnections Connections => _connections ??= new GcloudDeveloperConnectConnections(_command);
 
     /// <summary>
-    /// gcloud insights-configs sub-commands.
+    /// gcloud developer-connect insights-configs sub-commands.
     /// </summary>
     public GcloudDeveloperConnectInsightsConfigs InsightsConfigs => _insightsConfigs ??= new GcloudDeveloperConnectInsightsConfigs(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud developer-connect operations sub-commands.
     /// </summary>
     public GcloudDeveloperConnectOperations Operations => _operations ??= new GcloudDeveloperConnectOperations(_command);
 

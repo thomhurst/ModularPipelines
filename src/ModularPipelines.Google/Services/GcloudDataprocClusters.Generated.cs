@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud clusters commands.
+/// gcloud dataproc clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataprocClusters
@@ -33,7 +33,7 @@ public class GcloudDataprocClusters
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud gke sub-commands.
+    /// gcloud dataproc clusters gke sub-commands.
     /// </summary>
     public GcloudDataprocClustersGke Gke => _gke ??= new GcloudDataprocClustersGke(_command);
 

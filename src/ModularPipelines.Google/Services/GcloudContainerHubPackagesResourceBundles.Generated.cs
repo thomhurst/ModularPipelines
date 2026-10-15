@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud resource-bundles commands.
+/// gcloud container hub packages resource-bundles commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerHubPackagesResourceBundles
@@ -33,7 +33,7 @@ public class GcloudContainerHubPackagesResourceBundles
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud releases sub-commands.
+    /// gcloud container hub packages resource-bundles releases sub-commands.
     /// </summary>
     public GcloudContainerHubPackagesResourceBundlesReleases Releases => _releases ??= new GcloudContainerHubPackagesResourceBundlesReleases(_command);
 

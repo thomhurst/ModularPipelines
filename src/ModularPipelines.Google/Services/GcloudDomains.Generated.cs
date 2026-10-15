@@ -33,7 +33,7 @@ public class GcloudDomains : IGcloudDomains
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud registrations sub-commands.
+    /// gcloud domains registrations sub-commands.
     /// </summary>
     public GcloudDomainsRegistrations Registrations => _registrations ??= new GcloudDomainsRegistrations(_command);
 

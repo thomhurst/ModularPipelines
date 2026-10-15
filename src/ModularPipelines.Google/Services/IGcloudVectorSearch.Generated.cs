@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud vectorsearch commands.
+/// gcloud vector-search commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudVectorSearch
 {
     /// <summary>
-    /// gcloud collections sub-commands.
+    /// gcloud vector-search collections sub-commands.
     /// </summary>
-    GcloudVectorSearchCollections Collections => throw new System.NotSupportedException();
+    GcloudVectorSearchCollections Collections { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud vector-search operations sub-commands.
     /// </summary>
-    GcloudVectorSearchOperations Operations => throw new System.NotSupportedException();
+    GcloudVectorSearchOperations Operations { get; }
 
     /// <summary>
     /// manage Vector Search data objects
@@ -38,7 +38,6 @@ public interface IGcloudVectorSearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudVectorSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudVectorSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -33,7 +33,7 @@ public class GcloudConfig : IGcloudConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud configurations sub-commands.
+    /// gcloud config configurations sub-commands.
     /// </summary>
     public GcloudConfigConfigurations Configurations => _configurations ??= new GcloudConfigConfigurations(_command);
 

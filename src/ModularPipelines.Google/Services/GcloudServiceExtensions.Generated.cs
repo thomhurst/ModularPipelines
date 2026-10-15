@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud serviceextensions commands.
+/// gcloud service-extensions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudServiceExtensions : IGcloudServiceExtensions
@@ -38,32 +38,32 @@ public class GcloudServiceExtensions : IGcloudServiceExtensions
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud authz-extensions sub-commands.
+    /// gcloud service-extensions authz-extensions sub-commands.
     /// </summary>
     public GcloudServiceExtensionsAuthzExtensions AuthzExtensions => _authzExtensions ??= new GcloudServiceExtensionsAuthzExtensions(_command);
 
     /// <summary>
-    /// gcloud lb-edge-extensions sub-commands.
+    /// gcloud service-extensions lb-edge-extensions sub-commands.
     /// </summary>
     public GcloudServiceExtensionsLbEdgeExtensions LbEdgeExtensions => _lbEdgeExtensions ??= new GcloudServiceExtensionsLbEdgeExtensions(_command);
 
     /// <summary>
-    /// gcloud lb-route-extensions sub-commands.
+    /// gcloud service-extensions lb-route-extensions sub-commands.
     /// </summary>
     public GcloudServiceExtensionsLbRouteExtensions LbRouteExtensions => _lbRouteExtensions ??= new GcloudServiceExtensionsLbRouteExtensions(_command);
 
     /// <summary>
-    /// gcloud lb-traffic-extensions sub-commands.
+    /// gcloud service-extensions lb-traffic-extensions sub-commands.
     /// </summary>
     public GcloudServiceExtensionsLbTrafficExtensions LbTrafficExtensions => _lbTrafficExtensions ??= new GcloudServiceExtensionsLbTrafficExtensions(_command);
 
     /// <summary>
-    /// gcloud wasm-plugins sub-commands.
+    /// gcloud service-extensions wasm-plugins sub-commands.
     /// </summary>
     public GcloudServiceExtensionsWasmPlugins WasmPlugins => _wasmPlugins ??= new GcloudServiceExtensionsWasmPlugins(_command);
 
     /// <summary>
-    /// gcloud wasm-plugin-versions sub-commands.
+    /// gcloud service-extensions wasm-plugin-versions sub-commands.
     /// </summary>
     public GcloudServiceExtensionsWasmPluginVersions WasmPluginVersions => _wasmPluginVersions ??= new GcloudServiceExtensionsWasmPluginVersions(_command);
 

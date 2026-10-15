@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud scim-tenants commands.
+/// gcloud iam workforce-pools providers scim-tenants commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIamWorkforcePoolsProvidersScimTenants
@@ -33,7 +33,7 @@ public class GcloudIamWorkforcePoolsProvidersScimTenants
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud tokens sub-commands.
+    /// gcloud iam workforce-pools providers scim-tenants tokens sub-commands.
     /// </summary>
     public GcloudIamWorkforcePoolsProvidersScimTenantsTokens Tokens => _tokens ??= new GcloudIamWorkforcePoolsProvidersScimTenantsTokens(_command);
 

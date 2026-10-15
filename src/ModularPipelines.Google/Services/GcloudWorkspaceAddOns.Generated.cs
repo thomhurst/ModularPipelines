@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workspaceaddons commands.
+/// gcloud workspace-add-ons commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudWorkspaceAddOns : IGcloudWorkspaceAddOns
@@ -33,7 +33,7 @@ public class GcloudWorkspaceAddOns : IGcloudWorkspaceAddOns
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud deployments sub-commands.
+    /// gcloud workspace-add-ons deployments sub-commands.
     /// </summary>
     public GcloudWorkspaceAddOnsDeployments Deployments => _deployments ??= new GcloudWorkspaceAddOnsDeployments(_command);
 

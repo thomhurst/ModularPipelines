@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud migration commands.
+/// gcloud compute migration commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeMigration
@@ -35,17 +35,17 @@ public class GcloudComputeMigration
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud image-imports sub-commands.
+    /// gcloud compute migration image-imports sub-commands.
     /// </summary>
     public GcloudComputeMigrationImageImports ImageImports => _imageImports ??= new GcloudComputeMigrationImageImports(_command);
 
     /// <summary>
-    /// gcloud machine-image-imports sub-commands.
+    /// gcloud compute migration machine-image-imports sub-commands.
     /// </summary>
     public GcloudComputeMigrationMachineImageImports MachineImageImports => _machineImageImports ??= new GcloudComputeMigrationMachineImageImports(_command);
 
     /// <summary>
-    /// gcloud target-projects sub-commands.
+    /// gcloud compute migration target-projects sub-commands.
     /// </summary>
     public GcloudComputeMigrationTargetProjects TargetProjects => _targetProjects ??= new GcloudComputeMigrationTargetProjects(_command);
 

@@ -42,7 +42,7 @@ public record GcloudSqlConnectOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// The PostgreSQL or SQL Server database to connect to.
     /// </summary>
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--database", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record GcloudSqlConnectOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// User selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Cloud SQL instance user to connect as.
     /// </summary>
-    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
     /// <summary>

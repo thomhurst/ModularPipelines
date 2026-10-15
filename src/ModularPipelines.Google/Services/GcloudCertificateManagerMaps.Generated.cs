@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud maps commands.
+/// gcloud certificate-manager maps commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudCertificateManagerMaps
@@ -33,7 +33,7 @@ public class GcloudCertificateManagerMaps
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud entries sub-commands.
+    /// gcloud certificate-manager maps entries sub-commands.
     /// </summary>
     public GcloudCertificateManagerMapsEntries Entries => _entries ??= new GcloudCertificateManagerMapsEntries(_command);
 

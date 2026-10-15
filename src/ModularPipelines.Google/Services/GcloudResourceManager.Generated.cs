@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud resourcemanager commands.
+/// gcloud resource-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudResourceManager : IGcloudResourceManager
@@ -36,22 +36,22 @@ public class GcloudResourceManager : IGcloudResourceManager
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud capabilities sub-commands.
+    /// gcloud resource-manager capabilities sub-commands.
     /// </summary>
     public GcloudResourceManagerCapabilities Capabilities => _capabilities ??= new GcloudResourceManagerCapabilities(_command);
 
     /// <summary>
-    /// gcloud folders sub-commands.
+    /// gcloud resource-manager folders sub-commands.
     /// </summary>
     public GcloudResourceManagerFolders Folders => _folders ??= new GcloudResourceManagerFolders(_command);
 
     /// <summary>
-    /// gcloud org-policies sub-commands.
+    /// gcloud resource-manager org-policies sub-commands.
     /// </summary>
     public GcloudResourceManagerOrgPolicies OrgPolicies => _orgPolicies ??= new GcloudResourceManagerOrgPolicies(_command);
 
     /// <summary>
-    /// gcloud tags sub-commands.
+    /// gcloud resource-manager tags sub-commands.
     /// </summary>
     public GcloudResourceManagerTags Tags => _tags ??= new GcloudResourceManagerTags(_command);
 

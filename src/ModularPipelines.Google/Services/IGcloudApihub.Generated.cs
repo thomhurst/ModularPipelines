@@ -22,74 +22,74 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudApihub
 {
     /// <summary>
-    /// gcloud addons sub-commands.
+    /// gcloud apihub addons sub-commands.
     /// </summary>
-    GcloudApihubAddons Addons => throw new System.NotSupportedException();
+    GcloudApihubAddons Addons { get; }
 
     /// <summary>
-    /// gcloud api-hub-instances sub-commands.
+    /// gcloud apihub api-hub-instances sub-commands.
     /// </summary>
-    GcloudApihubApiHubInstances ApiHubInstances => throw new System.NotSupportedException();
+    GcloudApihubApiHubInstances ApiHubInstances { get; }
 
     /// <summary>
-    /// gcloud apis sub-commands.
+    /// gcloud apihub apis sub-commands.
     /// </summary>
-    GcloudApihubApis Apis => throw new System.NotSupportedException();
+    GcloudApihubApis Apis { get; }
 
     /// <summary>
-    /// gcloud attributes sub-commands.
+    /// gcloud apihub attributes sub-commands.
     /// </summary>
-    GcloudApihubAttributes Attributes => throw new System.NotSupportedException();
+    GcloudApihubAttributes Attributes { get; }
 
     /// <summary>
-    /// gcloud curations sub-commands.
+    /// gcloud apihub curations sub-commands.
     /// </summary>
-    GcloudApihubCurations Curations => throw new System.NotSupportedException();
+    GcloudApihubCurations Curations { get; }
 
     /// <summary>
-    /// gcloud dependencies sub-commands.
+    /// gcloud apihub dependencies sub-commands.
     /// </summary>
-    GcloudApihubDependencies Dependencies => throw new System.NotSupportedException();
+    GcloudApihubDependencies Dependencies { get; }
 
     /// <summary>
-    /// gcloud deployments sub-commands.
+    /// gcloud apihub deployments sub-commands.
     /// </summary>
-    GcloudApihubDeployments Deployments => throw new System.NotSupportedException();
+    GcloudApihubDeployments Deployments { get; }
 
     /// <summary>
-    /// gcloud discovered-api-observations sub-commands.
+    /// gcloud apihub discovered-api-observations sub-commands.
     /// </summary>
-    GcloudApihubDiscoveredApiObservations DiscoveredApiObservations => throw new System.NotSupportedException();
+    GcloudApihubDiscoveredApiObservations DiscoveredApiObservations { get; }
 
     /// <summary>
-    /// gcloud external-apis sub-commands.
+    /// gcloud apihub external-apis sub-commands.
     /// </summary>
-    GcloudApihubExternalApis ExternalApis => throw new System.NotSupportedException();
+    GcloudApihubExternalApis ExternalApis { get; }
 
     /// <summary>
-    /// gcloud host-project-registrations sub-commands.
+    /// gcloud apihub host-project-registrations sub-commands.
     /// </summary>
-    GcloudApihubHostProjectRegistrations HostProjectRegistrations => throw new System.NotSupportedException();
+    GcloudApihubHostProjectRegistrations HostProjectRegistrations { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud apihub locations sub-commands.
     /// </summary>
-    GcloudApihubLocations Locations => throw new System.NotSupportedException();
+    GcloudApihubLocations Locations { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud apihub operations sub-commands.
     /// </summary>
-    GcloudApihubOperations Operations => throw new System.NotSupportedException();
+    GcloudApihubOperations Operations { get; }
 
     /// <summary>
-    /// gcloud plugins sub-commands.
+    /// gcloud apihub plugins sub-commands.
     /// </summary>
-    GcloudApihubPlugins Plugins => throw new System.NotSupportedException();
+    GcloudApihubPlugins Plugins { get; }
 
     /// <summary>
-    /// gcloud runtime-project-attachments sub-commands.
+    /// gcloud apihub runtime-project-attachments sub-commands.
     /// </summary>
-    GcloudApihubRuntimeProjectAttachments RuntimeProjectAttachments => throw new System.NotSupportedException();
+    GcloudApihubRuntimeProjectAttachments RuntimeProjectAttachments { get; }
 
     /// <summary>
     /// manage Apihub resources
@@ -98,7 +98,6 @@ public interface IGcloudApihub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudApihubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudApihubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

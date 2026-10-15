@@ -36,22 +36,22 @@ public class GcloudServices : IGcloudServices
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud api-keys sub-commands.
+    /// gcloud services api-keys sub-commands.
     /// </summary>
     public GcloudServicesApiKeys ApiKeys => _apiKeys ??= new GcloudServicesApiKeys(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud services operations sub-commands.
     /// </summary>
     public GcloudServicesOperations Operations => _operations ??= new GcloudServicesOperations(_command);
 
     /// <summary>
-    /// gcloud peered-dns-domains sub-commands.
+    /// gcloud services peered-dns-domains sub-commands.
     /// </summary>
     public GcloudServicesPeeredDnsDomains PeeredDnsDomains => _peeredDnsDomains ??= new GcloudServicesPeeredDnsDomains(_command);
 
     /// <summary>
-    /// gcloud vpc-peerings sub-commands.
+    /// gcloud services vpc-peerings sub-commands.
     /// </summary>
     public GcloudServicesVpcPeerings VpcPeerings => _vpcPeerings ??= new GcloudServicesVpcPeerings(_command);
 

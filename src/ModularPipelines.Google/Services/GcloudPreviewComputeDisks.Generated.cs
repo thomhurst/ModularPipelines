@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud disks commands.
+/// gcloud preview compute disks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeDisks
@@ -33,7 +33,7 @@ public class GcloudPreviewComputeDisks
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud bulk sub-commands.
+    /// gcloud preview compute disks bulk sub-commands.
     /// </summary>
     public GcloudPreviewComputeDisksBulk Bulk => _bulk ??= new GcloudPreviewComputeDisksBulk(_command);
 

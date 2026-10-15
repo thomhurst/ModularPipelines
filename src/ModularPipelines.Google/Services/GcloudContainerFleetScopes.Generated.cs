@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud scopes commands.
+/// gcloud container fleet scopes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerFleetScopes
@@ -34,12 +34,12 @@ public class GcloudContainerFleetScopes
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud namespaces sub-commands.
+    /// gcloud container fleet scopes namespaces sub-commands.
     /// </summary>
     public GcloudContainerFleetScopesNamespaces Namespaces => _namespaces ??= new GcloudContainerFleetScopesNamespaces(_command);
 
     /// <summary>
-    /// gcloud rbacrolebindings sub-commands.
+    /// gcloud container fleet scopes rbacrolebindings sub-commands.
     /// </summary>
     public GcloudContainerFleetScopesRbacrolebindings Rbacrolebindings => _rbacrolebindings ??= new GcloudContainerFleetScopesRbacrolebindings(_command);
 

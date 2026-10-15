@@ -34,12 +34,12 @@ public class GcloudDatastore : IGcloudDatastore
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud indexes sub-commands.
+    /// gcloud datastore indexes sub-commands.
     /// </summary>
     public GcloudDatastoreIndexes Indexes => _indexes ??= new GcloudDatastoreIndexes(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud datastore operations sub-commands.
     /// </summary>
     public GcloudDatastoreOperations Operations => _operations ??= new GcloudDatastoreOperations(_command);
 

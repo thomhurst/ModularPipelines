@@ -32,7 +32,11 @@ public record GcloudStorageIntelligenceConfigsUpdateOptions : GcloudOptions, IVa
     /// Exactly one of these must be specified: Specifies project for the storage intelligence config.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// Exactly one of these must be specified: Specifies sub-folder id for the storage intelligence config.

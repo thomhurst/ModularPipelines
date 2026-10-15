@@ -58,7 +58,7 @@ public record GcloudStorageManagedFoldersDeleteOptions : GcloudOptions
     /// <summary>
     /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
-    [CliFlag("--continue-on-error")]
+    [CliFlag("--continue-on-error", ShortForm = "-c")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>

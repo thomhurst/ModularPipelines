@@ -85,7 +85,11 @@ public record GcloudSccMuteconfigsUpdateOptions : GcloudOptions, IValidatableObj
     /// At most one of these can be specified: Project (id or number) where the mute config resides. Formatted as projects/789 or just 789.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// ID of the mute config or the full resource name of the mute config.

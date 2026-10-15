@@ -33,7 +33,7 @@ public class GcloudMigration : IGcloudMigration
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud vms sub-commands.
+    /// gcloud migration vms sub-commands.
     /// </summary>
     public GcloudMigrationVms Vms => _vms ??= new GcloudMigrationVms(_command);
 

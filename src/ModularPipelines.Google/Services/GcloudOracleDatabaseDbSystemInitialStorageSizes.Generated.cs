@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud db-system-initial-storage-sizes commands.
+/// gcloud oracle-database db-system-initial-storage-sizes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabaseDbSystemInitialStorageSizes

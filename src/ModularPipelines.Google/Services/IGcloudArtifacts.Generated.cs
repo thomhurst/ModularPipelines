@@ -22,109 +22,109 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudArtifacts
 {
     /// <summary>
-    /// gcloud apt sub-commands.
+    /// gcloud artifacts apt sub-commands.
     /// </summary>
-    GcloudArtifactsApt Apt => throw new System.NotSupportedException();
+    GcloudArtifactsApt Apt { get; }
 
     /// <summary>
-    /// gcloud attachments sub-commands.
+    /// gcloud artifacts attachments sub-commands.
     /// </summary>
-    GcloudArtifactsAttachments Attachments => throw new System.NotSupportedException();
+    GcloudArtifactsAttachments Attachments { get; }
 
     /// <summary>
-    /// gcloud docker sub-commands.
+    /// gcloud artifacts docker sub-commands.
     /// </summary>
-    GcloudArtifactsDocker Docker => throw new System.NotSupportedException();
+    GcloudArtifactsDocker Docker { get; }
 
     /// <summary>
-    /// gcloud files sub-commands.
+    /// gcloud artifacts files sub-commands.
     /// </summary>
-    GcloudArtifactsFiles Files => throw new System.NotSupportedException();
+    GcloudArtifactsFiles Files { get; }
 
     /// <summary>
-    /// gcloud generic sub-commands.
+    /// gcloud artifacts generic sub-commands.
     /// </summary>
-    GcloudArtifactsGeneric Generic => throw new System.NotSupportedException();
+    GcloudArtifactsGeneric Generic { get; }
 
     /// <summary>
-    /// gcloud go sub-commands.
+    /// gcloud artifacts go sub-commands.
     /// </summary>
-    GcloudArtifactsGo Go => throw new System.NotSupportedException();
+    GcloudArtifactsGo Go { get; }
 
     /// <summary>
-    /// gcloud image-streaming-cache sub-commands.
+    /// gcloud artifacts image-streaming-cache sub-commands.
     /// </summary>
-    GcloudArtifactsImageStreamingCache ImageStreamingCache => throw new System.NotSupportedException();
+    GcloudArtifactsImageStreamingCache ImageStreamingCache { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud artifacts locations sub-commands.
     /// </summary>
-    GcloudArtifactsLocations Locations => throw new System.NotSupportedException();
+    GcloudArtifactsLocations Locations { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud artifacts operations sub-commands.
     /// </summary>
-    GcloudArtifactsOperations Operations => throw new System.NotSupportedException();
+    GcloudArtifactsOperations Operations { get; }
 
     /// <summary>
-    /// gcloud packages sub-commands.
+    /// gcloud artifacts packages sub-commands.
     /// </summary>
-    GcloudArtifactsPackages Packages => throw new System.NotSupportedException();
+    GcloudArtifactsPackages Packages { get; }
 
     /// <summary>
-    /// gcloud print-settings sub-commands.
+    /// gcloud artifacts print-settings sub-commands.
     /// </summary>
-    GcloudArtifactsPrintSettings PrintSettings => throw new System.NotSupportedException();
+    GcloudArtifactsPrintSettings PrintSettings { get; }
 
     /// <summary>
-    /// gcloud projects sub-commands.
+    /// gcloud artifacts projects sub-commands.
     /// </summary>
-    GcloudArtifactsProjects Projects => throw new System.NotSupportedException();
+    GcloudArtifactsProjects Projects { get; }
 
     /// <summary>
-    /// gcloud repositories sub-commands.
+    /// gcloud artifacts repositories sub-commands.
     /// </summary>
-    GcloudArtifactsRepositories Repositories => throw new System.NotSupportedException();
+    GcloudArtifactsRepositories Repositories { get; }
 
     /// <summary>
-    /// gcloud rules sub-commands.
+    /// gcloud artifacts rules sub-commands.
     /// </summary>
-    GcloudArtifactsRules Rules => throw new System.NotSupportedException();
+    GcloudArtifactsRules Rules { get; }
 
     /// <summary>
-    /// gcloud sbom sub-commands.
+    /// gcloud artifacts sbom sub-commands.
     /// </summary>
-    GcloudArtifactsSbom Sbom => throw new System.NotSupportedException();
+    GcloudArtifactsSbom Sbom { get; }
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud artifacts settings sub-commands.
     /// </summary>
-    GcloudArtifactsSettings Settings => throw new System.NotSupportedException();
+    GcloudArtifactsSettings Settings { get; }
 
     /// <summary>
-    /// gcloud tags sub-commands.
+    /// gcloud artifacts tags sub-commands.
     /// </summary>
-    GcloudArtifactsTags Tags => throw new System.NotSupportedException();
+    GcloudArtifactsTags Tags { get; }
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud artifacts versions sub-commands.
     /// </summary>
-    GcloudArtifactsVersions Versions => throw new System.NotSupportedException();
+    GcloudArtifactsVersions Versions { get; }
 
     /// <summary>
-    /// gcloud vpcsc-config sub-commands.
+    /// gcloud artifacts vpcsc-config sub-commands.
     /// </summary>
-    GcloudArtifactsVpcscConfig VpcscConfig => throw new System.NotSupportedException();
+    GcloudArtifactsVpcscConfig VpcscConfig { get; }
 
     /// <summary>
-    /// gcloud vulnerabilities sub-commands.
+    /// gcloud artifacts vulnerabilities sub-commands.
     /// </summary>
-    GcloudArtifactsVulnerabilities Vulnerabilities => throw new System.NotSupportedException();
+    GcloudArtifactsVulnerabilities Vulnerabilities { get; }
 
     /// <summary>
-    /// gcloud yum sub-commands.
+    /// gcloud artifacts yum sub-commands.
     /// </summary>
-    GcloudArtifactsYum Yum => throw new System.NotSupportedException();
+    GcloudArtifactsYum Yum { get; }
 
     /// <summary>
     /// manage Artifact Registry resources
@@ -133,7 +133,6 @@ public interface IGcloudArtifacts
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudArtifactsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudArtifactsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

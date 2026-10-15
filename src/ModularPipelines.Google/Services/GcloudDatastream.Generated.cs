@@ -39,37 +39,37 @@ public class GcloudDatastream : IGcloudDatastream
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud connection-profiles sub-commands.
+    /// gcloud datastream connection-profiles sub-commands.
     /// </summary>
     public GcloudDatastreamConnectionProfiles ConnectionProfiles => _connectionProfiles ??= new GcloudDatastreamConnectionProfiles(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud datastream locations sub-commands.
     /// </summary>
     public GcloudDatastreamLocations Locations => _locations ??= new GcloudDatastreamLocations(_command);
 
     /// <summary>
-    /// gcloud objects sub-commands.
+    /// gcloud datastream objects sub-commands.
     /// </summary>
     public GcloudDatastreamObjects Objects => _objects ??= new GcloudDatastreamObjects(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud datastream operations sub-commands.
     /// </summary>
     public GcloudDatastreamOperations Operations => _operations ??= new GcloudDatastreamOperations(_command);
 
     /// <summary>
-    /// gcloud private-connections sub-commands.
+    /// gcloud datastream private-connections sub-commands.
     /// </summary>
     public GcloudDatastreamPrivateConnections PrivateConnections => _privateConnections ??= new GcloudDatastreamPrivateConnections(_command);
 
     /// <summary>
-    /// gcloud routes sub-commands.
+    /// gcloud datastream routes sub-commands.
     /// </summary>
     public GcloudDatastreamRoutes Routes => _routes ??= new GcloudDatastreamRoutes(_command);
 
     /// <summary>
-    /// gcloud streams sub-commands.
+    /// gcloud datastream streams sub-commands.
     /// </summary>
     public GcloudDatastreamStreams Streams => _streams ??= new GcloudDatastreamStreams(_command);
 

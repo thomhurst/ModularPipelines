@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud collections commands.
+/// gcloud vector-search collections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVectorSearchCollections
@@ -34,12 +34,12 @@ public class GcloudVectorSearchCollections
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud data-objects sub-commands.
+    /// gcloud vector-search collections data-objects sub-commands.
     /// </summary>
     public GcloudVectorSearchCollectionsDataObjects DataObjects => _dataObjects ??= new GcloudVectorSearchCollectionsDataObjects(_command);
 
     /// <summary>
-    /// gcloud indexes sub-commands.
+    /// gcloud vector-search collections indexes sub-commands.
     /// </summary>
     public GcloudVectorSearchCollectionsIndexes Indexes => _indexes ??= new GcloudVectorSearchCollectionsIndexes(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud buckets commands.
+/// gcloud storage buckets commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudStorageBuckets
@@ -34,12 +34,12 @@ public class GcloudStorageBuckets
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud anywhere-caches sub-commands.
+    /// gcloud storage buckets anywhere-caches sub-commands.
     /// </summary>
     public GcloudStorageBucketsAnywhereCaches AnywhereCaches => _anywhereCaches ??= new GcloudStorageBucketsAnywhereCaches(_command);
 
     /// <summary>
-    /// gcloud notifications sub-commands.
+    /// gcloud storage buckets notifications sub-commands.
     /// </summary>
     public GcloudStorageBucketsNotifications Notifications => _notifications ??= new GcloudStorageBucketsNotifications(_command);
 

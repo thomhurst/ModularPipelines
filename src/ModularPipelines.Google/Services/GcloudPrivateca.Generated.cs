@@ -39,37 +39,37 @@ public class GcloudPrivateca : IGcloudPrivateca
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud certificates sub-commands.
+    /// gcloud privateca certificates sub-commands.
     /// </summary>
     public GcloudPrivatecaCertificates Certificates => _certificates ??= new GcloudPrivatecaCertificates(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud privateca locations sub-commands.
     /// </summary>
     public GcloudPrivatecaLocations Locations => _locations ??= new GcloudPrivatecaLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud privateca operations sub-commands.
     /// </summary>
     public GcloudPrivatecaOperations Operations => _operations ??= new GcloudPrivatecaOperations(_command);
 
     /// <summary>
-    /// gcloud pools sub-commands.
+    /// gcloud privateca pools sub-commands.
     /// </summary>
     public GcloudPrivatecaPools Pools => _pools ??= new GcloudPrivatecaPools(_command);
 
     /// <summary>
-    /// gcloud roots sub-commands.
+    /// gcloud privateca roots sub-commands.
     /// </summary>
     public GcloudPrivatecaRoots Roots => _roots ??= new GcloudPrivatecaRoots(_command);
 
     /// <summary>
-    /// gcloud subordinates sub-commands.
+    /// gcloud privateca subordinates sub-commands.
     /// </summary>
     public GcloudPrivatecaSubordinates Subordinates => _subordinates ??= new GcloudPrivatecaSubordinates(_command);
 
     /// <summary>
-    /// gcloud templates sub-commands.
+    /// gcloud privateca templates sub-commands.
     /// </summary>
     public GcloudPrivatecaTemplates Templates => _templates ??= new GcloudPrivatecaTemplates(_command);
 

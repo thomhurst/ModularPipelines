@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud managedkafka commands.
+/// gcloud managed-kafka commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,39 +22,39 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudManagedKafka
 {
     /// <summary>
-    /// gcloud acls sub-commands.
+    /// gcloud managed-kafka acls sub-commands.
     /// </summary>
-    GcloudManagedKafkaAcls Acls => throw new System.NotSupportedException();
+    GcloudManagedKafkaAcls Acls { get; }
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud managed-kafka clusters sub-commands.
     /// </summary>
-    GcloudManagedKafkaClusters Clusters => throw new System.NotSupportedException();
+    GcloudManagedKafkaClusters Clusters { get; }
 
     /// <summary>
-    /// gcloud connect-clusters sub-commands.
+    /// gcloud managed-kafka connect-clusters sub-commands.
     /// </summary>
-    GcloudManagedKafkaConnectClusters ConnectClusters => throw new System.NotSupportedException();
+    GcloudManagedKafkaConnectClusters ConnectClusters { get; }
 
     /// <summary>
-    /// gcloud connectors sub-commands.
+    /// gcloud managed-kafka connectors sub-commands.
     /// </summary>
-    GcloudManagedKafkaConnectors Connectors => throw new System.NotSupportedException();
+    GcloudManagedKafkaConnectors Connectors { get; }
 
     /// <summary>
-    /// gcloud consumer-groups sub-commands.
+    /// gcloud managed-kafka consumer-groups sub-commands.
     /// </summary>
-    GcloudManagedKafkaConsumerGroups ConsumerGroups => throw new System.NotSupportedException();
+    GcloudManagedKafkaConsumerGroups ConsumerGroups { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud managed-kafka operations sub-commands.
     /// </summary>
-    GcloudManagedKafkaOperations Operations => throw new System.NotSupportedException();
+    GcloudManagedKafkaOperations Operations { get; }
 
     /// <summary>
-    /// gcloud topics sub-commands.
+    /// gcloud managed-kafka topics sub-commands.
     /// </summary>
-    GcloudManagedKafkaTopics Topics => throw new System.NotSupportedException();
+    GcloudManagedKafkaTopics Topics { get; }
 
     /// <summary>
     /// administer Managed Service for Apache Kafka     clusters, topics, and consumer groups
@@ -63,7 +63,6 @@ public interface IGcloudManagedKafka
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudManagedKafkaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudManagedKafkaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

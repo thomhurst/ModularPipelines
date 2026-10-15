@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud private-clouds commands.
+/// gcloud vmware private-clouds commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwarePrivateClouds
@@ -42,52 +42,52 @@ public class GcloudVmwarePrivateClouds
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud vmware private-clouds clusters sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsClusters Clusters => _clusters ??= new GcloudVmwarePrivateCloudsClusters(_command);
 
     /// <summary>
-    /// gcloud dns-forwarding sub-commands.
+    /// gcloud vmware private-clouds dns-forwarding sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsDnsForwarding DnsForwarding => _dnsForwarding ??= new GcloudVmwarePrivateCloudsDnsForwarding(_command);
 
     /// <summary>
-    /// gcloud external-addresses sub-commands.
+    /// gcloud vmware private-clouds external-addresses sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsExternalAddresses ExternalAddresses => _externalAddresses ??= new GcloudVmwarePrivateCloudsExternalAddresses(_command);
 
     /// <summary>
-    /// gcloud hcx sub-commands.
+    /// gcloud vmware private-clouds hcx sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsHcx Hcx => _hcx ??= new GcloudVmwarePrivateCloudsHcx(_command);
 
     /// <summary>
-    /// gcloud logging-servers sub-commands.
+    /// gcloud vmware private-clouds logging-servers sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsLoggingServers LoggingServers => _loggingServers ??= new GcloudVmwarePrivateCloudsLoggingServers(_command);
 
     /// <summary>
-    /// gcloud management-dns-zone-bindings sub-commands.
+    /// gcloud vmware private-clouds management-dns-zone-bindings sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsManagementDnsZoneBindings ManagementDnsZoneBindings => _managementDnsZoneBindings ??= new GcloudVmwarePrivateCloudsManagementDnsZoneBindings(_command);
 
     /// <summary>
-    /// gcloud nsx sub-commands.
+    /// gcloud vmware private-clouds nsx sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsNsx Nsx => _nsx ??= new GcloudVmwarePrivateCloudsNsx(_command);
 
     /// <summary>
-    /// gcloud subnets sub-commands.
+    /// gcloud vmware private-clouds subnets sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsSubnets Subnets => _subnets ??= new GcloudVmwarePrivateCloudsSubnets(_command);
 
     /// <summary>
-    /// gcloud upgrades sub-commands.
+    /// gcloud vmware private-clouds upgrades sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsUpgrades Upgrades => _upgrades ??= new GcloudVmwarePrivateCloudsUpgrades(_command);
 
     /// <summary>
-    /// gcloud vcenter sub-commands.
+    /// gcloud vmware private-clouds vcenter sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsVcenter Vcenter => _vcenter ??= new GcloudVmwarePrivateCloudsVcenter(_command);
 

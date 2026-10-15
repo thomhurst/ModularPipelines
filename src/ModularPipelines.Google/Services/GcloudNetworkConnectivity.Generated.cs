@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud networkconnectivity commands.
+/// gcloud network-connectivity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkConnectivity : IGcloudNetworkConnectivity
@@ -43,57 +43,57 @@ public class GcloudNetworkConnectivity : IGcloudNetworkConnectivity
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud hubs sub-commands.
+    /// gcloud network-connectivity hubs sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityHubs Hubs => _hubs ??= new GcloudNetworkConnectivityHubs(_command);
 
     /// <summary>
-    /// gcloud internal-ranges sub-commands.
+    /// gcloud network-connectivity internal-ranges sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityInternalRanges InternalRanges => _internalRanges ??= new GcloudNetworkConnectivityInternalRanges(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud network-connectivity locations sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityLocations Locations => _locations ??= new GcloudNetworkConnectivityLocations(_command);
 
     /// <summary>
-    /// gcloud multicloud-data-transfer-configs sub-commands.
+    /// gcloud network-connectivity multicloud-data-transfer-configs sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityMulticloudDataTransferConfigs MulticloudDataTransferConfigs => _multicloudDataTransferConfigs ??= new GcloudNetworkConnectivityMulticloudDataTransferConfigs(_command);
 
     /// <summary>
-    /// gcloud multicloud-data-transfer-supported-services sub-commands.
+    /// gcloud network-connectivity multicloud-data-transfer-supported-services sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityMulticloudDataTransferSupportedServices MulticloudDataTransferSupportedServices => _multicloudDataTransferSupportedServices ??= new GcloudNetworkConnectivityMulticloudDataTransferSupportedServices(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud network-connectivity operations sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityOperations Operations => _operations ??= new GcloudNetworkConnectivityOperations(_command);
 
     /// <summary>
-    /// gcloud policy-based-routes sub-commands.
+    /// gcloud network-connectivity policy-based-routes sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityPolicyBasedRoutes PolicyBasedRoutes => _policyBasedRoutes ??= new GcloudNetworkConnectivityPolicyBasedRoutes(_command);
 
     /// <summary>
-    /// gcloud regional-endpoints sub-commands.
+    /// gcloud network-connectivity regional-endpoints sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityRegionalEndpoints RegionalEndpoints => _regionalEndpoints ??= new GcloudNetworkConnectivityRegionalEndpoints(_command);
 
     /// <summary>
-    /// gcloud service-connection-policies sub-commands.
+    /// gcloud network-connectivity service-connection-policies sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityServiceConnectionPolicies ServiceConnectionPolicies => _serviceConnectionPolicies ??= new GcloudNetworkConnectivityServiceConnectionPolicies(_command);
 
     /// <summary>
-    /// gcloud spokes sub-commands.
+    /// gcloud network-connectivity spokes sub-commands.
     /// </summary>
     public GcloudNetworkConnectivitySpokes Spokes => _spokes ??= new GcloudNetworkConnectivitySpokes(_command);
 
     /// <summary>
-    /// gcloud transports sub-commands.
+    /// gcloud network-connectivity transports sub-commands.
     /// </summary>
     public GcloudNetworkConnectivityTransports Transports => _transports ??= new GcloudNetworkConnectivityTransports(_command);
 

@@ -52,7 +52,7 @@ public record GcloudStorageRsyncOptions : GcloudOptions
     /// <summary>
     /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
     /// </summary>
-    [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--canned-acl", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public string? CannedAcl { get; set; }
 
     /// <summary>
@@ -64,7 +64,7 @@ public record GcloudStorageRsyncOptions : GcloudOptions
     /// <summary>
     /// Do not overwrite existing files or objects at the destination. Skipped items will be printed. This option may perform an additional GET request for cloud objects before attempting an upload.
     /// </summary>
-    [CliFlag("--no-clobber")]
+    [CliFlag("--no-clobber", ShortForm = "-n")]
     public bool? NoClobber { get; set; }
 
     /// <summary>
@@ -76,7 +76,7 @@ public record GcloudStorageRsyncOptions : GcloudOptions
     /// <summary>
     /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
-    [CliFlag("--continue-on-error")]
+    [CliFlag("--continue-on-error", ShortForm = "-c")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
@@ -100,19 +100,19 @@ public record GcloudStorageRsyncOptions : GcloudOptions
     /// <summary>
     /// Exclude objects matching regex pattern from rsync. Note that this is a Python regular expression, not a pure wildcard pattern. For example, matching a string ending in "abc" is .*abc$ rather than *abc. Also note that the exclude path is relative, as opposed to absolute (similar to Linux rsync and tar exclude options). For the Windows cmd.exe command line interpreter, use ^ as an escape character instead of \ and escape the | character. When using Windows PowerShell, use ' instead of " and surround the | character with ". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--exclude", ShortForm = "-x", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
     /// Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--gzip-in-flight", ShortForm = "-j", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? GzipInFlight { get; set; }
 
     /// <summary>
     /// Applies gzip transport encoding to file uploads. This option works like the --gzip-in-flight option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in longer uploads.
     /// </summary>
-    [CliFlag("--gzip-in-flight-all")]
+    [CliFlag("--gzip-in-flight-all", ShortForm = "-J")]
     public bool? GzipInFlightAll { get; set; }
 
     /// <summary>
@@ -130,19 +130,19 @@ public record GcloudStorageRsyncOptions : GcloudOptions
     /// <summary>
     /// Causes POSIX attributes to be preserved when objects are copied. With this feature enabled, gcloud storage will copy several fields provided by the stat command: access time, modification time, owner UID, owner group GID, and the mode (permissions) of the file. For uploads, these attributes are read off of local files and stored in the cloud as custom metadata. For downloads, custom cloud metadata is set as POSIX attributes on files after they are downloaded. On Windows, this flag will only set and restore access time and modification time because Windows doesn't have a notion of POSIX UID, GID, and mode.
     /// </summary>
-    [CliFlag("--preserve-posix")]
+    [CliFlag("--preserve-posix", ShortForm = "-P")]
     public bool? PreservePosix { get; set; }
 
     /// <summary>
     /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Skip operating on destination object if it has a newer modification time than the source.
     /// </summary>
-    [CliFlag("--skip-if-dest-has-newer-mtime")]
+    [CliFlag("--skip-if-dest-has-newer-mtime", ShortForm = "-u")]
     public bool? SkipIfDestHasNewerMtime { get; set; }
 
     /// <summary>
     /// Skip objects with unsupported object types.
     /// </summary>
-    [CliFlag("--skip-unsupported")]
+    [CliFlag("--skip-unsupported", ShortForm = "-U")]
     public bool? SkipUnsupported { get; set; }
 
     /// <summary>

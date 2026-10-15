@@ -36,22 +36,22 @@ public class GcloudNotebooks : IGcloudNotebooks
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud environments sub-commands.
+    /// gcloud notebooks environments sub-commands.
     /// </summary>
     public GcloudNotebooksEnvironments Environments => _environments ??= new GcloudNotebooksEnvironments(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud notebooks instances sub-commands.
     /// </summary>
     public GcloudNotebooksInstances Instances => _instances ??= new GcloudNotebooksInstances(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud notebooks locations sub-commands.
     /// </summary>
     public GcloudNotebooksLocations Locations => _locations ??= new GcloudNotebooksLocations(_command);
 
     /// <summary>
-    /// gcloud runtimes sub-commands.
+    /// gcloud notebooks runtimes sub-commands.
     /// </summary>
     public GcloudNotebooksRuntimes Runtimes => _runtimes ??= new GcloudNotebooksRuntimes(_command);
 

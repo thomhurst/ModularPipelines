@@ -24,19 +24,19 @@ public record GcloudAppOpenConsoleOptions : GcloudOptions
     /// <summary>
     /// Open the log viewer instead of the App Engine dashboard.
     /// </summary>
-    [CliFlag("--logs")]
+    [CliFlag("--logs", ShortForm = "-l")]
     public bool? Logs { get; set; }
 
     /// <summary>
     /// The service to consider. If not specified, use the default service.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
     /// <summary>
     /// The version to consider. If not specified, all versions for the given service are considered.
     /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--version", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
 }

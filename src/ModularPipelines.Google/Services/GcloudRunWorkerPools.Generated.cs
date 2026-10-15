@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud worker-pools commands.
+/// gcloud run worker-pools commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudRunWorkerPools
@@ -34,12 +34,12 @@ public class GcloudRunWorkerPools
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud logs sub-commands.
+    /// gcloud run worker-pools logs sub-commands.
     /// </summary>
     public GcloudRunWorkerPoolsLogs Logs => _logs ??= new GcloudRunWorkerPoolsLogs(_command);
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud run worker-pools revisions sub-commands.
     /// </summary>
     public GcloudRunWorkerPoolsRevisions Revisions => _revisions ??= new GcloudRunWorkerPoolsRevisions(_command);
 

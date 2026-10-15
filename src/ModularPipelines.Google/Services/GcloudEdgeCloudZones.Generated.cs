@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud zones commands.
+/// gcloud edge-cloud zones commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgeCloudZones
@@ -33,7 +33,7 @@ public class GcloudEdgeCloudZones
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud roles sub-commands.
+    /// gcloud edge-cloud zones roles sub-commands.
     /// </summary>
     public GcloudEdgeCloudZonesRoles Roles => _roles ??= new GcloudEdgeCloudZonesRoles(_command);
 

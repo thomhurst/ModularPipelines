@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud auditmanager commands.
+/// gcloud audit-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAuditManager : IGcloudAuditManager
@@ -37,27 +37,27 @@ public class GcloudAuditManager : IGcloudAuditManager
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud audit-reports sub-commands.
+    /// gcloud audit-manager audit-reports sub-commands.
     /// </summary>
     public GcloudAuditManagerAuditReports AuditReports => _auditReports ??= new GcloudAuditManagerAuditReports(_command);
 
     /// <summary>
-    /// gcloud audit-schedules sub-commands.
+    /// gcloud audit-manager audit-schedules sub-commands.
     /// </summary>
     public GcloudAuditManagerAuditSchedules AuditSchedules => _auditSchedules ??= new GcloudAuditManagerAuditSchedules(_command);
 
     /// <summary>
-    /// gcloud audit-scopes sub-commands.
+    /// gcloud audit-manager audit-scopes sub-commands.
     /// </summary>
     public GcloudAuditManagerAuditScopes AuditScopes => _auditScopes ??= new GcloudAuditManagerAuditScopes(_command);
 
     /// <summary>
-    /// gcloud enrollments sub-commands.
+    /// gcloud audit-manager enrollments sub-commands.
     /// </summary>
     public GcloudAuditManagerEnrollments Enrollments => _enrollments ??= new GcloudAuditManagerEnrollments(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud audit-manager operations sub-commands.
     /// </summary>
     public GcloudAuditManagerOperations Operations => _operations ??= new GcloudAuditManagerOperations(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud nsx commands.
+/// gcloud vmware private-clouds nsx commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwarePrivateCloudsNsx
@@ -33,7 +33,7 @@ public class GcloudVmwarePrivateCloudsNsx
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud credentials sub-commands.
+    /// gcloud vmware private-clouds nsx credentials sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsNsxCredentials Credentials => _credentials ??= new GcloudVmwarePrivateCloudsNsxCredentials(_command);
 

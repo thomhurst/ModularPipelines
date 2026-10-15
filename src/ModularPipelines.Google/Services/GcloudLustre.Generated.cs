@@ -34,12 +34,12 @@ public class GcloudLustre : IGcloudLustre
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud lustre instances sub-commands.
     /// </summary>
     public GcloudLustreInstances Instances => _instances ??= new GcloudLustreInstances(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud lustre operations sub-commands.
     /// </summary>
     public GcloudLustreOperations Operations => _operations ??= new GcloudLustreOperations(_command);
 

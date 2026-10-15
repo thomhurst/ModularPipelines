@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud designcenter commands.
+/// gcloud design-center commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDesignCenter : IGcloudDesignCenter
@@ -35,17 +35,17 @@ public class GcloudDesignCenter : IGcloudDesignCenter
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud design-center locations sub-commands.
     /// </summary>
     public GcloudDesignCenterLocations Locations => _locations ??= new GcloudDesignCenterLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud design-center operations sub-commands.
     /// </summary>
     public GcloudDesignCenterOperations Operations => _operations ??= new GcloudDesignCenterOperations(_command);
 
     /// <summary>
-    /// gcloud spaces sub-commands.
+    /// gcloud design-center spaces sub-commands.
     /// </summary>
     public GcloudDesignCenterSpaces Spaces => _spaces ??= new GcloudDesignCenterSpaces(_command);
 

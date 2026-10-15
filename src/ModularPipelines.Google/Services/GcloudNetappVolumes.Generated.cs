@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud volumes commands.
+/// gcloud netapp volumes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetappVolumes
@@ -35,17 +35,17 @@ public class GcloudNetappVolumes
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud quota-rules sub-commands.
+    /// gcloud netapp volumes quota-rules sub-commands.
     /// </summary>
     public GcloudNetappVolumesQuotaRules QuotaRules => _quotaRules ??= new GcloudNetappVolumesQuotaRules(_command);
 
     /// <summary>
-    /// gcloud replications sub-commands.
+    /// gcloud netapp volumes replications sub-commands.
     /// </summary>
     public GcloudNetappVolumesReplications Replications => _replications ??= new GcloudNetappVolumesReplications(_command);
 
     /// <summary>
-    /// gcloud snapshots sub-commands.
+    /// gcloud netapp volumes snapshots sub-commands.
     /// </summary>
     public GcloudNetappVolumesSnapshots Snapshots => _snapshots ??= new GcloudNetappVolumesSnapshots(_command);
 

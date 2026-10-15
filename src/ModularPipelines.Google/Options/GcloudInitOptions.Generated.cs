@@ -30,7 +30,7 @@ public record GcloudInitOptions : GcloudOptions
     /// <summary>
     /// Prevent the command from launching a browser for authorization. Use this flag if you are on a machine that does not have a browser and you cannot install the gcloud CLI on another machine with a browser.
     /// </summary>
-    [CliFlag("--console-only")]
+    [CliFlag("--console-only", ShortForm = "--no-launch-browser")]
     public bool? ConsoleOnly { get; set; }
 
     /// <summary>

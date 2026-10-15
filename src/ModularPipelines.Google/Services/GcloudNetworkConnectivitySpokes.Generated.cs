@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud spokes commands.
+/// gcloud network-connectivity spokes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkConnectivitySpokes
@@ -38,32 +38,32 @@ public class GcloudNetworkConnectivitySpokes
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud gateways sub-commands.
+    /// gcloud network-connectivity spokes gateways sub-commands.
     /// </summary>
     public GcloudNetworkConnectivitySpokesGateways Gateways => _gateways ??= new GcloudNetworkConnectivitySpokesGateways(_command);
 
     /// <summary>
-    /// gcloud linked-interconnect-attachments sub-commands.
+    /// gcloud network-connectivity spokes linked-interconnect-attachments sub-commands.
     /// </summary>
     public GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments LinkedInterconnectAttachments => _linkedInterconnectAttachments ??= new GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments(_command);
 
     /// <summary>
-    /// gcloud linked-producer-vpc-network sub-commands.
+    /// gcloud network-connectivity spokes linked-producer-vpc-network sub-commands.
     /// </summary>
     public GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork LinkedProducerVpcNetwork => _linkedProducerVpcNetwork ??= new GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork(_command);
 
     /// <summary>
-    /// gcloud linked-router-appliances sub-commands.
+    /// gcloud network-connectivity spokes linked-router-appliances sub-commands.
     /// </summary>
     public GcloudNetworkConnectivitySpokesLinkedRouterAppliances LinkedRouterAppliances => _linkedRouterAppliances ??= new GcloudNetworkConnectivitySpokesLinkedRouterAppliances(_command);
 
     /// <summary>
-    /// gcloud linked-vpc-network sub-commands.
+    /// gcloud network-connectivity spokes linked-vpc-network sub-commands.
     /// </summary>
     public GcloudNetworkConnectivitySpokesLinkedVpcNetwork LinkedVpcNetwork => _linkedVpcNetwork ??= new GcloudNetworkConnectivitySpokesLinkedVpcNetwork(_command);
 
     /// <summary>
-    /// gcloud linked-vpn-tunnels sub-commands.
+    /// gcloud network-connectivity spokes linked-vpn-tunnels sub-commands.
     /// </summary>
     public GcloudNetworkConnectivitySpokesLinkedVpnTunnels LinkedVpnTunnels => _linkedVpnTunnels ??= new GcloudNetworkConnectivitySpokesLinkedVpnTunnels(_command);
 

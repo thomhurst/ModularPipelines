@@ -33,7 +33,7 @@ public class GcloudIdentity : IGcloudIdentity
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud groups sub-commands.
+    /// gcloud identity groups sub-commands.
     /// </summary>
     public GcloudIdentityGroups Groups => _groups ??= new GcloudIdentityGroups(_command);
 

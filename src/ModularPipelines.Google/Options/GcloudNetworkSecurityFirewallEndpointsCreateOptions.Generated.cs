@@ -61,7 +61,11 @@ public record GcloudNetworkSecurityFirewallEndpointsCreateOptions : GcloudOption
     /// The Google Cloud project ID to use for API enablement check, quota, and endpoint uptime billing. Overrides the default billing/quota_project property value for this command invocation.
     /// </summary>
     [CliOption("--billing-project", Format = OptionFormat.EqualsSeparated)]
-    public string? BillingProject { get; set; }
+    public new string? BillingProject
+    {
+        get => base.BillingProject;
+        set => base.BillingProject = value;
+    }
 
     /// <summary>
     /// Description of the endpoint

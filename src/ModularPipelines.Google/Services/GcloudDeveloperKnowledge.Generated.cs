@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud developerknowledge commands.
+/// gcloud developer-knowledge commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDeveloperKnowledge : IGcloudDeveloperKnowledge
@@ -33,7 +33,7 @@ public class GcloudDeveloperKnowledge : IGcloudDeveloperKnowledge
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud documents sub-commands.
+    /// gcloud developer-knowledge documents sub-commands.
     /// </summary>
     public GcloudDeveloperKnowledgeDocuments Documents => _documents ??= new GcloudDeveloperKnowledgeDocuments(_command);
 

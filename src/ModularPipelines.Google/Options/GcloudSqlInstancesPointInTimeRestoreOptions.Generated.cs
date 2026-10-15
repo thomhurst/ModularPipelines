@@ -407,7 +407,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions : GcloudOptions, IVali
     /// <summary>
     /// Specifies the machine type for the instance. The usage of this flag depends on the selected --edition. Enterprise Edition: Use --tier for shared-core instances (e.g., db-f1-micro, db-g1-small). For dedicated-core instances, do not use --tier; instead, customize your instance by specifying its CPU and memory with the --cpu and --memory flags. Enterprise Plus Edition: --tier is required to specify the predefined machine type. The --cpu and --memory flags are not supported for Enterprise Plus. Examples include db-perf-optimized-N-2 (N2 series) or db-c4a-highmem-2 (C4A series). For a detailed list of available machine types and series, refer to the documentation for your database engine: ◆ MySQL: https://cloud.google.com/sql/docs/mysql/machine-series-overview ◆ PostgreSQL: https://cloud.google.com/sql/docs/postgres/machine-series-overview ◆ SQL Server: https://cloud.google.com/sql/docs/sqlserver/machine-series-overview Learn more about how machine types, CPU, and memory affect pricing: https://cloud.google.com/sql/pricing
     /// </summary>
-    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tier", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Tier { get; set; }
 
     /// <summary>

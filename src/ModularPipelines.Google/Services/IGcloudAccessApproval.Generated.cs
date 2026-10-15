@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud accessapproval commands.
+/// gcloud access-approval commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudAccessApproval
 {
     /// <summary>
-    /// gcloud requests sub-commands.
+    /// gcloud access-approval requests sub-commands.
     /// </summary>
-    GcloudAccessApprovalRequests Requests => throw new System.NotSupportedException();
+    GcloudAccessApprovalRequests Requests { get; }
 
     /// <summary>
-    /// gcloud service-account sub-commands.
+    /// gcloud access-approval service-account sub-commands.
     /// </summary>
-    GcloudAccessApprovalServiceAccount ServiceAccount => throw new System.NotSupportedException();
+    GcloudAccessApprovalServiceAccount ServiceAccount { get; }
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud access-approval settings sub-commands.
     /// </summary>
-    GcloudAccessApprovalSettings Settings => throw new System.NotSupportedException();
+    GcloudAccessApprovalSettings Settings { get; }
 
     /// <summary>
     /// manage Access Approval requests and settings
@@ -43,7 +43,6 @@ public interface IGcloudAccessApproval
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAccessApprovalOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAccessApprovalOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

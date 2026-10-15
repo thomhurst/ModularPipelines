@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud goldengate-connection-assignments commands.
+/// gcloud oracle-database goldengate-connection-assignments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabaseGoldengateConnectionAssignments
@@ -115,6 +115,21 @@ public class GcloudOracleDatabaseGoldengateConnectionAssignments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestAsync(
         GcloudOracleDatabaseGoldengateConnectionAssignmentsTestOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// update     labels of a GoldengateConnectionAssignment
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        GcloudOracleDatabaseGoldengateConnectionAssignmentsUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

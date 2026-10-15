@@ -42,52 +42,52 @@ public class GcloudIam : IGcloudIam
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud access-policies sub-commands.
+    /// gcloud iam access-policies sub-commands.
     /// </summary>
     public GcloudIamAccessPolicies AccessPolicies => _accessPolicies ??= new GcloudIamAccessPolicies(_command);
 
     /// <summary>
-    /// gcloud oauth-clients sub-commands.
+    /// gcloud iam oauth-clients sub-commands.
     /// </summary>
     public GcloudIamOauthClients OauthClients => _oauthClients ??= new GcloudIamOauthClients(_command);
 
     /// <summary>
-    /// gcloud policies sub-commands.
+    /// gcloud iam policies sub-commands.
     /// </summary>
     public GcloudIamPolicies Policies => _policies ??= new GcloudIamPolicies(_command);
 
     /// <summary>
-    /// gcloud policy-bindings sub-commands.
+    /// gcloud iam policy-bindings sub-commands.
     /// </summary>
     public GcloudIamPolicyBindings PolicyBindings => _policyBindings ??= new GcloudIamPolicyBindings(_command);
 
     /// <summary>
-    /// gcloud principal-access-boundary-policies sub-commands.
+    /// gcloud iam principal-access-boundary-policies sub-commands.
     /// </summary>
     public GcloudIamPrincipalAccessBoundaryPolicies PrincipalAccessBoundaryPolicies => _principalAccessBoundaryPolicies ??= new GcloudIamPrincipalAccessBoundaryPolicies(_command);
 
     /// <summary>
-    /// gcloud roles sub-commands.
+    /// gcloud iam roles sub-commands.
     /// </summary>
     public GcloudIamRoles Roles => _roles ??= new GcloudIamRoles(_command);
 
     /// <summary>
-    /// gcloud service-accounts sub-commands.
+    /// gcloud iam service-accounts sub-commands.
     /// </summary>
     public GcloudIamServiceAccounts ServiceAccounts => _serviceAccounts ??= new GcloudIamServiceAccounts(_command);
 
     /// <summary>
-    /// gcloud simulator sub-commands.
+    /// gcloud iam simulator sub-commands.
     /// </summary>
     public GcloudIamSimulator Simulator => _simulator ??= new GcloudIamSimulator(_command);
 
     /// <summary>
-    /// gcloud workforce-pools sub-commands.
+    /// gcloud iam workforce-pools sub-commands.
     /// </summary>
     public GcloudIamWorkforcePools WorkforcePools => _workforcePools ??= new GcloudIamWorkforcePools(_command);
 
     /// <summary>
-    /// gcloud workload-identity-pools sub-commands.
+    /// gcloud iam workload-identity-pools sub-commands.
     /// </summary>
     public GcloudIamWorkloadIdentityPools WorkloadIdentityPools => _workloadIdentityPools ??= new GcloudIamWorkloadIdentityPools(_command);
 

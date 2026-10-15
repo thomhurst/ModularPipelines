@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud datasets commands.
+/// gcloud observability buckets datasets commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudObservabilityBucketsDatasets
@@ -34,12 +34,12 @@ public class GcloudObservabilityBucketsDatasets
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud links sub-commands.
+    /// gcloud observability buckets datasets links sub-commands.
     /// </summary>
     public GcloudObservabilityBucketsDatasetsLinks Links => _links ??= new GcloudObservabilityBucketsDatasetsLinks(_command);
 
     /// <summary>
-    /// gcloud views sub-commands.
+    /// gcloud observability buckets datasets views sub-commands.
     /// </summary>
     public GcloudObservabilityBucketsDatasetsViews Views => _views ??= new GcloudObservabilityBucketsDatasetsViews(_command);
 

@@ -81,7 +81,11 @@ public record GcloudSccFindingsListMarksOptions : GcloudOptions, IValidatableObj
     /// At most one of these can be specified: The project ID (e.g., example-project) that contains the finding.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// ID of the finding or fully qualified identifier for the finding.

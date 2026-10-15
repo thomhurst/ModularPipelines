@@ -131,7 +131,7 @@ public record GcloudPreviewComputeFirewallPoliciesRulesCreateOptions : GcloudOpt
     public GcloudPreviewComputeFirewallPoliciesRulesCreateDirection? Direction { get; set; }
 
     /// <summary>
-    /// Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
+    /// Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to disable and --no-disabled to enable.
     /// </summary>
     [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }

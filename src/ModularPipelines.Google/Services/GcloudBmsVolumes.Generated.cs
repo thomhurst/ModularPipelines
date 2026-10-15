@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud volumes commands.
+/// gcloud bms volumes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBmsVolumes
@@ -34,12 +34,12 @@ public class GcloudBmsVolumes
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud luns sub-commands.
+    /// gcloud bms volumes luns sub-commands.
     /// </summary>
     public GcloudBmsVolumesLuns Luns => _luns ??= new GcloudBmsVolumesLuns(_command);
 
     /// <summary>
-    /// gcloud snapshots sub-commands.
+    /// gcloud bms volumes snapshots sub-commands.
     /// </summary>
     public GcloudBmsVolumesSnapshots Snapshots => _snapshots ??= new GcloudBmsVolumesSnapshots(_command);
 
