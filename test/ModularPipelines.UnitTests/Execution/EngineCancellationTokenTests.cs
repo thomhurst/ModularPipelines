@@ -390,6 +390,8 @@ public class EngineCancellationTokenTests : TestBase
         {
             await Assert.That(firstInterruptShouldBeSwallowed).IsTrue();
             await Assert.That(engineCancellationToken.IsCancellationRequested).IsTrue();
+            await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
+            await Assert.That(engineCancellationToken.ExplicitCancellationToken.IsCancellationRequested).IsFalse();
             await Assert.That(secondInterruptShouldBeSwallowed).IsFalse();
         }
     }
@@ -406,6 +408,7 @@ public class EngineCancellationTokenTests : TestBase
         {
             await Assert.That(engineCancellationToken.Token.IsCancellationRequested).IsTrue();
             await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsFalse();
+            await Assert.That(engineCancellationToken.ExplicitCancellationToken.IsCancellationRequested).IsFalse();
         }
     }
 
@@ -419,6 +422,7 @@ public class EngineCancellationTokenTests : TestBase
         engineCancellationToken.CancelWithReason("user canceled");
 
         await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
+        await Assert.That(engineCancellationToken.ExplicitCancellationToken.IsCancellationRequested).IsTrue();
     }
 
     [Test]

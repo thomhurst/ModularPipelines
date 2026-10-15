@@ -35,10 +35,13 @@ internal sealed class PipelineImpl : IPipeline
     private readonly PipelineBuilderResources _builderResources;
     private readonly AsyncServiceScope _serviceScope;
     private readonly IDisposable _shutdownRegistration;
-    private readonly object _disposeLock = new();
+    private readonly Lock _disposeLock = new();
     private readonly AsyncLocal<DisposalOwnership?> _disposalOwnership = new();
     private int _isSynchronousContainerDisposalActive;
     private Task? _disposeTask;
+    private TaskCompletionSource? _runCompletion;
+    private int _activeRuns;
+    private bool _shutdownRequested;
 
     private PipelineImpl(IHost host, PipelineBuilderResources builderResources)
     {
@@ -46,7 +49,7 @@ internal sealed class PipelineImpl : IPipeline
         _builderResources = builderResources;
         _serviceScope = host.Services.CreateAsyncScope();
 
-        _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(this);
+        _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(ShutdownAsync);
     }
 
     internal static async Task<PipelineImpl> CreateAsync(
@@ -126,6 +129,33 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
     {
+        lock (_disposeLock)
+        {
+            ObjectDisposedException.ThrowIf(_shutdownRequested || _disposeTask is not null, this);
+            if (_activeRuns++ == 0)
+            {
+                _runCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            }
+        }
+
+        try
+        {
+            return await RunCoreAsync(cancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            lock (_disposeLock)
+            {
+                if (--_activeRuns == 0)
+                {
+                    _runCompletion!.TrySetResult();
+                }
+            }
+        }
+    }
+
+    private async Task<PipelineSummary> RunCoreAsync(CancellationToken cancellationToken)
+    {
         var pipelineName = Services.GetRequiredService<IHostEnvironment>().ApplicationName;
         using var activity = ModuleActivityTracing.StartPipelineActivity(pipelineName);
 
@@ -188,6 +218,28 @@ internal sealed class PipelineImpl : IPipeline
         CancellationToken cancellationToken = default) =>
         Services.GetRequiredService<IDependencyGraphExporter>()
             .ExportAsync(format, path, cancellationToken);
+
+    private async Task ShutdownAsync()
+    {
+        Task runCompletion;
+        lock (_disposeLock)
+        {
+            _shutdownRequested = true;
+            runCompletion = _runCompletion?.Task ?? Task.CompletedTask;
+        }
+
+        try
+        {
+            _host.Services.GetRequiredService<EngineCancellationToken>().RequestShutdown();
+        }
+        finally
+        {
+            // Keep services alive until cleanup modules, end handlers, reports and tracing finish.
+            // The process-exit registration bounds this entire operation.
+            await runCompletion.ConfigureAwait(false);
+            await DisposeAsync().ConfigureAwait(false);
+        }
+    }
 
     /// <inheritdoc />
     public ValueTask DisposeAsync()

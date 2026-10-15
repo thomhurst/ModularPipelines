@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
+using System.Runtime.InteropServices;
 
 namespace ModularPipelines.Engine;
 
@@ -12,14 +13,17 @@ namespace ModularPipelines.Engine;
 internal class EngineCancellationToken : IDisposable
 {
     private readonly CancellationTokenSource _cts;
-    private readonly CancellationTokenSource _nonFailureCancellationTokenSource = new();
+    private readonly CancellationTokenSource _explicitCancellationTokenSource = new();
+    private readonly CancellationTokenSource _nonFailureCancellationTokenSource;
     private readonly CancellationToken _token;
     private readonly CancellationToken _nonFailureCancellationToken;
+    private readonly CancellationToken _explicitCancellationToken;
     private readonly IPrimaryExceptionContainer _primaryExceptionContainer;
-    private readonly object _lifetimeLock = new();
+    private readonly Lock _lifetimeLock = new();
+    private readonly PosixSignalRegistration? _sigtermRegistration;
 
     private int _activeCancellationOperations;
-    private int _cancelKeyPressReceived;
+    private int _shutdownSignalReceived;
     private bool _disposeCancellationTokenSources;
     private bool _cancellationTokenSourcesDisposed;
 
@@ -35,6 +39,12 @@ internal class EngineCancellationToken : IDisposable
     /// but not for pipeline failure cancellation.
     /// </summary>
     public CancellationToken NonFailureCancellationToken => _nonFailureCancellationToken;
+
+    /// <summary>
+    /// Gets a token canceled by explicit pipeline cancellation, but not failures or shutdown signals.
+    /// Report finalization uses this token so shutdown can still persist the run report.
+    /// </summary>
+    public CancellationToken ExplicitCancellationToken => _explicitCancellationToken;
 
     /// <summary>
     /// Gets a value indicating whether cancellation has been requested on the underlying token source.
@@ -64,9 +74,18 @@ internal class EngineCancellationToken : IDisposable
     public EngineCancellationToken(IPrimaryExceptionContainer primaryExceptionContainer)
     {
         _primaryExceptionContainer = primaryExceptionContainer;
+        _explicitCancellationToken = _explicitCancellationTokenSource.Token;
+        _nonFailureCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(_explicitCancellationToken);
         _nonFailureCancellationToken = _nonFailureCancellationTokenSource.Token;
         _cts = CancellationTokenSource.CreateLinkedTokenSource(_nonFailureCancellationToken);
         _token = _cts.Token;
+
+        if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() || OperatingSystem.IsFreeBSD())
+        {
+            _sigtermRegistration = PosixSignalRegistration.Create(
+                PosixSignal.SIGTERM,
+                context => context.Cancel = HandleCancelKeyPress());
+        }
 
         System.Console.CancelKeyPress += OnCancelKeyPress;
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
@@ -76,7 +95,7 @@ internal class EngineCancellationToken : IDisposable
     {
         Reason = reason;
         _isCanceled = true;
-        Cancel(_nonFailureCancellationTokenSource);
+        Cancel(_explicitCancellationTokenSource);
     }
 
     public void CancelWithException(Exception exception, string? reason = null)
@@ -96,7 +115,7 @@ internal class EngineCancellationToken : IDisposable
     /// <summary>
     /// Communicates a request for cancellation.
     /// </summary>
-    public void Cancel() => Cancel(_nonFailureCancellationTokenSource);
+    public void Cancel() => Cancel(_explicitCancellationTokenSource);
 
     private void Cancel(CancellationTokenSource cancellationTokenSource)
     {
@@ -146,6 +165,7 @@ internal class EngineCancellationToken : IDisposable
         {
             System.Console.CancelKeyPress -= OnCancelKeyPress;
             AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
+            _sigtermRegistration?.Dispose();
             if (disposeCancellationTokenSources)
             {
                 DisposeCancellationTokenSources();
@@ -158,19 +178,19 @@ internal class EngineCancellationToken : IDisposable
         args.Cancel = HandleCancelKeyPress();
     }
 
-    private void OnProcessExit(object? sender, EventArgs args) => TryCancel();
+    private void OnProcessExit(object? sender, EventArgs args) => RequestShutdown();
 
     internal bool HandleCancelKeyPress()
     {
-        if (Interlocked.CompareExchange(ref _cancelKeyPressReceived, 1, 0) != 0)
+        if (Interlocked.CompareExchange(ref _shutdownSignalReceived, 1, 0) != 0)
         {
             return false;
         }
 
-        return TryCancel();
+        return RequestShutdown();
     }
 
-    private bool TryCancel()
+    internal bool RequestShutdown()
     {
         if (!TryBeginCancellation())
         {
@@ -231,5 +251,6 @@ internal class EngineCancellationToken : IDisposable
     {
         _cts.Dispose();
         _nonFailureCancellationTokenSource.Dispose();
+        _explicitCancellationTokenSource.Dispose();
     }
 }

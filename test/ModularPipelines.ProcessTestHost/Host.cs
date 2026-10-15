@@ -21,6 +21,11 @@ public static class Host
             return 0;
         }
 
+        if (args[0] is "pipeline-sigterm" or "pipeline-exit")
+        {
+            return await ShutdownPipeline.RunAsync(args[0], args[1]);
+        }
+
         if (args[0] == "write-output")
         {
             foreach (var line in args.Skip(1))
