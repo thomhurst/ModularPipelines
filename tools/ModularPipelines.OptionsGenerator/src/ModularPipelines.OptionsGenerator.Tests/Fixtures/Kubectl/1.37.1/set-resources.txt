@@ -1,0 +1,69 @@
+Specify compute resource requirements (CPU, memory) for any resource that defines a pod template.  If a pod is successfully scheduled, it is guaranteed the amount of resource requested, but may burst up to its specified limits.
+
+ For each compute resource, if a limit is specified and a request is omitted, the request will default to the limit.
+
+ Possible resources include (case insensitive): Use "kubectl api-resources" for a complete list of supported resources..
+
+Examples:
+  # Set a deployments nginx container cpu limits to "200m" and memory to "512Mi"
+  kubectl set resources deployment nginx -c=nginx --limits=cpu=200m,memory=512Mi
+
+  # Set the resource request and limits for all containers in nginx
+  kubectl set resources deployment nginx --limits=cpu=200m,memory=512Mi --requests=cpu=100m,memory=256Mi
+
+  # Remove the resource requests for resources on containers in nginx
+  kubectl set resources deployment nginx --limits=cpu=0,memory=0 --requests=cpu=0,memory=0
+
+  # Print the result (in yaml format) of updating nginx container limits from a local, without hitting the server
+  kubectl set resources -f path/to/file.yaml --limits=cpu=200m,memory=512Mi --local -o yaml
+
+Options:
+    --all=false:
+	Select all resources, in the namespace of the specified resource types
+
+    --allow-missing-template-keys=true:
+	If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+
+    -c, --containers='*':
+	The names of containers in the selected pod templates to change, all containers are selected by default - may use wildcards
+
+    --dry-run='none':
+	Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+
+    --field-manager='kubectl-set':
+	Name of the manager used to track field ownership.
+
+    -f, --filename=[]:
+	Filename, directory, or URL to files identifying the resource to get from a server.
+
+    -k, --kustomize='':
+	Process the kustomization directory. This flag can't be used together with -f or -R.
+
+    --limits='':
+	The resource requirement requests for this container.  For example, 'cpu=100m,memory=256Mi'.  Note that server side components may assign requests depending on the server configuration, such as limit ranges.
+
+    --local=false:
+	If true, set resources will NOT contact api-server but run locally.
+
+    -o, --output='':
+	Output format. One of: (json, yaml, kyaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).
+
+    -R, --recursive=false:
+	Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+
+    --requests='':
+	The resource requirement requests for this container.  For example, 'cpu=100m,memory=256Mi'.  Note that server side components may assign requests depending on the server configuration, such as limit ranges.
+
+    -l, --selector='':
+	Selector (label query) to filter on, supports '=', '==', '!=', 'in', 'notin'.(e.g. -l key1=value1,key2=value2,key3 in (value3)). Matching objects must satisfy all of the specified label constraints.
+
+    --show-managed-fields=false:
+	If true, keep the managedFields when printing objects in JSON or YAML format.
+
+    --template='':
+	Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+
+Usage:
+  kubectl set resources (-f FILENAME | TYPE NAME)  ([--limits=LIMITS & --requests=REQUESTS] [options]
+
+Use "kubectl options" for a list of global command-line options (applies to all commands).

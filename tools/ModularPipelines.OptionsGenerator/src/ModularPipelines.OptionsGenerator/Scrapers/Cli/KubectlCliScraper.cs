@@ -85,6 +85,24 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
                 ? option with { IsFlag = true, NegatedSwitchName = option.SwitchName + "=false" }
                 : option)];
 
+    protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
+    {
+        // v1.37.1 resources help has an unmatched '(' before its optional flags.
+        // env's synopsis omits the file, selector, list, and import forms in its examples.
+        helpText = commandPath switch
+        {
+            ["kubectl", "set", "resources"] => helpText.Replace(
+                "([--limits=LIMITS & --requests=REQUESTS]", "[--limits=LIMITS & --requests=REQUESTS]",
+                StringComparison.Ordinal),
+            ["kubectl", "set", "env"] => helpText.Replace(
+                "kubectl set env RESOURCE/NAME KEY_1=VAL_1 ... KEY_N=VAL_N [options]",
+                "kubectl set env (-f FILENAME | TYPE NAME) [KEY_1=VAL_1 ... KEY_N=VAL_N] [options]",
+                StringComparison.Ordinal),
+            _ => helpText,
+        };
+        return base.ParseUsageSynopsis(commandPath, helpText);
+    }
+
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
         CliCommandDefinition command,
         UsageSynopsisParseResult usage)
@@ -110,12 +128,35 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
         string[] selectionSwitches = command.CommandParts switch
         {
             ["annotate" or "label"] => ["--all", "--selector", "--field-selector"],
-            ["scale"] => ["--all", "--selector"],
+            ["scale"] or ["set", "env" or "image" or "resources"] => ["--all", "--selector"],
             _ => [],
         };
         var selectionOptions = command.Options.Where(option =>
             selectionSwitches.Contains(option.SwitchName, StringComparer.Ordinal)).ToArray();
-        return [.. groups.Select(group => NormalizeResourceInputs(group, command.Options, selectionOptions))];
+        // v1.37.1 env validation still requires a resource or filename even with -k.
+        var resourceOptions = command.CommandParts is ["set", "env"]
+            ? [.. command.Options.Where(option => option.SwitchName != "--kustomize")]
+            : command.Options;
+        var normalized = groups.Select(group => NormalizeResourceInputs(group, resourceOptions, selectionOptions)).ToList();
+        // Update values can come from operands or options. Only --list=true selects
+        // the env listing mode; resources always needs at least one limits/requests update.
+        UsageRequiredAlternativeMember[] updateSources = command.CommandParts switch
+        {
+            ["set", "env"] =>
+            [
+                new() { PositionalPropertyName = "KeyVal" },
+                new() { OptionSwitch = "--env" },
+                new() { OptionSwitch = "--from" },
+                new() { OptionSwitch = "--list", RequiredFlagValue = true },
+            ],
+            ["set", "resources"] => [new() { OptionSwitch = "--limits" }, new() { OptionSwitch = "--requests" }],
+            _ => [],
+        };
+        if (updateSources.Length > 0)
+        {
+            normalized.Add(new UsageRequiredAlternativeGroup { Members = updateSources });
+        }
+        return normalized;
     }
 
     // Resource input can use TYPE NAME, TYPE/NAME, selectors, filenames, or a kustomization.
