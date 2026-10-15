@@ -56,7 +56,7 @@ public class PackageManagerGlobalRenderingTests
             .IsEqualTo(name == "yarn");
     }
 
-    private static Assembly Compile(IEnumerable<string> sources)
+    internal static Assembly Compile(IEnumerable<string> sources)
     {
         const string support = """
             global using System.Collections.Generic;

@@ -496,6 +496,9 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
         IReadOnlyList<CliPositionalArgument> arguments) =>
         commandParts switch
         {
+            // These wrappers consume their own flags before forwarding the command and its arguments.
+            ["as-brew-user"] or ["as-console-user"] =>
+                [.. arguments.Select(argument => argument with { Phase = CommandLinePhase.Passthrough })],
             ["command"] =>
             [
                 RequiredArgument("Cmd", 0) with
