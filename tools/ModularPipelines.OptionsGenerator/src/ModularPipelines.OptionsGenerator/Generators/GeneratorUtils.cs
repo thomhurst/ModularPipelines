@@ -941,7 +941,7 @@ public static partial class GeneratorUtils
             "AcceptCode", "AcknowledgmentCode", "AcknowledgementCode"];
 
     private static readonly string[] SecretMetadataSuffixes =
-        ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
+        ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Expiry", "Expiration", "Seconds", "Minutes", "Hours", "Days"];
 
     private static readonly string[] CredentialMetadataSuffixes =
         ["Type", "Format", "Encoding", "Mode", "Method", "Algorithm", "Protocol", "Audience", "Scope", "Scopes",
@@ -1018,13 +1018,29 @@ public static partial class GeneratorUtils
         return DescriptionIdentifiesSecretValue(description);
     }
 
-    private static bool IsSasUrlOption(string propertyName, string? description) =>
-        (propertyName.EndsWith("Url", StringComparison.OrdinalIgnoreCase)
-         || propertyName.EndsWith("Uri", StringComparison.OrdinalIgnoreCase))
-        && (EndsWithIdentifierSegment(propertyName, "SasUrl")
-            || EndsWithIdentifierSegment(propertyName, "SasUri")
-            || (description is not null && SasDescriptionPattern().IsMatch(
-                NegatedSasDescriptionPattern().Replace(description, string.Empty))));
+    private static bool IsSasUrlOption(string propertyName, string? description)
+    {
+        if (EndsWithIdentifierSegment(propertyName, "SasUrl")
+            || EndsWithIdentifierSegment(propertyName, "SasUri"))
+        {
+            return true;
+        }
+
+        if (description is null
+            || IsSecretIdentifier(propertyName)
+            || IsSecretMetadataOption(propertyName, description))
+        {
+            return false;
+        }
+
+        // Ignore only the separate or absent credential, preserving other signed-URL alternatives.
+        var credentialDescription = SeparateSasDescriptionPattern().Replace(
+            NegatedSasDescriptionPattern().Replace(description, string.Empty), string.Empty);
+        return SasDescriptionPattern().IsMatch(credentialDescription)
+               && (propertyName.EndsWith("Url", StringComparison.OrdinalIgnoreCase)
+                   || propertyName.EndsWith("Uri", StringComparison.OrdinalIgnoreCase)
+                   || UrlDescriptionPattern().IsMatch(credentialDescription));
+    }
 
     // Remove only negated mentions so a separate credential-bearing alternative still masks the URL.
     [GeneratedRegex(@"\b(?:without|no|not\s+(?:contain|include))\s+(?:(?:a|an|the)\s+)?"
@@ -1032,9 +1048,17 @@ public static partial class GeneratorUtils
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex NegatedSasDescriptionPattern();
 
+    [GeneratedRegex(@"\b" + SasCredentialTermPattern + @"\b(?:\s+token)?\s+(?:is\s+)?"
+        + @"(?:(?:supplied|provided|passed)\s+)?separately\b(?:\s+(?:with|using|via)\s+--[\w-]+)?",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SeparateSasDescriptionPattern();
+
     [GeneratedRegex(@"\b" + SasCredentialTermPattern + @"\b",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex SasDescriptionPattern();
+
+    [GeneratedRegex(@"\b(?:URLs?|URIs?)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex UrlDescriptionPattern();
 
     private static bool IsSecretIdentifier(string propertyName) =>
         IdentifierPropertySuffixes.Any(suffix =>
