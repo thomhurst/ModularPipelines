@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { startDiagnostics } from './diagnostics.mjs';
 
 // JavaScript actions receive the runtime token needed by @actions/artifact.
 // Keep it in this process tree rather than exporting it to subsequent steps.
@@ -33,6 +34,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     }
   } else {
     const child = startPipeline(process.env);
+    startDiagnostics(process.env, child);
     child.on('error', () => {
       console.error('Unable to start the pipeline host.');
       process.exitCode = 1;

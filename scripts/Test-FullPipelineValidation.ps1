@@ -39,6 +39,8 @@ $corePaths = @(
     '.github/actions/run-pipeline/run-pipeline.mjs',
     '.github/actions/run-pipeline/artifact.test.mjs',
     '.github/actions/run-pipeline/run-pipeline.test.mjs',
+    '.github/actions/run-pipeline/diagnostics.mjs',
+    '.github/actions/run-pipeline/diagnostics.test.mjs',
     'src/ModularPipelines.Build/Modules/BuildSolutionsModule.cs',
     'scripts/Resolve-FullPipelineValidation.ps1',
     'scripts/Resolve-DistributedBuildMatrix.ps1',
