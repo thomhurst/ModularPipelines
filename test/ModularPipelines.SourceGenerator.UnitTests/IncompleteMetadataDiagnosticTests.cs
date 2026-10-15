@@ -643,7 +643,7 @@ public class IncompleteMetadataDiagnosticTests
                     ["build_property.PublishTrimmed"] = "true",
                 });
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var generatedSource = string.Concat(result.GeneratedTrees.Select(static tree => tree.ToString()));
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
@@ -1004,7 +1004,7 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var generatedSource = string.Concat(result.GeneratedTrees.Select(static tree => tree.ToString()));
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
@@ -1605,7 +1605,7 @@ public class IncompleteMetadataDiagnosticTests
             }
             """);
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var generatedSource = string.Concat(result.GeneratedTrees.Select(static tree => tree.ToString()));
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();

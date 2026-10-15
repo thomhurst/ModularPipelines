@@ -1099,28 +1099,39 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .OrderBy(item => item.MetadataName, StringComparer.Ordinal)
             .ThenBy(item => item.AssemblyIdentity, StringComparer.Ordinal)
             .ToList();
+        var sharedParts = SharedParts.Create(uniqueItems);
 
-        if (uniqueItems.Count(RequiresCommandRegistrationChunking) <= RuntimeRegistrationChunkSize)
-        {
-            return
-            [
-                ("ModularPipelines.RuntimeMetadata.g.cs", GenerateSingleSource(
+        List<(string HintName, string Source)> sources =
+            uniqueItems.Count(RequiresCommandRegistrationChunking) <= RuntimeRegistrationChunkSize
+                ?
+                [
+                    ("ModularPipelines.RuntimeMetadata.g.cs", GenerateSingleSource(
+                        uniqueItems,
+                        coveredExternalAssemblyIdentities,
+                        requiresGeneratedMetadata,
+                        sharedParts)),
+                ]
+                : GenerateChunkedSources(
                     uniqueItems,
                     coveredExternalAssemblyIdentities,
-                    requiresGeneratedMetadata)),
-            ];
+                    requiresGeneratedMetadata,
+                    sharedParts);
+
+        if (!sharedParts.IsEmpty)
+        {
+            sources.Add((
+                "ModularPipelines.RuntimeMetadata.SharedParts.g.cs",
+                GenerateSharedPartsSource(uniqueItems, sharedParts)));
         }
 
-        return GenerateChunkedSources(
-            uniqueItems,
-            coveredExternalAssemblyIdentities,
-            requiresGeneratedMetadata);
+        return sources;
     }
 
     private static string GenerateSingleSource(
         IReadOnlyList<TypeMetadata> uniqueItems,
         ImmutableArray<string> coveredExternalAssemblyIdentities,
-        bool requiresGeneratedMetadata)
+        bool requiresGeneratedMetadata,
+        SharedParts sharedParts)
     {
         var sb = new StringBuilder();
 
@@ -1129,14 +1140,42 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb,
             uniqueItems,
             coveredExternalAssemblyIdentities,
-            requiresGeneratedMetadata);
+            requiresGeneratedMetadata,
+            sharedParts);
+        return sb.ToString();
+    }
+
+    private static string GenerateSharedPartsSource(
+        IReadOnlyList<TypeMetadata> uniqueItems,
+        SharedParts sharedParts)
+    {
+        var sb = new StringBuilder();
+        AppendGeneratedFilePreamble(sb, uniqueItems, includeIncompleteMetadataAttributes: false);
+        sb.AppendLine("namespace ModularPipelines.Generated;");
+        sb.AppendLine();
+        sb.AppendLine($"internal static class {SharedParts.ClassName}");
+        sb.AppendLine("{");
+        foreach (var part in sharedParts.CommandParts.OrderBy(static part => part.Value, StringComparer.Ordinal))
+        {
+            sb.AppendLine($"    internal static readonly global::ModularPipelines.Generated.PropertyCommandLinePart {part.Value} =");
+            AppendCommandPart(sb, part.Key, "        ", ";");
+        }
+
+        foreach (var part in sharedParts.SecretParts.OrderBy(static part => part.Value, StringComparer.Ordinal))
+        {
+            sb.AppendLine($"    internal static readonly global::ModularPipelines.Generated.SecretPropertyAccessor {part.Value} =");
+            sb.AppendLine($"        {GetSecretPartExpression(part.Key)};");
+        }
+
+        sb.AppendLine("}");
         return sb.ToString();
     }
 
     private static List<(string HintName, string Source)> GenerateChunkedSources(
         IReadOnlyList<TypeMetadata> uniqueItems,
         ImmutableArray<string> coveredExternalAssemblyIdentities,
-        bool requiresGeneratedMetadata)
+        bool requiresGeneratedMetadata,
+        SharedParts sharedParts)
     {
         var registrationItems = uniqueItems
             .Where(RequiresRuntimeRegistrationChunk)
@@ -1170,7 +1209,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 chunkSource,
                 chunks[index],
                 includeIncompleteMetadataAttributes: false);
-            AppendRuntimeMetadataChunk(chunkSource, chunks[index], index);
+            AppendRuntimeMetadataChunk(chunkSource, chunks[index], index, sharedParts);
             sources.Add((
                 $"ModularPipelines.RuntimeMetadata.Chunk{index:D4}.g.cs",
                 chunkSource.ToString()));
@@ -1218,7 +1257,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         StringBuilder sb,
         IReadOnlyList<TypeMetadata> uniqueItems,
         ImmutableArray<string> coveredExternalAssemblyIdentities,
-        bool requiresGeneratedMetadata)
+        bool requiresGeneratedMetadata,
+        SharedParts sharedParts)
     {
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
@@ -1249,7 +1289,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             "RegisterCoveredExternalAssemblyIdentities",
             coveredExternalAssemblyIdentities);
         AppendCoverageRegistrations(sb, uniqueItems);
-        AppendRuntimeTypeRegistrations(sb, uniqueItems);
+        AppendRuntimeTypeRegistrations(sb, uniqueItems, sharedParts);
 
         sb.AppendLine("    }");
         sb.AppendLine("}");
@@ -1302,7 +1342,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void AppendRuntimeMetadataChunk(
         StringBuilder sb,
         IReadOnlyList<TypeMetadata> items,
-        int index)
+        int index,
+        SharedParts sharedParts)
     {
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
@@ -1311,7 +1352,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         AppendCommandMetadataDependencies(sb, items);
         sb.AppendLine("    internal static void Register(global::System.Reflection.Assembly assembly)");
         sb.AppendLine("    {");
-        AppendRuntimeTypeRegistrations(sb, items);
+        AppendRuntimeTypeRegistrations(sb, items, sharedParts);
         sb.AppendLine("    }");
         sb.AppendLine("}");
     }
@@ -1373,18 +1414,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void AppendRuntimeTypeRegistrations(
         StringBuilder sb,
-        IReadOnlyList<TypeMetadata> uniqueItems)
+        IReadOnlyList<TypeMetadata> uniqueItems,
+        SharedParts sharedParts)
     {
         foreach (var item in uniqueItems)
         {
             if (CanRegisterCompleteCommandMetadata(item))
             {
-                AppendCommandRegistration(sb, item);
+                AppendCommandRegistration(sb, item, sharedParts);
             }
 
             if (item.SecretMetadata.IsComplete)
             {
-                AppendSecretRegistration(sb, item);
+                AppendSecretRegistration(sb, item, sharedParts);
             }
         }
     }
@@ -1512,7 +1554,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
     }
 
-    private static void AppendCommandRegistration(StringBuilder sb, TypeMetadata item)
+    private static void AppendCommandRegistration(StringBuilder sb, TypeMetadata item, SharedParts sharedParts)
     {
         var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
         sb.AppendLine($"        global::ModularPipelines.Generated.GeneratedCommandMetadata.{registrationMethod}(");
@@ -1527,54 +1569,69 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         foreach (var property in item.CommandMetadata.Properties)
         {
-            var getter = $"static instance => (({property.AccessorTypeName})instance).@{property.Name}";
-            switch (property.Kind)
+            if (sharedParts.CommandParts.TryGetValue(property, out var fieldName))
             {
-                case PropertyKind.Argument:
-                    sb.AppendLine("                new global::ModularPipelines.Generated.ArgumentPart(");
-                    sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
-                    sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliArgumentAttribute({property.FirstInt})");
-                    sb.AppendLine("                    {");
-                    sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
-                    sb.AppendLine($"                        RepeatOptionTerminator = {BooleanLiteral(property.RepeatOptionTerminator)},");
-                    sb.AppendLine($"                        PrependOptionTerminatorIfValueStartsWithDash = {BooleanLiteral(property.PrependOptionTerminatorIfValueStartsWithDash)},");
-                    sb.AppendLine($"                        Required = {BooleanLiteral(property.IsRequired)},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, HasExplicitPosition = {BooleanLiteral(property.HasExplicitArgumentPosition)} }},");
-                    break;
-                case PropertyKind.Flag:
-                    sb.AppendLine("                new global::ModularPipelines.Generated.FlagPart(");
-                    sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
-                    sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliFlagAttribute({Literal(property.PrimaryValue!)})");
-                    sb.AppendLine("                    {");
-                    sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
-                    sb.AppendLine($"                        NegatedName = {NullableLiteral(property.NegatedName)},");
-                    sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
-                    sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
-                    break;
-                case PropertyKind.Option:
-                    sb.AppendLine("                new global::ModularPipelines.Generated.OptionPart(");
-                    sb.AppendLine($"                    {Literal(property.Name)}, {getter},");
-                    sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliOptionAttribute({Literal(property.PrimaryValue!)})");
-                    sb.AppendLine("                    {");
-                    sb.AppendLine($"                        ShortForm = {NullableLiteral(property.ShortForm)},");
-                    sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
-                    sb.AppendLine($"                        Format = (global::ModularPipelines.Attributes.OptionFormat){property.FirstInt},");
-                    sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
-                    sb.AppendLine($"                        GroupValues = {BooleanLiteral(property.GroupValues)},");
-                    sb.AppendLine($"                        CollectionSeparator = {NullableLiteral(property.CollectionSeparator)},");
-                    sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }},");
-                    break;
+                sb.AppendLine($"                {SharedParts.ClassName}.{fieldName},");
+                continue;
             }
+
+            AppendCommandPart(sb, property, "                ", ",");
         }
 
         sb.AppendLine("            },");
         sb.AppendLine($"            {CommandMetadataSchemaVersion});");
     }
 
-    private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)
+    private static void AppendCommandPart(
+        StringBuilder sb,
+        PropertyMetadata property,
+        string indent,
+        string suffix)
+    {
+        var getter = $"static instance => (({property.AccessorTypeName})instance).@{property.Name}";
+        switch (property.Kind)
+        {
+            case PropertyKind.Argument:
+                sb.AppendLine($"{indent}new global::ModularPipelines.Generated.ArgumentPart(");
+                sb.AppendLine($"{indent}    {Literal(property.Name)}, {getter},");
+                sb.AppendLine($"{indent}    new global::ModularPipelines.Attributes.CliArgumentAttribute({property.FirstInt})");
+                sb.AppendLine($"{indent}    {{");
+                sb.AppendLine($"{indent}        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
+                sb.AppendLine($"{indent}        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
+                sb.AppendLine($"{indent}        RepeatOptionTerminator = {BooleanLiteral(property.RepeatOptionTerminator)},");
+                sb.AppendLine($"{indent}        PrependOptionTerminatorIfValueStartsWithDash = {BooleanLiteral(property.PrependOptionTerminatorIfValueStartsWithDash)},");
+                sb.AppendLine($"{indent}        Required = {BooleanLiteral(property.IsRequired)},");
+                sb.AppendLine($"{indent}    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, HasExplicitPosition = {BooleanLiteral(property.HasExplicitArgumentPosition)} }}{suffix}");
+                break;
+            case PropertyKind.Flag:
+                sb.AppendLine($"{indent}new global::ModularPipelines.Generated.FlagPart(");
+                sb.AppendLine($"{indent}    {Literal(property.Name)}, {getter},");
+                sb.AppendLine($"{indent}    new global::ModularPipelines.Attributes.CliFlagAttribute({Literal(property.PrimaryValue!)})");
+                sb.AppendLine($"{indent}    {{");
+                sb.AppendLine($"{indent}        ShortForm = {NullableLiteral(property.ShortForm)},");
+                sb.AppendLine($"{indent}        NegatedName = {NullableLiteral(property.NegatedName)},");
+                sb.AppendLine($"{indent}        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
+                sb.AppendLine($"{indent}        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
+                sb.AppendLine($"{indent}    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }}{suffix}");
+                break;
+            case PropertyKind.Option:
+                sb.AppendLine($"{indent}new global::ModularPipelines.Generated.OptionPart(");
+                sb.AppendLine($"{indent}    {Literal(property.Name)}, {getter},");
+                sb.AppendLine($"{indent}    new global::ModularPipelines.Attributes.CliOptionAttribute({Literal(property.PrimaryValue!)})");
+                sb.AppendLine($"{indent}    {{");
+                sb.AppendLine($"{indent}        ShortForm = {NullableLiteral(property.ShortForm)},");
+                sb.AppendLine($"{indent}        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
+                sb.AppendLine($"{indent}        Format = (global::ModularPipelines.Attributes.OptionFormat){property.FirstInt},");
+                sb.AppendLine($"{indent}        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
+                sb.AppendLine($"{indent}        GroupValues = {BooleanLiteral(property.GroupValues)},");
+                sb.AppendLine($"{indent}        CollectionSeparator = {NullableLiteral(property.CollectionSeparator)},");
+                sb.AppendLine($"{indent}        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
+                sb.AppendLine($"{indent}    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount}, IsSupportedPropertyType = {BooleanLiteral(property.IsSupportedPropertyType)} }}{suffix}");
+                break;
+        }
+    }
+
+    private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item, SharedParts sharedParts)
     {
         if (!item.CanRegisterSecretCoverage)
         {
@@ -1604,13 +1661,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         foreach (var property in item.SecretMetadata.Properties)
         {
-            sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({property.AccessorTypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)}),");
+            var part = sharedParts.SecretParts.TryGetValue(property, out var fieldName)
+                ? $"{SharedParts.ClassName}.{fieldName}"
+                : GetSecretPartExpression(property);
+            sb.AppendLine($"                {part},");
         }
 
         sb.Append("            }");
         sb.AppendLine(",");
         sb.AppendLine($"            {RuntimeMetadataSchemaVersion});");
     }
+
+    private static string GetSecretPartExpression(PropertyMetadata property) =>
+        $"new({Literal(property.Name)}, static instance => (({property.AccessorTypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)})";
 
     private static bool InheritsFrom(INamedTypeSymbol type, string metadataName)
     {
@@ -2330,6 +2393,71 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             || !candidate.Metadata.CanRegisterSecretCoverage
             || !candidate.Metadata.CommandMetadata.IsComplete
             || !candidate.Metadata.SecretMetadata.IsComplete;
+    }
+
+    /// <summary>
+    /// Parts registered by more than one options type, which are emitted once as static fields.
+    /// Inherited CLI properties otherwise repeat their getter lambda and attribute in every
+    /// derived registration, which multiplies compile cost for wide base types (#6225).
+    /// Sharing instances is safe because the runtime only reads registered parts and attributes.
+    /// </summary>
+    private sealed class SharedParts
+    {
+        public const string ClassName = "RuntimeMetadataSharedParts";
+
+        private SharedParts(
+            IReadOnlyDictionary<PropertyMetadata, string> commandParts,
+            IReadOnlyDictionary<PropertyMetadata, string> secretParts)
+        {
+            CommandParts = commandParts;
+            SecretParts = secretParts;
+        }
+
+        public IReadOnlyDictionary<PropertyMetadata, string> CommandParts { get; }
+
+        public IReadOnlyDictionary<PropertyMetadata, string> SecretParts { get; }
+
+        public bool IsEmpty => CommandParts.Count == 0 && SecretParts.Count == 0;
+
+        public static SharedParts Create(IReadOnlyList<TypeMetadata> uniqueItems) =>
+            new(
+                Index(
+                    uniqueItems
+                        .Where(CanRegisterCompleteCommandMetadata)
+                        .SelectMany(static item => item.CommandMetadata.Properties),
+                    "Command"),
+                Index(
+                    uniqueItems
+                        .Where(static item => item.SecretMetadata.IsComplete && item.CanRegisterSecretCoverage)
+                        .SelectMany(static item => item.SecretMetadata.Properties),
+                    "Secret"));
+
+        private static Dictionary<PropertyMetadata, string> Index(
+            IEnumerable<PropertyMetadata> properties,
+            string prefix)
+        {
+            var counts = new Dictionary<PropertyMetadata, int>();
+            var order = new List<PropertyMetadata>();
+            foreach (var property in properties)
+            {
+                if (counts.TryGetValue(property, out var count))
+                {
+                    counts[property] = count + 1;
+                    continue;
+                }
+
+                counts.Add(property, 1);
+                order.Add(property);
+            }
+
+            var fields = new Dictionary<PropertyMetadata, string>();
+            foreach (var property in order.Where(property => counts[property] > 1))
+            {
+                fields.Add(property, $"{prefix}{fields.Count:D4}");
+            }
+
+            return fields;
+        }
     }
 
     private sealed record PropertyCollection(

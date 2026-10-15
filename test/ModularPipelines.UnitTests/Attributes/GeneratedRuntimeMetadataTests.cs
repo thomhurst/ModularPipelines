@@ -109,6 +109,28 @@ internal sealed record GeneratedShadowedCommandDerived : GeneratedShadowedComman
     }
 }
 
+internal abstract record GeneratedWideCommandBase : CommandLineToolOptions
+{
+    [CliOption("--account", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Account { get; init; }
+
+    [SecretValue]
+    [CliOption("--token")]
+    public virtual string? Token { get; init; }
+}
+
+internal sealed record GeneratedWideCommandFirst : GeneratedWideCommandBase
+{
+    [CliOption("--first")]
+    public string? First { get; init; }
+}
+
+internal sealed record GeneratedWideCommandSecond : GeneratedWideCommandBase
+{
+    [CliOption("--second")]
+    public string? Second { get; init; }
+}
+
 public class GeneratedRuntimeMetadataTests
 {
     [Test]
@@ -196,6 +218,32 @@ public class GeneratedRuntimeMetadataTests
         var argument = model.OfType<ArgumentPart>().Single();
         await Assert.That(argument.PropertyName).IsEqualTo(nameof(GeneratedShadowedCommandDerived.Path));
         await Assert.That(argument.Getter(options)).IsEqualTo("context");
+    }
+
+    [Test]
+    public async Task CommandMetadata_ReusesInheritedPartsAcrossDerivedTypes()
+    {
+        var first = new GeneratedWideCommandFirst { Account = "first-account", Token = "first-token", First = "one" };
+        var second = new GeneratedWideCommandSecond { Account = "second-account", Second = "two" };
+
+        await Assert.That(GeneratedCommandMetadata.TryGet(typeof(GeneratedWideCommandFirst), out var firstModel)).IsTrue();
+        await Assert.That(GeneratedCommandMetadata.TryGet(typeof(GeneratedWideCommandSecond), out var secondModel)).IsTrue();
+        await Assert.That(GeneratedSecretMetadata.TryGetAccessors(typeof(GeneratedWideCommandFirst), out var firstSecrets)).IsTrue();
+        await Assert.That(GeneratedSecretMetadata.TryGetAccessors(typeof(GeneratedWideCommandSecond), out var secondSecrets)).IsTrue();
+
+        var firstAccount = firstModel.Single(part => part.PropertyName == nameof(GeneratedWideCommandBase.Account));
+        var secondAccount = secondModel.Single(part => part.PropertyName == nameof(GeneratedWideCommandBase.Account));
+        using (Assert.Multiple())
+        {
+            await Assert.That(ReferenceEquals(firstAccount, secondAccount)).IsTrue();
+            await Assert.That(ReferenceEquals(firstSecrets.Single(), secondSecrets.Single())).IsTrue();
+            await Assert.That(firstAccount.Getter(first)).IsEqualTo("first-account");
+            await Assert.That(secondAccount.Getter(second)).IsEqualTo("second-account");
+            await Assert.That(new CommandArgumentBuilder().BuildArguments(firstModel, first))
+                .IsEquivalentTo(["--first", "one", "--account=first-account", "--token", "first-token"]);
+            await Assert.That(new CommandArgumentBuilder().BuildArguments(secondModel, second))
+                .IsEquivalentTo(["--second", "two", "--account=second-account"]);
+        }
     }
 
     [Test]
