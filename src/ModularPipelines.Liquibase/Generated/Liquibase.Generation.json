@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "liquibase",
   "toolVersion": "5.0.3",
   "commandTreeSha256": "41e289cc33bbedcb50c94a7ac63a85c7d6ddacbd20208a60c02222e6d2d3c647",
-  "generatorSourceSha256": "afccdffa78c2fffb68d3b082c27643e8ad9968078785b7b94d14c7237cfbae48"
+  "generatorSourceSha256": "60e947c85bf0613fc28c905ba981289349832b780ff45e0424b2e69f84606991"
 }
