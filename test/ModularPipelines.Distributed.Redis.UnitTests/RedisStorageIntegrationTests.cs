@@ -213,6 +213,134 @@ public class RedisStorageIntegrationTests
     }
 
     [Test]
+    [Arguments(0)]
+    [Arguments(7)]
+    [Arguments(16)]
+    [Arguments(40)]
+    [Arguments(4096)]
+    public async Task Master_Heartbeat_Renews_All_Artifact_Keys_In_Only_Its_Run(int length)
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions { ChunkSizeBytes = 16 };
+        var keys = new RedisKeyBuilder("modpipe-integration", Guid.NewGuid().ToString("N"));
+        var otherKeys = new RedisKeyBuilder("modpipe-integration", Guid.NewGuid().ToString("N"));
+        var store = new RedisDistributedArtifactStore(connection, keys, options);
+        var otherStore = new RedisDistributedArtifactStore(connection, otherKeys, options);
+        await using var coordinator = new RedisDistributedCoordinator(connection, keys, options);
+        using var source = new MemoryStream(new byte[length]);
+        using var otherSource = new MemoryStream([1]);
+        var reference = await store.UploadAsync(
+            new ArtifactDescriptor { Name = "retained", ModuleId = "Integration.Worker" }, source, CancellationToken.None);
+        var otherReference = await otherStore.UploadAsync(
+            new ArtifactDescriptor { Name = "other", ModuleId = "Integration.Worker" }, otherSource, CancellationToken.None);
+        string[] artifactKeys =
+        [
+            keys.ArtifactKeys,
+            keys.ArtifactModules,
+            keys.ArtifactIndex(reference.ModuleId),
+            keys.ArtifactMeta(reference.ArtifactId),
+            .. length < 16
+                ? [keys.ArtifactData(reference.ArtifactId)]
+                : Enumerable.Range(0, (length + 15) / 16).Select(index => keys.ArtifactChunk(reference.ArtifactId, index)),
+        ];
+        foreach (var key in artifactKeys)
+        {
+            await connection.ExpireAsync(key, TimeSpan.FromSeconds(5));
+        }
+
+        var otherKey = otherKeys.ArtifactData(otherReference.ArtifactId);
+        await connection.ExpireAsync(otherKey, TimeSpan.FromSeconds(5));
+        // The master has its own coordinator, separate from the worker's artifact store.
+        await coordinator.SendMasterHeartbeatAsync(CancellationToken.None);
+
+        foreach (var key in artifactKeys)
+        {
+            var expiry = await connection.Keys.ExpiryAsync(key);
+            await Assert.That(expiry.TimeToLive!.Value).IsGreaterThan(TimeSpan.FromMinutes(30));
+        }
+
+        await Assert.That((await connection.Keys.ExpiryAsync(otherKey)).TimeToLive!.Value)
+            .IsLessThanOrEqualTo(TimeSpan.FromSeconds(5));
+        await Assert.That(await store.ListArtifactsAsync(reference.ModuleId, CancellationToken.None)).HasSingleItem();
+        await using var downloaded = await store.DownloadAsync(reference, CancellationToken.None);
+        await Assert.That(downloaded.Length).IsEqualTo(length);
+        await store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "retained", PipelineSucceeded = true }, CancellationToken.None);
+        // A later heartbeat cannot recreate deleted artifacts or indexes.
+        await coordinator.SendMasterHeartbeatAsync(CancellationToken.None);
+        foreach (var key in artifactKeys)
+        {
+            await Assert.That(await connection.ExistsAsync(key)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Artifacts_Survive_Their_Upload_Ttl_And_Expire_After_Master_Stops()
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions { ChunkSizeBytes = 16, TimeToLive = TimeSpan.FromSeconds(2) };
+        var keys = new RedisKeyBuilder("modpipe-integration", Guid.NewGuid().ToString("N"));
+        var store = new RedisDistributedArtifactStore(connection, keys, options);
+        await using var coordinator = new RedisDistributedCoordinator(
+            connection, keys, options, distributedOptions: new DistributedOptions
+            {
+                WorkerTimeout = TimeSpan.FromMilliseconds(100),
+                MasterTimeout = TimeSpan.FromMilliseconds(200),
+                ModuleResultTimeout = Timeout.InfiniteTimeSpan,
+            });
+        coordinator.StartMasterHeartbeat(TimeSpan.FromMilliseconds(50));
+        using var source = new MemoryStream(new byte[40]);
+        var reference = await store.UploadAsync(
+            new ArtifactDescriptor { Name = "long-run", ModuleId = "Integration.Worker" }, source, CancellationToken.None);
+
+        await Task.Delay(TimeSpan.FromSeconds(3));
+
+        await Assert.That(await store.ListArtifactsAsync(reference.ModuleId, CancellationToken.None)).HasSingleItem();
+        await using var downloaded = await store.DownloadAsync(reference, CancellationToken.None);
+        await Assert.That(downloaded.Length).IsEqualTo(40);
+        await coordinator.DisposeAsync();
+        await Task.Delay(TimeSpan.FromSeconds(3));
+
+        string[] expiredKeys =
+        [
+            keys.ArtifactKeys,
+            keys.ArtifactModules,
+            keys.ArtifactIndex(reference.ModuleId),
+            keys.ArtifactMeta(reference.ArtifactId),
+            keys.ArtifactChunk(reference.ArtifactId, 0),
+            keys.ArtifactChunk(reference.ArtifactId, 1),
+            keys.ArtifactChunk(reference.ArtifactId, 2),
+        ];
+        foreach (var key in expiredKeys)
+        {
+            await Assert.That(await connection.ExistsAsync(key)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Master_Heartbeat_Renews_Chunks_Of_Incomplete_Uploads()
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions { ChunkSizeBytes = 16 };
+        var keys = new RedisKeyBuilder("modpipe-integration", Guid.NewGuid().ToString("N"));
+        var store = new RedisDistributedArtifactStore(connection, keys, options);
+        await using var coordinator = new RedisDistributedCoordinator(connection, keys, options);
+        await using var source = new FailAfterStream(new byte[16]);
+        await Assert.That(async () => await store.UploadAsync(
+                new ArtifactDescriptor { Name = "partial", ModuleId = "Integration.Partial" }, source, CancellationToken.None))
+            .Throws<IOException>();
+        var artifactId = await connection.Sets.ScanAsync(keys.ArtifactIndex("Integration.Partial")).SingleAsync();
+        var chunkKey = keys.ArtifactChunk(artifactId, 0);
+        await connection.ExpireAsync(chunkKey, TimeSpan.FromSeconds(5));
+
+        await coordinator.SendMasterHeartbeatAsync(CancellationToken.None);
+
+        await Assert.That((await connection.Keys.ExpiryAsync(chunkKey)).TimeToLive!.Value)
+            .IsGreaterThan(TimeSpan.FromMinutes(30));
+        await store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "partial", PipelineSucceeded = false }, CancellationToken.None);
+        await Assert.That(await connection.ExistsAsync(chunkKey)).IsFalse();
+    }
+
+    [Test]
     public async Task ModuleCache_RoundTrips()
     {
         await using var connection = await ConnectAsync();

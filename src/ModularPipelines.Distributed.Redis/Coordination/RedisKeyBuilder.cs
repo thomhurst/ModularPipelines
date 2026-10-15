@@ -72,6 +72,9 @@ internal class RedisKeyBuilder(string prefix, string runId)
 
     public string ArtifactIndex(ModuleId moduleId) => $"{_runPrefix}:artifacts:index:{moduleId}";
 
+    /// <summary>Gets the set of artifact keys renewed by the master's heartbeat, including partial uploads.</summary>
+    public string ArtifactKeys => $"{_runPrefix}:artifacts:keys";
+
     /// <summary>Gets the set of modules that uploaded artifacts in this run.</summary>
     public string ArtifactModules => $"{_runPrefix}:artifacts:modules";
 

@@ -34,10 +34,11 @@ public sealed record RedisOptions
     public string KeyPrefix { get; init; } = "modpipe";
 
     /// <summary>
-    /// Gets how long Redis keys live. Distributed run keys and artifacts must outlive the
-    /// run, so this must exceed <see cref="DistributedOptions.ModuleResultTimeout"/> when the
-    /// coordinator or artifact store is registered. An infinite module result timeout does not disable
-    /// key expiration; choose a TTL that covers the required retention period. Default: 1 hour.
+    /// Gets how long Redis keys live without renewal. The master's heartbeat renews distributed run
+    /// keys and artifact keys while the run is active. This must exceed
+    /// <see cref="DistributedOptions.ModuleResultTimeout"/> when the coordinator or artifact store is
+    /// registered. An infinite module result timeout does not disable key expiration. Standalone artifact
+    /// stores without a master coordinator retain artifacts only for this period. Default: 1 hour.
     /// </summary>
     public TimeSpan TimeToLive { get; init; } = TimeSpan.FromHours(1);
 

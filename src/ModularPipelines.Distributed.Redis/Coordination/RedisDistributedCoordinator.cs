@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Redis;
+using ModularPipelines.Distributed.Redis.Artifacts;
 using Respire;
 
 namespace ModularPipelines.Distributed.Redis.Coordination;
@@ -458,6 +459,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 _scriptKeys,
                 [_keyExpirationMilliseconds],
                 cancellationToken)
+            .ConfigureAwait(false);
+        await RedisDistributedArtifactStore.RefreshTimeToLiveAsync(_redis, _keys, _keyExpiration, cancellationToken)
             .ConfigureAwait(false);
     }
 
