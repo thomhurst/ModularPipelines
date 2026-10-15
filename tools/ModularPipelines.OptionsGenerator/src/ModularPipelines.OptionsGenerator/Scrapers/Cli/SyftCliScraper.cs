@@ -43,6 +43,19 @@ public partial class SyftCliScraper(ICliCommandExecutor executor, IHelpTextCache
     protected override bool TreatParseErrorsAsFatal => true;
 
     /// <inheritdoc />
+    protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
+    {
+        // Syft 1.54 attest defaults to syft-json and documents examples without --output.
+        // Its synopsis brackets only FORMAT even though the whole option is optional.
+        if (commandPath is ["syft", "attest"])
+        {
+            helpText = helpText.Replace("--output [FORMAT]", "[--output FORMAT]", StringComparison.Ordinal);
+        }
+
+        return base.ParseUsageSynopsis(commandPath, helpText);
+    }
+
+    /// <inheritdoc />
     protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
         [.. ParseNamedOptionSection(helpText, "Flags", [])
             .Where(option => option.SwitchName is "--config" or "--profile" or "--quiet" or "--verbose")];

@@ -9,6 +9,20 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CobraCliScraperTests
 {
     [Test]
+    [Arguments("--image=image", true)]
+    [Arguments("--image IMAGE", true)]
+    [Arguments("[--image=image]", false)]
+    [Arguments("(--image=image | --filename=FILE)", false)]
+    [Arguments("[flags]\n  fake run --image=image", false)]
+    public async Task Only_Unconditional_Synopsis_Options_Are_Required(string synopsis, bool required)
+    {
+        var help = $"Usage:\n  fake run {synopsis}\n\nOptions:\n  --image strings    Container images.\n  --filename string  Input file.\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
+        await Assert.That(command!.Options.Single(option => option.SwitchName == "--image").IsRequired).IsEqualTo(required);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--filename").IsRequired).IsFalse();
+    }
+
+    [Test]
     [Arguments("\n")]
     [Arguments("\r\n")]
     public async Task Blank_Paragraphs_Preserve_Aligned_Prose_Without_Consuming_Options_Or_Footer(string newline)

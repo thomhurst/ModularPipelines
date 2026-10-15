@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Generated;
@@ -11,6 +13,70 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     private static readonly string[] KubectlGetResourceNames = ["pods", "web"];
+    private static readonly string[] KubectlDeleteResourceNames = ["baz", "foo"];
+
+    [Test]
+    public async Task Kubectl_Delete_Preserves_Multiple_Names_And_Selection_Alternatives()
+    {
+        var command = (await ScrapeSynopsisCommands()).Single(command => command.FullCommand == "kubectl delete");
+        var name = command.PositionalArguments.Single(argument => argument.PropertyName == "Name");
+        await Assert.That(name.IsVariadic).IsTrue();
+        var options = await CompileSetOptions(command);
+        var instance = Activator.CreateInstance(options)!;
+        options.GetProperty("Type")!.SetValue(instance, "pod,service");
+        options.GetProperty("Name")!.SetValue(instance, KubectlDeleteResourceNames);
+        await Assert.That(RenderResourceOperands(instance)).IsEquivalentTo(["pod,service", "baz", "foo"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+
+        (string? Type, string? Property, object? Value, bool Valid)[] selections =
+        [
+            (null, null, null, false),
+            ("pods", null, null, false),
+            ("pods/web", null, null, true),
+            ("pods", "All", true, true),
+            ("pods", "All", false, false),
+            ("pods", "Selector", "app=web", true),
+            ("pods", "FieldSelector", "metadata.name=web", true),
+            (null, "Filename", new[] { "pod.json" }, true),
+            (null, "Kustomize", "overlay", true),
+        ];
+        foreach (var selection in selections)
+        {
+            instance = Activator.CreateInstance(options)!;
+            options.GetProperty("Type")!.SetValue(instance, selection.Type);
+            if (selection.Property is not null)
+            {
+                options.GetProperty(selection.Property)!.SetValue(instance, selection.Value);
+            }
+            await Assert.That(!((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(selection.Valid).Because(selection.ToString());
+        }
+    }
+
+    [Test]
+    public async Task Kubectl_Deployment_Requires_Images_And_Preserves_Repeated_Options()
+    {
+        var command = (await ScrapeSynopsisCommands()).Single(command => command.FullCommand == "kubectl create deployment");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--image").IsRequired).IsTrue();
+        var options = await CompileSetOptions(command);
+        var constructor = options.GetConstructors().Single();
+        await Assert.That(constructor.GetParameters().Select(parameter => parameter.Name)).Contains("Image");
+        foreach (var images in new string[]?[] { null, [] })
+        {
+            var values = constructor.GetParameters().Select(parameter => parameter.Name == "Image" ? (object?) images : "my-dep").ToArray();
+            var error = await Assert.That(() => constructor.Invoke(values)).Throws<TargetInvocationException>();
+            await Assert.That(error!.InnerException).IsAssignableTo<ArgumentException>();
+        }
+        var suppliedImages = new[] { "busybox:latest", "nginx" };
+        var arguments = constructor.GetParameters().Select(parameter => parameter.Name == "Image" ? (object) suppliedImages : "my-dep").ToArray();
+        var instance = constructor.Invoke(arguments);
+        var property = options.GetProperty("Image")!;
+        var rendered = new CommandArgumentBuilder().BuildArguments(
+            [new OptionPart(property.Name, property.GetValue, new CliOptionAttribute("--image") { Format = OptionFormat.EqualsSeparated })], instance);
+        await Assert.That(rendered).IsEquivalentTo(["--image=busybox:latest", "--image=nginx"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
 
     [Test]
     public async Task Kubectl_Secret_Choices_Dispatch_To_Children_Without_Parent_Operands()
@@ -73,8 +139,27 @@ public partial class RequiredConstructorValidationTests
                 StandardError = string.Empty,
                 StandardOutput = arguments switch
                 {
-                    "--help" => "Available Commands:\n  create  Create resources\n  get  Display resources\n",
-                    "create --help" => "Available Commands:\n  secret  Create a secret\n",
+                    "--help" => "Available Commands:\n  create  Create resources\n  get  Display resources\n  delete  Delete resources\n",
+                    "create --help" => "Available Commands:\n  secret  Create a secret\n  deployment  Create a deployment\n",
+                    "delete --help" => """
+                        Usage:
+                          kubectl delete ([-f FILENAME] | [-k DIRECTORY] | TYPE [(NAME | -l label | --all)])
+
+                        Options:
+                          -f, --filename strings     Files identifying resources.
+                          -k, --kustomize string     Kustomization directory.
+                              --all=false: Select all resources.
+                          -l, --selector string      Label selector.
+                              --field-selector string  Field selector.
+                        """,
+                    "create deployment --help" => """
+                        Usage:
+                          kubectl create deployment NAME --image=image -- [COMMAND] [args...]
+
+                        Options:
+                          --image strings     Image names to run.
+                          --replicas int32    Number of replicas.
+                        """,
                     "create secret --help" => """
                         Create a secret.
 

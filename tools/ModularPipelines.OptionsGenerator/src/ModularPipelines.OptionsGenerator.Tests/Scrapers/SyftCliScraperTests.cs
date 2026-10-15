@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
@@ -8,6 +10,26 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class SyftCliScraperTests
 {
+    [Test]
+    public async Task Attest_Defaulted_Output_Remains_Optional_And_Image_Required()
+    {
+        var tool = await Scrape();
+        var command = tool.Commands.Single(command => command.FullCommand == "syft attest");
+        var output = command.Options.Single(option => option.SwitchName == "--output");
+        await Assert.That(output.IsRequired).IsFalse();
+        await Assert.That(output.AcceptsMultipleValues).IsTrue();
+        await Assert.That(command.RequiredOptions).IsEmpty();
+        await Assert.That(command.PositionalArguments.Where(argument => argument.IsRequired)
+            .Select(argument => argument.PropertyName)).IsEquivalentTo(["Image"]);
+
+        var code = (await new OptionsClassGenerator().GenerateAsync(tool with { Commands = [command] })).Single().Content;
+        var constructor = CSharpSyntaxTree.ParseText(code).GetRoot().DescendantNodes()
+            .OfType<ConstructorDeclarationSyntax>().Single();
+        await Assert.That(constructor.ParameterList.Parameters.Select(parameter => parameter.Identifier.ValueText))
+            .IsEquivalentTo(["Image"]);
+        await Assert.That(code).Contains("public IEnumerable<string>? Output");
+    }
+
     [Test]
     public async Task Captured_Help_Produces_Only_Persistent_Root_Settings()
     {
