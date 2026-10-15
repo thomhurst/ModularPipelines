@@ -63,6 +63,8 @@ public record CommandExecutionOptions
 
     /// <summary>
     /// Gets the time to wait for graceful shutdown before forcefully terminating.
+    /// Ignored on Windows, where cancellation immediately schedules forceful termination because
+    /// commands cannot receive a graceful interrupt.
     /// </summary>
     public TimeSpan GracefulShutdownTimeout { get; init; } = TimeSpan.FromSeconds(30);
 
