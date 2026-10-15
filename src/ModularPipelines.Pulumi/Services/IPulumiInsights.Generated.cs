@@ -24,12 +24,12 @@ public interface IPulumiInsights
     /// <summary>
     /// pulumi account sub-commands.
     /// </summary>
-    PulumiInsightsAccount Account => throw new System.NotSupportedException();
+    PulumiInsightsAccount Account { get; }
 
     /// <summary>
     /// pulumi resource sub-commands.
     /// </summary>
-    PulumiInsightsResource Resource => throw new System.NotSupportedException();
+    PulumiInsightsResource Resource { get; }
 
     /// <summary>
     /// [EXPERIMENTAL] Manage Pulumi Insights resources and accounts.
@@ -38,7 +38,6 @@ public interface IPulumiInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(PulumiInsightsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(PulumiInsightsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }
