@@ -251,6 +251,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// </summary>
     /// <param name="targetPath">The destination path. Relative paths use the process's current directory.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+    /// <exception cref="ArgumentException">The destination is the source folder or one of its descendants.</exception>
     public FolderPath CopyTo(string targetPath)
     {
         return CopyTo(targetPath, preserveTimestamps: false);
@@ -265,13 +266,18 @@ public class FolderPath : IEquatable<FolderPath>
     /// for all files and directories.
     /// </param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+    /// <exception cref="ArgumentException">The destination is the source folder or one of its descendants.</exception>
     public FolderPath CopyTo(string targetPath, bool preserveTimestamps)
     {
+        var originalTargetPath = targetPath;
+        targetPath = ValidateCopyTarget(targetPath);
+        var (directories, files) = SnapshotCopyEntries();
+
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
         _provider.CreateDirectory(targetPath);
 
         // Copy all subdirectories first
-        foreach (var dirPath in _provider.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
+        foreach (var dirPath in directories)
         {
             var relativePath = _provider.GetRelativePath(this, dirPath);
             var newPath = _provider.Combine(targetPath, relativePath);
@@ -280,7 +286,7 @@ public class FolderPath : IEquatable<FolderPath>
         }
 
         // Copy all files
-        foreach (var filePath in _provider.EnumerateFiles(this, "*", SearchOption.AllDirectories))
+        foreach (var filePath in files)
         {
             var relativePath = _provider.GetRelativePath(this, filePath);
             var newPath = _provider.Combine(targetPath, relativePath);
@@ -290,7 +296,7 @@ public class FolderPath : IEquatable<FolderPath>
 
         CopyMetadata(Path, targetPath, preserveTimestamps);
 
-        return new FolderPath(targetPath, _provider);
+        return new FolderPath(originalTargetPath, _provider);
     }
 
     /// <summary>
@@ -299,6 +305,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <param name="targetPath">The destination path. Relative paths use the process's current directory.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+    /// <exception cref="ArgumentException">The destination is the source folder or one of its descendants.</exception>
 #pragma warning disable RS0026 // The v4 type rename intentionally preserves the established timestamp overload.
     public Task<FolderPath> CopyToAsync(string targetPath, CancellationToken cancellationToken = default)
     {
@@ -315,15 +322,19 @@ public class FolderPath : IEquatable<FolderPath>
     /// </param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
+    /// <exception cref="ArgumentException">The destination is the source folder or one of its descendants.</exception>
     public async Task<FolderPath> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var originalTargetPath = targetPath;
+        targetPath = ValidateCopyTarget(targetPath);
+        var (directories, files) = SnapshotCopyEntries(cancellationToken);
 
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
         _provider.CreateDirectory(targetPath);
 
         // Copy all subdirectories first
-        foreach (var dirPath in _provider.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
+        foreach (var dirPath in directories)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -334,7 +345,7 @@ public class FolderPath : IEquatable<FolderPath>
         }
 
         // Copy all files using async stream copying
-        foreach (var filePath in _provider.EnumerateFiles(this, "*", SearchOption.AllDirectories))
+        foreach (var filePath in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -355,7 +366,7 @@ public class FolderPath : IEquatable<FolderPath>
 
         CopyMetadata(Path, targetPath, preserveTimestamps);
 
-        return new FolderPath(targetPath, _provider);
+        return new FolderPath(originalTargetPath, _provider);
     }
 #pragma warning restore RS0026
 
@@ -614,6 +625,85 @@ public class FolderPath : IEquatable<FolderPath>
         return _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories)
             .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: false, exclusionFilter))
             .Select(path => new FilePath(path, _provider));
+    }
+
+    private (string[] Directories, string[] Files) SnapshotCopyEntries(CancellationToken cancellationToken = default)
+    {
+        // Mount aliases need not be symbolic links. Finish both enumerations before any writes
+        // so recursive traversal cannot discover directories or files produced by this copy.
+        cancellationToken.ThrowIfCancellationRequested();
+        return (
+            Snapshot(_provider.EnumerateDirectories(this, "*", SearchOption.AllDirectories)),
+            Snapshot(_provider.EnumerateFiles(this, "*", SearchOption.AllDirectories)));
+
+        string[] Snapshot(IEnumerable<string> entries) => entries.Select(entry =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return entry;
+        }).ToArray();
+    }
+
+    internal string ValidateCopyTarget(string targetPath)
+    {
+        var fullTargetPath = System.IO.Path.TrimEndingDirectorySeparator(System.IO.Path.GetFullPath(targetPath));
+        var sourcePath = Path;
+        var comparisonTargetPath = fullTargetPath;
+        if (ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
+        {
+            sourcePath = ResolveDirectoryLinks(sourcePath);
+            comparisonTargetPath = ResolveDirectoryLinks(comparisonTargetPath);
+            if (OperatingSystem.IsLinux())
+            {
+                new LinuxMountTable(System.IO.File.ReadLines("/proc/self/mountinfo"))
+                    .ValidateCopyTarget(sourcePath, comparisonTargetPath);
+            }
+        }
+
+        var relativePath = _provider.GetRelativePath(sourcePath, comparisonTargetPath);
+        if (relativePath == "."
+            || (!System.IO.Path.IsPathRooted(relativePath)
+                && relativePath != ".."
+                && !relativePath.StartsWith($"..{_provider.DirectorySeparatorChar}", StringComparison.Ordinal)))
+        {
+            throw new ArgumentException("The destination must not be the source folder or one of its descendants.", nameof(targetPath));
+        }
+
+        return fullTargetPath;
+    }
+
+    private static string ResolveDirectoryLinks(string path)
+    {
+        var root = System.IO.Path.GetPathRoot(path)!;
+        var remaining = new Queue<string>(path[root.Length..].Split(
+            [System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar],
+            StringSplitOptions.RemoveEmptyEntries));
+        var resolvedPath = root;
+        var followedLinks = 0;
+        while (remaining.TryDequeue(out var segment))
+        {
+            var directory = new DirectoryInfo(System.IO.Path.Combine(resolvedPath, segment));
+            if (directory.LinkTarget is null)
+            {
+                resolvedPath = directory.FullName;
+                continue;
+            }
+
+            if (++followedLinks > 40)
+            {
+                throw new IOException("Too many directory links while validating the copy destination.");
+            }
+
+            // Restart at the target's root: its parent components can also contain links.
+            var targetPath = directory.ResolveLinkTarget(returnFinalTarget: false)!.FullName;
+            var pendingPath = System.IO.Path.Combine([targetPath, .. remaining]);
+            root = System.IO.Path.GetPathRoot(pendingPath)!;
+            resolvedPath = root;
+            remaining = new Queue<string>(pendingPath[root.Length..].Split(
+                [System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar],
+                StringSplitOptions.RemoveEmptyEntries));
+        }
+
+        return resolvedPath;
     }
 
     private void CopyMetadata(
