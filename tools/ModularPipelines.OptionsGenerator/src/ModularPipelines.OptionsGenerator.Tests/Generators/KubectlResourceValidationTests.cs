@@ -13,8 +13,8 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     private static readonly string[] KubectlResourceUpdates = ["owner=team"];
-    private static readonly string[] valueArray0 = new[] { "--filename", "manifest.yaml" };
-    private static readonly string[] valueArray1 = new[] { "manifest.yaml" };
+    private static readonly string[] ManualFilenameArguments = ["--filename", "manifest.yaml"];
+    private static readonly string[] TypedFilename = ["manifest.yaml"];
 
     [Test]
     [Arguments("annotate")]
@@ -42,12 +42,12 @@ public partial class RequiredConstructorValidationTests
             }
             """).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
-        options.GetProperty("Arguments")!.SetValue(instance, valueArray0);
+        options.GetProperty("Arguments")!.SetValue(instance, ManualFilenameArguments);
         var validation = (IValidatableObject) instance;
 
         await Assert.That(validation.Validate(new(instance))).IsNotEmpty();
 
-        options.GetProperty("Filename")!.SetValue(instance, valueArray1);
+        options.GetProperty("Filename")!.SetValue(instance, TypedFilename);
         await Assert.That(validation.Validate(new(instance))).IsEmpty();
     }
 
