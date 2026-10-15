@@ -36,3 +36,22 @@ Additional help-only probes accepted `--recursive=` with each of `1`, `0`, `t`,
 `f`, `T`, `F`, `true`, `false`, `True`, `False`, `TRUE`, and `FALSE` (exit 0).
 The same invocation rejected `tRuE`, ` false`, and `false ` (exit 1), confirming
 pflag's exact Boolean spellings rather than .NET's whitespace-tolerant parsing.
+
+Set-command fixtures use the same checksum-verified v1.37.1 binary:
+
+- `set-resources.txt`: `kubectl set resources --help`
+- `set-env.txt`: `kubectl set env --help`
+- `set-image.txt`: `kubectl set image --help`
+
+The resources synopsis contains an unmatched `(` before the optional limits and
+requests flags. The env help documents list, import, filename, and selector
+modes absent from its abbreviated synopsis. Its validation also accepts separate
+TYPE NAME targets. Keep these captured files verbatim apart from trailing
+whitespace; normalize in the scraper.
+
+The checksum-verified binary rejects `set env --local -k <directory> ENV=prod`
+with `one or more resources must be specified as <resource> <name> or
+<resource>/<name>` before reading the directory. Unlike image/resources, env
+cannot use kustomize alone as a target in this version. The operation constraints
+also follow upstream [EnvOptions.Validate/RunEnv](https://github.com/kubernetes/kubectl/blob/v0.37.1/pkg/cmd/set/set_env.go)
+and [SetResourcesOptions.Validate](https://github.com/kubernetes/kubectl/blob/v0.37.1/pkg/cmd/set/set_resources.go).

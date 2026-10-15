@@ -431,6 +431,7 @@ public partial class RequiredConstructorValidationTests
                 }
                 public sealed class CliFlagAttribute(string name) : System.Attribute
                 {
+                    public string? ShortForm { get; set; }
                     public string? NegatedName { get; set; }
                 }
             }
