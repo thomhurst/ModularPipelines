@@ -50,7 +50,7 @@ public record ChocoNewOptions : ChocoOptions
     public bool? Auto { get; set; }
 
     /// <summary>
-    /// TemplateName - Use a named template in C:/git/ModularPipelines- worktrees/issue-5718-tools/chocolatey.2.- 7.4/tools/chocolateyInstall\templates\templatename instead of built-in template.
+    /// TemplateName - Use a named template in C:\ProgramData\chocolatey\templates\templatename instead of built-in template.
     /// </summary>
     [CliOption("--template", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
