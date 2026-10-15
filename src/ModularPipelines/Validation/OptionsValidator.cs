@@ -63,6 +63,14 @@ internal class OptionsValidator : IOptionsValidator
                 $"DefaultModuleTimeout must be positive or Timeout.InfiniteTimeSpan. Current value: {options.DefaultModuleTimeout}"));
         }
 
+        if (options.ModuleCancellationGracePeriod < TimeSpan.Zero
+            || options.ModuleCancellationGracePeriod > TimeSpan.FromMilliseconds(uint.MaxValue - 1))
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"ModuleCancellationGracePeriod must be non-negative and no greater than {uint.MaxValue - 1} milliseconds. Current value: {options.ModuleCancellationGracePeriod}"));
+        }
+
         if (options.AlwaysRunProgressTimeout != Timeout.InfiniteTimeSpan && options.AlwaysRunProgressTimeout <= TimeSpan.Zero)
         {
             result.AddError(new ValidationError(

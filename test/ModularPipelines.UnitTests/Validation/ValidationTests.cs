@@ -607,6 +607,23 @@ public class ValidationTests
     }
 
     [Test]
+    [Arguments(-1L, false)]
+    [Arguments(0L, true)]
+    [Arguments(100L, true)]
+    [Arguments(4294967294L, true)]
+    [Arguments(4294967295L, false)]
+    public async Task ModuleCancellationGracePeriod_IsValidated(long milliseconds, bool valid)
+    {
+        var result = new OptionsValidator().ValidateOptions(new PipelineOptions
+        {
+            ModuleCancellationGracePeriod = TimeSpan.FromMilliseconds(milliseconds),
+        });
+
+        await Assert.That(result.Errors.Any(error => error.Message.Contains(nameof(PipelineOptions.ModuleCancellationGracePeriod))))
+            .IsEqualTo(!valid);
+    }
+
+    [Test]
     public async Task ValidateAsync_WithNegativeDefaultModuleTimeout_ReturnsError()
     {
         var builder = Pipeline.CreateBuilder();

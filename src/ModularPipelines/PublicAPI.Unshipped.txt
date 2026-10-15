@@ -1,6 +1,8 @@
 #nullable enable
 ModularPipelines.Options.CommandExecutionOptions.OutputEncoding.get -> System.Text.Encoding!
 ModularPipelines.Options.CommandExecutionOptions.OutputEncoding.init -> void
+ModularPipelines.Options.PipelineOptions.ModuleCancellationGracePeriod.get -> System.TimeSpan
+ModularPipelines.Options.PipelineOptions.ModuleCancellationGracePeriod.init -> void
 ModularPipelines.FileSystem.IFileSystemProvider.DirectorySeparatorChar.get -> char
 *REMOVED*Mediator.AssemblyReference
 *REMOVED*Mediator.Mediator

@@ -746,6 +746,7 @@ public class EngineCancellationTokenTests : TestBase
         builder.ConfigureOptions(options => options with
         {
             ThrowOnPipelineFailure = true,
+            ModuleCancellationGracePeriod = TimeSpan.FromMilliseconds(50),
         });
 
         var host = await builder.BuildAsync();
