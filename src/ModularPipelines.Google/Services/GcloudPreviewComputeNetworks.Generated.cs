@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud networks commands.
+/// gcloud preview compute networks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeNetworks
@@ -35,17 +35,17 @@ public class GcloudPreviewComputeNetworks
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud peerings sub-commands.
+    /// gcloud preview compute networks peerings sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworksPeerings Peerings => _peerings ??= new GcloudPreviewComputeNetworksPeerings(_command);
 
     /// <summary>
-    /// gcloud subnets sub-commands.
+    /// gcloud preview compute networks subnets sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworksSubnets Subnets => _subnets ??= new GcloudPreviewComputeNetworksSubnets(_command);
 
     /// <summary>
-    /// gcloud vpc-access sub-commands.
+    /// gcloud preview compute networks vpc-access sub-commands.
     /// </summary>
     public GcloudPreviewComputeNetworksVpcAccess VpcAccess => _vpcAccess ??= new GcloudPreviewComputeNetworksVpcAccess(_command);
 

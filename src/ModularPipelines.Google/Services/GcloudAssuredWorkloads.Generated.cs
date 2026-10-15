@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workloads commands.
+/// gcloud assured workloads commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAssuredWorkloads
@@ -33,7 +33,7 @@ public class GcloudAssuredWorkloads
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud violations sub-commands.
+    /// gcloud assured workloads violations sub-commands.
     /// </summary>
     public GcloudAssuredWorkloadsViolations Violations => _violations ??= new GcloudAssuredWorkloadsViolations(_command);
 

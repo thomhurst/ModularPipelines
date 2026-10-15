@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud discovered-api-observations commands.
+/// gcloud apihub discovered-api-observations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudApihubDiscoveredApiObservations
@@ -33,7 +33,7 @@ public class GcloudApihubDiscoveredApiObservations
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud discovered-api-operations sub-commands.
+    /// gcloud apihub discovered-api-observations discovered-api-operations sub-commands.
     /// </summary>
     public GcloudApihubDiscoveredApiObservationsDiscoveredApiOperations DiscoveredApiOperations => _discoveredApiOperations ??= new GcloudApihubDiscoveredApiObservationsDiscoveredApiOperations(_command);
 

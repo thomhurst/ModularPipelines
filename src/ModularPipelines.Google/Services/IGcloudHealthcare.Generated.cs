@@ -22,34 +22,34 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudHealthcare
 {
     /// <summary>
-    /// gcloud consent-stores sub-commands.
+    /// gcloud healthcare consent-stores sub-commands.
     /// </summary>
-    GcloudHealthcareConsentStores ConsentStores => throw new System.NotSupportedException();
+    GcloudHealthcareConsentStores ConsentStores { get; }
 
     /// <summary>
-    /// gcloud datasets sub-commands.
+    /// gcloud healthcare datasets sub-commands.
     /// </summary>
-    GcloudHealthcareDatasets Datasets => throw new System.NotSupportedException();
+    GcloudHealthcareDatasets Datasets { get; }
 
     /// <summary>
-    /// gcloud dicom-stores sub-commands.
+    /// gcloud healthcare dicom-stores sub-commands.
     /// </summary>
-    GcloudHealthcareDicomStores DicomStores => throw new System.NotSupportedException();
+    GcloudHealthcareDicomStores DicomStores { get; }
 
     /// <summary>
-    /// gcloud fhir-stores sub-commands.
+    /// gcloud healthcare fhir-stores sub-commands.
     /// </summary>
-    GcloudHealthcareFhirStores FhirStores => throw new System.NotSupportedException();
+    GcloudHealthcareFhirStores FhirStores { get; }
 
     /// <summary>
-    /// gcloud hl7v2-stores sub-commands.
+    /// gcloud healthcare hl7v2-stores sub-commands.
     /// </summary>
-    GcloudHealthcareHl7v2Stores Hl7v2Stores => throw new System.NotSupportedException();
+    GcloudHealthcareHl7v2Stores Hl7v2Stores { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud healthcare operations sub-commands.
     /// </summary>
-    GcloudHealthcareOperations Operations => throw new System.NotSupportedException();
+    GcloudHealthcareOperations Operations { get; }
 
     /// <summary>
     /// manage Cloud Healthcare resources
@@ -58,7 +58,6 @@ public interface IGcloudHealthcare
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudHealthcareOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudHealthcareOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

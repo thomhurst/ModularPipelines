@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud taxonomies commands.
+/// gcloud data-catalog taxonomies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataCatalogTaxonomies
@@ -33,7 +33,7 @@ public class GcloudDataCatalogTaxonomies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud policy-tags sub-commands.
+    /// gcloud data-catalog taxonomies policy-tags sub-commands.
     /// </summary>
     public GcloudDataCatalogTaxonomiesPolicyTags PolicyTags => _policyTags ??= new GcloudDataCatalogTaxonomiesPolicyTags(_command);
 

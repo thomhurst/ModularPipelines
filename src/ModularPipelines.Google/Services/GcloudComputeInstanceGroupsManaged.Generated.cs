@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud managed commands.
+/// gcloud compute instance-groups managed commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeInstanceGroupsManaged
@@ -36,22 +36,22 @@ public class GcloudComputeInstanceGroupsManaged
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud all-instances-config sub-commands.
+    /// gcloud compute instance-groups managed all-instances-config sub-commands.
     /// </summary>
     public GcloudComputeInstanceGroupsManagedAllInstancesConfig AllInstancesConfig => _allInstancesConfig ??= new GcloudComputeInstanceGroupsManagedAllInstancesConfig(_command);
 
     /// <summary>
-    /// gcloud instance-configs sub-commands.
+    /// gcloud compute instance-groups managed instance-configs sub-commands.
     /// </summary>
     public GcloudComputeInstanceGroupsManagedInstanceConfigs InstanceConfigs => _instanceConfigs ??= new GcloudComputeInstanceGroupsManagedInstanceConfigs(_command);
 
     /// <summary>
-    /// gcloud resize-requests sub-commands.
+    /// gcloud compute instance-groups managed resize-requests sub-commands.
     /// </summary>
     public GcloudComputeInstanceGroupsManagedResizeRequests ResizeRequests => _resizeRequests ??= new GcloudComputeInstanceGroupsManagedResizeRequests(_command);
 
     /// <summary>
-    /// gcloud rolling-action sub-commands.
+    /// gcloud compute instance-groups managed rolling-action sub-commands.
     /// </summary>
     public GcloudComputeInstanceGroupsManagedRollingAction RollingAction => _rollingAction ??= new GcloudComputeInstanceGroupsManagedRollingAction(_command);
 

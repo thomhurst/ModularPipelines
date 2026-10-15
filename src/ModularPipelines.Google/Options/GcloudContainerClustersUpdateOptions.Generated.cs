@@ -1342,7 +1342,7 @@ public record GcloudContainerClustersUpdateOptions : GcloudOptions, IValidatable
     /// <summary>
     /// Exactly one of these must be specified: Or at least one of these can be specified: Basic auth Options to specify the username. At most one of these can be specified: The user name to use for basic auth for the cluster. Use --password to specify a password; if not, the server will randomly generate one.
     /// </summary>
-    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--username", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
     /// <summary>
@@ -1378,7 +1378,7 @@ public record GcloudContainerClustersUpdateOptions : GcloudOptions, IValidatable
     /// <summary>
     /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zone", ShortForm = "-z", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
@@ -1410,6 +1410,27 @@ public record GcloudContainerClustersUpdateOptions : GcloudOptions, IValidatable
     /// </summary>
     [CliOption("--total-min-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? TotalMinNodes { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz API key secret, for example, projects/my-project/secrets/my-api-key/versions/1 or projects/my-project/secrets/my-api-key/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-api-key-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorApiKeySecretUri { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz proxy configuration, for example, projects/my-project/secrets/my-proxy-secret/versions/1 or projects/my-project/secrets/my-proxy-secret/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-proxy-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorProxySecretUri { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz registry secret, for example, projects/my-project/secrets/my-registry-secret/versions/1 or projects/my-project/secrets/my-registry-secret/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-registry-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorRegistrySecretUri { get; set; }
 
     /// <summary>
     /// The name of the cluster to update.

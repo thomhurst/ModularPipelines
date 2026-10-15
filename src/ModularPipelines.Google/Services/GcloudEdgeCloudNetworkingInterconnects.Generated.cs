@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud interconnects commands.
+/// gcloud edge-cloud networking interconnects commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgeCloudNetworkingInterconnects
@@ -33,7 +33,7 @@ public class GcloudEdgeCloudNetworkingInterconnects
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud attachments sub-commands.
+    /// gcloud edge-cloud networking interconnects attachments sub-commands.
     /// </summary>
     public GcloudEdgeCloudNetworkingInterconnectsAttachments Attachments => _attachments ??= new GcloudEdgeCloudNetworkingInterconnectsAttachments(_command);
 

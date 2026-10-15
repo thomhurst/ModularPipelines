@@ -20,6 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudMonitoring : IGcloudMonitoring
 {
     private readonly ICommandContext _command;
+    private GcloudMonitoringAlerts? _alerts;
     private GcloudMonitoringDashboards? _dashboards;
     private GcloudMonitoringPolicies? _policies;
     private GcloudMonitoringSnoozes? _snoozes;
@@ -36,22 +37,27 @@ public class GcloudMonitoring : IGcloudMonitoring
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud dashboards sub-commands.
+    /// gcloud monitoring alerts sub-commands.
+    /// </summary>
+    public GcloudMonitoringAlerts Alerts => _alerts ??= new GcloudMonitoringAlerts(_command);
+
+    /// <summary>
+    /// gcloud monitoring dashboards sub-commands.
     /// </summary>
     public GcloudMonitoringDashboards Dashboards => _dashboards ??= new GcloudMonitoringDashboards(_command);
 
     /// <summary>
-    /// gcloud policies sub-commands.
+    /// gcloud monitoring policies sub-commands.
     /// </summary>
     public GcloudMonitoringPolicies Policies => _policies ??= new GcloudMonitoringPolicies(_command);
 
     /// <summary>
-    /// gcloud snoozes sub-commands.
+    /// gcloud monitoring snoozes sub-commands.
     /// </summary>
     public GcloudMonitoringSnoozes Snoozes => _snoozes ??= new GcloudMonitoringSnoozes(_command);
 
     /// <summary>
-    /// gcloud uptime sub-commands.
+    /// gcloud monitoring uptime sub-commands.
     /// </summary>
     public GcloudMonitoringUptime Uptime => _uptime ??= new GcloudMonitoringUptime(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud attachments commands.
+/// gcloud preview compute interconnects attachments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInterconnectsAttachments
@@ -36,22 +36,22 @@ public class GcloudPreviewComputeInterconnectsAttachments
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud dedicated sub-commands.
+    /// gcloud preview compute interconnects attachments dedicated sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsAttachmentsDedicated Dedicated => _dedicated ??= new GcloudPreviewComputeInterconnectsAttachmentsDedicated(_command);
 
     /// <summary>
-    /// gcloud groups sub-commands.
+    /// gcloud preview compute interconnects attachments groups sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsAttachmentsGroups Groups => _groups ??= new GcloudPreviewComputeInterconnectsAttachmentsGroups(_command);
 
     /// <summary>
-    /// gcloud l2-forwarding sub-commands.
+    /// gcloud preview compute interconnects attachments l2-forwarding sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding L2Forwarding => _l2Forwarding ??= new GcloudPreviewComputeInterconnectsAttachmentsL2Forwarding(_command);
 
     /// <summary>
-    /// gcloud partner sub-commands.
+    /// gcloud preview compute interconnects attachments partner sub-commands.
     /// </summary>
     public GcloudPreviewComputeInterconnectsAttachmentsPartner Partner => _partner ??= new GcloudPreviewComputeInterconnectsAttachmentsPartner(_command);
 

@@ -38,7 +38,11 @@ public record GcloudAccessApprovalSettingsGetOptions : GcloudOptions, IValidatab
     /// At most one of these can be specified: Project number or id. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

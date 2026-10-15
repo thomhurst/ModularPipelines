@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud assets commands.
+/// gcloud dataplex assets commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataplexAssets
@@ -33,7 +33,7 @@ public class GcloudDataplexAssets
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud actions sub-commands.
+    /// gcloud dataplex assets actions sub-commands.
     /// </summary>
     public GcloudDataplexAssetsActions Actions => _actions ??= new GcloudDataplexAssetsActions(_command);
 

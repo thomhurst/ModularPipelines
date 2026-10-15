@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud single-tenant-hsm commands.
+/// gcloud kms single-tenant-hsm commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudKmsSingleTenantHsm
@@ -33,7 +33,7 @@ public class GcloudKmsSingleTenantHsm
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud proposal sub-commands.
+    /// gcloud kms single-tenant-hsm proposal sub-commands.
     /// </summary>
     public GcloudKmsSingleTenantHsmProposal Proposal => _proposal ??= new GcloudKmsSingleTenantHsmProposal(_command);
 

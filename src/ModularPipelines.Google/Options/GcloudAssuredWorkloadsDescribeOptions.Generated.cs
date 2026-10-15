@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -49,6 +50,12 @@ public record GcloudAssuredWorkloadsDescribeOptions : GcloudOptions
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Assured Workloads API version to use. Options are v1 and v2. Defaults to v1. VERSION must be one of: v1, v2.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAssuredWorkloadsDescribeVersion? Version { get; set; }
 
     /// <summary>
     /// Workload resource - The Assured Workloads environment resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workload or fully qualified identifier for the workload. To set the workload attribute: ▸ provide the argument workload on the command line. This positional argument must be specified if any of the other arguments in this group are specified.

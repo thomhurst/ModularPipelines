@@ -34,12 +34,12 @@ public class GcloudEmulators : IGcloudEmulators
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud firestore sub-commands.
+    /// gcloud emulators firestore sub-commands.
     /// </summary>
     public GcloudEmulatorsFirestore Firestore => _firestore ??= new GcloudEmulatorsFirestore(_command);
 
     /// <summary>
-    /// gcloud spanner sub-commands.
+    /// gcloud emulators spanner sub-commands.
     /// </summary>
     public GcloudEmulatorsSpanner Spanner => _spanner ??= new GcloudEmulatorsSpanner(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud clusters commands.
+/// gcloud redis clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudRedisClusters
@@ -34,12 +34,12 @@ public class GcloudRedisClusters
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backup-collections sub-commands.
+    /// gcloud redis clusters backup-collections sub-commands.
     /// </summary>
     public GcloudRedisClustersBackupCollections BackupCollections => _backupCollections ??= new GcloudRedisClustersBackupCollections(_command);
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud redis clusters backups sub-commands.
     /// </summary>
     public GcloudRedisClustersBackups Backups => _backups ??= new GcloudRedisClustersBackups(_command);
 

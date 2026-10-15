@@ -35,17 +35,17 @@ public class GcloudPam : IGcloudPam
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud entitlements sub-commands.
+    /// gcloud pam entitlements sub-commands.
     /// </summary>
     public GcloudPamEntitlements Entitlements => _entitlements ??= new GcloudPamEntitlements(_command);
 
     /// <summary>
-    /// gcloud grants sub-commands.
+    /// gcloud pam grants sub-commands.
     /// </summary>
     public GcloudPamGrants Grants => _grants ??= new GcloudPamGrants(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud pam operations sub-commands.
     /// </summary>
     public GcloudPamOperations Operations => _operations ??= new GcloudPamOperations(_command);
 

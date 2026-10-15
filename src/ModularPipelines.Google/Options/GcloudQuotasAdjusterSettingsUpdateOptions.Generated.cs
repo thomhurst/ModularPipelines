@@ -42,7 +42,11 @@ public record GcloudQuotasAdjusterSettingsUpdateOptions(
     /// Exactly one of these must be specified: Project of the container id.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// If specified, only validates the request, but does not actually update. Note that a request being valid does not mean that the request is guaranteed to be fulfilled. Default is false.

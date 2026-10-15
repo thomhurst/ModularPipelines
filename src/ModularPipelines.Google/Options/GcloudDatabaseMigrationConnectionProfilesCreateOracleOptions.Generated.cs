@@ -142,6 +142,37 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions : Gcl
     public GcloudDatabaseMigrationConnectionProfilesCreateOracleRole? Role { get; set; }
 
     /// <summary>
+    /// Oracle Automatic Storage Management (ASM) configuration. Hostname for the Oracle ASM connection. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--asm-host", Format = OptionFormat.EqualsSeparated)]
+    public string? AsmHost { get; set; }
+
+    /// <summary>
+    /// Oracle Automatic Storage Management (ASM) configuration. Password for the Oracle ASM connection. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--asm-password", Format = OptionFormat.EqualsSeparated)]
+    public string? AsmPassword { get; set; }
+
+    /// <summary>
+    /// Oracle Automatic Storage Management (ASM) configuration. Port for the Oracle ASM connection. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--asm-port", Format = OptionFormat.EqualsSeparated)]
+    public string? AsmPort { get; set; }
+
+    /// <summary>
+    /// Oracle Automatic Storage Management (ASM) configuration. ASM service name for the Oracle ASM connection. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--asm-service-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AsmServiceName { get; set; }
+
+    /// <summary>
+    /// Oracle Automatic Storage Management (ASM) configuration. Username for the Oracle ASM connection. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--asm-user", Format = OptionFormat.EqualsSeparated)]
+    public string? AsmUser { get; set; }
+
+    /// <summary>
     /// At most one of these can be specified: Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
     /// </summary>
     [CliOption("--private-connection", Format = OptionFormat.EqualsSeparated)]
@@ -197,6 +228,26 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions : Gcl
         if ((!string.IsNullOrWhiteSpace(Password) ? 1 : 0) + (PromptForPassword == true ? 1 : 0) != 1)
         {
             yield return new ValidationResult("Exactly one of Password or PromptForPassword must be specified.", [nameof(Password), nameof(PromptForPassword)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AsmHost) || !string.IsNullOrWhiteSpace(AsmPassword) || !string.IsNullOrWhiteSpace(AsmPort) || !string.IsNullOrWhiteSpace(AsmServiceName) || !string.IsNullOrWhiteSpace(AsmUser)) && (!(!string.IsNullOrWhiteSpace(AsmHost))))
+        {
+            yield return new ValidationResult("AsmHost must be specified when other arguments in this group are specified.", [nameof(AsmHost)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AsmHost) || !string.IsNullOrWhiteSpace(AsmPassword) || !string.IsNullOrWhiteSpace(AsmPort) || !string.IsNullOrWhiteSpace(AsmServiceName) || !string.IsNullOrWhiteSpace(AsmUser)) && (!(!string.IsNullOrWhiteSpace(AsmPassword))))
+        {
+            yield return new ValidationResult("AsmPassword must be specified when other arguments in this group are specified.", [nameof(AsmPassword)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AsmHost) || !string.IsNullOrWhiteSpace(AsmPassword) || !string.IsNullOrWhiteSpace(AsmPort) || !string.IsNullOrWhiteSpace(AsmServiceName) || !string.IsNullOrWhiteSpace(AsmUser)) && (!(!string.IsNullOrWhiteSpace(AsmPort))))
+        {
+            yield return new ValidationResult("AsmPort must be specified when other arguments in this group are specified.", [nameof(AsmPort)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AsmHost) || !string.IsNullOrWhiteSpace(AsmPassword) || !string.IsNullOrWhiteSpace(AsmPort) || !string.IsNullOrWhiteSpace(AsmServiceName) || !string.IsNullOrWhiteSpace(AsmUser)) && (!(!string.IsNullOrWhiteSpace(AsmServiceName))))
+        {
+            yield return new ValidationResult("AsmServiceName must be specified when other arguments in this group are specified.", [nameof(AsmServiceName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AsmHost) || !string.IsNullOrWhiteSpace(AsmPassword) || !string.IsNullOrWhiteSpace(AsmPort) || !string.IsNullOrWhiteSpace(AsmServiceName) || !string.IsNullOrWhiteSpace(AsmUser)) && (!(!string.IsNullOrWhiteSpace(AsmUser))))
+        {
+            yield return new ValidationResult("AsmUser must be specified when other arguments in this group are specified.", [nameof(AsmUser)]);
         }
         if (((!string.IsNullOrWhiteSpace(PrivateConnection)) ? 1 : 0) + ((StaticIpConnectivity == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) ? 1 : 0) > 1)
         {

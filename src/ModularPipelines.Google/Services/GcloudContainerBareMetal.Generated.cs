@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud bare-metal commands.
+/// gcloud container bare-metal commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerBareMetal
@@ -36,22 +36,22 @@ public class GcloudContainerBareMetal
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud admin-clusters sub-commands.
+    /// gcloud container bare-metal admin-clusters sub-commands.
     /// </summary>
     public GcloudContainerBareMetalAdminClusters AdminClusters => _adminClusters ??= new GcloudContainerBareMetalAdminClusters(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud container bare-metal clusters sub-commands.
     /// </summary>
     public GcloudContainerBareMetalClusters Clusters => _clusters ??= new GcloudContainerBareMetalClusters(_command);
 
     /// <summary>
-    /// gcloud node-pools sub-commands.
+    /// gcloud container bare-metal node-pools sub-commands.
     /// </summary>
     public GcloudContainerBareMetalNodePools NodePools => _nodePools ??= new GcloudContainerBareMetalNodePools(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud container bare-metal operations sub-commands.
     /// </summary>
     public GcloudContainerBareMetalOperations Operations => _operations ??= new GcloudContainerBareMetalOperations(_command);
 

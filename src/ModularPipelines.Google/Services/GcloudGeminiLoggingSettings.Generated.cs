@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud logging-settings commands.
+/// gcloud gemini logging-settings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudGeminiLoggingSettings
@@ -33,7 +33,7 @@ public class GcloudGeminiLoggingSettings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud setting-bindings sub-commands.
+    /// gcloud gemini logging-settings setting-bindings sub-commands.
     /// </summary>
     public GcloudGeminiLoggingSettingsSettingBindings SettingBindings => _settingBindings ??= new GcloudGeminiLoggingSettingsSettingBindings(_command);
 

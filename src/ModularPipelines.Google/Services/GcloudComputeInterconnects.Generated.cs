@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud interconnects commands.
+/// gcloud compute interconnects commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeInterconnects
@@ -40,42 +40,42 @@ public class GcloudComputeInterconnects
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud application-awareness sub-commands.
+    /// gcloud compute interconnects application-awareness sub-commands.
     /// </summary>
     public GcloudComputeInterconnectsApplicationAwareness ApplicationAwareness => _applicationAwareness ??= new GcloudComputeInterconnectsApplicationAwareness(_command);
 
     /// <summary>
-    /// gcloud attachments sub-commands.
+    /// gcloud compute interconnects attachments sub-commands.
     /// </summary>
     public GcloudComputeInterconnectsAttachments Attachments => _attachments ??= new GcloudComputeInterconnectsAttachments(_command);
 
     /// <summary>
-    /// gcloud cross-site-networks sub-commands.
+    /// gcloud compute interconnects cross-site-networks sub-commands.
     /// </summary>
     public GcloudComputeInterconnectsCrossSiteNetworks CrossSiteNetworks => _crossSiteNetworks ??= new GcloudComputeInterconnectsCrossSiteNetworks(_command);
 
     /// <summary>
-    /// gcloud groups sub-commands.
+    /// gcloud compute interconnects groups sub-commands.
     /// </summary>
     public GcloudComputeInterconnectsGroups Groups => _groups ??= new GcloudComputeInterconnectsGroups(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud compute interconnects locations sub-commands.
     /// </summary>
     public GcloudComputeInterconnectsLocations Locations => _locations ??= new GcloudComputeInterconnectsLocations(_command);
 
     /// <summary>
-    /// gcloud macsec sub-commands.
+    /// gcloud compute interconnects macsec sub-commands.
     /// </summary>
     public GcloudComputeInterconnectsMacsec Macsec => _macsec ??= new GcloudComputeInterconnectsMacsec(_command);
 
     /// <summary>
-    /// gcloud remote-locations sub-commands.
+    /// gcloud compute interconnects remote-locations sub-commands.
     /// </summary>
     public GcloudComputeInterconnectsRemoteLocations RemoteLocations => _remoteLocations ??= new GcloudComputeInterconnectsRemoteLocations(_command);
 
     /// <summary>
-    /// gcloud wire-groups sub-commands.
+    /// gcloud compute interconnects wire-groups sub-commands.
     /// </summary>
     public GcloudComputeInterconnectsWireGroups WireGroups => _wireGroups ??= new GcloudComputeInterconnectsWireGroups(_command);
 

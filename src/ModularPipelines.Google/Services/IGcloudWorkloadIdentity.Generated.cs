@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workloadidentity commands.
+/// gcloud workload-identity commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudWorkloadIdentity
 {
     /// <summary>
-    /// gcloud service-agents sub-commands.
+    /// gcloud workload-identity service-agents sub-commands.
     /// </summary>
-    GcloudWorkloadIdentityServiceAgents ServiceAgents => throw new System.NotSupportedException();
+    GcloudWorkloadIdentityServiceAgents ServiceAgents { get; }
 
     /// <summary>
     /// manage Workload Identity
@@ -33,7 +33,6 @@ public interface IGcloudWorkloadIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudWorkloadIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudWorkloadIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

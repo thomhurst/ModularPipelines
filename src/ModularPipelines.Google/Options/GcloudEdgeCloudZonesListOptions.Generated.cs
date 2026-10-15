@@ -55,7 +55,11 @@ public record GcloudEdgeCloudZonesListOptions : GcloudOptions, IValidatableObjec
     /// Exactly one of these must be specified: Google Cloud Platform project ID to list zones for.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

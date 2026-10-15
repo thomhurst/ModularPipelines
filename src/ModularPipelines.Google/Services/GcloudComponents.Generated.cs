@@ -33,7 +33,7 @@ public class GcloudComponents : IGcloudComponents
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud repositories sub-commands.
+    /// gcloud components repositories sub-commands.
     /// </summary>
     public GcloudComponentsRepositories Repositories => _repositories ??= new GcloudComponentsRepositories(_command);
 

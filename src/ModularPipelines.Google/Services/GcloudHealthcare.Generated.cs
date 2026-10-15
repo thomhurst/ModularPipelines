@@ -38,32 +38,32 @@ public class GcloudHealthcare : IGcloudHealthcare
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud consent-stores sub-commands.
+    /// gcloud healthcare consent-stores sub-commands.
     /// </summary>
     public GcloudHealthcareConsentStores ConsentStores => _consentStores ??= new GcloudHealthcareConsentStores(_command);
 
     /// <summary>
-    /// gcloud datasets sub-commands.
+    /// gcloud healthcare datasets sub-commands.
     /// </summary>
     public GcloudHealthcareDatasets Datasets => _datasets ??= new GcloudHealthcareDatasets(_command);
 
     /// <summary>
-    /// gcloud dicom-stores sub-commands.
+    /// gcloud healthcare dicom-stores sub-commands.
     /// </summary>
     public GcloudHealthcareDicomStores DicomStores => _dicomStores ??= new GcloudHealthcareDicomStores(_command);
 
     /// <summary>
-    /// gcloud fhir-stores sub-commands.
+    /// gcloud healthcare fhir-stores sub-commands.
     /// </summary>
     public GcloudHealthcareFhirStores FhirStores => _fhirStores ??= new GcloudHealthcareFhirStores(_command);
 
     /// <summary>
-    /// gcloud hl7v2-stores sub-commands.
+    /// gcloud healthcare hl7v2-stores sub-commands.
     /// </summary>
     public GcloudHealthcareHl7v2Stores Hl7v2Stores => _hl7v2Stores ??= new GcloudHealthcareHl7v2Stores(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud healthcare operations sub-commands.
     /// </summary>
     public GcloudHealthcareOperations Operations => _operations ??= new GcloudHealthcareOperations(_command);
 

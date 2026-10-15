@@ -19,6 +19,6 @@ public enum GcloudWorkbenchInstancesCreateNicType
     [EnumValue("GVNIC")]
     Gvnic,
 
-    [EnumValue("VIRTIGO_NET")]
-    VirtigoNet
+    [EnumValue("VIRTIO_NET")]
+    VirtioNet
 }

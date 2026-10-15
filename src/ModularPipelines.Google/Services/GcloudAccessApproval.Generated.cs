@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud accessapproval commands.
+/// gcloud access-approval commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAccessApproval : IGcloudAccessApproval
@@ -35,17 +35,17 @@ public class GcloudAccessApproval : IGcloudAccessApproval
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud requests sub-commands.
+    /// gcloud access-approval requests sub-commands.
     /// </summary>
     public GcloudAccessApprovalRequests Requests => _requests ??= new GcloudAccessApprovalRequests(_command);
 
     /// <summary>
-    /// gcloud service-account sub-commands.
+    /// gcloud access-approval service-account sub-commands.
     /// </summary>
     public GcloudAccessApprovalServiceAccount ServiceAccount => _serviceAccount ??= new GcloudAccessApprovalServiceAccount(_command);
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud access-approval settings sub-commands.
     /// </summary>
     public GcloudAccessApprovalSettings Settings => _settings ??= new GcloudAccessApprovalSettings(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud gateway-security-policies commands.
+/// gcloud network-security gateway-security-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkSecurityGatewaySecurityPolicies
@@ -33,7 +33,7 @@ public class GcloudNetworkSecurityGatewaySecurityPolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud rules sub-commands.
+    /// gcloud network-security gateway-security-policies rules sub-commands.
     /// </summary>
     public GcloudNetworkSecurityGatewaySecurityPoliciesRules Rules => _rules ??= new GcloudNetworkSecurityGatewaySecurityPoliciesRules(_command);
 

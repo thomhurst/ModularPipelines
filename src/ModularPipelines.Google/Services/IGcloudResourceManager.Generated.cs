@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud resourcemanager commands.
+/// gcloud resource-manager commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudResourceManager
 {
     /// <summary>
-    /// gcloud capabilities sub-commands.
+    /// gcloud resource-manager capabilities sub-commands.
     /// </summary>
-    GcloudResourceManagerCapabilities Capabilities => throw new System.NotSupportedException();
+    GcloudResourceManagerCapabilities Capabilities { get; }
 
     /// <summary>
-    /// gcloud folders sub-commands.
+    /// gcloud resource-manager folders sub-commands.
     /// </summary>
-    GcloudResourceManagerFolders Folders => throw new System.NotSupportedException();
+    GcloudResourceManagerFolders Folders { get; }
 
     /// <summary>
-    /// gcloud org-policies sub-commands.
+    /// gcloud resource-manager org-policies sub-commands.
     /// </summary>
-    GcloudResourceManagerOrgPolicies OrgPolicies => throw new System.NotSupportedException();
+    GcloudResourceManagerOrgPolicies OrgPolicies { get; }
 
     /// <summary>
-    /// gcloud tags sub-commands.
+    /// gcloud resource-manager tags sub-commands.
     /// </summary>
-    GcloudResourceManagerTags Tags => throw new System.NotSupportedException();
+    GcloudResourceManagerTags Tags { get; }
 
     /// <summary>
     /// manage Cloud Resources
@@ -48,7 +48,6 @@ public interface IGcloudResourceManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudResourceManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudResourceManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

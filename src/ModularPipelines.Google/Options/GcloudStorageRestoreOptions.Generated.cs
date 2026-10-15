@@ -24,7 +24,7 @@ public record GcloudStorageRestoreOptions : GcloudOptions
     /// <summary>
     /// SYNCHRONOUS RESTORE OPTIONS Restores all versions of soft-deleted objects. This flag is only useful for buckets with [object versioning] (https://cloud.google.com/storage/docs/object-versioning) enabled. In this case, the latest soft-deleted version will become live and the previous generations will become noncurrent. If versioning is disabled, the latest soft-deleted version will become live and previous generations will be soft-deleted again. This flag disables parallelism to preserve version order.
     /// </summary>
-    [CliFlag("--all-versions")]
+    [CliFlag("--all-versions", ShortForm = "-a")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
@@ -36,13 +36,13 @@ public record GcloudStorageRestoreOptions : GcloudOptions
     /// <summary>
     /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
-    [CliFlag("--preserve-acl", NegatedName = "--no-preserve-acl")]
+    [CliFlag("--preserve-acl", ShortForm = "-p", NegatedName = "--no-preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>
     /// Read the list of URLs from stdin.
     /// </summary>
-    [CliFlag("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin", ShortForm = "-I")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>

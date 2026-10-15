@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud edgecache commands.
+/// gcloud edge-cache commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgeCache : IGcloudEdgeCache
@@ -36,22 +36,22 @@ public class GcloudEdgeCache : IGcloudEdgeCache
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud keysets sub-commands.
+    /// gcloud edge-cache keysets sub-commands.
     /// </summary>
     public GcloudEdgeCacheKeysets Keysets => _keysets ??= new GcloudEdgeCacheKeysets(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud edge-cache operations sub-commands.
     /// </summary>
     public GcloudEdgeCacheOperations Operations => _operations ??= new GcloudEdgeCacheOperations(_command);
 
     /// <summary>
-    /// gcloud origins sub-commands.
+    /// gcloud edge-cache origins sub-commands.
     /// </summary>
     public GcloudEdgeCacheOrigins Origins => _origins ??= new GcloudEdgeCacheOrigins(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud edge-cache services sub-commands.
     /// </summary>
     public GcloudEdgeCacheServices Services => _services ??= new GcloudEdgeCacheServices(_command);
 

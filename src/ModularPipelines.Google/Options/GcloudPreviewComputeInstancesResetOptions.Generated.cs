@@ -50,6 +50,12 @@ public record GcloudPreviewComputeInstancesResetOptions : GcloudOptions
     }
 
     /// <summary>
+    /// The mode of the reset operation. RESET_MODE must be one of: hard-reset Performs a hard reset on the instance. This immediately restarts the instance without gracefully shutting down the guest operating system. This is the default. power-cycle Performs a machine-level power cycle. soft-reset Sends a graceful reset command to the guest operating system (e.g., equivalent to running sudo reboot).
+    /// </summary>
+    [CliOption("--reset-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ResetMode { get; set; }
+
+    /// <summary>
     /// Zone of the instances to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]

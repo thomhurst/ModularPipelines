@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud jobs commands.
+/// gcloud ai-platform jobs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAiPlatformJobs
@@ -33,7 +33,7 @@ public class GcloudAiPlatformJobs
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud submit sub-commands.
+    /// gcloud ai-platform jobs submit sub-commands.
     /// </summary>
     public GcloudAiPlatformJobsSubmit Submit => _submit ??= new GcloudAiPlatformJobsSubmit(_command);
 

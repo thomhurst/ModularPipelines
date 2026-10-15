@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud speech commands.
+/// gcloud ml speech commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMlSpeech
@@ -33,7 +33,7 @@ public class GcloudMlSpeech
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud ml speech operations sub-commands.
     /// </summary>
     public GcloudMlSpeechOperations Operations => _operations ??= new GcloudMlSpeechOperations(_command);
 

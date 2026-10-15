@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud secure-access-connect commands.
+/// gcloud network-security secure-access-connect commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkSecuritySecureAccessConnect
@@ -34,12 +34,12 @@ public class GcloudNetworkSecuritySecureAccessConnect
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud attachments sub-commands.
+    /// gcloud network-security secure-access-connect attachments sub-commands.
     /// </summary>
     public GcloudNetworkSecuritySecureAccessConnectAttachments Attachments => _attachments ??= new GcloudNetworkSecuritySecureAccessConnectAttachments(_command);
 
     /// <summary>
-    /// gcloud realms sub-commands.
+    /// gcloud network-security secure-access-connect realms sub-commands.
     /// </summary>
     public GcloudNetworkSecuritySecureAccessConnectRealms Realms => _realms ??= new GcloudNetworkSecuritySecureAccessConnectRealms(_command);
 

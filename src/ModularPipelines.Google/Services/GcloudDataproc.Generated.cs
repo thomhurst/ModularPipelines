@@ -39,37 +39,37 @@ public class GcloudDataproc : IGcloudDataproc
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud autoscaling-policies sub-commands.
+    /// gcloud dataproc autoscaling-policies sub-commands.
     /// </summary>
     public GcloudDataprocAutoscalingPolicies AutoscalingPolicies => _autoscalingPolicies ??= new GcloudDataprocAutoscalingPolicies(_command);
 
     /// <summary>
-    /// gcloud batches sub-commands.
+    /// gcloud dataproc batches sub-commands.
     /// </summary>
     public GcloudDataprocBatches Batches => _batches ??= new GcloudDataprocBatches(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud dataproc clusters sub-commands.
     /// </summary>
     public GcloudDataprocClusters Clusters => _clusters ??= new GcloudDataprocClusters(_command);
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud dataproc jobs sub-commands.
     /// </summary>
     public GcloudDataprocJobs Jobs => _jobs ??= new GcloudDataprocJobs(_command);
 
     /// <summary>
-    /// gcloud node-groups sub-commands.
+    /// gcloud dataproc node-groups sub-commands.
     /// </summary>
     public GcloudDataprocNodeGroups NodeGroups => _nodeGroups ??= new GcloudDataprocNodeGroups(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud dataproc operations sub-commands.
     /// </summary>
     public GcloudDataprocOperations Operations => _operations ??= new GcloudDataprocOperations(_command);
 
     /// <summary>
-    /// gcloud workflow-templates sub-commands.
+    /// gcloud dataproc workflow-templates sub-commands.
     /// </summary>
     public GcloudDataprocWorkflowTemplates WorkflowTemplates => _workflowTemplates ??= new GcloudDataprocWorkflowTemplates(_command);
 

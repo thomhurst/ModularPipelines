@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud linked-producer-vpc-network commands.
+/// gcloud network-connectivity spokes linked-producer-vpc-network commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork

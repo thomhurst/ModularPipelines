@@ -22,39 +22,44 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudFirestore
 {
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud firestore backups sub-commands.
     /// </summary>
-    GcloudFirestoreBackups Backups => throw new System.NotSupportedException();
+    GcloudFirestoreBackups Backups { get; }
 
     /// <summary>
-    /// gcloud databases sub-commands.
+    /// gcloud firestore change-streams sub-commands.
     /// </summary>
-    GcloudFirestoreDatabases Databases => throw new System.NotSupportedException();
+    GcloudFirestoreChangeStreams ChangeStreams { get; }
 
     /// <summary>
-    /// gcloud fields sub-commands.
+    /// gcloud firestore databases sub-commands.
     /// </summary>
-    GcloudFirestoreFields Fields => throw new System.NotSupportedException();
+    GcloudFirestoreDatabases Databases { get; }
 
     /// <summary>
-    /// gcloud indexes sub-commands.
+    /// gcloud firestore fields sub-commands.
     /// </summary>
-    GcloudFirestoreIndexes Indexes => throw new System.NotSupportedException();
+    GcloudFirestoreFields Fields { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud firestore indexes sub-commands.
     /// </summary>
-    GcloudFirestoreLocations Locations => throw new System.NotSupportedException();
+    GcloudFirestoreIndexes Indexes { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud firestore locations sub-commands.
     /// </summary>
-    GcloudFirestoreOperations Operations => throw new System.NotSupportedException();
+    GcloudFirestoreLocations Locations { get; }
 
     /// <summary>
-    /// gcloud user-creds sub-commands.
+    /// gcloud firestore operations sub-commands.
     /// </summary>
-    GcloudFirestoreUserCreds UserCreds => throw new System.NotSupportedException();
+    GcloudFirestoreOperations Operations { get; }
+
+    /// <summary>
+    /// gcloud firestore user-creds sub-commands.
+    /// </summary>
+    GcloudFirestoreUserCreds UserCreds { get; }
 
     /// <summary>
     /// manage your Cloud Firestore resources
@@ -63,8 +68,7 @@ public interface IGcloudFirestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudFirestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudFirestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// bulk delete Cloud Firestore documents
@@ -73,8 +77,7 @@ public interface IGcloudFirestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BulkDeleteAsync(GcloudFirestoreBulkDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BulkDeleteAsync(GcloudFirestoreBulkDeleteOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// export Cloud Firestore documents to Google Cloud     Storage
@@ -83,8 +86,7 @@ public interface IGcloudFirestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportAsync(GcloudFirestoreExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportAsync(GcloudFirestoreExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// import Cloud Firestore documents from Google     Cloud Storage
@@ -93,7 +95,6 @@ public interface IGcloudFirestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportAsync(GcloudFirestoreImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportAsync(GcloudFirestoreImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

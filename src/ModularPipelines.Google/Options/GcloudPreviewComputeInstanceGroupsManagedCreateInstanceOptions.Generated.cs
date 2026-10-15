@@ -26,7 +26,7 @@ public record GcloudPreviewComputeInstanceGroupsManagedCreateInstanceOptions : G
     /// <summary>
     /// create a     new virtual machine instance in a managed instance group with a defined     name and optionally its stateful configuration
     /// </summary>
-    /// <param name="Instance">Name of the new instance to create.</param>
+    /// <param name="Instance">Name of the new instance to create. For regional managed instance groups, if only the name is provided, the instance will be created in the default zone (REGION-a) of the region. To specify a different zone, use the partial URI (e.g. 'zones/ZONE/instances/INSTANCE_NAME').</param>
     /// <param name="Name">Name of the managed instance group to create instance in.</param>
     public GcloudPreviewComputeInstanceGroupsManagedCreateInstanceOptions(
         string Instance,
@@ -46,7 +46,7 @@ public record GcloudPreviewComputeInstanceGroupsManagedCreateInstanceOptions : G
     }
 
     /// <summary>
-    /// Name of the new instance to create.
+    /// Name of the new instance to create. For regional managed instance groups, if only the name is provided, the instance will be created in the default zone (REGION-a) of the region. To specify a different zone, use the partial URI (e.g. 'zones/ZONE/instances/INSTANCE_NAME').
     /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string Instance { get; private init; }
@@ -82,7 +82,7 @@ public record GcloudPreviewComputeInstanceGroupsManagedCreateInstanceOptions : G
     public string? Region { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Zone of the managed instance group to create instance in. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// At most one of these can be specified: Zone of the managed instance group. This flag is only applicable for zonal managed instance groups. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }

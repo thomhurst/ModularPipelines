@@ -114,412 +114,412 @@ public class GcloudCompute : IGcloudCompute
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud accelerator-types sub-commands.
+    /// gcloud compute accelerator-types sub-commands.
     /// </summary>
     public GcloudComputeAcceleratorTypes AcceleratorTypes => _acceleratorTypes ??= new GcloudComputeAcceleratorTypes(_command);
 
     /// <summary>
-    /// gcloud addresses sub-commands.
+    /// gcloud compute addresses sub-commands.
     /// </summary>
     public GcloudComputeAddresses Addresses => _addresses ??= new GcloudComputeAddresses(_command);
 
     /// <summary>
-    /// gcloud advice sub-commands.
+    /// gcloud compute advice sub-commands.
     /// </summary>
     public GcloudComputeAdvice Advice => _advice ??= new GcloudComputeAdvice(_command);
 
     /// <summary>
-    /// gcloud backend-buckets sub-commands.
+    /// gcloud compute backend-buckets sub-commands.
     /// </summary>
     public GcloudComputeBackendBuckets BackendBuckets => _backendBuckets ??= new GcloudComputeBackendBuckets(_command);
 
     /// <summary>
-    /// gcloud backend-services sub-commands.
+    /// gcloud compute backend-services sub-commands.
     /// </summary>
     public GcloudComputeBackendServices BackendServices => _backendServices ??= new GcloudComputeBackendServices(_command);
 
     /// <summary>
-    /// gcloud commitments sub-commands.
+    /// gcloud compute commitments sub-commands.
     /// </summary>
     public GcloudComputeCommitments Commitments => _commitments ??= new GcloudComputeCommitments(_command);
 
     /// <summary>
-    /// gcloud composite-health-checks sub-commands.
+    /// gcloud compute composite-health-checks sub-commands.
     /// </summary>
     public GcloudComputeCompositeHealthChecks CompositeHealthChecks => _compositeHealthChecks ??= new GcloudComputeCompositeHealthChecks(_command);
 
     /// <summary>
-    /// gcloud diagnose sub-commands.
+    /// gcloud compute diagnose sub-commands.
     /// </summary>
     public GcloudComputeDiagnose Diagnose => _diagnose ??= new GcloudComputeDiagnose(_command);
 
     /// <summary>
-    /// gcloud disks sub-commands.
+    /// gcloud compute disks sub-commands.
     /// </summary>
     public GcloudComputeDisks Disks => _disks ??= new GcloudComputeDisks(_command);
 
     /// <summary>
-    /// gcloud disk-types sub-commands.
+    /// gcloud compute disk-types sub-commands.
     /// </summary>
     public GcloudComputeDiskTypes DiskTypes => _diskTypes ??= new GcloudComputeDiskTypes(_command);
 
     /// <summary>
-    /// gcloud external-vpn-gateways sub-commands.
+    /// gcloud compute external-vpn-gateways sub-commands.
     /// </summary>
     public GcloudComputeExternalVpnGateways ExternalVpnGateways => _externalVpnGateways ??= new GcloudComputeExternalVpnGateways(_command);
 
     /// <summary>
-    /// gcloud firewall-policies sub-commands.
+    /// gcloud compute firewall-policies sub-commands.
     /// </summary>
     public GcloudComputeFirewallPolicies FirewallPolicies => _firewallPolicies ??= new GcloudComputeFirewallPolicies(_command);
 
     /// <summary>
-    /// gcloud firewall-rules sub-commands.
+    /// gcloud compute firewall-rules sub-commands.
     /// </summary>
     public GcloudComputeFirewallRules FirewallRules => _firewallRules ??= new GcloudComputeFirewallRules(_command);
 
     /// <summary>
-    /// gcloud forwarding-rules sub-commands.
+    /// gcloud compute forwarding-rules sub-commands.
     /// </summary>
     public GcloudComputeForwardingRules ForwardingRules => _forwardingRules ??= new GcloudComputeForwardingRules(_command);
 
     /// <summary>
-    /// gcloud future-reservations sub-commands.
+    /// gcloud compute future-reservations sub-commands.
     /// </summary>
     public GcloudComputeFutureReservations FutureReservations => _futureReservations ??= new GcloudComputeFutureReservations(_command);
 
     /// <summary>
-    /// gcloud global-vm-extension-policies sub-commands.
+    /// gcloud compute global-vm-extension-policies sub-commands.
     /// </summary>
     public GcloudComputeGlobalVmExtensionPolicies GlobalVmExtensionPolicies => _globalVmExtensionPolicies ??= new GcloudComputeGlobalVmExtensionPolicies(_command);
 
     /// <summary>
-    /// gcloud health-aggregation-policies sub-commands.
+    /// gcloud compute health-aggregation-policies sub-commands.
     /// </summary>
     public GcloudComputeHealthAggregationPolicies HealthAggregationPolicies => _healthAggregationPolicies ??= new GcloudComputeHealthAggregationPolicies(_command);
 
     /// <summary>
-    /// gcloud health-checks sub-commands.
+    /// gcloud compute health-checks sub-commands.
     /// </summary>
     public GcloudComputeHealthChecks HealthChecks => _healthChecks ??= new GcloudComputeHealthChecks(_command);
 
     /// <summary>
-    /// gcloud health-sources sub-commands.
+    /// gcloud compute health-sources sub-commands.
     /// </summary>
     public GcloudComputeHealthSources HealthSources => _healthSources ??= new GcloudComputeHealthSources(_command);
 
     /// <summary>
-    /// gcloud hosts sub-commands.
+    /// gcloud compute hosts sub-commands.
     /// </summary>
     public GcloudComputeHosts Hosts => _hosts ??= new GcloudComputeHosts(_command);
 
     /// <summary>
-    /// gcloud http-health-checks sub-commands.
+    /// gcloud compute http-health-checks sub-commands.
     /// </summary>
     public GcloudComputeHttpHealthChecks HttpHealthChecks => _httpHealthChecks ??= new GcloudComputeHttpHealthChecks(_command);
 
     /// <summary>
-    /// gcloud https-health-checks sub-commands.
+    /// gcloud compute https-health-checks sub-commands.
     /// </summary>
     public GcloudComputeHttpsHealthChecks HttpsHealthChecks => _httpsHealthChecks ??= new GcloudComputeHttpsHealthChecks(_command);
 
     /// <summary>
-    /// gcloud images sub-commands.
+    /// gcloud compute images sub-commands.
     /// </summary>
     public GcloudComputeImages Images => _images ??= new GcloudComputeImages(_command);
 
     /// <summary>
-    /// gcloud image-views sub-commands.
+    /// gcloud compute image-views sub-commands.
     /// </summary>
     public GcloudComputeImageViews ImageViews => _imageViews ??= new GcloudComputeImageViews(_command);
 
     /// <summary>
-    /// gcloud instance-groups sub-commands.
+    /// gcloud compute instance-groups sub-commands.
     /// </summary>
     public GcloudComputeInstanceGroups InstanceGroups => _instanceGroups ??= new GcloudComputeInstanceGroups(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud compute instances sub-commands.
     /// </summary>
     public GcloudComputeInstances Instances => _instances ??= new GcloudComputeInstances(_command);
 
     /// <summary>
-    /// gcloud instance-templates sub-commands.
+    /// gcloud compute instance-templates sub-commands.
     /// </summary>
     public GcloudComputeInstanceTemplates InstanceTemplates => _instanceTemplates ??= new GcloudComputeInstanceTemplates(_command);
 
     /// <summary>
-    /// gcloud instant-snapshot-groups sub-commands.
+    /// gcloud compute instant-snapshot-groups sub-commands.
     /// </summary>
     public GcloudComputeInstantSnapshotGroups InstantSnapshotGroups => _instantSnapshotGroups ??= new GcloudComputeInstantSnapshotGroups(_command);
 
     /// <summary>
-    /// gcloud instant-snapshots sub-commands.
+    /// gcloud compute instant-snapshots sub-commands.
     /// </summary>
     public GcloudComputeInstantSnapshots InstantSnapshots => _instantSnapshots ??= new GcloudComputeInstantSnapshots(_command);
 
     /// <summary>
-    /// gcloud interconnects sub-commands.
+    /// gcloud compute interconnects sub-commands.
     /// </summary>
     public GcloudComputeInterconnects Interconnects => _interconnects ??= new GcloudComputeInterconnects(_command);
 
     /// <summary>
-    /// gcloud machine-images sub-commands.
+    /// gcloud compute machine-images sub-commands.
     /// </summary>
     public GcloudComputeMachineImages MachineImages => _machineImages ??= new GcloudComputeMachineImages(_command);
 
     /// <summary>
-    /// gcloud machine-types sub-commands.
+    /// gcloud compute machine-types sub-commands.
     /// </summary>
     public GcloudComputeMachineTypes MachineTypes => _machineTypes ??= new GcloudComputeMachineTypes(_command);
 
     /// <summary>
-    /// gcloud managed-rulesets sub-commands.
+    /// gcloud compute managed-rulesets sub-commands.
     /// </summary>
     public GcloudComputeManagedRulesets ManagedRulesets => _managedRulesets ??= new GcloudComputeManagedRulesets(_command);
 
     /// <summary>
-    /// gcloud migration sub-commands.
+    /// gcloud compute migration sub-commands.
     /// </summary>
     public GcloudComputeMigration Migration => _migration ??= new GcloudComputeMigration(_command);
 
     /// <summary>
-    /// gcloud network-attachments sub-commands.
+    /// gcloud compute network-attachments sub-commands.
     /// </summary>
     public GcloudComputeNetworkAttachments NetworkAttachments => _networkAttachments ??= new GcloudComputeNetworkAttachments(_command);
 
     /// <summary>
-    /// gcloud network-edge-security-services sub-commands.
+    /// gcloud compute network-edge-security-services sub-commands.
     /// </summary>
     public GcloudComputeNetworkEdgeSecurityServices NetworkEdgeSecurityServices => _networkEdgeSecurityServices ??= new GcloudComputeNetworkEdgeSecurityServices(_command);
 
     /// <summary>
-    /// gcloud network-endpoint-groups sub-commands.
+    /// gcloud compute network-endpoint-groups sub-commands.
     /// </summary>
     public GcloudComputeNetworkEndpointGroups NetworkEndpointGroups => _networkEndpointGroups ??= new GcloudComputeNetworkEndpointGroups(_command);
 
     /// <summary>
-    /// gcloud network-firewall-policies sub-commands.
+    /// gcloud compute network-firewall-policies sub-commands.
     /// </summary>
     public GcloudComputeNetworkFirewallPolicies NetworkFirewallPolicies => _networkFirewallPolicies ??= new GcloudComputeNetworkFirewallPolicies(_command);
 
     /// <summary>
-    /// gcloud network-profiles sub-commands.
+    /// gcloud compute network-profiles sub-commands.
     /// </summary>
     public GcloudComputeNetworkProfiles NetworkProfiles => _networkProfiles ??= new GcloudComputeNetworkProfiles(_command);
 
     /// <summary>
-    /// gcloud networks sub-commands.
+    /// gcloud compute networks sub-commands.
     /// </summary>
     public GcloudComputeNetworks Networks => _networks ??= new GcloudComputeNetworks(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud compute operations sub-commands.
     /// </summary>
     public GcloudComputeOperations Operations => _operations ??= new GcloudComputeOperations(_command);
 
     /// <summary>
-    /// gcloud org-security-policies sub-commands.
+    /// gcloud compute org-security-policies sub-commands.
     /// </summary>
     public GcloudComputeOrgSecurityPolicies OrgSecurityPolicies => _orgSecurityPolicies ??= new GcloudComputeOrgSecurityPolicies(_command);
 
     /// <summary>
-    /// gcloud os-config sub-commands.
+    /// gcloud compute os-config sub-commands.
     /// </summary>
     public GcloudComputeOsConfig OsConfig => _osConfig ??= new GcloudComputeOsConfig(_command);
 
     /// <summary>
-    /// gcloud os-login sub-commands.
+    /// gcloud compute os-login sub-commands.
     /// </summary>
     public GcloudComputeOsLogin OsLogin => _osLogin ??= new GcloudComputeOsLogin(_command);
 
     /// <summary>
-    /// gcloud packet-mirrorings sub-commands.
+    /// gcloud compute packet-mirrorings sub-commands.
     /// </summary>
     public GcloudComputePacketMirrorings PacketMirrorings => _packetMirrorings ??= new GcloudComputePacketMirrorings(_command);
 
     /// <summary>
-    /// gcloud preview-features sub-commands.
+    /// gcloud compute preview-features sub-commands.
     /// </summary>
     public GcloudComputePreviewFeatures PreviewFeatures => _previewFeatures ??= new GcloudComputePreviewFeatures(_command);
 
     /// <summary>
-    /// gcloud project-info sub-commands.
+    /// gcloud compute project-info sub-commands.
     /// </summary>
     public GcloudComputeProjectInfo ProjectInfo => _projectInfo ??= new GcloudComputeProjectInfo(_command);
 
     /// <summary>
-    /// gcloud project-views sub-commands.
+    /// gcloud compute project-views sub-commands.
     /// </summary>
     public GcloudComputeProjectViews ProjectViews => _projectViews ??= new GcloudComputeProjectViews(_command);
 
     /// <summary>
-    /// gcloud project-zonal-metadata sub-commands.
+    /// gcloud compute project-zonal-metadata sub-commands.
     /// </summary>
     public GcloudComputeProjectZonalMetadata ProjectZonalMetadata => _projectZonalMetadata ??= new GcloudComputeProjectZonalMetadata(_command);
 
     /// <summary>
-    /// gcloud public-advertised-prefixes sub-commands.
+    /// gcloud compute public-advertised-prefixes sub-commands.
     /// </summary>
     public GcloudComputePublicAdvertisedPrefixes PublicAdvertisedPrefixes => _publicAdvertisedPrefixes ??= new GcloudComputePublicAdvertisedPrefixes(_command);
 
     /// <summary>
-    /// gcloud public-delegated-prefixes sub-commands.
+    /// gcloud compute public-delegated-prefixes sub-commands.
     /// </summary>
     public GcloudComputePublicDelegatedPrefixes PublicDelegatedPrefixes => _publicDelegatedPrefixes ??= new GcloudComputePublicDelegatedPrefixes(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud compute regions sub-commands.
     /// </summary>
     public GcloudComputeRegions Regions => _regions ??= new GcloudComputeRegions(_command);
 
     /// <summary>
-    /// gcloud reservations sub-commands.
+    /// gcloud compute reservations sub-commands.
     /// </summary>
     public GcloudComputeReservations Reservations => _reservations ??= new GcloudComputeReservations(_command);
 
     /// <summary>
-    /// gcloud resource-policies sub-commands.
+    /// gcloud compute resource-policies sub-commands.
     /// </summary>
     public GcloudComputeResourcePolicies ResourcePolicies => _resourcePolicies ??= new GcloudComputeResourcePolicies(_command);
 
     /// <summary>
-    /// gcloud rollout-plans sub-commands.
+    /// gcloud compute rollout-plans sub-commands.
     /// </summary>
     public GcloudComputeRolloutPlans RolloutPlans => _rolloutPlans ??= new GcloudComputeRolloutPlans(_command);
 
     /// <summary>
-    /// gcloud rollouts sub-commands.
+    /// gcloud compute rollouts sub-commands.
     /// </summary>
     public GcloudComputeRollouts Rollouts => _rollouts ??= new GcloudComputeRollouts(_command);
 
     /// <summary>
-    /// gcloud routers sub-commands.
+    /// gcloud compute routers sub-commands.
     /// </summary>
     public GcloudComputeRouters Routers => _routers ??= new GcloudComputeRouters(_command);
 
     /// <summary>
-    /// gcloud routes sub-commands.
+    /// gcloud compute routes sub-commands.
     /// </summary>
     public GcloudComputeRoutes Routes => _routes ??= new GcloudComputeRoutes(_command);
 
     /// <summary>
-    /// gcloud security-policies sub-commands.
+    /// gcloud compute security-policies sub-commands.
     /// </summary>
     public GcloudComputeSecurityPolicies SecurityPolicies => _securityPolicies ??= new GcloudComputeSecurityPolicies(_command);
 
     /// <summary>
-    /// gcloud service-attachments sub-commands.
+    /// gcloud compute service-attachments sub-commands.
     /// </summary>
     public GcloudComputeServiceAttachments ServiceAttachments => _serviceAttachments ??= new GcloudComputeServiceAttachments(_command);
 
     /// <summary>
-    /// gcloud shared-vpc sub-commands.
+    /// gcloud compute shared-vpc sub-commands.
     /// </summary>
     public GcloudComputeSharedVpc SharedVpc => _sharedVpc ??= new GcloudComputeSharedVpc(_command);
 
     /// <summary>
-    /// gcloud snapshots sub-commands.
+    /// gcloud compute snapshots sub-commands.
     /// </summary>
     public GcloudComputeSnapshots Snapshots => _snapshots ??= new GcloudComputeSnapshots(_command);
 
     /// <summary>
-    /// gcloud snapshot-settings sub-commands.
+    /// gcloud compute snapshot-settings sub-commands.
     /// </summary>
     public GcloudComputeSnapshotSettings SnapshotSettings => _snapshotSettings ??= new GcloudComputeSnapshotSettings(_command);
 
     /// <summary>
-    /// gcloud sole-tenancy sub-commands.
+    /// gcloud compute sole-tenancy sub-commands.
     /// </summary>
     public GcloudComputeSoleTenancy SoleTenancy => _soleTenancy ??= new GcloudComputeSoleTenancy(_command);
 
     /// <summary>
-    /// gcloud ssl-certificates sub-commands.
+    /// gcloud compute ssl-certificates sub-commands.
     /// </summary>
     public GcloudComputeSslCertificates SslCertificates => _sslCertificates ??= new GcloudComputeSslCertificates(_command);
 
     /// <summary>
-    /// gcloud ssl-policies sub-commands.
+    /// gcloud compute ssl-policies sub-commands.
     /// </summary>
     public GcloudComputeSslPolicies SslPolicies => _sslPolicies ??= new GcloudComputeSslPolicies(_command);
 
     /// <summary>
-    /// gcloud storage-pools sub-commands.
+    /// gcloud compute storage-pools sub-commands.
     /// </summary>
     public GcloudComputeStoragePools StoragePools => _storagePools ??= new GcloudComputeStoragePools(_command);
 
     /// <summary>
-    /// gcloud storage-pool-types sub-commands.
+    /// gcloud compute storage-pool-types sub-commands.
     /// </summary>
     public GcloudComputeStoragePoolTypes StoragePoolTypes => _storagePoolTypes ??= new GcloudComputeStoragePoolTypes(_command);
 
     /// <summary>
-    /// gcloud target-grpc-proxies sub-commands.
+    /// gcloud compute target-grpc-proxies sub-commands.
     /// </summary>
     public GcloudComputeTargetGrpcProxies TargetGrpcProxies => _targetGrpcProxies ??= new GcloudComputeTargetGrpcProxies(_command);
 
     /// <summary>
-    /// gcloud target-http-proxies sub-commands.
+    /// gcloud compute target-http-proxies sub-commands.
     /// </summary>
     public GcloudComputeTargetHttpProxies TargetHttpProxies => _targetHttpProxies ??= new GcloudComputeTargetHttpProxies(_command);
 
     /// <summary>
-    /// gcloud target-https-proxies sub-commands.
+    /// gcloud compute target-https-proxies sub-commands.
     /// </summary>
     public GcloudComputeTargetHttpsProxies TargetHttpsProxies => _targetHttpsProxies ??= new GcloudComputeTargetHttpsProxies(_command);
 
     /// <summary>
-    /// gcloud target-instances sub-commands.
+    /// gcloud compute target-instances sub-commands.
     /// </summary>
     public GcloudComputeTargetInstances TargetInstances => _targetInstances ??= new GcloudComputeTargetInstances(_command);
 
     /// <summary>
-    /// gcloud target-pools sub-commands.
+    /// gcloud compute target-pools sub-commands.
     /// </summary>
     public GcloudComputeTargetPools TargetPools => _targetPools ??= new GcloudComputeTargetPools(_command);
 
     /// <summary>
-    /// gcloud target-ssl-proxies sub-commands.
+    /// gcloud compute target-ssl-proxies sub-commands.
     /// </summary>
     public GcloudComputeTargetSslProxies TargetSslProxies => _targetSslProxies ??= new GcloudComputeTargetSslProxies(_command);
 
     /// <summary>
-    /// gcloud target-tcp-proxies sub-commands.
+    /// gcloud compute target-tcp-proxies sub-commands.
     /// </summary>
     public GcloudComputeTargetTcpProxies TargetTcpProxies => _targetTcpProxies ??= new GcloudComputeTargetTcpProxies(_command);
 
     /// <summary>
-    /// gcloud target-vpn-gateways sub-commands.
+    /// gcloud compute target-vpn-gateways sub-commands.
     /// </summary>
     public GcloudComputeTargetVpnGateways TargetVpnGateways => _targetVpnGateways ??= new GcloudComputeTargetVpnGateways(_command);
 
     /// <summary>
-    /// gcloud tpus sub-commands.
+    /// gcloud compute tpus sub-commands.
     /// </summary>
     public GcloudComputeTpus Tpus => _tpus ??= new GcloudComputeTpus(_command);
 
     /// <summary>
-    /// gcloud url-maps sub-commands.
+    /// gcloud compute url-maps sub-commands.
     /// </summary>
     public GcloudComputeUrlMaps UrlMaps => _urlMaps ??= new GcloudComputeUrlMaps(_command);
 
     /// <summary>
-    /// gcloud vpn-gateways sub-commands.
+    /// gcloud compute vpn-gateways sub-commands.
     /// </summary>
     public GcloudComputeVpnGateways VpnGateways => _vpnGateways ??= new GcloudComputeVpnGateways(_command);
 
     /// <summary>
-    /// gcloud vpn-tunnels sub-commands.
+    /// gcloud compute vpn-tunnels sub-commands.
     /// </summary>
     public GcloudComputeVpnTunnels VpnTunnels => _vpnTunnels ??= new GcloudComputeVpnTunnels(_command);
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud compute zones sub-commands.
     /// </summary>
     public GcloudComputeZones Zones => _zones ??= new GcloudComputeZones(_command);
 
     /// <summary>
-    /// gcloud zone-vm-extension-policies sub-commands.
+    /// gcloud compute zone-vm-extension-policies sub-commands.
     /// </summary>
     public GcloudComputeZoneVmExtensionPolicies ZoneVmExtensionPolicies => _zoneVmExtensionPolicies ??= new GcloudComputeZoneVmExtensionPolicies(_command);
 

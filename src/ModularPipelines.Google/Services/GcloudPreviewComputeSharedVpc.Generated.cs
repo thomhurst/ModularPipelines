@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud shared-vpc commands.
+/// gcloud preview compute shared-vpc commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeSharedVpc
@@ -34,12 +34,12 @@ public class GcloudPreviewComputeSharedVpc
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud associated-projects sub-commands.
+    /// gcloud preview compute shared-vpc associated-projects sub-commands.
     /// </summary>
     public GcloudPreviewComputeSharedVpcAssociatedProjects AssociatedProjects => _associatedProjects ??= new GcloudPreviewComputeSharedVpcAssociatedProjects(_command);
 
     /// <summary>
-    /// gcloud organizations sub-commands.
+    /// gcloud preview compute shared-vpc organizations sub-commands.
     /// </summary>
     public GcloudPreviewComputeSharedVpcOrganizations Organizations => _organizations ??= new GcloudPreviewComputeSharedVpcOrganizations(_command);
 

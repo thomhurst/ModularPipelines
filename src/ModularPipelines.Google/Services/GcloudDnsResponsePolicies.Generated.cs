@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud response-policies commands.
+/// gcloud dns response-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDnsResponsePolicies
@@ -33,7 +33,7 @@ public class GcloudDnsResponsePolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud rules sub-commands.
+    /// gcloud dns response-policies rules sub-commands.
     /// </summary>
     public GcloudDnsResponsePoliciesRules Rules => _rules ??= new GcloudDnsResponsePoliciesRules(_command);
 

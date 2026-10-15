@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud modelarmor commands.
+/// gcloud model-armor commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudModelArmor : IGcloudModelArmor
@@ -34,12 +34,12 @@ public class GcloudModelArmor : IGcloudModelArmor
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud floorsettings sub-commands.
+    /// gcloud model-armor floorsettings sub-commands.
     /// </summary>
     public GcloudModelArmorFloorsettings Floorsettings => _floorsettings ??= new GcloudModelArmorFloorsettings(_command);
 
     /// <summary>
-    /// gcloud templates sub-commands.
+    /// gcloud model-armor templates sub-commands.
     /// </summary>
     public GcloudModelArmorTemplates Templates => _templates ??= new GcloudModelArmorTemplates(_command);
 

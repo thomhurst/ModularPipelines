@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud developerknowledge commands.
+/// gcloud developer-knowledge commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudDeveloperKnowledge
 {
     /// <summary>
-    /// gcloud documents sub-commands.
+    /// gcloud developer-knowledge documents sub-commands.
     /// </summary>
-    GcloudDeveloperKnowledgeDocuments Documents => throw new System.NotSupportedException();
+    GcloudDeveloperKnowledgeDocuments Documents { get; }
 
     /// <summary>
     /// manage Developer Knowledge resources and query     knowledge base
@@ -33,8 +33,7 @@ public interface IGcloudDeveloperKnowledge
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDeveloperKnowledgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDeveloperKnowledgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// answer a natural language query     using grounded generation
@@ -43,7 +42,6 @@ public interface IGcloudDeveloperKnowledge
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AnswerQueryAsync(GcloudDeveloperKnowledgeAnswerQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AnswerQueryAsync(GcloudDeveloperKnowledgeAnswerQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

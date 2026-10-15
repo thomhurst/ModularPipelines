@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud managedkafka commands.
+/// gcloud managed-kafka commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudManagedKafka : IGcloudManagedKafka
@@ -39,37 +39,37 @@ public class GcloudManagedKafka : IGcloudManagedKafka
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud acls sub-commands.
+    /// gcloud managed-kafka acls sub-commands.
     /// </summary>
     public GcloudManagedKafkaAcls Acls => _acls ??= new GcloudManagedKafkaAcls(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud managed-kafka clusters sub-commands.
     /// </summary>
     public GcloudManagedKafkaClusters Clusters => _clusters ??= new GcloudManagedKafkaClusters(_command);
 
     /// <summary>
-    /// gcloud connect-clusters sub-commands.
+    /// gcloud managed-kafka connect-clusters sub-commands.
     /// </summary>
     public GcloudManagedKafkaConnectClusters ConnectClusters => _connectClusters ??= new GcloudManagedKafkaConnectClusters(_command);
 
     /// <summary>
-    /// gcloud connectors sub-commands.
+    /// gcloud managed-kafka connectors sub-commands.
     /// </summary>
     public GcloudManagedKafkaConnectors Connectors => _connectors ??= new GcloudManagedKafkaConnectors(_command);
 
     /// <summary>
-    /// gcloud consumer-groups sub-commands.
+    /// gcloud managed-kafka consumer-groups sub-commands.
     /// </summary>
     public GcloudManagedKafkaConsumerGroups ConsumerGroups => _consumerGroups ??= new GcloudManagedKafkaConsumerGroups(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud managed-kafka operations sub-commands.
     /// </summary>
     public GcloudManagedKafkaOperations Operations => _operations ??= new GcloudManagedKafkaOperations(_command);
 
     /// <summary>
-    /// gcloud topics sub-commands.
+    /// gcloud managed-kafka topics sub-commands.
     /// </summary>
     public GcloudManagedKafkaTopics Topics => _topics ??= new GcloudManagedKafkaTopics(_command);
 

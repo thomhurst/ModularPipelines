@@ -142,6 +142,12 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions : Gc
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
+    /// Machine type of the VM instance. E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd". cpu_count must match the number of vCPUs in the machine type.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
     /// The VPC network from which the AlloyDB instance is accessible via private IP. For example, projects/myProject/global/networks/default. This setting cannot be updated after it is set.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]

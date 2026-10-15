@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud backups commands.
+/// gcloud backup-dr backups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBackupDrBackups
@@ -33,7 +33,7 @@ public class GcloudBackupDrBackups
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud restore sub-commands.
+    /// gcloud backup-dr backups restore sub-commands.
     /// </summary>
     public GcloudBackupDrBackupsRestore Restore => _restore ??= new GcloudBackupDrBackupsRestore(_command);
 

@@ -36,22 +36,22 @@ public class GcloudMl : IGcloudMl
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud language sub-commands.
+    /// gcloud ml language sub-commands.
     /// </summary>
     public GcloudMlLanguage Language => _language ??= new GcloudMlLanguage(_command);
 
     /// <summary>
-    /// gcloud speech sub-commands.
+    /// gcloud ml speech sub-commands.
     /// </summary>
     public GcloudMlSpeech Speech => _speech ??= new GcloudMlSpeech(_command);
 
     /// <summary>
-    /// gcloud video sub-commands.
+    /// gcloud ml video sub-commands.
     /// </summary>
     public GcloudMlVideo Video => _video ??= new GcloudMlVideo(_command);
 
     /// <summary>
-    /// gcloud vision sub-commands.
+    /// gcloud ml vision sub-commands.
     /// </summary>
     public GcloudMlVision Vision => _vision ??= new GcloudMlVision(_command);
 

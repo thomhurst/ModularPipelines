@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud dicom-stores commands.
+/// gcloud healthcare dicom-stores commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudHealthcareDicomStores
@@ -34,12 +34,12 @@ public class GcloudHealthcareDicomStores
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud export sub-commands.
+    /// gcloud healthcare dicom-stores export sub-commands.
     /// </summary>
     public GcloudHealthcareDicomStoresExport Export => _export ??= new GcloudHealthcareDicomStoresExport(_command);
 
     /// <summary>
-    /// gcloud import sub-commands.
+    /// gcloud healthcare dicom-stores import sub-commands.
     /// </summary>
     public GcloudHealthcareDicomStoresImport Import => _import ??= new GcloudHealthcareDicomStoresImport(_command);
 

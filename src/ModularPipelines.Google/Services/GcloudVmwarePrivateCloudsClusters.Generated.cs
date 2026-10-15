@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud clusters commands.
+/// gcloud vmware private-clouds clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwarePrivateCloudsClusters
@@ -33,7 +33,7 @@ public class GcloudVmwarePrivateCloudsClusters
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud nodes sub-commands.
+    /// gcloud vmware private-clouds clusters nodes sub-commands.
     /// </summary>
     public GcloudVmwarePrivateCloudsClustersNodes Nodes => _nodes ??= new GcloudVmwarePrivateCloudsClustersNodes(_command);
 

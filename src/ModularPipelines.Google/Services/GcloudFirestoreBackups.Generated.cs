@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud backups commands.
+/// gcloud firestore backups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFirestoreBackups
@@ -33,7 +33,7 @@ public class GcloudFirestoreBackups
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud schedules sub-commands.
+    /// gcloud firestore backups schedules sub-commands.
     /// </summary>
     public GcloudFirestoreBackupsSchedules Schedules => _schedules ??= new GcloudFirestoreBackupsSchedules(_command);
 

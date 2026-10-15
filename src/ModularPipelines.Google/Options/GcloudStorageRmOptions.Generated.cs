@@ -30,13 +30,13 @@ public record GcloudStorageRmOptions : GcloudOptions
     /// <summary>
     /// Delete all versions (https://cloud.google.com/storage/docs/object-versioning) of an object.
     /// </summary>
-    [CliFlag("--all-versions")]
+    [CliFlag("--all-versions", ShortForm = "-a")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
     /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
-    [CliFlag("--continue-on-error")]
+    [CliFlag("--continue-on-error", ShortForm = "-c")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record GcloudStorageRmOptions : GcloudOptions
     /// <summary>
     /// Read the list of URLs from stdin.
     /// </summary>
-    [CliFlag("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin", ShortForm = "-I")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud instances commands.
+/// gcloud lustre instances commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudLustreInstances
@@ -33,7 +33,7 @@ public class GcloudLustreInstances
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud directory-policies sub-commands.
+    /// gcloud lustre instances directory-policies sub-commands.
     /// </summary>
     public GcloudLustreInstancesDirectoryPolicies DirectoryPolicies => _directoryPolicies ??= new GcloudLustreInstancesDirectoryPolicies(_command);
 

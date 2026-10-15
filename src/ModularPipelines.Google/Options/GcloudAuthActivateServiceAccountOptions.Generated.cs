@@ -61,7 +61,7 @@ public record GcloudAuthActivateServiceAccountOptions : GcloudOptions, IValidata
     /// E-mail address of the service account.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Account { get; set; }
+    public string? AuthAccount { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

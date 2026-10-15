@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud subjects commands.
+/// gcloud iam workforce-pools subjects commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIamWorkforcePoolsSubjects
@@ -33,7 +33,7 @@ public class GcloudIamWorkforcePoolsSubjects
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud iam workforce-pools subjects operations sub-commands.
     /// </summary>
     public GcloudIamWorkforcePoolsSubjectsOperations Operations => _operations ??= new GcloudIamWorkforcePoolsSubjectsOperations(_command);
 
@@ -65,6 +65,21 @@ public class GcloudIamWorkforcePoolsSubjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
         GcloudIamWorkforcePoolsSubjectsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// revoke all sessions     for a workforce pool subject
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RevokeSessionsAsync(
+        GcloudIamWorkforcePoolsSubjectsRevokeSessionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

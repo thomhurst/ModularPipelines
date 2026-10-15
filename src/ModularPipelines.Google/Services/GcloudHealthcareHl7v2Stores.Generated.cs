@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud hl7v2-stores commands.
+/// gcloud healthcare hl7v2-stores commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudHealthcareHl7v2Stores
@@ -34,12 +34,12 @@ public class GcloudHealthcareHl7v2Stores
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud export sub-commands.
+    /// gcloud healthcare hl7v2-stores export sub-commands.
     /// </summary>
     public GcloudHealthcareHl7v2StoresExport Export => _export ??= new GcloudHealthcareHl7v2StoresExport(_command);
 
     /// <summary>
-    /// gcloud import sub-commands.
+    /// gcloud healthcare hl7v2-stores import sub-commands.
     /// </summary>
     public GcloudHealthcareHl7v2StoresImport Import => _import ??= new GcloudHealthcareHl7v2StoresImport(_command);
 

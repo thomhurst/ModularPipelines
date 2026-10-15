@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud tpus commands.
+/// gcloud compute tpus commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeTpus
@@ -38,32 +38,32 @@ public class GcloudComputeTpus
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud accelerator-types sub-commands.
+    /// gcloud compute tpus accelerator-types sub-commands.
     /// </summary>
     public GcloudComputeTpusAcceleratorTypes AcceleratorTypes => _acceleratorTypes ??= new GcloudComputeTpusAcceleratorTypes(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud compute tpus locations sub-commands.
     /// </summary>
     public GcloudComputeTpusLocations Locations => _locations ??= new GcloudComputeTpusLocations(_command);
 
     /// <summary>
-    /// gcloud queued-resources sub-commands.
+    /// gcloud compute tpus queued-resources sub-commands.
     /// </summary>
     public GcloudComputeTpusQueuedResources QueuedResources => _queuedResources ??= new GcloudComputeTpusQueuedResources(_command);
 
     /// <summary>
-    /// gcloud topologies sub-commands.
+    /// gcloud compute tpus topologies sub-commands.
     /// </summary>
     public GcloudComputeTpusTopologies Topologies => _topologies ??= new GcloudComputeTpusTopologies(_command);
 
     /// <summary>
-    /// gcloud tpu-vm sub-commands.
+    /// gcloud compute tpus tpu-vm sub-commands.
     /// </summary>
     public GcloudComputeTpusTpuVm TpuVm => _tpuVm ??= new GcloudComputeTpusTpuVm(_command);
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud compute tpus versions sub-commands.
     /// </summary>
     public GcloudComputeTpusVersions Versions => _versions ??= new GcloudComputeTpusVersions(_command);
 

@@ -24,7 +24,7 @@ public record GcloudDockerOptions : GcloudOptions
     /// <summary>
     /// Configure Docker authorization only; do not launch the Docker command-line.
     /// </summary>
-    [CliFlag("--authorize-only")]
+    [CliFlag("--authorize-only", ShortForm = "-a")]
     public bool? AuthorizeOnly { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public record GcloudDockerOptions : GcloudOptions
     /// <summary>
     /// Address of the Google Cloud Registry. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--server", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    [CliOption("--server", ShortForm = "-s", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Server { get; set; }
 
     /// <summary>

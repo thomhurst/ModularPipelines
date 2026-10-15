@@ -35,17 +35,17 @@ public class GcloudWorkbench : IGcloudWorkbench
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud executions sub-commands.
+    /// gcloud workbench executions sub-commands.
     /// </summary>
     public GcloudWorkbenchExecutions Executions => _executions ??= new GcloudWorkbenchExecutions(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud workbench instances sub-commands.
     /// </summary>
     public GcloudWorkbenchInstances Instances => _instances ??= new GcloudWorkbenchInstances(_command);
 
     /// <summary>
-    /// gcloud schedules sub-commands.
+    /// gcloud workbench schedules sub-commands.
     /// </summary>
     public GcloudWorkbenchSchedules Schedules => _schedules ??= new GcloudWorkbenchSchedules(_command);
 

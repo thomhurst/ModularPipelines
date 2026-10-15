@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud deploymentmanager commands.
+/// gcloud deployment-manager commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,29 +22,29 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudDeploymentManager
 {
     /// <summary>
-    /// gcloud deployments sub-commands.
+    /// gcloud deployment-manager deployments sub-commands.
     /// </summary>
-    GcloudDeploymentManagerDeployments Deployments => throw new System.NotSupportedException();
+    GcloudDeploymentManagerDeployments Deployments { get; }
 
     /// <summary>
-    /// gcloud manifests sub-commands.
+    /// gcloud deployment-manager manifests sub-commands.
     /// </summary>
-    GcloudDeploymentManagerManifests Manifests => throw new System.NotSupportedException();
+    GcloudDeploymentManagerManifests Manifests { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud deployment-manager operations sub-commands.
     /// </summary>
-    GcloudDeploymentManagerOperations Operations => throw new System.NotSupportedException();
+    GcloudDeploymentManagerOperations Operations { get; }
 
     /// <summary>
-    /// gcloud resources sub-commands.
+    /// gcloud deployment-manager resources sub-commands.
     /// </summary>
-    GcloudDeploymentManagerResources Resources => throw new System.NotSupportedException();
+    GcloudDeploymentManagerResources Resources { get; }
 
     /// <summary>
-    /// gcloud types sub-commands.
+    /// gcloud deployment-manager types sub-commands.
     /// </summary>
-    GcloudDeploymentManagerTypes Types => throw new System.NotSupportedException();
+    GcloudDeploymentManagerTypes Types { get; }
 
     /// <summary>
     /// manage deployments of cloud resources
@@ -53,7 +53,6 @@ public interface IGcloudDeploymentManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDeploymentManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDeploymentManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

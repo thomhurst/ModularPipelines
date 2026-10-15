@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud parameters commands.
+/// gcloud parametermanager parameters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudParameterManagerParameters
@@ -33,7 +33,7 @@ public class GcloudParameterManagerParameters
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud parametermanager parameters versions sub-commands.
     /// </summary>
     public GcloudParameterManagerParametersVersions Versions => _versions ??= new GcloudParameterManagerParametersVersions(_command);
 

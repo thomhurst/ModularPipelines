@@ -22,29 +22,29 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudAlloydb
 {
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud alloydb backups sub-commands.
     /// </summary>
-    GcloudAlloydbBackups Backups => throw new System.NotSupportedException();
+    GcloudAlloydbBackups Backups { get; }
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud alloydb clusters sub-commands.
     /// </summary>
-    GcloudAlloydbClusters Clusters => throw new System.NotSupportedException();
+    GcloudAlloydbClusters Clusters { get; }
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud alloydb instances sub-commands.
     /// </summary>
-    GcloudAlloydbInstances Instances => throw new System.NotSupportedException();
+    GcloudAlloydbInstances Instances { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud alloydb operations sub-commands.
     /// </summary>
-    GcloudAlloydbOperations Operations => throw new System.NotSupportedException();
+    GcloudAlloydbOperations Operations { get; }
 
     /// <summary>
-    /// gcloud users sub-commands.
+    /// gcloud alloydb users sub-commands.
     /// </summary>
-    GcloudAlloydbUsers Users => throw new System.NotSupportedException();
+    GcloudAlloydbUsers Users { get; }
 
     /// <summary>
     /// create and manage AlloyDB databases
@@ -53,7 +53,6 @@ public interface IGcloudAlloydb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAlloydbOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAlloydbOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -58,7 +58,7 @@ public record GcloudAppServicesBrowseOptions : GcloudOptions
     /// <summary>
     /// If specified, open services with a given version. If not specified, use a version based on the service's traffic split .
     /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--version", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
     /// <summary>

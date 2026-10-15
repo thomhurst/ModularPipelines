@@ -36,22 +36,22 @@ public class GcloudTransfer : IGcloudTransfer
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud agent-pools sub-commands.
+    /// gcloud transfer agent-pools sub-commands.
     /// </summary>
     public GcloudTransferAgentPools AgentPools => _agentPools ??= new GcloudTransferAgentPools(_command);
 
     /// <summary>
-    /// gcloud agents sub-commands.
+    /// gcloud transfer agents sub-commands.
     /// </summary>
     public GcloudTransferAgents Agents => _agents ??= new GcloudTransferAgents(_command);
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud transfer jobs sub-commands.
     /// </summary>
     public GcloudTransferJobs Jobs => _jobs ??= new GcloudTransferJobs(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud transfer operations sub-commands.
     /// </summary>
     public GcloudTransferOperations Operations => _operations ??= new GcloudTransferOperations(_command);
 

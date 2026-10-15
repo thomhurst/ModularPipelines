@@ -46,72 +46,72 @@ public class GcloudAi : IGcloudAi
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud custom-jobs sub-commands.
+    /// gcloud ai custom-jobs sub-commands.
     /// </summary>
     public GcloudAiCustomJobs CustomJobs => _customJobs ??= new GcloudAiCustomJobs(_command);
 
     /// <summary>
-    /// gcloud endpoints sub-commands.
+    /// gcloud ai endpoints sub-commands.
     /// </summary>
     public GcloudAiEndpoints Endpoints => _endpoints ??= new GcloudAiEndpoints(_command);
 
     /// <summary>
-    /// gcloud hp-tuning-jobs sub-commands.
+    /// gcloud ai hp-tuning-jobs sub-commands.
     /// </summary>
     public GcloudAiHpTuningJobs HpTuningJobs => _hpTuningJobs ??= new GcloudAiHpTuningJobs(_command);
 
     /// <summary>
-    /// gcloud index-endpoints sub-commands.
+    /// gcloud ai index-endpoints sub-commands.
     /// </summary>
     public GcloudAiIndexEndpoints IndexEndpoints => _indexEndpoints ??= new GcloudAiIndexEndpoints(_command);
 
     /// <summary>
-    /// gcloud indexes sub-commands.
+    /// gcloud ai indexes sub-commands.
     /// </summary>
     public GcloudAiIndexes Indexes => _indexes ??= new GcloudAiIndexes(_command);
 
     /// <summary>
-    /// gcloud model-garden sub-commands.
+    /// gcloud ai model-garden sub-commands.
     /// </summary>
     public GcloudAiModelGarden ModelGarden => _modelGarden ??= new GcloudAiModelGarden(_command);
 
     /// <summary>
-    /// gcloud model-monitoring-jobs sub-commands.
+    /// gcloud ai model-monitoring-jobs sub-commands.
     /// </summary>
     public GcloudAiModelMonitoringJobs ModelMonitoringJobs => _modelMonitoringJobs ??= new GcloudAiModelMonitoringJobs(_command);
 
     /// <summary>
-    /// gcloud models sub-commands.
+    /// gcloud ai models sub-commands.
     /// </summary>
     public GcloudAiModels Models => _models ??= new GcloudAiModels(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud ai operations sub-commands.
     /// </summary>
     public GcloudAiOperations Operations => _operations ??= new GcloudAiOperations(_command);
 
     /// <summary>
-    /// gcloud persistent-resources sub-commands.
+    /// gcloud ai persistent-resources sub-commands.
     /// </summary>
     public GcloudAiPersistentResources PersistentResources => _persistentResources ??= new GcloudAiPersistentResources(_command);
 
     /// <summary>
-    /// gcloud semantic-governance-policies sub-commands.
+    /// gcloud ai semantic-governance-policies sub-commands.
     /// </summary>
     public GcloudAiSemanticGovernancePolicies SemanticGovernancePolicies => _semanticGovernancePolicies ??= new GcloudAiSemanticGovernancePolicies(_command);
 
     /// <summary>
-    /// gcloud semantic-governance-policy-engine sub-commands.
+    /// gcloud ai semantic-governance-policy-engine sub-commands.
     /// </summary>
     public GcloudAiSemanticGovernancePolicyEngine SemanticGovernancePolicyEngine => _semanticGovernancePolicyEngine ??= new GcloudAiSemanticGovernancePolicyEngine(_command);
 
     /// <summary>
-    /// gcloud tensorboards sub-commands.
+    /// gcloud ai tensorboards sub-commands.
     /// </summary>
     public GcloudAiTensorboards Tensorboards => _tensorboards ??= new GcloudAiTensorboards(_command);
 
     /// <summary>
-    /// gcloud tuning-jobs sub-commands.
+    /// gcloud ai tuning-jobs sub-commands.
     /// </summary>
     public GcloudAiTuningJobs TuningJobs => _tuningJobs ??= new GcloudAiTuningJobs(_command);
 

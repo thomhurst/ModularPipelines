@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud datacatalog commands.
+/// gcloud data-catalog commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataCatalog : IGcloudDataCatalog
@@ -37,27 +37,27 @@ public class GcloudDataCatalog : IGcloudDataCatalog
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud entries sub-commands.
+    /// gcloud data-catalog entries sub-commands.
     /// </summary>
     public GcloudDataCatalogEntries Entries => _entries ??= new GcloudDataCatalogEntries(_command);
 
     /// <summary>
-    /// gcloud entry-groups sub-commands.
+    /// gcloud data-catalog entry-groups sub-commands.
     /// </summary>
     public GcloudDataCatalogEntryGroups EntryGroups => _entryGroups ??= new GcloudDataCatalogEntryGroups(_command);
 
     /// <summary>
-    /// gcloud tags sub-commands.
+    /// gcloud data-catalog tags sub-commands.
     /// </summary>
     public GcloudDataCatalogTags Tags => _tags ??= new GcloudDataCatalogTags(_command);
 
     /// <summary>
-    /// gcloud tag-templates sub-commands.
+    /// gcloud data-catalog tag-templates sub-commands.
     /// </summary>
     public GcloudDataCatalogTagTemplates TagTemplates => _tagTemplates ??= new GcloudDataCatalogTagTemplates(_command);
 
     /// <summary>
-    /// gcloud taxonomies sub-commands.
+    /// gcloud data-catalog taxonomies sub-commands.
     /// </summary>
     public GcloudDataCatalogTaxonomies Taxonomies => _taxonomies ??= new GcloudDataCatalogTaxonomies(_command);
 

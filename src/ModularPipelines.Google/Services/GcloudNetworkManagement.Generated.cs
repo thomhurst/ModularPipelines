@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud networkmanagement commands.
+/// gcloud network-management commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkManagement : IGcloudNetworkManagement
@@ -36,22 +36,22 @@ public class GcloudNetworkManagement : IGcloudNetworkManagement
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud connectivity-tests sub-commands.
+    /// gcloud network-management connectivity-tests sub-commands.
     /// </summary>
     public GcloudNetworkManagementConnectivityTests ConnectivityTests => _connectivityTests ??= new GcloudNetworkManagementConnectivityTests(_command);
 
     /// <summary>
-    /// gcloud network-monitoring-providers sub-commands.
+    /// gcloud network-management network-monitoring-providers sub-commands.
     /// </summary>
     public GcloudNetworkManagementNetworkMonitoringProviders NetworkMonitoringProviders => _networkMonitoringProviders ??= new GcloudNetworkManagementNetworkMonitoringProviders(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud network-management operations sub-commands.
     /// </summary>
     public GcloudNetworkManagementOperations Operations => _operations ??= new GcloudNetworkManagementOperations(_command);
 
     /// <summary>
-    /// gcloud vpc-flow-logs-configs sub-commands.
+    /// gcloud network-management vpc-flow-logs-configs sub-commands.
     /// </summary>
     public GcloudNetworkManagementVpcFlowLogsConfigs VpcFlowLogsConfigs => _vpcFlowLogsConfigs ??= new GcloudNetworkManagementVpcFlowLogsConfigs(_command);
 

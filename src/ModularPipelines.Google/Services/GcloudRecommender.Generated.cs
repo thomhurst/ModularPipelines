@@ -36,22 +36,22 @@ public class GcloudRecommender : IGcloudRecommender
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud insights sub-commands.
+    /// gcloud recommender insights sub-commands.
     /// </summary>
     public GcloudRecommenderInsights Insights => _insights ??= new GcloudRecommenderInsights(_command);
 
     /// <summary>
-    /// gcloud insight-type-config sub-commands.
+    /// gcloud recommender insight-type-config sub-commands.
     /// </summary>
     public GcloudRecommenderInsightTypeConfig InsightTypeConfig => _insightTypeConfig ??= new GcloudRecommenderInsightTypeConfig(_command);
 
     /// <summary>
-    /// gcloud recommendations sub-commands.
+    /// gcloud recommender recommendations sub-commands.
     /// </summary>
     public GcloudRecommenderRecommendations Recommendations => _recommendations ??= new GcloudRecommenderRecommendations(_command);
 
     /// <summary>
-    /// gcloud recommender-config sub-commands.
+    /// gcloud recommender recommender-config sub-commands.
     /// </summary>
     public GcloudRecommenderRecommenderConfig RecommenderConfig => _recommenderConfig ??= new GcloudRecommenderRecommenderConfig(_command);
 

@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud inframanager commands.
+/// gcloud infra-manager commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,44 +22,44 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudInfraManager
 {
     /// <summary>
-    /// gcloud automigrationconfig sub-commands.
+    /// gcloud infra-manager automigrationconfig sub-commands.
     /// </summary>
-    GcloudInfraManagerAutomigrationconfig Automigrationconfig => throw new System.NotSupportedException();
+    GcloudInfraManagerAutomigrationconfig Automigrationconfig { get; }
 
     /// <summary>
-    /// gcloud deployments sub-commands.
+    /// gcloud infra-manager deployments sub-commands.
     /// </summary>
-    GcloudInfraManagerDeployments Deployments => throw new System.NotSupportedException();
+    GcloudInfraManagerDeployments Deployments { get; }
 
     /// <summary>
-    /// gcloud previews sub-commands.
+    /// gcloud infra-manager previews sub-commands.
     /// </summary>
-    GcloudInfraManagerPreviews Previews => throw new System.NotSupportedException();
+    GcloudInfraManagerPreviews Previews { get; }
 
     /// <summary>
-    /// gcloud resource-changes sub-commands.
+    /// gcloud infra-manager resource-changes sub-commands.
     /// </summary>
-    GcloudInfraManagerResourceChanges ResourceChanges => throw new System.NotSupportedException();
+    GcloudInfraManagerResourceChanges ResourceChanges { get; }
 
     /// <summary>
-    /// gcloud resource-drifts sub-commands.
+    /// gcloud infra-manager resource-drifts sub-commands.
     /// </summary>
-    GcloudInfraManagerResourceDrifts ResourceDrifts => throw new System.NotSupportedException();
+    GcloudInfraManagerResourceDrifts ResourceDrifts { get; }
 
     /// <summary>
-    /// gcloud resources sub-commands.
+    /// gcloud infra-manager resources sub-commands.
     /// </summary>
-    GcloudInfraManagerResources Resources => throw new System.NotSupportedException();
+    GcloudInfraManagerResources Resources { get; }
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud infra-manager revisions sub-commands.
     /// </summary>
-    GcloudInfraManagerRevisions Revisions => throw new System.NotSupportedException();
+    GcloudInfraManagerRevisions Revisions { get; }
 
     /// <summary>
-    /// gcloud terraform-versions sub-commands.
+    /// gcloud infra-manager terraform-versions sub-commands.
     /// </summary>
-    GcloudInfraManagerTerraformVersions TerraformVersions => throw new System.NotSupportedException();
+    GcloudInfraManagerTerraformVersions TerraformVersions { get; }
 
     /// <summary>
     /// manage Infra Manager resources
@@ -68,7 +68,6 @@ public interface IGcloudInfraManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudInfraManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudInfraManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

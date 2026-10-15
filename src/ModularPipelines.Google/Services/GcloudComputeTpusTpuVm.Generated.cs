@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud tpu-vm commands.
+/// gcloud compute tpus tpu-vm commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeTpusTpuVm
@@ -35,17 +35,17 @@ public class GcloudComputeTpusTpuVm
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud accelerator-types sub-commands.
+    /// gcloud compute tpus tpu-vm accelerator-types sub-commands.
     /// </summary>
     public GcloudComputeTpusTpuVmAcceleratorTypes AcceleratorTypes => _acceleratorTypes ??= new GcloudComputeTpusTpuVmAcceleratorTypes(_command);
 
     /// <summary>
-    /// gcloud service-identity sub-commands.
+    /// gcloud compute tpus tpu-vm service-identity sub-commands.
     /// </summary>
     public GcloudComputeTpusTpuVmServiceIdentity ServiceIdentity => _serviceIdentity ??= new GcloudComputeTpusTpuVmServiceIdentity(_command);
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud compute tpus tpu-vm versions sub-commands.
     /// </summary>
     public GcloudComputeTpusTpuVmVersions Versions => _versions ??= new GcloudComputeTpusTpuVmVersions(_command);
 

@@ -58,7 +58,7 @@ public record GcloudAppVersionsBrowseOptions : GcloudOptions
     /// <summary>
     /// If specified, only open versions from the given service. If not specified, use the default service.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
     /// <summary>

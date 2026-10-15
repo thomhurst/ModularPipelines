@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud linked-vpn-tunnels commands.
+/// gcloud network-connectivity spokes linked-vpn-tunnels commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudNetworkConnectivitySpokesLinkedVpnTunnels

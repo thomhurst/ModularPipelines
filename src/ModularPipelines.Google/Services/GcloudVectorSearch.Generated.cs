@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud vectorsearch commands.
+/// gcloud vector-search commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVectorSearch : IGcloudVectorSearch
@@ -34,12 +34,12 @@ public class GcloudVectorSearch : IGcloudVectorSearch
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud collections sub-commands.
+    /// gcloud vector-search collections sub-commands.
     /// </summary>
     public GcloudVectorSearchCollections Collections => _collections ??= new GcloudVectorSearchCollections(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud vector-search operations sub-commands.
     /// </summary>
     public GcloudVectorSearchOperations Operations => _operations ??= new GcloudVectorSearchOperations(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud clusterdirector commands.
+/// gcloud cluster-director commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudClusterDirector : IGcloudClusterDirector
@@ -35,17 +35,17 @@ public class GcloudClusterDirector : IGcloudClusterDirector
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud cluster-director clusters sub-commands.
     /// </summary>
     public GcloudClusterDirectorClusters Clusters => _clusters ??= new GcloudClusterDirectorClusters(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud cluster-director locations sub-commands.
     /// </summary>
     public GcloudClusterDirectorLocations Locations => _locations ??= new GcloudClusterDirectorLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud cluster-director operations sub-commands.
     /// </summary>
     public GcloudClusterDirectorOperations Operations => _operations ??= new GcloudClusterDirectorOperations(_command);
 

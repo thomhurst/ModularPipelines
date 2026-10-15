@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudDatalineage
 {
     /// <summary>
-    /// gcloud config sub-commands.
+    /// gcloud datalineage config sub-commands.
     /// </summary>
-    GcloudDatalineageConfig Config => throw new System.NotSupportedException();
+    GcloudDatalineageConfig Config { get; }
 
     /// <summary>
-    /// gcloud lineage-events sub-commands.
+    /// gcloud datalineage lineage-events sub-commands.
     /// </summary>
-    GcloudDatalineageLineageEvents LineageEvents => throw new System.NotSupportedException();
+    GcloudDatalineageLineageEvents LineageEvents { get; }
 
     /// <summary>
-    /// gcloud processes sub-commands.
+    /// gcloud datalineage processes sub-commands.
     /// </summary>
-    GcloudDatalineageProcesses Processes => throw new System.NotSupportedException();
+    GcloudDatalineageProcesses Processes { get; }
 
     /// <summary>
-    /// gcloud runs sub-commands.
+    /// gcloud datalineage runs sub-commands.
     /// </summary>
-    GcloudDatalineageRuns Runs => throw new System.NotSupportedException();
+    GcloudDatalineageRuns Runs { get; }
 
     /// <summary>
     /// manage Google Cloud Data Lineage resources
@@ -48,7 +48,6 @@ public interface IGcloudDatalineage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDatalineageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDatalineageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

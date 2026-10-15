@@ -43,57 +43,57 @@ public class GcloudBigtable : IGcloudBigtable
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud app-profiles sub-commands.
+    /// gcloud bigtable app-profiles sub-commands.
     /// </summary>
     public GcloudBigtableAppProfiles AppProfiles => _appProfiles ??= new GcloudBigtableAppProfiles(_command);
 
     /// <summary>
-    /// gcloud authorized-views sub-commands.
+    /// gcloud bigtable authorized-views sub-commands.
     /// </summary>
     public GcloudBigtableAuthorizedViews AuthorizedViews => _authorizedViews ??= new GcloudBigtableAuthorizedViews(_command);
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud bigtable backups sub-commands.
     /// </summary>
     public GcloudBigtableBackups Backups => _backups ??= new GcloudBigtableBackups(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud bigtable clusters sub-commands.
     /// </summary>
     public GcloudBigtableClusters Clusters => _clusters ??= new GcloudBigtableClusters(_command);
 
     /// <summary>
-    /// gcloud hot-tablets sub-commands.
+    /// gcloud bigtable hot-tablets sub-commands.
     /// </summary>
     public GcloudBigtableHotTablets HotTablets => _hotTablets ??= new GcloudBigtableHotTablets(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud bigtable instances sub-commands.
     /// </summary>
     public GcloudBigtableInstances Instances => _instances ??= new GcloudBigtableInstances(_command);
 
     /// <summary>
-    /// gcloud logical-views sub-commands.
+    /// gcloud bigtable logical-views sub-commands.
     /// </summary>
     public GcloudBigtableLogicalViews LogicalViews => _logicalViews ??= new GcloudBigtableLogicalViews(_command);
 
     /// <summary>
-    /// gcloud materialized-views sub-commands.
+    /// gcloud bigtable materialized-views sub-commands.
     /// </summary>
     public GcloudBigtableMaterializedViews MaterializedViews => _materializedViews ??= new GcloudBigtableMaterializedViews(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud bigtable operations sub-commands.
     /// </summary>
     public GcloudBigtableOperations Operations => _operations ??= new GcloudBigtableOperations(_command);
 
     /// <summary>
-    /// gcloud schema-bundles sub-commands.
+    /// gcloud bigtable schema-bundles sub-commands.
     /// </summary>
     public GcloudBigtableSchemaBundles SchemaBundles => _schemaBundles ??= new GcloudBigtableSchemaBundles(_command);
 
     /// <summary>
-    /// gcloud tables sub-commands.
+    /// gcloud bigtable tables sub-commands.
     /// </summary>
     public GcloudBigtableTables Tables => _tables ??= new GcloudBigtableTables(_command);
 

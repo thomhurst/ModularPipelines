@@ -34,12 +34,12 @@ public class GcloudBeyondcorp : IGcloudBeyondcorp
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud beyondcorp operations sub-commands.
     /// </summary>
     public GcloudBeyondcorpOperations Operations => _operations ??= new GcloudBeyondcorpOperations(_command);
 
     /// <summary>
-    /// gcloud security-gateways sub-commands.
+    /// gcloud beyondcorp security-gateways sub-commands.
     /// </summary>
     public GcloudBeyondcorpSecurityGateways SecurityGateways => _securityGateways ??= new GcloudBeyondcorpSecurityGateways(_command);
 

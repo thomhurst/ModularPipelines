@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud fleet commands.
+/// gcloud container fleet commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerFleet
@@ -51,97 +51,97 @@ public class GcloudContainerFleet
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud cloudrun sub-commands.
+    /// gcloud container fleet cloudrun sub-commands.
     /// </summary>
     public GcloudContainerFleetCloudrun Cloudrun => _cloudrun ??= new GcloudContainerFleetCloudrun(_command);
 
     /// <summary>
-    /// gcloud clusterupgrade sub-commands.
+    /// gcloud container fleet clusterupgrade sub-commands.
     /// </summary>
     public GcloudContainerFleetClusterupgrade Clusterupgrade => _clusterupgrade ??= new GcloudContainerFleetClusterupgrade(_command);
 
     /// <summary>
-    /// gcloud config-management sub-commands.
+    /// gcloud container fleet config-management sub-commands.
     /// </summary>
     public GcloudContainerFleetConfigManagement ConfigManagement => _configManagement ??= new GcloudContainerFleetConfigManagement(_command);
 
     /// <summary>
-    /// gcloud dataplane-v2-encryption sub-commands.
+    /// gcloud container fleet dataplane-v2-encryption sub-commands.
     /// </summary>
     public GcloudContainerFleetDataplaneV2Encryption DataplaneV2Encryption => _dataplaneV2Encryption ??= new GcloudContainerFleetDataplaneV2Encryption(_command);
 
     /// <summary>
-    /// gcloud features sub-commands.
+    /// gcloud container fleet features sub-commands.
     /// </summary>
     public GcloudContainerFleetFeatures Features => _features ??= new GcloudContainerFleetFeatures(_command);
 
     /// <summary>
-    /// gcloud fleetobservability sub-commands.
+    /// gcloud container fleet fleetobservability sub-commands.
     /// </summary>
     public GcloudContainerFleetFleetobservability Fleetobservability => _fleetobservability ??= new GcloudContainerFleetFleetobservability(_command);
 
     /// <summary>
-    /// gcloud identity-service sub-commands.
+    /// gcloud container fleet identity-service sub-commands.
     /// </summary>
     public GcloudContainerFleetIdentityService IdentityService => _identityService ??= new GcloudContainerFleetIdentityService(_command);
 
     /// <summary>
-    /// gcloud ingress sub-commands.
+    /// gcloud container fleet ingress sub-commands.
     /// </summary>
     public GcloudContainerFleetIngress Ingress => _ingress ??= new GcloudContainerFleetIngress(_command);
 
     /// <summary>
-    /// gcloud memberships sub-commands.
+    /// gcloud container fleet memberships sub-commands.
     /// </summary>
     public GcloudContainerFleetMemberships Memberships => _memberships ??= new GcloudContainerFleetMemberships(_command);
 
     /// <summary>
-    /// gcloud mesh sub-commands.
+    /// gcloud container fleet mesh sub-commands.
     /// </summary>
     public GcloudContainerFleetMesh Mesh => _mesh ??= new GcloudContainerFleetMesh(_command);
 
     /// <summary>
-    /// gcloud multi-cluster-services sub-commands.
+    /// gcloud container fleet multi-cluster-services sub-commands.
     /// </summary>
     public GcloudContainerFleetMultiClusterServices MultiClusterServices => _multiClusterServices ??= new GcloudContainerFleetMultiClusterServices(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud container fleet operations sub-commands.
     /// </summary>
     public GcloudContainerFleetOperations Operations => _operations ??= new GcloudContainerFleetOperations(_command);
 
     /// <summary>
-    /// gcloud packages sub-commands.
+    /// gcloud container fleet packages sub-commands.
     /// </summary>
     public GcloudContainerFleetPackages Packages => _packages ??= new GcloudContainerFleetPackages(_command);
 
     /// <summary>
-    /// gcloud policycontroller sub-commands.
+    /// gcloud container fleet policycontroller sub-commands.
     /// </summary>
     public GcloudContainerFleetPolicycontroller Policycontroller => _policycontroller ??= new GcloudContainerFleetPolicycontroller(_command);
 
     /// <summary>
-    /// gcloud rbacrolebindingactuation sub-commands.
+    /// gcloud container fleet rbacrolebindingactuation sub-commands.
     /// </summary>
     public GcloudContainerFleetRbacrolebindingactuation Rbacrolebindingactuation => _rbacrolebindingactuation ??= new GcloudContainerFleetRbacrolebindingactuation(_command);
 
     /// <summary>
-    /// gcloud rollouts sub-commands.
+    /// gcloud container fleet rollouts sub-commands.
     /// </summary>
     public GcloudContainerFleetRollouts Rollouts => _rollouts ??= new GcloudContainerFleetRollouts(_command);
 
     /// <summary>
-    /// gcloud rolloutsequences sub-commands.
+    /// gcloud container fleet rolloutsequences sub-commands.
     /// </summary>
     public GcloudContainerFleetRolloutsequences Rolloutsequences => _rolloutsequences ??= new GcloudContainerFleetRolloutsequences(_command);
 
     /// <summary>
-    /// gcloud scopes sub-commands.
+    /// gcloud container fleet scopes sub-commands.
     /// </summary>
     public GcloudContainerFleetScopes Scopes => _scopes ??= new GcloudContainerFleetScopes(_command);
 
     /// <summary>
-    /// gcloud workload-identity sub-commands.
+    /// gcloud container fleet workload-identity sub-commands.
     /// </summary>
     public GcloudContainerFleetWorkloadIdentity WorkloadIdentity => _workloadIdentity ??= new GcloudContainerFleetWorkloadIdentity(_command);
 

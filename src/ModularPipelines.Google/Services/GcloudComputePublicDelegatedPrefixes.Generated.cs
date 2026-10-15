@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud public-delegated-prefixes commands.
+/// gcloud compute public-delegated-prefixes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputePublicDelegatedPrefixes
@@ -33,7 +33,7 @@ public class GcloudComputePublicDelegatedPrefixes
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud delegated-sub-prefixes sub-commands.
+    /// gcloud compute public-delegated-prefixes delegated-sub-prefixes sub-commands.
     /// </summary>
     public GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixes DelegatedSubPrefixes => _delegatedSubPrefixes ??= new GcloudComputePublicDelegatedPrefixesDelegatedSubPrefixes(_command);
 

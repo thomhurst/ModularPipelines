@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud ai commands.
+/// gcloud container ai commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerAi
@@ -33,7 +33,7 @@ public class GcloudContainerAi
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud profiles sub-commands.
+    /// gcloud container ai profiles sub-commands.
     /// </summary>
     public GcloudContainerAiProfiles Profiles => _profiles ??= new GcloudContainerAiProfiles(_command);
 

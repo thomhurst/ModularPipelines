@@ -44,7 +44,11 @@ public record GcloudSccManageCustomModulesShaListDescendantOptions : GcloudOptio
     /// Exactly one of these must be specified: Project associated with the custom module.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud policycontroller commands.
+/// gcloud container fleet policycontroller commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerFleetPolicycontroller
@@ -34,12 +34,12 @@ public class GcloudContainerFleetPolicycontroller
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud content sub-commands.
+    /// gcloud container fleet policycontroller content sub-commands.
     /// </summary>
     public GcloudContainerFleetPolicycontrollerContent Content => _content ??= new GcloudContainerFleetPolicycontrollerContent(_command);
 
     /// <summary>
-    /// gcloud deployment sub-commands.
+    /// gcloud container fleet policycontroller deployment sub-commands.
     /// </summary>
     public GcloudContainerFleetPolicycontrollerDeployment Deployment => _deployment ??= new GcloudContainerFleetPolicycontrollerDeployment(_command);
 

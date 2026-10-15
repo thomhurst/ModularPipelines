@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud oracledatabase commands.
+/// gcloud oracle-database commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabase : IGcloudOracleDatabase
@@ -58,132 +58,132 @@ public class GcloudOracleDatabase : IGcloudOracleDatabase
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud autonomous-database-backups sub-commands.
+    /// gcloud oracle-database autonomous-database-backups sub-commands.
     /// </summary>
     public GcloudOracleDatabaseAutonomousDatabaseBackups AutonomousDatabaseBackups => _autonomousDatabaseBackups ??= new GcloudOracleDatabaseAutonomousDatabaseBackups(_command);
 
     /// <summary>
-    /// gcloud autonomous-database-character-sets sub-commands.
+    /// gcloud oracle-database autonomous-database-character-sets sub-commands.
     /// </summary>
     public GcloudOracleDatabaseAutonomousDatabaseCharacterSets AutonomousDatabaseCharacterSets => _autonomousDatabaseCharacterSets ??= new GcloudOracleDatabaseAutonomousDatabaseCharacterSets(_command);
 
     /// <summary>
-    /// gcloud autonomous-databases sub-commands.
+    /// gcloud oracle-database autonomous-databases sub-commands.
     /// </summary>
     public GcloudOracleDatabaseAutonomousDatabases AutonomousDatabases => _autonomousDatabases ??= new GcloudOracleDatabaseAutonomousDatabases(_command);
 
     /// <summary>
-    /// gcloud autonomous-db-versions sub-commands.
+    /// gcloud oracle-database autonomous-db-versions sub-commands.
     /// </summary>
     public GcloudOracleDatabaseAutonomousDbVersions AutonomousDbVersions => _autonomousDbVersions ??= new GcloudOracleDatabaseAutonomousDbVersions(_command);
 
     /// <summary>
-    /// gcloud cloud-exadata-infrastructures sub-commands.
+    /// gcloud oracle-database cloud-exadata-infrastructures sub-commands.
     /// </summary>
     public GcloudOracleDatabaseCloudExadataInfrastructures CloudExadataInfrastructures => _cloudExadataInfrastructures ??= new GcloudOracleDatabaseCloudExadataInfrastructures(_command);
 
     /// <summary>
-    /// gcloud cloud-vm-clusters sub-commands.
+    /// gcloud oracle-database cloud-vm-clusters sub-commands.
     /// </summary>
     public GcloudOracleDatabaseCloudVmClusters CloudVmClusters => _cloudVmClusters ??= new GcloudOracleDatabaseCloudVmClusters(_command);
 
     /// <summary>
-    /// gcloud database-character-sets sub-commands.
+    /// gcloud oracle-database database-character-sets sub-commands.
     /// </summary>
     public GcloudOracleDatabaseDatabaseCharacterSets DatabaseCharacterSets => _databaseCharacterSets ??= new GcloudOracleDatabaseDatabaseCharacterSets(_command);
 
     /// <summary>
-    /// gcloud databases sub-commands.
+    /// gcloud oracle-database databases sub-commands.
     /// </summary>
     public GcloudOracleDatabaseDatabases Databases => _databases ??= new GcloudOracleDatabaseDatabases(_command);
 
     /// <summary>
-    /// gcloud db-system-initial-storage-sizes sub-commands.
+    /// gcloud oracle-database db-system-initial-storage-sizes sub-commands.
     /// </summary>
     public GcloudOracleDatabaseDbSystemInitialStorageSizes DbSystemInitialStorageSizes => _dbSystemInitialStorageSizes ??= new GcloudOracleDatabaseDbSystemInitialStorageSizes(_command);
 
     /// <summary>
-    /// gcloud db-systems sub-commands.
+    /// gcloud oracle-database db-systems sub-commands.
     /// </summary>
     public GcloudOracleDatabaseDbSystems DbSystems => _dbSystems ??= new GcloudOracleDatabaseDbSystems(_command);
 
     /// <summary>
-    /// gcloud db-system-shapes sub-commands.
+    /// gcloud oracle-database db-system-shapes sub-commands.
     /// </summary>
     public GcloudOracleDatabaseDbSystemShapes DbSystemShapes => _dbSystemShapes ??= new GcloudOracleDatabaseDbSystemShapes(_command);
 
     /// <summary>
-    /// gcloud db-versions sub-commands.
+    /// gcloud oracle-database db-versions sub-commands.
     /// </summary>
     public GcloudOracleDatabaseDbVersions DbVersions => _dbVersions ??= new GcloudOracleDatabaseDbVersions(_command);
 
     /// <summary>
-    /// gcloud entitlements sub-commands.
+    /// gcloud oracle-database entitlements sub-commands.
     /// </summary>
     public GcloudOracleDatabaseEntitlements Entitlements => _entitlements ??= new GcloudOracleDatabaseEntitlements(_command);
 
     /// <summary>
-    /// gcloud exadb-vm-clusters sub-commands.
+    /// gcloud oracle-database exadb-vm-clusters sub-commands.
     /// </summary>
     public GcloudOracleDatabaseExadbVmClusters ExadbVmClusters => _exadbVmClusters ??= new GcloudOracleDatabaseExadbVmClusters(_command);
 
     /// <summary>
-    /// gcloud exascale-db-storage-vaults sub-commands.
+    /// gcloud oracle-database exascale-db-storage-vaults sub-commands.
     /// </summary>
     public GcloudOracleDatabaseExascaleDbStorageVaults ExascaleDbStorageVaults => _exascaleDbStorageVaults ??= new GcloudOracleDatabaseExascaleDbStorageVaults(_command);
 
     /// <summary>
-    /// gcloud gi-versions sub-commands.
+    /// gcloud oracle-database gi-versions sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGiVersions GiVersions => _giVersions ??= new GcloudOracleDatabaseGiVersions(_command);
 
     /// <summary>
-    /// gcloud goldengate-connection-assignments sub-commands.
+    /// gcloud oracle-database goldengate-connection-assignments sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateConnectionAssignments GoldengateConnectionAssignments => _goldengateConnectionAssignments ??= new GcloudOracleDatabaseGoldengateConnectionAssignments(_command);
 
     /// <summary>
-    /// gcloud goldengate-connections sub-commands.
+    /// gcloud oracle-database goldengate-connections sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateConnections GoldengateConnections => _goldengateConnections ??= new GcloudOracleDatabaseGoldengateConnections(_command);
 
     /// <summary>
-    /// gcloud goldengate-connection-types sub-commands.
+    /// gcloud oracle-database goldengate-connection-types sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateConnectionTypes GoldengateConnectionTypes => _goldengateConnectionTypes ??= new GcloudOracleDatabaseGoldengateConnectionTypes(_command);
 
     /// <summary>
-    /// gcloud goldengate-deployment-environments sub-commands.
+    /// gcloud oracle-database goldengate-deployment-environments sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateDeploymentEnvironments GoldengateDeploymentEnvironments => _goldengateDeploymentEnvironments ??= new GcloudOracleDatabaseGoldengateDeploymentEnvironments(_command);
 
     /// <summary>
-    /// gcloud goldengate-deployments sub-commands.
+    /// gcloud oracle-database goldengate-deployments sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateDeployments GoldengateDeployments => _goldengateDeployments ??= new GcloudOracleDatabaseGoldengateDeployments(_command);
 
     /// <summary>
-    /// gcloud goldengate-deployment-types sub-commands.
+    /// gcloud oracle-database goldengate-deployment-types sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateDeploymentTypes GoldengateDeploymentTypes => _goldengateDeploymentTypes ??= new GcloudOracleDatabaseGoldengateDeploymentTypes(_command);
 
     /// <summary>
-    /// gcloud goldengate-deployment-versions sub-commands.
+    /// gcloud oracle-database goldengate-deployment-versions sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateDeploymentVersions GoldengateDeploymentVersions => _goldengateDeploymentVersions ??= new GcloudOracleDatabaseGoldengateDeploymentVersions(_command);
 
     /// <summary>
-    /// gcloud odb-networks sub-commands.
+    /// gcloud oracle-database odb-networks sub-commands.
     /// </summary>
     public GcloudOracleDatabaseOdbNetworks OdbNetworks => _odbNetworks ??= new GcloudOracleDatabaseOdbNetworks(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud oracle-database operations sub-commands.
     /// </summary>
     public GcloudOracleDatabaseOperations Operations => _operations ??= new GcloudOracleDatabaseOperations(_command);
 
     /// <summary>
-    /// gcloud pluggable-databases sub-commands.
+    /// gcloud oracle-database pluggable-databases sub-commands.
     /// </summary>
     public GcloudOracleDatabasePluggableDatabases PluggableDatabases => _pluggableDatabases ??= new GcloudOracleDatabasePluggableDatabases(_command);
 

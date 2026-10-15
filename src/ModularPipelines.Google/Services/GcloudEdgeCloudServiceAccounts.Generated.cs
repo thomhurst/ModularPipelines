@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud service-accounts commands.
+/// gcloud edge-cloud service-accounts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudEdgeCloudServiceAccounts
@@ -33,7 +33,7 @@ public class GcloudEdgeCloudServiceAccounts
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud keys sub-commands.
+    /// gcloud edge-cloud service-accounts keys sub-commands.
     /// </summary>
     public GcloudEdgeCloudServiceAccountsKeys Keys => _keys ??= new GcloudEdgeCloudServiceAccountsKeys(_command);
 

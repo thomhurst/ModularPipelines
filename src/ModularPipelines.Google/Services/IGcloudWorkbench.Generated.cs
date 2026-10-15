@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudWorkbench
 {
     /// <summary>
-    /// gcloud executions sub-commands.
+    /// gcloud workbench executions sub-commands.
     /// </summary>
-    GcloudWorkbenchExecutions Executions => throw new System.NotSupportedException();
+    GcloudWorkbenchExecutions Executions { get; }
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud workbench instances sub-commands.
     /// </summary>
-    GcloudWorkbenchInstances Instances => throw new System.NotSupportedException();
+    GcloudWorkbenchInstances Instances { get; }
 
     /// <summary>
-    /// gcloud schedules sub-commands.
+    /// gcloud workbench schedules sub-commands.
     /// </summary>
-    GcloudWorkbenchSchedules Schedules => throw new System.NotSupportedException();
+    GcloudWorkbenchSchedules Schedules { get; }
 
     /// <summary>
     /// workbench Command Group
@@ -43,7 +43,6 @@ public interface IGcloudWorkbench
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudWorkbenchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudWorkbenchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

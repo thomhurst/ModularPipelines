@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud batches commands.
+/// gcloud dataproc batches commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataprocBatches
@@ -33,7 +33,7 @@ public class GcloudDataprocBatches
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud submit sub-commands.
+    /// gcloud dataproc batches submit sub-commands.
     /// </summary>
     public GcloudDataprocBatchesSubmit Submit => _submit ??= new GcloudDataprocBatchesSubmit(_command);
 

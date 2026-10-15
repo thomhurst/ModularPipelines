@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudBeyondcorp
 {
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud beyondcorp operations sub-commands.
     /// </summary>
-    GcloudBeyondcorpOperations Operations => throw new System.NotSupportedException();
+    GcloudBeyondcorpOperations Operations { get; }
 
     /// <summary>
-    /// gcloud security-gateways sub-commands.
+    /// gcloud beyondcorp security-gateways sub-commands.
     /// </summary>
-    GcloudBeyondcorpSecurityGateways SecurityGateways => throw new System.NotSupportedException();
+    GcloudBeyondcorpSecurityGateways SecurityGateways { get; }
 
     /// <summary>
     /// manage Beyondcorp resources
@@ -38,7 +38,6 @@ public interface IGcloudBeyondcorp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudBeyondcorpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudBeyondcorpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

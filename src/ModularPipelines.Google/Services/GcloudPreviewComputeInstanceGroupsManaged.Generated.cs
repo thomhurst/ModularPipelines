@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud managed commands.
+/// gcloud preview compute instance-groups managed commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudPreviewComputeInstanceGroupsManaged
@@ -36,22 +36,22 @@ public class GcloudPreviewComputeInstanceGroupsManaged
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud all-instances-config sub-commands.
+    /// gcloud preview compute instance-groups managed all-instances-config sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstanceGroupsManagedAllInstancesConfig AllInstancesConfig => _allInstancesConfig ??= new GcloudPreviewComputeInstanceGroupsManagedAllInstancesConfig(_command);
 
     /// <summary>
-    /// gcloud instance-configs sub-commands.
+    /// gcloud preview compute instance-groups managed instance-configs sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstanceGroupsManagedInstanceConfigs InstanceConfigs => _instanceConfigs ??= new GcloudPreviewComputeInstanceGroupsManagedInstanceConfigs(_command);
 
     /// <summary>
-    /// gcloud resize-requests sub-commands.
+    /// gcloud preview compute instance-groups managed resize-requests sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstanceGroupsManagedResizeRequests ResizeRequests => _resizeRequests ??= new GcloudPreviewComputeInstanceGroupsManagedResizeRequests(_command);
 
     /// <summary>
-    /// gcloud rolling-action sub-commands.
+    /// gcloud preview compute instance-groups managed rolling-action sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstanceGroupsManagedRollingAction RollingAction => _rollingAction ??= new GcloudPreviewComputeInstanceGroupsManagedRollingAction(_command);
 

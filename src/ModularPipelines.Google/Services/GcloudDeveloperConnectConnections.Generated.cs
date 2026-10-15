@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud connections commands.
+/// gcloud developer-connect connections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDeveloperConnectConnections
@@ -33,7 +33,7 @@ public class GcloudDeveloperConnectConnections
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud git-repository-links sub-commands.
+    /// gcloud developer-connect connections git-repository-links sub-commands.
     /// </summary>
     public GcloudDeveloperConnectConnectionsGitRepositoryLinks GitRepositoryLinks => _gitRepositoryLinks ??= new GcloudDeveloperConnectConnectionsGitRepositoryLinks(_command);
 

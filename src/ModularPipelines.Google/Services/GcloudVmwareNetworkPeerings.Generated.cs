@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud network-peerings commands.
+/// gcloud vmware network-peerings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudVmwareNetworkPeerings
@@ -33,7 +33,7 @@ public class GcloudVmwareNetworkPeerings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud routes sub-commands.
+    /// gcloud vmware network-peerings routes sub-commands.
     /// </summary>
     public GcloudVmwareNetworkPeeringsRoutes Routes => _routes ??= new GcloudVmwareNetworkPeeringsRoutes(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud acl-policies commands.
+/// gcloud memorystore acl-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMemorystoreAclPolicies
@@ -33,7 +33,7 @@ public class GcloudMemorystoreAclPolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud memorystore acl-policies revisions sub-commands.
     /// </summary>
     public GcloudMemorystoreAclPoliciesRevisions Revisions => _revisions ??= new GcloudMemorystoreAclPoliciesRevisions(_command);
 

@@ -37,27 +37,27 @@ public class GcloudIap : IGcloudIap
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud oauth-brands sub-commands.
+    /// gcloud iap oauth-brands sub-commands.
     /// </summary>
     public GcloudIapOauthBrands OauthBrands => _oauthBrands ??= new GcloudIapOauthBrands(_command);
 
     /// <summary>
-    /// gcloud oauth-clients sub-commands.
+    /// gcloud iap oauth-clients sub-commands.
     /// </summary>
     public GcloudIapOauthClients OauthClients => _oauthClients ??= new GcloudIapOauthClients(_command);
 
     /// <summary>
-    /// gcloud settings sub-commands.
+    /// gcloud iap settings sub-commands.
     /// </summary>
     public GcloudIapSettings Settings => _settings ??= new GcloudIapSettings(_command);
 
     /// <summary>
-    /// gcloud tcp sub-commands.
+    /// gcloud iap tcp sub-commands.
     /// </summary>
     public GcloudIapTcp Tcp => _tcp ??= new GcloudIapTcp(_command);
 
     /// <summary>
-    /// gcloud web sub-commands.
+    /// gcloud iap web sub-commands.
     /// </summary>
     public GcloudIapWeb Web => _web ??= new GcloudIapWeb(_command);
 

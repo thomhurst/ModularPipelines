@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud vmware commands.
+/// gcloud container vmware commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerVmware
@@ -36,22 +36,22 @@ public class GcloudContainerVmware
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud admin-clusters sub-commands.
+    /// gcloud container vmware admin-clusters sub-commands.
     /// </summary>
     public GcloudContainerVmwareAdminClusters AdminClusters => _adminClusters ??= new GcloudContainerVmwareAdminClusters(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud container vmware clusters sub-commands.
     /// </summary>
     public GcloudContainerVmwareClusters Clusters => _clusters ??= new GcloudContainerVmwareClusters(_command);
 
     /// <summary>
-    /// gcloud node-pools sub-commands.
+    /// gcloud container vmware node-pools sub-commands.
     /// </summary>
     public GcloudContainerVmwareNodePools NodePools => _nodePools ??= new GcloudContainerVmwareNodePools(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud container vmware operations sub-commands.
     /// </summary>
     public GcloudContainerVmwareOperations Operations => _operations ??= new GcloudContainerVmwareOperations(_command);
 

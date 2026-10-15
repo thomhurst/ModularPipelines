@@ -34,12 +34,12 @@ public class GcloudBatch : IGcloudBatch
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud jobs sub-commands.
+    /// gcloud batch jobs sub-commands.
     /// </summary>
     public GcloudBatchJobs Jobs => _jobs ??= new GcloudBatchJobs(_command);
 
     /// <summary>
-    /// gcloud tasks sub-commands.
+    /// gcloud batch tasks sub-commands.
     /// </summary>
     public GcloudBatchTasks Tasks => _tasks ??= new GcloudBatchTasks(_command);
 

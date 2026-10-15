@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud enterprise-certificate-config commands.
+/// gcloud auth enterprise-certificate-config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAuthEnterpriseCertificateConfig
@@ -33,7 +33,7 @@ public class GcloudAuthEnterpriseCertificateConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud create sub-commands.
+    /// gcloud auth enterprise-certificate-config create sub-commands.
     /// </summary>
     public GcloudAuthEnterpriseCertificateConfigCreate Create => _create ??= new GcloudAuthEnterpriseCertificateConfigCreate(_command);
 

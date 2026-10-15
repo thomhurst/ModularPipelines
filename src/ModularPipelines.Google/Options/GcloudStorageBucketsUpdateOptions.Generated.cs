@@ -38,7 +38,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions, IValidatableObj
     /// <summary>
     /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
-    [CliFlag("--continue-on-error")]
+    [CliFlag("--continue-on-error", ShortForm = "-c")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
@@ -68,13 +68,13 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions, IValidatableObj
     /// <summary>
     /// Read the list of URLs from stdin.
     /// </summary>
-    [CliFlag("--read-paths-from-stdin")]
+    [CliFlag("--read-paths-from-stdin", ShortForm = "-I")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>
     /// Sets the recovery point objective (https://cloud.google.com/architecture/dr-scenarios-planning-guide#basics_of_dr_planning) of a bucket. This flag can only be used with multi-region and dual-region buckets. DEFAULT option is valid for multi-region and dual-regions buckets. ASYNC_TURBO option is only valid for dual-region buckets. If unspecified when the bucket is created, it defaults to DEFAULT for dual-region and multi-region buckets. For more information, see replication in Cloud Storage (https://cloud.google.com/storage/docs/availability-durability#cross-region-redundancy). SETTING must be one of: ASYNC_TURBO, DEFAULT.
     /// </summary>
-    [CliOption("--recovery-point-objective", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--recovery-point-objective", ShortForm = "--rpo", Format = OptionFormat.EqualsSeparated)]
     public GcloudStorageBucketsUpdateRecoveryPointObjective? RecoveryPointObjective { get; set; }
 
     /// <summary>
@@ -116,7 +116,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions, IValidatableObj
     /// <summary>
     /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
     /// </summary>
-    [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--canned-acl", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public string? CannedAcl { get; set; }
 
     /// <summary>
@@ -292,7 +292,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions, IValidatableObj
     /// <summary>
     /// At most one of these can be specified: Unsets the public access prevention setting on a bucket.
     /// </summary>
-    [CliFlag("--clear-pap")]
+    [CliFlag("--clear-pap", ShortForm = "--clear-public-access-prevention")]
     public bool? ClearPap { get; set; }
 
     /// <summary>

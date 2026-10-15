@@ -42,13 +42,13 @@ public record GcloudDataflowJobsUpdateOptionsOptions : GcloudOptions, IValidatab
     /// <summary>
     /// Maximum worker count when schedule is active.
     /// </summary>
-    [CliOption("--autoscaling-max-num-workers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autoscaling-max-num-workers", ShortForm = "--autoscaling-max-workers", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMaxNumWorkers { get; set; }
 
     /// <summary>
     /// Minimum worker count when schedule is active.
     /// </summary>
-    [CliOption("--autoscaling-min-num-workers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autoscaling-min-num-workers", ShortForm = "--autoscaling-min-workers", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMinNumWorkers { get; set; }
 
     /// <summary>

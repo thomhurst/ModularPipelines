@@ -47,77 +47,77 @@ public class GcloudContainer : IGcloudContainer
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud ai sub-commands.
+    /// gcloud container ai sub-commands.
     /// </summary>
     public GcloudContainerAi Ai => _ai ??= new GcloudContainerAi(_command);
 
     /// <summary>
-    /// gcloud attached sub-commands.
+    /// gcloud container attached sub-commands.
     /// </summary>
     public GcloudContainerAttached Attached => _attached ??= new GcloudContainerAttached(_command);
 
     /// <summary>
-    /// gcloud aws sub-commands.
+    /// gcloud container aws sub-commands.
     /// </summary>
     public GcloudContainerAws Aws => _aws ??= new GcloudContainerAws(_command);
 
     /// <summary>
-    /// gcloud azure sub-commands.
+    /// gcloud container azure sub-commands.
     /// </summary>
     public GcloudContainerAzure Azure => _azure ??= new GcloudContainerAzure(_command);
 
     /// <summary>
-    /// gcloud bare-metal sub-commands.
+    /// gcloud container bare-metal sub-commands.
     /// </summary>
     public GcloudContainerBareMetal BareMetal => _bareMetal ??= new GcloudContainerBareMetal(_command);
 
     /// <summary>
-    /// gcloud binauthz sub-commands.
+    /// gcloud container binauthz sub-commands.
     /// </summary>
     public GcloudContainerBinauthz Binauthz => _binauthz ??= new GcloudContainerBinauthz(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud container clusters sub-commands.
     /// </summary>
     public GcloudContainerClusters Clusters => _clusters ??= new GcloudContainerClusters(_command);
 
     /// <summary>
-    /// gcloud fleet sub-commands.
+    /// gcloud container fleet sub-commands.
     /// </summary>
     public GcloudContainerFleet Fleet => _fleet ??= new GcloudContainerFleet(_command);
 
     /// <summary>
-    /// gcloud hub sub-commands.
+    /// gcloud container hub sub-commands.
     /// </summary>
     public GcloudContainerHub Hub => _hub ??= new GcloudContainerHub(_command);
 
     /// <summary>
-    /// gcloud images sub-commands.
+    /// gcloud container images sub-commands.
     /// </summary>
     public GcloudContainerImages Images => _images ??= new GcloudContainerImages(_command);
 
     /// <summary>
-    /// gcloud node-pools sub-commands.
+    /// gcloud container node-pools sub-commands.
     /// </summary>
     public GcloudContainerNodePools NodePools => _nodePools ??= new GcloudContainerNodePools(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud container operations sub-commands.
     /// </summary>
     public GcloudContainerOperations Operations => _operations ??= new GcloudContainerOperations(_command);
 
     /// <summary>
-    /// gcloud subnets sub-commands.
+    /// gcloud container subnets sub-commands.
     /// </summary>
     public GcloudContainerSubnets Subnets => _subnets ??= new GcloudContainerSubnets(_command);
 
     /// <summary>
-    /// gcloud vmware sub-commands.
+    /// gcloud container vmware sub-commands.
     /// </summary>
     public GcloudContainerVmware Vmware => _vmware ??= new GcloudContainerVmware(_command);
 
     /// <summary>
-    /// gcloud workload sub-commands.
+    /// gcloud container workload sub-commands.
     /// </summary>
     public GcloudContainerWorkload Workload => _workload ??= new GcloudContainerWorkload(_command);
 

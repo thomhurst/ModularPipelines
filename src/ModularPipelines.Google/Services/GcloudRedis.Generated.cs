@@ -38,32 +38,32 @@ public class GcloudRedis : IGcloudRedis
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud acl-policies sub-commands.
+    /// gcloud redis acl-policies sub-commands.
     /// </summary>
     public GcloudRedisAclPolicies AclPolicies => _aclPolicies ??= new GcloudRedisAclPolicies(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud redis clusters sub-commands.
     /// </summary>
     public GcloudRedisClusters Clusters => _clusters ??= new GcloudRedisClusters(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud redis instances sub-commands.
     /// </summary>
     public GcloudRedisInstances Instances => _instances ??= new GcloudRedisInstances(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud redis operations sub-commands.
     /// </summary>
     public GcloudRedisOperations Operations => _operations ??= new GcloudRedisOperations(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud redis regions sub-commands.
     /// </summary>
     public GcloudRedisRegions Regions => _regions ??= new GcloudRedisRegions(_command);
 
     /// <summary>
-    /// gcloud zones sub-commands.
+    /// gcloud redis zones sub-commands.
     /// </summary>
     public GcloudRedisZones Zones => _zones ??= new GcloudRedisZones(_command);
 

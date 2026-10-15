@@ -43,57 +43,57 @@ public class GcloudSql : IGcloudSql
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud sql backups sub-commands.
     /// </summary>
     public GcloudSqlBackups Backups => _backups ??= new GcloudSqlBackups(_command);
 
     /// <summary>
-    /// gcloud databases sub-commands.
+    /// gcloud sql databases sub-commands.
     /// </summary>
     public GcloudSqlDatabases Databases => _databases ??= new GcloudSqlDatabases(_command);
 
     /// <summary>
-    /// gcloud export sub-commands.
+    /// gcloud sql export sub-commands.
     /// </summary>
     public GcloudSqlExport Export => _export ??= new GcloudSqlExport(_command);
 
     /// <summary>
-    /// gcloud flags sub-commands.
+    /// gcloud sql flags sub-commands.
     /// </summary>
     public GcloudSqlFlags Flags => _flags ??= new GcloudSqlFlags(_command);
 
     /// <summary>
-    /// gcloud import sub-commands.
+    /// gcloud sql import sub-commands.
     /// </summary>
     public GcloudSqlImport Import => _import ??= new GcloudSqlImport(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud sql instances sub-commands.
     /// </summary>
     public GcloudSqlInstances Instances => _instances ??= new GcloudSqlInstances(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud sql operations sub-commands.
     /// </summary>
     public GcloudSqlOperations Operations => _operations ??= new GcloudSqlOperations(_command);
 
     /// <summary>
-    /// gcloud ssl sub-commands.
+    /// gcloud sql ssl sub-commands.
     /// </summary>
     public GcloudSqlSsl Ssl => _ssl ??= new GcloudSqlSsl(_command);
 
     /// <summary>
-    /// gcloud ssl-certs sub-commands.
+    /// gcloud sql ssl-certs sub-commands.
     /// </summary>
     public GcloudSqlSslCerts SslCerts => _sslCerts ??= new GcloudSqlSslCerts(_command);
 
     /// <summary>
-    /// gcloud tiers sub-commands.
+    /// gcloud sql tiers sub-commands.
     /// </summary>
     public GcloudSqlTiers Tiers => _tiers ??= new GcloudSqlTiers(_command);
 
     /// <summary>
-    /// gcloud users sub-commands.
+    /// gcloud sql users sub-commands.
     /// </summary>
     public GcloudSqlUsers Users => _users ??= new GcloudSqlUsers(_command);
 

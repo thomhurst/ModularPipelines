@@ -22,39 +22,39 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudApphub
 {
     /// <summary>
-    /// gcloud applications sub-commands.
+    /// gcloud apphub applications sub-commands.
     /// </summary>
-    GcloudApphubApplications Applications => throw new System.NotSupportedException();
+    GcloudApphubApplications Applications { get; }
 
     /// <summary>
-    /// gcloud boundary sub-commands.
+    /// gcloud apphub boundary sub-commands.
     /// </summary>
-    GcloudApphubBoundary Boundary => throw new System.NotSupportedException();
+    GcloudApphubBoundary Boundary { get; }
 
     /// <summary>
-    /// gcloud discovered-services sub-commands.
+    /// gcloud apphub discovered-services sub-commands.
     /// </summary>
-    GcloudApphubDiscoveredServices DiscoveredServices => throw new System.NotSupportedException();
+    GcloudApphubDiscoveredServices DiscoveredServices { get; }
 
     /// <summary>
-    /// gcloud discovered-workloads sub-commands.
+    /// gcloud apphub discovered-workloads sub-commands.
     /// </summary>
-    GcloudApphubDiscoveredWorkloads DiscoveredWorkloads => throw new System.NotSupportedException();
+    GcloudApphubDiscoveredWorkloads DiscoveredWorkloads { get; }
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud apphub locations sub-commands.
     /// </summary>
-    GcloudApphubLocations Locations => throw new System.NotSupportedException();
+    GcloudApphubLocations Locations { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud apphub operations sub-commands.
     /// </summary>
-    GcloudApphubOperations Operations => throw new System.NotSupportedException();
+    GcloudApphubOperations Operations { get; }
 
     /// <summary>
-    /// gcloud service-projects sub-commands.
+    /// gcloud apphub service-projects sub-commands.
     /// </summary>
-    GcloudApphubServiceProjects ServiceProjects => throw new System.NotSupportedException();
+    GcloudApphubServiceProjects ServiceProjects { get; }
 
     /// <summary>
     /// manage App Hub resources
@@ -63,7 +63,6 @@ public interface IGcloudApphub
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudApphubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudApphubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

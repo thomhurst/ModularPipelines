@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudDatastore
 {
     /// <summary>
-    /// gcloud indexes sub-commands.
+    /// gcloud datastore indexes sub-commands.
     /// </summary>
-    GcloudDatastoreIndexes Indexes => throw new System.NotSupportedException();
+    GcloudDatastoreIndexes Indexes { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud datastore operations sub-commands.
     /// </summary>
-    GcloudDatastoreOperations Operations => throw new System.NotSupportedException();
+    GcloudDatastoreOperations Operations { get; }
 
     /// <summary>
     /// manage your Cloud Datastore resources
@@ -38,8 +38,7 @@ public interface IGcloudDatastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudDatastoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudDatastoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// export Cloud Datastore entities to Google Cloud     Storage
@@ -48,8 +47,7 @@ public interface IGcloudDatastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportAsync(GcloudDatastoreExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportAsync(GcloudDatastoreExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// import Cloud Datastore entities from Google Cloud     Storage
@@ -58,7 +56,6 @@ public interface IGcloudDatastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportAsync(GcloudDatastoreImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportAsync(GcloudDatastoreImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

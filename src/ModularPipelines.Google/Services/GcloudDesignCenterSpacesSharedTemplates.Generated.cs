@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud shared-templates commands.
+/// gcloud design-center spaces shared-templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDesignCenterSpacesSharedTemplates
@@ -33,7 +33,7 @@ public class GcloudDesignCenterSpacesSharedTemplates
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud revisions sub-commands.
+    /// gcloud design-center spaces shared-templates revisions sub-commands.
     /// </summary>
     public GcloudDesignCenterSpacesSharedTemplatesRevisions Revisions => _revisions ??= new GcloudDesignCenterSpacesSharedTemplatesRevisions(_command);
 

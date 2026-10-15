@@ -38,7 +38,11 @@ public record GcloudAssetAnalyzeIamPolicyLongrunningOptions : GcloudOptions, IVa
     /// Exactly one of these must be specified: Project ID or number on which to perform the analysis. Only policies defined at or below this project will be targeted in the analysis.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// The destination path for writing IAM policy analysis results. Exactly one of these must be specified: Google Cloud Storage URI where the results will be written. URI must start with "gs://". For example, "gs://bucket_name/object_name".

@@ -40,7 +40,7 @@ public record GcloudPreviewComputeUrlMapsImportOptions : GcloudOptions, IValidat
     }
 
     /// <summary>
-    /// Path to a YAML file containing configuration export data. Alternatively, you may omit this flag to read from standard input. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/UrlMap.yaml. Note: $CLOUDSDKROOT represents the Google Cloud CLI's installation directory.
+    /// Path to a YAML file containing configuration export data. Alternatively, you may omit this flag to read from standard input. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/preview/UrlMap.yaml. Note: $CLOUDSDKROOT represents the Google Cloud CLI's installation directory.
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

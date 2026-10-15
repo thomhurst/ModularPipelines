@@ -579,7 +579,7 @@ public record GcloudContainerClustersCreateOptions : GcloudOptions, IValidatable
     /// <summary>
     /// The type of machine to use for nodes. Defaults to e2-medium. The list of predefined machine types is available using the following command: $ gcloud compute machine-types list You can also specify custom machine types by providing a string with the format "custom-CPUS-RAM" where "CPUS" is the number of virtual CPUs and "RAM" is the amount of RAM in MiB. For example, to create a node pool using custom machines with 2 vCPUs and 12 GB of RAM: $ gcloud container clusters create high-mem-pool \ --machine-type=custom-2-12288
     /// </summary>
-    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--machine-type", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
     public string? MachineType { get; set; }
 
     /// <summary>
@@ -625,7 +625,7 @@ public record GcloudContainerClustersCreateOptions : GcloudOptions, IValidatable
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Same as --metadata except that the value for the entry will be read from a local file. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// Same as --metadata except that the value for the entry will be read from a local file. A value can be read from standard input by specifying ``-'' as the file path. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFromFile { get; set; }
@@ -1325,7 +1325,7 @@ public record GcloudContainerClustersCreateOptions : GcloudOptions, IValidatable
     /// <summary>
     /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zone", ShortForm = "-z", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
@@ -1386,7 +1386,7 @@ public record GcloudContainerClustersCreateOptions : GcloudOptions, IValidatable
     /// <summary>
     /// Options to specify the username. At most one of these can be specified: The user name to use for basic auth for the cluster. Use --password to specify a password; if not, the server will randomly generate one.
     /// </summary>
-    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--username", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
     /// <summary>
@@ -1412,6 +1412,27 @@ public record GcloudContainerClustersCreateOptions : GcloudOptions, IValidatable
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz API key secret, for example, projects/my-project/secrets/my-api-key/versions/1 or projects/my-project/secrets/my-api-key/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-api-key-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorApiKeySecretUri { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz proxy configuration, for example, projects/my-project/secrets/my-proxy-secret/versions/1 or projects/my-project/secrets/my-proxy-secret/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-proxy-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorProxySecretUri { get; set; }
+
+    /// <summary>
+    /// Flags for Wiz Sensor configuration: The Secret Manager URI for the Wiz registry secret, for example, projects/my-project/secrets/my-registry-secret/versions/1 or projects/my-project/secrets/my-registry-secret/versions/latest. Requires the Wiz Sensor and Secret Sync addons to be enabled.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--wiz-sensor-registry-secret-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? WizSensorRegistrySecretUri { get; set; }
 
     /// <summary>
     /// The name of the cluster to create. The name may contain only lowercase alphanumerics and '-', must start with a letter and end with an alphanumeric, and must be no longer than 40 characters.

@@ -72,7 +72,11 @@ public record GcloudAuditManagerEnrollmentsAddOptions : GcloudOptions, IValidata
     /// Exactly one of these must be specified: Project Id to enroll
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

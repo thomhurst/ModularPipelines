@@ -35,17 +35,17 @@ public class GcloudMemcache : IGcloudMemcache
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud memcache instances sub-commands.
     /// </summary>
     public GcloudMemcacheInstances Instances => _instances ??= new GcloudMemcacheInstances(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud memcache operations sub-commands.
     /// </summary>
     public GcloudMemcacheOperations Operations => _operations ??= new GcloudMemcacheOperations(_command);
 
     /// <summary>
-    /// gcloud regions sub-commands.
+    /// gcloud memcache regions sub-commands.
     /// </summary>
     public GcloudMemcacheRegions Regions => _regions ??= new GcloudMemcacheRegions(_command);
 

@@ -43,57 +43,57 @@ public class GcloudVmware : IGcloudVmware
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud announcements sub-commands.
+    /// gcloud vmware announcements sub-commands.
     /// </summary>
     public GcloudVmwareAnnouncements Announcements => _announcements ??= new GcloudVmwareAnnouncements(_command);
 
     /// <summary>
-    /// gcloud datastores sub-commands.
+    /// gcloud vmware datastores sub-commands.
     /// </summary>
     public GcloudVmwareDatastores Datastores => _datastores ??= new GcloudVmwareDatastores(_command);
 
     /// <summary>
-    /// gcloud dns-bind-permission sub-commands.
+    /// gcloud vmware dns-bind-permission sub-commands.
     /// </summary>
     public GcloudVmwareDnsBindPermission DnsBindPermission => _dnsBindPermission ??= new GcloudVmwareDnsBindPermission(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud vmware locations sub-commands.
     /// </summary>
     public GcloudVmwareLocations Locations => _locations ??= new GcloudVmwareLocations(_command);
 
     /// <summary>
-    /// gcloud network-peerings sub-commands.
+    /// gcloud vmware network-peerings sub-commands.
     /// </summary>
     public GcloudVmwareNetworkPeerings NetworkPeerings => _networkPeerings ??= new GcloudVmwareNetworkPeerings(_command);
 
     /// <summary>
-    /// gcloud network-policies sub-commands.
+    /// gcloud vmware network-policies sub-commands.
     /// </summary>
     public GcloudVmwareNetworkPolicies NetworkPolicies => _networkPolicies ??= new GcloudVmwareNetworkPolicies(_command);
 
     /// <summary>
-    /// gcloud networks sub-commands.
+    /// gcloud vmware networks sub-commands.
     /// </summary>
     public GcloudVmwareNetworks Networks => _networks ??= new GcloudVmwareNetworks(_command);
 
     /// <summary>
-    /// gcloud node-types sub-commands.
+    /// gcloud vmware node-types sub-commands.
     /// </summary>
     public GcloudVmwareNodeTypes NodeTypes => _nodeTypes ??= new GcloudVmwareNodeTypes(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud vmware operations sub-commands.
     /// </summary>
     public GcloudVmwareOperations Operations => _operations ??= new GcloudVmwareOperations(_command);
 
     /// <summary>
-    /// gcloud private-clouds sub-commands.
+    /// gcloud vmware private-clouds sub-commands.
     /// </summary>
     public GcloudVmwarePrivateClouds PrivateClouds => _privateClouds ??= new GcloudVmwarePrivateClouds(_command);
 
     /// <summary>
-    /// gcloud private-connections sub-commands.
+    /// gcloud vmware private-connections sub-commands.
     /// </summary>
     public GcloudVmwarePrivateConnections PrivateConnections => _privateConnections ??= new GcloudVmwarePrivateConnections(_command);
 

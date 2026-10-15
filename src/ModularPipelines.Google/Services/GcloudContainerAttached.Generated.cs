@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud attached commands.
+/// gcloud container attached commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerAttached
@@ -34,12 +34,12 @@ public class GcloudContainerAttached
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud container attached clusters sub-commands.
     /// </summary>
     public GcloudContainerAttachedClusters Clusters => _clusters ??= new GcloudContainerAttachedClusters(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud container attached operations sub-commands.
     /// </summary>
     public GcloudContainerAttachedOperations Operations => _operations ??= new GcloudContainerAttachedOperations(_command);
 

@@ -33,7 +33,7 @@ public class GcloudSupport : IGcloudSupport
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud support-event-subscriptions sub-commands.
+    /// gcloud support support-event-subscriptions sub-commands.
     /// </summary>
     public GcloudSupportSupportEventSubscriptions SupportEventSubscriptions => _supportEventSubscriptions ??= new GcloudSupportSupportEventSubscriptions(_command);
 

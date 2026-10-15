@@ -22,54 +22,54 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudStorage
 {
     /// <summary>
-    /// gcloud batch-operations sub-commands.
+    /// gcloud storage batch-operations sub-commands.
     /// </summary>
-    GcloudStorageBatchOperations BatchOperations => throw new System.NotSupportedException();
+    GcloudStorageBatchOperations BatchOperations { get; }
 
     /// <summary>
-    /// gcloud buckets sub-commands.
+    /// gcloud storage buckets sub-commands.
     /// </summary>
-    GcloudStorageBuckets Buckets => throw new System.NotSupportedException();
+    GcloudStorageBuckets Buckets { get; }
 
     /// <summary>
-    /// gcloud folders sub-commands.
+    /// gcloud storage folders sub-commands.
     /// </summary>
-    GcloudStorageFolders Folders => throw new System.NotSupportedException();
+    GcloudStorageFolders Folders { get; }
 
     /// <summary>
-    /// gcloud hmac sub-commands.
+    /// gcloud storage hmac sub-commands.
     /// </summary>
-    GcloudStorageHmac Hmac => throw new System.NotSupportedException();
+    GcloudStorageHmac Hmac { get; }
 
     /// <summary>
-    /// gcloud insights sub-commands.
+    /// gcloud storage insights sub-commands.
     /// </summary>
-    GcloudStorageInsights Insights => throw new System.NotSupportedException();
+    GcloudStorageInsights Insights { get; }
 
     /// <summary>
-    /// gcloud intelligence-configs sub-commands.
+    /// gcloud storage intelligence-configs sub-commands.
     /// </summary>
-    GcloudStorageIntelligenceConfigs IntelligenceConfigs => throw new System.NotSupportedException();
+    GcloudStorageIntelligenceConfigs IntelligenceConfigs { get; }
 
     /// <summary>
-    /// gcloud intelligence-findings sub-commands.
+    /// gcloud storage intelligence-findings sub-commands.
     /// </summary>
-    GcloudStorageIntelligenceFindings IntelligenceFindings => throw new System.NotSupportedException();
+    GcloudStorageIntelligenceFindings IntelligenceFindings { get; }
 
     /// <summary>
-    /// gcloud managed-folders sub-commands.
+    /// gcloud storage managed-folders sub-commands.
     /// </summary>
-    GcloudStorageManagedFolders ManagedFolders => throw new System.NotSupportedException();
+    GcloudStorageManagedFolders ManagedFolders { get; }
 
     /// <summary>
-    /// gcloud objects sub-commands.
+    /// gcloud storage objects sub-commands.
     /// </summary>
-    GcloudStorageObjects Objects => throw new System.NotSupportedException();
+    GcloudStorageObjects Objects { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud storage operations sub-commands.
     /// </summary>
-    GcloudStorageOperations Operations => throw new System.NotSupportedException();
+    GcloudStorageOperations Operations { get; }
 
     /// <summary>
     /// create and manage Cloud Storage buckets and objects
@@ -78,8 +78,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudStorageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudStorageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// outputs the contents of one or more URLs to stdout
@@ -88,8 +87,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CatAsync(GcloudStorageCatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CatAsync(GcloudStorageCatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// upload, download, and copy Cloud Storage objects
@@ -98,8 +96,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CpAsync(GcloudStorageCpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CpAsync(GcloudStorageCpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// diagnose Google Cloud Storage
@@ -108,8 +105,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DiagnoseAsync(GcloudStorageDiagnoseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DiagnoseAsync(GcloudStorageDiagnoseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// displays the amount of space in bytes used by storage     resources
@@ -118,8 +114,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DuAsync(GcloudStorageDuOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DuAsync(GcloudStorageDuOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// calculates hashes on local or cloud files
@@ -128,8 +123,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HashAsync(GcloudStorageHashOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HashAsync(GcloudStorageHashOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list Cloud Storage buckets and objects
@@ -138,8 +132,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LsAsync(GcloudStorageLsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LsAsync(GcloudStorageLsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// moves or renames objects
@@ -148,8 +141,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MvAsync(GcloudStorageMvOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MvAsync(GcloudStorageMvOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// deleted objects
@@ -158,8 +150,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreAsync(GcloudStorageRestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreAsync(GcloudStorageRestoreOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// delete objects and buckets
@@ -168,8 +159,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RmAsync(GcloudStorageRmOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RmAsync(GcloudStorageRmOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// synchronize content of two buckets/directories
@@ -178,8 +168,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RsyncAsync(GcloudStorageRsyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RsyncAsync(GcloudStorageRsyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// manage a project's Cloud Storage service     agent, which is used to perform Cloud KMS operations
@@ -188,8 +177,7 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ServiceAgentAsync(GcloudStorageServiceAgentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ServiceAgentAsync(GcloudStorageServiceAgentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// generate a URL with embedded authentication that     can be used by anyone
@@ -198,7 +186,6 @@ public interface IGcloudStorage
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SignUrlAsync(GcloudStorageSignUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SignUrlAsync(GcloudStorageSignUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

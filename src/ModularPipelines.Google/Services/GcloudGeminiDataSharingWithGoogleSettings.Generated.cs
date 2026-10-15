@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud data-sharing-with-google-settings commands.
+/// gcloud gemini data-sharing-with-google-settings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudGeminiDataSharingWithGoogleSettings
@@ -33,7 +33,7 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud setting-bindings sub-commands.
+    /// gcloud gemini data-sharing-with-google-settings setting-bindings sub-commands.
     /// </summary>
     public GcloudGeminiDataSharingWithGoogleSettingsSettingBindings SettingBindings => _settingBindings ??= new GcloudGeminiDataSharingWithGoogleSettingsSettingBindings(_command);
 

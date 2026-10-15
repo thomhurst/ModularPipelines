@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud resource-policies commands.
+/// gcloud compute resource-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudComputeResourcePolicies
@@ -34,12 +34,12 @@ public class GcloudComputeResourcePolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud create sub-commands.
+    /// gcloud compute resource-policies create sub-commands.
     /// </summary>
     public GcloudComputeResourcePoliciesCreate Create => _create ??= new GcloudComputeResourcePoliciesCreate(_command);
 
     /// <summary>
-    /// gcloud update sub-commands.
+    /// gcloud compute resource-policies update sub-commands.
     /// </summary>
     public GcloudComputeResourcePoliciesUpdate Update => _update ??= new GcloudComputeResourcePoliciesUpdate(_command);
 

@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudMigration
 {
     /// <summary>
-    /// gcloud vms sub-commands.
+    /// gcloud migration vms sub-commands.
     /// </summary>
-    GcloudMigrationVms Vms => throw new System.NotSupportedException();
+    GcloudMigrationVms Vms { get; }
 
     /// <summary>
     /// the root group for various Cloud Migration teams
@@ -33,7 +33,6 @@ public interface IGcloudMigration
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudMigrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudMigrationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

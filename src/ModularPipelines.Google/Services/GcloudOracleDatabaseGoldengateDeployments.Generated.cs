@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud goldengate-deployments commands.
+/// gcloud oracle-database goldengate-deployments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudOracleDatabaseGoldengateDeployments
@@ -130,6 +130,21 @@ public class GcloudOracleDatabaseGoldengateDeployments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopAsync(
         GcloudOracleDatabaseGoldengateDeploymentsStopOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// update labels of a     GoldengateDeployment
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        GcloudOracleDatabaseGoldengateDeploymentsUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

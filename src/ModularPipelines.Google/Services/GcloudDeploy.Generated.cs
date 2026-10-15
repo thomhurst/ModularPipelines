@@ -41,47 +41,47 @@ public class GcloudDeploy : IGcloudDeploy
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud automation-runs sub-commands.
+    /// gcloud deploy automation-runs sub-commands.
     /// </summary>
     public GcloudDeployAutomationRuns AutomationRuns => _automationRuns ??= new GcloudDeployAutomationRuns(_command);
 
     /// <summary>
-    /// gcloud automations sub-commands.
+    /// gcloud deploy automations sub-commands.
     /// </summary>
     public GcloudDeployAutomations Automations => _automations ??= new GcloudDeployAutomations(_command);
 
     /// <summary>
-    /// gcloud custom-target-types sub-commands.
+    /// gcloud deploy custom-target-types sub-commands.
     /// </summary>
     public GcloudDeployCustomTargetTypes CustomTargetTypes => _customTargetTypes ??= new GcloudDeployCustomTargetTypes(_command);
 
     /// <summary>
-    /// gcloud delivery-pipelines sub-commands.
+    /// gcloud deploy delivery-pipelines sub-commands.
     /// </summary>
     public GcloudDeployDeliveryPipelines DeliveryPipelines => _deliveryPipelines ??= new GcloudDeployDeliveryPipelines(_command);
 
     /// <summary>
-    /// gcloud deploy-policies sub-commands.
+    /// gcloud deploy deploy-policies sub-commands.
     /// </summary>
     public GcloudDeployDeployPolicies DeployPolicies => _deployPolicies ??= new GcloudDeployDeployPolicies(_command);
 
     /// <summary>
-    /// gcloud job-runs sub-commands.
+    /// gcloud deploy job-runs sub-commands.
     /// </summary>
     public GcloudDeployJobRuns JobRuns => _jobRuns ??= new GcloudDeployJobRuns(_command);
 
     /// <summary>
-    /// gcloud releases sub-commands.
+    /// gcloud deploy releases sub-commands.
     /// </summary>
     public GcloudDeployReleases Releases => _releases ??= new GcloudDeployReleases(_command);
 
     /// <summary>
-    /// gcloud rollouts sub-commands.
+    /// gcloud deploy rollouts sub-commands.
     /// </summary>
     public GcloudDeployRollouts Rollouts => _rollouts ??= new GcloudDeployRollouts(_command);
 
     /// <summary>
-    /// gcloud targets sub-commands.
+    /// gcloud deploy targets sub-commands.
     /// </summary>
     public GcloudDeployTargets Targets => _targets ??= new GcloudDeployTargets(_command);
 

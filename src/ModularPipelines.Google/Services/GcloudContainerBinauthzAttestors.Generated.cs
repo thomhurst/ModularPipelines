@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud attestors commands.
+/// gcloud container binauthz attestors commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerBinauthzAttestors
@@ -33,7 +33,7 @@ public class GcloudContainerBinauthzAttestors
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud public-keys sub-commands.
+    /// gcloud container binauthz attestors public-keys sub-commands.
     /// </summary>
     public GcloudContainerBinauthzAttestorsPublicKeys PublicKeys => _publicKeys ??= new GcloudContainerBinauthzAttestorsPublicKeys(_command);
 

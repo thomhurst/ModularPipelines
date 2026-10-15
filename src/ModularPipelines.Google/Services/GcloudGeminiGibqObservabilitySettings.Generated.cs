@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud gibq-observability-settings commands.
+/// gcloud gemini gibq-observability-settings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudGeminiGibqObservabilitySettings
@@ -33,7 +33,7 @@ public class GcloudGeminiGibqObservabilitySettings
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud setting-bindings sub-commands.
+    /// gcloud gemini gibq-observability-settings setting-bindings sub-commands.
     /// </summary>
     public GcloudGeminiGibqObservabilitySettingsSettingBindings SettingBindings => _settingBindings ??= new GcloudGeminiGibqObservabilitySettingsSettingBindings(_command);
 

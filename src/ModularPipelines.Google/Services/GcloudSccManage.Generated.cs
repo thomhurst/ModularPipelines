@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud manage commands.
+/// gcloud scc manage commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudSccManage
@@ -34,12 +34,12 @@ public class GcloudSccManage
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud custom-modules sub-commands.
+    /// gcloud scc manage custom-modules sub-commands.
     /// </summary>
     public GcloudSccManageCustomModules CustomModules => _customModules ??= new GcloudSccManageCustomModules(_command);
 
     /// <summary>
-    /// gcloud services sub-commands.
+    /// gcloud scc manage services sub-commands.
     /// </summary>
     public GcloudSccManageServices Services => _services ??= new GcloudSccManageServices(_command);
 

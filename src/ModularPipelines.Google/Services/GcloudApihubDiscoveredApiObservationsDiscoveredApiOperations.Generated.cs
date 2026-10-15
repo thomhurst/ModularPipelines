@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud discovered-api-operations commands.
+/// gcloud apihub discovered-api-observations discovered-api-operations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudApihubDiscoveredApiObservationsDiscoveredApiOperations

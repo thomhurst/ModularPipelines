@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud mapping-rules commands.
+/// gcloud database-migration conversion-workspaces mapping-rules commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDatabaseMigrationConversionWorkspacesMappingRules

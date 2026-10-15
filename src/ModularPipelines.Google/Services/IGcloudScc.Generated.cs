@@ -22,74 +22,74 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudScc
 {
     /// <summary>
-    /// gcloud assets sub-commands.
+    /// gcloud scc assets sub-commands.
     /// </summary>
-    GcloudSccAssets Assets => throw new System.NotSupportedException();
+    GcloudSccAssets Assets { get; }
 
     /// <summary>
-    /// gcloud bqexports sub-commands.
+    /// gcloud scc bqexports sub-commands.
     /// </summary>
-    GcloudSccBqexports Bqexports => throw new System.NotSupportedException();
+    GcloudSccBqexports Bqexports { get; }
 
     /// <summary>
-    /// gcloud custom-modules sub-commands.
+    /// gcloud scc custom-modules sub-commands.
     /// </summary>
-    GcloudSccCustomModules CustomModules => throw new System.NotSupportedException();
+    GcloudSccCustomModules CustomModules { get; }
 
     /// <summary>
-    /// gcloud findings sub-commands.
+    /// gcloud scc findings sub-commands.
     /// </summary>
-    GcloudSccFindings Findings => throw new System.NotSupportedException();
+    GcloudSccFindings Findings { get; }
 
     /// <summary>
-    /// gcloud iac-validation-reports sub-commands.
+    /// gcloud scc iac-validation-reports sub-commands.
     /// </summary>
-    GcloudSccIacValidationReports IacValidationReports => throw new System.NotSupportedException();
+    GcloudSccIacValidationReports IacValidationReports { get; }
 
     /// <summary>
-    /// gcloud manage sub-commands.
+    /// gcloud scc manage sub-commands.
     /// </summary>
-    GcloudSccManage Manage => throw new System.NotSupportedException();
+    GcloudSccManage Manage { get; }
 
     /// <summary>
-    /// gcloud muteconfigs sub-commands.
+    /// gcloud scc muteconfigs sub-commands.
     /// </summary>
-    GcloudSccMuteconfigs Muteconfigs => throw new System.NotSupportedException();
+    GcloudSccMuteconfigs Muteconfigs { get; }
 
     /// <summary>
-    /// gcloud notifications sub-commands.
+    /// gcloud scc notifications sub-commands.
     /// </summary>
-    GcloudSccNotifications Notifications => throw new System.NotSupportedException();
+    GcloudSccNotifications Notifications { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud scc operations sub-commands.
     /// </summary>
-    GcloudSccOperations Operations => throw new System.NotSupportedException();
+    GcloudSccOperations Operations { get; }
 
     /// <summary>
-    /// gcloud posture-deployments sub-commands.
+    /// gcloud scc posture-deployments sub-commands.
     /// </summary>
-    GcloudSccPostureDeployments PostureDeployments => throw new System.NotSupportedException();
+    GcloudSccPostureDeployments PostureDeployments { get; }
 
     /// <summary>
-    /// gcloud posture-operations sub-commands.
+    /// gcloud scc posture-operations sub-commands.
     /// </summary>
-    GcloudSccPostureOperations PostureOperations => throw new System.NotSupportedException();
+    GcloudSccPostureOperations PostureOperations { get; }
 
     /// <summary>
-    /// gcloud postures sub-commands.
+    /// gcloud scc postures sub-commands.
     /// </summary>
-    GcloudSccPostures Postures => throw new System.NotSupportedException();
+    GcloudSccPostures Postures { get; }
 
     /// <summary>
-    /// gcloud posture-templates sub-commands.
+    /// gcloud scc posture-templates sub-commands.
     /// </summary>
-    GcloudSccPostureTemplates PostureTemplates => throw new System.NotSupportedException();
+    GcloudSccPostureTemplates PostureTemplates { get; }
 
     /// <summary>
-    /// gcloud sources sub-commands.
+    /// gcloud scc sources sub-commands.
     /// </summary>
-    GcloudSccSources Sources => throw new System.NotSupportedException();
+    GcloudSccSources Sources { get; }
 
     /// <summary>
     /// manage Cloud SCC resources
@@ -98,7 +98,6 @@ public interface IGcloudScc
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudSccOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudSccOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

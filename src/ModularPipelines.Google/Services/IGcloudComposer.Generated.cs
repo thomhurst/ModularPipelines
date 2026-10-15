@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudComposer
 {
     /// <summary>
-    /// gcloud environments sub-commands.
+    /// gcloud composer environments sub-commands.
     /// </summary>
-    GcloudComposerEnvironments Environments => throw new System.NotSupportedException();
+    GcloudComposerEnvironments Environments { get; }
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud composer operations sub-commands.
     /// </summary>
-    GcloudComposerOperations Operations => throw new System.NotSupportedException();
+    GcloudComposerOperations Operations { get; }
 
     /// <summary>
     /// create and manage Cloud Composer Environments
@@ -38,7 +38,6 @@ public interface IGcloudComposer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudComposerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudComposerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

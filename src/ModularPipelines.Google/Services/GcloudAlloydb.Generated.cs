@@ -37,27 +37,27 @@ public class GcloudAlloydb : IGcloudAlloydb
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud alloydb backups sub-commands.
     /// </summary>
     public GcloudAlloydbBackups Backups => _backups ??= new GcloudAlloydbBackups(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud alloydb clusters sub-commands.
     /// </summary>
     public GcloudAlloydbClusters Clusters => _clusters ??= new GcloudAlloydbClusters(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud alloydb instances sub-commands.
     /// </summary>
     public GcloudAlloydbInstances Instances => _instances ??= new GcloudAlloydbInstances(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud alloydb operations sub-commands.
     /// </summary>
     public GcloudAlloydbOperations Operations => _operations ??= new GcloudAlloydbOperations(_command);
 
     /// <summary>
-    /// gcloud users sub-commands.
+    /// gcloud alloydb users sub-commands.
     /// </summary>
     public GcloudAlloydbUsers Users => _users ??= new GcloudAlloydbUsers(_command);
 

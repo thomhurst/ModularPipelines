@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud auth-tokens commands.
+/// gcloud memorystore instances token-auth-users auth-tokens commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMemorystoreInstancesTokenAuthUsersAuthTokens

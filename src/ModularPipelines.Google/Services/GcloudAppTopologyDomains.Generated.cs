@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud domains commands.
+/// gcloud app-topology domains commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudAppTopologyDomains
@@ -33,7 +33,7 @@ public class GcloudAppTopologyDomains
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud schema sub-commands.
+    /// gcloud app-topology domains schema sub-commands.
     /// </summary>
     public GcloudAppTopologyDomainsSchema Schema => _schema ??= new GcloudAppTopologyDomainsSchema(_command);
 

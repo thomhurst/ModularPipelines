@@ -33,7 +33,7 @@ public class GcloudIds : IGcloudIds
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud endpoints sub-commands.
+    /// gcloud ids endpoints sub-commands.
     /// </summary>
     public GcloudIdsEndpoints Endpoints => _endpoints ??= new GcloudIdsEndpoints(_command);
 

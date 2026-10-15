@@ -38,7 +38,11 @@ public record GcloudQuotasAdjusterSettingsDescribeOptions : GcloudOptions, IVali
     /// Exactly one of these must be specified: Project of the container id.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

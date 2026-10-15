@@ -34,12 +34,12 @@ public class GcloudComposer : IGcloudComposer
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud environments sub-commands.
+    /// gcloud composer environments sub-commands.
     /// </summary>
     public GcloudComposerEnvironments Environments => _environments ??= new GcloudComposerEnvironments(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud composer operations sub-commands.
     /// </summary>
     public GcloudComposerOperations Operations => _operations ??= new GcloudComposerOperations(_command);
 

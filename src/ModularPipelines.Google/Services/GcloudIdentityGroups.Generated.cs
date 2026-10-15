@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud groups commands.
+/// gcloud identity groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIdentityGroups
@@ -33,7 +33,7 @@ public class GcloudIdentityGroups
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud memberships sub-commands.
+    /// gcloud identity groups memberships sub-commands.
     /// </summary>
     public GcloudIdentityGroupsMemberships Memberships => _memberships ??= new GcloudIdentityGroupsMemberships(_command);
 

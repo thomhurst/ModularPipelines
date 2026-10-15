@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud indexes commands.
+/// gcloud firestore indexes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFirestoreIndexes
@@ -34,12 +34,12 @@ public class GcloudFirestoreIndexes
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud composite sub-commands.
+    /// gcloud firestore indexes composite sub-commands.
     /// </summary>
     public GcloudFirestoreIndexesComposite Composite => _composite ??= new GcloudFirestoreIndexesComposite(_command);
 
     /// <summary>
-    /// gcloud fields sub-commands.
+    /// gcloud firestore indexes fields sub-commands.
     /// </summary>
     public GcloudFirestoreIndexesFields Fields => _fields ??= new GcloudFirestoreIndexesFields(_command);
 

@@ -37,27 +37,27 @@ public class GcloudMemorystore : IGcloudMemorystore
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud acl-policies sub-commands.
+    /// gcloud memorystore acl-policies sub-commands.
     /// </summary>
     public GcloudMemorystoreAclPolicies AclPolicies => _aclPolicies ??= new GcloudMemorystoreAclPolicies(_command);
 
     /// <summary>
-    /// gcloud backup-collections sub-commands.
+    /// gcloud memorystore backup-collections sub-commands.
     /// </summary>
     public GcloudMemorystoreBackupCollections BackupCollections => _backupCollections ??= new GcloudMemorystoreBackupCollections(_command);
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud memorystore instances sub-commands.
     /// </summary>
     public GcloudMemorystoreInstances Instances => _instances ??= new GcloudMemorystoreInstances(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud memorystore locations sub-commands.
     /// </summary>
     public GcloudMemorystoreLocations Locations => _locations ??= new GcloudMemorystoreLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud memorystore operations sub-commands.
     /// </summary>
     public GcloudMemorystoreOperations Operations => _operations ??= new GcloudMemorystoreOperations(_command);
 

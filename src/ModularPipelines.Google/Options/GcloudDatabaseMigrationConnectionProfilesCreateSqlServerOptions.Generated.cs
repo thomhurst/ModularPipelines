@@ -85,7 +85,7 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions : 
     public GcloudDatabaseMigrationConnectionProfilesCreateSqlServerRole? Role { get; set; }
 
     /// <summary>
-    /// Comma-separated list of SSL flags used for establishing SSL connection to the database. Use an equals sign to separate the flag name and value. Example: --ssl-flags ssl_mode=enable,server_certificate_hostname=server.com. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// List of SSL flags used for establishing SSL connection to the database. Use an equals sign to separate the flag name and value. By default, flags are separated by commas. Example: --ssl-flags ssl_mode=enable,server_certificate_hostname=server.com. If flag values contain commas (such as RFC 2253 distinguished names for server_certificate_dn), use an alternative delimiter with the ^DELIM^ prefix syntax. Example: --ssl-flags="^;^server_certificate_dn=CN=db.example.com,OU=RDS,O=Amazon.com,C=US". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--ssl-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SslFlags { get; set; }
@@ -131,6 +131,12 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions : 
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The Database Mirroring (DBM) port.
+    /// </summary>
+    [CliOption("--dbm-port", Format = OptionFormat.EqualsSeparated)]
+    public string? DbmPort { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
@@ -222,19 +228,19 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions : 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (((!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port)) ? 1 : 0) > 1)
+        if (((!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port) || !string.IsNullOrWhiteSpace(DbmPort)) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of (GcsBucket, GcsPrefix, or Provider) or (Host or Port) may be specified.", [nameof(GcsBucket), nameof(GcsPrefix), nameof(Provider), nameof(Host), nameof(Port)]);
+            yield return new ValidationResult("At most one of (GcsBucket, GcsPrefix, or Provider) or (Host, Port, or DbmPort) may be specified.", [nameof(GcsBucket), nameof(GcsPrefix), nameof(Provider), nameof(Host), nameof(Port), nameof(DbmPort)]);
         }
-        if ((!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null || !string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port)) && (!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null) && (!(!string.IsNullOrWhiteSpace(GcsBucket))))
+        if ((!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null || !string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port) || !string.IsNullOrWhiteSpace(DbmPort)) && (!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null) && (!(!string.IsNullOrWhiteSpace(GcsBucket))))
         {
             yield return new ValidationResult("GcsBucket must be specified when other arguments in this group are specified.", [nameof(GcsBucket)]);
         }
-        if ((!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null || !string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port)) && (!string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port)) && (!(!string.IsNullOrWhiteSpace(Host))))
+        if ((!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null || !string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port) || !string.IsNullOrWhiteSpace(DbmPort)) && (!string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port) || !string.IsNullOrWhiteSpace(DbmPort)) && (!(!string.IsNullOrWhiteSpace(Host))))
         {
             yield return new ValidationResult("Host must be specified when other arguments in this group are specified.", [nameof(Host)]);
         }
-        if ((!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null || !string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port)) && (!string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port)) && (!(!string.IsNullOrWhiteSpace(Port))))
+        if ((!string.IsNullOrWhiteSpace(GcsBucket) || !string.IsNullOrWhiteSpace(GcsPrefix) || (object?)Provider is not null || !string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port) || !string.IsNullOrWhiteSpace(DbmPort)) && (!string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Port) || !string.IsNullOrWhiteSpace(DbmPort)) && (!(!string.IsNullOrWhiteSpace(Port))))
         {
             yield return new ValidationResult("Port must be specified when other arguments in this group are specified.", [nameof(Port)]);
         }

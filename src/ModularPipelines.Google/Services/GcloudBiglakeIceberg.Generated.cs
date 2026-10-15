@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud iceberg commands.
+/// gcloud biglake iceberg commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBiglakeIceberg
@@ -35,17 +35,17 @@ public class GcloudBiglakeIceberg
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud catalogs sub-commands.
+    /// gcloud biglake iceberg catalogs sub-commands.
     /// </summary>
     public GcloudBiglakeIcebergCatalogs Catalogs => _catalogs ??= new GcloudBiglakeIcebergCatalogs(_command);
 
     /// <summary>
-    /// gcloud namespaces sub-commands.
+    /// gcloud biglake iceberg namespaces sub-commands.
     /// </summary>
     public GcloudBiglakeIcebergNamespaces Namespaces => _namespaces ??= new GcloudBiglakeIcebergNamespaces(_command);
 
     /// <summary>
-    /// gcloud tables sub-commands.
+    /// gcloud biglake iceberg tables sub-commands.
     /// </summary>
     public GcloudBiglakeIcebergTables Tables => _tables ??= new GcloudBiglakeIcebergTables(_command);
 

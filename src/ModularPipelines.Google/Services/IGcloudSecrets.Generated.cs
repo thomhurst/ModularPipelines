@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudSecrets
 {
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud secrets locations sub-commands.
     /// </summary>
-    GcloudSecretsLocations Locations => throw new System.NotSupportedException();
+    GcloudSecretsLocations Locations { get; }
 
     /// <summary>
-    /// gcloud replication sub-commands.
+    /// gcloud secrets replication sub-commands.
     /// </summary>
-    GcloudSecretsReplication Replication => throw new System.NotSupportedException();
+    GcloudSecretsReplication Replication { get; }
 
     /// <summary>
-    /// gcloud versions sub-commands.
+    /// gcloud secrets versions sub-commands.
     /// </summary>
-    GcloudSecretsVersions Versions => throw new System.NotSupportedException();
+    GcloudSecretsVersions Versions { get; }
 
     /// <summary>
     /// manage secrets on Google Cloud
@@ -43,8 +43,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudSecretsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudSecretsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// add IAM policy binding to a secret
@@ -53,8 +52,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddIamPolicyBindingAsync(GcloudSecretsAddIamPolicyBindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddIamPolicyBindingAsync(GcloudSecretsAddIamPolicyBindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// create a new secret
@@ -63,8 +61,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAsync(GcloudSecretsCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAsync(GcloudSecretsCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// delete a secret
@@ -73,8 +70,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAsync(GcloudSecretsDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAsync(GcloudSecretsDeleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// describe a secret's metadata
@@ -83,8 +79,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAsync(GcloudSecretsDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAsync(GcloudSecretsDescribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// enable managed rotation for a     secret
@@ -93,8 +88,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableManagedRotationAsync(GcloudSecretsEnableManagedRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableManagedRotationAsync(GcloudSecretsEnableManagedRotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// get the IAM policy for the secret
@@ -103,8 +97,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIamPolicyAsync(GcloudSecretsGetIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIamPolicyAsync(GcloudSecretsGetIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// list all secret names
@@ -113,8 +106,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsync(GcloudSecretsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsync(GcloudSecretsListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// remove IAM policy binding for a     secret
@@ -123,8 +115,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveIamPolicyBindingAsync(GcloudSecretsRemoveIamPolicyBindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveIamPolicyBindingAsync(GcloudSecretsRemoveIamPolicyBindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// rotate a secret
@@ -133,8 +124,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RotateSecretAsync(GcloudSecretsRotateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RotateSecretAsync(GcloudSecretsRotateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// set the IAM policy binding for a secret
@@ -143,8 +133,7 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SetIamPolicyAsync(GcloudSecretsSetIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SetIamPolicyAsync(GcloudSecretsSetIamPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// update a secret's metadata
@@ -153,7 +142,6 @@ public interface IGcloudSecrets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(GcloudSecretsUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(GcloudSecretsUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

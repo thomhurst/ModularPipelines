@@ -43,13 +43,13 @@ public record GcloudAppLogsReadOptions : GcloudOptions
     /// <summary>
     /// Limit to specific service.
     /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--service", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
     /// <summary>
     /// Limit to specific version.
     /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--version", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
 }

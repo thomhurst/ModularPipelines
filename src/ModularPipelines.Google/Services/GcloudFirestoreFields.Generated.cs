@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud fields commands.
+/// gcloud firestore fields commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudFirestoreFields
@@ -33,7 +33,7 @@ public class GcloudFirestoreFields
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud ttls sub-commands.
+    /// gcloud firestore fields ttls sub-commands.
     /// </summary>
     public GcloudFirestoreFieldsTtls Ttls => _ttls ??= new GcloudFirestoreFieldsTtls(_command);
 

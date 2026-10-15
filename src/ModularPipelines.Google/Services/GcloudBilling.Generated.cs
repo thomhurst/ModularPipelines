@@ -35,17 +35,17 @@ public class GcloudBilling : IGcloudBilling
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud accounts sub-commands.
+    /// gcloud billing accounts sub-commands.
     /// </summary>
     public GcloudBillingAccounts Accounts => _accounts ??= new GcloudBillingAccounts(_command);
 
     /// <summary>
-    /// gcloud budgets sub-commands.
+    /// gcloud billing budgets sub-commands.
     /// </summary>
     public GcloudBillingBudgets Budgets => _budgets ??= new GcloudBillingBudgets(_command);
 
     /// <summary>
-    /// gcloud projects sub-commands.
+    /// gcloud billing projects sub-commands.
     /// </summary>
     public GcloudBillingProjects Projects => _projects ??= new GcloudBillingProjects(_command);
 

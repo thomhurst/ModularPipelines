@@ -33,7 +33,7 @@ public class GcloudWorkflows : IGcloudWorkflows
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud executions sub-commands.
+    /// gcloud workflows executions sub-commands.
     /// </summary>
     public GcloudWorkflowsExecutions Executions => _executions ??= new GcloudWorkflowsExecutions(_command);
 

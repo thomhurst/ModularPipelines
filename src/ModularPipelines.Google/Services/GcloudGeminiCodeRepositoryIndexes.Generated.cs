@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud code-repository-indexes commands.
+/// gcloud gemini code-repository-indexes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudGeminiCodeRepositoryIndexes
@@ -33,7 +33,7 @@ public class GcloudGeminiCodeRepositoryIndexes
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud repository-groups sub-commands.
+    /// gcloud gemini code-repository-indexes repository-groups sub-commands.
     /// </summary>
     public GcloudGeminiCodeRepositoryIndexesRepositoryGroups RepositoryGroups => _repositoryGroups ??= new GcloudGeminiCodeRepositoryIndexesRepositoryGroups(_command);
 

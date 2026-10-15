@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud workload-identity commands.
+/// gcloud container hub workload-identity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerHubWorkloadIdentity
@@ -33,7 +33,7 @@ public class GcloudContainerHubWorkloadIdentity
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud scope-tenancy-pool sub-commands.
+    /// gcloud container hub workload-identity scope-tenancy-pool sub-commands.
     /// </summary>
     public GcloudContainerHubWorkloadIdentityScopeTenancyPool ScopeTenancyPool => _scopeTenancyPool ??= new GcloudContainerHubWorkloadIdentityScopeTenancyPool(_command);
 

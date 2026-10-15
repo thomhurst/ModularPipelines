@@ -55,7 +55,11 @@ public record GcloudSccCustomModulesShaGetOptions : GcloudOptions, IValidatableO
     /// At most one of these can be specified: ID or number of the project from which to get the custom module details. Formatted as projects/789 or just 789.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public string? Project { get; set; }
+    public new string? Project
+    {
+        get => base.Project;
+        set => base.Project = value;
+    }
 
     /// <summary>
     /// ID or the full resource name of the Security Health Analytics custom module. If you specify the full resource name, you do not need to specify the --organization, --folder, or --project flags.

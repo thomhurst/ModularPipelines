@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud instances commands.
+/// gcloud memorystore instances commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMemorystoreInstances
@@ -33,7 +33,7 @@ public class GcloudMemorystoreInstances
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud token-auth-users sub-commands.
+    /// gcloud memorystore instances token-auth-users sub-commands.
     /// </summary>
     public GcloudMemorystoreInstancesTokenAuthUsers TokenAuthUsers => _tokenAuthUsers ??= new GcloudMemorystoreInstancesTokenAuthUsers(_command);
 

@@ -22,24 +22,24 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudRecommender
 {
     /// <summary>
-    /// gcloud insights sub-commands.
+    /// gcloud recommender insights sub-commands.
     /// </summary>
-    GcloudRecommenderInsights Insights => throw new System.NotSupportedException();
+    GcloudRecommenderInsights Insights { get; }
 
     /// <summary>
-    /// gcloud insight-type-config sub-commands.
+    /// gcloud recommender insight-type-config sub-commands.
     /// </summary>
-    GcloudRecommenderInsightTypeConfig InsightTypeConfig => throw new System.NotSupportedException();
+    GcloudRecommenderInsightTypeConfig InsightTypeConfig { get; }
 
     /// <summary>
-    /// gcloud recommendations sub-commands.
+    /// gcloud recommender recommendations sub-commands.
     /// </summary>
-    GcloudRecommenderRecommendations Recommendations => throw new System.NotSupportedException();
+    GcloudRecommenderRecommendations Recommendations { get; }
 
     /// <summary>
-    /// gcloud recommender-config sub-commands.
+    /// gcloud recommender recommender-config sub-commands.
     /// </summary>
-    GcloudRecommenderRecommenderConfig RecommenderConfig => throw new System.NotSupportedException();
+    GcloudRecommenderRecommenderConfig RecommenderConfig { get; }
 
     /// <summary>
     /// manage Cloud recommendations and recommendation rules
@@ -48,7 +48,6 @@ public interface IGcloudRecommender
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudRecommenderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudRecommenderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

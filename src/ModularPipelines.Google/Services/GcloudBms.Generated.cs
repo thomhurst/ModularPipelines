@@ -39,37 +39,37 @@ public class GcloudBms : IGcloudBms
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud instances sub-commands.
+    /// gcloud bms instances sub-commands.
     /// </summary>
     public GcloudBmsInstances Instances => _instances ??= new GcloudBmsInstances(_command);
 
     /// <summary>
-    /// gcloud networks sub-commands.
+    /// gcloud bms networks sub-commands.
     /// </summary>
     public GcloudBmsNetworks Networks => _networks ??= new GcloudBmsNetworks(_command);
 
     /// <summary>
-    /// gcloud nfs-shares sub-commands.
+    /// gcloud bms nfs-shares sub-commands.
     /// </summary>
     public GcloudBmsNfsShares NfsShares => _nfsShares ??= new GcloudBmsNfsShares(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud bms operations sub-commands.
     /// </summary>
     public GcloudBmsOperations Operations => _operations ??= new GcloudBmsOperations(_command);
 
     /// <summary>
-    /// gcloud os-images sub-commands.
+    /// gcloud bms os-images sub-commands.
     /// </summary>
     public GcloudBmsOsImages OsImages => _osImages ??= new GcloudBmsOsImages(_command);
 
     /// <summary>
-    /// gcloud ssh-keys sub-commands.
+    /// gcloud bms ssh-keys sub-commands.
     /// </summary>
     public GcloudBmsSshKeys SshKeys => _sshKeys ??= new GcloudBmsSshKeys(_command);
 
     /// <summary>
-    /// gcloud volumes sub-commands.
+    /// gcloud bms volumes sub-commands.
     /// </summary>
     public GcloudBmsVolumes Volumes => _volumes ??= new GcloudBmsVolumes(_command);
 

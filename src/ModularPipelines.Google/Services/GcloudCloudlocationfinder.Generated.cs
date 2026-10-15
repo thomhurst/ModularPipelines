@@ -33,7 +33,7 @@ public class GcloudCloudlocationfinder : IGcloudCloudlocationfinder
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud cloud-locations sub-commands.
+    /// gcloud cloudlocationfinder cloud-locations sub-commands.
     /// </summary>
     public GcloudCloudlocationfinderCloudLocations CloudLocations => _cloudLocations ??= new GcloudCloudlocationfinderCloudLocations(_command);
 

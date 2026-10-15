@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud lakes commands.
+/// gcloud dataplex lakes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudDataplexLakes
@@ -33,7 +33,7 @@ public class GcloudDataplexLakes
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud actions sub-commands.
+    /// gcloud dataplex lakes actions sub-commands.
     /// </summary>
     public GcloudDataplexLakesActions Actions => _actions ??= new GcloudDataplexLakesActions(_command);
 

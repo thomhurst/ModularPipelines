@@ -13,7 +13,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud agentidentity commands.
+/// gcloud agent-identity commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudAgentIdentity
 {
     /// <summary>
-    /// gcloud access-summaries sub-commands.
+    /// gcloud agent-identity access-summaries sub-commands.
     /// </summary>
-    GcloudAgentIdentityAccessSummaries AccessSummaries => throw new System.NotSupportedException();
+    GcloudAgentIdentityAccessSummaries AccessSummaries { get; }
 
     /// <summary>
-    /// gcloud auth-providers sub-commands.
+    /// gcloud agent-identity auth-providers sub-commands.
     /// </summary>
-    GcloudAgentIdentityAuthProviders AuthProviders => throw new System.NotSupportedException();
+    GcloudAgentIdentityAuthProviders AuthProviders { get; }
 
     /// <summary>
     /// manage Agent Identity resources
@@ -38,7 +38,6 @@ public interface IGcloudAgentIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAgentIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAgentIdentityOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

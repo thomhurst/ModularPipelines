@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud azure commands.
+/// gcloud container azure commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudContainerAzure
@@ -36,22 +36,22 @@ public class GcloudContainerAzure
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud clients sub-commands.
+    /// gcloud container azure clients sub-commands.
     /// </summary>
     public GcloudContainerAzureClients Clients => _clients ??= new GcloudContainerAzureClients(_command);
 
     /// <summary>
-    /// gcloud clusters sub-commands.
+    /// gcloud container azure clusters sub-commands.
     /// </summary>
     public GcloudContainerAzureClusters Clusters => _clusters ??= new GcloudContainerAzureClusters(_command);
 
     /// <summary>
-    /// gcloud node-pools sub-commands.
+    /// gcloud container azure node-pools sub-commands.
     /// </summary>
     public GcloudContainerAzureNodePools NodePools => _nodePools ??= new GcloudContainerAzureNodePools(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud container azure operations sub-commands.
     /// </summary>
     public GcloudContainerAzureOperations Operations => _operations ??= new GcloudContainerAzureOperations(_command);
 

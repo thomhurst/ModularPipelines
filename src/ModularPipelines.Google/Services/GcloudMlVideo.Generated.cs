@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud video commands.
+/// gcloud ml video commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMlVideo
@@ -33,7 +33,7 @@ public class GcloudMlVideo
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud ml video operations sub-commands.
     /// </summary>
     public GcloudMlVideoOperations Operations => _operations ??= new GcloudMlVideoOperations(_command);
 

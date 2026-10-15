@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud tcp commands.
+/// gcloud iap tcp commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudIapTcp
@@ -33,7 +33,7 @@ public class GcloudIapTcp
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud dest-groups sub-commands.
+    /// gcloud iap tcp dest-groups sub-commands.
     /// </summary>
     public GcloudIapTcpDestGroups DestGroups => _destGroups ??= new GcloudIapTcpDestGroups(_command);
 

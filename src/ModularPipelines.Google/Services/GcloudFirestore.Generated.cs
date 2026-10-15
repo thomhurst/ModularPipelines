@@ -21,6 +21,7 @@ public class GcloudFirestore : IGcloudFirestore
 {
     private readonly ICommandContext _command;
     private GcloudFirestoreBackups? _backups;
+    private GcloudFirestoreChangeStreams? _changeStreams;
     private GcloudFirestoreDatabases? _databases;
     private GcloudFirestoreFields? _fields;
     private GcloudFirestoreIndexes? _indexes;
@@ -39,37 +40,42 @@ public class GcloudFirestore : IGcloudFirestore
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud backups sub-commands.
+    /// gcloud firestore backups sub-commands.
     /// </summary>
     public GcloudFirestoreBackups Backups => _backups ??= new GcloudFirestoreBackups(_command);
 
     /// <summary>
-    /// gcloud databases sub-commands.
+    /// gcloud firestore change-streams sub-commands.
+    /// </summary>
+    public GcloudFirestoreChangeStreams ChangeStreams => _changeStreams ??= new GcloudFirestoreChangeStreams(_command);
+
+    /// <summary>
+    /// gcloud firestore databases sub-commands.
     /// </summary>
     public GcloudFirestoreDatabases Databases => _databases ??= new GcloudFirestoreDatabases(_command);
 
     /// <summary>
-    /// gcloud fields sub-commands.
+    /// gcloud firestore fields sub-commands.
     /// </summary>
     public GcloudFirestoreFields Fields => _fields ??= new GcloudFirestoreFields(_command);
 
     /// <summary>
-    /// gcloud indexes sub-commands.
+    /// gcloud firestore indexes sub-commands.
     /// </summary>
     public GcloudFirestoreIndexes Indexes => _indexes ??= new GcloudFirestoreIndexes(_command);
 
     /// <summary>
-    /// gcloud locations sub-commands.
+    /// gcloud firestore locations sub-commands.
     /// </summary>
     public GcloudFirestoreLocations Locations => _locations ??= new GcloudFirestoreLocations(_command);
 
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud firestore operations sub-commands.
     /// </summary>
     public GcloudFirestoreOperations Operations => _operations ??= new GcloudFirestoreOperations(_command);
 
     /// <summary>
-    /// gcloud user-creds sub-commands.
+    /// gcloud firestore user-creds sub-commands.
     /// </summary>
     public GcloudFirestoreUserCreds UserCreds => _userCreds ??= new GcloudFirestoreUserCreds(_command);
 

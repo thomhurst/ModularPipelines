@@ -22,19 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudAssured
 {
     /// <summary>
-    /// gcloud operations sub-commands.
+    /// gcloud assured operations sub-commands.
     /// </summary>
-    GcloudAssuredOperations Operations => throw new System.NotSupportedException();
+    GcloudAssuredOperations Operations { get; }
 
     /// <summary>
-    /// gcloud v2 sub-commands.
+    /// gcloud assured workloads sub-commands.
     /// </summary>
-    GcloudAssuredV2 V2 => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// gcloud workloads sub-commands.
-    /// </summary>
-    GcloudAssuredWorkloads Workloads => throw new System.NotSupportedException();
+    GcloudAssuredWorkloads Workloads { get; }
 
     /// <summary>
     /// read and manipulate Assured Workloads data controls
@@ -43,7 +38,6 @@ public interface IGcloudAssured
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudAssuredOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(GcloudAssuredOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

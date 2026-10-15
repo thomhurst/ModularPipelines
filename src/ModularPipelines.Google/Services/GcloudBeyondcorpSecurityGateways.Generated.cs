@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud security-gateways commands.
+/// gcloud beyondcorp security-gateways commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudBeyondcorpSecurityGateways
@@ -33,7 +33,7 @@ public class GcloudBeyondcorpSecurityGateways
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud applications sub-commands.
+    /// gcloud beyondcorp security-gateways applications sub-commands.
     /// </summary>
     public GcloudBeyondcorpSecurityGatewaysApplications Applications => _applications ??= new GcloudBeyondcorpSecurityGatewaysApplications(_command);
 

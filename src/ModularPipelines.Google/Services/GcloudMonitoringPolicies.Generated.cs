@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud policies commands.
+/// gcloud monitoring policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GcloudMonitoringPolicies
@@ -33,7 +33,7 @@ public class GcloudMonitoringPolicies
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud conditions sub-commands.
+    /// gcloud monitoring policies conditions sub-commands.
     /// </summary>
     public GcloudMonitoringPoliciesConditions Conditions => _conditions ??= new GcloudMonitoringPoliciesConditions(_command);
 
