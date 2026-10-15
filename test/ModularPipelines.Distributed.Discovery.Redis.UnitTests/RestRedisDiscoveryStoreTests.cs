@@ -50,7 +50,10 @@ public class RestRedisDiscoveryStoreTests
     }
 
     [Test]
-    public async Task SetAsync_Sends_Authenticated_Command_With_Ttl()
+    [Arguments("https://master.example")]
+    [Arguments("""{"AccessToken":"master-secret/+?&#% 雪","Endpoint":"https://master.example"}""")]
+    [Arguments("")]
+    public async Task SetAsync_Sends_Value_In_Body_With_Authentication_And_Ttl(string value)
     {
         HttpRequestMessage? capturedRequest = null;
         var handler = new StubHttpMessageHandler(request =>
@@ -59,16 +62,17 @@ public class RestRedisDiscoveryStoreTests
             return JsonResponse("{\"result\":\"OK\"}");
         });
         using var store = new RestRedisDiscoveryStore(
-            new Uri("https://redis.example/"),
+            new Uri("https://redis.example/base%20path/"),
             "secret-token",
             handler);
 
-        await store.SetAsync("test:key", "https://master.example", TimeSpan.FromSeconds(60), CancellationToken.None);
+        await store.SetAsync("test:key", value, TimeSpan.FromSeconds(60), CancellationToken.None);
 
         await Assert.That(capturedRequest).IsNotNull();
         await Assert.That(capturedRequest!.Method).IsEqualTo(HttpMethod.Post);
         await Assert.That(capturedRequest.RequestUri!.AbsoluteUri)
-            .IsEqualTo("https://redis.example/set/test%3Akey/https%3A%2F%2Fmaster.example/ex/60");
+            .IsEqualTo("https://redis.example/base%20path/set/test%3Akey?EX=60");
+        await Assert.That(handler.RequestBody).IsEqualTo(value);
         await Assert.That(capturedRequest.Headers.Authorization)
             .IsEqualTo(new AuthenticationHeaderValue("Bearer", "secret-token"));
     }
@@ -126,11 +130,14 @@ public class RestRedisDiscoveryStoreTests
     private sealed class StubHttpMessageHandler(
         Func<HttpRequestMessage, HttpResponseMessage> responseFactory) : HttpMessageHandler
     {
-        protected override Task<HttpResponseMessage> SendAsync(
+        public string? RequestBody { get; private set; }
+
+        protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult(responseFactory(request));
+            RequestBody = request.Content is null ? null : await request.Content.ReadAsStringAsync(cancellationToken);
+            return responseFactory(request);
         }
     }
 }

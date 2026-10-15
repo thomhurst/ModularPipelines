@@ -32,8 +32,11 @@ internal sealed class RestRedisDiscoveryStore : IRedisDiscoveryStore, IDisposabl
         TimeSpan ttl,
         CancellationToken cancellationToken)
     {
-        var path = $"set/{Encode(key)}/{Encode(value)}/ex/{(long) ttl.TotalSeconds}";
-        using var request = new HttpRequestMessage(HttpMethod.Post, path);
+        var path = $"set/{Encode(key)}?EX={(long) ttl.TotalSeconds}";
+        using var request = new HttpRequestMessage(HttpMethod.Post, path)
+        {
+            Content = new StringContent(value),
+        };
         using var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
     }
