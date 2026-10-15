@@ -30,24 +30,17 @@ namespace ModularPipelines.Http;
 /// logger.LogInformation(formatted);
 /// </code>
 /// </example>
-internal class HttpRequestFormatter : IHttpRequestFormatter
+internal class HttpRequestFormatter(
+    ISecretObfuscator secretObfuscator,
+    ISecretProvider secretProvider,
+    IOptions<SecretMaskingOptions> secretMaskingOptions) : IHttpRequestFormatter
 {
-    private readonly ISecretObfuscator _secretObfuscator;
-    private readonly ISecretProvider _secretProvider;
-    private readonly IOptions<SecretMaskingOptions> _secretMaskingOptions;
-
-    public HttpRequestFormatter(
-        ISecretObfuscator secretObfuscator,
-        ISecretProvider secretProvider,
-        IOptions<SecretMaskingOptions> secretMaskingOptions)
-    {
-        _secretObfuscator = secretObfuscator;
-        _secretProvider = secretProvider;
-        _secretMaskingOptions = secretMaskingOptions;
-    }
-
-    private static readonly HashSet<string> TextMediaTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
+    private readonly ISecretProvider _secretProvider = secretProvider;
+    private readonly IOptions<SecretMaskingOptions> _secretMaskingOptions = secretMaskingOptions;
+    private static readonly HashSet<string> TextMediaTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "application/json",
         "application/xml",
         "application/x-www-form-urlencoded",
@@ -57,7 +50,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         "text/css",
         "text/javascript",
         "application/javascript",
-    };
+    ];
 
     public Task<string> FormatAsync(HttpRequestMessage request, CancellationToken cancellationToken = default)
     {
@@ -68,7 +61,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
     {
         var sb = new StringBuilder();
 
-        sb.AppendLine($"{request.Method} {request.RequestUri} HTTP/{request.Version}");
+        sb.AppendLine($"{request.Method} {HttpUriRedactor.Redact(request.RequestUri, options)} HTTP/{request.Version}");
         sb.AppendLine();
 
         if (options.ShowRequestHeaders)
@@ -99,7 +92,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         }
 
         var contentHeadersArray = contentHeaders as IEnumerable<KeyValuePair<string, IEnumerable<string>>>
-                                  ?? Array.Empty<KeyValuePair<string, IEnumerable<string>>>();
+                                  ?? [];
 
         foreach (var (key, values) in contentHeadersArray)
         {

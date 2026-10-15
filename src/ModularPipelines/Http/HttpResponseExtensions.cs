@@ -1,4 +1,5 @@
 using ModularPipelines.Exceptions;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
 
@@ -16,8 +17,19 @@ internal static class HttpResponseExtensions
     /// <param name="cancellationToken">Cancellation token for reading response content.</param>
     /// <returns>The original response if successful.</returns>
     /// <exception cref="PipelineHttpResponseException">Thrown when the response status code indicates failure.</exception>
+    public static Task<HttpResponseMessage> EnsureSuccessStatusCodeWithContentAsync(
+        this HttpResponseMessage response,
+        CancellationToken cancellationToken = default)
+    {
+        return response.EnsureSuccessStatusCodeWithContentAsync(HttpLoggingOptions.Default, cancellationToken);
+    }
+
+    /// <summary>
+    /// Ensures success, applying the logging options to URI redaction in the failure message.
+    /// </summary>
     public static async Task<HttpResponseMessage> EnsureSuccessStatusCodeWithContentAsync(
         this HttpResponseMessage response,
+        HttpLoggingOptions? loggingOptions,
         CancellationToken cancellationToken = default)
     {
         if (response.IsSuccessStatusCode)
@@ -53,6 +65,8 @@ internal static class HttpResponseExtensions
             response.StatusCode,
             response.ReasonPhrase,
             responseContent,
-            response.RequestMessage?.RequestUri);
+            response.RequestMessage?.RequestUri,
+            null,
+            loggingOptions ?? HttpLoggingOptions.Default);
     }
 }

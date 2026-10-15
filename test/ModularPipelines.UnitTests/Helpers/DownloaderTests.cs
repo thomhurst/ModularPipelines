@@ -1,4 +1,5 @@
 using System.Net;
+using ModularPipelines.Constants;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
@@ -340,26 +341,94 @@ public class DownloaderTests : TestBase
         await Assert.That(content.IsDisposed).IsTrue();
     }
 
+    [Test]
+    public async Task DownloadFileAsync_Redacts_Uri_In_Structured_Log()
+    {
+        var logger = new Mock<IModuleLogger>();
+        logger.Setup(x => x.IsEnabled(It.IsAny<Microsoft.Extensions.Logging.LogLevel>())).Returns(true);
+        var fileSystem = new Mock<IFileSystemProvider>();
+        fileSystem.Setup(x => x.GetRandomFileName()).Returns("random.tmp");
+        fileSystem.Setup(x => x.Create(It.IsAny<string>())).Returns(() => new MemoryStream());
+        var downloader = CreateDownloader(new StringContent("download"), fileSystem.Object, logger: logger.Object);
+        var uri = new Uri("https://user:password@example.test/file?sig=signed-secret&api_key=custom-secret&keep=yes");
+
+        await downloader.DownloadFileAsync(new DownloadFileOptions(uri)
+        {
+            SavePath = "download.bin",
+            Logging = new HttpLoggingOptions
+            {
+                SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "api_key"],
+            },
+        });
+
+        var log = logger.Invocations.Single(x => x.Method.Name == "Log");
+        var state = (IEnumerable<KeyValuePair<string, object?>>) log.Arguments[2]!;
+        var displayedUri = state.Single(x => x.Key == "Uri").Value!.ToString()!;
+        await Assert.That(displayedUri).IsEqualTo($"https://{LoggingConstants.SecretMask}@example.test/file?sig={LoggingConstants.SecretMask}&api_key={LoggingConstants.SecretMask}&keep=yes");
+        await Assert.That(uri.UserInfo).IsEqualTo("user:password");
+    }
+
+    [Test]
+    public async Task DownloadResponseAsync_Redacts_Custom_Query_Names_In_Failure()
+    {
+        var downloader = CreateDownloader(new StringContent("failure"), statusCode: HttpStatusCode.BadRequest);
+        var uri = new Uri("https://example.test/file?api_key=custom-secret&sig=signed-secret");
+
+        var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => downloader.DownloadResponseAsync(new DownloadOptions(uri)
+        {
+            Logging = HttpLoggingOptions.Silent with
+            {
+                SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "api_key"],
+            },
+        }));
+
+        await Assert.That(exception!.Message).DoesNotContain("custom-secret");
+        await Assert.That(exception.Message).DoesNotContain("signed-secret");
+        await Assert.That(exception.RequestUri).IsSameReferenceAs(uri);
+    }
+
+    [Test]
+    [Arguments("https://example.test/file?sig=signed-secret")]
+    [Arguments("https://hooks.slack.com/services/team/channel/webhook-secret")]
+    public async Task DownloadFileAsync_Redacts_Uri_With_Default_Options(string url)
+    {
+        var logger = new Mock<IModuleLogger>();
+        logger.Setup(x => x.IsEnabled(It.IsAny<Microsoft.Extensions.Logging.LogLevel>())).Returns(true);
+        var fileSystem = new Mock<IFileSystemProvider>();
+        fileSystem.Setup(x => x.GetRandomFileName()).Returns("random.tmp");
+        fileSystem.Setup(x => x.Create(It.IsAny<string>())).Returns(() => new MemoryStream());
+        var downloader = CreateDownloader(new StringContent("download"), fileSystem.Object, logger: logger.Object);
+
+        await downloader.DownloadFileAsync(new DownloadFileOptions(new Uri(url)) { SavePath = "download.bin" });
+
+        var display = logger.Invocations.Single(x => x.Method.Name == "Log").Arguments[2]!.ToString()!;
+        await Assert.That(display).DoesNotContain("signed-secret");
+        await Assert.That(display).DoesNotContain("webhook-secret");
+        await Assert.That(display).Contains(LoggingConstants.SecretMask);
+    }
+
     private static Downloader CreateDownloader(
         HttpContent content,
         IFileSystemProvider? fileSystemProvider = null,
         HttpStatusCode statusCode = HttpStatusCode.OK,
         string? workingDirectory = null,
-        Action<HttpOptions>? observeOptions = null)
+        Action<HttpOptions>? observeOptions = null,
+        IModuleLogger? logger = null)
     {
         var http = new Mock<IHttpContext>();
         http.Setup(x => x.SendAsync(
                 It.IsAny<HttpOptions>(),
                 It.IsAny<CancellationToken>()))
             .Callback<HttpOptions, CancellationToken>((options, _) => observeOptions?.Invoke(options))
-            .ReturnsAsync(new HttpResponseMessage(statusCode)
+            .Returns((HttpOptions options, CancellationToken _) => Task.FromResult(new HttpResponseMessage(statusCode)
             {
                 Content = content,
-            });
+                RequestMessage = options.HttpRequestMessage,
+            }));
         var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
         moduleLoggerAccessor
             .Setup(x => x.Logger)
-            .Returns(Mock.Of<IModuleLogger>());
+            .Returns(logger ?? Mock.Of<IModuleLogger>());
 
         return new Downloader(
             moduleLoggerAccessor.Object,
