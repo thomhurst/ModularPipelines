@@ -23,52 +23,52 @@ public partial interface IArgoCd
     /// <summary>
     /// Gets the account sub-domain service.
     /// </summary>
-    IArgoCdAccount Account => throw new System.NotSupportedException();
+    IArgoCdAccount Account { get; }
 
     /// <summary>
     /// Gets the admin sub-domain service.
     /// </summary>
-    IArgoCdAdmin Admin => throw new System.NotSupportedException();
+    IArgoCdAdmin Admin { get; }
 
     /// <summary>
     /// Gets the app sub-domain service.
     /// </summary>
-    IArgoCdApp App => throw new System.NotSupportedException();
+    IArgoCdApp App { get; }
 
     /// <summary>
     /// Gets the applicationset sub-domain service.
     /// </summary>
-    IArgoCdApplicationSet ApplicationSet => throw new System.NotSupportedException();
+    IArgoCdApplicationSet ApplicationSet { get; }
 
     /// <summary>
     /// Gets the cert sub-domain service.
     /// </summary>
-    IArgoCdCert Cert => throw new System.NotSupportedException();
+    IArgoCdCert Cert { get; }
 
     /// <summary>
     /// Gets the cluster sub-domain service.
     /// </summary>
-    IArgoCdCluster Cluster => throw new System.NotSupportedException();
+    IArgoCdCluster Cluster { get; }
 
     /// <summary>
     /// Gets the gpg sub-domain service.
     /// </summary>
-    IArgoCdGpg Gpg => throw new System.NotSupportedException();
+    IArgoCdGpg Gpg { get; }
 
     /// <summary>
     /// Gets the proj sub-domain service.
     /// </summary>
-    IArgoCdProj Proj => throw new System.NotSupportedException();
+    IArgoCdProj Proj { get; }
 
     /// <summary>
     /// Gets the repo sub-domain service.
     /// </summary>
-    IArgoCdRepo Repo => throw new System.NotSupportedException();
+    IArgoCdRepo Repo { get; }
 
     /// <summary>
     /// Gets the repocreds sub-domain service.
     /// </summary>
-    IArgoCdRepocreds Repocreds => throw new System.NotSupportedException();
+    IArgoCdRepocreds Repocreds { get; }
 
     #endregion
 
@@ -81,8 +81,7 @@ public partial interface IArgoCd
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConfigureAsync(ArgoCdConfigureOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConfigureAsync(ArgoCdConfigureOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Switch between contexts
@@ -91,8 +90,7 @@ public partial interface IArgoCd
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ContextAsync(ArgoCdContextOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ContextAsync(ArgoCdContextOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Log in to Argo CD
@@ -101,8 +99,7 @@ public partial interface IArgoCd
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LoginAsync(ArgoCdLoginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LoginAsync(ArgoCdLoginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Log out from Argo CD
@@ -111,8 +108,7 @@ public partial interface IArgoCd
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LogoutAsync(ArgoCdLogoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LogoutAsync(ArgoCdLogoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Refresh an expired authenticate token
@@ -121,8 +117,7 @@ public partial interface IArgoCd
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReloginAsync(ArgoCdReloginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReloginAsync(ArgoCdReloginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Print version information
@@ -131,8 +126,7 @@ public partial interface IArgoCd
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VersionAsync(ArgoCdVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VersionAsync(ArgoCdVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
