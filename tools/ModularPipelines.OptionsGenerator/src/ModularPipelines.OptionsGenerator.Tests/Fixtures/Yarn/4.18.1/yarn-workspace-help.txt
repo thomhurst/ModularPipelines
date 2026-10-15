@@ -1,0 +1,17 @@
+Run a command within the specified workspace
+
+Usage
+
+$ yarn workspace <workspaceName> <commandName> ...
+
+Details
+
+This command will run a given sub-command on a single workspace.
+
+Examples
+
+Add a package to a single workspace
+  $ yarn workspace components add -D react
+
+Run build script on a single workspace
+  $ yarn workspace components run build

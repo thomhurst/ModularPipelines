@@ -377,12 +377,14 @@ public partial class YarnCliScraper(ICliCommandExecutor executor, IHelpTextCache
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> arguments)
     {
-        if (commandParts.Length != 1
-            || !commandParts[0].Equals("dlx", StringComparison.OrdinalIgnoreCase))
+        var commandName = string.Join(" ", commandParts);
+        if (!commandName.Equals("dlx", StringComparison.OrdinalIgnoreCase)
+            && !commandName.Equals("workspaces foreach", StringComparison.OrdinalIgnoreCase))
         {
             return arguments;
         }
 
+        // These commands forward all tokens after the operand to the child process.
         return [.. arguments.Select(argument => argument with
         {
             Phase = CommandLinePhase.Passthrough,
