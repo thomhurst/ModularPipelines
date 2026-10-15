@@ -471,7 +471,7 @@ public sealed class ModuleConfigurationBuilder
     #region WithRetry
 
     /// <summary>
-    /// Configures retries with exponential backoff and jitter.
+    /// Configures retries with exponential backoff and jitter. Cannot be combined with a custom shield.
     /// </summary>
     /// <param name="count">The number of retry attempts after the initial execution.</param>
     /// <param name="baseDelay">The first exponential-backoff ceiling. Defaults to 100 milliseconds.</param>
@@ -482,6 +482,7 @@ public sealed class ModuleConfigurationBuilder
     /// A null <paramref name="shouldRetry"/> retries every exception handled by the retry engine.
     /// A configured module timeout applies separately to each attempt and does not include these delays.
     /// </remarks>
+    /// <exception cref="InvalidOperationException">A custom shield is already configured with WithShield.</exception>
     public ModuleConfigurationBuilder WithRetry(
         int count,
         TimeSpan? baseDelay = null,
@@ -495,8 +496,12 @@ public sealed class ModuleConfigurationBuilder
             throw new ArgumentOutOfRangeException(nameof(baseDelay), baseDelay, "The retry base delay cannot be negative.");
         }
 
+        if (_resilienceShieldFactory is not null)
+        {
+            throw new InvalidOperationException("WithRetry cannot be combined with WithShield. Configure retries in the custom shield instead.");
+        }
+
         _retryConfiguration = new ModuleRetryConfiguration(count, retryBaseDelay, shouldRetry);
-        _resilienceShieldFactory = null;
         return this;
     }
 
@@ -505,10 +510,11 @@ public sealed class ModuleConfigurationBuilder
     #region WithShield
 
     /// <summary>
-    /// Sets a custom Kevlar shield for module execution.
+    /// Sets a custom Kevlar shield for module execution. Cannot be combined with WithRetry.
     /// </summary>
     /// <param name="shield">The Kevlar shield to execute around the module.</param>
     /// <returns>This builder instance for method chaining.</returns>
+    /// <exception cref="InvalidOperationException">Retries are already configured with WithRetry.</exception>
     public ModuleConfigurationBuilder WithShield(Shield shield)
     {
         ArgumentNullException.ThrowIfNull(shield);
@@ -516,10 +522,11 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
-    /// Sets a factory that creates a custom Kevlar shield from the module context.
+    /// Sets a factory that creates a custom Kevlar shield from the module context. Cannot be combined with WithRetry.
     /// </summary>
     /// <param name="factory">The shield factory.</param>
     /// <returns>This builder instance for method chaining.</returns>
+    /// <exception cref="InvalidOperationException">Retries are already configured with WithRetry.</exception>
     public ModuleConfigurationBuilder WithShield(Func<IModuleContext, Shield> factory)
     {
         ArgumentNullException.ThrowIfNull(factory);
@@ -634,8 +641,12 @@ public sealed class ModuleConfigurationBuilder
 
     private ModuleConfigurationBuilder SetResilienceShield(Func<IModuleContext, Shield> factory)
     {
+        if (_retryConfiguration is not null)
+        {
+            throw new InvalidOperationException("WithRetry cannot be combined with WithShield. Configure retries in the custom shield instead.");
+        }
+
         _resilienceShieldFactory = factory;
-        _retryConfiguration = null;
         return this;
     }
 

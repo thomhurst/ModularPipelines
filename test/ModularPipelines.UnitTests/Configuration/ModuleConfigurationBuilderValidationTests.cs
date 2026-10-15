@@ -1,3 +1,4 @@
+using Kevlar;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Configuration;
@@ -29,6 +30,70 @@ public class ModuleConfigurationBuilderValidationTests
 
         // Timeout.InfiniteTimeSpan disables the timeout and overrides the pipeline default.
         await Assert.That(configuration.Timeout).IsEqualTo(Timeout.InfiniteTimeSpan);
+    }
+
+    [Test]
+    [Arguments(false, 0)]
+    [Arguments(false, 3)]
+    [Arguments(true, 0)]
+    [Arguments(true, 3)]
+    public async Task WithRetry_Rejects_An_Existing_Shield_Without_Changing_Configuration(bool useFactory, int retryCount)
+    {
+        var shield = Shield.Retry(0);
+        var builder = new ModuleConfigurationBuilder();
+        if (useFactory)
+        {
+            builder.WithShield(_ => shield);
+        }
+        else
+        {
+            builder.WithShield(shield);
+        }
+
+        var originalFactory = builder.Build().ResilienceShieldFactory;
+
+        var exception = Assert.Throws<InvalidOperationException>(() => builder.WithRetry(retryCount));
+        var configuration = builder.Build();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception.Message).Contains("WithRetry cannot be combined with WithShield");
+            await Assert.That(configuration.ResilienceShieldFactory).IsSameReferenceAs(originalFactory);
+            await Assert.That(configuration.ResilienceShieldFactory!(Mock.Of<IModuleContext>())).IsSameReferenceAs(shield);
+            await Assert.That(configuration.RetryConfiguration).IsNull();
+        }
+    }
+
+    [Test]
+    [Arguments(false, 0)]
+    [Arguments(false, 3)]
+    [Arguments(true, 0)]
+    [Arguments(true, 3)]
+    public async Task WithShield_Rejects_Existing_Retries_Without_Changing_Configuration(bool useFactory, int retryCount)
+    {
+        var builder = new ModuleConfigurationBuilder().WithRetry(retryCount);
+        var originalRetry = builder.Build().RetryConfiguration;
+        var shield = Shield.Retry(0);
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+        {
+            if (useFactory)
+            {
+                builder.WithShield(_ => shield);
+            }
+            else
+            {
+                builder.WithShield(shield);
+            }
+        });
+        var configuration = builder.Build();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception.Message).Contains("WithRetry cannot be combined with WithShield");
+            await Assert.That(configuration.RetryConfiguration).IsSameReferenceAs(originalRetry);
+            await Assert.That(configuration.ResilienceShieldFactory).IsNull();
+        }
     }
 
     [Test]
