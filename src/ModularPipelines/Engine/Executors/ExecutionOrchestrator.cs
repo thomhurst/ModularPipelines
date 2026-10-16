@@ -46,8 +46,10 @@ internal class ExecutionOrchestrator(
     ISecondaryExceptionContainer secondaryExceptionContainer,
     DistributedRunCleanupExecutor? runCleanupExecutor = null,
     IExecutionBackend? executionBackend = null,
-    RerunFailedPlan? rerunFailedPlan = null) : IExecutionOrchestrator
+    RerunFailedPlan? rerunFailedPlan = null,
+    TimeSpan? endHandlerTimeout = null) : IExecutionOrchestrator
 {
+    private readonly TimeSpan _endHandlerTimeout = endHandlerTimeout ?? TimeSpan.FromSeconds(30);
     private readonly IPipelineInitializer _pipelineInitializer = pipelineInitializer;
     private readonly IPipelineExecutor _pipelineExecutor = pipelineExecutor;
     private readonly IPipelineOutputCoordinator _outputCoordinator = outputCoordinator;
@@ -241,10 +243,16 @@ internal class ExecutionOrchestrator(
     /// </summary>
     private async Task InvokePipelineEndHandlersAsync(PipelineSummary summary, bool executionFailed)
     {
-        var cancellationToken = _engineCancellationToken.NonFailureCancellationToken;
+        // Shutdown must leave cleanup time, while explicit pipeline cancellation still stops handlers.
+        using var timeoutSource = CancellationTokenSource.CreateLinkedTokenSource(
+            _engineCancellationToken.ExplicitCancellationToken);
+        timeoutSource.CancelAfter(_endHandlerTimeout);
+        var cancellationToken = timeoutSource.Token;
         try
         {
-            await _pipelineSetupExecutor.OnPipelineEndAsync(summary, cancellationToken).ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnPipelineEndAsync(summary, cancellationToken)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (executionFailed && cancellationToken.IsCancellationRequested)
         {

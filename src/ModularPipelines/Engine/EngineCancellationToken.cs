@@ -42,7 +42,7 @@ internal class EngineCancellationToken : IDisposable
 
     /// <summary>
     /// Gets a token canceled by explicit pipeline cancellation, but not failures or shutdown signals.
-    /// Report finalization uses this token so shutdown can still persist the run report.
+    /// End handlers and report finalization use this token so shutdown can still complete cleanup.
     /// </summary>
     public CancellationToken ExplicitCancellationToken => _explicitCancellationToken;
 

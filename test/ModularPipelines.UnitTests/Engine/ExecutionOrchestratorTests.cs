@@ -18,6 +18,88 @@ public class ExecutionOrchestratorTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
+    public async Task EndHandlers_ShutdownAllowsAsyncCleanup(bool executionFails)
+    {
+        using var engineCancellation = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var executionException = executionFails ? new InvalidOperationException("execution failed") : null;
+        var handlerCompleted = false;
+        var orchestrator = CreateEndHandlerOrchestrator(engineCancellation, async token =>
+        {
+            await Task.Delay(1, token);
+            handlerCompleted = true;
+        }, () => engineCancellation.RequestShutdown(), executionException);
+
+        if (executionFails)
+        {
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => orchestrator.ExecuteAsync());
+            await Assert.That(exception).IsSameReferenceAs(executionException);
+        }
+        else
+        {
+            await orchestrator.ExecuteAsync();
+        }
+
+        await Assert.That(engineCancellation.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
+        await Assert.That(handlerCompleted).IsTrue();
+    }
+
+    [Test]
+    public async Task EndHandlers_ExplicitCancellationStopsAsyncCleanup()
+    {
+        using var engineCancellation = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var handlerToken = CancellationToken.None;
+        var orchestrator = CreateEndHandlerOrchestrator(engineCancellation, async token =>
+        {
+            handlerToken = token;
+            engineCancellation.Cancel();
+            await Task.Delay(Timeout.InfiniteTimeSpan, token);
+        });
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => orchestrator.ExecuteAsync());
+
+        await Assert.That(handlerToken.IsCancellationRequested).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task EndHandlers_TimeoutBoundsCleanup(bool executionFails, bool honorsCancellation)
+    {
+        using var engineCancellation = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var executionException = executionFails ? new InvalidOperationException("execution failed") : null;
+        var handlerCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var handlerToken = CancellationToken.None;
+        var orchestrator = CreateEndHandlerOrchestrator(engineCancellation, token =>
+        {
+            handlerToken = token;
+            return honorsCancellation ? Task.Delay(Timeout.InfiniteTimeSpan, token) : handlerCompletion.Task;
+        }, () => engineCancellation.RequestShutdown(), executionException, TimeSpan.FromMilliseconds(50));
+
+        try
+        {
+            if (executionFails)
+            {
+                var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => orchestrator.ExecuteAsync());
+                await Assert.That(exception).IsSameReferenceAs(executionException);
+            }
+            else
+            {
+                await Assert.ThrowsAsync<OperationCanceledException>(() => orchestrator.ExecuteAsync());
+            }
+
+            await Assert.That(handlerToken.IsCancellationRequested).IsTrue();
+        }
+        finally
+        {
+            handlerCompletion.TrySetResult();
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
     public async Task EndHandlerCancellation_PreservesFirstFailure(bool executionFails)
     {
         var organizedModules = new OrganizedModules([], []);
@@ -532,6 +614,45 @@ public class ExecutionOrchestratorTests
             It.IsAny<DateTimeOffset>()), Times.Once);
         outputCoordinator.Verify(x => x.PrintResults(
             It.Is<PipelineSummary>(printedSummary => printedSummary.Status == ModuleStatus.Failed)), Times.Once);
+    }
+
+    private static ExecutionOrchestrator CreateEndHandlerOrchestrator(
+        PipelineEngineCancellationToken engineCancellation,
+        Func<CancellationToken, Task> onEnd,
+        Action? onExecute = null,
+        Exception? executionException = null,
+        TimeSpan? endHandlerTimeout = null)
+    {
+        var organizedModules = new OrganizedModules([], []);
+        var summary = new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow);
+        var initializer = new Mock<IPipelineInitializer>();
+        initializer.Setup(x => x.Initialize(It.IsAny<CancellationToken>())).ReturnsAsync(organizedModules);
+        var registrar = new Mock<IIgnoredModuleResultRegistrar>();
+        registrar.Setup(x => x.RegisterIgnoredModuleResultsAsync(organizedModules)).ReturnsAsync(organizedModules);
+        var executor = new Mock<IPipelineExecutor>();
+        executor.Setup(x => x.ExecuteAsync(It.IsAny<List<IModule>>(), organizedModules))
+            .Returns(() =>
+            {
+                onExecute?.Invoke();
+                return executionException is null ? Task.FromResult(summary) : Task.FromException<PipelineSummary>(executionException);
+            });
+        var summaryFactory = new Mock<IPipelineSummaryFactory>();
+        summaryFactory.Setup(x => x.Create(It.IsAny<IReadOnlyList<IModule>>(), It.IsAny<TimeSpan>(),
+                It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>()))
+            .Returns(summary);
+        var output = new Mock<IPipelineOutputCoordinator>();
+        output.Setup(x => x.InitializeAsync()).ReturnsAsync(Mock.Of<IPipelineOutputScope>());
+        var setup = new Mock<IPipelineSetupExecutor>();
+        setup.SetupGet(x => x.PipelineStartInvoked).Returns(true);
+        setup.Setup(x => x.OnPipelineEndAsync(It.IsAny<PipelineSummary>(), It.IsAny<CancellationToken>()))
+            .Returns<PipelineSummary, CancellationToken>((_, token) => onEnd(token));
+        return new ExecutionOrchestrator(
+            initializer.Object, executor.Object, output.Object, registrar.Object,
+            Mock.Of<IModuleResultRegistry>(), summaryFactory.Object, engineCancellation,
+            Mock.Of<IThreadPoolConfigurator>(), Mock.Of<IExceptionRethrowService>(),
+            OptionsFactory.Create(new PipelineOptions()), Mock.Of<ILogger<ExecutionOrchestrator>>(),
+            CreateRunReportService(), setup.Object, Mock.Of<ISecondaryExceptionContainer>(),
+            endHandlerTimeout: endHandlerTimeout);
     }
 
     private static IRunReportService CreateRunReportService()
