@@ -22,7 +22,7 @@ namespace ModularPipelines.Grype.Services;
 public interface IGrypeDb
 {
     /// <summary>
-    /// grype search sub-commands.
+    /// grype db search sub-commands.
     /// </summary>
     GrypeDbSearch Search { get; }
 

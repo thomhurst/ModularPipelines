@@ -14,7 +14,7 @@ using ModularPipelines.Grype.Options;
 namespace ModularPipelines.Grype.Services;
 
 /// <summary>
-/// grype search commands.
+/// grype db search commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GrypeDbSearch
