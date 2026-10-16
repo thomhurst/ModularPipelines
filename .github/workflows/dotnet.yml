@@ -110,6 +110,10 @@ jobs:
           ./scripts/Test-FullPipelineValidation.ps1
           ./scripts/Test-ChangedIntegrationValidation.ps1
           ./scripts/Test-RequiredPipelineContext.ps1
+      - name: Test generation download verification
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        shell: pwsh
+        run: ./.github/scripts/Test-GenerationToolDownloads.ps1
       - name: Test CI build-output transport
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: node --test .github/actions/run-pipeline/*.test.mjs
