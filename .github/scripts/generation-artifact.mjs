@@ -80,7 +80,8 @@ function validatePath(root, entry, options) {
     throw new Error('Invalid artifact path');
   }
   const prefix = `${options.packageDirectory}/`;
-  if (!file.startsWith(prefix)) throw new Error(`Artifact path outside selected package: ${file}`);
+  const generatedDocumentation = file === `docs/docs/mp-packages/cli/${options.tool}.md` && content !== null;
+  if (!file.startsWith(prefix) && !generatedDocumentation) throw new Error(`Artifact path outside selected package: ${file}`);
   const relative = file.slice(prefix.length);
   const name = path.posix.basename(relative);
   const toolOwned = name.startsWith(options.prefix) || name.startsWith(`I${options.prefix}`);
@@ -89,7 +90,7 @@ function validatePath(root, entry, options) {
     relative === `Generated/${options.prefix}.Generation.json` || relative === `Generated/${options.prefix}.CommandCoverage.json`;
   const legacyRoot = options.generateCommandFacade && [ `${options.prefix}.cs`, `I${options.prefix}.cs` ].includes(relative);
   const legacyCode = /^(Generated\/)?(Options|Enums|Services|Extensions)\/(?:[A-Za-z0-9_]+\/)*[A-Za-z0-9_]+\.cs$/.test(relative) && toolOwned;
-  if (!generatedCode && !generatedMetadata && !(content === null && (legacyRoot || legacyCode))) {
+  if (!generatedCode && !generatedMetadata && !generatedDocumentation && !(content === null && (legacyRoot || legacyCode))) {
     throw new Error(`Artifact path is not generated output for selected tool: ${file}`);
   }
   assertRegularPath(root, file);
