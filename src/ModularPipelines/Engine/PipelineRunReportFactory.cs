@@ -89,9 +89,7 @@ internal sealed class PipelineRunReportFactory(
         {
             RunId = runId ?? Guid.NewGuid().ToString("N"),
             PipelineIdentity = pipelineIdentity,
-            GraphFingerprint = dependencyChainProvider is { IsInitialized: true }
-                ? PipelineRunCompatibility.GetGraphFingerprint(dependencyChainProvider.ModuleDependencyModels)
-                : null,
+            GraphFingerprint = GetGraphFingerprint(),
             Status = status,
             Start = summary.StartTime,
             End = summary.EndTime,
@@ -112,6 +110,11 @@ internal sealed class PipelineRunReportFactory(
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
     }
+
+    private string? GetGraphFingerprint() =>
+        dependencyChainProvider is { IsInitialized: true }
+            ? PipelineRunCompatibility.GetGraphFingerprint(dependencyChainProvider.ModuleDependencyModels)
+            : null;
 
     private static TimeSpan? GetPreviousTotalDuration(ModuleStatus status, PipelineRunReport? previousReport) =>
         status == ModuleStatus.Succeeded && previousReport?.Status == ModuleStatus.Succeeded

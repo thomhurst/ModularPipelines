@@ -8,14 +8,14 @@ namespace ModularPipelines.Engine.Execution;
 
 internal interface IModuleResultHistoryProvider
 {
-    Task<IModuleResult?> TryGetAsync(IModule module, IPipelineContext pipelineContext);
+    Task<IModuleResult?> TryGetAsync(IModule module, IPipelineContext pipelineContext, CancellationToken cancellationToken = default);
 }
 
 internal sealed class ModuleResultHistoryProvider(
     IModuleResultRepository resultRepository,
     ILogger<ModuleResultHistoryProvider> logger) : IModuleResultHistoryProvider
 {
-    public async Task<IModuleResult?> TryGetAsync(IModule module, IPipelineContext pipelineContext)
+    public async Task<IModuleResult?> TryGetAsync(IModule module, IPipelineContext pipelineContext, CancellationToken cancellationToken = default)
     {
         if (!resultRepository.IsEnabled)
         {
@@ -25,7 +25,11 @@ internal sealed class ModuleResultHistoryProvider(
         try
         {
             var getResult = ResultRepositoryDelegateFactory.GetResultDelegateFor(module.ResultType);
-            return await getResult(resultRepository, module, pipelineContext).ConfigureAwait(false);
+            return await getResult(resultRepository, module, pipelineContext, cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
         }
         catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
         {

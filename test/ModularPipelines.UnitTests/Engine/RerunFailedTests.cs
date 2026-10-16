@@ -352,6 +352,61 @@ public class RerunFailedTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Rerun_Read_Cancels_On_Timeout_Or_Pipeline_Cancellation(bool cancelPipeline)
+    {
+        var state = new RunState { Fail = false };
+        await RunAsync(state);
+        using var cancellation = new CancellationTokenSource();
+        var readStarted = new TaskCompletionSource<CancellationToken>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var readCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        state.Results.OnReadAsync = async token =>
+        {
+            readStarted.SetResult(token);
+            try
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                readCanceled.SetResult();
+                throw;
+            }
+        };
+
+        var rerun = RunAsync(state, rerun: true, cancellationToken: cancellation.Token);
+        try
+        {
+            var token = await readStarted.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            if (cancelPipeline)
+            {
+                await cancellation.CancelAsync();
+                await Assert.That(async () =>
+                {
+                    await rerun.WaitAsync(TimeSpan.FromSeconds(10));
+                }).Throws<OperationCanceledException>();
+            }
+            else
+            {
+                var summary = await rerun.WaitAsync(TimeSpan.FromSeconds(45));
+                await Assert.That(state.Count<RootModule>()).IsEqualTo(2);
+                await Assert.That(state.Count<FinalModule>()).IsEqualTo(2);
+                await Assert.That(state.Count<IndependentModule>()).IsEqualTo(2);
+                await Assert.That(summary.Results.All(result => result.Status == ModuleStatus.Succeeded)).IsTrue();
+            }
+
+            await Assert.That(token.CanBeCanceled).IsTrue();
+            await Assert.That(token.IsCancellationRequested).IsTrue();
+            await readCanceled.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        }
+        finally
+        {
+            await cancellation.CancelAsync();
+        }
+    }
+
+    [Test]
     public async Task Derived_Pipeline_Identity_Restores_Compatible_History()
     {
         static PipelineOptions WithoutExplicitIdentity(PipelineOptions options) => options with
@@ -400,7 +455,8 @@ public class RerunFailedTests
         bool addModule = false,
         Func<PipelineOptions, PipelineOptions>? configure = null,
         TrackingCacheRepository? cache = null,
-        bool addNullModule = false)
+        bool addNullModule = false,
+        CancellationToken cancellationToken = default)
     {
         var builder = Pipeline.CreateBuilder();
         builder.Configuration["RerunTests:AddDependency"] = state.AddDependency.ToString();
@@ -443,7 +499,7 @@ public class RerunFailedTests
             builder.AddModule<NullModule>();
         }
 
-        return await builder.RunAsync();
+        return await builder.RunAsync(cancellationToken);
     }
 
     private sealed class RunState
@@ -563,6 +619,8 @@ public class RerunFailedTests
 
         public bool ThrowOnRead { get; set; }
 
+        public Func<CancellationToken, Task>? OnReadAsync { get; set; }
+
         public ConcurrentDictionary<Type, object> Values { get; } = new();
 
         public int ReadCount;
@@ -573,15 +631,20 @@ public class RerunFailedTests
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext, CancellationToken cancellationToken)
+        public async Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ReadCount);
+            if (OnReadAsync is not null)
+            {
+                await OnReadAsync(cancellationToken);
+            }
+
             if (ThrowOnRead)
             {
                 throw new InvalidDataException("Stored result is unreadable");
             }
 
-            return Task.FromResult(Values.GetValueOrDefault(module.GetType()) as ModuleResult<T>);
+            return Values.GetValueOrDefault(module.GetType()) as ModuleResult<T>;
         }
     }
 

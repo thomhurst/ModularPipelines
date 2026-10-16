@@ -49,46 +49,8 @@ internal sealed class RerunFailedPlan(
                 return;
             }
 
-            var previousModules = report.Modules.ToDictionary(static module => module.ModuleTypeName, StringComparer.Ordinal);
-            var context = contextProvider.GetModuleContext();
-            foreach (var runnable in modules.RunnableModules)
-            {
-                var module = runnable.Module;
-                var previous = previousModules[ModuleTypeIdentifier.Get(module.GetType())];
-                if (!IsSuccessful(previous.Status))
-                {
-                    continue;
-                }
-
-                var result = await resultHistoryProvider.TryGetAsync(module, context)
-                    .WaitAsync(timeout.Token).ConfigureAwait(false);
-                if (result is ModuleResult { HasSuccessfulValue: true } storedResult
-                    && IsSuccessful(result.Status)
-                    && result.StartTime == previous.ResultStartTime
-                    && result.EndTime == previous.ResultEndTime
-                    && MatchesModule(storedResult, module.GetType()))
-                {
-                    _results.Add(module.GetType(), result);
-                }
-            }
-
-            // Any module that must execute invalidates its dependents, even when it succeeded last time.
-            var pending = new Queue<ModuleDependencyModel>(dependencyChainProvider.ModuleDependencyModels
-                .Where(model => !_results.ContainsKey(model.Module.GetType())));
-            var visited = new HashSet<ModuleDependencyModel>();
-            while (pending.TryDequeue(out var model))
-            {
-                if (!visited.Add(model))
-                {
-                    continue;
-                }
-
-                _results.Remove(model.Module.GetType());
-                foreach (var dependent in model.IsDependencyFor)
-                {
-                    pending.Enqueue(dependent);
-                }
-            }
+            await RestoreSuccessfulResultsAsync(modules, report, timeout.Token).ConfigureAwait(false);
+            InvalidateDependents();
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -103,6 +65,56 @@ internal sealed class RerunFailedPlan(
 
     public ModuleResult<T>? GetResult<T>(Module<T> module) =>
         _results.GetValueOrDefault(module.GetType()) as ModuleResult<T>.Success;
+
+    private async Task RestoreSuccessfulResultsAsync(
+        OrganizedModules modules,
+        PipelineRunReport report,
+        CancellationToken cancellationToken)
+    {
+        var previousModules = report.Modules.ToDictionary(static module => module.ModuleTypeName, StringComparer.Ordinal);
+        var context = contextProvider.GetModuleContext();
+        foreach (var runnable in modules.RunnableModules)
+        {
+            var module = runnable.Module;
+            var previous = previousModules[ModuleTypeIdentifier.Get(module.GetType())];
+            if (!IsSuccessful(previous.Status))
+            {
+                continue;
+            }
+
+            var result = await resultHistoryProvider.TryGetAsync(module, context, cancellationToken)
+                .WaitAsync(cancellationToken).ConfigureAwait(false);
+            if (result is ModuleResult { HasSuccessfulValue: true } storedResult
+                && IsSuccessful(result.Status)
+                && result.StartTime == previous.ResultStartTime
+                && result.EndTime == previous.ResultEndTime
+                && MatchesModule(storedResult, module.GetType()))
+            {
+                _results.Add(module.GetType(), result);
+            }
+        }
+    }
+
+    private void InvalidateDependents()
+    {
+        // Any module that must execute invalidates its dependents, even when it succeeded last time.
+        var pending = new Queue<ModuleDependencyModel>(dependencyChainProvider.ModuleDependencyModels
+            .Where(model => !_results.ContainsKey(model.Module.GetType())));
+        var visited = new HashSet<ModuleDependencyModel>();
+        while (pending.TryDequeue(out var model))
+        {
+            if (!visited.Add(model))
+            {
+                continue;
+            }
+
+            _results.Remove(model.Module.GetType());
+            foreach (var dependent in model.IsDependencyFor)
+            {
+                pending.Enqueue(dependent);
+            }
+        }
+    }
 
     private async Task<PipelineRunReport?> FindCompatibleReportAsync(
         IReadOnlyList<IModule> modules,

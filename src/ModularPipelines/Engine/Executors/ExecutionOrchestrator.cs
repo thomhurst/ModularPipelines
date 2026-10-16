@@ -105,15 +105,12 @@ internal class ExecutionOrchestrator(
         try
         {
             allModules = _pipelineInitializer.RegisteredModules ?? [];
-            if (_executionBackend is WorkerModuleExecutor worker)
+            if (!await RegisterWorkerAsync(_engineCancellationToken.Token).ConfigureAwait(false))
             {
-                if (await worker.RegisterAsync(_engineCancellationToken.Token).ConfigureAwait(false) is null)
-                {
-                    // A rejected session owns no shared data. Skip handlers and final metrics publication.
-                    var completedSummary = new PipelineSummary([], [], stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
-                    _outputCoordinator.PrintResults(completedSummary);
-                    return completedSummary;
-                }
+                // A rejected session owns no shared data. Skip handlers and final metrics publication.
+                var completedSummary = new PipelineSummary([], [], stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
+                _outputCoordinator.PrintResults(completedSummary);
+                return completedSummary;
             }
 
             using var initializationCts = CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
@@ -258,6 +255,16 @@ internal class ExecutionOrchestrator(
             // The handler invoker has already logged the individual handler failures.
             _secondaryExceptionContainer.RegisterException(exception);
         }
+    }
+
+    private async Task<bool> RegisterWorkerAsync(CancellationToken cancellationToken)
+    {
+        if (_executionBackend is not WorkerModuleExecutor worker)
+        {
+            return true;
+        }
+
+        return await worker.RegisterAsync(cancellationToken).ConfigureAwait(false) is not null;
     }
 
     private void ThrowIfPipelineFailed(PipelineSummary summary, Exception? caughtException)

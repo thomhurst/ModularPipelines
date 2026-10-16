@@ -115,31 +115,20 @@ internal class ModuleExecutionPipeline(
                     .ConfigureAwait(false);
             }
 
-            var restoredResult = rerunFailedPlan?.GetResult<T>(module);
-            if (restoredResult is not null)
-            {
-                var historicalResult = UseHistoricalResult(executionContext, restoredResult, SkipDecision.DoNotSkip,
-                    logger, "Reusing successful result from previous compatible run");
-                await finalizer.FinalizeAsync(historicalResult).ConfigureAwait(false);
-                executionContext.SetTypedResult(historicalResult);
-                finalizer.Complete(historicalResult);
-                return historicalResult;
-            }
-
-            var cachedResult = await TryUseCachedResultAsync(
+            var reusableResult = await TryUseReusableResultAsync(
                     module,
                     config,
                     executionContext,
                     moduleContext,
                     logger)
                 .ConfigureAwait(false);
-            if (cachedResult is not null)
+            if (reusableResult is not null)
             {
-                await finalizer.FinalizeAsync(cachedResult).ConfigureAwait(false);
-                executionContext.SetTypedResult(cachedResult);
-                finalizer.Complete(cachedResult);
+                await finalizer.FinalizeAsync(reusableResult).ConfigureAwait(false);
+                executionContext.SetTypedResult(reusableResult);
+                finalizer.Complete(reusableResult);
 
-                return cachedResult;
+                return reusableResult;
             }
 
             // Execute direct before hook first (virtual override)
@@ -309,6 +298,24 @@ internal class ModuleExecutionPipeline(
         }
 
         return skipDecision;
+    }
+
+    private async Task<ModuleResult<T>?> TryUseReusableResultAsync<T>(
+        Module<T> module,
+        ModuleConfiguration config,
+        ModuleExecutionContext<T> executionContext,
+        IModuleContext moduleContext,
+        ILogger logger)
+    {
+        var restoredResult = rerunFailedPlan?.GetResult<T>(module);
+        if (restoredResult is not null)
+        {
+            return UseHistoricalResult(executionContext, restoredResult, SkipDecision.DoNotSkip,
+                logger, "Reusing successful result from previous compatible run");
+        }
+
+        return await TryUseCachedResultAsync(module, config, executionContext, moduleContext, logger)
+            .ConfigureAwait(false);
     }
 
     private async Task<ModuleResult<T>?> TryUseCachedResultAsync<T>(
