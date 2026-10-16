@@ -45,6 +45,7 @@ internal sealed class Command(
         string RawCommandInput,
         string WorkingDirectory,
         IReadOnlyDictionary<string, string?> RawEnvironmentVariables,
+        int SudoPrefixLength,
         ProcessCommand Command,
         Lazy<string> InputToLog);
 
@@ -71,7 +72,7 @@ internal sealed class Command(
                 : _pipelineWorkingDirectory.Path,
         };
         RegisterSecrets(options, execOpts);
-        (ProcessCommand Command, string CommandInput, string Tool, List<string> ParsedArgs) commandDetails;
+        (ProcessCommand Command, string CommandInput, string Tool, List<string> ParsedArgs, int SudoPrefixLength) commandDetails;
         try
         {
             commandDetails = CreateCommand(options, execOpts);
@@ -87,7 +88,7 @@ internal sealed class Command(
         }
 
         _commandExecutionCounter.Record(AmbientModuleContext.CurrentModuleType);
-        var (command, commandInput, tool, parsedArgs) = commandDetails;
+        var (command, commandInput, tool, parsedArgs, sudoPrefixLength) = commandDetails;
 
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -103,6 +104,7 @@ internal sealed class Command(
             commandInput,
             command.WorkingDirPath,
             GetRawEnvironmentVariables(command),
+            sudoPrefixLength,
             command,
             CreateInputToLog(commandInput, execOpts, activity));
 
@@ -148,40 +150,48 @@ internal sealed class Command(
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions.CommandLineCredentials));
     }
 
-    private (ProcessCommand Command, string CommandInput, string Tool, List<string> Arguments) CreateCommand(
+    private (ProcessCommand Command, string CommandInput, string Tool, List<string> Arguments, int SudoPrefixLength) CreateCommand(
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions)
     {
         var commandLine = _commandLineBuilder.Build(options);
         var tool = commandLine.Tool;
         var arguments = commandLine.Arguments.ToList();
+        var sudoPrefixLength = 0;
         if (executionOptions.Sudo)
         {
-            var sudoArguments = new List<string> { "-n" };
-            var preservedVariables = executionOptions.EnvironmentVariables?
-                .Where(pair => pair.Value is not null)
-                .Select(pair => pair.Key)
-                .ToArray() ?? [];
-            if (preservedVariables.Any(name => name.Contains(',')))
-            {
-                throw new ArgumentException(
-                    "Environment variable names cannot contain commas when Sudo is enabled.",
-                    nameof(executionOptions));
-            }
-
-            if (preservedVariables.Length > 0)
-            {
-                sudoArguments.Add($"--preserve-env={string.Join(',', preservedVariables)}");
-            }
-
-            sudoArguments.Add("--");
+            var sudoArguments = CreateSudoPrefix(executionOptions);
+            sudoPrefixLength = sudoArguments.Count;
             sudoArguments.Add(tool);
             arguments.InsertRange(0, sudoArguments);
             tool = "sudo";
         }
 
         var (command, input) = CreateCliCommand(tool, arguments, executionOptions);
-        return (command, input, tool, arguments);
+        return (command, input, tool, arguments, sudoPrefixLength);
+    }
+
+    private static List<string> CreateSudoPrefix(CommandExecutionOptions executionOptions)
+    {
+        var sudoArguments = new List<string> { "-n" };
+        var preservedVariables = executionOptions.EnvironmentVariables?
+            .Where(pair => pair.Value is not null)
+            .Select(pair => pair.Key)
+            .ToArray() ?? [];
+        if (preservedVariables.Any(name => name.Contains(',')))
+        {
+            throw new ArgumentException(
+                "Environment variable names cannot contain commas when Sudo is enabled.",
+                nameof(executionOptions));
+        }
+
+        if (preservedVariables.Length > 0)
+        {
+            sudoArguments.Add($"--preserve-env={string.Join(',', preservedVariables)}");
+        }
+
+        sudoArguments.Add("--");
+        return sudoArguments;
     }
 
     private static (ProcessCommand Command, string Input) CreateCliCommand(
@@ -208,7 +218,7 @@ internal sealed class Command(
 
     /// <summary>
     /// Prepares a command that an interceptor changed before passing it on. The command line is used
-    /// as given, so sudo is not applied again.
+    /// as given, except that a retained framework-generated sudo prefix is refreshed for environment changes.
     /// </summary>
     private PreparedCommandInvocation PrepareChangedInvocation(
         CommandInvocation invocation,
@@ -229,17 +239,31 @@ internal sealed class Command(
                 : _pipelineWorkingDirectory.ResolvePath(workingDirectory),
         };
         RegisterSecrets(toolOptions, executionOptions);
+        var commandLine = invocation.CommandLine;
+        var sudoPrefixLength = 0;
+        if (received.SudoPrefixLength > 0
+            && string.Equals(commandLine.Tool, received.CommandLine.Tool, StringComparison.Ordinal)
+            && commandLine.Arguments.Take(received.SudoPrefixLength)
+                .SequenceEqual(received.CommandLine.Arguments.Take(received.SudoPrefixLength), StringComparer.Ordinal))
+        {
+            var sudoArguments = CreateSudoPrefix(executionOptions);
+            sudoPrefixLength = sudoArguments.Count;
+            sudoArguments.AddRange(commandLine.Arguments.Skip(received.SudoPrefixLength));
+            commandLine = new CommandLine(commandLine.Tool, sudoArguments);
+        }
+
         var (command, commandInput) = CreateCliCommand(
-            invocation.CommandLine.Tool,
-            invocation.CommandLine.Arguments,
+            commandLine.Tool,
+            commandLine.Arguments,
             executionOptions);
         return new PreparedCommandInvocation(
-            invocation.CommandLine,
+            commandLine,
             toolOptions,
             executionOptions,
             commandInput,
             command.WorkingDirPath,
             GetRawEnvironmentVariables(command),
+            sudoPrefixLength,
             command,
             CreateInputToLog(commandInput, executionOptions, activity));
     }

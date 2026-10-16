@@ -57,6 +57,7 @@ public record CommandExecutionOptions
     /// Requests preservation of the non-null variables explicitly supplied in <see cref="EnvironmentVariables"/>
     /// with <c>--preserve-env=&lt;keys&gt;</c>. Null values remove variables from sudo's input environment.
     /// Variable names containing commas are not supported. Values are not included in the command arguments.
+    /// Environment changes from command interceptors refresh preservation while the generated sudo prefix is retained.
     /// Sudo's security policy still controls environment preservation and may override variables such as PATH.
     /// Requires a sudo implementation that supports these options and an existing authentication timestamp
     /// or a policy that permits execution without a password.
