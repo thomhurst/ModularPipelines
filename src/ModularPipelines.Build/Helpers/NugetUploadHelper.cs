@@ -20,6 +20,7 @@ public static class NugetUploadHelper
             {
                 Source = source,
                 ApiKey = apiKey,
+                SkipDuplicate = true,
             }, cancellationToken: cancellationToken),
                 cancellationToken: cancellationToken)
             .ProcessOneAtATime();
