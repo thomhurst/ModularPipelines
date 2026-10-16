@@ -8,39 +8,26 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Executors;
 
-internal class PipelineExecutor : IPipelineExecutor
+internal class PipelineExecutor(
+    IExecutionBackend executionBackend,
+    IExecutionBackendContext executionBackendContext,
+    IExecutionBackendContextFactory executionBackendContextFactory,
+    EngineCancellationToken engineCancellationToken,
+    IExceptionRethrowService exceptionRethrowService,
+    ISecondaryExceptionContainer secondaryExceptionContainer,
+    IPipelineSummaryFactory pipelineSummaryFactory,
+    IOptions<PipelineOptions> options,
+    IMetricsCollector? metricsCollector = null) : IPipelineExecutor
 {
-    private readonly IExecutionBackend _executionBackend;
-    private readonly IExecutionBackendContext _executionBackendContext;
-    private readonly IExecutionBackendContextFactory _executionBackendContextFactory;
-    private readonly EngineCancellationToken _engineCancellationToken;
-    private readonly IExceptionRethrowService _exceptionRethrowService;
-    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
-    private readonly IPipelineSummaryFactory _pipelineSummaryFactory;
-    private readonly IOptions<PipelineOptions> _options;
-    private readonly IMetricsCollector? _metricsCollector;
-
-    public PipelineExecutor(
-        IExecutionBackend executionBackend,
-        IExecutionBackendContext executionBackendContext,
-        IExecutionBackendContextFactory executionBackendContextFactory,
-        EngineCancellationToken engineCancellationToken,
-        IExceptionRethrowService exceptionRethrowService,
-        ISecondaryExceptionContainer secondaryExceptionContainer,
-        IPipelineSummaryFactory pipelineSummaryFactory,
-        IOptions<PipelineOptions> options,
-        IMetricsCollector? metricsCollector = null)
-    {
-        _executionBackend = executionBackend;
-        _executionBackendContext = executionBackendContext;
-        _executionBackendContextFactory = executionBackendContextFactory;
-        _engineCancellationToken = engineCancellationToken;
-        _exceptionRethrowService = exceptionRethrowService;
-        _secondaryExceptionContainer = secondaryExceptionContainer;
-        _pipelineSummaryFactory = pipelineSummaryFactory;
-        _options = options;
-        _metricsCollector = metricsCollector;
-    }
+    private readonly IExecutionBackend _executionBackend = executionBackend;
+    private readonly IExecutionBackendContext _executionBackendContext = executionBackendContext;
+    private readonly IExecutionBackendContextFactory _executionBackendContextFactory = executionBackendContextFactory;
+    private readonly EngineCancellationToken _engineCancellationToken = engineCancellationToken;
+    private readonly IExceptionRethrowService _exceptionRethrowService = exceptionRethrowService;
+    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer = secondaryExceptionContainer;
+    private readonly IPipelineSummaryFactory _pipelineSummaryFactory = pipelineSummaryFactory;
+    private readonly IOptions<PipelineOptions> _options = options;
+    private readonly IMetricsCollector? _metricsCollector = metricsCollector;
 
     public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
         OrganizedModules organizedModules)
@@ -98,7 +85,7 @@ internal class PipelineExecutor : IPipelineExecutor
     }
 
     private static Dictionary<Distributed.ModuleId, TimeSpan> ToModuleIdDurations(
-        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
+        Dictionary<Type, TimeSpan> estimatedDurations)
     {
         var durations = new Dictionary<Distributed.ModuleId, TimeSpan>(estimatedDurations.Count);
         foreach (var (moduleType, duration) in estimatedDurations)

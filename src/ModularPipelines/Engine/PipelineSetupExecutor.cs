@@ -7,30 +7,20 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
 
-internal class PipelineSetupExecutor : IPipelineSetupExecutor
+internal class PipelineSetupExecutor(
+    IEnumerable<IPipelineEventHandler> pipelineEventHandlers,
+    IEnumerable<IModuleEventHandler> moduleEventHandlers,
+    IEventHandlerInvoker eventHandlerInvoker,
+    IPipelineContextProvider moduleContextProvider,
+    IModuleMetadataRegistry metadataRegistry,
+    IModuleAttributeEventService attributeEventService) : IPipelineSetupExecutor
 {
-    private readonly IReadOnlyList<IPipelineEventHandler> _pipelineEventHandlers;
-    private readonly IReadOnlyList<IModuleEventHandler> _moduleEventHandlers;
-    private readonly IEventHandlerInvoker _eventHandlerInvoker;
-    private readonly IPipelineContextProvider _moduleContextProvider;
-    private readonly IModuleMetadataRegistry _metadataRegistry;
-    private readonly IModuleAttributeEventService _attributeEventService;
-
-    public PipelineSetupExecutor(
-        IEnumerable<IPipelineEventHandler> pipelineEventHandlers,
-        IEnumerable<IModuleEventHandler> moduleEventHandlers,
-        IEventHandlerInvoker eventHandlerInvoker,
-        IPipelineContextProvider moduleContextProvider,
-        IModuleMetadataRegistry metadataRegistry,
-        IModuleAttributeEventService attributeEventService)
-    {
-        _pipelineEventHandlers = [.. pipelineEventHandlers.OrderBy(static handler => handler.Order)];
-        _moduleEventHandlers = [.. moduleEventHandlers.OrderBy(static handler => handler.Order)];
-        _eventHandlerInvoker = eventHandlerInvoker;
-        _moduleContextProvider = moduleContextProvider;
-        _metadataRegistry = metadataRegistry;
-        _attributeEventService = attributeEventService;
-    }
+    private readonly IReadOnlyList<IPipelineEventHandler> _pipelineEventHandlers = [.. pipelineEventHandlers.OrderBy(static handler => handler.Order)];
+    private readonly IReadOnlyList<IModuleEventHandler> _moduleEventHandlers = [.. moduleEventHandlers.OrderBy(static handler => handler.Order)];
+    private readonly IEventHandlerInvoker _eventHandlerInvoker = eventHandlerInvoker;
+    private readonly IPipelineContextProvider _moduleContextProvider = moduleContextProvider;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
+    private readonly IModuleAttributeEventService _attributeEventService = attributeEventService;
 
     public bool PipelineStartInvoked { get; private set; }
 
