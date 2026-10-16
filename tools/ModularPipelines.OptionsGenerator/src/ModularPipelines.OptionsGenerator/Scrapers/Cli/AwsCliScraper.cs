@@ -493,6 +493,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 : TryDetectEnum(propertyName, className, rawDescription, longForm)
                   ?? (globalOptions ? DetectGlobalOptionChoices(propertyName, className, rawDescription, longForm) : null);
             var csharpType = DetermineCSharpType(
+                typeHint,
                 isFlag || isBooleanValue,
                 isArray,
                 isKeyValue,
@@ -838,7 +839,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             IsRequired = true,
         };
 
-    private static string DetermineCSharpType(bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
+    private static string DetermineCSharpType(string typeHint, bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
     {
         if (isFlag)
         {
@@ -862,7 +863,13 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
         if (isNumeric)
         {
-            return "int?";
+            var normalized = typeHint.ToLowerInvariant();
+            if (normalized.Contains("float") || normalized.Contains("double"))
+            {
+                return "double?";
+            }
+
+            return CliTypeMapper.ToCSharpType(normalized.Contains("long") ? CliOptionType.Long : CliOptionType.Int);
         }
 
         return "string?";

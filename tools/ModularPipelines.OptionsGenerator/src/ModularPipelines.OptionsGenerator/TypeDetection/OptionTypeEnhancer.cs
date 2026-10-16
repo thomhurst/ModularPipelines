@@ -199,7 +199,8 @@ public class OptionTypeEnhancer
                         CSharpType = newCSharpType,
                         Description = description,
                         IsFlag = newIsFlag,
-                        IsNumeric = result.Type == CliOptionType.Int || result.Type == CliOptionType.Decimal,
+                        IsNumeric = result.Type is CliOptionType.Int or CliOptionType.Long
+                            or CliOptionType.UInt or CliOptionType.ULong or CliOptionType.Decimal,
                         AcceptsMultipleValues = acceptsMultipleValues,
                         GroupValues = result.GroupValues,
                         IsKeyValue = result.Type == CliOptionType.KeyValue,

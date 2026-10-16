@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -37,16 +38,34 @@ public class CliTypeMapperTests
 
     [Test]
     [Arguments("int")]
+    [Arguments("int8")]
+    [Arguments("int16")]
     [Arguments("int32")]
-    [Arguments("int64")]
-    [Arguments("uint")]
-    [Arguments("uint32")]
-    [Arguments("uint64")]
     public async Task FromCobraTypeHint_Returns_Int_For_Integer_Types(string typeHint)
     {
         var result = CliTypeMapper.FromCobraTypeHint(typeHint);
 
         await Assert.That(result).IsEqualTo(CliOptionType.Int);
+    }
+
+    [Test]
+    [Arguments("int64", CliOptionType.Long, "long?")]
+    [Arguments(" INT64 ", CliOptionType.Long, "long?")]
+    [Arguments("uint8", CliOptionType.UInt, "uint?")]
+    [Arguments("uint16", CliOptionType.UInt, "uint?")]
+    [Arguments("uint32", CliOptionType.UInt, "uint?")]
+    [Arguments("uint", CliOptionType.ULong, "ulong?")]
+    [Arguments("uint64", CliOptionType.ULong, "ulong?")]
+    public async Task Integer_Hints_Preserve_Range_Through_Mapping_And_Serialization(
+        string hint, CliOptionType expected, string cSharpType)
+    {
+        var type = CliTypeMapper.FromCobraTypeHint(hint);
+        await Assert.That(type).IsEqualTo(expected);
+        await Assert.That(CliTypeMapper.ToCSharpType(type)).IsEqualTo(cSharpType);
+        await Assert.That(CliTypeMapper.IsKnownCobraType(hint)).IsTrue();
+        var options = new JsonSerializerOptions { Converters = { new CliOptionTypeConverter() } };
+        var json = JsonSerializer.Serialize(type, options);
+        await Assert.That(JsonSerializer.Deserialize<CliOptionType>(json, options)).IsEqualTo(type);
     }
 
     [Test]
@@ -128,6 +147,12 @@ public class CliTypeMapperTests
     [Arguments("string", CliOptionType.String)]
     [Arguments("int", CliOptionType.Int)]
     [Arguments("integer", CliOptionType.Int)]
+    [Arguments("int64", CliOptionType.Long)]
+    [Arguments("long", CliOptionType.Long)]
+    [Arguments("uint", CliOptionType.UInt)]
+    [Arguments("uint32", CliOptionType.UInt)]
+    [Arguments("uint64", CliOptionType.ULong)]
+    [Arguments("ulong", CliOptionType.ULong)]
     [Arguments("decimal", CliOptionType.Decimal)]
     [Arguments("float", CliOptionType.Decimal)]
     [Arguments("double", CliOptionType.Decimal)]

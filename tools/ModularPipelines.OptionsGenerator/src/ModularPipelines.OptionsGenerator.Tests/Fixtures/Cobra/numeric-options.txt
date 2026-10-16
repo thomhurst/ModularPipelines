@@ -1,0 +1,16 @@
+Usage:
+  fake run [flags]
+
+Flags:
+      --count int32           Number of results (default 42)
+      --limit-bytes int64     Limit in bytes (default 2147483648)
+      --offset int64          Signed offset (default -2147483649)
+      --size uint64           Maximum size (default 18446744073709551615)
+      --unsigned-count uint32  Unsigned count (default 4294967295)
+      --native-unsigned uint  Platform unsigned value (default 18446744073709551615)
+      --ratio float32         Ratio (default 0.125)
+      --threshold float64     Threshold (default 1.25)
+
+Options:
+      --large-default=2147483648: Large integral default.
+      --unsigned-default=18446744073709551615: Full unsigned default.
