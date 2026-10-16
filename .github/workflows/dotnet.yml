@@ -347,16 +347,16 @@ jobs:
         run: |
           echo "::error::The fast-fail lane did not pass."
           exit 1
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup .NET
-        uses: actions/setup-dotnet@v6.0.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
       - name: Cache NuGet
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-analyzers-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
@@ -561,7 +561,7 @@ jobs:
             echo "::error::Distributed workflows require Re-run all jobs; partial retries cannot recreate the worker matrix."
             exit 1
           fi
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         id: checkout
         with:
           fetch-depth: 0
@@ -590,11 +590,11 @@ jobs:
           sudo swapon /mnt/swapfile
           free -h
       - name: Setup .NET
-        uses: actions/setup-dotnet@v6.0.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
       - name: Cache NuGet
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
@@ -632,7 +632,7 @@ jobs:
 
       - name: NuGet login
         if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.publish-packages == 'true' && matrix.instance == 0 }}
-        uses: NuGet/login@v1
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         id: login
         with:
           user: ${{ secrets.NUGET_USER }}
@@ -678,7 +678,7 @@ jobs:
         run: ./scripts/Write-DistributedBuildSummary.ps1 -ReportPath artifacts/run-report.json -SummaryPath $env:GITHUB_STEP_SUMMARY
       - name: Upload pipeline report
         if: always() && matrix.instance == 0
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: pipeline-report-${{ matrix.instance }}-${{ matrix.os }}-${{ github.run_attempt }}
           path: artifacts/run-report.json
@@ -687,7 +687,7 @@ jobs:
 
       - name: Upload Hang Dumps
         if: always() && needs.fast-fail.result == 'success'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: hang-dumps-${{ matrix.instance }}-${{ matrix.os }}-${{ github.run_attempt }}
           path: |
@@ -697,7 +697,7 @@ jobs:
 
       - name: Upload Unit Test Results
         if: always() && needs.fast-fail.result == 'success'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: unit-test-results-${{ matrix.instance }}-${{ matrix.os }}-${{ github.run_attempt }}
           path: |
@@ -749,16 +749,16 @@ jobs:
         run: |
           echo "::error::The fast-fail lane did not pass."
           exit 1
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup .NET
-        uses: actions/setup-dotnet@v6.0.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
       - name: Cache NuGet
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
@@ -788,7 +788,7 @@ jobs:
           exit $LASTEXITCODE
       - name: Upload core test diagnostics
         if: always() && needs.fast-fail.result == 'success'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: core-test-diagnostics-${{ matrix.os }}-${{ github.run_attempt }}
           path: |
@@ -815,16 +815,16 @@ jobs:
         run: |
           echo "::error::The fast-fail lane did not pass."
           exit 1
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup .NET
-        uses: actions/setup-dotnet@v6.0.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
       - name: Cache NuGet
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-generated-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
@@ -923,7 +923,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           sparse-checkout: scripts/Assert-RequiredPipelineContext.ps1
@@ -962,16 +962,16 @@ jobs:
         run: |
           echo "::error::The fast-fail lane did not pass."
           exit 1
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup .NET
-        uses: actions/setup-dotnet@v6.0.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
       - name: Cache NuGet
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-trim-aot-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
