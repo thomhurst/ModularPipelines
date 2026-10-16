@@ -1,5 +1,7 @@
 using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Reporting;
@@ -24,7 +26,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     private static readonly TimeSpan CacheRetention = TimeSpan.FromDays(90);
     private static readonly TimeSpan IndexRefreshInterval = TimeSpan.FromMinutes(1);
 
-    private readonly object _subModuleIndexLock = new();
+    private readonly Lock _subModuleIndexLock = new();
     private readonly string _directory;
     private readonly TimeProvider _timeProvider;
     private SubModuleFileIndex? _subModuleFileIndex;
@@ -48,14 +50,17 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken = default)
     {
         var fileName = $"{GetModuleName(moduleType)}.txt";
-        return await GetEstimatedTimeAsync(fileName, cancellationToken).ConfigureAwait(false);
+        var entry = await ReadEntryAsync(fileName, cancellationToken).ConfigureAwait(false);
+        return entry?.Duration
+               ?? await GetEstimatedTimeAsync($"{moduleType.FullName ?? moduleType.Name}.txt", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken = default)
     {
         var fileName = $"{GetModuleName(moduleType)}.txt";
 
-        await SaveModuleTimeAsync(duration, fileName, cancellationToken).ConfigureAwait(false);
+        var entry = new EstimatedTimeEntry(ModuleTypeIdentifier.Get(moduleType), null, duration);
+        await SaveEntryAsync(entry, fileName, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(
@@ -64,38 +69,24 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     {
         var filesByModule = GetSubModuleFilesByModule();
         var moduleName = GetModuleName(moduleType);
-        var paths = filesByModule.GetValueOrDefault(moduleName, []);
+        var paths = filesByModule.GetValueOrDefault(moduleName, [])
+            .Select(file => (File: file, IsLegacy: false))
+            .Concat(filesByModule.GetValueOrDefault(moduleType.FullName ?? moduleType.Name, [])
+                .Select(file => (File: file, IsLegacy: true)));
 
         var subModuleEstimations = await paths.ToAsyncProcessorBuilder()
-            .SelectAsync(async file =>
-            {
-                try
-                {
-                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FullName);
-                    var subIndex = fileNameWithoutExtension.IndexOf("-Sub-", StringComparison.Ordinal);
-
-                    if (subIndex < 0)
-                    {
-                        // File doesn't match expected naming pattern - skip gracefully
-                        return null;
-                    }
-
-                    var encodedName = fileNameWithoutExtension[(subIndex + 5)..]; // 5 = length of "-Sub-"
-                    var name = DecodeSubModuleName(encodedName);
-                    var time = await GetEstimatedTimeAsync(file.FullName, cancellationToken).ConfigureAwait(false);
-                    return new SubModuleEstimation(name, time);
-                }
-                catch (Exception ex) when (IsFileAccessException(ex))
-                {
-                    // File access error (locked, permissions, etc.) - skip gracefully without deleting
-                    return null;
-                }
-            })
+            .SelectAsync(async item => (
+                item.IsLegacy,
+                Estimation: await ReadSubModuleEstimationAsync(item.File, item.IsLegacy, cancellationToken).ConfigureAwait(false)))
             .ProcessInParallel()
             .GetResultsAsync()
             .ConfigureAwait(false);
 
-        return subModuleEstimations.OfType<SubModuleEstimation>();
+        // Explicit precedence is independent of the order in which parallel reads finish.
+        return subModuleEstimations.OrderBy(item => item.IsLegacy)
+            .Select(item => item.Estimation)
+            .OfType<SubModuleEstimation>()
+            .DistinctBy(estimation => estimation.SubModuleName, StringComparer.Ordinal);
     }
 
     public async Task SaveSubModuleTimeAsync(
@@ -104,14 +95,52 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         CancellationToken cancellationToken = default)
     {
         var moduleName = GetModuleName(moduleType);
-        var encodedSubModuleName = EncodeSubModuleName(subModuleEstimation.SubModuleName);
-        var fileName = $"Mod-{moduleName}-Sub-{encodedSubModuleName}.txt";
+        var subModuleHash = GetHash(subModuleEstimation.SubModuleName);
+        var fileName = $"Mod-{moduleName}-Sub-{subModuleHash}.txt";
 
-        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName, cancellationToken).ConfigureAwait(false);
+        var entry = new EstimatedTimeEntry(
+            ModuleTypeIdentifier.Get(moduleType),
+            subModuleEstimation.SubModuleName,
+            subModuleEstimation.EstimatedDuration);
+        await SaveEntryAsync(entry, fileName, cancellationToken).ConfigureAwait(false);
 
         lock (_subModuleIndexLock)
         {
             Volatile.Write(ref _subModuleFileIndex, null);
+        }
+    }
+
+    private async Task<SubModuleEstimation?> ReadSubModuleEstimationAsync(
+        FileInfo file,
+        bool isLegacy,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (!isLegacy)
+            {
+                var entry = await ReadEntryAsync(file.FullName, cancellationToken).ConfigureAwait(false);
+                return entry?.SubModuleName is { } subModuleName
+                    ? new SubModuleEstimation(subModuleName, entry.Duration)
+                    : null;
+            }
+
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FullName);
+            var subIndex = fileNameWithoutExtension.IndexOf("-Sub-", StringComparison.Ordinal);
+            if (subIndex < 0)
+            {
+                return null;
+            }
+
+            var encodedName = fileNameWithoutExtension[(subIndex + 5)..];
+            var name = DecodeSubModuleName(encodedName);
+            var time = await GetEstimatedTimeAsync(file.FullName, cancellationToken).ConfigureAwait(false);
+            return new SubModuleEstimation(name, time);
+        }
+        catch (Exception ex) when (IsFileAccessException(ex))
+        {
+            // File access error (locked, permissions, etc.) - skip gracefully without deleting.
+            return null;
         }
     }
 
@@ -141,7 +170,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         }
     }
 
-    private IReadOnlyDictionary<string, FileInfo[]> BuildSubModuleFileIndex(DateTimeOffset now)
+    private Dictionary<string, FileInfo[]> BuildSubModuleFileIndex(DateTimeOffset now)
     {
         var directoryInfo = Directory.CreateDirectory(_directory);
         var expirationTime = now.UtcDateTime - CacheRetention;
@@ -193,17 +222,10 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         return true;
     }
 
-    private static string GetModuleName(Type moduleType) => moduleType.FullName ?? moduleType.Name;
+    // Version the filename scheme so legacy names cannot be mistaken for hashed entries.
+    private static string GetModuleName(Type moduleType) => $"V2-{GetHash(ModuleTypeIdentifier.Get(moduleType))}";
 
-    private static string EncodeSubModuleName(string name)
-    {
-        var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(name))
-            .TrimEnd('=')
-            .Replace('+', '-')
-            .Replace('/', '_');
-
-        return $"{EncodedSubModuleNamePrefix}{base64}";
-    }
+    private static string GetHash(string value) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value)));
 
     private static string DecodeSubModuleName(string name)
     {
@@ -266,7 +288,26 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         }
     }
 
-    private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName, CancellationToken cancellationToken)
+    private async Task<EstimatedTimeEntry?> ReadEntryAsync(string fileName, CancellationToken cancellationToken)
+    {
+        var path = Path.Combine(_directory, fileName);
+        try
+        {
+            if (!File.Exists(path))
+            {
+                return null;
+            }
+
+            var contents = await File.ReadAllTextAsync(path, cancellationToken).ConfigureAwait(false);
+            return JsonSerializer.Deserialize(contents, EstimatedTimeJsonContext.Default.EstimatedTimeEntry);
+        }
+        catch (Exception ex) when (IsFileAccessException(ex) || ex is JsonException)
+        {
+            return null;
+        }
+    }
+
+    private async Task SaveEntryAsync(EstimatedTimeEntry entry, string fileName, CancellationToken cancellationToken)
     {
         Directory.CreateDirectory(_directory);
 
@@ -277,7 +318,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         {
             await File.WriteAllTextAsync(
                     temporaryPath,
-                    duration.ToString("c", CultureInfo.InvariantCulture),
+                    JsonSerializer.Serialize(entry, EstimatedTimeJsonContext.Default.EstimatedTimeEntry),
                     cancellationToken)
                 .ConfigureAwait(false);
 
