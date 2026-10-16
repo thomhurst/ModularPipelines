@@ -21,10 +21,27 @@ namespace ModularPipelines.Skopeo.Options;
 public record SkopeoGenerateSigstoreKeyOptions : SkopeoOptions
 {
     /// <summary>
+    /// Generate a sigstore public/private key pair
+    /// </summary>
+    /// <param name="OutputPrefix">Write the keys to PREFIX.pub and `PREFIX`.private</param>
+    public SkopeoGenerateSigstoreKeyOptions(
+        string OutputPrefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputPrefix);
+        this.OutputPrefix = OutputPrefix;
+    }
+
+    public void Deconstruct(out string OutputPrefix)
+    {
+        OutputPrefix = this.OutputPrefix;
+    }
+
+    /// <summary>
     /// Write the keys to PREFIX.pub and `PREFIX`.private
     /// </summary>
     [CliOption("--output-prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputPrefix { get; set; }
+    public string OutputPrefix { get; private init; }
 
     /// <summary>
     /// Read a passphrase for the private key from PATH

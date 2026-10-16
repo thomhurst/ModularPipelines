@@ -23,15 +23,19 @@ public record SkopeoStandaloneSignOptions : SkopeoOptions
     /// <summary>
     /// Create a signature using local files
     /// </summary>
+    /// <param name="Output">output the signature to SIGNATURE</param>
     /// <param name="Manifest">The MANIFEST operand.</param>
     /// <param name="DockerReference">The DOCKER-REFERENCE operand.</param>
     /// <param name="KeyFingerprint">The KEY-FINGERPRINT operand.</param>
     public SkopeoStandaloneSignOptions(
+        string Output,
         string Manifest,
         string DockerReference,
         string KeyFingerprint
     )
     {
+        global::System.ArgumentNullException.ThrowIfNull(Output);
+        this.Output = Output;
         global::System.ArgumentNullException.ThrowIfNull(Manifest);
         this.Manifest = Manifest;
         global::System.ArgumentNullException.ThrowIfNull(DockerReference);
@@ -40,8 +44,9 @@ public record SkopeoStandaloneSignOptions : SkopeoOptions
         this.KeyFingerprint = KeyFingerprint;
     }
 
-    public void Deconstruct(out string Manifest, out string DockerReference, out string KeyFingerprint)
+    public void Deconstruct(out string Output, out string Manifest, out string DockerReference, out string KeyFingerprint)
     {
+        Output = this.Output;
         Manifest = this.Manifest;
         DockerReference = this.DockerReference;
         KeyFingerprint = this.KeyFingerprint;
@@ -51,7 +56,7 @@ public record SkopeoStandaloneSignOptions : SkopeoOptions
     /// output the signature to SIGNATURE
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    public string Output { get; private init; }
 
     /// <summary>
     /// file that contains a passphrase for the --sign-by key
