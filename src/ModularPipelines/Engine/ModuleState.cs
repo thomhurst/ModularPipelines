@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using ModularPipelines.Attributes;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -158,7 +157,7 @@ internal class ModuleState(IModule module, Type moduleType, IModuleScheduler? sc
     /// <summary>
     /// Gets or sets the custom parallel limiter shared with other modules.
     /// </summary>
-    public ParallelLimiterAttribute? ParallelLimiter { get; set; }
+    public ParallelLimitConfiguration? ParallelLimiter { get; set; }
 
     /// <summary>
     /// Gets or sets when all dependencies were satisfied and the module became ready.

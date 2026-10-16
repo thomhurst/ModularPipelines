@@ -90,9 +90,14 @@ public sealed class ModuleConfiguration
     public ModulePriority? Priority { get; internal init; }
 
     /// <summary>
-    /// Gets the shared parallel limit type, or <see langword="null"/> when no limiter is configured.
+    /// Gets the shared parallel limit type, or <see langword="null"/> when no typed limiter is configured.
     /// </summary>
     public Type? ParallelLimiterType => ParallelLimiter?.Type;
+
+    /// <summary>
+    /// Gets the named parallel limit key, or <see langword="null"/> when no named limiter is configured.
+    /// </summary>
+    public string? ParallelLimitKey { get; internal init; }
 
     // Retain the typed attribute bridge so both configuration paths use static interface dispatch.
     internal ParallelLimiterAttribute? ParallelLimiter { get; init; }

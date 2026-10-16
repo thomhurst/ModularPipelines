@@ -11,6 +11,8 @@ internal interface IParallelLimitProvider
     /// </summary>
     SemaphoreSlim GetLock<TParallelLimit>() where TParallelLimit : IParallelLimit;
 
+    SemaphoreSlim GetLock(string key);
+
     int GetMaxDegreeOfParallelism();
 
     /// <summary>

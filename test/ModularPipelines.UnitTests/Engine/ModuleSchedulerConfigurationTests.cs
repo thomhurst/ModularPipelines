@@ -75,7 +75,7 @@ public class ModuleSchedulerConfigurationTests
         var fluentState = scheduler.GetModuleState(typeof(FluentLimitedModule))!;
         var evaluator = new ModuleConstraintEvaluator(NullLogger<ModuleConstraintEvaluator>.Instance);
 
-        await Assert.That(fluentState.ParallelLimiter!.Type).IsEqualTo(typeof(SingleLimit));
+        await Assert.That(fluentState.ParallelLimiter!.Key).IsEqualTo(typeof(SingleLimit));
         await Assert.That(evaluator.CanQueue(fluentState, [attributeState])).IsFalse();
         await Assert.That(evaluator.CanQueue(attributeState, [fluentState])).IsFalse();
         await Assert.That(evaluator.CanQueue(fluentState, [])).IsTrue();

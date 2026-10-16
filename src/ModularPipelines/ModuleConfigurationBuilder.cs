@@ -52,6 +52,7 @@ public sealed class ModuleConfigurationBuilder
     private bool _hasAsyncSkipCondition;
     private string[]? _parallelConstraintKeys;
     private ParallelLimiterAttribute? _parallelLimiter;
+    private string? _parallelLimitKey;
     private ModulePriority? _priority;
     private ExecutionHint? _executionHint;
     private string? _category;
@@ -341,12 +342,30 @@ public sealed class ModuleConfigurationBuilder
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Fluent configuration overrides an inherited or directly applied parallel limiter attribute.
-    /// Repeated calls use the last limit type. The limit must be a positive integer.
+    /// The last call to this method or <see cref="WithParallelLimit"/> wins. The limit must be a positive integer.
     /// </remarks>
     public ModuleConfigurationBuilder WithParallelLimiter<TParallelLimit>()
         where TParallelLimit : IParallelLimit
     {
         _parallelLimiter = new ParallelLimiterAttribute<TParallelLimit>();
+        _parallelLimitKey = null;
+        return this;
+    }
+
+    /// <summary>
+    /// Selects a named parallel limit from <see cref="Options.ConcurrencyOptions.Limits"/>.
+    /// </summary>
+    /// <param name="key">The case-sensitive key shared by modules in this pipeline.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// Overrides a parallel limiter attribute. The last call to this method or
+    /// <see cref="WithParallelLimiter{TParallelLimit}"/> wins. The key must have a configured positive capacity.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithParallelLimit(string key)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        _parallelLimitKey = key;
+        _parallelLimiter = null;
         return this;
     }
 
@@ -635,6 +654,7 @@ public sealed class ModuleConfigurationBuilder
             AlwaysRun = _alwaysRun,
             ParallelConstraintKeys = _parallelConstraintKeys,
             ParallelLimiter = _parallelLimiter,
+            ParallelLimitKey = _parallelLimitKey,
             Priority = _priority,
             ExecutionHint = _executionHint,
             Tags = new HashSet<string>(_tags, StringComparer.OrdinalIgnoreCase),

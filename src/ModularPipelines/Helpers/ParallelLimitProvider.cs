@@ -9,6 +9,7 @@ namespace ModularPipelines.Helpers;
 internal class ParallelLimitProvider : IParallelLimitProvider, IDisposable
 {
     private readonly ConcurrentDictionary<Type, SemaphoreSlim> _locks = new();
+    private readonly ConcurrentDictionary<string, Lazy<SemaphoreSlim>> _keyedLocks = new(StringComparer.Ordinal);
 
     private readonly ConcurrencyOptions _concurrencyOptions;
     private readonly Lazy<SemaphoreSlim?> _cpuIntensiveLock;
@@ -51,6 +52,13 @@ internal class ParallelLimitProvider : IParallelLimitProvider, IDisposable
         return _concurrencyOptions.MaxParallelism;
     }
 
+    public SemaphoreSlim GetLock(string key)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        var limit = _concurrencyOptions.GetLimit(key);
+        return _keyedLocks.GetOrAdd(key, _ => new Lazy<SemaphoreSlim>(() => new SemaphoreSlim(limit, limit))).Value;
+    }
+
     public SemaphoreSlim? GetExecutionHintLock(ExecutionHint executionHint)
     {
         return executionHint switch
@@ -63,6 +71,14 @@ internal class ParallelLimitProvider : IParallelLimitProvider, IDisposable
 
     public void Dispose()
     {
+        foreach (var semaphore in _keyedLocks.Values)
+        {
+            if (semaphore.IsValueCreated)
+            {
+                semaphore.Value.Dispose();
+            }
+        }
+
         foreach (var semaphore in _locks.Values)
         {
             semaphore.Dispose();

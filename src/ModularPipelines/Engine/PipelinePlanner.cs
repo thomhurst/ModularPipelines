@@ -1,7 +1,6 @@
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -437,7 +436,7 @@ internal sealed class PipelinePlanner
             var queuedAny = false;
             foreach (var plannedModule in readyModules)
             {
-                var profile = CreateSchedulingProfile(plannedModule);
+                var profile = CreateSchedulingProfile(plannedModule, concurrency);
                 if (scheduledModules.Any(module => module.QueueTime <= currentTime
                                                    && module.Finish > currentTime
                                                    && HasConstraintConflict(profile, module.Profile)))
@@ -496,10 +495,10 @@ internal sealed class PipelinePlanner
         return new SchedulingCandidate(plannedModule, duration, profile, timing);
     }
 
-    private static SchedulingProfile CreateSchedulingProfile(PipelinePlanModule plannedModule) => new(
+    private static SchedulingProfile CreateSchedulingProfile(PipelinePlanModule plannedModule, ConcurrencyOptions concurrency) => new(
         GetConstraintKeys(plannedModule.Module),
         GetExecutionHint(plannedModule.Module),
-        plannedModule.ShouldSkip ? null : GetParallelLimiter(plannedModule.Module));
+        plannedModule.ShouldSkip ? null : ParallelLimitConfiguration.Resolve(plannedModule.Module.Configuration, concurrency));
 
     private static IReadOnlyCollection<string>? GetConstraintKeys(IModule module)
     {
@@ -544,23 +543,6 @@ internal sealed class PipelinePlanner
             .FirstOrDefault()
             ?.Priority
         ?? ModulePriority.Normal;
-
-    private static ParallelLimiterProfile? GetParallelLimiter(IModule module)
-    {
-        var attribute = module.Configuration.ParallelLimiter;
-        if (attribute is null)
-        {
-            return null;
-        }
-
-        if (attribute.Limit <= 0)
-        {
-            throw new ArgumentException(
-                $"Parallel limit for type '{attribute.Type.FullName}' must be a positive integer, but was {attribute.Limit}.");
-        }
-
-        return new ParallelLimiterProfile(attribute.Type, attribute.Limit);
-    }
 
     private static ModuleTiming FindModuleTiming(
         TimeSpan dependencyFinish,
@@ -740,7 +722,7 @@ internal sealed class PipelinePlanner
                 blockedUntil = GetCapacityBlocker(
                     activeModules,
                     parallelLimiter.Limit,
-                    module => module.Profile.ParallelLimiter?.Type == parallelLimiter.Type);
+                    module => Equals(module.Profile.ParallelLimiter?.Key, parallelLimiter.Key));
                 if (blockedUntil > checkpoint)
                 {
                     break;
@@ -800,9 +782,7 @@ internal sealed class PipelinePlanner
     private sealed record SchedulingProfile(
         IReadOnlyCollection<string>? ConstraintKeys,
         ExecutionHint ExecutionHint,
-        ParallelLimiterProfile? ParallelLimiter);
-
-    private sealed record ParallelLimiterProfile(Type Type, int Limit);
+        ParallelLimitConfiguration? ParallelLimiter);
 
     private sealed record ScheduledModule(
         TimeSpan QueueTime,
