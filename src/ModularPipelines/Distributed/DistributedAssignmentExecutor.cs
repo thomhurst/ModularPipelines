@@ -8,6 +8,7 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -140,7 +141,8 @@ internal sealed class DistributedAssignmentExecutor(
             .GetRequiredService<IInternalModuleLoggerAccessor>()
             .GetLogger(moduleType) as IInternalModuleLogger
             ?? throw new InvalidOperationException($"No internal module logger is available for {moduleType.Name}.");
-        using var outputScope = new ModuleOutputContextScope(moduleType, moduleLogger);
+        using var outputScope = new ModuleOutputContextScope(
+            moduleType, moduleLogger, serviceScope.ServiceProvider.GetRequiredService<IFileSystemProvider>());
 
         try
         {

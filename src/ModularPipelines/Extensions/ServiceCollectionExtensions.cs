@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Events;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Generated;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -143,7 +144,7 @@ internal static class ServiceCollectionExtensions
         Func<IServiceProvider, TModule> moduleFactory)
         where TModule : class, IModule
     {
-        using (new Logging.ModuleOutputContextScope(typeof(TModule)))
+        using (new Logging.ModuleOutputContextScope(typeof(TModule), fileSystemProvider: serviceProvider.GetService<IFileSystemProvider>()))
         {
             return moduleFactory(serviceProvider);
         }

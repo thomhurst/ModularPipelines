@@ -1,25 +1,23 @@
+using ModularPipelines.FileSystem;
+
 namespace ModularPipelines.Logging;
 
 /// <summary>
-/// Identifies the module output destination that flows with an execution context.
+/// Identifies the module output destination and file-system provider that flow with an execution context.
 /// </summary>
 /// <remarks>
 /// The shared active state invalidates flowed copies when the owning scope ends, keeping
 /// fire-and-forget writes from being appended to a completed module.
 /// </remarks>
-internal sealed class ModuleOutputContext
+internal sealed class ModuleOutputContext(Type moduleType, IModuleLogger? logger, IFileSystemProvider? fileSystemProvider)
 {
     private int _isActive = 1;
 
-    public ModuleOutputContext(Type moduleType, IModuleLogger? logger)
-    {
-        ModuleType = moduleType;
-        Logger = logger;
-    }
+    public Type ModuleType { get; } = moduleType;
 
-    public Type ModuleType { get; }
+    public IModuleLogger? Logger { get; } = logger;
 
-    public IModuleLogger? Logger { get; }
+    public IFileSystemProvider? FileSystemProvider { get; } = fileSystemProvider;
 
     public bool IsActive => Volatile.Read(ref _isActive) == 1;
 
@@ -27,7 +25,7 @@ internal sealed class ModuleOutputContext
 }
 
 /// <summary>
-/// Provides internal read access to the current module output destination.
+/// Provides internal read access to the current module output destination and file-system provider.
 /// </summary>
 internal static class AmbientModuleOutputContext
 {
@@ -35,6 +33,9 @@ internal static class AmbientModuleOutputContext
 
     public static ModuleOutputContext? Current =>
         Storage.Value is { IsActive: true } context ? context : null;
+
+    public static IFileSystemProvider CurrentFileSystemProvider =>
+        Current?.FileSystemProvider ?? SystemFileSystemProvider.Instance;
 
     internal static ModuleOutputContext? RawValue
     {
@@ -52,10 +53,13 @@ internal sealed class ModuleOutputContextScope : IDisposable
     private readonly ModuleOutputContext _current;
     private int _disposed;
 
-    public ModuleOutputContextScope(Type moduleType, IModuleLogger? logger = null)
+    public ModuleOutputContextScope(
+        Type moduleType,
+        IModuleLogger? logger = null,
+        IFileSystemProvider? fileSystemProvider = null)
     {
         _previous = AmbientModuleOutputContext.RawValue;
-        _current = new ModuleOutputContext(moduleType, logger);
+        _current = new ModuleOutputContext(moduleType, logger, fileSystemProvider);
         AmbientModuleOutputContext.RawValue = _current;
     }
 

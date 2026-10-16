@@ -1,0 +1,134 @@
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
+using ModularPipelines.FileSystem;
+using ModularPipelines.Logging;
+using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
+using Moq;
+
+namespace ModularPipelines.UnitTests.FileSystem;
+
+public class AmbientFileSystemTests
+{
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task PipelineConstructionAndExecutionUseRegisteredProvider(bool useFactory)
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(Mock.Of<IFileSystemProvider>());
+        if (useFactory)
+        {
+            builder.AddModule<ProviderModule>(_ => new ProviderModule());
+        }
+        else
+        {
+            builder.AddModule<ProviderModule>();
+        }
+
+        var summary = await builder.RunAsync();
+        var result = await summary.Modules.OfType<ProviderModule>().Single();
+
+        await Assert.That(result.ValueOrDefault).IsTrue();
+    }
+
+    [Test]
+    public async Task NestedScopesRestoreProviderAndPathsRetainCapturedProvider()
+    {
+        var outerProvider = Mock.Of<IFileSystemProvider>();
+        var innerProvider = Mock.Of<IFileSystemProvider>();
+        FilePath retained;
+        using (new ModuleOutputContextScope(typeof(AmbientFileSystemTests), fileSystemProvider: outerProvider))
+        {
+            using (new ModuleOutputContextScope(typeof(AmbientFileSystemTests), fileSystemProvider: innerProvider))
+            {
+                await Task.Yield();
+                retained = new FilePath("file.txt");
+                await Assert.That(retained.Provider).IsSameReferenceAs(innerProvider);
+                await Assert.That(new FolderPath("folder").Provider).IsSameReferenceAs(innerProvider);
+            }
+
+            await Assert.That(new FilePath("file.txt").Provider).IsSameReferenceAs(outerProvider);
+            await Assert.That(new FolderPath("folder").Provider).IsSameReferenceAs(outerProvider);
+        }
+
+        await Assert.That(retained.Provider).IsSameReferenceAs(innerProvider);
+        await Assert.That(new FilePath("file.txt").Provider).IsSameReferenceAs(SystemFileSystemProvider.Instance);
+    }
+
+    [Test]
+    public async Task FlowedScopeStopsSupplyingProviderWhenDisposed()
+    {
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        Task<FilePath> latePath;
+        using (new ModuleOutputContextScope(typeof(AmbientFileSystemTests), fileSystemProvider: Mock.Of<IFileSystemProvider>()))
+        {
+            latePath = Task.Run(async () =>
+            {
+                await release.Task;
+                return new FilePath("file.txt");
+            });
+        }
+
+        release.SetResult();
+        await Assert.That((await latePath).Provider).IsSameReferenceAs(SystemFileSystemProvider.Instance);
+    }
+
+    [Test]
+    public async Task PathsOutsideModuleScopeUseSystemProvider()
+    {
+        FilePath file = "file.txt"!;
+        FolderPath folder = "folder"!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(file.Provider).IsSameReferenceAs(SystemFileSystemProvider.Instance);
+            await Assert.That(folder.Provider).IsSameReferenceAs(SystemFileSystemProvider.Instance);
+        }
+    }
+
+    [Test]
+    public async Task EqualityIncludesProviderIdentity()
+    {
+        var firstProvider = Mock.Of<IFileSystemProvider>();
+        var secondProvider = Mock.Of<IFileSystemProvider>();
+        var file = new FilePath("file.txt", firstProvider);
+        var sameFile = new FilePath("file.txt", firstProvider);
+        var otherFile = new FilePath("file.txt", secondProvider);
+        var folder = new FolderPath("folder", firstProvider);
+        var sameFolder = new FolderPath("folder", firstProvider);
+        var otherFolder = new FolderPath("folder", secondProvider);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(file == sameFile).IsTrue();
+            await Assert.That(file == otherFile).IsFalse();
+            await Assert.That(file.GetHashCode()).IsEqualTo(sameFile.GetHashCode());
+            await Assert.That(new HashSet<FilePath> { file, sameFile, otherFile }).Count().IsEqualTo(2);
+            await Assert.That(folder == sameFolder).IsTrue();
+            await Assert.That(folder == otherFolder).IsFalse();
+            await Assert.That(folder.GetHashCode()).IsEqualTo(sameFolder.GetHashCode());
+            await Assert.That(new HashSet<FolderPath> { folder, sameFolder, otherFolder }).Count().IsEqualTo(2);
+        }
+    }
+
+    private sealed class ProviderModule : Module<bool>
+    {
+        private readonly FilePath _file = new("file.txt");
+        private readonly FolderPath _folder = new("folder");
+
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            var provider = context.Files.GetFile("file.txt").Provider;
+            FilePath convertedFile = "file.txt"!;
+            FolderPath convertedFolder = "folder"!;
+            return ReferenceEquals(_file.Provider, provider)
+                && ReferenceEquals(_folder.Provider, provider)
+                && ReferenceEquals(convertedFile.Provider, provider)
+                && ReferenceEquals(convertedFolder.Provider, provider);
+        }
+    }
+}

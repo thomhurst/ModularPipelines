@@ -300,7 +300,7 @@ public class ModuleTestBuilder<TModule>
             .GetRequiredService<IOptions<ModuleCacheOptions>>()
             .Value.WorkingDirectory;
 
-        using var outputScope = new ModuleOutputContextScope(typeof(TModule), logger);
+        using var outputScope = new ModuleOutputContextScope(typeof(TModule), logger, effectiveFileSystem);
 
         IModuleResult result;
         try
