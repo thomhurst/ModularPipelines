@@ -41,15 +41,6 @@ public interface IKubernetesCreate
     public Task<CommandResult> ExecuteAsync(KubernetesCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Create a cluster role binding for a particular cluster role.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ClusterrolebindingAsync(KubernetesCreateClusterrolebindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Create a cluster role.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -57,6 +48,15 @@ public interface IKubernetesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ClusterroleAsync(KubernetesCreateClusterroleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Create a cluster role binding for a particular cluster role.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ClusterrolebindingAsync(KubernetesCreateClusterrolebindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a config map based on a file, directory, or specified literal value.
@@ -140,15 +140,6 @@ public interface IKubernetesCreate
     public Task<CommandResult> QuotaAsync(KubernetesCreateQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Create a role binding for a particular role or cluster role.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> RolebindingAsync(KubernetesCreateRolebindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Create a role with single rule.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -156,6 +147,15 @@ public interface IKubernetesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> RoleAsync(KubernetesCreateRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Create a role binding for a particular role or cluster role.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RolebindingAsync(KubernetesCreateRolebindingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a service account with the specified name.

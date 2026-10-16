@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "kubectl",
-  "toolVersion": "Client Version: v1.37.1 Kustomize Version: v5.8.1",
+  "toolVersion": "1.37.1",
   "commandCount": 102,
   "commandTreeSha256": "2570b2a09edbba4fb10b51541269d0ae5f27bf991eeba2902cd8b9c8639065da",
   "commands": [
