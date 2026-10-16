@@ -5,12 +5,13 @@ internal static class SafeWalk
     private static readonly EnumerationOptions SafeEnumerationOptions = new()
     {
         IgnoreInaccessible = true,
+        AttributesToSkip = 0,
     };
 
     private static readonly EnumerationOptions SafeDirectoryEnumerationOptions = new()
     {
         IgnoreInaccessible = true,
-        AttributesToSkip = SafeEnumerationOptions.AttributesToSkip | FileAttributes.ReparsePoint,
+        AttributesToSkip = FileAttributes.ReparsePoint,
     };
 
     private static readonly EnumerationOptions GlobEnumerationOptions = new()

@@ -7,6 +7,45 @@ namespace ModularPipelines.UnitTests.FileSystem;
 public class FolderWalkTests
 {
     [Test]
+    public async Task WalksIncludeHiddenFilesAndDirectories()
+    {
+        await AssertWalkIncludesEntries(FileAttributes.Hidden);
+    }
+
+    [Test]
+    [WindowsOnlyTest]
+    public async Task WalksIncludeSystemFilesAndDirectories()
+    {
+        await AssertWalkIncludesEntries(FileAttributes.System);
+    }
+
+    private static async Task AssertWalkIncludesEntries(FileAttributes attributes)
+    {
+        using var temporary = new TempFolder();
+        var root = temporary.Folder;
+        var rootFile = root.CreateFile(".editorconfig");
+        var hidden = root.CreateFolder(".github");
+        var nested = hidden.CreateFolder("workflows");
+        var nestedFile = nested.CreateFile("build.yml");
+        if (OperatingSystem.IsWindows())
+        {
+            rootFile.Attributes |= attributes;
+            hidden.Attributes |= attributes;
+        }
+
+        await Assert.That(root.GetFiles(_ => true)).IsEquivalentTo(new[] { rootFile, nestedFile }).Using(EqualityComparer<FilePath>.Default);
+        await Assert.That(root.FindFile(file => file.Name == ".editorconfig")).IsEqualTo(rootFile);
+        await Assert.That(root.FindFile(file => file.Name == "build.yml")).IsEqualTo(nestedFile);
+        await Assert.That(root.GetFolders(_ => true)).IsEquivalentTo(new[] { hidden, nested }).Using(EqualityComparer<FolderPath>.Default);
+        await Assert.That(root.FindFolder(folder => folder.Name == ".github")).IsEqualTo(hidden);
+        await Assert.That(root.FindFolder(folder => folder.Name == "workflows")).IsEqualTo(nested);
+
+        await Assert.That(root.GetFiles(_ => true, folder => folder.Name == ".github"))
+            .IsEquivalentTo(new[] { rootFile }).Using(EqualityComparer<FilePath>.Default);
+        await Assert.That(root.GetFolders(_ => true, folder => folder.Name == ".github")).IsEmpty();
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task WalksSkipDirectorySymbolicLinks(bool cycle)
