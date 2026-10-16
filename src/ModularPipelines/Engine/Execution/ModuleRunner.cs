@@ -1084,7 +1084,10 @@ internal class ModuleRunner : IModuleRunner
         catch (Exception ex)
         {
             await HandleModuleFailureAsync(moduleState, executionContext, lifecycleContext, ex).ConfigureAwait(false);
-            throw;
+            if (ex is not OperationCanceledException || executionContext.Status != ModuleStatus.Canceled)
+            {
+                throw;
+            }
         }
         finally
         {
@@ -1254,6 +1257,12 @@ internal class ModuleRunner : IModuleRunner
             {
                 await UploadProducedArtifactsAsync(moduleState.ModuleType, scheduler, cancellationToken)
                     .ConfigureAwait(false);
+            }
+            catch (OperationCanceledException exception) when (
+                WorkerCancellationClassifier.IsExpected(exception, cancellationToken))
+            {
+                executionContext.Status = ModuleStatus.Canceled;
+                throw;
             }
             catch (Exception exception) when (exception is not ModuleFailedException)
             {
