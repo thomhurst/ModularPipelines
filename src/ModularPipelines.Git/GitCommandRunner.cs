@@ -86,9 +86,29 @@ public class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner
         }
         catch (Exception ex) when (ex is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {
-            _logger.LogDebug(ex, "Git command failed: {Commands}", string.Join(" ", commands.Where(c => c != null)));
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug(ex, "Git command failed: {Commands}", string.Join(" ", commands.Where(c => c != null)));
+            }
+
             return null;
         }
+    }
+
+    /// <inheritdoc />
+    public async Task<string> RunCommandsAsync(
+        GitOptions options,
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken)
+    {
+        var result = await _context.Shell.RunAsync(
+            options,
+            (commandEnvironmentOptions ?? new CommandExecutionOptions()) with
+            {
+                Logging = CommandLoggingOptions.Silent,
+            },
+            cancellationToken).ConfigureAwait(false);
+        return result.StandardOutput.Trim();
     }
 
     /// <inheritdoc />
@@ -99,15 +119,13 @@ public class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner
     {
         try
         {
-            var result = await _context.Shell.RunAsync(
+            return await RunCommandsAsync(
                 options,
                 (commandEnvironmentOptions ?? new CommandExecutionOptions()) with
                 {
-                    Logging = CommandLoggingOptions.Silent,
                     ThrowOnNonZeroExitCode = true,
                 },
                 cancellationToken).ConfigureAwait(false);
-            return result.StandardOutput.Trim();
         }
         catch (Exception exception) when (exception is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {

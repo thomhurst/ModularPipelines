@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
@@ -124,6 +125,50 @@ public class GitTests : TestBase
     }
 
     [Test]
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task CommitsAsync_Rejects_Invalid_Revisions(bool useOptions, bool emptyRepository)
+    {
+        using var repository = await TemporaryGitRepository.CreateAsync(emptyRepository);
+        var information = await CreateGitInformationAsync(repository.WorkingDirectory);
+        var options = useOptions ? new GitOptions { ChangeDirectories = [repository.WorkingDirectory], NoPager = true } : null;
+        await using var commits = information.CommitsAsync("invalid-revision", options).GetAsyncEnumerator();
+
+        await Assert.ThrowsAsync<CommandException>(async () => await commits.MoveNextAsync());
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CommitsAsync_Returns_Empty_History_For_Empty_Repository(bool useOptions)
+    {
+        using var repository = await TemporaryGitRepository.CreateAsync(empty: true);
+        var information = await CreateGitInformationAsync(repository.WorkingDirectory);
+        var options = useOptions ? new GitOptions
+        {
+            ChangeDirectories = [repository.WorkingDirectory],
+            NoPager = true,
+            AdditionalArguments = [new("--first-parent")],
+        } : null;
+        await using var commits = information.CommitsAsync(options).GetAsyncEnumerator();
+
+        await Assert.That(await commits.MoveNextAsync()).IsFalse();
+    }
+
+    [Test]
+    public async Task CommitsAsync_Rejects_Invalid_Options_In_Empty_Repository()
+    {
+        using var repository = await TemporaryGitRepository.CreateAsync(empty: true);
+        var information = await CreateGitInformationAsync(repository.WorkingDirectory);
+        var options = new GitOptions { AdditionalArguments = [new("--invalid-option")] };
+        await using var commits = information.CommitsAsync(options).GetAsyncEnumerator();
+
+        await Assert.ThrowsAsync<CommandException>(async () => await commits.MoveNextAsync());
+    }
+
+    [Test]
     public async Task Commands_Are_Grouped_And_Asynchronous()
     {
         var groups = typeof(IGitCommands).GetProperties();
@@ -166,7 +211,7 @@ public class GitTests : TestBase
 
         public string LastCommitSha { get; }
 
-        public static async Task<TemporaryGitRepository> CreateAsync()
+        public static async Task<TemporaryGitRepository> CreateAsync(bool empty = false)
         {
             var temporaryRoot = Path.Combine(
                 Path.GetTempPath(),
@@ -191,6 +236,11 @@ public class GitTests : TestBase
                 await RunGitAsync(workingDirectory, "config", "push.gpgSign", "false");
                 await RunGitAsync(workingDirectory, "config", "protocol.file.allow", "always");
                 await RunGitAsync(workingDirectory, "config", "core.hooksPath", hooksDirectory);
+
+                if (empty)
+                {
+                    return new TemporaryGitRepository(temporaryRoot, workingDirectory, string.Empty);
+                }
 
                 await File.WriteAllTextAsync(Path.Combine(workingDirectory, "first.txt"), "first");
                 await RunGitAsync(workingDirectory, "add", "--force", "first.txt");

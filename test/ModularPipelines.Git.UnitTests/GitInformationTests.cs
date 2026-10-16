@@ -194,7 +194,7 @@ public class GitInformationTests : TestBase
     {
         var observedToken = default(CancellationToken);
         var runner = new Mock<IGitCommandRunner>();
-        runner.Setup(x => x.RunCommandsOrNullAsync(
+        runner.Setup(x => x.RunCommandsAsync(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
@@ -202,7 +202,7 @@ public class GitInformationTests : TestBase
                 (_, cancellationToken, _) =>
                 {
                     observedToken = cancellationToken;
-                    return Task.FromResult<string?>(null);
+                    return Task.FromResult(string.Empty);
                 });
         var result = await GetService<IGitInformation>(services =>
             services.AddSingleton(runner.Object));
@@ -222,7 +222,7 @@ public class GitInformationTests : TestBase
         CommandExecutionOptions? observedOptions = null;
         string?[]? observedCommands = null;
         var runner = new Mock<IGitCommandRunner>();
-        runner.Setup(x => x.RunCommandsOrNullAsync(
+        runner.Setup(x => x.RunCommandsAsync(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
@@ -230,7 +230,7 @@ public class GitInformationTests : TestBase
             {
                 observedOptions = options;
                 observedCommands = commands;
-                return Task.FromResult<string?>(
+                return Task.FromResult<string>(
                     $"{CreateCommitOutput("second commit", '2')}\0{CreateCommitOutput("first commit", '1')}\0");
             });
         var result = await GetService<IGitInformation>(services =>
@@ -256,7 +256,7 @@ public class GitInformationTests : TestBase
                 .EndsWith("%x00");
         }
 
-        runner.Verify(x => x.RunCommandsOrNullAsync(
+        runner.Verify(x => x.RunCommandsAsync(
             It.IsAny<CommandExecutionOptions?>(),
             It.IsAny<CancellationToken>(),
             It.IsAny<string?[]>()), Times.Once());
@@ -332,17 +332,17 @@ public class GitInformationTests : TestBase
         public List<(CommandExecutionOptions? Execution, CancellationToken Token, string?[] Arguments)> Pages { get; } = [];
 
         public Task<string> RunCommandsAsync(CommandExecutionOptions? executionOptions, params string?[] commands) =>
-            throw new NotSupportedException();
+            RunCommandsAsync(executionOptions, CancellationToken.None, commands);
 
         public Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? executionOptions, params string?[] commands) =>
-            RunCommandsOrNullAsync(executionOptions, CancellationToken.None, commands);
+            throw new NotSupportedException();
 
-        public Task<string?> RunCommandsOrNullAsync(
+        public Task<string> RunCommandsAsync(
             CommandExecutionOptions? executionOptions, CancellationToken cancellationToken, params string?[] commands)
         {
             Pages.Add((executionOptions, cancellationToken, commands));
             var count = Pages.Count == 1 ? 50 : 1;
-            return Task.FromResult<string?>(string.Concat(Enumerable.Repeat(
+            return Task.FromResult<string>(string.Concat(Enumerable.Repeat(
                 $"{CreateCommitOutput("custom runner", '1')}\0", count)));
         }
     }
@@ -430,7 +430,7 @@ public class GitInformationTests : TestBase
     [Test]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task CommitsAsync_With_Global_Options_Returns_No_Commits_When_Git_Fails(bool useHistoryCommands)
+    public async Task CommitsAsync_With_Global_Options_Propagates_Git_Failure(bool useHistoryCommands)
     {
         var command = new Mock<ICommandContext>();
         command.Setup(context => context.ExecuteCommandLineToolAsync(
@@ -445,7 +445,7 @@ public class GitInformationTests : TestBase
             : services.T.Information.CommitsAsync(options);
         await using var enumerator = commits.GetAsyncEnumerator();
 
-        await Assert.That(await enumerator.MoveNextAsync()).IsFalse();
+        await Assert.ThrowsAsync<InvalidOperationException>(async () => await enumerator.MoveNextAsync());
     }
 
     [Test]
@@ -485,7 +485,7 @@ public class GitInformationTests : TestBase
     public async Task CommitsAsync_Throws_When_Canceled_Between_Records()
     {
         var runner = new Mock<IGitCommandRunner>();
-        runner.Setup(x => x.RunCommandsOrNullAsync(
+        runner.Setup(x => x.RunCommandsAsync(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))

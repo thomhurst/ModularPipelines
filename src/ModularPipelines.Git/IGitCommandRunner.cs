@@ -58,6 +58,25 @@ public interface IGitCommandRunner
     }
 
     /// <summary>
+    /// Executes a Git command with shared root settings and returns trimmed standard output.
+    /// </summary>
+    /// <param name="options">The root settings, command parts, and command arguments.</param>
+    /// <param name="commandEnvironmentOptions">Optional command environment configuration.</param>
+    /// <param name="cancellationToken">The token used to cancel command execution.</param>
+    /// <returns>The trimmed standard output.</returns>
+    Task<string> RunCommandsAsync(
+        GitOptions options,
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return RunCommandsAsync(
+            GitCommandArguments.WithSecrets(options, commandEnvironmentOptions),
+            cancellationToken,
+            GitCommandArguments.Build(options));
+    }
+
+    /// <summary>
     /// Executes a Git command with shared root settings and returns trimmed standard output, or null on command failure.
     /// </summary>
     /// <param name="options">The root settings, command parts, and command arguments.</param>

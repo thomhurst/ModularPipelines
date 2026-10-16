@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
@@ -27,11 +28,9 @@ internal static class GitCommitPager
                 gitCommandRunner,
                 options,
                 completeOutputOptions,
-                cancellationToken,
                 branch,
-                $"--skip={skip}",
-                $"--max-count={PageSize}",
-                $"--format={GitConstants.CommitLogFormat}%x00").ConfigureAwait(false);
+                skip,
+                cancellationToken).ConfigureAwait(false);
             cancellationToken.ThrowIfCancellationRequested();
 
             if (string.IsNullOrWhiteSpace(output))
@@ -59,25 +58,73 @@ internal static class GitCommitPager
         }
     }
 
-    private static async Task<string?> GetPageOutputAsync(
+    private static async Task<string> GetPageOutputAsync(
         IGitCommandRunner gitCommandRunner,
         GitOptions? options,
         CommandExecutionOptions executionOptions,
-        CancellationToken cancellationToken,
-        params string?[] arguments)
+        string? branch,
+        int skip,
+        CancellationToken cancellationToken)
+    {
+        string?[] arguments =
+        [
+            branch,
+            $"--skip={skip}",
+            $"--max-count={PageSize}",
+            $"--format={GitConstants.CommitLogFormat}%x00",
+        ];
+        try
+        {
+            return await RunCommandAsync(
+                gitCommandRunner, options, executionOptions,
+                "log", arguments, cancellationToken).ConfigureAwait(false);
+        }
+        catch (CommandException exception) when (exception.Result.ExitCode == 128 &&
+                                                branch is null && skip == 0)
+        {
+            // An unborn HEAD makes the default log fail. Check all refs as well as HEAD:
+            // an invalid revision or an unreadable repository must not become empty history.
+            var repositoryOptions = options is null ? null : options with
+            {
+                AdditionalArguments = options.AdditionalArguments?.Where(argument => argument.IsGlobalOption).ToArray(),
+                RunSettings = null,
+            };
+            var revisions = await RunCommandAsync(
+                gitCommandRunner, repositoryOptions, executionOptions,
+                "rev-parse", ["--revs-only", "--all", "HEAD"], cancellationToken).ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(revisions))
+            {
+                throw;
+            }
+
+            // With no revisions, --all produces a successful empty log. Retain the
+            // original log settings so invalid options and other failures still throw.
+            return await RunCommandAsync(
+                gitCommandRunner, options, executionOptions,
+                "log", [.. arguments, "--all"], cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    private static async Task<string> RunCommandAsync(
+        IGitCommandRunner gitCommandRunner,
+        GitOptions? options,
+        CommandExecutionOptions executionOptions,
+        string command,
+        string?[] arguments,
+        CancellationToken cancellationToken)
     {
         if (options is null)
         {
-            return await gitCommandRunner.RunCommandsOrNullAsync(
-                executionOptions, cancellationToken, ["log", .. arguments]).ConfigureAwait(false);
+            return await gitCommandRunner.RunCommandsAsync(
+                executionOptions, cancellationToken, [command, .. arguments]).ConfigureAwait(false);
         }
 
         var pageOptions = options with
         {
-            CommandParts = ["log"],
+            CommandParts = [command],
             Arguments = [.. arguments.OfType<string>()],
         };
-        return await gitCommandRunner.RunCommandsOrNullAsync(
+        return await gitCommandRunner.RunCommandsAsync(
             pageOptions, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
@@ -86,5 +133,6 @@ internal static class GitCommitPager
         (commandExecutionOptions ?? new CommandExecutionOptions()) with
         {
             MaxCapturedOutputLength = 0,
+            ThrowOnNonZeroExitCode = true,
         };
 }

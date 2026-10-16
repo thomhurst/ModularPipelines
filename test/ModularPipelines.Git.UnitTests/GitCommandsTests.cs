@@ -40,13 +40,13 @@ public class GitCommandsTests
 
         public Task<string> RunCommandsAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
         {
-            throw new NotSupportedException();
+            Commands = commands;
+            return Task.FromResult(output);
         }
 
         public Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
         {
-            Commands = commands;
-            return Task.FromResult<string?>(output);
+            throw new NotSupportedException();
         }
     }
 }
