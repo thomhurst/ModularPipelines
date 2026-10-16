@@ -114,7 +114,7 @@ public record CliToolDefinition
         .Where(c => c.SubDomainGroup is not null)
         .Select(c => c.SubDomainGroup!)
         .Distinct()
-        .OrderBy(g => g)];
+        .OrderBy(g => g, StringComparer.Ordinal)];
 
     /// <summary>
     /// All enums that need to be generated for this tool.

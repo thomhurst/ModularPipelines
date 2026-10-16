@@ -99,7 +99,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine("{");
 
         // Properties for global options
-        foreach (var option in globalOptions.OrderBy(o => o.PropertyName))
+        foreach (var option in globalOptions.OrderBy(o => o.PropertyName, StringComparer.Ordinal))
         {
             var interceptCollectionAssignments = !tool.GlobalOptionsBeforeSubcommands && tool.Commands
                 .SelectMany(static command => command.Options)
