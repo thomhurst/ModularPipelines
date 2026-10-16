@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text.Json;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed;
 using ModularPipelines.Enums;
 using ModularPipelines.Modules;
+using ModularPipelines.Serialization;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Distributed.UnitTests.Serialization;
@@ -39,6 +41,64 @@ public class ModuleResultLoadContextTests
         var payload = CreatePayload(serializer, builds.First, false, ModuleId.FromType(typeof(DefaultContextModule)).Value);
         var exception = Assert.Throws<JsonException>(() => serializer.Deserialize(payload));
         await Assert.That(exception!.Message).Contains("ambiguous");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Runtime_Plugin_Value_Ignores_Load_Failure_In_Unrelated_Context(bool collection)
+    {
+        using var builds = new ModuleLoadContextBuilds(typeof(Module<object>), identicalBuilds: false);
+        var failingContext = new FailingLoadContext(builds.First.GetName().Name!);
+        try
+        {
+            var registry = new ModuleTypeRegistry();
+            registry.Register(typeof(DefaultContextModule));
+            var serializer = new ModuleResultSerializer(registry);
+            var payload = CreatePayload(serializer, builds.First, collection, ModuleId.FromType(typeof(DefaultContextModule)).Value);
+
+            await Assert.That(serializer.Deserialize(payload)!.ValueOrDefault!.GetType()).IsEqualTo(ValueType(builds.First, collection));
+            await Assert.That(failingContext.LoadAttempts).IsGreaterThan(0);
+        }
+        finally
+        {
+            failingContext.Unload();
+        }
+    }
+
+    [Test]
+    public async Task Runtime_Value_Preserves_Load_Failure_In_Requested_Context()
+    {
+        var assemblyName = $"Unavailable_{Guid.NewGuid():N}";
+        var failingContext = new FailingLoadContext(assemblyName);
+        try
+        {
+            var exception = Assert.Throws<FileLoadException>(() => StableTypeName.Resolve($"RuntimeValue, {assemblyName}", failingContext));
+            await Assert.That(exception!.Message).Contains(assemblyName);
+            await Assert.That(failingContext.LoadAttempts).IsEqualTo(1);
+        }
+        finally
+        {
+            failingContext.Unload();
+        }
+    }
+
+    private sealed class FailingLoadContext(string assemblyName) : AssemblyLoadContext(isCollectible: true)
+    {
+        private int _loadAttempts;
+
+        public int LoadAttempts => Volatile.Read(ref _loadAttempts);
+
+        protected override Assembly? Load(AssemblyName name)
+        {
+            if (name.Name != assemblyName)
+            {
+                return null;
+            }
+
+            Interlocked.Increment(ref _loadAttempts);
+            throw new FileLoadException("The unrelated context cannot load the assembly.", assemblyName);
+        }
     }
 
     [Test]
