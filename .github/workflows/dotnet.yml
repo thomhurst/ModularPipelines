@@ -175,6 +175,10 @@ jobs:
             -c Release \
             -p:PackageVersion="$release_package_version" \
             --output "$RUNNER_TEMP/template-pack"
+          dotnet pack src/ModularPipelines.Testing/ModularPipelines.Testing.csproj \
+            -c Release \
+            -p:PackageVersion="$release_package_version" \
+            --output "$RUNNER_TEMP/template-pack"
           dotnet pack src/ModularPipelines.Templates/ModularPipelines.Templates.csproj \
             -c Release \
             -p:PackageVersion="$release_package_version" \
@@ -182,12 +186,16 @@ jobs:
           dotnet new install \
             "$RUNNER_TEMP/template-pack/ModularPipelines.Templates.$release_package_version.nupkg"
           dotnet new modularpipeline --help | grep -F -- '--no-restore'
+          dotnet new modularpipeline --help | grep -F -- '--tests'
           dotnet new modularpipeline \
             --name TemplateVersionSmoke \
             --output "$RUNNER_TEMP/template-version-smoke" \
             --no-restore
           test "$(grep -Fc "Version=\"$release_package_version\"" \
             "$RUNNER_TEMP/template-version-smoke/Directory.Packages.props")" -eq 2
+          test ! -d "$RUNNER_TEMP/template-version-smoke/Tests"
+          ! grep -Eq 'ModularPipelines.Testing|TUnit' \
+            "$RUNNER_TEMP/template-version-smoke/Directory.Packages.props"
           dotnet restore \
             "$RUNNER_TEMP/template-version-smoke/TemplateVersionSmoke.csproj" \
             -p:RestoreAdditionalProjectSources="$RUNNER_TEMP/template-pack" \
@@ -196,6 +204,20 @@ jobs:
           dotnet build \
             "$RUNNER_TEMP/template-version-smoke/TemplateVersionSmoke.csproj" \
             -c Release \
+            --no-restore
+          dotnet new modularpipeline \
+            --name TemplateTestsSmoke \
+            --output "$RUNNER_TEMP/template-tests-smoke" \
+            --tests \
+            --no-restore
+          test "$(grep -Fc "Version=\"$release_package_version\"" \
+            "$RUNNER_TEMP/template-tests-smoke/Directory.Packages.props")" -eq 3
+          dotnet restore \
+            "$RUNNER_TEMP/template-tests-smoke/Tests/TemplateTestsSmoke.Tests.csproj" \
+            -p:RestoreAdditionalProjectSources="$RUNNER_TEMP/template-pack"
+          dotnet run \
+            --project "$RUNNER_TEMP/template-tests-smoke/Tests/TemplateTestsSmoke.Tests.csproj" \
+            --configuration Release \
             --no-restore
           dotnet new modularpipeline \
             --name TemplateSmoke \

@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines;
-using ModularPipelines.Extensions;
 using TemplatePipeline;
 using TemplatePipeline.Modules;
 using TemplatePipeline.Settings;

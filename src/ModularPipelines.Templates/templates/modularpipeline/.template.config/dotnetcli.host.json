@@ -20,6 +20,10 @@
     "skipRestore": {
       "longName": "no-restore",
       "shortName": "nr"
+    },
+    "tests": {
+      "longName": "tests",
+      "shortName": "t"
     }
   }
 }
