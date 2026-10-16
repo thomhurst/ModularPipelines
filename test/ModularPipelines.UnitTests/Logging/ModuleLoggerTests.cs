@@ -200,11 +200,14 @@ public class ModuleLoggerTests
 
         try
         {
-            await bothLogsEntered.Task.WaitAsync(TimeSpan.FromSeconds(1));
+            // Serial obfuscation never lets both calls enter before release, so allow for slow CI thread startup.
+            await bothLogsEntered.Task.WaitAsync(TimeSpan.FromSeconds(30));
         }
         finally
         {
             releaseLogs.TrySetResult();
+            await Task.WhenAll(firstLogTask, secondLogTask)
+                .ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
         }
 
         await Task.WhenAll(firstLogTask, secondLogTask);

@@ -350,21 +350,21 @@ public class DownloaderTests : TestBase
         fileSystem.Setup(x => x.GetRandomFileName()).Returns("random.tmp");
         fileSystem.Setup(x => x.Create(It.IsAny<string>())).Returns(() => new MemoryStream());
         var downloader = CreateDownloader(new StringContent("download"), fileSystem.Object, logger: logger.Object);
-        var uri = new Uri("https://user:password@example.test/file?sig=signed-secret&api_key=custom-secret&keep=yes");
+        var uri = new Uri("https://user:password@example.test/file?sig=signed-secret&custom_credential=custom-secret&keep=yes");
 
         await downloader.DownloadFileAsync(new DownloadFileOptions(uri)
         {
             SavePath = "download.bin",
             Logging = new HttpLoggingOptions
             {
-                SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "api_key"],
+                SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "custom_credential"],
             },
         });
 
         var log = logger.Invocations.Single(x => x.Method.Name == "Log");
         var state = (IEnumerable<KeyValuePair<string, object?>>) log.Arguments[2]!;
         var displayedUri = state.Single(x => x.Key == "Uri").Value!.ToString()!;
-        await Assert.That(displayedUri).IsEqualTo($"https://{LoggingConstants.SecretMask}@example.test/file?sig={LoggingConstants.SecretMask}&api_key={LoggingConstants.SecretMask}&keep=yes");
+        await Assert.That(displayedUri).IsEqualTo($"https://{LoggingConstants.SecretMask}@example.test/file?sig={LoggingConstants.SecretMask}&custom_credential={LoggingConstants.SecretMask}&keep=yes");
         await Assert.That(uri.UserInfo).IsEqualTo("user:password");
     }
 
@@ -372,13 +372,13 @@ public class DownloaderTests : TestBase
     public async Task DownloadResponseAsync_Redacts_Custom_Query_Names_In_Failure()
     {
         var downloader = CreateDownloader(new StringContent("failure"), statusCode: HttpStatusCode.BadRequest);
-        var uri = new Uri("https://example.test/file?api_key=custom-secret&sig=signed-secret");
+        var uri = new Uri("https://example.test/file?custom_credential=custom-secret&sig=signed-secret");
 
         var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => downloader.DownloadResponseAsync(new DownloadOptions(uri)
         {
             Logging = HttpLoggingOptions.Silent with
             {
-                SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "api_key"],
+                SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "custom_credential"],
             },
         }));
 
@@ -389,6 +389,18 @@ public class DownloaderTests : TestBase
 
     [Test]
     [Arguments("https://example.test/file?sig=signed-secret")]
+    [Arguments("https://example.test/file?key=signed-secret")]
+    [Arguments("https://example.test/file?api_key=signed-secret")]
+    [Arguments("https://example.test/file?apikey=signed-secret")]
+    [Arguments("https://example.test/file?client_secret=signed-secret")]
+    [Arguments("https://example.test/file?password=signed-secret")]
+    [Arguments("https://example.test/file?refresh_token=signed-secret")]
+    [Arguments("https://example.test/file?id_token=signed-secret")]
+    [Arguments("https://example.test/file?private_token=signed-secret")]
+    [Arguments("https://example.test/file?signature=signed-secret")]
+    [Arguments("https://example.test/file?auth=signed-secret")]
+    [Arguments("https://example.test/file?KEY=signed-secret")]
+    [Arguments("https://example.test/file?%61pi_key=signed-secret")]
     [Arguments("https://hooks.slack.com/services/team/channel/webhook-secret")]
     public async Task DownloadFileAsync_Redacts_Uri_With_Default_Options(string url)
     {
