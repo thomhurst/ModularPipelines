@@ -21,9 +21,32 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnConfigUnsetOptions : YarnOptions
 {
     /// <summary>
+    /// This command will unset a configuration setting.
+    /// </summary>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public YarnConfigUnsetOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
     /// Update the home configuration instead of the project configuration
     /// </summary>
     [CliFlag("--home", ShortForm = "-H")]
     public bool? Home { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

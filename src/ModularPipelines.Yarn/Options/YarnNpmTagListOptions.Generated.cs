@@ -26,4 +26,10 @@ public record YarnNpmTagListOptions : YarnOptions
     [CliFlag("--json")]
     public bool? Json { get; set; }
 
+    /// <summary>
+    /// The package operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Package { get; set; }
+
 }

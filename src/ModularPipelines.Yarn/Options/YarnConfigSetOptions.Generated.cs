@@ -21,6 +21,28 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnConfigSetOptions : YarnOptions
 {
     /// <summary>
+    /// This command will set a configuration setting.
+    /// </summary>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    /// <param name="Value">The &lt;value&gt; operand.</param>
+    public YarnConfigSetOptions(
+        string Name,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    public void Deconstruct(out string Name, out string Value)
+    {
+        Name = this.Name;
+        Value = this.Value;
+    }
+
+    /// <summary>
     /// Set complex configuration settings to JSON values
     /// </summary>
     [CliFlag("--json")]
@@ -31,5 +53,17 @@ public record YarnConfigSetOptions : YarnOptions
     /// </summary>
     [CliFlag("--home", ShortForm = "-H")]
     public bool? Home { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Value { get; private init; }
 
 }

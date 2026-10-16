@@ -22,4 +22,10 @@ namespace ModularPipelines.Yarn.Options;
 [CliGlobalOptions]
 public abstract record YarnOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Run Yarn in this directory. Must precede the command path, except that yarn add ... --cwd &lt;path&gt; is also supported. Documentation: https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-cli/sources/lib.ts
+    /// </summary>
+    [CliOption("--cwd")]
+    public virtual string? Cwd { get; set; }
+
 }

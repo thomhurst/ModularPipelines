@@ -22,10 +22,33 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnNpmStageApproveOptions : YarnOptions
 {
     /// <summary>
+    /// This command will approve a staged package version, publishing it to the npm
+    /// </summary>
+    /// <param name="StageId">The &lt;stageId&gt; operand.</param>
+    public YarnNpmStageApproveOptions(
+        string StageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StageId);
+        this.StageId = StageId;
+    }
+
+    public void Deconstruct(out string StageId)
+    {
+        StageId = this.StageId;
+    }
+
+    /// <summary>
     /// The OTP token to use with the command
     /// </summary>
     [SecretValue]
     [CliOption("--otp")]
     public string? Otp { get; set; }
+
+    /// <summary>
+    /// The &lt;stageId&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string StageId { get; private init; }
 
 }
