@@ -9,6 +9,11 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
     public async Task WriteAsync(IPipelineContext pipelineHookContext)
     {
         var options = await GetGitHubPipelineFileWriterOptions(pipelineHookContext).ConfigureAwait(false);
+        var maskEnvironment = options.ValuesToMask?
+            .Select((value, index) => KeyValuePair.Create($"MODULARPIPELINES_MASK_VALUE_{index}", value))
+            .ToDictionary() ?? [];
+        var portableProjectPath = options.PipelineProjectPath.OriginalPath.Replace('\\', '/');
+        var quotedProjectPath = $"'{portableProjectPath.Replace("'", "'\"'\"'", StringComparison.Ordinal)}'";
 
         var yaml = pipelineHookContext.Data.Yaml.ToYaml(new
         {
@@ -23,10 +28,19 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
 
                     Steps = new object?[]
                     {
-                        options.ValuesToMask?.Any() != true ? null : new
+                        maskEnvironment.Count == 0 ? null : new
                         {
                           Name = "Mask Secret Values",
-                          Run = string.Join(Environment.NewLine, options.ValuesToMask.Select(x => $"echo \"::add-mask::{x}")),
+                          Shell = "bash",
+                          Run = $$"""
+                                for value in {{string.Join(" ", maskEnvironment.Keys.Select(key => $"\"${{{key}}}\""))}}; do
+                                  value="${value//'%'/'%25'}"
+                                  value="${value//$'\r'/'%0D'}"
+                                  value="${value//$'\n'/'%0A'}"
+                                  printf '::add-mask::%s\n' "$value"
+                                done
+                                """,
+                          Env = maskEnvironment,
                         },
                         new
                         {
@@ -61,8 +75,9 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
                         new
                         {
                             Name = "Run Pipeline",
+                            Shell = "bash",
                             Run =
-                                $"dotnet run --project {options.PipelineProjectPath.OriginalPath} -c Release{(!string.IsNullOrWhiteSpace(options.DotNetRunFramework) ? $" --framework {options.DotNetRunFramework}" : string.Empty)}",
+                                $"dotnet run --project {quotedProjectPath} -c Release{(!string.IsNullOrWhiteSpace(options.DotNetRunFramework) ? $" --framework {options.DotNetRunFramework}" : string.Empty)}",
                             Env = options.EnvironmentVariables,
                         },
                     }.Where(x => x != null),
