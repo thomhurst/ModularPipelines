@@ -14,8 +14,8 @@ public static class Host
     {
         if (args[0] == "write-bytes")
         {
-            using var standardOutput = Console.OpenStandardOutput();
-            using var standardError = Console.OpenStandardError();
+            using var standardOutput = System.Console.OpenStandardOutput();
+            using var standardError = System.Console.OpenStandardError();
             await standardOutput.WriteAsync(Convert.FromBase64String(args[1]));
             await standardError.WriteAsync(Convert.FromBase64String(args[2]));
             return 0;
@@ -40,7 +40,7 @@ public static class Host
         var role = args[0];
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
+        var name = role is "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
         // Every fixture process publishes its own identity. A parent killed between starting a
         // child and publishing its PID would otherwise leave an orphan that cleanup cannot find,
         // holding the command's output pipes open.
@@ -52,7 +52,7 @@ public static class Host
         {
             await RunRoleAsync(role, name, directory, runtimeConfiguration);
 
-            return 0;
+            return role == "parent-error-exit" ? 23 : 0;
         }
         catch (Exception exception)
         {
@@ -86,6 +86,14 @@ public static class Host
                 }
 
                 break;
+            case "threaded-parent":
+                // Keep the spawning thread alive so Linux retains the child under that thread's task.
+                await Task.Factory.StartNew(() =>
+                {
+                    using var child = StartChild("child", directory, runtimeConfiguration);
+                    child.WaitForExit();
+                }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                break;
             case "orphaning-parent":
                 // Simulates a parent killed after starting a child but before publishing its PID.
                 CreateChildProcess("child", directory, runtimeConfiguration).Dispose();
@@ -95,19 +103,24 @@ public static class Host
                 break;
             case "parent":
             case "parent-exit":
+            case "parent-error-exit":
+            case "draining-parent":
             case "grace-parent":
             case "child-failure-parent":
                 var childRole = role switch
                 {
+                    "draining-parent" => "draining-child",
                     "grace-parent" => "intermediate",
                     "child-failure-parent" => "failing-child",
                     _ => "child",
                 };
                 using (var child = StartChild(childRole, directory, runtimeConfiguration))
                 {
-                    if (role == "parent-exit")
+                    if (role is "parent-exit" or "parent-error-exit" or "draining-parent")
                     {
                         await WaitForTrigger(directory, "parent-exit");
+                        System.Console.Out.Write("parent output");
+                        System.Console.Error.Write("parent error");
                     }
                     else
                     {
@@ -128,6 +141,11 @@ public static class Host
                     await Task.Delay(TimeSpan.FromMilliseconds(500));
                 }
 
+                break;
+            case "draining-child":
+                await WaitForTrigger(directory, "child-exit");
+                System.Console.Out.Write("child output");
+                System.Console.Error.Write("child error");
                 break;
             case "child":
             case "grandchild":

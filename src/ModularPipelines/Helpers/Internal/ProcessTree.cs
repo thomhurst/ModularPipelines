@@ -84,13 +84,29 @@ internal static class ProcessTree
     {
         if (OperatingSystem.IsLinux())
         {
-            var childrenFile = $"/proc/{parentProcessId}/task/{parentProcessId}/children";
-
             try
             {
-                var processIds = File.ReadAllText(childrenFile)
-                    .Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries);
-                return Array.ConvertAll(processIds, int.Parse);
+                var childProcessIds = new HashSet<int>();
+                // Linux records children under the thread that spawned them, including worker threads.
+                foreach (var taskDirectory in Directory.GetDirectories($"/proc/{parentProcessId}/task"))
+                {
+                    try
+                    {
+                        var processIds = File.ReadAllText(Path.Combine(taskDirectory, "children"))
+                            .Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries);
+                        childProcessIds.UnionWith(Array.ConvertAll(processIds, int.Parse));
+                    }
+                    catch (IOException)
+                    {
+                        // The thread exited while its children were being read.
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        // Other threads may still expose their children.
+                    }
+                }
+
+                return [.. childProcessIds];
             }
             catch (IOException)
             {

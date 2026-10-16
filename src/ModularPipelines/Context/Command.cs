@@ -615,6 +615,7 @@ internal sealed class Command(
                         completeStandardErrorBuffer,
                         CreateStandardErrorLogger(deferredOutputLogger)),
                     execOpts.OutputEncoding,
+                    execOpts.OutputDrainTimeout,
                     processTreeTerminator.Attach,
                     executionCancellationToken);
                 using var descendantCaptureRegistration =
@@ -674,6 +675,11 @@ internal sealed class Command(
                     standardErrorBuffer.TruncatedCharacters);
             }
 
+            if (result.OutputMayBeIncomplete)
+            {
+                loggingFailures.Capture(() => _commandLogger.LogOutputDrainTimeout(options, execOpts));
+            }
+
             var commandFailure = CreateCommandFailure(
                 command,
                 result,
@@ -726,6 +732,7 @@ internal sealed class Command(
             {
                 StandardOutputTruncatedCharacters = standardOutputBuffer.TruncatedCharacters,
                 StandardErrorTruncatedCharacters = standardErrorBuffer.TruncatedCharacters,
+                OutputMayBeIncomplete = result.OutputMayBeIncomplete,
             };
         }
     }
@@ -937,7 +944,8 @@ internal sealed class Command(
                 result.StartTime,
                 result.ExitTime,
                 standardOutputTruncatedCharacters,
-                standardErrorTruncatedCharacters))
+                standardErrorTruncatedCharacters) with
+            { OutputMayBeIncomplete = result.OutputMayBeIncomplete })
             : null;
     }
 

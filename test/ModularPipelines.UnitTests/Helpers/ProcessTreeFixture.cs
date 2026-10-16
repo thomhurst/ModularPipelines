@@ -19,13 +19,13 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
 
     public Task<CommandResult> Execution { get; private set; } = null!;
 
-    public void Start(ICommandContext command, string role, TimeSpan gracefulTimeout, bool gateForcefulCancellation = false)
+    public void Start(ICommandContext command, string role, TimeSpan gracefulTimeout, bool gateForcefulCancellation = false, CommandExecutionOptions? executionOptions = null)
     {
         var runtimeConfiguration = Path.ChangeExtension(typeof(CommandTests).Assembly.Location, ".runtimeconfig.json");
         Execution = command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("dotnet")
         {
             Arguments = ["exec", "--runtimeconfig", runtimeConfiguration, typeof(Host).Assembly.Location, role, DirectoryPath, runtimeConfiguration],
-        }, new CommandExecutionOptions
+        }, (executionOptions ?? new CommandExecutionOptions()) with
         {
             GracefulShutdownTimeout = gracefulTimeout,
             InternalForcefulCancellationReady = gateForcefulCancellation ? _forcefulCancellationReady.Task : null,

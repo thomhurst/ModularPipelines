@@ -5,13 +5,13 @@ using System.Text;
 
 namespace ModularPipelines.Helpers.Internal;
 
-internal readonly record struct ProcessRunResult(int ExitCode, DateTimeOffset StartTime, DateTimeOffset ExitTime)
+internal readonly record struct ProcessRunResult(int ExitCode, DateTimeOffset StartTime, DateTimeOffset ExitTime, bool OutputMayBeIncomplete)
 {
     public TimeSpan RunTime => ExitTime - StartTime;
 }
 
 /// <summary>
-/// Starts a command, streams its output to the targets, and waits for both the process and its output to end.
+/// Starts a command, streams its output to the targets, and waits for the process to exit, then drains its output for a bounded period.
 /// </summary>
 internal static class ProcessRunner
 {
@@ -24,6 +24,7 @@ internal static class ProcessRunner
     /// <param name="standardOutput">Receives standard output.</param>
     /// <param name="standardError">Receives standard error.</param>
     /// <param name="outputEncoding">The encoding used to decode both output streams.</param>
+    /// <param name="outputDrainTimeout">The time allowed for output to end after the direct child exits.</param>
     /// <param name="onStarted">Called once the process has started, before its output is read.</param>
     /// <param name="interruptCancellationToken">
     /// Interrupts the process when canceled: SIGINT on Unix. The caller owns forceful termination.
@@ -34,9 +35,16 @@ internal static class ProcessRunner
         CommandOutputTarget standardOutput,
         CommandOutputTarget standardError,
         Encoding outputEncoding,
+        TimeSpan outputDrainTimeout,
         Action<Process> onStarted,
         CancellationToken interruptCancellationToken)
     {
+        if (outputDrainTimeout != Timeout.InfiniteTimeSpan
+            && (outputDrainTimeout < TimeSpan.Zero || outputDrainTimeout.TotalMilliseconds > uint.MaxValue - 1))
+        {
+            throw new ArgumentOutOfRangeException(nameof(outputDrainTimeout));
+        }
+
         using var process = new Process { StartInfo = command.CreateStartInfo() };
         process.Start();
         var startTime = DateTimeOffset.Now;
@@ -54,22 +62,22 @@ internal static class ProcessRunner
             throw;
         }
 
-        var outputTask = ReadOutputAsync(process, process.StandardOutput.BaseStream, standardOutput, outputEncoding);
-        var errorTask = ReadOutputAsync(process, process.StandardError.BaseStream, standardError, outputEncoding);
+        using var outputCancellation = new CancellationTokenSource();
+        var outputTask = ReadOutputAsync(process, process.StandardOutput.BaseStream, standardOutput, outputEncoding, outputCancellation.Token);
+        var errorTask = ReadOutputAsync(process, process.StandardError.BaseStream, standardError, outputEncoding, outputCancellation.Token);
 
+        bool outputMayBeIncomplete;
         var interruptRegistration = interruptCancellationToken.Register(
             static state => Interrupt((Process) state!),
             process);
         await using (interruptRegistration.ConfigureAwait(false))
         {
-            try
-            {
-                await Task.WhenAll(outputTask, errorTask).ConfigureAwait(false);
-            }
-            finally
-            {
-                await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
-            }
+            await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
+            // A descendant can inherit either pipe and outlive the direct child. Cancel and join the
+            // readers before disposing the process or exposing buffers to the caller.
+            outputCancellation.CancelAfter(outputDrainTimeout);
+            var outputResults = await Task.WhenAll(outputTask, errorTask).ConfigureAwait(false);
+            outputMayBeIncomplete = outputResults[0] || outputResults[1];
         }
 
         var exitTime = DateTimeOffset.Now;
@@ -80,7 +88,7 @@ internal static class ProcessRunner
                 interruptCancellationToken);
         }
 
-        return new ProcessRunResult(process.ExitCode, startTime, exitTime);
+        return new ProcessRunResult(process.ExitCode, startTime, exitTime, outputMayBeIncomplete);
     }
 
     private static void CloseStandardInput(Process process)
@@ -95,7 +103,7 @@ internal static class ProcessRunner
         }
     }
 
-    private static async Task ReadOutputAsync(Process process, Stream stream, CommandOutputTarget target, Encoding encoding)
+    private static async Task<bool> ReadOutputAsync(Process process, Stream stream, CommandOutputTarget target, Encoding encoding, CancellationToken cancellationToken)
     {
         try
         {
@@ -107,12 +115,18 @@ internal static class ProcessRunner
                 leaveOpen: true);
             var characters = new char[BufferSize];
             int charactersRead;
-            while ((charactersRead = await reader.ReadAsync(characters.AsMemory()).ConfigureAwait(false)) > 0)
+            while ((charactersRead = await reader.ReadAsync(characters.AsMemory(), cancellationToken).ConfigureAwait(false)) > 0)
             {
                 target.Append(characters.AsSpan(0, charactersRead));
             }
 
             target.Complete();
+            return false;
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            target.Complete();
+            return true;
         }
         catch
         {

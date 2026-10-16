@@ -15,6 +15,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
+using ModularPipelines.UnitTests.Attributes;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
@@ -1032,6 +1033,25 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    [Timeout(30_000)]
+    public async Task Command_Completes_When_Descendant_Keeps_Output_Open(CancellationToken cancellationToken)
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "parent-exit", TimeSpan.FromMilliseconds(50));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(10));
+        await fixture.TriggerAsync("parent-exit");
+
+        var result = await fixture.Execution.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(child.HasExited).IsFalse();
+        await Assert.That(result.OutputMayBeIncomplete).IsTrue();
+        await Assert.That(result.StandardOutput).IsEqualTo("parent output");
+        await Assert.That(result.StandardError).IsEqualTo("parent error");
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_BackgroundChild_DiesWithHostAfterCommandCompletes()
     {
         if (!OperatingSystem.IsWindows())
@@ -1048,6 +1068,103 @@ public class CommandTests : TestBase
         host.Kill();
         await host.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
         await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(5))).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    [Arguments(0, false, 0)]
+    [Arguments(0, false, 250)]
+    [Arguments(23, false, 250)]
+    [Arguments(23, true, 250)]
+    [Timeout(30_000)]
+    public async Task Command_Drain_Timeout_Reports_Incomplete_Output_And_Preserves_Exit_Code(
+        int exitCode, bool throwOnFailure, int drainMilliseconds, CancellationToken cancellationToken)
+    {
+        var commandLogger = new Mock<ICommandLogger>();
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.Replace(ServiceDescriptor.Scoped(_ => commandLogger.Object)));
+        var options = new CommandExecutionOptions
+        {
+            OutputDrainTimeout = TimeSpan.FromMilliseconds(drainMilliseconds),
+            ThrowOnNonZeroExitCode = throwOnFailure,
+        };
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(command, exitCode == 0 ? "parent-exit" : "parent-error-exit",
+            TimeSpan.FromMilliseconds(50), executionOptions: options);
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(10));
+        await fixture.TriggerAsync("parent-exit");
+
+        CommandResult result;
+        if (throwOnFailure)
+        {
+            var failure = await Assert.ThrowsAsync<CommandException>(
+                () => fixture.Execution.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken));
+            result = failure!.Result;
+        }
+        else
+        {
+            result = await fixture.Execution.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+        }
+
+        await Assert.That(result.ExitCode).IsEqualTo(exitCode);
+        await Assert.That(result.OutputMayBeIncomplete).IsTrue();
+        if (drainMilliseconds > 0)
+        {
+            await Assert.That(result.StandardOutput).IsEqualTo("parent output");
+            await Assert.That(result.StandardError).IsEqualTo("parent error");
+        }
+
+        await Assert.That(child.HasExited).IsFalse();
+        commandLogger.Verify(logger => logger.LogOutputDrainTimeout(
+            It.IsAny<CommandLineToolOptions>(), It.Is<CommandExecutionOptions>(value => value.OutputDrainTimeout == options.OutputDrainTimeout)), Times.Once());
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(30_000)]
+    public async Task Command_Drains_Descendant_Output_Within_Grace_Period(bool infinite, CancellationToken cancellationToken)
+    {
+        var commandLogger = new Mock<ICommandLogger>();
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.Replace(ServiceDescriptor.Scoped(_ => commandLogger.Object)));
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(command, "draining-parent", TimeSpan.FromMilliseconds(50), executionOptions: new CommandExecutionOptions
+        {
+            OutputDrainTimeout = infinite ? Timeout.InfiniteTimeSpan : TimeSpan.FromSeconds(10),
+        });
+        await fixture.WaitForReadyProcessAsync("draining-child", TimeSpan.FromSeconds(10));
+        var parent = await fixture.WaitForProcessAsync("parent", TimeSpan.FromSeconds(5));
+        await fixture.TriggerAsync("parent-exit");
+        await parent.WaitForExitAsync(cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+        await Assert.That(fixture.Execution.IsCompleted).IsFalse();
+        await fixture.TriggerAsync("child-exit");
+
+        var result = await fixture.Execution.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
+
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(result.OutputMayBeIncomplete).IsFalse();
+        await Assert.That(result.StandardOutput).IsEqualTo("parent outputchild output");
+        await Assert.That(result.StandardError).IsEqualTo("parent errorchild error");
+        commandLogger.Verify(logger => logger.LogOutputDrainTimeout(
+            It.IsAny<CommandLineToolOptions>(), It.IsAny<CommandExecutionOptions>()), Times.Never());
+    }
+
+    [Test]
+    [Arguments(-2)]
+    [Arguments(4294967295)]
+    public async Task Invalid_Output_Drain_Timeout_Is_Rejected_Before_Starting_Process(long milliseconds)
+    {
+        var buffer = new BoundedCommandOutputBuffer(0);
+        var target = new CommandOutputTarget(buffer, null, null);
+        var started = false;
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => ProcessRunner.RunAsync(
+            new ProcessCommand("unused", [], string.Empty, Environment.CurrentDirectory, new Dictionary<string, string?>(), null),
+            target, target, Encoding.UTF8, TimeSpan.FromMilliseconds(milliseconds), _ => started = true, CancellationToken.None));
+
+        await Assert.That(started).IsFalse();
     }
 
     [Test]
@@ -1128,10 +1245,12 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
-    public async Task ProcessTree_Kill_Kills_Process_And_Descendants()
+    [Arguments("parent")]
+    [Arguments("threaded-parent")]
+    public async Task ProcessTree_Kill_Kills_Process_And_Descendants(string role)
     {
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        fixture.Start(await GetService<ICommandContext>(), role, TimeSpan.FromMilliseconds(50));
         var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
 
@@ -1142,6 +1261,23 @@ public class CommandTests : TestBase
             await Assert.That(await WaitForExitAsync(parent, TimeSpan.FromSeconds(5))).IsTrue();
             await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(5))).IsTrue();
         }
+    }
+
+    [Test]
+    [LinuxOnlyTest]
+    [RequiresTool("dotnet")]
+    public async Task ProcessTree_Discovers_Children_Spawned_By_Worker_Threads()
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "threaded-parent", TimeSpan.FromMilliseconds(50));
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(10));
+
+        await Assert.That(ProcessTree.GetDescendantProcessIds(parent.Id)).Contains(child.Id);
+        fixture.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
+        await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(2))).IsTrue();
     }
 
     [Test]

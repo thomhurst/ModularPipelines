@@ -30,6 +30,7 @@ public class CommandResultTests
         var options = distributedOptions ? ModuleResultSerializer.CreateOptions() : new JsonSerializerOptions();
         var result = JsonSerializer.Deserialize<CommandResult>(json, options)!;
         await Assert.That(result.StandardOutput).IsEqualTo("1.0.0");
+        await Assert.That(result.OutputMayBeIncomplete).IsFalse();
         await Assert.That(result.StandardOutputTruncatedCharacters).IsEqualTo(0);
         await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(0);
     }
@@ -43,12 +44,14 @@ public class CommandResultTests
         {
             StandardOutputTruncatedCharacters = 12,
             StandardErrorTruncatedCharacters = 34,
+            OutputMayBeIncomplete = true,
         };
 
         var options = distributedOptions ? ModuleResultSerializer.CreateOptions() : new JsonSerializerOptions();
         var result = JsonSerializer.Deserialize<CommandResult>(JsonSerializer.Serialize(original, options), options)!;
         await Assert.That(result.StandardOutputTruncatedCharacters).IsEqualTo(12);
         await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(34);
+        await Assert.That(result.OutputMayBeIncomplete).IsTrue();
     }
 
     [Test]
@@ -75,6 +78,7 @@ public class CommandResultTests
         {
             await Assert.That(result.StandardOutput).IsEqualTo(string.Empty);
             await Assert.That(result.StandardError).IsEqualTo(string.Empty);
+            await Assert.That(result.OutputMayBeIncomplete).IsFalse();
             await Assert.That(result.StandardOutputTruncatedCharacters).IsEqualTo(0);
             await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(0);
             await Assert.That(result.ExitCode).IsEqualTo(0);
