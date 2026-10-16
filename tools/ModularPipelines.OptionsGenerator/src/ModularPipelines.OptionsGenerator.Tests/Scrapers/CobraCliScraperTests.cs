@@ -22,16 +22,16 @@ public class CobraCliScraperTests
     [Arguments("float32", "double?")]
     [Arguments("float64", "double?")]
     [Arguments("number", "string?")]
-    [Arguments("count", "string?")]
+    [Arguments("count", "int?")]
     [Arguments("integer", "string?")]
     [Arguments("number64", "string?")]
     [Arguments("real", "string?")]
     [Arguments("decimal", "string?")]
     [Arguments("double", "string?")]
-    [Arguments("float", "string?")]
+    [Arguments("float", "double?")]
     [Arguments("ip", "string?")]
     [Arguments("duration", "string?")]
-    public async Task Only_Explicit_Pflag_Numeric_Types_Produce_Numeric_Options(string hint, string expectedType)
+    public async Task Pflag_Numeric_Help_Types_Produce_Numeric_Options(string hint, string expectedType)
     {
         var help = $"Usage: fake run [flags]\n\nFlags:\n  --value {hint}   Value to use.\n";
         var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
@@ -47,6 +47,7 @@ public class CobraCliScraperTests
     [Arguments("strings")]
     [Arguments("ints")]
     [Arguments("uints")]
+    [Arguments("bools")]
     [Arguments("stringSlice")]
     [Arguments("stringArray")]
     [Arguments("intSlice")]
@@ -95,6 +96,10 @@ public class CobraCliScraperTests
     [Arguments("Podman/6.1.3/container-exec-help.txt", "--preserve-fd", "IEnumerable<string>?", true)]
     [Arguments("Podman/6.1.3/container-exec-help.txt", "--preserve-fds", "int?", false)]
     [Arguments("Podman/6.1.3/container-run-help.txt", "--ip", "string?", false)]
+    [Arguments("Podman/6.1.3/container-run-help.txt", "--cpus", "double?", false)]
+    [Arguments("Trivy/0.75.0/image.txt", "--license-confidence-level", "double?", false)]
+    [Arguments("Syft/1.54.0/root-help.txt", "--verbose", "int?", false)]
+    [Arguments("Grype/0.120.0/grype-help.txt", "--verbose", "int?", false)]
     public async Task Real_Help_Preserves_Placeholders_And_Collection_Types(
         string fixture, string switchName, string expectedType, bool acceptsMultipleValues)
     {

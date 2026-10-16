@@ -37,6 +37,13 @@ public partial class BuildahCliScraper(ICliCommandExecutor executor, IHelpTextCa
 
     protected override bool TreatParseErrorsAsFatal => true;
 
+    protected override string NormalizeOptionTypeHint(
+        string[] commandParts, string switchName, string typeHint, string description) =>
+        // Buildah names this integer value `number` in its usage description.
+        switchName == "--healthcheck-retries" && typeHint.Equals("number", StringComparison.OrdinalIgnoreCase)
+            ? "int"
+            : typeHint;
+
     protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
         [.. ParseNamedOptionSection(helpText, "Flags", [])
             .Where(option => option.SwitchName is not ("--help" or "--version"))

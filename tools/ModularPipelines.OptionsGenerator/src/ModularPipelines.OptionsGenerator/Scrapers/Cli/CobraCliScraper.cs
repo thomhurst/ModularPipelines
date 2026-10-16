@@ -836,22 +836,22 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     ];
 
     /// <summary>
-    /// Explicit pflag integer type hints. Usage placeholders such as "number" and
-    /// "count" do not prove that an option accepts only numeric values.
+    /// Pflag integer type hints, including its count type. Usage placeholders such
+    /// as "number" do not prove that an option accepts only numeric values.
     /// </summary>
     private static readonly HashSet<string> KnownIntegerTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64"
+        "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "count"
     ];
 
     /// <summary>
-    /// Known floating-point type hints.
+    /// Pflag floating-point type hints. Pflag displays float64 as "float" in help.
     /// </summary>
     private static readonly HashSet<string> KnownFloatTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "float32", "float64"
+        "float", "float32", "float64"
     ];
 
     /// <summary>
@@ -869,7 +869,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     private static readonly HashSet<string> KnownArrayTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "list", "array", "strings", "ints", "uints", "slice"
+        "list", "array", "strings", "ints", "uints", "bools", "slice"
     ];
 
     /// <summary>
