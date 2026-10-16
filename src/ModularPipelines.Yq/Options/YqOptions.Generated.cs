@@ -137,16 +137,16 @@ public abstract record YqOptions : CommandLineToolOptions
     public virtual bool? NoDoc { get; set; }
 
     /// <summary>
-    /// Don't read input, simply evaluate the expression given. Useful for creating docs from scratch.
-    /// </summary>
-    [CliFlag("--null-input", ShortForm = "-n")]
-    public virtual bool? NullInput { get; set; }
-
-    /// <summary>
     /// Use NUL char to separate values. If unwrap scalar is also set, fail if unwrapped scalar contains NUL char.
     /// </summary>
     [CliFlag("--nul-output", ShortForm = "-0")]
     public virtual bool? NulOutput { get; set; }
+
+    /// <summary>
+    /// Don't read input, simply evaluate the expression given. Useful for creating docs from scratch.
+    /// </summary>
+    [CliFlag("--null-input", ShortForm = "-n")]
+    public virtual bool? NullInput { get; set; }
 
     /// <summary>
     /// [auto|a|yaml|y|kyaml|ky|json|j|props|p|csv|c|tsv|t|xml|x|base64|base64url|uri|toml|hcl|h|shell|s|lua|l|ini|i] output format type. (default "auto")
