@@ -54,7 +54,7 @@ public class DependencyResultCacheTests
                 return ignoresCancellation ? pending.Task : pending.Task.WaitAsync(token);
             });
         var cache = new DependencyResultCache(coordinator.Object, CancellationToken.None, clock);
-        var fetch = cache.GetAsync("dependency");
+        var fetch = cache.GetAsync("dependency", cancellationToken);
 
         clock.Advance(TimeSpan.FromSeconds(30));
 
@@ -65,7 +65,7 @@ public class DependencyResultCacheTests
         var expected = CreateResult();
         coordinator.Setup(value => value.WaitForResultAsync("dependency", It.IsAny<CancellationToken>()))
             .ReturnsAsync(expected);
-        await Assert.That(await cache.GetAsync("dependency")).IsSameReferenceAs(expected);
+        await Assert.That(await cache.GetAsync("dependency", cancellationToken)).IsSameReferenceAs(expected);
         pending.TrySetResult(expected);
         coordinator.Verify(value => value.WaitForResultAsync("dependency", It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
@@ -80,7 +80,7 @@ public class DependencyResultCacheTests
         coordinator.Setup(value => value.WaitForResultAsync("dependency", It.IsAny<CancellationToken>()))
             .Returns(pending.Task);
         var cache = new DependencyResultCache(coordinator.Object, worker.Token);
-        var fetch = cache.GetAsync("dependency");
+        var fetch = cache.GetAsync("dependency", cancellationToken);
 
         await worker.CancelAsync();
 

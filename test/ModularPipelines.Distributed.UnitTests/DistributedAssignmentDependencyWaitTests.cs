@@ -37,7 +37,7 @@ public class DistributedAssignmentDependencyWaitTests
     {
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<DependencyModule>().AddModule<ConsumerModule>();
-        await using var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync(cancellationToken);
         var modules = pipeline.Services.GetServices<IModule>().ToArray();
         var types = new ModuleTypeRegistry();
         foreach (var module in modules)
