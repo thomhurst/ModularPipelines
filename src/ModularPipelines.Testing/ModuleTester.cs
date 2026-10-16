@@ -253,58 +253,7 @@ public class ModuleTestBuilder<TModule>
             recorder.SetHandler(_commandHandler);
         }
 
-        var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings
-        {
-            EnableCommandLineOptions = false,
-        });
-
-        builder.ConfigureOptions(options => options with
-        {
-            Console = options.Console with
-            {
-                ShowProgress = false,
-                PrintResults = false,
-                PrintLogo = false,
-                PrintDependencyChains = false,
-            },
-            ThrowOnPipelineFailure = false,
-        });
-        builder.Logging.ClearProviders();
-        builder.Services.Replace(ServiceDescriptor.Singleton<IFileSystemProvider>(fileSystem));
-        builder.Services.AddSingleton(recorder);
-        builder.Services.AddSingleton<ICommandInterceptor>(recorder);
-        builder.Services.AddSingleton<IConsoleCoordinator>(NoOpConsoleServices.Instance);
-        builder.Services.AddSingleton<IModuleOutputExcerptProvider>(NoOpConsoleServices.Instance);
-        builder.Services.AddSingleton<IOutputCoordinator>(NoOpConsoleServices.Instance);
-        builder.Services.AddSingleton<IProgressDisplay>(NoOpConsoleServices.Instance);
-        builder.AddModule<TModule>();
-
-        foreach (var registration in _registrations)
-        {
-            registration(builder);
-        }
-
-        if (_httpHandler is { } httpHandler)
-        {
-            builder.Services.AddHttpClient(HttpClientNames.Default)
-                .ConfigurePrimaryHttpMessageHandler(() => new RecordingHttpHandler(httpRequests, httpHandler));
-        }
-
-        IPipeline pipeline;
-        try
-        {
-            pipeline = await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
-        }
-        catch (InvalidOperationException exception) when (_dependencySeeds.Count > 0
-            && exception.Message.StartsWith("Unable to resolve service for type '", StringComparison.Ordinal))
-        {
-            throw new InvalidOperationException(
-                $"Cannot construct the test pipeline for {typeof(TModule).Name}. "
-                + "Seeding dependency results skips execution, but dependency modules and their transitive dependencies "
-                + "must still be constructed. Register the missing service with WithService<TService>(service). "
-                + exception.Message,
-                exception);
-        }
+        var pipeline = await BuildPipelineAsync(fileSystem, recorder, httpRequests, cancellationToken).ConfigureAwait(false);
         await using var pipelineLifetime = pipeline.ConfigureAwait(false);
 
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
@@ -380,6 +329,65 @@ public class ModuleTestBuilder<TModule>
             .RegisterResult(typeof(TModule), result);
 
         return new ExecutionOutcome(result, recorder.Commands, [.. httpRequests], effectiveFileSystem);
+    }
+
+    private async Task<IPipeline> BuildPipelineAsync(
+        IFileSystemProvider fileSystem,
+        RecordingCommandInterceptor recorder,
+        ConcurrentQueue<HttpRequestMessage> httpRequests,
+        CancellationToken cancellationToken)
+    {
+        var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings
+        {
+            EnableCommandLineOptions = false,
+        });
+
+        builder.ConfigureOptions(options => options with
+        {
+            Console = options.Console with
+            {
+                ShowProgress = false,
+                PrintResults = false,
+                PrintLogo = false,
+                PrintDependencyChains = false,
+            },
+            ThrowOnPipelineFailure = false,
+        });
+        builder.Logging.ClearProviders();
+        builder.Services.Replace(ServiceDescriptor.Singleton<IFileSystemProvider>(fileSystem));
+        builder.Services.AddSingleton(recorder);
+        builder.Services.AddSingleton<ICommandInterceptor>(recorder);
+        builder.Services.AddSingleton<IConsoleCoordinator>(NoOpConsoleServices.Instance);
+        builder.Services.AddSingleton<IModuleOutputExcerptProvider>(NoOpConsoleServices.Instance);
+        builder.Services.AddSingleton<IOutputCoordinator>(NoOpConsoleServices.Instance);
+        builder.Services.AddSingleton<IProgressDisplay>(NoOpConsoleServices.Instance);
+        builder.AddModule<TModule>();
+
+        foreach (var registration in _registrations)
+        {
+            registration(builder);
+        }
+
+        if (_httpHandler is { } httpHandler)
+        {
+            builder.Services.AddHttpClient(HttpClientNames.Default)
+                .ConfigurePrimaryHttpMessageHandler(() => new RecordingHttpHandler(httpRequests, httpHandler));
+        }
+
+        try
+        {
+            return await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
+        }
+        catch (InvalidOperationException exception) when (_dependencySeeds.Count > 0
+            && exception.Message.StartsWith("Unable to resolve service for type '", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Cannot construct the test pipeline for {typeof(TModule).Name}. "
+                + "Seeding dependency results skips execution, but dependency modules and their transitive dependencies "
+                + "must still be constructed. Register the missing service with WithService<TService>(service). "
+                + exception.Message,
+                exception);
+        }
     }
 
     private async Task SeedFilesAsync(IServiceProvider services, CancellationToken cancellationToken)
