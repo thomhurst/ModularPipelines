@@ -166,6 +166,54 @@ public class BashTests : TestBase
     }
 
     [Test]
+    [WindowsOnlyTest]
+    [Arguments(null)]
+    [Arguments("bash")]
+    [Arguments("BASH.EXE")]
+    [Arguments("missing-bash")]
+    [Arguments("tools\\bash.exe")]
+    public async Task RunFileAsync_Uses_System_Bash_Fallback_Only_For_Unresolved_Bare_Bash(string? tool)
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"mp bash tests {Guid.NewGuid():N}");
+        var bashPath = Path.Combine(Environment.SystemDirectory, "bash.exe");
+        var usesSystemBash = (tool is null || tool.Equals("bash", StringComparison.OrdinalIgnoreCase)
+            || tool.Equals("bash.exe", StringComparison.OrdinalIgnoreCase)) && File.Exists(bashPath);
+        var executionOptions = new CommandExecutionOptions
+        {
+            WorkingDirectory = directory,
+            EnvironmentVariables = new Dictionary<string, string?> { ["PATH"] = string.Empty, ["PATHEXT"] = ".EXE" },
+        };
+        var options = new BashFileOptions("nested dir\\script's $value.sh") { Tool = tool };
+        var invocations = new List<CommandLineToolOptions>();
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(
+                (actual, _, _) => invocations.Add(actual))
+            .ReturnsAsync((CommandLineToolOptions actual, CommandExecutionOptions? _, CancellationToken _) =>
+                actual is BashFileOptions ? CommandResult.Ok() : CommandResult.Ok("/mnt/c/script.sh\n"));
+
+        await new Bash(command.Object, new PipelineWorkingDirectory(directory)).RunFileAsync(options, executionOptions);
+
+        await Assert.That(invocations).Count().IsEqualTo(usesSystemBash ? 2 : 1);
+        if (usesSystemBash)
+        {
+            await Assert.That(invocations[0].Tool).IsEqualTo(Path.Combine(Environment.SystemDirectory, "wsl.exe"));
+            await Assert.That(invocations[0].Arguments!.ToArray()).IsEquivalentTo(
+                ["--exec", "wslpath", "-a", Path.GetFullPath(options.FilePath, directory)],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        }
+
+        await Assert.That(invocations[^1].Tool).IsEqualTo(usesSystemBash ? bashPath : tool ?? "bash");
+        await Assert.That(((BashFileOptions) invocations[^1]).FilePath)
+            .IsEqualTo(usesSystemBash ? "/mnt/c/script.sh" : "nested dir/script's $value.sh");
+        await Assert.That(options.Tool).IsEqualTo(tool);
+        await Assert.That(options.FilePath).IsEqualTo("nested dir\\script's $value.sh");
+    }
+
+    [Test]
     [RequiresTool("bash")]
     [Arguments(false)]
     [Arguments(true)]

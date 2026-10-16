@@ -52,11 +52,23 @@ internal class Bash(ICommandContext command, PipelineWorkingDirectory pipelineWo
                 ? _pipelineWorkingDirectory.ResolvePath(workingDirectory)
                 : _pipelineWorkingDirectory.Path,
         };
-        var tool = CliCommandFactory.ResolveWindowsCommand(
-            options.Tool ?? "bash",
+        var requestedTool = options.Tool ?? "bash";
+        var resolvedTool = CliCommandFactory.ResolveWindowsCommand(
+            requestedTool,
             execOpts.WorkingDirectory,
-            execOpts.EnvironmentVariables) ?? options.Tool ?? "bash";
-        var isWsl = string.Equals(tool, Path.Combine(Environment.SystemDirectory, "bash.exe"), StringComparison.OrdinalIgnoreCase);
+            execOpts.EnvironmentVariables);
+        var systemBash = Path.Combine(Environment.SystemDirectory, "bash.exe");
+        if (resolvedTool is null
+            && (requestedTool.Equals("bash", StringComparison.OrdinalIgnoreCase)
+                || requestedTool.Equals("bash.exe", StringComparison.OrdinalIgnoreCase))
+            && File.Exists(systemBash))
+        {
+            // CreateProcess can find System32 Bash even when the command's PATH does not include it.
+            resolvedTool = systemBash;
+        }
+
+        var tool = resolvedTool ?? requestedTool;
+        var isWsl = string.Equals(tool, systemBash, StringComparison.OrdinalIgnoreCase);
 
         return await _command.ExecuteCommandLineToolAsync(options with
         {
