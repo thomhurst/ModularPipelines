@@ -6,30 +6,31 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// <summary>
 /// Factory that creates a <see cref="RedisDistributedCoordinator"/> by connecting to Redis asynchronously.
 /// </summary>
-internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinatorFactory
+internal sealed class RedisDistributedCoordinatorFactory(
+    IOptions<RedisOptions> options,
+    RedisConnectionProvider connections,
+    IOptions<DistributedOptions> distributedOptions,
+    ILogger<RedisDistributedCoordinator>? logger = null) : IDistributedCoordinatorFactory
 {
-    private readonly RedisOptions _options;
-    private readonly DistributedOptions _distributedOptions;
-    private readonly RedisConnectionProvider _connections;
-    private readonly ILogger<RedisDistributedCoordinator>? _logger;
-
-    public RedisDistributedCoordinatorFactory(
-        IOptions<RedisOptions> options,
-        RedisConnectionProvider connections,
-        IOptions<DistributedOptions> distributedOptions,
-        ILogger<RedisDistributedCoordinator>? logger = null)
-    {
-        _options = options.Value;
-        _connections = connections;
-        _distributedOptions = distributedOptions.Value;
-        _logger = logger;
-    }
+    private readonly RedisOptions _options = options.Value;
+    private readonly DistributedOptions _distributedOptions = distributedOptions.Value;
+    private readonly RedisConnectionProvider _connections = connections;
+    private readonly ILogger<RedisDistributedCoordinator>? _logger = logger;
 
     public async Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
     {
         var coordinator = await CreateCoordinatorAsync(cancellationToken).ConfigureAwait(false);
-        coordinator.StartMasterHeartbeat(_distributedOptions.WorkerHeartbeatInterval);
-        return coordinator;
+        try
+        {
+            await coordinator.ReserveMasterRunAsync(_distributedOptions.RunId, cancellationToken).ConfigureAwait(false);
+            coordinator.StartMasterHeartbeat(_distributedOptions.WorkerHeartbeatInterval);
+            return coordinator;
+        }
+        catch
+        {
+            await coordinator.DisposeAsync().ConfigureAwait(false);
+            throw;
+        }
     }
 
     public async Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
