@@ -26,7 +26,7 @@ public class ArtifactContextTests
             {
                 ArtifactId = "artifact-id",
                 Name = "output",
-                ModuleId = typeof(ProducerModule).FullName!,
+                ModuleId = ModuleId.FromType(typeof(ProducerModule)),
                 SizeBytes = 0,
                 ContentType = "application/octet-stream",
                 UploadedAt = DateTimeOffset.UtcNow,
@@ -44,7 +44,7 @@ public class ArtifactContextTests
             _ = await pipeline.RunAsync();
 
             await Assert.That(observedDescriptor!.ModuleId)
-                .IsEqualTo(typeof(PipelineArtifactProducerModule).FullName!);
+                .IsEqualTo(ModuleId.FromType(typeof(PipelineArtifactProducerModule)));
         }
         finally
         {
@@ -59,14 +59,14 @@ public class ArtifactContextTests
         {
             ArtifactId = "artifact-id",
             Name = "output",
-            ModuleId = typeof(ProducerModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(ProducerModule)),
             SizeBytes = 7,
             ContentType = "application/octet-stream",
             UploadedAt = DateTimeOffset.UtcNow,
         };
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(artifactStore => artifactStore.ListArtifactsAsync(
-                typeof(ProducerModule).FullName!,
+                ModuleId.FromType(typeof(ProducerModule)),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync([artifact]);
         store.Setup(artifactStore => artifactStore.DownloadAsync(
@@ -88,7 +88,7 @@ public class ArtifactContextTests
             }
 
             store.Verify(artifactStore => artifactStore.ListArtifactsAsync(
-                typeof(ProducerModule).FullName!,
+                ModuleId.FromType(typeof(ProducerModule)),
                 It.IsAny<CancellationToken>()));
         }
         finally
@@ -166,14 +166,14 @@ public class ArtifactContextTests
         {
             ArtifactId = "artifact-id",
             Name = "output",
-            ModuleId = typeof(ProducerModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(ProducerModule)),
             SizeBytes = 7,
             ContentType = "application/octet-stream",
             UploadedAt = DateTimeOffset.UtcNow,
         };
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(artifactStore => artifactStore.ListArtifactsAsync(
-                typeof(ProducerModule).FullName!,
+                ModuleId.FromType(typeof(ProducerModule)),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync([artifact]);
         store.Setup(artifactStore => artifactStore.DownloadAsync(
@@ -203,7 +203,7 @@ public class ArtifactContextTests
         var successfulRetry = CreateArtifact("retry", DateTimeOffset.UtcNow);
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(artifactStore => artifactStore.ListArtifactsAsync(
-                typeof(ProducerModule).FullName!,
+                ModuleId.FromType(typeof(ProducerModule)),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync([firstAttempt, successfulRetry]);
         store.Setup(artifactStore => artifactStore.DownloadAsync(
@@ -233,7 +233,7 @@ public class ArtifactContextTests
         {
             ArtifactId = id,
             Name = "output",
-            ModuleId = typeof(ProducerModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(ProducerModule)),
             SizeBytes = 7,
             ContentType = "application/octet-stream",
             UploadedAt = uploadedAt,

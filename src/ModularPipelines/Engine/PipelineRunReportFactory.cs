@@ -68,8 +68,13 @@ internal sealed class PipelineRunReportFactory(
                     ? timeline.ModuleTypeName
                     : timeline.RuntimeModuleTypeName)
             ?? [with(StringComparer.Ordinal)];
+        var uniqueModuleIds = summary.Modules
+            .GroupBy(static module => ModuleId.FromType(module.GetType()))
+            .Where(static group => group.Count() == 1)
+            .Select(static group => group.Key.Value)
+            .ToHashSet(StringComparer.Ordinal);
         var previousByType = previousReport?.Modules
-            .ToUniqueByKeyDictionary(static module => module.ModuleTypeName)
+            .ToUniqueByKeyDictionary(static module => module.ModuleId.Value)
             ?? [with(StringComparer.Ordinal)];
 
         var modules = summary.Modules
@@ -80,6 +85,7 @@ internal sealed class PipelineRunReportFactory(
                 resultsByName,
                 timelinesByType,
                 uniqueModuleTypeNames,
+                uniqueModuleIds,
                 previousByType))
             .ToArray();
         var status = pipelineException is null ? summary.Status : ModuleStatus.Failed;
@@ -154,6 +160,7 @@ internal sealed class PipelineRunReportFactory(
         IReadOnlyDictionary<string, IModuleResult> resultsByName,
         IReadOnlyDictionary<string, ModuleTimeline> timelinesByType,
         IReadOnlySet<string> uniqueModuleTypeNames,
+        IReadOnlySet<string> uniqueModuleIds,
         IReadOnlyDictionary<string, ModuleRunReport> previousByType)
     {
         var typeName = ModuleTypeIdentifier.Get(moduleType);
@@ -169,15 +176,16 @@ internal sealed class PipelineRunReportFactory(
         {
             timeline = timelinesByType.GetValueOrDefault(typeName);
         }
-        var previous = uniqueModuleTypeNames.Contains(typeName)
-            ? previousByType.GetValueOrDefault(typeName)
+        var moduleId = ModuleId.FromType(moduleType);
+        var previous = uniqueModuleIds.Contains(moduleId.Value)
+            ? previousByType.GetValueOrDefault(moduleId.Value)
             : null;
         var current = CreateCurrentReportValues(result, timeline);
         var previousDuration = GetPreviousDuration(current.Status, current.DurationMeasured, previous);
         return new ModuleRunReport
         {
             ModuleName = moduleType.Name,
-            ModuleTypeName = typeName,
+            ModuleId = moduleId,
             ResultStartTime = result?.StartTime,
             ResultEndTime = result?.EndTime,
             Status = current.Status,

@@ -173,12 +173,12 @@ public class SpectreResultsPrinterTests
             [
                 new DistributedModuleRunReport
                 {
-                    ModuleTypeName = "Example.FastModule, Example.Assembly",
+                    ModuleId = new ModuleId("Example.FastModule, Example.Assembly"),
                     QueueWaitDuration = TimeSpan.FromSeconds(1),
                 },
                 new DistributedModuleRunReport
                 {
-                    ModuleTypeName = "Example.SlowModule, Example.Assembly",
+                    ModuleId = new ModuleId("Example.SlowModule, Example.Assembly"),
                     QueueWaitDuration = TimeSpan.FromSeconds(5),
                 },
             ],
@@ -222,7 +222,7 @@ public class SpectreResultsPrinterTests
                     new ModuleRunReport
                     {
                         ModuleName = nameof(SkippedModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
+                        ModuleId = ModuleId.FromType(typeof(SkippedModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
                 ],
@@ -284,13 +284,13 @@ public class SpectreResultsPrinterTests
                     new ModuleRunReport
                     {
                         ModuleName = nameof(SecondModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SecondModule)),
+                        ModuleId = ModuleId.FromType(typeof(SecondModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
                     new ModuleRunReport
                     {
                         ModuleName = nameof(FirstModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(1),
                     },
                 ],
@@ -351,13 +351,13 @@ public class SpectreResultsPrinterTests
                     new ModuleRunReport
                     {
                         ModuleName = nameof(FirstModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(1),
                     },
                     new ModuleRunReport
                     {
                         ModuleName = nameof(FirstModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
                 ],

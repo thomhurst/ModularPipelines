@@ -31,14 +31,14 @@ public class FileSystemModuleEstimatedTimeProviderTests
             var duration = TimeSpan.FromSeconds(7);
             var provider = CreateProvider(directory);
 
-            await provider.SaveModuleTimeAsync(moduleType, duration);
-            await provider.SaveSubModuleTimeAsync(moduleType, new SubModuleEstimation(subModuleName, duration));
+            await provider.SaveModuleTimeAsync(ModuleId.FromType(moduleType), duration);
+            await provider.SaveSubModuleTimeAsync(ModuleId.FromType(moduleType), new SubModuleEstimation(subModuleName, duration));
 
             // Read through a fresh provider to verify persistence rather than an in-memory cache.
             var reader = CreateProvider(directory);
-            var estimations = (await reader.GetSubModuleEstimatedTimesAsync(moduleType)).ToArray();
+            var estimations = (await reader.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(moduleType))).ToArray();
 
-            await Assert.That(await reader.GetModuleEstimatedTimeAsync(moduleType)).IsEqualTo(duration);
+            await Assert.That(await reader.GetModuleEstimatedTimeAsync(ModuleId.FromType(moduleType))).IsEqualTo(duration);
             await Assert.That(estimations).HasSingleItem();
             await Assert.That(estimations[0].SubModuleName).IsEqualTo(subModuleName);
             await Assert.That(estimations[0].EstimatedDuration).IsEqualTo(duration);
@@ -57,14 +57,14 @@ public class FileSystemModuleEstimatedTimeProviderTests
         {
             var provider = CreateProvider(directory);
             const string subModuleName = "Build release";
-            await provider.SaveModuleTimeAsync(typeof(PrefixModule), TimeSpan.FromSeconds(3));
-            await provider.SaveSubModuleTimeAsync(typeof(PrefixModule), new SubModuleEstimation(subModuleName, TimeSpan.FromSeconds(5)));
+            await provider.SaveModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), TimeSpan.FromSeconds(3));
+            await provider.SaveSubModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), new SubModuleEstimation(subModuleName, TimeSpan.FromSeconds(5)));
 
             foreach (var path in Directory.GetFiles(directory))
             {
                 using var document = JsonDocument.Parse(await File.ReadAllTextAsync(path));
                 await Assert.That(document.RootElement.GetProperty("moduleType").GetString())
-                    .IsEqualTo(ModuleTypeIdentifier.Get(typeof(PrefixModule)));
+                    .IsEqualTo(ModuleId.FromType(typeof(PrefixModule)).Value);
                 if (Path.GetFileName(path).StartsWith("Mod-", StringComparison.Ordinal))
                 {
                     await Assert.That(document.RootElement.GetProperty("subModuleName").GetString()).IsEqualTo(subModuleName);
@@ -74,29 +74,30 @@ public class FileSystemModuleEstimatedTimeProviderTests
     }
 
     [Test]
-    public async Task GetTimes_ReadsLegacyEntriesAndPrefersNewMeasurements()
+    public async Task GetTimes_IgnoresPreviousTypeKeyedEntries()
     {
         await RunWithTemporaryDirectoryAsync(async directory =>
         {
             await File.WriteAllTextAsync(Path.Combine(directory, $"{typeof(PrefixModule).FullName}.txt"), "00:00:01");
-            const string subModuleName = "Build release";
-            var encodedName = "B64-" + Convert.ToBase64String(Encoding.UTF8.GetBytes(subModuleName))
-                .TrimEnd('=').Replace('+', '-').Replace('/', '_');
-            WriteEstimation(directory, typeof(PrefixModule), encodedName, TimeSpan.FromSeconds(1));
+            await File.WriteAllTextAsync(Path.Combine(directory, $"Mod-{typeof(PrefixModule).FullName}-Sub-build.txt"), "00:00:01");
+            var oldKey = "V2-" + Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(
+                Encoding.UTF8.GetBytes(ModuleTypeIdentifier.Get(typeof(PrefixModule)))));
+            var oldEntry = JsonSerializer.Serialize(
+                new EstimatedTimeEntry(ModuleTypeIdentifier.Get(typeof(PrefixModule)), "build", TimeSpan.FromSeconds(1)),
+                EstimatedTimeJsonContext.Default.EstimatedTimeEntry);
+            await File.WriteAllTextAsync(Path.Combine(directory, $"{oldKey}.txt"), oldEntry);
+            await File.WriteAllTextAsync(Path.Combine(directory, $"Mod-{oldKey}-Sub-hash.txt"), oldEntry);
             var provider = CreateProvider(directory);
+            var id = ModuleId.FromType(typeof(PrefixModule));
 
-            await Assert.That(await provider.GetModuleEstimatedTimeAsync(typeof(PrefixModule))).IsEqualTo(TimeSpan.FromSeconds(1));
-            await Assert.That((await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).Single().SubModuleName)
-                .IsEqualTo(subModuleName);
+            await Assert.That(await provider.GetModuleEstimatedTimeAsync(id)).IsEqualTo(FileSystemModuleEstimatedTimeProvider.DefaultEstimate);
+            await Assert.That(await provider.GetSubModuleEstimatedTimesAsync(id)).IsEmpty();
 
-            await provider.SaveModuleTimeAsync(typeof(PrefixModule), TimeSpan.FromSeconds(3));
-            await provider.SaveSubModuleTimeAsync(typeof(PrefixModule), new SubModuleEstimation(subModuleName, TimeSpan.FromSeconds(5)));
+            await provider.SaveModuleTimeAsync(id, TimeSpan.FromSeconds(3));
+            await provider.SaveSubModuleTimeAsync(id, new SubModuleEstimation("build", TimeSpan.FromSeconds(5)));
             var reader = CreateProvider(directory);
-            var estimations = (await reader.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
-
-            await Assert.That(await reader.GetModuleEstimatedTimeAsync(typeof(PrefixModule))).IsEqualTo(TimeSpan.FromSeconds(3));
-            await Assert.That(estimations).HasSingleItem();
-            await Assert.That(estimations[0].EstimatedDuration).IsEqualTo(TimeSpan.FromSeconds(5));
+            await Assert.That(await reader.GetModuleEstimatedTimeAsync(id)).IsEqualTo(TimeSpan.FromSeconds(3));
+            await Assert.That((await reader.GetSubModuleEstimatedTimesAsync(id)).Single().EstimatedDuration).IsEqualTo(TimeSpan.FromSeconds(5));
         });
     }
 
@@ -110,16 +111,16 @@ public class FileSystemModuleEstimatedTimeProviderTests
         await RunWithTemporaryDirectoryAsync(async directory =>
         {
             var provider = CreateProvider(directory);
-            await provider.SaveModuleTimeAsync(typeof(PrefixModule), TimeSpan.FromSeconds(3));
-            await provider.SaveSubModuleTimeAsync(typeof(PrefixModule), new SubModuleEstimation("build", TimeSpan.FromSeconds(5)));
+            await provider.SaveModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), TimeSpan.FromSeconds(3));
+            await provider.SaveSubModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), new SubModuleEstimation("build", TimeSpan.FromSeconds(5)));
             foreach (var path in Directory.GetFiles(directory))
             {
                 await File.WriteAllTextAsync(path, contents);
             }
 
-            await Assert.That(await provider.GetModuleEstimatedTimeAsync(typeof(PrefixModule)))
+            await Assert.That(await provider.GetModuleEstimatedTimeAsync(ModuleId.FromType(typeof(PrefixModule))))
                 .IsEqualTo(FileSystemModuleEstimatedTimeProvider.DefaultEstimate);
-            await Assert.That(await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).IsEmpty();
+            await Assert.That(await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).IsEmpty();
         });
     }
 
@@ -141,19 +142,19 @@ public class FileSystemModuleEstimatedTimeProviderTests
 
             var duration = TimeSpan.FromSeconds(9);
             var provider = CreateProvider(directory);
-            await provider.SaveModuleTimeAsync(firstType, duration);
-            await provider.SaveSubModuleTimeAsync(firstType, new SubModuleEstimation("build", duration));
+            await provider.SaveModuleTimeAsync(ModuleId.FromType(firstType), duration);
+            await provider.SaveSubModuleTimeAsync(ModuleId.FromType(firstType), new SubModuleEstimation("build", duration));
 
             var reader = CreateProvider(directory);
-            var estimations = (await reader.GetSubModuleEstimatedTimesAsync(secondType)).ToArray();
+            var estimations = (await reader.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(secondType))).ToArray();
 
-            await Assert.That(await reader.GetModuleEstimatedTimeAsync(secondType)).IsEqualTo(duration);
+            await Assert.That(await reader.GetModuleEstimatedTimeAsync(ModuleId.FromType(secondType))).IsEqualTo(duration);
             await Assert.That(estimations).HasSingleItem();
             await Assert.That(estimations[0].SubModuleName).IsEqualTo("build");
             await Assert.That(estimations[0].EstimatedDuration).IsEqualTo(duration);
 
-            await reader.SaveModuleTimeAsync(secondType, duration);
-            await reader.SaveSubModuleTimeAsync(secondType, new SubModuleEstimation("build", duration));
+            await reader.SaveModuleTimeAsync(ModuleId.FromType(secondType), duration);
+            await reader.SaveSubModuleTimeAsync(ModuleId.FromType(secondType), new SubModuleEstimation("build", duration));
             await Assert.That(Directory.GetFiles(directory)).Count().IsEqualTo(2);
         });
     }
@@ -174,15 +175,15 @@ public class FileSystemModuleEstimatedTimeProviderTests
             }
 
             var provider = CreateProvider(directory);
-            await provider.SaveModuleTimeAsync(firstType, TimeSpan.FromSeconds(3));
-            await provider.SaveModuleTimeAsync(secondType, TimeSpan.FromSeconds(5));
-            await provider.SaveSubModuleTimeAsync(firstType, new SubModuleEstimation("first", TimeSpan.FromSeconds(3)));
-            await provider.SaveSubModuleTimeAsync(secondType, new SubModuleEstimation("second", TimeSpan.FromSeconds(5)));
+            await provider.SaveModuleTimeAsync(ModuleId.FromType(firstType), TimeSpan.FromSeconds(3));
+            await provider.SaveModuleTimeAsync(ModuleId.FromType(secondType), TimeSpan.FromSeconds(5));
+            await provider.SaveSubModuleTimeAsync(ModuleId.FromType(firstType), new SubModuleEstimation("first", TimeSpan.FromSeconds(3)));
+            await provider.SaveSubModuleTimeAsync(ModuleId.FromType(secondType), new SubModuleEstimation("second", TimeSpan.FromSeconds(5)));
 
-            await Assert.That(await provider.GetModuleEstimatedTimeAsync(firstType)).IsEqualTo(TimeSpan.FromSeconds(3));
-            await Assert.That(await provider.GetModuleEstimatedTimeAsync(secondType)).IsEqualTo(TimeSpan.FromSeconds(5));
-            await Assert.That((await provider.GetSubModuleEstimatedTimesAsync(firstType)).Single().SubModuleName).IsEqualTo("first");
-            await Assert.That((await provider.GetSubModuleEstimatedTimesAsync(secondType)).Single().SubModuleName).IsEqualTo("second");
+            await Assert.That(await provider.GetModuleEstimatedTimeAsync(ModuleId.FromType(firstType))).IsEqualTo(TimeSpan.FromSeconds(3));
+            await Assert.That(await provider.GetModuleEstimatedTimeAsync(ModuleId.FromType(secondType))).IsEqualTo(TimeSpan.FromSeconds(5));
+            await Assert.That((await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(firstType))).Single().SubModuleName).IsEqualTo("first");
+            await Assert.That((await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(secondType))).Single().SubModuleName).IsEqualTo("second");
         });
     }
 
@@ -191,11 +192,11 @@ public class FileSystemModuleEstimatedTimeProviderTests
     {
         await RunWithTemporaryDirectoryAsync(async directory =>
         {
-            WriteEstimation(directory, typeof(PrefixModule), "expected", TimeSpan.FromSeconds(1));
-            WriteEstimation(directory, typeof(PrefixModuleSuffix), "other", TimeSpan.FromSeconds(2));
+            WriteEstimation(directory, ModuleId.FromType(typeof(PrefixModule)), "expected", TimeSpan.FromSeconds(1));
+            WriteEstimation(directory, ModuleId.FromType(typeof(PrefixModuleSuffix)), "other", TimeSpan.FromSeconds(2));
             var provider = CreateProvider(directory);
 
-            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).ToArray();
 
             await Assert.That(estimations).HasSingleItem();
             await Assert.That(estimations[0].SubModuleName).IsEqualTo("expected");
@@ -207,21 +208,24 @@ public class FileSystemModuleEstimatedTimeProviderTests
     {
         await RunWithTemporaryDirectoryAsync(async directory =>
         {
-            WriteEstimation(directory, typeof(PrefixModule), "first", TimeSpan.FromSeconds(1));
+            WriteEstimation(directory, ModuleId.FromType(typeof(PrefixModule)), "first", TimeSpan.FromSeconds(1));
             var cachedPath = WriteEstimation(
                 directory,
-                typeof(PrefixModuleSuffix),
+                ModuleId.FromType(typeof(PrefixModuleSuffix)),
                 "cached",
                 TimeSpan.FromSeconds(2));
             var provider = CreateProvider(directory);
 
-            _ = await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule));
-            File.Delete(cachedPath);
+            _ = await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)));
+            File.WriteAllText(cachedPath, JsonSerializer.Serialize(
+                new EstimatedTimeEntry(ModuleId.FromType(typeof(PrefixModuleSuffix)).Value, "updated", TimeSpan.FromSeconds(2)),
+                EstimatedTimeJsonContext.Default.EstimatedTimeEntry));
+            WriteEstimation(directory, ModuleId.FromType(typeof(PrefixModuleSuffix)), "external", TimeSpan.FromSeconds(3));
             var estimations =
-                (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModuleSuffix))).ToArray();
+                (await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModuleSuffix)))).ToArray();
 
             await Assert.That(estimations).HasSingleItem();
-            await Assert.That(estimations[0].SubModuleName).IsEqualTo("cached");
+            await Assert.That(estimations[0].SubModuleName).IsEqualTo("updated");
         });
     }
 
@@ -232,14 +236,14 @@ public class FileSystemModuleEstimatedTimeProviderTests
         {
             var expiredPath = WriteEstimation(
                 directory,
-                typeof(PrefixModule),
+                ModuleId.FromType(typeof(PrefixModule)),
                 "expired",
                 TimeSpan.FromSeconds(1));
             File.SetLastWriteTimeUtc(expiredPath, CurrentTime.UtcDateTime.AddDays(-91));
-            WriteEstimation(directory, typeof(PrefixModule), "current", TimeSpan.FromSeconds(2));
+            WriteEstimation(directory, ModuleId.FromType(typeof(PrefixModule)), "current", TimeSpan.FromSeconds(2));
             var provider = CreateProvider(directory);
 
-            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).ToArray();
 
             await Assert.That(estimations).HasSingleItem();
             await Assert.That(estimations[0].SubModuleName).IsEqualTo("current");
@@ -252,14 +256,14 @@ public class FileSystemModuleEstimatedTimeProviderTests
     {
         await RunWithTemporaryDirectoryAsync(async directory =>
         {
-            WriteEstimation(directory, typeof(PrefixModule), "first", TimeSpan.FromSeconds(1));
+            WriteEstimation(directory, ModuleId.FromType(typeof(PrefixModule)), "first", TimeSpan.FromSeconds(1));
             var provider = CreateProvider(directory);
-            _ = await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule));
+            _ = await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)));
 
             await provider.SaveSubModuleTimeAsync(
-                typeof(PrefixModule),
+                ModuleId.FromType(typeof(PrefixModule)),
                 new SubModuleEstimation("second", TimeSpan.FromSeconds(2)));
-            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).ToArray();
 
             await Assert.That(estimations.Select(x => x.SubModuleName))
                 .IsEquivalentTo(["first", "second"]);
@@ -276,9 +280,9 @@ public class FileSystemModuleEstimatedTimeProviderTests
             var provider = CreateProvider(directory);
 
             await provider.SaveSubModuleTimeAsync(
-                typeof(PrefixModule),
+                ModuleId.FromType(typeof(PrefixModule)),
                 new SubModuleEstimation(subModuleName, duration));
-            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).ToArray();
 
             await Assert.That(Directory.GetFiles(directory)).HasSingleItem();
             await Assert.That(estimations).HasSingleItem();
@@ -292,14 +296,14 @@ public class FileSystemModuleEstimatedTimeProviderTests
     {
         await RunWithTemporaryDirectoryAsync(async directory =>
         {
-            WriteEstimation(directory, typeof(PrefixModule), "first", TimeSpan.FromSeconds(1));
+            WriteEstimation(directory, ModuleId.FromType(typeof(PrefixModule)), "first", TimeSpan.FromSeconds(1));
             var timeProvider = new FakeTimeProvider(CurrentTime);
             var provider = new FileSystemModuleEstimatedTimeProvider(directory, timeProvider);
-            _ = await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule));
+            _ = await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)));
 
-            WriteEstimation(directory, typeof(PrefixModule), "external", TimeSpan.FromSeconds(2));
+            WriteEstimation(directory, ModuleId.FromType(typeof(PrefixModule)), "external", TimeSpan.FromSeconds(2));
             timeProvider.Advance(TimeSpan.FromMinutes(2));
-            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).ToArray();
 
             await Assert.That(estimations.Select(x => x.SubModuleName))
                 .IsEquivalentTo(["first", "external"]);
@@ -312,10 +316,10 @@ public class FileSystemModuleEstimatedTimeProviderTests
         await RunWithTemporaryDirectoryAsync(async directory =>
         {
             // A directory where the entry file should be makes the read fail with an access error.
-            Directory.CreateDirectory(Path.Combine(directory, $"{typeof(PrefixModule).FullName}.txt"));
+            Directory.CreateDirectory(Path.Combine(directory, $"{FileSystemModuleEstimatedTimeProvider.GetStorageKey(ModuleId.FromType(typeof(PrefixModule)))}.txt"));
             var provider = CreateProvider(directory);
 
-            var estimate = await provider.GetModuleEstimatedTimeAsync(typeof(PrefixModule));
+            var estimate = await provider.GetModuleEstimatedTimeAsync(ModuleId.FromType(typeof(PrefixModule)));
 
             await Assert.That(estimate).IsEqualTo(FileSystemModuleEstimatedTimeProvider.DefaultEstimate);
         });
@@ -327,11 +331,11 @@ public class FileSystemModuleEstimatedTimeProviderTests
         await RunWithTemporaryDirectoryAsync(async directory =>
         {
             await File.WriteAllTextAsync(
-                Path.Combine(directory, $"{typeof(PrefixModule).FullName}.txt"),
+                Path.Combine(directory, $"{FileSystemModuleEstimatedTimeProvider.GetStorageKey(ModuleId.FromType(typeof(PrefixModule)))}.txt"),
                 "not a duration");
             var provider = CreateProvider(directory);
 
-            var estimate = await provider.GetModuleEstimatedTimeAsync(typeof(PrefixModule));
+            var estimate = await provider.GetModuleEstimatedTimeAsync(ModuleId.FromType(typeof(PrefixModule)));
 
             await Assert.That(estimate).IsEqualTo(FileSystemModuleEstimatedTimeProvider.DefaultEstimate);
         });
@@ -345,8 +349,8 @@ public class FileSystemModuleEstimatedTimeProviderTests
             var provider = CreateProvider(directory);
 
             await Task.WhenAll(Enumerable.Range(1, 20).Select(seconds =>
-                provider.SaveModuleTimeAsync(typeof(PrefixModule), TimeSpan.FromSeconds(seconds))));
-            var estimate = await provider.GetModuleEstimatedTimeAsync(typeof(PrefixModule));
+                provider.SaveModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), TimeSpan.FromSeconds(seconds))));
+            var estimate = await provider.GetModuleEstimatedTimeAsync(ModuleId.FromType(typeof(PrefixModule)));
 
             using (Assert.Multiple())
             {
@@ -368,9 +372,9 @@ public class FileSystemModuleEstimatedTimeProviderTests
         {
             var provider = CreateProvider(directory);
             await Task.WhenAll(Enumerable.Range(1, 20).Select(seconds =>
-                provider.SaveSubModuleTimeAsync(typeof(PrefixModule), new SubModuleEstimation("build", TimeSpan.FromSeconds(seconds)))));
+                provider.SaveSubModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), new SubModuleEstimation("build", TimeSpan.FromSeconds(seconds)))));
 
-            var estimations = (await CreateProvider(directory).GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+            var estimations = (await CreateProvider(directory).GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).ToArray();
 
             await Assert.That(estimations).HasSingleItem();
             await Assert.That(estimations[0].SubModuleName).IsEqualTo("build");
@@ -386,20 +390,20 @@ public class FileSystemModuleEstimatedTimeProviderTests
         {
             var timeProvider = new FakeTimeProvider(CurrentTime);
             var provider = new FileSystemModuleEstimatedTimeProvider(directory, timeProvider);
-            await provider.SaveSubModuleTimeAsync(typeof(PrefixModule), new SubModuleEstimation("expired", TimeSpan.FromSeconds(1)));
+            await provider.SaveSubModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), new SubModuleEstimation("expired", TimeSpan.FromSeconds(1)));
             var expiredPath = Directory.GetFiles(directory).Single();
             File.SetLastWriteTimeUtc(expiredPath, CurrentTime.UtcDateTime.AddDays(-91));
-            await provider.SaveSubModuleTimeAsync(typeof(PrefixModule), new SubModuleEstimation("current", TimeSpan.FromSeconds(2)));
+            await provider.SaveSubModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), new SubModuleEstimation("current", TimeSpan.FromSeconds(2)));
 
-            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).ToArray();
             await Assert.That(estimations).HasSingleItem();
             await Assert.That(estimations[0].SubModuleName).IsEqualTo("current");
             await Assert.That(File.Exists(expiredPath)).IsFalse();
 
-            await CreateProvider(directory).SaveSubModuleTimeAsync(typeof(PrefixModule), new SubModuleEstimation("external", TimeSpan.FromSeconds(3)));
-            await Assert.That(await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).HasSingleItem();
+            await CreateProvider(directory).SaveSubModuleTimeAsync(ModuleId.FromType(typeof(PrefixModule)), new SubModuleEstimation("external", TimeSpan.FromSeconds(3)));
+            await Assert.That(await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).HasSingleItem();
             timeProvider.Advance(TimeSpan.FromMinutes(2));
-            estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+            estimations = (await provider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(typeof(PrefixModule)))).ToArray();
             await Assert.That(estimations.Select(estimation => estimation.SubModuleName)).IsEquivalentTo(["current", "external"]);
         });
     }
@@ -416,14 +420,15 @@ public class FileSystemModuleEstimatedTimeProviderTests
 
     private static string WriteEstimation(
         string directory,
-        Type moduleType,
+        ModuleId moduleId,
         string subModuleName,
         TimeSpan duration)
     {
-        var path = Path.Combine(
-            directory,
-            $"Mod-{moduleType.FullName}-Sub-{subModuleName}.txt");
-        File.WriteAllText(path, duration.ToString());
+        var subModuleHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(subModuleName)));
+        var path = Path.Combine(directory, $"Mod-{FileSystemModuleEstimatedTimeProvider.GetStorageKey(moduleId)}-Sub-{subModuleHash}.txt");
+        File.WriteAllText(path, JsonSerializer.Serialize(
+            new EstimatedTimeEntry(moduleId.Value, subModuleName, duration),
+            EstimatedTimeJsonContext.Default.EstimatedTimeEntry));
         File.SetLastWriteTimeUtc(path, CurrentTime.UtcDateTime);
         return path;
     }

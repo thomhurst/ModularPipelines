@@ -112,7 +112,7 @@ public class ArtifactContextApiTests
         var factory = pipeline.Services.GetRequiredService<IDistributedArtifactStoreFactory>();
         var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
 
-        _ = await store.ListArtifactsAsync("module", CancellationToken.None);
+        _ = await store.ListArtifactsAsync(new ModuleId("module"), CancellationToken.None);
 
         await Assert.That(((TestArtifactStoreFactory) factory).CreateCount).IsEqualTo(1);
     }
@@ -158,7 +158,7 @@ public class ArtifactContextApiTests
             .GetRequiredService<IDistributedArtifactStoreFactory>();
         var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
 
-        _ = await store.ListArtifactsAsync("module", CancellationToken.None);
+        _ = await store.ListArtifactsAsync(new ModuleId("module"), CancellationToken.None);
         await pipeline.DisposeAsync();
 
         await Assert.That(factory.CreatedStore!.DisposeCount).IsEqualTo(1);
@@ -175,7 +175,7 @@ public class ArtifactContextApiTests
             .GetRequiredService<IDistributedArtifactStoreFactory>();
         var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
 
-        _ = await store.ListArtifactsAsync("module", CancellationToken.None);
+        _ = await store.ListArtifactsAsync(new ModuleId("module"), CancellationToken.None);
         ((IDisposable) store).Dispose();
 
         await Assert.That(factory.CreatedStore!.DisposeCount).IsEqualTo(1);
@@ -209,7 +209,7 @@ public class ArtifactContextApiTests
             .GetRequiredService<IDistributedArtifactStoreFactory>();
         var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
 
-        _ = await store.ListArtifactsAsync("module", CancellationToken.None);
+        _ = await store.ListArtifactsAsync(new ModuleId("module"), CancellationToken.None);
         await pipeline.DisposeAsync();
 
         await Assert.That(factory.CreatedStore!.DisposeCount).IsEqualTo(1);
@@ -226,7 +226,7 @@ public class ArtifactContextApiTests
             .GetRequiredService<IDistributedArtifactStoreFactory>();
         var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
 
-        var accessTask = store.ListArtifactsAsync("module", CancellationToken.None);
+        var accessTask = store.ListArtifactsAsync(new ModuleId("module"), CancellationToken.None);
         await factory.CreationStarted;
         var disposalTask = pipeline.DisposeAsync().AsTask();
         factory.CompleteCreation();

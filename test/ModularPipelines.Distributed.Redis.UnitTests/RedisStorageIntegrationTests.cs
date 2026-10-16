@@ -29,7 +29,7 @@ public class RedisStorageIntegrationTests
         {
             using var stream = new MemoryStream([1]);
             references.Add(await store.UploadAsync(
-                new ArtifactDescriptor { Name = $"artifact-{index}", ModuleId = separateModules ? $"Module.{index}" : "Module.Shared" },
+                new ArtifactDescriptor { Name = $"artifact-{index}", ModuleId = new ModuleId(separateModules ? $"Module.{index}" : "Module.Shared") },
                 stream,
                 CancellationToken.None));
         }
@@ -73,11 +73,11 @@ public class RedisStorageIntegrationTests
         var data = Enumerable.Range(0, length).Select(value => (byte) value).ToArray();
 
         using var source = new MemoryStream(data);
-        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "artifact", ModuleId = "Integration.Module" }, source, CancellationToken.None);
+        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "artifact", ModuleId = new ModuleId("Integration.Module") }, source, CancellationToken.None);
         await using var downloaded = await store.DownloadAsync(reference, CancellationToken.None);
         using var copy = new MemoryStream();
         await downloaded.CopyToAsync(copy);
-        var listed = await store.ListArtifactsAsync("Integration.Module", CancellationToken.None);
+        var listed = await store.ListArtifactsAsync(new ModuleId("Integration.Module"), CancellationToken.None);
         await store.DeleteAsync(reference, CancellationToken.None);
 
         using (Assert.Multiple())
@@ -112,11 +112,11 @@ public class RedisStorageIntegrationTests
         using var chunked = new MemoryStream(new byte[40]);
         using var otherRunData = new MemoryStream([4]);
         var smallReference = await workerStore.UploadAsync(
-            new ArtifactDescriptor { Name = "small", ModuleId = "Integration.Worker" }, small, CancellationToken.None);
+            new ArtifactDescriptor { Name = "small", ModuleId = new ModuleId("Integration.Worker") }, small, CancellationToken.None);
         var chunkedReference = await workerStore.UploadAsync(
-            new ArtifactDescriptor { Name = "chunked", ModuleId = "Integration.Other" }, chunked, CancellationToken.None);
+            new ArtifactDescriptor { Name = "chunked", ModuleId = new ModuleId("Integration.Other") }, chunked, CancellationToken.None);
         await otherRunStore.UploadAsync(
-            new ArtifactDescriptor { Name = "kept", ModuleId = "Integration.Worker" }, otherRunData, CancellationToken.None);
+            new ArtifactDescriptor { Name = "kept", ModuleId = new ModuleId("Integration.Worker") }, otherRunData, CancellationToken.None);
 
         await masterStore.CleanupRunAsync(
             new DistributedRunCleanupContext { RunId = runId, PipelineSucceeded = true },
@@ -129,8 +129,8 @@ public class RedisStorageIntegrationTests
             keys.ArtifactMeta(chunkedReference.ArtifactId),
             keys.ArtifactChunk(chunkedReference.ArtifactId, 0),
             keys.ArtifactChunk(chunkedReference.ArtifactId, 2),
-            keys.ArtifactIndex("Integration.Worker"),
-            keys.ArtifactIndex("Integration.Other"),
+            keys.ArtifactIndex(new ModuleId("Integration.Worker")),
+            keys.ArtifactIndex(new ModuleId("Integration.Other")),
             keys.ArtifactModules,
         ];
         using (Assert.Multiple())
@@ -140,7 +140,7 @@ public class RedisStorageIntegrationTests
                 await Assert.That(await connection.ExistsAsync(key)).IsFalse();
             }
 
-            await Assert.That(await otherRunStore.ListArtifactsAsync("Integration.Worker", CancellationToken.None))
+            await Assert.That(await otherRunStore.ListArtifactsAsync(new ModuleId("Integration.Worker"), CancellationToken.None))
                 .HasSingleItem();
         }
     }
@@ -160,13 +160,13 @@ public class RedisStorageIntegrationTests
 
         await using var source = new FailAfterStream(new byte[16]);
         await Assert.That(async () => await store.UploadAsync(
-                new ArtifactDescriptor { Name = "partial", ModuleId = "Integration.Partial" },
+                new ArtifactDescriptor { Name = "partial", ModuleId = new ModuleId("Integration.Partial") },
                 source,
                 CancellationToken.None))
             .Throws<IOException>();
-        var artifactId = await connection.Sets.ScanAsync(keys.ArtifactIndex("Integration.Partial")).SingleAsync();
+        var artifactId = await connection.Sets.ScanAsync(keys.ArtifactIndex(new ModuleId("Integration.Partial"))).SingleAsync();
         await Assert.That(await connection.ExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsTrue();
-        await Assert.That((await connection.Keys.ExpiryAsync(keys.ArtifactIndex("Integration.Partial"))).HasExpiry).IsTrue();
+        await Assert.That((await connection.Keys.ExpiryAsync(keys.ArtifactIndex(new ModuleId("Integration.Partial")))).HasExpiry).IsTrue();
         await Assert.That((await connection.Keys.ExpiryAsync(keys.ArtifactModules)).HasExpiry).IsTrue();
 
         await store.CleanupRunAsync(
@@ -192,7 +192,7 @@ public class RedisStorageIntegrationTests
         // 300 chunks, more than one delete batch.
         using var source = new MemoryStream(new byte[16 * 300]);
         var reference = await store.UploadAsync(
-            new ArtifactDescriptor { Name = "large", ModuleId = "Integration.Large" }, source, CancellationToken.None);
+            new ArtifactDescriptor { Name = "large", ModuleId = new ModuleId("Integration.Large") }, source, CancellationToken.None);
         await connection.DeleteAsync([keys.ArtifactChunk(reference.ArtifactId, 0)]);
 
         await store.CleanupRunAsync(
@@ -229,9 +229,9 @@ public class RedisStorageIntegrationTests
         using var source = new MemoryStream(new byte[length]);
         using var otherSource = new MemoryStream([1]);
         var reference = await store.UploadAsync(
-            new ArtifactDescriptor { Name = "retained", ModuleId = "Integration.Worker" }, source, CancellationToken.None);
+            new ArtifactDescriptor { Name = "retained", ModuleId = new ModuleId("Integration.Worker") }, source, CancellationToken.None);
         var otherReference = await otherStore.UploadAsync(
-            new ArtifactDescriptor { Name = "other", ModuleId = "Integration.Worker" }, otherSource, CancellationToken.None);
+            new ArtifactDescriptor { Name = "other", ModuleId = new ModuleId("Integration.Worker") }, otherSource, CancellationToken.None);
         string[] artifactKeys =
         [
             keys.ArtifactKeys,
@@ -288,7 +288,7 @@ public class RedisStorageIntegrationTests
         coordinator.StartMasterHeartbeat(TimeSpan.FromMilliseconds(50));
         using var source = new MemoryStream(new byte[40]);
         var reference = await store.UploadAsync(
-            new ArtifactDescriptor { Name = "long-run", ModuleId = "Integration.Worker" }, source, CancellationToken.None);
+            new ArtifactDescriptor { Name = "long-run", ModuleId = new ModuleId("Integration.Worker") }, source, CancellationToken.None);
 
         await Task.Delay(TimeSpan.FromSeconds(3));
 
@@ -323,9 +323,9 @@ public class RedisStorageIntegrationTests
         var store = new RedisDistributedArtifactStore(connection, keys, options);
         await using var source = new FailAfterStream(new byte[16]);
         await Assert.That(async () => await store.UploadAsync(
-                new ArtifactDescriptor { Name = "partial", ModuleId = "Integration.Partial" }, source, CancellationToken.None))
+                new ArtifactDescriptor { Name = "partial", ModuleId = new ModuleId("Integration.Partial") }, source, CancellationToken.None))
             .Throws<IOException>();
-        var artifactId = await connection.Sets.ScanAsync(keys.ArtifactIndex("Integration.Partial")).SingleAsync();
+        var artifactId = await connection.Sets.ScanAsync(keys.ArtifactIndex(new ModuleId("Integration.Partial"))).SingleAsync();
         var chunkKey = keys.ArtifactChunk(artifactId, 0);
         await connection.ExpireAsync(chunkKey, TimeSpan.FromSeconds(5));
 

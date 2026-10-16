@@ -53,7 +53,7 @@ public class ModuleResultSerializerTests
 
         var serialized = serializer.Serialize(result, ModuleId.FromType(typeof(SimpleModule)), WorkerId.FromInstanceIndex(1));
 
-        await Assert.That(serialized.ModuleId).IsEqualTo(typeof(SimpleModule).FullName!);
+        await Assert.That(serialized.ModuleId).IsEqualTo(ModuleId.FromType(typeof(SimpleModule)));
         await Assert.That(serialized.WorkerId).IsEqualTo(WorkerId.FromInstanceIndex(1));
         await Assert.That(serialized.CommandCount).IsEqualTo(3);
         await Assert.That(serialized.Payload).IsNotNull();
@@ -72,7 +72,7 @@ public class ModuleResultSerializerTests
 
         var serialized = new SerializedModuleResult
         {
-            ModuleId = "Unknown.Module",
+            ModuleId = new ModuleId("Unknown.Module"),
             WorkerId = WorkerId.FromInstanceIndex(1),
             Payload = "{}",
             CompletedAt = DateTimeOffset.UtcNow,
@@ -97,7 +97,7 @@ public class ModuleResultSerializerTests
             Status = ModuleStatus.Succeeded,
         };
 
-        var deserialized = serializer.Deserialize(serializer.Serialize(result, "stable.simple", workerId: WorkerId.FromInstanceIndex(1)));
+        var deserialized = serializer.Deserialize(serializer.Serialize(result, new ModuleId("stable.simple"), workerId: WorkerId.FromInstanceIndex(1)));
 
         await Assert.That(deserialized!.TypeName)
             .IsEqualTo(ModuleTypeIdentifier.Get(typeof(CustomIdModule)));

@@ -10,12 +10,12 @@ public interface IRunHistoryReader
     /// <summary>
     /// Gets measured duration samples for a module over the latest pipeline runs.
     /// </summary>
-    /// <param name="moduleTypeName">The stable module type identifier.</param>
+    /// <param name="moduleId">The stable module identifier.</param>
     /// <param name="lastN">The number of latest pipeline runs to inspect.</param>
     /// <param name="cancellationToken">A token that cancels the operation.</param>
     /// <returns>Newest-first attributable module duration samples.</returns>
     Task<IReadOnlyList<ModuleDurationSample>> GetModuleDurationTrendAsync(
-        string moduleTypeName,
+        ModuleId moduleId,
         int lastN,
         CancellationToken cancellationToken = default);
 }

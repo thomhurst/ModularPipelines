@@ -73,7 +73,7 @@ public class DependencyResultPropagationTests
 
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         coordinator
-            .Setup(x => x.WaitForResultAsync(typeof(DependencyModule).FullName!, It.IsAny<CancellationToken>()))
+            .Setup(x => x.WaitForResultAsync(ModuleId.FromType(typeof(DependencyModule)), It.IsAny<CancellationToken>()))
             .ReturnsAsync(() =>
             {
                 clock.Advance(TimeSpan.FromSeconds(2));
@@ -82,13 +82,13 @@ public class DependencyResultPropagationTests
 
         var assignment = new ModuleAssignment
         {
-            ModuleId = typeof(ConsumerModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(ConsumerModule)),
             RequiredCapabilities = CapabilityRequirement.None,
             AlwaysRun = false,
             DependencyResultReferences = [
                 new DependencyResultReference
                 {
-                    ModuleId = typeof(DependencyModule).FullName!,
+                    ModuleId = ModuleId.FromType(typeof(DependencyModule)),
                     IsAvailable = true,
                 },
             ],
@@ -137,7 +137,7 @@ public class DependencyResultPropagationTests
             timedRegistry.Object,
             NullLogger.Instance, timer, clock);
 
-        // Assert â€” GetModule<DependencyModule> should now resolve (ResultTask completes)
+        // Assert — GetModule<DependencyModule> should now resolve (ResultTask completes)
         var telemetry = timer.CreateTelemetry();
         await Assert.That(telemetry.DependencyResultTransferDuration).IsEqualTo(TimeSpan.FromSeconds(2));
         await Assert.That(telemetry.DependencyResultProcessingDuration).IsEqualTo(TimeSpan.FromSeconds(6));
@@ -148,7 +148,7 @@ public class DependencyResultPropagationTests
         await Assert.That(resultRegistry.GetResult(typeof(DependencyModule))?.Status)
             .IsEqualTo(ModuleStatus.Succeeded);
         coordinator.Verify(
-            x => x.WaitForResultAsync(typeof(DependencyModule).FullName!, It.IsAny<CancellationToken>()),
+            x => x.WaitForResultAsync(ModuleId.FromType(typeof(DependencyModule)), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
@@ -184,7 +184,7 @@ public class DependencyResultPropagationTests
 
         SerializedModuleResult Serialize(string value) => serializer.Serialize(
             CreateSuccessResult(new DepResult { Value = value }, nameof(DependencyModule)),
-            typeof(DependencyModule).FullName!,
+            ModuleId.FromType(typeof(DependencyModule)),
 
             workerId: WorkerId.FromInstanceIndex(0));
 
@@ -192,7 +192,7 @@ public class DependencyResultPropagationTests
         {
             var coordinator = new Mock<IDistributedWorkerCoordinator>();
             coordinator.Setup(x => x.WaitForResultAsync(
-                    typeof(DependencyModule).FullName!, It.IsAny<CancellationToken>()))
+                    ModuleId.FromType(typeof(DependencyModule)), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Serialize(value));
             return new DependencyResultCache(coordinator.Object, cancellationToken);
         }
@@ -201,7 +201,7 @@ public class DependencyResultPropagationTests
             () => DependencyResultApplicator.FetchAndApplyAsync(
                 [new DependencyResultReference
                 {
-                    ModuleId = typeof(DependencyModule).FullName!,
+                    ModuleId = ModuleId.FromType(typeof(DependencyModule)),
                     IsAvailable = true,
                 }],
                 CreateCache("first"),
@@ -215,7 +215,7 @@ public class DependencyResultPropagationTests
             () => DependencyResultApplicator.FetchAndApplyAsync(
                 [new DependencyResultReference
                 {
-                    ModuleId = typeof(DependencyModule).FullName!,
+                    ModuleId = ModuleId.FromType(typeof(DependencyModule)),
                     IsAvailable = true,
                 }],
                 CreateCache("second"),
@@ -329,7 +329,7 @@ public class DependencyResultPropagationTests
             .ThrowsAsync(new InvalidOperationException("Publication failed."));
         var assignment = new ModuleAssignment
         {
-            ModuleId = typeof(IndependentModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(IndependentModule)),
             RequiredCapabilities = CapabilityRequirement.None,
             AlwaysRun = false,
             PipelineSchemaVersion = "different-build",
@@ -351,16 +351,16 @@ public class DependencyResultPropagationTests
     [Test]
     public async Task Null_Dependency_Result_References_Does_Not_Crash()
     {
-        // Arrange â€” assignment with null DependencyResults (backwards compat)
+        // Arrange — assignment with null DependencyResults (backwards compat)
         var assignment = new ModuleAssignment
         {
-            ModuleId = typeof(IndependentModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(IndependentModule)),
             RequiredCapabilities = CapabilityRequirement.None,
             AlwaysRun = false,
             PipelineSchemaVersion = string.Empty,
         };
 
-        // Act & Assert â€” should not throw
+        // Act & Assert — should not throw
         await Assert.That(assignment.DependencyResultReferences).IsEmpty();
     }
 
@@ -372,7 +372,7 @@ public class DependencyResultPropagationTests
         await DependencyResultApplicator.FetchAndApplyAsync(
             [new DependencyResultReference
             {
-                ModuleId = typeof(DependencyModule).FullName!,
+                ModuleId = ModuleId.FromType(typeof(DependencyModule)),
                 IsAvailable = false,
             }],
             new DependencyResultCache(coordinator.Object, CancellationToken.None),
@@ -392,23 +392,23 @@ public class DependencyResultPropagationTests
         var moduleId = typeof(DependencyModule).FullName!;
         var expected = new SerializedModuleResult
         {
-            ModuleId = moduleId,
+            ModuleId = new ModuleId(moduleId),
             WorkerId = WorkerId.FromInstanceIndex(0),
             Payload = "{}",
             CompletedAt = DateTimeOffset.UtcNow,
         };
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         coordinator
-            .SetupSequence(x => x.WaitForResultAsync(moduleId, It.IsAny<CancellationToken>()))
+            .SetupSequence(x => x.WaitForResultAsync(new ModuleId(moduleId), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new IOException("transient failure"))
             .ReturnsAsync(expected);
         var cache = new DependencyResultCache(coordinator.Object, CancellationToken.None);
 
-        await Assert.That(async () => await cache.GetAsync(moduleId))
+        await Assert.That(async () => await cache.GetAsync(new ModuleId(moduleId)))
             .Throws<IOException>();
-        await Assert.That(await cache.GetAsync(moduleId)).IsSameReferenceAs(expected);
+        await Assert.That(await cache.GetAsync(new ModuleId(moduleId))).IsSameReferenceAs(expected);
         coordinator.Verify(
-            x => x.WaitForResultAsync(moduleId, It.IsAny<CancellationToken>()),
+            x => x.WaitForResultAsync(new ModuleId(moduleId), It.IsAny<CancellationToken>()),
             Times.Exactly(2));
     }
 }

@@ -25,7 +25,7 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.ResultChannel("MyModule")).IsEqualTo("modpipe:{abc123}:results:MyModule");
+        await Assert.That(builder.ResultChannel(new ModuleId("MyModule"))).IsEqualTo("modpipe:{abc123}:results:MyModule");
     }
 
     [Test]

@@ -341,11 +341,11 @@ public class RunReportTests
                 await Assert.That(firstReport.Correlation!.Hostname).IsNotNullOrWhiteSpace();
                 await Assert.That(firstReport.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(firstReport.CommandCount).IsEqualTo(1);
-                await Assert.That(firstReport.Modules.Single(module => module.ModuleTypeName == ModuleTypeIdentifier.Get(typeof(CommandModule)))
+                await Assert.That(firstReport.Modules.Single(module => module.ModuleId == ModuleId.FromType(typeof(CommandModule)))
                     .CommandCount).IsEqualTo(1);
-                await Assert.That(firstReport.Modules.Single(module => module.ModuleTypeName == ModuleTypeIdentifier.Get(typeof(FailingModule)))
+                await Assert.That(firstReport.Modules.Single(module => module.ModuleId == ModuleId.FromType(typeof(FailingModule)))
                     .Exception!.Message).IsEqualTo("report failure **********");
-                await Assert.That(firstReport.Modules.Single(module => module.ModuleTypeName == ModuleTypeIdentifier.Get(typeof(SkippedModule)))
+                await Assert.That(firstReport.Modules.Single(module => module.ModuleId == ModuleId.FromType(typeof(SkippedModule)))
                     .SkipReason).IsEqualTo("report skip reason");
             }
 
@@ -431,7 +431,7 @@ public class RunReportTests
                 new ModuleRunReport
                 {
                     ModuleName = firstType.Name,
-                    ModuleTypeName = firstTypeName,
+                    ModuleId = ModuleId.FromType(firstType),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
@@ -441,7 +441,7 @@ public class RunReportTests
                 new ModuleRunReport
                 {
                     ModuleName = secondType.Name,
-                    ModuleTypeName = secondTypeName,
+                    ModuleId = ModuleId.FromType(secondType),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(20),
                     DurationMeasured = true,
@@ -481,7 +481,6 @@ public class RunReportTests
         var firstType = CreateDynamicModuleType("RunReportAssembly", new Version(1, 0));
         var secondType = CreateDynamicModuleType("RunReportAssembly", new Version(2, 0));
         var module = (IModule) Activator.CreateInstance(firstType)!;
-        var typeName = ModuleTypeIdentifier.Get(firstType);
         var start = new DateTimeOffset(2026, 8, 2, 12, 0, 0, TimeSpan.Zero);
         var summary = new PipelineSummary(
             [module],
@@ -494,8 +493,8 @@ public class RunReportTests
         {
             Modules =
             [
-                CreatePreviousModuleReport(firstType, typeName, start, TimeSpan.FromSeconds(10)),
-                CreatePreviousModuleReport(secondType, typeName, start, TimeSpan.FromSeconds(20)),
+                CreatePreviousModuleReport(firstType, start, TimeSpan.FromSeconds(10)),
+                CreatePreviousModuleReport(secondType, start, TimeSpan.FromSeconds(20)),
             ],
         };
 
@@ -620,7 +619,7 @@ public class RunReportTests
                 new ModuleRunReport
                 {
                     ModuleName = nameof(SuccessfulModule),
-                    ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SuccessfulModule)),
+                    ModuleId = ModuleId.FromType(typeof(SuccessfulModule)),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
@@ -675,7 +674,7 @@ public class RunReportTests
                 new ModuleRunReport
                 {
                     ModuleName = nameof(SkippedModule),
-                    ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
+                    ModuleId = ModuleId.FromType(typeof(SkippedModule)),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(10),
                     DurationMeasured = true,
@@ -1315,7 +1314,7 @@ public class RunReportTests
                 RunReport = new RunReportOptions { PipelineIdentity = "pipeline-a" },
             }));
 
-        var samples = await reader.GetModuleDurationTrendAsync(moduleTypeName, 4);
+        var samples = await reader.GetModuleDurationTrendAsync(new ModuleId(moduleTypeName), 4);
 
         using (Assert.Multiple())
         {
@@ -1364,7 +1363,7 @@ public class RunReportTests
             Mock.Of<IRunHistoryStore>(),
             OptionsFactory.Create(new PipelineOptions()));
 
-        await Assert.That(async () => await reader.GetModuleDurationTrendAsync("module", 1))
+        await Assert.That(async () => await reader.GetModuleDurationTrendAsync(new ModuleId("module"), 1))
             .Throws<InvalidOperationException>()
             .WithMessage("PipelineIdentity must be configured to query run history.");
     }
@@ -1420,7 +1419,7 @@ public class RunReportTests
     [Test]
     public async Task FileSystemHistoryStoreAcceptsAdditiveOlderSchemas()
     {
-        const int expectedCurrentSchemaVersion = 6;
+        const int expectedCurrentSchemaVersion = 7;
 
         using (Assert.Multiple())
         {
@@ -1432,7 +1431,8 @@ public class RunReportTests
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(5, expectedCurrentSchemaVersion)).IsTrue();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, expectedCurrentSchemaVersion)).IsFalse();
             await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(6, expectedCurrentSchemaVersion)).IsTrue();
-            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(7, expectedCurrentSchemaVersion)).IsFalse();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(7, expectedCurrentSchemaVersion)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(8, expectedCurrentSchemaVersion)).IsFalse();
         }
     }
 
@@ -3285,7 +3285,7 @@ public class RunReportTests
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<ModuleId, int>()
                     {
-                    ["worker-load-context-identifier"] = 3,
+                    [new ModuleId("worker-load-context-identifier")] = 3,
                     },
                 },
             ]);
@@ -3800,7 +3800,7 @@ public class RunReportTests
                 [
                     new DistributedModuleRunReport
                     {
-                        ModuleTypeName = "Example.BuildModule",
+                        ModuleId = new ModuleId("Example.BuildModule"),
                         WorkerId = WorkerId.FromInstanceIndex(1),
                         QueueWaitDuration = TimeSpan.FromSeconds(2),
                         TotalOverheadDuration = TimeSpan.FromMilliseconds(750),
@@ -4227,12 +4227,11 @@ public class RunReportTests
 
     private static ModuleRunReport CreatePreviousModuleReport(
         Type moduleType,
-        string typeName,
         DateTimeOffset start,
         TimeSpan duration) => new()
         {
             ModuleName = moduleType.Name,
-            ModuleTypeName = typeName,
+            ModuleId = ModuleId.FromType(moduleType),
             Status = ModuleStatus.Succeeded,
             Duration = duration,
             DurationMeasured = true,
@@ -4328,7 +4327,7 @@ public class RunReportTests
                 new ModuleRunReport
                 {
                     ModuleName = nameof(SuccessfulModule),
-                    ModuleTypeName = moduleTypeName,
+                    ModuleId = new ModuleId(moduleTypeName),
                     Status = ModuleStatus.Succeeded,
                     Duration = TimeSpan.FromSeconds(2),
                     DurationMeasured = measured,

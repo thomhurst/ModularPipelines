@@ -10,12 +10,12 @@ public class DistributedTelemetryTrackerTests
         tracker.RecordAssignment(
             new ModuleAssignment
             {
-                ModuleId = "Example.BuildModule",
+                ModuleId = new ModuleId("Example.BuildModule"),
                 RequiredCapabilities = CapabilityRequirement.None,
                 AlwaysRun = false,
                 DependencyResultReferences = [new DependencyResultReference
                 {
-                    ModuleId = "Example.DependencyModule",
+                    ModuleId = new ModuleId("Example.DependencyModule"),
                     IsAvailable = true,
                 }],
                 EnqueuedAt = pipelineStart.AddSeconds(1),
@@ -25,7 +25,7 @@ public class DistributedTelemetryTrackerTests
         tracker.RecordResult(
             new SerializedModuleResult
             {
-                ModuleId = "Example.BuildModule",
+                ModuleId = new ModuleId("Example.BuildModule"),
                 WorkerId = WorkerId.FromInstanceIndex(0),
                 Payload = "{}",
                 CompletedAt = pipelineStart.AddSeconds(8.5),
@@ -40,8 +40,7 @@ public class DistributedTelemetryTrackerTests
                     ArtifactUploadDuration = TimeSpan.FromMilliseconds(400),
                 },
             },
-            pipelineStart.AddSeconds(9),
-            "Example.BuildModule");
+            pipelineStart.AddSeconds(9));
 
         var report = tracker.CreateReport(
             pipelineStart,
@@ -55,7 +54,7 @@ public class DistributedTelemetryTrackerTests
             await Assert.That(report.WorkerCount).IsEqualTo(2);
             await Assert.That(report.FleetUtilizationPercentage).IsEqualTo(27.5);
             await Assert.That(module.WorkerId).IsEqualTo(WorkerId.FromInstanceIndex(0));
-            await Assert.That(module.ModuleTypeName).IsEqualTo("Example.BuildModule");
+            await Assert.That(module.ModuleId).IsEqualTo(new ModuleId("Example.BuildModule"));
             await Assert.That(module.QueueWaitDuration).IsEqualTo(TimeSpan.FromSeconds(2));
             await Assert.That(module.ExecutionDuration).IsEqualTo(TimeSpan.FromSeconds(4));
             await Assert.That(module.DependencyResultTransferDuration).IsEqualTo(TimeSpan.FromMilliseconds(250));
@@ -79,13 +78,12 @@ public class DistributedTelemetryTrackerTests
         tracker.RecordResult(
             new SerializedModuleResult
             {
-                ModuleId = "Module",
+                ModuleId = new ModuleId("Module"),
                 WorkerId = WorkerId.FromInstanceIndex(0),
                 Payload = "{}",
                 CompletedAt = now,
             },
-            now,
-            "Module");
+            now);
 
         await Assert.That(tracker.CreateReport(now, now, configuredWorkerCount: 1)).IsNull();
     }
@@ -97,20 +95,20 @@ public class DistributedTelemetryTrackerTests
         var tracker = new DistributedTelemetryTracker();
         tracker.RecordResult(new SerializedModuleResult
         {
-            ModuleId = "First",
+            ModuleId = new ModuleId("First"),
             WorkerId = WorkerId.FromInstanceIndex(0),
             Payload = "{}",
             CompletedAt = start.AddSeconds(6),
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry { ClaimedAt = start.AddSeconds(-1) },
-        }, start.AddSeconds(6), "First");
+        }, start.AddSeconds(6));
         tracker.RecordResult(new SerializedModuleResult
         {
-            ModuleId = "Second",
+            ModuleId = new ModuleId("Second"),
             WorkerId = WorkerId.FromInstanceIndex(0),
             Payload = "{}",
             CompletedAt = start.AddSeconds(12),
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry { ClaimedAt = start.AddSeconds(4) },
-        }, start.AddSeconds(12), "Second");
+        }, start.AddSeconds(12));
 
         var report = tracker.CreateReport(start, start.AddSeconds(10), configuredWorkerCount: 2)!;
 

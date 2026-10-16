@@ -95,7 +95,7 @@ public class ModuleIdTests
     {
         var consumer = new ModuleTypeRegistry();
         consumer.Register(typeof(RenamedModule));
-        var failure = new ModuleResultSerializer(new ModuleTypeRegistry()).SerializeFailure("build",
+        var failure = new ModuleResultSerializer(new ModuleTypeRegistry()).SerializeFailure(new ModuleId("build"),
             new InvalidOperationException("Pipeline schema mismatch"), WorkerId.FromInstanceIndex(2));
         var received = new ModuleResultSerializer(consumer).Deserialize(failure);
         await Assert.That(received!.Status).IsEqualTo(ModuleStatus.Failed);

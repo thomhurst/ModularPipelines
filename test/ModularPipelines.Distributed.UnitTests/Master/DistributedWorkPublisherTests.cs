@@ -314,7 +314,7 @@ public class DistributedWorkPublisherTests
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
         await Assert.That(assignment.DependencyResultReferences[0].ModuleId)
-            .IsEqualTo(typeof(DependencyModule).FullName!);
+            .IsEqualTo(ModuleId.FromType(typeof(DependencyModule)));
         await Assert.That(assignment.DependencyResultReferences[0].IsAvailable).IsTrue();
     }
 
@@ -347,7 +347,7 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(new ConsumerModule());
 
         var reference = assignment.DependencyResultReferences!.Single();
-        await Assert.That(reference.ModuleId).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(reference.ModuleId).IsEqualTo(ModuleId.FromType(typeof(DependencyModule)));
         await Assert.That(reference.IsAvailable).IsTrue();
     }
 
@@ -367,7 +367,7 @@ public class DistributedWorkPublisherTests
 
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
-        await Assert.That(assignment.DependencyResultReferences[0].ModuleId).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleId).IsEqualTo(ModuleId.FromType(typeof(DependencyModule)));
     }
 
     [Test]
@@ -387,7 +387,7 @@ public class DistributedWorkPublisherTests
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
         await Assert.That(assignment.DependencyResultReferences[0].ModuleId)
-            .IsEqualTo(typeof(SelectorDependencyModule).FullName!);
+            .IsEqualTo(ModuleId.FromType(typeof(SelectorDependencyModule)));
     }
 
     [Test]
@@ -418,7 +418,7 @@ public class DistributedWorkPublisherTests
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
         await Assert.That(assignment.DependencyResultReferences[0].ModuleId)
-            .IsEqualTo(typeof(TaggedDependencyModule).FullName!);
+            .IsEqualTo(ModuleId.FromType(typeof(TaggedDependencyModule)));
     }
 
     [Test]
@@ -710,14 +710,14 @@ public class DistributedWorkPublisherTests
         await Assert.That(assignment.DependencyResultReferences!.Count).IsEqualTo(2);
 
         var depTypeNames = assignment.DependencyResultReferences.Select(d => d.ModuleId).ToHashSet();
-        await Assert.That(depTypeNames).Contains(typeof(DependencyModule).FullName!);
-        await Assert.That(depTypeNames).Contains(typeof(IndependentModule).FullName!);
+        await Assert.That(depTypeNames).Contains(ModuleId.FromType(typeof(DependencyModule)));
+        await Assert.That(depTypeNames).Contains(ModuleId.FromType(typeof(IndependentModule)));
     }
 
     [Test]
     public async Task CreateAssignment_Marks_Dependency_Result_Unavailable_When_Not_In_Registry()
     {
-        // Arrange â€” dependency result not registered (e.g., optional dependency that didn't run)
+        // Arrange — dependency result not registered (e.g., optional dependency that didn't run)
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DependencyModule));
@@ -732,7 +732,7 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(module);
 
         var reference = assignment.DependencyResultReferences!.Single();
-        await Assert.That(reference.ModuleId).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(reference.ModuleId).IsEqualTo(ModuleId.FromType(typeof(DependencyModule)));
         await Assert.That(reference.IsAvailable).IsFalse();
     }
 
@@ -759,7 +759,7 @@ public class DistributedWorkPublisherTests
     [Test]
     public async Task CreateAssignment_Does_Not_Inline_Large_Dependency_Result()
     {
-        // Arrange â€” create a dependency result larger than 64 KB compression threshold
+        // Arrange — create a dependency result larger than 64 KB compression threshold
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(LargeResultModule));

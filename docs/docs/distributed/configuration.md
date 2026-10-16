@@ -9,7 +9,7 @@ Distributed mode has two layers of configuration: the core `DistributedOptions` 
 
 ## Module identity and build compatibility
 
-Assignments, stored results, dependency references, artifact descriptors, and worker command counts use `ModuleId`. The value is case-sensitive and serializes as a JSON string. By default it derives from the module's full type name; generic arguments omit assembly versions. Assign an explicit ID to preserve identity when renaming or moving a module:
+Assignments, stored results, dependency references, artifact descriptors, and worker command counts use `ModuleId`. The value is case-sensitive and serializes as a JSON string. By default it includes the module's full type name and simple assembly name; assembly versions are omitted, including in generic arguments. Assign an explicit ID to preserve identity when renaming or moving a module:
 
 ```csharp
 using ModularPipelines.Attributes;

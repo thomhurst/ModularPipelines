@@ -186,7 +186,7 @@ public class ArtifactLifecycleManagerTests
         {
             ArtifactId = "id1",
             Name = "single-file-glob-output",
-            ModuleId = typeof(SingleFileGlobProducerModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(SingleFileGlobProducerModule)),
             SizeBytes = 100,
             ContentType = "application/zip",
             UploadedAt = DateTimeOffset.UtcNow,
@@ -242,7 +242,7 @@ public class ArtifactLifecycleManagerTests
         {
             ArtifactId = "id1",
             Name = "single-glob-output",
-            ModuleId = typeof(SingleGlobProducerModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(SingleGlobProducerModule)),
             SizeBytes = 100,
             ContentType = "application/zip",
             UploadedAt = DateTimeOffset.UtcNow,
@@ -300,7 +300,7 @@ public class ArtifactLifecycleManagerTests
         {
             ArtifactId = "id1",
             Name = "build-output",
-            ModuleId = typeof(ProducerModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(ProducerModule)),
             SizeBytes = 100,
             ContentType = "application/octet-stream",
             UploadedAt = DateTimeOffset.UtcNow,
@@ -358,14 +358,14 @@ public class ArtifactLifecycleManagerTests
         {
             ArtifactId = "id1",
             Name = "build-output",
-            ModuleId = typeof(ProducerModule).FullName!,
+            ModuleId = ModuleId.FromType(typeof(ProducerModule)),
             SizeBytes = 100,
             ContentType = "application/octet-stream",
             UploadedAt = DateTimeOffset.UtcNow,
         };
 
         mockStore
-            .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
+            .Setup(s => s.ListArtifactsAsync(ModuleId.FromType(typeof(ProducerModule)), It.IsAny<CancellationToken>()))
             .ReturnsAsync([artifactRef]);
 
         mockStore
@@ -386,7 +386,7 @@ public class ArtifactLifecycleManagerTests
                 typeof(ConsumerModule),
                 CancellationToken.None);
 
-            mockStore.Verify(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()), Times.Once);
+            mockStore.Verify(s => s.ListArtifactsAsync(ModuleId.FromType(typeof(ProducerModule)), It.IsAny<CancellationToken>()), Times.Once);
             mockStore.Verify(s => s.DownloadAsync(artifactRef, It.IsAny<CancellationToken>()), Times.Once);
         }
         finally
@@ -417,12 +417,12 @@ public class ArtifactLifecycleManagerTests
         var manager = new ArtifactLifecycleManager(store.Object,
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             Mock.Of<ILogger<ArtifactLifecycleManager>>());
-        await manager.DownloadConsumedArtifactsForPathAsync("a:b", "c", Path.GetTempPath(),
+        await manager.DownloadConsumedArtifactsForPathAsync(new ModuleId("a:b"), "c", Path.GetTempPath(),
             typeof(ConsumerModule), CancellationToken.None);
-        await manager.DownloadConsumedArtifactsForPathAsync("a", "b:c", Path.GetTempPath(),
+        await manager.DownloadConsumedArtifactsForPathAsync(new ModuleId("a"), "b:c", Path.GetTempPath(),
             typeof(ConsumerModule), CancellationToken.None);
-        store.Verify(instance => instance.ListArtifactsAsync("a:b", It.IsAny<CancellationToken>()), Times.Once());
-        store.Verify(instance => instance.ListArtifactsAsync("a", It.IsAny<CancellationToken>()), Times.Once());
+        store.Verify(instance => instance.ListArtifactsAsync(new ModuleId("a:b"), It.IsAny<CancellationToken>()), Times.Once());
+        store.Verify(instance => instance.ListArtifactsAsync(new ModuleId("a"), It.IsAny<CancellationToken>()), Times.Once());
     }
 
     [Test]
@@ -437,14 +437,14 @@ public class ArtifactLifecycleManagerTests
             {
                 ArtifactId = "id1",
                 Name = "build-output",
-                ModuleId = typeof(ProducerModule).FullName!,
+                ModuleId = ModuleId.FromType(typeof(ProducerModule)),
                 SizeBytes = 100,
                 ContentType = "application/octet-stream",
                 UploadedAt = DateTimeOffset.UtcNow,
             };
 
             mockStore
-                .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
+                .Setup(s => s.ListArtifactsAsync(ModuleId.FromType(typeof(ProducerModule)), It.IsAny<CancellationToken>()))
                 .ReturnsAsync([artifactRef]);
 
             mockStore
@@ -458,8 +458,8 @@ public class ArtifactLifecycleManagerTests
             // Simulate two modules consuming same artifact to same absolute path.
             // We call twice with the same resolved restorePath to exercise the dedup logic.
             var restorePath = Path.Combine(tempDir, "restored");
-            await manager.DownloadConsumedArtifactsForPathAsync(typeof(ProducerModule).FullName!, "build-output", restorePath, typeof(ConsumerModule), CancellationToken.None);
-            await manager.DownloadConsumedArtifactsForPathAsync(typeof(ProducerModule).FullName!, "build-output", restorePath, typeof(SecondConsumerModule), CancellationToken.None);
+            await manager.DownloadConsumedArtifactsForPathAsync(ModuleId.FromType(typeof(ProducerModule)), "build-output", restorePath, typeof(ConsumerModule), CancellationToken.None);
+            await manager.DownloadConsumedArtifactsForPathAsync(ModuleId.FromType(typeof(ProducerModule)), "build-output", restorePath, typeof(SecondConsumerModule), CancellationToken.None);
 
             // Download should only happen once
             mockStore.Verify(s => s.DownloadAsync(artifactRef, It.IsAny<CancellationToken>()), Times.Once);
@@ -482,14 +482,14 @@ public class ArtifactLifecycleManagerTests
             {
                 ArtifactId = "id1",
                 Name = "build-output",
-                ModuleId = typeof(ProducerModule).FullName!,
+                ModuleId = ModuleId.FromType(typeof(ProducerModule)),
                 SizeBytes = 100,
                 ContentType = "application/octet-stream",
                 UploadedAt = DateTimeOffset.UtcNow,
             };
 
             mockStore
-                .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
+                .Setup(s => s.ListArtifactsAsync(ModuleId.FromType(typeof(ProducerModule)), It.IsAny<CancellationToken>()))
                 .ReturnsAsync([artifactRef]);
 
             var callCount = 0;
@@ -507,10 +507,10 @@ public class ArtifactLifecycleManagerTests
 
             var pathA = Path.Combine(tempDir, "restored");
             var pathB = Path.Combine(tempDir, "different-path");
-            await manager.DownloadConsumedArtifactsForPathAsync(typeof(ProducerModule).FullName!, "build-output", pathA, typeof(ConsumerModule), CancellationToken.None);
-            await manager.DownloadConsumedArtifactsForPathAsync(typeof(ProducerModule).FullName!, "build-output", pathB, typeof(DifferentPathConsumerModule), CancellationToken.None);
+            await manager.DownloadConsumedArtifactsForPathAsync(ModuleId.FromType(typeof(ProducerModule)), "build-output", pathA, typeof(ConsumerModule), CancellationToken.None);
+            await manager.DownloadConsumedArtifactsForPathAsync(ModuleId.FromType(typeof(ProducerModule)), "build-output", pathB, typeof(DifferentPathConsumerModule), CancellationToken.None);
 
-            // Download should happen twice â€” different restore paths
+            // Download should happen twice — different restore paths
             await Assert.That(callCount).IsEqualTo(2);
         }
         finally
@@ -531,14 +531,14 @@ public class ArtifactLifecycleManagerTests
             {
                 ArtifactId = "id1",
                 Name = "build-output",
-                ModuleId = typeof(ProducerModule).FullName!,
+                ModuleId = ModuleId.FromType(typeof(ProducerModule)),
                 SizeBytes = 100,
                 ContentType = "application/octet-stream",
                 UploadedAt = DateTimeOffset.UtcNow,
             };
 
             mockStore
-                .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
+                .Setup(s => s.ListArtifactsAsync(ModuleId.FromType(typeof(ProducerModule)), It.IsAny<CancellationToken>()))
                 .ReturnsAsync([artifactRef]);
 
             var downloadCount = 0;
@@ -557,8 +557,8 @@ public class ArtifactLifecycleManagerTests
             var restorePath = Path.Combine(tempDir, "restored");
 
             // Both run concurrently targeting the same path
-            var task1 = manager.DownloadConsumedArtifactsForPathAsync(typeof(ProducerModule).FullName!, "build-output", restorePath, typeof(ConsumerModule), CancellationToken.None);
-            var task2 = manager.DownloadConsumedArtifactsForPathAsync(typeof(ProducerModule).FullName!, "build-output", restorePath, typeof(SecondConsumerModule), CancellationToken.None);
+            var task1 = manager.DownloadConsumedArtifactsForPathAsync(ModuleId.FromType(typeof(ProducerModule)), "build-output", restorePath, typeof(ConsumerModule), CancellationToken.None);
+            var task2 = manager.DownloadConsumedArtifactsForPathAsync(ModuleId.FromType(typeof(ProducerModule)), "build-output", restorePath, typeof(SecondConsumerModule), CancellationToken.None);
 
             await Task.WhenAll(task1, task2);
 

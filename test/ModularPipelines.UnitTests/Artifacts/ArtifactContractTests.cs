@@ -152,7 +152,7 @@ public class ArtifactContractTests
         {
             ArtifactId = "older",
             Name = "output",
-            ModuleId = "producer",
+            ModuleId = new ModuleId("producer"),
             SizeBytes = 3,
             ContentType = null,
             UploadedAt = uploadedAt.AddMinutes(-1),
@@ -161,14 +161,14 @@ public class ArtifactContractTests
         {
             ArtifactId = "newer",
             Name = "output",
-            ModuleId = "producer",
+            ModuleId = new ModuleId("producer"),
             SizeBytes = 3,
             ContentType = null,
             UploadedAt = uploadedAt,
         };
         ArtifactReference? downloadedArtifact = null;
         var store = new Mock<IDistributedArtifactStore>();
-        store.Setup(x => x.ListArtifactsAsync("producer", It.IsAny<CancellationToken>()))
+        store.Setup(x => x.ListArtifactsAsync(new ModuleId("producer"), It.IsAny<CancellationToken>()))
             .ReturnsAsync([older, newer]);
         store.Setup(x => x.DownloadAsync(It.IsAny<ArtifactReference>(), It.IsAny<CancellationToken>()))
             .Returns((ArtifactReference reference, CancellationToken _) =>
@@ -186,7 +186,7 @@ public class ArtifactContractTests
                 restoreDirectory);
 
             await manager.DownloadConsumedArtifactsForPathAsync(
-                "producer",
+                new ModuleId("producer"),
                 "output",
                 restoreDirectory,
                 typeof(DuplicateArtifactConsumerModule),
@@ -2012,7 +2012,7 @@ public class ArtifactContractTests
             _ = await pipeline.RunAsync();
             var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
             var artifacts = await store.ListArtifactsAsync(
-                typeof(CacheOnlyProducerModule).FullName!,
+                ModuleId.FromType(typeof(CacheOnlyProducerModule)),
                 CancellationToken.None);
 
             await Assert.That(artifacts).IsEmpty();
@@ -2054,7 +2054,7 @@ public class ArtifactContractTests
             _ = await pipeline.RunAsync();
             var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
             var artifacts = await store.ListArtifactsAsync(
-                typeof(LocalProducerModule).FullName!,
+                ModuleId.FromType(typeof(LocalProducerModule)),
                 CancellationToken.None);
 
             await Assert.That(File.Exists(ProducedFile)).IsTrue();
@@ -2179,7 +2179,7 @@ public class ArtifactContractTests
         try
         {
             var estimates = new Mock<IModuleEstimatedTimeProvider>();
-            estimates.Setup(provider => provider.GetModuleEstimatedTimeAsync(It.IsAny<Type>(), It.IsAny<CancellationToken>()))
+            estimates.Setup(provider => provider.GetModuleEstimatedTimeAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(TimeSpan.Zero);
             var loggerProvider = new RecordingLoggerProvider();
             var builder = Pipeline.CreateBuilder();
@@ -2229,7 +2229,7 @@ public class ArtifactContractTests
             }
 
             estimates.Verify(provider => provider.SaveModuleTimeAsync(
-                typeof(LocalProducerModule), It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()), Times.Never);
+                ModuleId.FromType(typeof(LocalProducerModule)), It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()), Times.Never);
         }
         finally
         {

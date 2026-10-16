@@ -60,7 +60,7 @@ public class ModuleApiSurfaceTests
                     typeof(CancellationToken),
                 ]);
             await Assert.That(typeof(ExecutionBackendRequest).GetProperty(nameof(ExecutionBackendRequest.EstimatedDurations))!.PropertyType)
-                .IsEqualTo(typeof(IReadOnlyDictionary<ModularPipelines.Distributed.ModuleId, TimeSpan>));
+                .IsEqualTo(typeof(IReadOnlyDictionary<ModularPipelines.ModuleId, TimeSpan>));
         }
     }
 

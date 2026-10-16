@@ -36,7 +36,7 @@ public class RedisArtifactStoreTests
         var descriptor = new ArtifactDescriptor
         {
             Name = "test-art",
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
             ContentType = "application/octet-stream",
         };
         var data = new byte[] { 1, 2, 3, 4, 5 };
@@ -56,15 +56,15 @@ public class RedisArtifactStoreTests
     {
         using var stream = new MemoryStream([1]);
         var reference = await _store.UploadAsync(
-            new ArtifactDescriptor { Name = "test-art", ModuleId = "Test.Module" },
+            new ArtifactDescriptor { Name = "test-art", ModuleId = new ModuleId("Test.Module") },
             stream,
             CancellationToken.None);
 
-        var indexExpiry = await _redis.Client.Keys.ExpiryAsync(_keys.ArtifactIndex("Test.Module"));
+        var indexExpiry = await _redis.Client.Keys.ExpiryAsync(_keys.ArtifactIndex(new ModuleId("Test.Module")));
         var modulesExpiry = await _redis.Client.Keys.ExpiryAsync(_keys.ArtifactModules);
         using (Assert.Multiple())
         {
-            await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactIndex("Test.Module")))
+            await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactIndex(new ModuleId("Test.Module"))))
                 .IsEquivalentTo([reference.ArtifactId]);
             await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactModules))
                 .IsEquivalentTo(["Test.Module"]);
@@ -79,13 +79,13 @@ public class RedisArtifactStoreTests
         await using var stream = new FailingStream();
 
         await Assert.That(async () => await _store.UploadAsync(
-                new ArtifactDescriptor { Name = "test-art", ModuleId = "Test.Module" },
+                new ArtifactDescriptor { Name = "test-art", ModuleId = new ModuleId("Test.Module") },
                 stream,
                 CancellationToken.None))
             .Throws<IOException>();
 
         // Run cleanup finds the partial upload through the index.
-        await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactIndex("Test.Module"))).HasSingleItem();
+        await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactIndex(new ModuleId("Test.Module")))).HasSingleItem();
         await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactModules)).IsEquivalentTo(["Test.Module"]);
     }
 
@@ -97,7 +97,7 @@ public class RedisArtifactStoreTests
         using var stream = new MemoryStream([1]);
 
         await Assert.That(async () => await _store.UploadAsync(
-                new ArtifactDescriptor { Name = "test-art", ModuleId = "Test.Module" },
+                new ArtifactDescriptor { Name = "test-art", ModuleId = new ModuleId("Test.Module") },
                 stream,
                 CancellationToken.None))
             .Throws<RespireServerException>()
@@ -116,7 +116,7 @@ public class RedisArtifactStoreTests
         var descriptor = new ArtifactDescriptor
         {
             Name = "big-art",
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
         };
         var data = new byte[150]; // Larger than ChunkSizeBytes (50)
 
@@ -238,7 +238,7 @@ public class RedisArtifactStoreTests
         var data = Enumerable.Range(0, 120).Select(value => (byte) value).ToArray();
         using var stream = new MemoryStream(data);
 
-        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "chunked", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "chunked", ModuleId = new ModuleId("Test.Module") }, stream, CancellationToken.None);
 
         await Assert.That(fault.MatchedCount).IsEqualTo(1);
         await Assert.That(await DownloadAsync(reference)).IsEquivalentTo(data);
@@ -253,7 +253,7 @@ public class RedisArtifactStoreTests
         var data = Enumerable.Range(0, 100).Select(value => (byte) value).ToArray();
         using var stream = new MemoryStream(data);
 
-        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "stable", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "stable", ModuleId = new ModuleId("Test.Module") }, stream, CancellationToken.None);
 
         await Assert.That(fault.ExecutionCount).IsEqualTo(1);
         await Assert.That(await _redis.Client.GetBytesAsync(_keys.ArtifactChunk(reference.ArtifactId, 0)))
@@ -302,18 +302,18 @@ public class RedisArtifactStoreTests
         for (var index = 0; index < count; index++)
         {
             using var stream = new MemoryStream([1, 2, 3]);
-            var reference = await store.UploadAsync(new ArtifactDescriptor { Name = $"art{index}", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+            var reference = await store.UploadAsync(new ArtifactDescriptor { Name = $"art{index}", ModuleId = new ModuleId("Test.Module") }, stream, CancellationToken.None);
             expectedIds.Add(reference.ArtifactId);
         }
 
-        var results = await store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+        var results = await store.ListArtifactsAsync(new ModuleId("Test.Module"), CancellationToken.None);
 
         await Assert.That(results.Select(reference => reference.ArtifactId)).IsEquivalentTo(expectedIds);
         await Assert.That(results.Select(reference => reference.Name))
             .IsEquivalentTo(Enumerable.Range(0, count).Select(index => $"art{index}"));
 
         await store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true }, CancellationToken.None);
-        await Assert.That(await store.ListArtifactsAsync("Test.Module", CancellationToken.None)).IsEmpty();
+        await Assert.That(await store.ListArtifactsAsync(new ModuleId("Test.Module"), CancellationToken.None)).IsEmpty();
         foreach (var artifactId in expectedIds)
         {
             await Assert.That(await _redis.Client.ExistsAsync(_keys.ArtifactMeta(artifactId))).IsFalse();
@@ -326,11 +326,11 @@ public class RedisArtifactStoreTests
     {
         var store = CreateScanningStore();
         using var stream = new MemoryStream([1, 2, 3]);
-        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "good", ModuleId = "Test.Module" }, stream, CancellationToken.None);
-        await _redis.Client.Sets.AddAsync(_keys.ArtifactIndex("Test.Module"), ["corrupt"]);
+        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "good", ModuleId = new ModuleId("Test.Module") }, stream, CancellationToken.None);
+        await _redis.Client.Sets.AddAsync(_keys.ArtifactIndex(new ModuleId("Test.Module")), ["corrupt"]);
         await _redis.Client.SetAsync(_keys.ArtifactMeta("corrupt"), (RespireValue) "{not json");
 
-        var results = await store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+        var results = await store.ListArtifactsAsync(new ModuleId("Test.Module"), CancellationToken.None);
 
         await Assert.That(results.Select(result => result.ArtifactId)).IsEquivalentTo([reference.ArtifactId]);
     }
@@ -341,7 +341,7 @@ public class RedisArtifactStoreTests
     public async Task Delete_Removes_Content_Metadata_And_Index_Entry(int length)
     {
         using var stream = new MemoryStream(new byte[length]);
-        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "test", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "test", ModuleId = new ModuleId("Test.Module") }, stream, CancellationToken.None);
 
         await _store.DeleteAsync(reference, CancellationToken.None);
 
@@ -351,7 +351,7 @@ public class RedisArtifactStoreTests
             await Assert.That(await _redis.Client.ExistsAsync(_keys.ArtifactData(reference.ArtifactId))).IsFalse();
             await Assert.That(await _redis.Client.ExistsAsync(_keys.ArtifactChunk(reference.ArtifactId, 0))).IsFalse();
             await Assert.That(await _redis.Client.ExistsAsync(_keys.ArtifactChunk(reference.ArtifactId, 2))).IsFalse();
-            await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactIndex("Test.Module"))).IsEmpty();
+            await Assert.That(await _redis.Client.Sets.MembersAsync(_keys.ArtifactIndex(new ModuleId("Test.Module")))).IsEmpty();
         }
     }
 
@@ -361,8 +361,8 @@ public class RedisArtifactStoreTests
         var store = CreateScanningStore();
         using var small = new MemoryStream([1, 2, 3]);
         using var chunked = new MemoryStream(new byte[120]);
-        var smallReference = await store.UploadAsync(new ArtifactDescriptor { Name = "small", ModuleId = "Test.One" }, small, CancellationToken.None);
-        var chunkedReference = await store.UploadAsync(new ArtifactDescriptor { Name = "chunked", ModuleId = "Test.Two" }, chunked, CancellationToken.None);
+        var smallReference = await store.UploadAsync(new ArtifactDescriptor { Name = "small", ModuleId = new ModuleId("Test.One") }, small, CancellationToken.None);
+        var chunkedReference = await store.UploadAsync(new ArtifactDescriptor { Name = "chunked", ModuleId = new ModuleId("Test.Two") }, chunked, CancellationToken.None);
 
         await store.CleanupRunAsync(new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true }, CancellationToken.None);
 
@@ -373,8 +373,8 @@ public class RedisArtifactStoreTests
             _keys.ArtifactMeta(chunkedReference.ArtifactId),
             _keys.ArtifactChunk(chunkedReference.ArtifactId, 0),
             _keys.ArtifactChunk(chunkedReference.ArtifactId, 2),
-            _keys.ArtifactIndex("Test.One"),
-            _keys.ArtifactIndex("Test.Two"),
+            _keys.ArtifactIndex(new ModuleId("Test.One")),
+            _keys.ArtifactIndex(new ModuleId("Test.Two")),
             _keys.ArtifactModules,
         ];
         foreach (var key in deletedKeys)
@@ -394,7 +394,7 @@ public class RedisArtifactStoreTests
         var data = Enumerable.Range(0, length).Select(value => (byte) value).ToArray();
         using var stream = new MemoryStream(data);
 
-        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "round-trip", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "round-trip", ModuleId = new ModuleId("Test.Module") }, stream, CancellationToken.None);
 
         using (Assert.Multiple())
         {
@@ -408,7 +408,7 @@ public class RedisArtifactStoreTests
     {
         using var stream = new MemoryStream();
 
-        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "empty", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "empty", ModuleId = new ModuleId("Test.Module") }, stream, CancellationToken.None);
 
         await Assert.That(await _redis.Client.GetBytesAsync(_keys.ArtifactData(reference.ArtifactId))).IsEmpty();
         await Assert.That(await _redis.Client.ExistsAsync(_keys.ArtifactChunk(reference.ArtifactId, 0))).IsFalse();
@@ -440,7 +440,7 @@ public class RedisArtifactStoreTests
         try
         {
             await Assert.That(async () => await _store
-                    .UploadAsync(new ArtifactDescriptor { Name = "pending", ModuleId = "Test.Module" }, stream, cancellation.Token)
+                    .UploadAsync(new ArtifactDescriptor { Name = "pending", ModuleId = new ModuleId("Test.Module") }, stream, cancellation.Token)
                     .WaitAsync(TimeSpan.FromSeconds(5)))
                 .Throws<OperationCanceledException>();
         }
@@ -466,7 +466,7 @@ public class RedisArtifactStoreTests
         try
         {
             await Assert.That(async () => await store
-                    .ListArtifactsAsync("Test.Module", cancellation.Token)
+                    .ListArtifactsAsync(new ModuleId("Test.Module"), cancellation.Token)
                     .WaitAsync(TimeSpan.FromSeconds(5)))
                 .Throws<OperationCanceledException>();
         }
@@ -485,7 +485,7 @@ public class RedisArtifactStoreTests
         await Assert.That(keys.ArtifactData("art1")).IsEqualTo("modpipe:{abc123}:artifacts:data:art1");
         await Assert.That(keys.ArtifactChunk("art1", 0)).IsEqualTo("modpipe:{abc123}:artifacts:data:art1:chunk:0");
         await Assert.That(keys.ArtifactChunk("art1", 3)).IsEqualTo("modpipe:{abc123}:artifacts:data:art1:chunk:3");
-        await Assert.That(keys.ArtifactIndex("My.Module")).IsEqualTo("modpipe:{abc123}:artifacts:index:My.Module");
+        await Assert.That(keys.ArtifactIndex(new ModuleId("My.Module"))).IsEqualTo("modpipe:{abc123}:artifacts:index:My.Module");
     }
 
     private RedisDistributedArtifactStore CreateScanningStore()
@@ -533,7 +533,7 @@ public class RedisArtifactStoreTests
     {
         ArtifactId = artifactId,
         Name = "test",
-        ModuleId = "Test.Module",
+        ModuleId = new ModuleId("Test.Module"),
         SizeBytes = sizeBytes,
         UploadedAt = DateTimeOffset.UtcNow,
     };

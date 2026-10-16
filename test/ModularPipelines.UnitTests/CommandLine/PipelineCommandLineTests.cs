@@ -347,7 +347,7 @@ public class PipelineCommandLineTests
 
     private sealed class PlanEstimatedTimeProvider : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken) => Task.FromResult(moduleType.Name switch
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(ModuleId moduleId, CancellationToken cancellationToken) => Task.FromResult(moduleId.Value.Split('+').Last() switch
         {
             nameof(DependencyModule) => TimeSpan.FromMinutes(2),
             nameof(UnrelatedModule) => TimeSpan.FromMinutes(5),
@@ -384,12 +384,12 @@ public class PipelineCommandLineTests
             _ => TimeSpan.Zero,
         });
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken) => Task.CompletedTask;
+        public Task SaveModuleTimeAsync(ModuleId moduleId, TimeSpan duration, CancellationToken cancellationToken) => Task.CompletedTask;
 
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType, CancellationToken cancellationToken) =>
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
             Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
-        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation, CancellationToken cancellationToken) =>
+        public Task SaveSubModuleTimeAsync(ModuleId moduleId, SubModuleEstimation subModuleEstimation, CancellationToken cancellationToken) =>
             Task.CompletedTask;
     }
 
