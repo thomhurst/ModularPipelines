@@ -551,7 +551,12 @@ internal class ModuleExecutionPipeline(
         var cancellationToken = executionContext.ModuleCancellationTokenSource.Token;
 
         // Get resilience shield if applicable
-        var resilienceShield = GetResilienceShield(config, moduleContext);
+        var shouldRetryAsync = config.RetryConfiguration?.ShouldRetryAsync;
+        var retryAllowed = true;
+        var resilienceShield = GetResilienceShield(
+            config,
+            moduleContext,
+            shouldRetryAsync is null ? null : _ => retryAllowed);
         using var retryCancellationTokenSource = resilienceShield is null
             ? null
             : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -559,14 +564,35 @@ internal class ModuleExecutionPipeline(
 
         // Keep timeout enforcement inside the resilience shield so each attempt gets a fresh budget
         // and shield-owned backoff delays are not mistaken for unresponsive module execution.
-        Task<T> ExecuteModuleAttempt(CancellationToken ct) => ExecuteModuleAttemptAsync(
-            module,
-            executionContext,
-            moduleContext,
-            timeout,
-            retryCancellationTokenSource,
-            policyExecutionState,
-            ct);
+        async Task<T> ExecuteModuleAttempt(CancellationToken ct)
+        {
+            try
+            {
+                return await ExecuteModuleAttemptAsync(
+                    module,
+                    executionContext,
+                    moduleContext,
+                    timeout,
+                    retryCancellationTokenSource,
+                    policyExecutionState,
+                    ct).ConfigureAwait(false);
+            }
+            catch (Exception exception) when (shouldRetryAsync is not null)
+            {
+                // Keep predicate failures out of the retry policy. Kevlar's handling predicates
+                // are synchronous, so await the decision before passing the failure to its shield.
+                retryAllowed = false;
+                if (!ct.IsCancellationRequested
+                    && policyExecutionState.AbandonedAttemptTimeout is null
+                    && executionContext.Attempt <= config.RetryConfiguration!.Count)
+                {
+                    retryAllowed = await shouldRetryAsync(moduleContext, exception, executionContext.Attempt, ct)
+                        .ConfigureAwait(false);
+                }
+
+                throw;
+            }
+        }
 
         T result;
         try
@@ -586,7 +612,7 @@ internal class ModuleExecutionPipeline(
         {
             ModuleActivityTracing.RecordModuleRetries(
                 executionContext.ModuleType,
-                policyExecutionState.RetryCount);
+                Math.Max(0, executionContext.Attempt - 1));
         }
 
         if (policyExecutionState.AbandonedAttemptTimeout is { } abandonedAttemptTimeout)
@@ -630,7 +656,7 @@ internal class ModuleExecutionPipeline(
             return ThrowPreservingStack<T>(abandonedAttemptTimeout);
         }
 
-        policyExecutionState.RecordAttempt();
+        executionContext.RecordAttempt();
 
         var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
             attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
@@ -676,7 +702,8 @@ internal class ModuleExecutionPipeline(
 
     private static Shield? GetResilienceShield(
         ModuleConfiguration config,
-        IModuleContext moduleContext)
+        IModuleContext moduleContext,
+        Func<Exception, bool>? shouldRetry)
     {
         if (config.ResilienceShieldFactory != null)
         {
@@ -685,7 +712,7 @@ internal class ModuleExecutionPipeline(
 
         if (config.RetryConfiguration != null)
         {
-            return ModuleRetryShieldFactory.Create(config.RetryConfiguration);
+            return ModuleRetryShieldFactory.Create(config.RetryConfiguration, shouldRetry);
         }
 
         // Check if default retry count is configured
@@ -1024,13 +1051,7 @@ internal class ModuleExecutionPipeline(
 
     private sealed class PolicyExecutionState
     {
-        private int _moduleAttemptCount;
-
         public ModuleTimeoutException? AbandonedAttemptTimeout { get; set; }
-
-        public int RetryCount => Math.Max(0, Volatile.Read(ref _moduleAttemptCount) - 1);
-
-        public void RecordAttempt() => Interlocked.Increment(ref _moduleAttemptCount);
     }
 
     internal static void LogModuleStatus(

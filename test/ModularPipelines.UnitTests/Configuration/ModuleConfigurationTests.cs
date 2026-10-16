@@ -500,6 +500,41 @@ public class ModuleConfigurationTests
     }
 
     [Test]
+    public async Task WithRetry_Async_Stores_Options_And_Preserves_Existing_Null_Calls()
+    {
+        Func<IModuleContext, Exception, int, CancellationToken, ValueTask<bool>> predicate =
+            (_, _, _, _) => ValueTask.FromResult(true);
+        var builder = new ModuleConfigurationBuilder();
+        var configuration = builder.WithRetry(predicate, 2, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5)).Build();
+
+        await Assert.That(ReferenceEquals(configuration.RetryConfiguration!.ShouldRetryAsync, predicate)).IsTrue();
+        await Assert.That(configuration.RetryConfiguration.Count).IsEqualTo(2);
+        await Assert.That(configuration.RetryConfiguration.BaseDelay).IsEqualTo(TimeSpan.FromSeconds(1));
+        await Assert.That(configuration.RetryConfiguration.MaxDelay).IsEqualTo(TimeSpan.FromSeconds(5));
+        await Assert.That(builder.WithRetry(3, null, null, null).Build().RetryConfiguration!.ShouldRetryAsync is null).IsTrue();
+        await Assert.That(builder.WithRetry(3, shouldRetry: null).Build().RetryConfiguration!.ShouldRetryAsync is null).IsTrue();
+    }
+
+    [Test]
+    public async Task WithRetry_Async_Rejects_Invalid_Arguments_And_Custom_Shields()
+    {
+        Func<IModuleContext, Exception, int, CancellationToken, ValueTask<bool>> predicate =
+            (_, _, _, _) => ValueTask.FromResult(true);
+        var builder = new ModuleConfigurationBuilder();
+        Assert.Throws<ArgumentNullException>(() => builder.WithRetry(null!, 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithRetry(predicate, -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithRetry(predicate, 1, TimeSpan.FromTicks(-1)));
+        Assert.Throws<ArgumentOutOfRangeException>(() => builder.WithRetry(predicate, 1, maxDelay: TimeSpan.FromTicks(-1)));
+        builder.WithShield(Shield.Retry(0));
+        Assert.Throws<InvalidOperationException>(() => builder.WithRetry(predicate, 1));
+        await Assert.That(builder.Build().RetryConfiguration).IsNull();
+
+        builder = new ModuleConfigurationBuilder().WithRetry(predicate, 1);
+        Assert.Throws<InvalidOperationException>(() => builder.WithShield(Shield.Retry(0)));
+        await Assert.That(ReferenceEquals(builder.Build().RetryConfiguration!.ShouldRetryAsync, predicate)).IsTrue();
+    }
+
+    [Test]
     public async Task WithRetry_RejectsNegativeValues()
     {
         var countException = Assert.Throws<ArgumentOutOfRangeException>(

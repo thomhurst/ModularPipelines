@@ -43,10 +43,12 @@ public class RetryTests : TestBase
     private class SuccessModule : Module<bool>
     {
         internal int ExecutionCount;
+        internal List<int> Attempts { get; } = [];
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
+            Attempts.Add(context.Attempt);
             await Task.Yield();
             return true;
         }
@@ -55,10 +57,12 @@ public class RetryTests : TestBase
     private class FailedModule : Module<bool>
     {
         internal int ExecutionCount;
+        internal List<int> Attempts { get; } = [];
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
+            Attempts.Add(context.Attempt);
 
             if (ExecutionCount != ExpectedExecutionCountAfterRetries)
             {
@@ -120,6 +124,7 @@ public class RetryTests : TestBase
     private class FailedModuleWithCustomRetryPolicy : Module<string>
     {
         internal int ExecutionCount;
+        internal List<int> Attempts { get; } = [];
 
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithShield(Shield
@@ -129,6 +134,7 @@ public class RetryTests : TestBase
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
+            Attempts.Add(context.Attempt);
 
             if (ExecutionCount != ExpectedExecutionCountAfterRetries)
             {
@@ -193,6 +199,7 @@ public class RetryTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
+            await Assert.That(module.Attempts).IsEquivalentTo([1]);
             await Assert.That(result.ExceptionOrDefault).IsNull();
         }
     }
@@ -224,6 +231,7 @@ public class RetryTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
+            await Assert.That(module.Attempts).IsEquivalentTo([1, 2, 3, 4]);
             await Assert.That(result.ExceptionOrDefault).IsNull();
         }
     }
@@ -257,6 +265,7 @@ public class RetryTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
+            await Assert.That(module.Attempts).IsEquivalentTo([1, 2, 3, 4]);
             await Assert.That(result.ExceptionOrDefault).IsNull();
         }
     }

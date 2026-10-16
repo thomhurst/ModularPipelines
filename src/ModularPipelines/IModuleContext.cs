@@ -55,6 +55,16 @@ namespace ModularPipelines;
 public interface IModuleContext : IPipelineContext
 {
     /// <summary>
+    /// Gets the one-based execution attempt, or zero before execution starts.
+    /// </summary>
+    /// <remarks>
+    /// The initial execution is attempt 1. Each retry increments this value before the module runs.
+    /// Between attempts and after completion, this is the most recent attempt.
+    /// Contexts that do not track execution attempts return zero.
+    /// </remarks>
+    int Attempt => 0;
+
+    /// <summary>
     /// Gets a module instance that can be awaited to retrieve its result.
     /// </summary>
     /// <typeparam name="TModule">

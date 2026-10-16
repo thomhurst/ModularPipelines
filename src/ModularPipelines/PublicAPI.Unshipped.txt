@@ -3601,3 +3601,5 @@ ModularPipelines.Options.PipelineOptions.IgnoreTags.get -> System.Collections.Ge
 ModularPipelines.Options.PipelineOptions.IgnoreTags.init -> void
 ModularPipelines.PipelineBuilder.RunOnlyTags(params string![]! tags) -> ModularPipelines.PipelineBuilder!
 ModularPipelines.PipelineBuilder.IgnoreTags(params string![]! tags) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.IModuleContext.Attempt.get -> int
+ModularPipelines.ModuleConfigurationBuilder.WithRetry(System.Func<ModularPipelines.IModuleContext!, System.Exception!, int, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>! shouldRetryAsync, int count, System.TimeSpan? baseDelay = null, System.TimeSpan? maxDelay = null) -> ModularPipelines.ModuleConfigurationBuilder!

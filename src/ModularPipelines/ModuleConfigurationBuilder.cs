@@ -512,6 +512,8 @@ public sealed class ModuleConfigurationBuilder
 
     #region WithRetry
 
+#pragma warning disable RS0026 // Predicate-first overload preserves existing positional and named null calls.
+
     /// <summary>
     /// Configures retries with exponential backoff and jitter. Cannot be combined with a custom shield.
     /// </summary>
@@ -556,6 +558,40 @@ public sealed class ModuleConfigurationBuilder
         _retryConfiguration = new ModuleRetryConfiguration(count, retryBaseDelay, retryMaxDelay, shouldRetry);
         return this;
     }
+
+    /// <summary>
+    /// Configures retries with an asynchronous, context-aware predicate and exponential backoff with jitter.
+    /// Cannot be combined with a custom shield.
+    /// </summary>
+    /// <param name="shouldRetryAsync">
+    /// A predicate receiving the module context, exception, one-based failed attempt, and execution cancellation token.
+    /// Return true to retry, or false to propagate the original exception.
+    /// </param>
+    /// <param name="count">The number of retry attempts after the initial execution.</param>
+    /// <param name="baseDelay">The first exponential-backoff ceiling. Defaults to 100 milliseconds.</param>
+    /// <param name="maxDelay">The maximum exponential-backoff ceiling. Defaults to 30 seconds. Zero disables backoff.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// The predicate runs only when retry budget remains, before the retry delay. It can perform asynchronous cleanup.
+    /// Its attempt argument equals <see cref="IModuleContext.Attempt"/>. Predicate failures propagate without retrying.
+    /// Each delay uses equal jitter between half and all of its exponential-backoff ceiling, capped by maxDelay.
+    /// A configured module timeout applies separately to each attempt and excludes the predicate and retry delays.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">The predicate is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">The retry count, base delay, or maximum delay is negative.</exception>
+    /// <exception cref="InvalidOperationException">A custom shield is already configured with WithShield.</exception>
+    public ModuleConfigurationBuilder WithRetry(
+        Func<IModuleContext, Exception, int, CancellationToken, ValueTask<bool>> shouldRetryAsync,
+        int count,
+        TimeSpan? baseDelay = null,
+        TimeSpan? maxDelay = null)
+    {
+        ArgumentNullException.ThrowIfNull(shouldRetryAsync);
+        WithRetry(count, baseDelay, maxDelay: maxDelay);
+        _retryConfiguration = _retryConfiguration! with { ShouldRetryAsync = shouldRetryAsync };
+        return this;
+    }
+#pragma warning restore RS0026
 
     #endregion
 

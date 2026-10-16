@@ -42,7 +42,7 @@ namespace ModularPipelines.Options;
 /// <para>
 /// <strong>Module Behaviors:</strong>
 /// Module-level configuration uses <see cref="Configuration.ModuleConfiguration"/>. A module with
-/// <see cref="ModuleConfigurationBuilder.WithRetry"/> configured will use its custom retry configuration instead of
+/// <see cref="ModuleConfigurationBuilder.WithRetry(int, TimeSpan?, Func{Exception, bool}, TimeSpan?)"/> configured will use its custom retry configuration instead of
 /// <see cref="DefaultRetryCount"/>. Modules without configuration fall back to global settings.
 /// </para>
 /// </remarks>
@@ -204,10 +204,10 @@ public sealed record PipelineOptions
     /// <remarks>
     /// <para>
     /// <strong>Configuration Precedence:</strong>
-    /// This is a global default that applies when a module does not have custom retries configured via <see cref="ModuleConfigurationBuilder.WithRetry"/>.
+    /// This is a global default that applies when a module does not have custom retries configured via <see cref="ModuleConfigurationBuilder.WithRetry(int, TimeSpan?, Func{Exception, bool}, TimeSpan?)"/>.
     /// </para>
     /// <list type="bullet">
-    /// <item>If a module has retries configured via <see cref="ModuleConfigurationBuilder.WithRetry"/>, that takes precedence</item>
+    /// <item>If a module has retries configured via <see cref="ModuleConfigurationBuilder.WithRetry(int, TimeSpan?, Func{Exception, bool}, TimeSpan?)"/>, that takes precedence</item>
     /// <item>Otherwise, this global <see cref="DefaultRetryCount"/> is used</item>
     /// <item>If this value is 0 (default), no retries are attempted</item>
     /// </list>
