@@ -15,7 +15,7 @@ public class MyModule : Module<FilePath>
 {
     protected override async Task<FilePath> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return await context.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://www.example.com/somefile.zip")), cancellationToken);
+        return await context.Network.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://www.example.com/somefile.zip")), cancellationToken);
     }
 }
 ```

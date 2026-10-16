@@ -11,14 +11,15 @@ For synchronous work, use `SyncModule<T>` or `SyncModule` respectively.
 `T` is the type of object that your Module will return, and that object can be seen by other Modules (if they depend on it).
 
 ```csharp
-public class FindAFileModule : Module<FileInfo>
+public class FindAFileModule : Module<FilePath>
 {
-    protected override async Task<FileInfo> ExecuteAsync(
+    protected override Task<FilePath> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        return context.Files
+        var file = context.Files
             .Glob("C:\\**\\MyJsonFile.json")
             .Single();
+        return Task.FromResult(file);
     }
 }
 ```

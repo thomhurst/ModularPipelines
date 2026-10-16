@@ -19,7 +19,7 @@ public class ServiceIsAvailable : IRunCondition
 {
     public async Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var response = await context.Http.SendAsync(
+        using var response = await context.Network.Http.SendAsync(
             new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.example.com/ping")),
             cancellationToken);
         return response.StatusCode == HttpStatusCode.OK;
