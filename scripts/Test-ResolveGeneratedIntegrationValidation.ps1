@@ -405,13 +405,8 @@ if ($generationTriggers -notmatch "(?m)^    - cron: '0 2 1 \* \*'\s*$") {
     throw 'Generated options must run on the first day of every month at 02:00 UTC.'
 }
 
-foreach ($refreshBehavior in @(
-             'Write-GeneratedOptionsProvenance.ps1',
-             "github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch'"
-         )) {
-    if (-not $generationWorkflow.Contains($refreshBehavior, [StringComparison]::Ordinal)) {
-        throw "Generated-options refresh workflow omitted '$refreshBehavior'."
-    }
+if (-not $generationWorkflow.Contains('Write-GeneratedOptionsProvenance.ps1', [StringComparison]::Ordinal)) {
+    throw 'Generated-options refresh workflow must write provenance.'
 }
 
 Write-Host 'Generated integration validation resolver tests passed.'

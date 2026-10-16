@@ -17,11 +17,6 @@ on:
         required: false
         default: true
         type: boolean
-      enable-auto-merge:
-        description: 'Enable auto-merge for created pull requests'
-        required: false
-        default: true
-        type: boolean
       approve-command-coverage-shrinkage:
         description: 'Approve same-version changes and at most five undocumented removals; larger removals need reasoned exclusions, and minimum/sentinel checks remain enforced'
         required: false
@@ -1175,8 +1170,8 @@ jobs:
             -DefaultBranch $env:GENERATION_DEFAULT_BRANCH
           "GENERATED_OPTIONS_BRANCH=$branch" | Out-File -FilePath $env:GITHUB_ENV -Append
 
-      - name: Disable inherited auto-merge for push refreshes
-        if: steps.handoff.outputs.has_changes == 'true' && github.event_name == 'push' && github.event.inputs.create-pr != 'false'
+      - name: Disable inherited auto-merge
+        if: steps.handoff.outputs.has_changes == 'true' && github.event.inputs.create-pr != 'false'
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
         run: |
@@ -1213,6 +1208,8 @@ jobs:
             ## Verification
             - [x] Solution builds successfully in the read-only generation job
 
+            Review the generated output and all required checks before merging manually.
+
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
           branch: ${{ env.GENERATED_OPTIONS_BRANCH }}
@@ -1224,13 +1221,6 @@ jobs:
             dependencies
           author: thomhurst <9139608+thomhurst@users.noreply.github.com>
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
-
-      - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs['enable-auto-merge']))
-        env:
-          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-          PR_NUMBER: ${{ steps.create-pr.outputs.pull-request-number }}
-        run: gh pr merge "$PR_NUMBER" --auto --squash
 
   report-scheduled-failure:
     name: Report scheduled failure

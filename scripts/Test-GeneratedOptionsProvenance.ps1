@@ -99,7 +99,7 @@ try {
     }
     $guardedAutoMergeDisableSteps = [regex]::Matches(
         $workflowContents,
-        "(?ms)^      - name: Disable inherited auto-merge for push refreshes`r?`n" +
+        "(?ms)^      - name: Disable inherited auto-merge`r?`n" +
         "(?:(?!^      - name:).)*?gh pr list" +
         "(?:(?!^      - name:).)*?--json autoMergeRequest" +
         "(?:(?!^      - name:).)*?\.autoMergeRequest != null" +
@@ -128,7 +128,7 @@ try {
         $publishJobStart - $windowsJobStart)
     $publishJob = $normalizedWorkflowContents.Substring($publishJobStart, $reportJobStart - $publishJobStart)
     $disableIndex = $publishJob.IndexOf(
-        '- name: Disable inherited auto-merge for push refreshes',
+        '- name: Disable inherited auto-merge',
         [StringComparison]::Ordinal)
     $createPrIndex = $publishJob.IndexOf('- name: Create Pull Request', [StringComparison]::Ordinal)
     if ($disableIndex -lt 0 -or $createPrIndex -lt 0 -or $disableIndex -gt $createPrIndex) {

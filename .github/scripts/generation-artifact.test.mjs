@@ -313,11 +313,24 @@ test('workflow keeps credentials and execution on opposite sides of handoff', ()
   assert.ok(publication.indexOf('Validate and import') < publication.indexOf('Stage-GeneratedChanges.ps1'));
   assert.ok(publication.indexOf('Stage-GeneratedChanges.ps1') < publication.indexOf('secrets.CLI_SCRAPER_PAT_TOKEN'));
   assert.match(publication, /Assert-GeneratedOptionsFreshness.ps1/);
-  assert.match(publication, /inputs\['enable-auto-merge'\]/);
   assert.match(publication, /github.event.inputs.create-pr != 'false'/);
   assert.match(publication, /jobs\?filter=all&per_page=100/);
   assert.match(publication, /GENERATION_RUN_ATTEMPT: \$\{\{ steps.artifact.outputs.run_attempt \}\}/);
   assert.match(workflow, /os: \[ubuntu-latest, windows-latest\]/);
+});
+
+test('generated pull requests require reviewed manual merging and clear inherited auto-merge', () => {
+  const workflow = readFileSync(path.join(repositoryRoot, '.github/workflows/generate-cli-options.yml'), 'utf8');
+  assert.doesNotMatch(workflow, /enable-auto-merge:|gh pr merge[^\n]*--auto\b|github\.event_name == 'push'/);
+  const disableStart = workflow.indexOf('      - name: Disable inherited auto-merge');
+  const createStart = workflow.indexOf('      - name: Create Pull Request');
+  assert.ok(disableStart >= 0 && disableStart < createStart);
+  const disable = workflow.slice(disableStart, createStart);
+  assert.match(disable, /if: steps\.handoff\.outputs\.has_changes == 'true' && github\.event\.inputs\.create-pr != 'false'/);
+  assert.match(disable, /gh pr list --state open --head "\$GENERATED_OPTIONS_BRANCH"/);
+  assert.match(disable, /gh pr view "\$pr_number" --json autoMergeRequest/);
+  assert.match(disable, /gh pr merge "\$pr_number" --disable-auto/);
+  assert.match(workflow, /Review the generated output and all required checks before merging manually/);
 });
 
 test('handoff selection uses the latest tool job and preserves publisher-only retries', () => {
