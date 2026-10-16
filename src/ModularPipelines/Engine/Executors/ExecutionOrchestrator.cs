@@ -46,8 +46,11 @@ internal class ExecutionOrchestrator(
     ISecondaryExceptionContainer secondaryExceptionContainer,
     DistributedRunCleanupExecutor? runCleanupExecutor = null,
     IExecutionBackend? executionBackend = null,
-    RerunFailedPlan? rerunFailedPlan = null) : IExecutionOrchestrator
+    RerunFailedPlan? rerunFailedPlan = null,
+    TimeSpan? endHandlerTimeout = null) : IExecutionOrchestrator
 {
+    // Leave time for reports and disposal within the 30-second process-exit budget.
+    private readonly TimeSpan _endHandlerTimeout = endHandlerTimeout ?? TimeSpan.FromSeconds(5);
     private readonly IPipelineInitializer _pipelineInitializer = pipelineInitializer;
     private readonly IPipelineExecutor _pipelineExecutor = pipelineExecutor;
     private readonly IPipelineOutputCoordinator _outputCoordinator = outputCoordinator;
@@ -226,7 +229,8 @@ internal class ExecutionOrchestrator(
 
         try
         {
-            await InvokePipelineEndHandlersAsync(summary, caughtException is not null).ConfigureAwait(false);
+            await InvokePipelineEndHandlersAsync(summary, caughtException is not null)
+                .ConfigureAwait(false);
         }
         catch (Exception exception)
         {
@@ -239,18 +243,30 @@ internal class ExecutionOrchestrator(
     /// <summary>
     /// Runs end handlers after startup or execution, without replacing an existing pipeline failure.
     /// </summary>
-    private async Task InvokePipelineEndHandlersAsync(PipelineSummary summary, bool executionFailed)
+    /// <remarks>
+    /// The timeout starts when shutdown is requested and bounds asynchronous handler work.
+    /// Synchronous work before a handler returns its task is not bounded.
+    /// </remarks>
+    private async Task InvokePipelineEndHandlersAsync(PipelineSummary summary, bool hasExecutionException)
     {
-        var cancellationToken = _engineCancellationToken.NonFailureCancellationToken;
+        // Shutdown must leave cleanup time, while explicit pipeline cancellation still stops handlers.
+        using var timeoutSource = CancellationTokenSource.CreateLinkedTokenSource(
+            _engineCancellationToken.ExplicitCancellationToken);
+        using var shutdownRegistration = _engineCancellationToken.NonFailureCancellationToken.Register(
+            () => timeoutSource.CancelAfter(_endHandlerTimeout));
+        var cancellationToken = timeoutSource.Token;
         try
         {
-            await _pipelineSetupExecutor.OnPipelineEndAsync(summary, cancellationToken).ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnPipelineEndAsync(summary, cancellationToken)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
-        catch (OperationCanceledException) when (executionFailed && cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException) when (
+            (hasExecutionException || summary.Status == ModuleStatus.Failed) && cancellationToken.IsCancellationRequested)
         {
             _logger.LogDebug("Pipeline end handlers were canceled");
         }
-        catch (Exception exception) when (executionFailed)
+        catch (Exception exception) when (hasExecutionException)
         {
             // The handler invoker has already logged the individual handler failures.
             _secondaryExceptionContainer.RegisterException(exception);

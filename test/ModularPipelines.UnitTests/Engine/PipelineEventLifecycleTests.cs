@@ -99,7 +99,8 @@ public class PipelineEventLifecycleTests
         await Assert.ThrowsAsync<OperationCanceledException>(() => pipeline.RunAsync());
 
         await AssertFailedLifecycle(handler);
-        await Assert.That(handler.EndToken.IsCancellationRequested).IsTrue();
+        await Assert.That(handler.EndToken.CanBeCanceled).IsTrue();
+        await Assert.That(handler.EndToken.IsCancellationRequested).IsFalse();
     }
 
     [Test]
