@@ -22,32 +22,32 @@ namespace ModularPipelines.Pulumi.Services;
 public interface IPulumiOrg
 {
     /// <summary>
-    /// pulumi audit-log sub-commands.
+    /// pulumi org audit-log sub-commands.
     /// </summary>
     PulumiOrgAuditLog AuditLog { get; }
 
     /// <summary>
-    /// pulumi member sub-commands.
+    /// pulumi org member sub-commands.
     /// </summary>
     PulumiOrgMember Member { get; }
 
     /// <summary>
-    /// pulumi role sub-commands.
+    /// pulumi org role sub-commands.
     /// </summary>
     PulumiOrgRole Role { get; }
 
     /// <summary>
-    /// pulumi search sub-commands.
+    /// pulumi org search sub-commands.
     /// </summary>
     PulumiOrgSearch Search { get; }
 
     /// <summary>
-    /// pulumi usage sub-commands.
+    /// pulumi org usage sub-commands.
     /// </summary>
     PulumiOrgUsage Usage { get; }
 
     /// <summary>
-    /// pulumi webhook sub-commands.
+    /// pulumi org webhook sub-commands.
     /// </summary>
     PulumiOrgWebhook Webhook { get; }
 

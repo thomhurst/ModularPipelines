@@ -22,7 +22,7 @@ namespace ModularPipelines.Pulumi.Services;
 public interface IPulumiConfig
 {
     /// <summary>
-    /// pulumi env sub-commands.
+    /// pulumi config env sub-commands.
     /// </summary>
     PulumiConfigEnv Env { get; }
 

@@ -38,32 +38,32 @@ public class PulumiOrg : IPulumiOrg
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi audit-log sub-commands.
+    /// pulumi org audit-log sub-commands.
     /// </summary>
     public PulumiOrgAuditLog AuditLog => _auditLog ??= new PulumiOrgAuditLog(_command);
 
     /// <summary>
-    /// pulumi member sub-commands.
+    /// pulumi org member sub-commands.
     /// </summary>
     public PulumiOrgMember Member => _member ??= new PulumiOrgMember(_command);
 
     /// <summary>
-    /// pulumi role sub-commands.
+    /// pulumi org role sub-commands.
     /// </summary>
     public PulumiOrgRole Role => _role ??= new PulumiOrgRole(_command);
 
     /// <summary>
-    /// pulumi search sub-commands.
+    /// pulumi org search sub-commands.
     /// </summary>
     public PulumiOrgSearch Search => _search ??= new PulumiOrgSearch(_command);
 
     /// <summary>
-    /// pulumi usage sub-commands.
+    /// pulumi org usage sub-commands.
     /// </summary>
     public PulumiOrgUsage Usage => _usage ??= new PulumiOrgUsage(_command);
 
     /// <summary>
-    /// pulumi webhook sub-commands.
+    /// pulumi org webhook sub-commands.
     /// </summary>
     public PulumiOrgWebhook Webhook => _webhook ??= new PulumiOrgWebhook(_command);
 
