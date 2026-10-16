@@ -10,30 +10,26 @@ namespace ModularPipelines.Http;
 /// A delegating handler that adds retry resilience to HTTP requests using Kevlar.
 /// Handles transient failures including network errors and server errors (5xx).
 /// </summary>
-internal class ResilienceHttpHandler : DelegatingHandler
+internal class ResilienceHttpHandler(
+    IModuleLoggerAccessor loggerAccessor,
+    IOptions<PipelineOptions> pipelineOptions) : DelegatingHandler
 {
-    private readonly IModuleLoggerAccessor _loggerAccessor;
-    private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private const int MaximumRetryContentLength = 1024 * 1024;
 
-    public ResilienceHttpHandler(
-        IModuleLoggerAccessor loggerAccessor,
-        IOptions<PipelineOptions> pipelineOptions)
-    {
-        _loggerAccessor = loggerAccessor;
-        _pipelineOptions = pipelineOptions;
-    }
+    private readonly IModuleLoggerAccessor _loggerAccessor = loggerAccessor;
+    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
 
     /// <inheritdoc/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var options = _pipelineOptions.Value.Http.Resilience ?? HttpResilienceOptions.Default;
 
-        if (options.MaxRetryAttempts <= 0)
+        if (options.MaxRetryAttempts <= 0 || !CanRetry(request))
         {
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
-        // Buffer content upfront if present, so it can be reused across retries
+        // Only small, already buffered bodies reach this point. Never consume upload streams for retries.
         byte[]? contentBytes = null;
         if (request.Content != null)
         {
@@ -45,6 +41,24 @@ internal class ResilienceHttpHandler : DelegatingHandler
         return await retryShield.ExecuteAsync(
             async ct => await base.SendAsync(CloneRequest(request, contentBytes), ct).ConfigureAwait(false),
             cancellationToken).ConfigureAwait(false);
+    }
+
+    private static bool CanRetry(HttpRequestMessage request)
+    {
+        var retryEnabled = request.Options.TryGetValue(HttpResilienceOptions.RetryEnabled, out var enabled)
+            ? enabled
+            : request.Method == HttpMethod.Get || request.Method == HttpMethod.Head ||
+              request.Method == HttpMethod.Put || request.Method == HttpMethod.Delete ||
+              request.Method == HttpMethod.Options || request.Method == HttpMethod.Trace;
+
+        if (!retryEnabled)
+        {
+            return false;
+        }
+
+        return request.Content == null ||
+               (request.Content is ByteArrayContent &&
+                request.Content.Headers.ContentLength is >= 0 and <= MaximumRetryContentLength);
     }
 
     private Shield<HttpResponseMessage> BuildRetryShield(HttpResilienceOptions options)
@@ -68,7 +82,7 @@ internal class ResilienceHttpHandler : DelegatingHandler
         return options.RetryableStatusCodes.Contains(response.StatusCode);
     }
 
-    private TimeSpan CalculateDelay(int retryAttempt, HttpResilienceOptions options)
+    private static TimeSpan CalculateDelay(int retryAttempt, HttpResilienceOptions options)
     {
         TimeSpan baseDelay;
 
