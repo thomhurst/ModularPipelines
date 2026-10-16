@@ -237,12 +237,16 @@ internal sealed class PipelineImpl : IPipeline
             // Keep services alive until cleanup modules, end handlers, reports and tracing finish.
             // The process-exit registration bounds this entire operation.
             await runCompletion.ConfigureAwait(false);
-            await DisposeAsync().ConfigureAwait(false);
+            // Shutdown is an external waiter, even while another thread is synchronously
+            // disposing the container. It must not take the reentrant-disposal shortcut.
+            await DisposeAsync(allowReentrancy: false).ConfigureAwait(false);
         }
     }
 
     /// <inheritdoc />
-    public ValueTask DisposeAsync()
+    public ValueTask DisposeAsync() => DisposeAsync(allowReentrancy: true);
+
+    private ValueTask DisposeAsync(bool allowReentrancy)
     {
         TaskCompletionSource completion;
         Task disposeTask;
@@ -250,8 +254,8 @@ internal sealed class PipelineImpl : IPipeline
         {
             if (_disposeTask is not null)
             {
-                return _disposalOwnership.Value?.IsActive == true
-                    || Volatile.Read(ref _isSynchronousContainerDisposalActive) == 1
+                return allowReentrancy && (_disposalOwnership.Value?.IsActive == true
+                    || Volatile.Read(ref _isSynchronousContainerDisposalActive) == 1)
                     ? ValueTask.CompletedTask
                     : new ValueTask(_disposeTask);
             }
