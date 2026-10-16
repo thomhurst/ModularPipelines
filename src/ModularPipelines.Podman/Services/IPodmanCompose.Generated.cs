@@ -22,7 +22,7 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanCompose
 {
     /// <summary>
-    /// podman bridge sub-commands.
+    /// podman compose bridge sub-commands.
     /// </summary>
     PodmanComposeBridge Bridge { get; }
 

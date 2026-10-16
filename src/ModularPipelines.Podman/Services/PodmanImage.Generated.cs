@@ -33,7 +33,7 @@ public class PodmanImage : IPodmanImage
     #region Sub-command Groups
 
     /// <summary>
-    /// podman trust sub-commands.
+    /// podman image trust sub-commands.
     /// </summary>
     public PodmanImageTrust Trust => _trust ??= new PodmanImageTrust(_command);
 
