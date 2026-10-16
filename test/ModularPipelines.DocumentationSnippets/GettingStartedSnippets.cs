@@ -1,8 +1,6 @@
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Extensions;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.DocumentationSnippets;
 
