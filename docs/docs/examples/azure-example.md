@@ -21,7 +21,7 @@ public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityRe
     protected override async Task<UserAssignedIdentityResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentityProvisionResponse = await context.Tools.Azure.Provisioner.Security.UserAssignedIdentityAsync(
-            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "Microsoft.ManagedIdentity/userAssignedIdentities", "MyUserIdentity"),
             new UserAssignedIdentityData(AzureLocation.UKSouth),
             cancellationToken
         );
@@ -39,7 +39,7 @@ public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
     protected override async Task<StorageAccountResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccountProvisionResponse = await context.Tools.Azure.Provisioner.Storage.StorageAccountAsync(
-            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "Microsoft.Storage/storageAccounts", "MyStorage"),
             new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth),
             cancellationToken
         );
@@ -116,7 +116,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
         var blobContainer = await context.GetModule<ProvisionBlobStorageContainerModule>();
 
         var functionProvisionResponse = await context.Tools.Azure.Provisioner.Compute.WebSiteAsync(
-            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "Microsoft.Web/sites", "MyFunction"),
             new WebSiteData(AzureLocation.UKSouth)
             {
                 Identity = new ManagedServiceIdentity(ManagedServiceIdentityType.UserAssigned)

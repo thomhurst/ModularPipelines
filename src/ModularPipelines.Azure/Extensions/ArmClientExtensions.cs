@@ -15,6 +15,7 @@ public static class ArmClientExtensions
     /// </summary>
     /// <param name="armClient">The ARM client.</param>
     /// <param name="azureScope">The Azure scope to resolve.</param>
+    /// <param name="cancellationToken">Token used to cancel resource enumeration.</param>
     /// <returns>The resolved <see cref="ResourceIdentifier"/>.</returns>
     /// <exception cref="AzureResourceNotFoundException">
     /// Thrown when the specified <see cref="AzureResourceIdentifier"/> cannot be found in the resource group.
@@ -22,24 +23,24 @@ public static class ArmClientExtensions
     /// <exception cref="UnsupportedAzureScopeException">
     /// Thrown when the <paramref name="azureScope"/> is of an unsupported type.
     /// </exception>
-    public static async Task<ResourceIdentifier> GetResourceIdentifierAsync(this ArmClient armClient, AzureScope azureScope)
+    public static async Task<ResourceIdentifier> GetResourceIdentifierAsync(this ArmClient armClient, AzureScope azureScope, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         switch (azureScope)
         {
             case AzureResourceIdentifier azureResourceIdentifier:
                 {
-                    await foreach (var page in armClient
+                    await foreach (var genericResource in armClient
                                        .GetResourceGroupResource(azureResourceIdentifier.ToResourceGroupIdentifier())
-                                       .GetGenericResourcesAsync()
-                                       .AsPages()
+                                       .GetGenericResourcesAsync(cancellationToken: cancellationToken)
+                                       .WithCancellation(cancellationToken)
                                        .ConfigureAwait(false))
                     {
-                        foreach (var genericResource in page.Values)
+                        if (string.Equals(genericResource.Id.ResourceType.ToString(), azureResourceIdentifier.ResourceType, StringComparison.OrdinalIgnoreCase)
+                            && string.Equals(genericResource.Id.Name, azureResourceIdentifier.ResourceName, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (genericResource.Id.Name == azureResourceIdentifier.ResourceName)
-                            {
-                                return genericResource.Id;
-                            }
+                            return genericResource.Id;
                         }
                     }
 

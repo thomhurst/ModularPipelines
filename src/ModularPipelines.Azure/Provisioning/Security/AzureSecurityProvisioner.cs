@@ -51,7 +51,7 @@ public class AzureSecurityProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(roleDefinitionIdentifier);
         ArgumentNullException.ThrowIfNull(properties);
 
-        var scopeResourceIdentifier = await ArmClient.GetResourceIdentifierAsync(scope).ConfigureAwait(false);
+        var scopeResourceIdentifier = await ArmClient.GetResourceIdentifierAsync(scope, cancellationToken).ConfigureAwait(false);
 
         return await ArmClient.GetAuthorizationRoleDefinitions(scopeResourceIdentifier)
             .CreateOrUpdateAsync(WaitUntil.Completed, roleDefinitionIdentifier, properties, cancellationToken).ConfigureAwait(false);
