@@ -16,6 +16,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
+using ModularPipelines.Validation;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
@@ -1798,6 +1799,19 @@ public class PipelineCommandLineTests
             await Assert.That(output).Contains("configured-category");
             await Assert.That(summary.Succeeded).IsTrue();
         }
+    }
+
+    [Test]
+    [Arguments("--tags")]
+    [Arguments("--ignore-tags")]
+    public async Task ValidateCommandRejectsUnknownTags(string option)
+    {
+        var builder = CreateExecutionBuilder(["--validate", option, "missing-tag"]);
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.RunAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Options && error.Message.Contains("missing-tag"));
     }
 
     [Test]

@@ -2,6 +2,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.Validation;
 
 namespace ModularPipelines.UnitTests.Dependencies;
 
@@ -40,7 +41,7 @@ public class TagFilterTests : TestBase
             .AddModule<TaggedModule>()
             .AddModule<FluentModule>()
             .AddModule<UntaggedModule>()
-            .RunOnlyTags("missing", "FAST")
+            .RunOnlyTags("remote", "FAST")
             .RunAsync();
 
         await Assert.That((await summary.Modules.OfType<TaggedModule>().Single()).ValueOrDefault).IsEqualTo("tagged");
@@ -134,6 +135,63 @@ public class TagFilterTests : TestBase
         await Assert.That(modules[typeof(TaggedModule)].ShouldSkip).IsFalse();
         await Assert.That(modules[typeof(FluentModule)].ShouldSkip).IsTrue();
         await Assert.That(modules[typeof(UntaggedModule)].ShouldSkip).IsTrue();
+    }
+
+    [Test]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    public async Task ValidationRejectsUnknownTags(bool runOnly, bool includeKnownTag)
+    {
+        var tags = includeKnownTag ? new[] { "FAST", "missing" } : ["missing"];
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<TaggedModule>()
+            .AddModule<FluentModule>()
+            .ConfigureOptions(options => runOnly
+                ? options with { RunOnlyTags = tags }
+                : options with { IgnoreTags = tags });
+
+        var result = await builder.ValidateAsync();
+
+        var optionName = runOnly ? nameof(PipelineOptions.RunOnlyTags) : nameof(PipelineOptions.IgnoreTags);
+        await Assert.That(result.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Options &&
+            error.Message.Contains(optionName) && error.Message.Contains("missing"));
+        if (runOnly && !includeKnownTag)
+        {
+            await Assert.That(result.Errors).Contains(error => error.Message.Contains("zero registered modules"));
+        }
+    }
+
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task ValidationRejectsTagsWhenRegisteredModulesHaveNone(bool runOnly)
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<UntaggedModule>()
+            .ConfigureOptions(options => runOnly
+                ? options with { RunOnlyTags = ["missing"] }
+                : options with { IgnoreTags = ["missing"] });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Options && error.Message.Contains("missing"));
+    }
+
+    [Test]
+    public async Task ValidationAcceptsAttributeAndFluentTagsIgnoringCaseAndAllowsOverlap()
+    {
+        var result = await TestPipelineBuilder.Create()
+            .AddModule<TaggedModule>()
+            .AddModule<FluentModule>()
+            .RunOnlyTags("FAST", "REMOTE")
+            .IgnoreTags("REMOTE")
+            .ValidateAsync();
+
+        await Assert.That(result.IsValid).IsTrue();
     }
 
     [Test]

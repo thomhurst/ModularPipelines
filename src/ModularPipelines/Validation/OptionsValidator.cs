@@ -20,9 +20,15 @@ internal class OptionsValidator : IOptionsValidator
     public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
         var pipelineOptions = services.GetService<IOptions<PipelineOptions>>()?.Value;
-        var result = pipelineOptions is null
-            ? ValidationResult.Success()
-            : ValidateOptions(pipelineOptions, GetRegisteredCategories(services));
+        var result = ValidationResult.Success();
+        if (pipelineOptions is not null)
+        {
+            var (categories, tags) = GetRegisteredMetadata(services);
+            result = ValidateOptions(pipelineOptions, categories);
+            ValidateTagFilter(pipelineOptions.RunOnlyTags, tags, nameof(PipelineOptions.RunOnlyTags), result);
+            ValidateTagFilter(pipelineOptions.IgnoreTags, tags, nameof(PipelineOptions.IgnoreTags), result);
+        }
+
         var distributedOptions = services.GetService<IOptions<DistributedOptions>>()?.Value;
         if (distributedOptions?.MaxParallelism is < 1)
         {
@@ -290,10 +296,11 @@ internal class OptionsValidator : IOptionsValidator
         return result;
     }
 
-    private static IReadOnlySet<string> GetRegisteredCategories(IServiceProvider services)
+    private static (IReadOnlySet<string> Categories, IReadOnlySet<string> Tags) GetRegisteredMetadata(IServiceProvider services)
     {
         var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
         var registeredCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var registeredTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var module in services.GetServices<IModule>())
         {
@@ -303,9 +310,32 @@ internal class OptionsValidator : IOptionsValidator
             {
                 registeredCategories.Add(category);
             }
+
+            registeredTags.UnionWith(metadataRegistry.GetTags(moduleType));
         }
 
-        return registeredCategories;
+        return (registeredCategories, registeredTags);
+    }
+
+    private static void ValidateTagFilter(
+        IReadOnlyList<string>? tags,
+        IReadOnlySet<string> registeredTags,
+        string optionName,
+        ValidationResult result)
+    {
+        var configuredTags = tags?.Distinct(StringComparer.OrdinalIgnoreCase).ToArray() ?? [];
+        var unmatchedTags = configuredTags.Where(tag => !registeredTags.Contains(tag)).ToArray();
+        if (unmatchedTags.Length == 0)
+        {
+            return;
+        }
+
+        var message = optionName == nameof(PipelineOptions.RunOnlyTags) && unmatchedTags.Length == configuredTags.Length
+            ? "RunOnlyTags would select zero registered modules. No registered module matches: "
+            : $"{optionName} contains tags with no registered modules: ";
+        result.AddError(new ValidationError(
+            ValidationErrorCategory.Options,
+            message + string.Join(", ", unmatchedTags)));
     }
 
     private static void ValidateRunOnlyCategories(
