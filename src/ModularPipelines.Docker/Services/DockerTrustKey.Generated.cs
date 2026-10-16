@@ -14,7 +14,7 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Services;
 
 /// <summary>
-/// docker key commands.
+/// docker trust key commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerTrustKey

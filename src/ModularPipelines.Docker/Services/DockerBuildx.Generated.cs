@@ -24,6 +24,7 @@ public class DockerBuildx : IDockerBuildx
     private DockerBuildxHistory? _history;
     private DockerBuildxImageTools? _imageTools;
     private DockerBuildxPolicy? _policy;
+    private DockerBuildxReplay? _replay;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuildx"/> class.
@@ -36,24 +37,29 @@ public class DockerBuildx : IDockerBuildx
     #region Sub-command Groups
 
     /// <summary>
-    /// docker dap sub-commands.
+    /// docker buildx dap sub-commands.
     /// </summary>
     public DockerBuildxDap Dap => _dap ??= new DockerBuildxDap(_command);
 
     /// <summary>
-    /// docker history sub-commands.
+    /// docker buildx history sub-commands.
     /// </summary>
     public DockerBuildxHistory History => _history ??= new DockerBuildxHistory(_command);
 
     /// <summary>
-    /// docker imagetools sub-commands.
+    /// docker buildx imagetools sub-commands.
     /// </summary>
     public DockerBuildxImageTools ImageTools => _imageTools ??= new DockerBuildxImageTools(_command);
 
     /// <summary>
-    /// docker policy sub-commands.
+    /// docker buildx policy sub-commands.
     /// </summary>
     public DockerBuildxPolicy Policy => _policy ??= new DockerBuildxPolicy(_command);
+
+    /// <summary>
+    /// docker buildx replay sub-commands.
+    /// </summary>
+    public DockerBuildxReplay Replay => _replay ??= new DockerBuildxReplay(_command);
 
     #endregion
 
