@@ -63,21 +63,6 @@ public class KubernetesCreate : IKubernetesCreate
     }
 
     /// <summary>
-    /// Create a cluster role binding for a particular cluster role.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ClusterrolebindingAsync(
-        KubernetesCreateClusterrolebindingOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Create a cluster role.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -86,6 +71,21 @@ public class KubernetesCreate : IKubernetesCreate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ClusterroleAsync(
         KubernetesCreateClusterroleOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Create a cluster role binding for a particular cluster role.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ClusterrolebindingAsync(
+        KubernetesCreateClusterrolebindingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -228,21 +228,6 @@ public class KubernetesCreate : IKubernetesCreate
     }
 
     /// <summary>
-    /// Create a role binding for a particular role or cluster role.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RolebindingAsync(
-        KubernetesCreateRolebindingOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Create a role with single rule.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -251,6 +236,21 @@ public class KubernetesCreate : IKubernetesCreate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RoleAsync(
         KubernetesCreateRoleOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Create a role binding for a particular role or cluster role.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RolebindingAsync(
+        KubernetesCreateRolebindingOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
