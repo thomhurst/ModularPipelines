@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Test exact generated-file staging
@@ -59,10 +59,10 @@ jobs:
       windows: ${{ steps.catalog.outputs.windows }}
       windows-count: ${{ steps.catalog.outputs.windows-count }}
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-dotnet@v6.0.0
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
       - name: Build generator
@@ -141,7 +141,7 @@ jobs:
 
       - name: Checkout
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -176,13 +176,13 @@ jobs:
 
       - name: Setup .NET
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/setup-dotnet@v6.0.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
 
       - name: Cache NuGet
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
@@ -340,7 +340,7 @@ jobs:
 
       - name: Install Go
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'go'
-        uses: actions/setup-go@v7.0.0
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: 'stable'
 
@@ -358,7 +358,7 @@ jobs:
 
       - name: Install Gradle
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gradle'
-        uses: gradle/actions/setup-gradle@v6
+        uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6
         with:
           gradle-version: 9.8.1
 
@@ -805,7 +805,7 @@ jobs:
       - name: Create Pull Request for ${{ matrix.tool }}
         id: create-pr
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
           # The immediately preceding revalidation rejects every checkout change outside
@@ -875,7 +875,7 @@ jobs:
 
       - name: Checkout
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -924,13 +924,13 @@ jobs:
 
       - name: Setup .NET
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/setup-dotnet@v6.0.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
 
       - name: Cache NuGet
         if: steps.should-run.outputs.run == 'true'
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
@@ -1142,7 +1142,7 @@ jobs:
       - name: Create Pull Request for ${{ matrix.tool }}
         id: create-pr
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
           # The immediately preceding revalidation rejects every checkout change outside
