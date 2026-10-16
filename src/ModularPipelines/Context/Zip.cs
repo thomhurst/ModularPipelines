@@ -14,13 +14,8 @@ internal partial class Zip(
 
     public FilePath CreateFromDirectory(FolderPath folder, string outputPath, CompressionLevel compressionLevel)
     {
+        var (directories, files) = SnapshotSourceEntries(folder.Path);
         outputPath = PrepareOutputPath(outputPath);
-        var directories = _fileSystemProvider
-            .EnumerateDirectories(folder.Path, "*", SearchOption.AllDirectories)
-            .ToArray();
-        var files = _fileSystemProvider
-            .EnumerateFiles(folder.Path, "*", SearchOption.AllDirectories)
-            .ToArray();
 
         using (var output = _fileSystemProvider.Open(
                    outputPath,
@@ -164,6 +159,48 @@ internal partial class Zip(
         }
 
         return destinationPath;
+    }
+
+    private (List<string> Directories, List<string> Files) SnapshotSourceEntries(
+        string sourcePath, CancellationToken cancellationToken = default)
+    {
+        // Validate the entire source before preparing output. Enumerate one level at a time
+        // so directory links (including cycles) are rejected before descent.
+        cancellationToken.ThrowIfCancellationRequested();
+        ValidateSourceEntry(sourcePath);
+        var directories = new List<string>();
+        var files = new List<string>();
+        var pending = new Stack<string>();
+        pending.Push(sourcePath);
+        while (pending.TryPop(out var current))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            foreach (var directory in _fileSystemProvider.EnumerateDirectories(current, "*", SearchOption.TopDirectoryOnly))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                ValidateSourceEntry(directory);
+                directories.Add(directory);
+                pending.Push(directory);
+            }
+
+            foreach (var file in _fileSystemProvider.EnumerateFiles(current, "*", SearchOption.TopDirectoryOnly))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                ValidateSourceEntry(file);
+                files.Add(file);
+            }
+        }
+
+        cancellationToken.ThrowIfCancellationRequested();
+        return (directories, files);
+    }
+
+    private void ValidateSourceEntry(string path)
+    {
+        if ((_fileSystemProvider.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
+        {
+            throw new IOException($"Cannot create a ZIP archive containing a source link: '{path}'.");
+        }
     }
 
     private string PrepareOutputPath(string outputPath)

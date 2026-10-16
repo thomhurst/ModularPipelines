@@ -159,18 +159,20 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    public async Task PhysicalProviderPreservesFileLastWriteTimes()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task PhysicalProviderPreservesFileLastWriteTimes(bool useAsync)
     {
         var root = Path.Combine(
             Path.GetTempPath(),
             $"ModularPipelines-zip-timestamp-{Guid.NewGuid():N}");
         var sourceDirectory = Path.Combine(root, "source");
-        var sourceFile = Path.Combine(sourceDirectory, "artifact.txt");
+        var sourceFile = Path.Combine(sourceDirectory, "nested", "artifact.txt");
         var zipPath = Path.Combine(root, "artifact.zip");
         var destinationDirectory = Path.Combine(root, "destination");
-        var extractedFile = Path.Combine(destinationDirectory, "artifact.txt");
+        var extractedFile = Path.Combine(destinationDirectory, "nested", "artifact.txt");
         var expectedTimestamp = new DateTime(2020, 1, 2, 3, 4, 6);
-        Directory.CreateDirectory(sourceDirectory);
+        Directory.CreateDirectory(Path.GetDirectoryName(sourceFile)!);
 
         try
         {
@@ -178,8 +180,16 @@ public class ZipTests : TestBase
             System.IO.File.SetLastWriteTime(sourceFile, expectedTimestamp);
             var zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root));
 
-            zip.CreateFromDirectory(new FolderPath(sourceDirectory), zipPath, CompressionLevel.Optimal);
-            zip.ExtractToDirectory(zipPath, destinationDirectory, overwriteFiles: true);
+            if (useAsync)
+            {
+                await zip.CreateFromDirectoryAsync(new FolderPath(sourceDirectory), zipPath);
+                await zip.ExtractToDirectoryAsync(zipPath, destinationDirectory, overwriteFiles: true);
+            }
+            else
+            {
+                zip.CreateFromDirectory(new FolderPath(sourceDirectory), zipPath, CompressionLevel.Optimal);
+                zip.ExtractToDirectory(zipPath, destinationDirectory, overwriteFiles: true);
+            }
 
             await Assert.That(System.IO.File.GetLastWriteTime(extractedFile))
                 .IsEqualTo(expectedTimestamp);
