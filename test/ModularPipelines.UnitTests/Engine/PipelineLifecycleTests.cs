@@ -3,6 +3,7 @@ using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
+using EngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
 
 namespace ModularPipelines.UnitTests.Engine;
 
@@ -93,6 +94,21 @@ public class PipelineLifecycleTests
         {
             Started.TrySetResult();
             await Release.Task;
+        }
+    }
+
+    private sealed class BlockingSynchronousDisposalTracker : IDisposable
+    {
+        public TaskCompletionSource Started { get; } = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource Release { get; } = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void Dispose()
+        {
+            Started.TrySetResult();
+            Release.Task.GetAwaiter().GetResult();
         }
     }
 
@@ -247,6 +263,35 @@ public class PipelineLifecycleTests
         {
             tracker.Release.TrySetResult();
             await firstDisposal.WaitAsync(cancellationToken);
+        }
+    }
+
+    [Test]
+    public async Task Shutdown_Waits_For_Concurrent_Synchronous_Disposal()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<LifecycleModule>();
+        builder.Services.AddSingleton<BlockingSynchronousDisposalTracker>();
+        var pipeline = await builder.BuildAsync();
+        var tracker = pipeline.Services.GetRequiredService<BlockingSynchronousDisposalTracker>();
+        var cancellation = pipeline.Services.GetRequiredService<EngineCancellationToken>();
+        Task? disposal = null;
+        // Force caller disposal to start before shutdown reaches its disposal wait.
+        using var registration = cancellation.Token.Register(() =>
+        {
+            disposal = Task.Run(() => pipeline.DisposeAsync().AsTask());
+            tracker.Started.Task.WaitAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
+        });
+        var shutdownMethod = typeof(PipelineImpl).GetMethod("ShutdownAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        var shutdown = (Task) shutdownMethod.Invoke(pipeline, null)!;
+        try
+        {
+            await Assert.ThrowsAsync<TimeoutException>(() => shutdown.WaitAsync(TimeSpan.FromMilliseconds(100)));
+        }
+        finally
+        {
+            tracker.Release.TrySetResult();
+            await Task.WhenAll(disposal!, shutdown).WaitAsync(TimeSpan.FromSeconds(5));
         }
     }
 

@@ -164,10 +164,11 @@ internal class ExecutionOrchestrator(
 
         // Step 2: Always print summary (exactly once)
         // Only an acknowledged registration owns a worker status that can be finalized.
-        // RunReportService bounds final publication with its independent worker metrics timeout.
+        // Shutdown signals must still persist reports. Explicit pipeline cancellation can skip them.
+        // RunReportService bounds each finalization phase with an independent timeout.
         var reportCancellationToken = _executionBackend is WorkerModuleExecutor { RegistrationConfirmed: true }
             ? CancellationToken.None
-            : _engineCancellationToken.NonFailureCancellationToken;
+            : _engineCancellationToken.ExplicitCancellationToken;
         summary = await PrintSummary(
                 allModules,
                 stopWatch,

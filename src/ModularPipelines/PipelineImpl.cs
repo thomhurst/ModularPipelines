@@ -35,10 +35,13 @@ internal sealed class PipelineImpl : IPipeline
     private readonly PipelineBuilderResources _builderResources;
     private readonly AsyncServiceScope _serviceScope;
     private readonly IDisposable _shutdownRegistration;
-    private readonly object _disposeLock = new();
+    private readonly Lock _disposeLock = new();
     private readonly AsyncLocal<DisposalOwnership?> _disposalOwnership = new();
     private int _isSynchronousContainerDisposalActive;
     private Task? _disposeTask;
+    private TaskCompletionSource? _runCompletion;
+    private int _activeRuns;
+    private bool _shutdownRequested;
 
     private PipelineImpl(IHost host, PipelineBuilderResources builderResources)
     {
@@ -46,7 +49,7 @@ internal sealed class PipelineImpl : IPipeline
         _builderResources = builderResources;
         _serviceScope = host.Services.CreateAsyncScope();
 
-        _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(this);
+        _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(ShutdownAsync);
     }
 
     internal static async Task<PipelineImpl> CreateAsync(
@@ -60,6 +63,9 @@ internal sealed class PipelineImpl : IPipeline
 
         try
         {
+            services.GetRequiredService<EngineCancellationToken>().IsRunActive =
+                () => Volatile.Read(ref pipeline._activeRuns) > 0;
+
             var consoleCoordinator = services.GetRequiredService<IConsoleCoordinator>();
             consoleCoordinator.Install();
             consoleCoordinator.EnableOutputBuffering();
@@ -126,6 +132,33 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
     {
+        lock (_disposeLock)
+        {
+            ObjectDisposedException.ThrowIf(_shutdownRequested || _disposeTask is not null, this);
+            if (_activeRuns++ == 0)
+            {
+                _runCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            }
+        }
+
+        try
+        {
+            return await RunCoreAsync(cancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            lock (_disposeLock)
+            {
+                if (--_activeRuns == 0)
+                {
+                    _runCompletion!.TrySetResult();
+                }
+            }
+        }
+    }
+
+    private async Task<PipelineSummary> RunCoreAsync(CancellationToken cancellationToken)
+    {
         var pipelineName = Services.GetRequiredService<IHostEnvironment>().ApplicationName;
         using var activity = ModuleActivityTracing.StartPipelineActivity(pipelineName);
 
@@ -189,8 +222,34 @@ internal sealed class PipelineImpl : IPipeline
         Services.GetRequiredService<IDependencyGraphExporter>()
             .ExportAsync(format, path, cancellationToken);
 
+    private async Task ShutdownAsync()
+    {
+        Task runCompletion;
+        lock (_disposeLock)
+        {
+            _shutdownRequested = true;
+            runCompletion = _runCompletion?.Task ?? Task.CompletedTask;
+        }
+
+        try
+        {
+            _host.Services.GetRequiredService<EngineCancellationToken>().RequestShutdown();
+        }
+        finally
+        {
+            // Keep services alive until cleanup modules, end handlers, reports and tracing finish.
+            // The process-exit registration bounds this entire operation.
+            await runCompletion.ConfigureAwait(false);
+            // Shutdown is an external waiter, even while another thread is synchronously
+            // disposing the container. It must not take the reentrant-disposal shortcut.
+            await DisposeAsync(allowReentrancy: false).ConfigureAwait(false);
+        }
+    }
+
     /// <inheritdoc />
-    public ValueTask DisposeAsync()
+    public ValueTask DisposeAsync() => DisposeAsync(allowReentrancy: true);
+
+    private ValueTask DisposeAsync(bool allowReentrancy)
     {
         TaskCompletionSource completion;
         Task disposeTask;
@@ -198,8 +257,8 @@ internal sealed class PipelineImpl : IPipeline
         {
             if (_disposeTask is not null)
             {
-                return _disposalOwnership.Value?.IsActive == true
-                    || Volatile.Read(ref _isSynchronousContainerDisposalActive) == 1
+                return allowReentrancy && (_disposalOwnership.Value?.IsActive == true
+                    || Volatile.Read(ref _isSynchronousContainerDisposalActive) == 1)
                     ? ValueTask.CompletedTask
                     : new ValueTask(_disposeTask);
             }

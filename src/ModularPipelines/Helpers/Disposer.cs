@@ -28,9 +28,7 @@ internal static class Disposer
     /// Registers an object to be disposed when the process exits.
     /// </summary>
     /// <remarks>
-    /// The disposal is performed asynchronously using a fire-and-forget pattern.
-    /// Since ProcessExit handlers have limited time (typically 2 seconds),
-    /// the disposal is started but may not complete if it takes too long.
+    /// The process-exit handler waits up to 30 seconds for disposal to complete.
     /// Exceptions during disposal are suppressed since the process is exiting.
     /// </remarks>
     /// <param name="obj">The object to dispose on process exit. Can be null.</param>
@@ -41,32 +39,44 @@ internal static class Disposer
     }
 
     internal static IDisposable RegisterOnShutdownWithUnregistration(object? obj) =>
+        RegisterOnShutdownWithUnregistration(() => DisposeObjectAsync(obj));
+
+    internal static IDisposable RegisterOnShutdownWithUnregistration(Func<Task> shutdown) =>
         RegisterOnShutdownWithUnregistration(
-            obj,
+            shutdown,
             handler => AppDomain.CurrentDomain.ProcessExit += handler,
             handler => AppDomain.CurrentDomain.ProcessExit -= handler);
 
     internal static IDisposable RegisterOnShutdownWithUnregistration(
         object? obj,
         Action<EventHandler> subscribe,
-        Action<EventHandler> unsubscribe)
+        Action<EventHandler> unsubscribe) =>
+        RegisterOnShutdownWithUnregistration(() => DisposeObjectAsync(obj), subscribe, unsubscribe);
+
+    internal static IDisposable RegisterOnShutdownWithUnregistration(
+        Func<Task> shutdown,
+        Action<EventHandler> subscribe,
+        Action<EventHandler> unsubscribe,
+        TimeSpan? timeout = null)
     {
+        ArgumentNullException.ThrowIfNull(shutdown);
         ArgumentNullException.ThrowIfNull(subscribe);
         ArgumentNullException.ThrowIfNull(unsubscribe);
-        return new ShutdownRegistration(obj, subscribe, unsubscribe);
+        return new ShutdownRegistration(shutdown, subscribe, unsubscribe, timeout ?? TimeSpan.FromSeconds(30));
     }
 
     /// <summary>
-    /// Internal async disposal for shutdown scenarios.
+    /// Runs shutdown outside any caller synchronization context and bounds the entire operation,
+    /// including synchronous cancellation callbacks and synchronous disposal.
     /// </summary>
-    /// <param name="obj">The object to dispose.</param>
-    /// <returns>A task representing the disposal operation.</returns>
+    /// <param name="shutdown">The shutdown operation.</param>
+    /// <param name="timeout">The maximum time to wait.</param>
     [ExcludeFromCodeCoverage]
-    private static async Task DisposeOnShutdownAsync(object? obj)
+    private static void DisposeOnShutdown(Func<Task> shutdown, TimeSpan timeout)
     {
         try
         {
-            await DisposeObjectAsync(obj).ConfigureAwait(false);
+            Task.Run(shutdown).WaitAsync(timeout).GetAwaiter().GetResult();
         }
         catch (ObjectDisposedException)
         {
@@ -89,12 +99,13 @@ internal static class Disposer
         private EventHandler? _handler;
 
         public ShutdownRegistration(
-            object? obj,
+            Func<Task> shutdown,
             Action<EventHandler> subscribe,
-            Action<EventHandler> unsubscribe)
+            Action<EventHandler> unsubscribe,
+            TimeSpan timeout)
         {
             _unsubscribe = unsubscribe;
-            _handler = (_, _) => _ = DisposeOnShutdownAsync(obj);
+            _handler = (_, _) => DisposeOnShutdown(shutdown, timeout);
             subscribe(_handler);
         }
 

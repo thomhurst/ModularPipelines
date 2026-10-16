@@ -61,4 +61,86 @@ public class DisposerTests
         await Assert.That(subscribedHandler).IsNotNull();
         await Assert.That(unsubscribedHandler).IsSameReferenceAs(subscribedHandler);
     }
+
+    [Test]
+    public async Task Shutdown_Waits_For_Asynchronous_Disposal()
+    {
+        var disposed = false;
+        EventHandler? handler = null;
+        using var registration = Disposer.RegisterOnShutdownWithUnregistration(
+            async () =>
+            {
+                await Task.Delay(50);
+                disposed = true;
+            },
+            subscribed => handler = subscribed,
+            _ => { });
+
+        handler!(null, EventArgs.Empty);
+
+        await Assert.That(disposed).IsTrue();
+    }
+
+    [Test]
+    public async Task Shutdown_Bounds_Synchronous_Work()
+    {
+        using var release = new ManualResetEventSlim();
+        var finished = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        EventHandler? handler = null;
+        using var registration = Disposer.RegisterOnShutdownWithUnregistration(
+            () =>
+            {
+                release.Wait();
+                finished.SetResult();
+                return Task.CompletedTask;
+            },
+            subscribed => handler = subscribed,
+            _ => { },
+            TimeSpan.FromMilliseconds(50));
+
+        try
+        {
+            await Task.Run(() => handler!(null, EventArgs.Empty)).WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(finished.Task.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            release.Set();
+            await finished.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+    }
+
+    [Test]
+    public async Task Shutdown_Bounds_Asynchronous_Work()
+    {
+        var completion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        EventHandler? handler = null;
+        using var registration = Disposer.RegisterOnShutdownWithUnregistration(
+            () => completion.Task,
+            subscribed => handler = subscribed,
+            _ => { },
+            TimeSpan.FromMilliseconds(50));
+
+        try
+        {
+            await Task.Run(() => handler!(null, EventArgs.Empty)).WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(completion.Task.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            completion.SetResult();
+        }
+    }
+
+    [Test]
+    public void Shutdown_Suppresses_Disposal_Failures()
+    {
+        EventHandler? handler = null;
+        using var registration = Disposer.RegisterOnShutdownWithUnregistration(
+            () => Task.FromException(new InvalidOperationException("shutdown failure")),
+            subscribed => handler = subscribed,
+            _ => { });
+
+        handler!(null, EventArgs.Empty);
+    }
 }
