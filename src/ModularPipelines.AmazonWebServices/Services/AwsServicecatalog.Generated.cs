@@ -33,7 +33,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     #region Sub-command Groups
 
     /// <summary>
-    /// aws generate sub-commands.
+    /// aws servicecatalog generate sub-commands.
     /// </summary>
     public AwsServicecatalogGenerate Generate => _generate ??= new AwsServicecatalogGenerate(_command);
 

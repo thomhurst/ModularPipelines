@@ -33,7 +33,7 @@ public class AwsInspector2 : IAwsInspector2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws inspector2 wait sub-commands.
     /// </summary>
     public AwsInspector2Wait Wait => _wait ??= new AwsInspector2Wait(_command);
 

@@ -33,7 +33,7 @@ public class AwsElasticache : IAwsElasticache
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elasticache wait sub-commands.
     /// </summary>
     public AwsElasticacheWait Wait => _wait ??= new AwsElasticacheWait(_command);
 

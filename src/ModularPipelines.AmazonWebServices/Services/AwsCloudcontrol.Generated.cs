@@ -33,7 +33,7 @@ public class AwsCloudcontrol : IAwsCloudcontrol
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudcontrol wait sub-commands.
     /// </summary>
     public AwsCloudcontrolWait Wait => _wait ??= new AwsCloudcontrolWait(_command);
 

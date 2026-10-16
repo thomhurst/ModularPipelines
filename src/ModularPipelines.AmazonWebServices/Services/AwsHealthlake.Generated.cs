@@ -33,7 +33,7 @@ public class AwsHealthlake : IAwsHealthlake
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws healthlake wait sub-commands.
     /// </summary>
     public AwsHealthlakeWait Wait => _wait ??= new AwsHealthlakeWait(_command);
 

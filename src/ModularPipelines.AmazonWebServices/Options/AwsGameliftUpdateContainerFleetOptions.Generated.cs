@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: Container Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deploy- ment. You can track deployments for a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html . NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new fleet. As...
+/// This API works with the following fleet types: Container Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deploy- ment. You can track deployments for a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html . NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image (AMI) version, can't be updated. You must create a new fleet. As...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsGameliftUpdateContainerFleetOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: Container Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deploy- ment. You can track deployments for a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html . NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new fleet. As...
+    /// This API works with the following fleet types: Container Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deploy- ment. You can track deployments for a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html . NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image (AMI) version, can't be updated. You must create a new fleet. As...
     /// </summary>
     /// <param name="FleetId">A unique identifier for the container fleet to update. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftUpdateContainerFleetOptions(
@@ -123,7 +123,7 @@ public record AwsGameliftUpdateContainerFleetOptions : AwsOptions, IValidatableO
     public AwsGameliftUpdateContainerFleetNewGameSessionProtectionPolicy? NewGameSessionProtectionPolicy { get; set; }
 
     /// <summary>
-    /// A policy that limits the number of game sessions that each individ- ual player can create on instances in this fleet. The limit applies for a specified span of time. NewGameSessionsPerCreator -&gt; (integer) A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy evaluates when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId ) has created fewer than game session limit in the specified time period. Constraints: o min: 0 PolicyPeriodInMinutes -&gt; (integer) The time span used in evaluating the resource creation limit policy. Constraints: o min: 0 Shorthand Syntax: NewGameSessionsPerCreator=integer,PolicyPeriodInMinutes=integer JSON Syntax: { "NewGameSessionsPerCreator": integer, "PolicyPeriodInMinutes": integer }
+    /// A policy that limits the number of game sessions that each individ- ual player can create on instances in this fleet. The limit applies for a specified span of time. NewGameSessionsPerCreator -&gt; (integer) A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy evaluates when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId ) has created fewer than the game session limit in the specified time period. Constraints: o min: 0 PolicyPeriodInMinutes -&gt; (integer) The time span used in evaluating the resource creation limit policy. Constraints: o min: 0 Shorthand Syntax: NewGameSessionsPerCreator=integer,PolicyPeriodInMinutes=integer JSON Syntax: { "NewGameSessionsPerCreator": integer, "PolicyPeriodInMinutes": integer }
     /// </summary>
     [CliOption("--game-session-creation-limit-policy")]
     public string? GameSessionCreationLimitPolicy { get; set; }

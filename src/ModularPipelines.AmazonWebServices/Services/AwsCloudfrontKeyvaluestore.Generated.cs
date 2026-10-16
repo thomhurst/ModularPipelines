@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws cloudfrontkeyvaluestore commands.
+/// aws cloudfront-keyvaluestore commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCloudfrontKeyvaluestore : IAwsCloudfrontKeyvaluestore

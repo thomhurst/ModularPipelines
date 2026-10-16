@@ -71,6 +71,7 @@ public record AwsWickrGetOidcInfoOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The authorization code for retrieving access tokens (optional). Constraints: o pattern: [\S\s]*
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; set; }
 
@@ -102,6 +103,7 @@ public record AwsWickrGetOidcInfoOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The PKCE code verifier for enhanced security in the OAuth flow (op- tional). Constraints: o pattern: [\S\s]*
     /// </summary>
+    [SecretValue]
     [CliOption("--code-verifier")]
     public string? CodeVerifier { get; set; }
 

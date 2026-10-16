@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves additional game session properties, including the game ses- sion protection policy in force, a set of one or more game sessions in a specific fleet location. You can optionally filter the results by current game session status. This operation can be used in the following ways: o To retrieve details for all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID, with an o...
+/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves additional game session properties, including the game ses- sion protection policy in force, for a set of one or more game sessions in a specific fleet location. You can optionally filter the results by current game session status. This operation can be used in the following ways: o To retrieve details for all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID, with ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

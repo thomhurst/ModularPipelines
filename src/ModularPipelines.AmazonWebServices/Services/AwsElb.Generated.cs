@@ -33,7 +33,7 @@ public class AwsElb : IAwsElb
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elb wait sub-commands.
     /// </summary>
     public AwsElbWait Wait => _wait ??= new AwsElbWait(_command);
 

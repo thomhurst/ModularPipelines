@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ssmincidents commands.
+/// aws ssm-incidents commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSsmIncidents : IAwsSsmIncidents
@@ -33,7 +33,7 @@ public class AwsSsmIncidents : IAwsSsmIncidents
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ssm-incidents wait sub-commands.
     /// </summary>
     public AwsSsmIncidentsWait Wait => _wait ??= new AwsSsmIncidentsWait(_command);
 

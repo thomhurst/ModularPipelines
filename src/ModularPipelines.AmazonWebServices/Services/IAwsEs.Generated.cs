@@ -28,8 +28,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptInboundCrossClusterSearchConnectionAsync(AwsEsAcceptInboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptInboundCrossClusterSearchConnectionAsync(AwsEsAcceptInboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See Tagging Amazon Elasticsearch Service Domains for more in- formation. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddTagsAsync(AwsEsAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddTagsAsync(AwsEsAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a package with an Amazon ES domain. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociatePackageAsync(AwsEsAssociatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociatePackageAsync(AwsEsAssociatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeVpcEndpointAccessAsync(AwsEsAuthorizeVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeVpcEndpointAccessAsync(AwsEsAuthorizeVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a pending configuration change on an Amazon OpenSearch Service domain. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelDomainConfigChangeAsync(AwsEsCancelDomainConfigChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelDomainConfigChangeAsync(AwsEsCancelDomainConfigChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelElasticsearchServiceSoftwareUpdateAsync(AwsEsCancelElasticsearchServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelElasticsearchServiceSoftwareUpdateAsync(AwsEsCancelElasticsearchServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Elasticsearch domain. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide . See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateElasticsearchDomainAsync(AwsEsCreateElasticsearchDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateElasticsearchDomainAsync(AwsEsCreateElasticsearchDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new cross-cluster search connection from a source domain to a destination domain. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOutboundCrossClusterSearchConnectionAsync(AwsEsCreateOutboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOutboundCrossClusterSearchConnectionAsync(AwsEsCreateOutboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a package for use with Amazon ES domains. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePackageAsync(AwsEsCreatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePackageAsync(AwsEsCreatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcEndpointAsync(AwsEsCreateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcEndpointAsync(AwsEsCreateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteElasticsearchDomainAsync(AwsEsDeleteElasticsearchDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteElasticsearchDomainAsync(AwsEsDeleteElasticsearchDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the service-linked role that Elasticsearch Service uses to man- age and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch do- mains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains . See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteElasticsearchServiceRoleAsync(AwsEsDeleteElasticsearchServiceRoleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteElasticsearchServiceRoleAsync(AwsEsDeleteElasticsearchServiceRoleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows the destination domain owner to delete an existing inbound cross-cluster search connection. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInboundCrossClusterSearchConnectionAsync(AwsEsDeleteInboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInboundCrossClusterSearchConnectionAsync(AwsEsDeleteInboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows the source domain owner to delete an existing outbound cross-cluster search connection. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOutboundCrossClusterSearchConnectionAsync(AwsEsDeleteOutboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOutboundCrossClusterSearchConnectionAsync(AwsEsDeleteOutboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the package. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePackageAsync(AwsEsDeletePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePackageAsync(AwsEsDeletePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcEndpointAsync(AwsEsDeleteVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcEndpointAsync(AwsEsDeleteVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides scheduled Auto-Tune action details for the Elasticsearch do- main, such as Auto-Tune action type, description, severity, and sched- uled date. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainAutoTunesAsync(AwsEsDescribeDomainAutoTunesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainAutoTunesAsync(AwsEsDescribeDomainAutoTunesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainChangeProgressAsync(AwsEsDescribeDomainChangeProgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainChangeProgressAsync(AwsEsDescribeDomainChangeProgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides cluster configuration information about the specified Elastic- search domain, such as the state, creation date, update version, and update date for cluster options. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeElasticsearchDomainConfigAsync(AwsEsDescribeElasticsearchDomainConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeElasticsearchDomainConfigAsync(AwsEsDescribeElasticsearchDomainConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns domain configuration information about the specified Elastic- search domain, including the domain ID, domain endpoint, and domain ARN. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeElasticsearchDomainAsync(AwsEsDescribeElasticsearchDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeElasticsearchDomainAsync(AwsEsDescribeElasticsearchDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns domain configuration information about the specified Elastic- search domains, including the domain ID, domain endpoint, and domain ARN. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeElasticsearchDomainsAsync(AwsEsDescribeElasticsearchDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeElasticsearchDomainsAsync(AwsEsDescribeElasticsearchDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe Elasticsearch Limits for a given InstanceType and Elastic- searchVersion. When modifying existing Domain, specify the `` Domain- Name `` to know what Limits are supported for modifying. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeElasticsearchInstanceTypeLimitsAsync(AwsEsDescribeElasticsearchInstanceTypeLimitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeElasticsearchInstanceTypeLimitsAsync(AwsEsDescribeElasticsearchInstanceTypeLimitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the inbound cross-cluster search connections for a destina- tion domain. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInboundCrossClusterSearchConnectionsAsync(AwsEsDescribeInboundCrossClusterSearchConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInboundCrossClusterSearchConnectionsAsync(AwsEsDescribeInboundCrossClusterSearchConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the outbound cross-cluster search connections for a source domain. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOutboundCrossClusterSearchConnectionsAsync(AwsEsDescribeOutboundCrossClusterSearchConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOutboundCrossClusterSearchConnectionsAsync(AwsEsDescribeOutboundCrossClusterSearchConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePackagesAsync(AwsEsDescribePackagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePackagesAsync(AwsEsDescribePackagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists available reserved Elasticsearch instance offerings. See also: AWS API Documentation describe-reserved-elasticsearch-instance-offerings is a paginated oper- ation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: Reserve...
@@ -278,8 +253,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedElasticsearchInstanceOfferingsAsync(AwsEsDescribeReservedElasticsearchInstanceOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedElasticsearchInstanceOfferingsAsync(AwsEsDescribeReservedElasticsearchInstanceOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about reserved Elasticsearch instances for this ac- count. See also: AWS API Documentation describe-reserved-elasticsearch-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressio...
@@ -288,8 +262,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedElasticsearchInstancesAsync(AwsEsDescribeReservedElasticsearchInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedElasticsearchInstancesAsync(AwsEsDescribeReservedElasticsearchInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointsAsync(AwsEsDescribeVpcEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointsAsync(AwsEsDescribeVpcEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Dissociates a package from the Amazon ES domain. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DissociatePackageAsync(AwsEsDissociatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DissociatePackageAsync(AwsEsDissociatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of upgrade compatible Elastisearch versions. You can op- tionally pass a `` DomainName `` to get all upgrade compatible Elas- ticsearch versions for that specific domain. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCompatibleElasticsearchVersionsAsync(AwsEsGetCompatibleElasticsearchVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCompatibleElasticsearchVersionsAsync(AwsEsGetCompatibleElasticsearchVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of versions of the package, along with their creation time and commit message. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPackageVersionHistoryAsync(AwsEsGetPackageVersionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPackageVersionHistoryAsync(AwsEsGetPackageVersionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the complete history of the last 10 upgrades that were per- formed on the domain. See also: AWS API Documentation get-upgrade-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UpgradeHi...
@@ -338,8 +307,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUpgradeHistoryAsync(AwsEsGetUpgradeHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUpgradeHistoryAsync(AwsEsGetUpgradeHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUpgradeStatusAsync(AwsEsGetUpgradeStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUpgradeStatusAsync(AwsEsGetUpgradeStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the name of all Elasticsearch domains owned by the current user's account. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainNamesAsync(AwsEsListDomainNamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainNamesAsync(AwsEsListDomainNamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Amazon ES domains associated with the package. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainsForPackageAsync(AwsEsListDomainsForPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainsForPackageAsync(AwsEsListDomainsForPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion See also: AWS API Documentation list-elasticsearch-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
@@ -378,8 +343,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListElasticsearchInstanceTypesAsync(AwsEsListElasticsearchInstanceTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListElasticsearchInstanceTypesAsync(AwsEsListElasticsearchInstanceTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all supported Elasticsearch versions See also: AWS API Documentation list-elasticsearch-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ElasticsearchVersions
@@ -388,8 +352,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListElasticsearchVersionsAsync(AwsEsListElasticsearchVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListElasticsearchVersionsAsync(AwsEsListElasticsearchVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all packages associated with the Amazon ES domain. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackagesForDomainAsync(AwsEsListPackagesForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPackagesForDomainAsync(AwsEsListPackagesForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all tags for the given Elasticsearch domain. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsAsync(AwsEsListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsAsync(AwsEsListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcEndpointAccessAsync(AwsEsListVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcEndpointAccessAsync(AwsEsListVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associ- ated with a particular domain. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcEndpointsForDomainAsync(AwsEsListVpcEndpointsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcEndpointsForDomainAsync(AwsEsListVpcEndpointsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcEndpointsAsync(AwsEsListVpcEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcEndpointsAsync(AwsEsListVpcEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to purchase reserved Elasticsearch instances. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseReservedElasticsearchInstanceOfferingAsync(AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseReservedElasticsearchInstanceOfferingAsync(AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows the destination domain owner to reject an inbound cross-cluster search connection request. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectInboundCrossClusterSearchConnectionAsync(AwsEsRejectInboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectInboundCrossClusterSearchConnectionAsync(AwsEsRejectInboundCrossClusterSearchConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified set of tags from the specified Elasticsearch do- main. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveTagsAsync(AwsEsRemoveTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveTagsAsync(AwsEsRemoveTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeVpcEndpointAccessAsync(AwsEsRevokeVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeVpcEndpointAccessAsync(AwsEsRevokeVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules a service software update for an Amazon ES domain. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartElasticsearchServiceSoftwareUpdateAsync(AwsEsStartElasticsearchServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartElasticsearchServiceSoftwareUpdateAsync(AwsEsStartElasticsearchServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the cluster configuration of the specified Elasticsearch do- main, setting as setting the instance type and the number of instances. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateElasticsearchDomainConfigAsync(AwsEsUpdateElasticsearchDomainConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateElasticsearchDomainConfigAsync(AwsEsUpdateElasticsearchDomainConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a package for use with Amazon ES domains. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePackageAsync(AwsEsUpdatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePackageAsync(AwsEsUpdatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVpcEndpointAsync(AwsEsUpdateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVpcEndpointAsync(AwsEsUpdateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to either upgrade your domain or perform an Upgrade eligi- bility check to a compatible Elasticsearch version. See also: AWS API Documentation
@@ -528,7 +478,6 @@ public interface IAwsEs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpgradeElasticsearchDomainAsync(AwsEsUpgradeElasticsearchDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpgradeElasticsearchDomainAsync(AwsEsUpgradeElasticsearchDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

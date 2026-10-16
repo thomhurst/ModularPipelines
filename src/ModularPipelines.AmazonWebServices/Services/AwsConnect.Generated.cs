@@ -557,6 +557,21 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
+    /// Creates a named alias that points to a specific version of a flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateContactFlowAliasAsync(
+        AwsConnectCreateContactFlowAliasOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Creates a named alias that points to a specific version of a contact flow module. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -617,7 +632,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. This API only supports creating ver- sions for flows of type Campaign . See also: AWS API Documentation
+    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1180,6 +1195,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteContactEvaluationAsync(
         AwsConnectDeleteContactEvaluationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes an alias from a flow without deleting the version that the alias points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteContactFlowAliasAsync(
+        AwsConnectDeleteContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1795,6 +1825,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeContactEvaluationAsync(
         AwsConnectDescribeContactEvaluationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about a specific flow alias, including the version that it points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeContactFlowAliasAsync(
+        AwsConnectDescribeContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -2995,6 +3040,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListContactEvaluationsAsync(
         AwsConnectListContactEvaluationsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the aliases associated with a flow, including the version that each alias points to. See also: AWS API Documentation list-contact-flow-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Co...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListContactFlowAliasesAsync(
+        AwsConnectListContactFlowAliasesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -5020,6 +5080,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateContactEvaluationAsync(
         AwsConnectUpdateContactEvaluationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the name, description, or flow version associated with an alias. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateContactFlowAliasAsync(
+        AwsConnectUpdateContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

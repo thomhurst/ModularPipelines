@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws customerprofiles commands.
+/// aws customer-profiles commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddProfileKeyAsync(AwsCustomerProfilesAddProfileKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddProfileKeyAsync(AwsCustomerProfilesAddProfileKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an Amazon Kinesis data stream to receive segment membership events for a given domain. This is a domain-level configuration that applies to all segment subscriptions within the domain. A domain can have only one associated stream at a time. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateStreamForSegmentsAsync(AwsCustomerProfilesAssociateStreamForSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateStreamForSegmentsAsync(AwsCustomerProfilesAssociateStreamForSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetCalculatedAttributeForProfileAsync(AwsCustomerProfilesBatchGetCalculatedAttributeForProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetCalculatedAttributeForProfileAsync(AwsCustomerProfilesBatchGetCalculatedAttributeForProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a batch of profiles. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetProfileAsync(AwsCustomerProfilesBatchGetProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetProfileAsync(AwsCustomerProfilesBatchGetProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds multiple profile objects to a domain of a given ObjectType in a single API call. When adding a specific profile object, like a Contact Record, an in- ferred profile can get created if it is not mapped to an existing pro- file. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already ex- i...
@@ -68,8 +64,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutProfileObjectAsync(AwsCustomerProfilesBatchPutProfileObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchPutProfileObjectAsync(AwsCustomerProfilesBatchPutProfileObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new calculated attribute definition. After creation, new ob- ject data ingested into Customer Profiles will be included in the cal- culated attribute, which can be retrieved for a profile using the GetCalculatedAttributeForProfile API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCalculatedAttributeDefinitionAsync(AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCalculatedAttributeDefinitionAsync(AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainLayoutAsync(AwsCustomerProfilesCreateDomainLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainLayoutAsync(AwsCustomerProfilesCreateDomainLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multi- ple third-party integrations. Each Connect Customer instance can be associated with only one domain. Multiple Connect Customer instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution : set Match- ing to true. To prevent cross-service imper...
@@ -98,8 +91,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainAsync(AwsCustomerProfilesCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainAsync(AwsCustomerProfilesCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Connect Customer Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEventStreamAsync(AwsCustomerProfilesCreateEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEventStreamAsync(AwsCustomerProfilesCreateEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an event trigger, which specifies the rules when to perform ac- tion based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEventTriggerAsync(AwsCustomerProfilesCreateEventTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEventTriggerAsync(AwsCustomerProfilesCreateEventTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for on- going updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIntegrationWorkflowAsync(AwsCustomerProfilesCreateIntegrationWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIntegrationWorkflowAsync(AwsCustomerProfilesCreateIntegrationWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProfileAsync(AwsCustomerProfilesCreateProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProfileAsync(AwsCustomerProfilesCreateProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a recommender filter. A recommender filter specifies which items to include or exclude from recommendations. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRecommenderFilterAsync(AwsCustomerProfilesCreateRecommenderFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRecommenderFilterAsync(AwsCustomerProfilesCreateRecommenderFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a recommender See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRecommenderAsync(AwsCustomerProfilesCreateRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRecommenderAsync(AwsCustomerProfilesCreateRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a recommender schema. A recommender schema defines the set of data columns available for training recommenders and filters under a domain. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRecommenderSchemaAsync(AwsCustomerProfilesCreateRecommenderSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRecommenderSchemaAsync(AwsCustomerProfilesCreateRecommenderSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a segment definition associated to the given domain. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSegmentDefinitionAsync(AwsCustomerProfilesCreateSegmentDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSegmentDefinitionAsync(AwsCustomerProfilesCreateSegmentDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a segment estimate query. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSegmentEstimateAsync(AwsCustomerProfilesCreateSegmentEstimateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSegmentEstimateAsync(AwsCustomerProfilesCreateSegmentEstimateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Triggers a job to export a segment to a specified destination. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSegmentSnapshotAsync(AwsCustomerProfilesCreateSegmentSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSegmentSnapshotAsync(AwsCustomerProfilesCreateSegmentSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Upload job to ingest data for segment imports. The metadata is created for the job with the provided field mapping and unique key. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUploadJobAsync(AwsCustomerProfilesCreateUploadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUploadJobAsync(AwsCustomerProfilesCreateUploadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCalculatedAttributeDefinitionAsync(AwsCustomerProfilesDeleteCalculatedAttributeDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCalculatedAttributeDefinitionAsync(AwsCustomerProfilesDeleteCalculatedAttributeDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainLayoutAsync(AwsCustomerProfilesDeleteDomainLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainLayoutAsync(AwsCustomerProfilesDeleteDomainLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a DomainObjectType for the given Domain and ObjectType name. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainObjectTypeAsync(AwsCustomerProfilesDeleteDomainObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainObjectTypeAsync(AwsCustomerProfilesDeleteDomainObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific domain and all of its customer data, such as cus- tomer profile attributes and their related objects. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainAsync(AwsCustomerProfilesDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainAsync(AwsCustomerProfilesDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables and deletes the specified event stream. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEventStreamAsync(AwsCustomerProfilesDeleteEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEventStreamAsync(AwsCustomerProfilesDeleteEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disable and deletes the Event Trigger. NOTE: You cannot delete an Event Trigger with an active Integration asso- ciated. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEventTriggerAsync(AwsCustomerProfilesDeleteEventTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEventTriggerAsync(AwsCustomerProfilesDeleteEventTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an integration from a specific domain. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntegrationAsync(AwsCustomerProfilesDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntegrationAsync(AwsCustomerProfilesDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a searchable key from a customer profile. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProfileKeyAsync(AwsCustomerProfilesDeleteProfileKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProfileKeyAsync(AwsCustomerProfilesDeleteProfileKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an object associated with a profile of a given ProfileObject- Type. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProfileObjectAsync(AwsCustomerProfilesDeleteProfileObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProfileObjectAsync(AwsCustomerProfilesDeleteProfileObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileOb- jectType. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProfileObjectTypeAsync(AwsCustomerProfilesDeleteProfileObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProfileObjectTypeAsync(AwsCustomerProfilesDeleteProfileObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the standard customer profile and all data pertaining to the profile. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProfileAsync(AwsCustomerProfilesDeleteProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProfileAsync(AwsCustomerProfilesDeleteProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a recommender filter from a domain. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecommenderFilterAsync(AwsCustomerProfilesDeleteRecommenderFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecommenderFilterAsync(AwsCustomerProfilesDeleteRecommenderFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a recommender. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecommenderAsync(AwsCustomerProfilesDeleteRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecommenderAsync(AwsCustomerProfilesDeleteRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a recommender schema from a domain. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecommenderSchemaAsync(AwsCustomerProfilesDeleteRecommenderSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecommenderSchemaAsync(AwsCustomerProfilesDeleteRecommenderSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a segment definition from the domain. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSegmentDefinitionAsync(AwsCustomerProfilesDeleteSegmentDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSegmentDefinitionAsync(AwsCustomerProfilesDeleteSegmentDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a segment subscription for membership events. All active event notifications for this segment are stopped. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSegmentSubscriptionAsync(AwsCustomerProfilesDeleteSegmentSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSegmentSubscriptionAsync(AwsCustomerProfilesDeleteSegmentSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified workflow and all its corresponding resources. This is an async process. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkflowAsync(AwsCustomerProfilesDeleteWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkflowAsync(AwsCustomerProfilesDeleteWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The process of detecting profile object type mapping by using given ob- jects. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectProfileObjectTypeAsync(AwsCustomerProfilesDetectProfileObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectProfileObjectTypeAsync(AwsCustomerProfilesDetectProfileObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the Amazon Kinesis data stream configured for segment membership events. All active segment subscriptions delivering events to this stream are eventually stopped. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateStreamForSegmentsAsync(AwsCustomerProfilesDisassociateStreamForSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateStreamForSegmentsAsync(AwsCustomerProfilesDisassociateStreamForSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sam- ple, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would b...
@@ -408,8 +370,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutoMergingPreviewAsync(AwsCustomerProfilesGetAutoMergingPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutoMergingPreviewAsync(AwsCustomerProfilesGetAutoMergingPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides more information on a calculated attribute definition for Cus- tomer Profiles. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCalculatedAttributeDefinitionAsync(AwsCustomerProfilesGetCalculatedAttributeDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCalculatedAttributeDefinitionAsync(AwsCustomerProfilesGetCalculatedAttributeDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a calculated attribute for a customer profile. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCalculatedAttributeForProfileAsync(AwsCustomerProfilesGetCalculatedAttributeForProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCalculatedAttributeForProfileAsync(AwsCustomerProfilesGetCalculatedAttributeForProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainLayoutAsync(AwsCustomerProfilesGetDomainLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainLayoutAsync(AwsCustomerProfilesGetDomainLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Return a DomainObjectType for the input Domain and ObjectType names. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainObjectTypeAsync(AwsCustomerProfilesGetDomainObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainObjectTypeAsync(AwsCustomerProfilesGetDomainObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific domain. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainAsync(AwsCustomerProfilesGetDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainAsync(AwsCustomerProfilesGetDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified event stream in a specific do- main. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEventStreamAsync(AwsCustomerProfilesGetEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEventStreamAsync(AwsCustomerProfilesGetEventStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a specific Event Trigger from the domain. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEventTriggerAsync(AwsCustomerProfilesGetEventTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEventTriggerAsync(AwsCustomerProfilesGetEventTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an Identity Resolution Job in a specific do- main. Identity Resolution Jobs are set up using the Amazon Connect admin con- sole. For more information, see Use Identity Resolution to consolidate similar profiles . See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityResolutionJobAsync(AwsCustomerProfilesGetIdentityResolutionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityResolutionJobAsync(AwsCustomerProfilesGetIdentityResolutionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an integration for a domain. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIntegrationAsync(AwsCustomerProfilesGetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIntegrationAsync(AwsCustomerProfilesGetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Before calling this API, use CreateDomain or UpdateDomain to enable identity resolution: set Matching to true. GetMatches returns potentially matching profiles, based on the results of the latest run of a machine learning process. WARNING: The process of matching duplicate profiles. If Matching = true , Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every S...
@@ -508,8 +460,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMatchesAsync(AwsCustomerProfilesGetMatchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMatchesAsync(AwsCustomerProfilesGetMatchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a con- sistent snapshot of your attribute data characteristics. NOTE: You'll receive null valu...
@@ -518,8 +469,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectTypeAttributeStatisticsAsync(AwsCustomerProfilesGetObjectTypeAttributeStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectTypeAttributeStatisticsAsync(AwsCustomerProfilesGetObjectTypeAttributeStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a history record for a specific profile, for a specific domain. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileHistoryRecordAsync(AwsCustomerProfilesGetProfileHistoryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProfileHistoryRecordAsync(AwsCustomerProfilesGetProfileHistoryRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the object types for a specific domain. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileObjectTypeAsync(AwsCustomerProfilesGetProfileObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProfileObjectTypeAsync(AwsCustomerProfilesGetProfileObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as Salesforce-Ac- count or Salesforce-Contact. When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileObjectTypeTemplateAsync(AwsCustomerProfilesGetProfileObjectTypeTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProfileObjectTypeTemplateAsync(AwsCustomerProfilesGetProfileObjectTypeTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetches the recommendations for a profile in the input Customer Pro- files domain. Fetches all the profile recommendations See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileRecommendationsAsync(AwsCustomerProfilesGetProfileRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProfileRecommendationsAsync(AwsCustomerProfilesGetProfileRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific recommender filter in a domain. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommenderFilterAsync(AwsCustomerProfilesGetRecommenderFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommenderFilterAsync(AwsCustomerProfilesGetRecommenderFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a recommender. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommenderAsync(AwsCustomerProfilesGetRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommenderAsync(AwsCustomerProfilesGetRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific recommender schema in a domain. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommenderSchemaAsync(AwsCustomerProfilesGetRecommenderSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommenderSchemaAsync(AwsCustomerProfilesGetRecommenderSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a segment definition from the domain. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentDefinitionAsync(AwsCustomerProfilesGetSegmentDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentDefinitionAsync(AwsCustomerProfilesGetSegmentDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the result of a segment estimate query. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentEstimateAsync(AwsCustomerProfilesGetSegmentEstimateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentEstimateAsync(AwsCustomerProfilesGetSegmentEstimateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Determines if the given profiles are within a segment. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentMembershipAsync(AwsCustomerProfilesGetSegmentMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentMembershipAsync(AwsCustomerProfilesGetSegmentMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the latest status of a segment snapshot. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentSnapshotAsync(AwsCustomerProfilesGetSegmentSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentSnapshotAsync(AwsCustomerProfilesGetSegmentSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current subscription configuration, execution schedule, and status for segment membership events. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSegmentSubscriptionAsync(AwsCustomerProfilesGetSegmentSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSegmentSubscriptionAsync(AwsCustomerProfilesGetSegmentSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId . You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING . See also: AWS API Documentation get-similar-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and...
@@ -648,8 +586,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSimilarProfilesAsync(AwsCustomerProfilesGetSimilarProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSimilarProfilesAsync(AwsCustomerProfilesGetSimilarProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the segment membership event stream config- ured for a specific domain, including the stream state and associated segments. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStreamForSegmentsAsync(AwsCustomerProfilesGetStreamForSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStreamForSegmentsAsync(AwsCustomerProfilesGetStreamForSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API retrieves the details of a specific upload job. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUploadJobAsync(AwsCustomerProfilesGetUploadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUploadJobAsync(AwsCustomerProfilesGetUploadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API retrieves the pre-signed URL and client token for uploading the file associated with the upload job. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUploadJobPathAsync(AwsCustomerProfilesGetUploadJobPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUploadJobPathAsync(AwsCustomerProfilesGetUploadJobPathOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get details of specified workflow. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkflowAsync(AwsCustomerProfilesGetWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkflowAsync(AwsCustomerProfilesGetWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get granular list of steps in workflow. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkflowStepsAsync(AwsCustomerProfilesGetWorkflowStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkflowStepsAsync(AwsCustomerProfilesGetWorkflowStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the integrations associated to a specific URI in the AWS account. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccountIntegrationsAsync(AwsCustomerProfilesListAccountIntegrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccountIntegrationsAsync(AwsCustomerProfilesListAccountIntegrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists calculated attribute definitions for Customer Profiles See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCalculatedAttributeDefinitionsAsync(AwsCustomerProfilesListCalculatedAttributeDefinitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCalculatedAttributeDefinitionsAsync(AwsCustomerProfilesListCalculatedAttributeDefinitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a list of calculated attributes for a customer profile. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCalculatedAttributesForProfileAsync(AwsCustomerProfilesListCalculatedAttributesForProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCalculatedAttributesForProfileAsync(AwsCustomerProfilesListCalculatedAttributesForProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the existing layouts that can be used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin web- site. See also: AWS API Documentation list-domain-layouts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
@@ -738,8 +667,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainLayoutsAsync(AwsCustomerProfilesListDomainLayoutsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainLayoutsAsync(AwsCustomerProfilesListDomainLayoutsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all DomainObjectType(s) in a Customer Profiles domain. See also: AWS API Documentation list-domain-object-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
@@ -748,8 +676,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainObjectTypesAsync(AwsCustomerProfilesListDomainObjectTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainObjectTypesAsync(AwsCustomerProfilesListDomainObjectTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all the domains for an AWS account that have been created. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainsAsync(AwsCustomerProfilesListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainsAsync(AwsCustomerProfilesListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all the event streams in a specific domain. See also: AWS API Documentation list-event-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -768,8 +694,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEventStreamsAsync(AwsCustomerProfilesListEventStreamsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEventStreamsAsync(AwsCustomerProfilesListEventStreamsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Event Triggers under a domain. See also: AWS API Documentation list-event-triggers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -778,8 +703,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEventTriggersAsync(AwsCustomerProfilesListEventTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEventTriggersAsync(AwsCustomerProfilesListEventTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime . See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdentityResolutionJobsAsync(AwsCustomerProfilesListIdentityResolutionJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdentityResolutionJobsAsync(AwsCustomerProfilesListIdentityResolutionJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the integrations in your domain. See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIntegrationsAsync(AwsCustomerProfilesListIntegrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIntegrationsAsync(AwsCustomerProfilesListIntegrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation list-object-type-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -808,8 +730,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectTypeAttributesAsync(AwsCustomerProfilesListObjectTypeAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectTypeAttributesAsync(AwsCustomerProfilesListObjectTypeAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The ListObjectTypeAttributeValues API provides access to the most re- cent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and stan- dard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectTypeAttributeValuesAsync(AwsCustomerProfilesListObjectTypeAttributeValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectTypeAttributeValuesAsync(AwsCustomerProfilesListObjectTypeAttributeValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfileAttributeValuesAsync(AwsCustomerProfilesListProfileAttributeValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfileAttributeValuesAsync(AwsCustomerProfilesListProfileAttributeValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of history records for a specific profile, for a spe- cific domain. See also: AWS API Documentation
@@ -838,8 +757,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfileHistoryRecordsAsync(AwsCustomerProfilesListProfileHistoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfileHistoryRecordsAsync(AwsCustomerProfilesListProfileHistoryRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of objects associated with a profile of a given Pro- fileObjectType. See also: AWS API Documentation
@@ -848,8 +766,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfileObjectsAsync(AwsCustomerProfilesListProfileObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfileObjectsAsync(AwsCustomerProfilesListProfileObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the templates available within the service. See also: AWS API Documentation
@@ -858,8 +775,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfileObjectTypesAsync(AwsCustomerProfilesListProfileObjectTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfileObjectTypesAsync(AwsCustomerProfilesListProfileObjectTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the template information for object types. See also: AWS API Documentation
@@ -868,8 +784,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfileObjectTypeTemplatesAsync(AwsCustomerProfilesListProfileObjectTypeTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfileObjectTypeTemplatesAsync(AwsCustomerProfilesListProfileObjectTypeTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of recommender filters in the specified domain. See also: AWS API Documentation list-recommender-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RecommenderFilters
@@ -878,8 +793,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommenderFiltersAsync(AwsCustomerProfilesListRecommenderFiltersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommenderFiltersAsync(AwsCustomerProfilesListRecommenderFiltersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of available recommender recipes that can be used to create recommenders. See also: AWS API Documentation list-recommender-recipes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Recom...
@@ -888,8 +802,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommenderRecipesAsync(AwsCustomerProfilesListRecommenderRecipesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommenderRecipesAsync(AwsCustomerProfilesListRecommenderRecipesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of recommender schemas in the specified domain. See also: AWS API Documentation list-recommender-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RecommenderSchemas
@@ -898,8 +811,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommenderSchemasAsync(AwsCustomerProfilesListRecommenderSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommenderSchemasAsync(AwsCustomerProfilesListRecommenderSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of recommenders in the specified domain. See also: AWS API Documentation list-recommenders is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Recommenders
@@ -908,8 +820,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendersAsync(AwsCustomerProfilesListRecommendersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendersAsync(AwsCustomerProfilesListRecommendersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a set of MatchIds that belong to the given domain. See also: AWS API Documentation list-rule-based-matches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MatchIds
@@ -918,8 +829,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRuleBasedMatchesAsync(AwsCustomerProfilesListRuleBasedMatchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRuleBasedMatchesAsync(AwsCustomerProfilesListRuleBasedMatchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all segment definitions under a domain. See also: AWS API Documentation list-segment-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
@@ -928,8 +838,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSegmentDefinitionsAsync(AwsCustomerProfilesListSegmentDefinitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSegmentDefinitionsAsync(AwsCustomerProfilesListSegmentDefinitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the most recent membership events for a segment. Each event represents a profile that entered or exited the segment. This operation is paginated. See also: AWS API Documentation list-segment-subscription-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
@@ -938,8 +847,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSegmentSubscriptionEventsAsync(AwsCustomerProfilesListSegmentSubscriptionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSegmentSubscriptionEventsAsync(AwsCustomerProfilesListSegmentSubscriptionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCustomerProfilesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCustomerProfilesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API retrieves a list of upload jobs for the specified domain. See also: AWS API Documentation list-upload-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
@@ -958,8 +865,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUploadJobsAsync(AwsCustomerProfilesListUploadJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUploadJobsAsync(AwsCustomerProfilesListUploadJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Query to list all workflows. See also: AWS API Documentation
@@ -968,8 +874,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkflowsAsync(AwsCustomerProfilesListWorkflowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkflowsAsync(AwsCustomerProfilesListWorkflowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Runs an AWS Lambda job that does the following: o All the profileKeys in the ProfileToBeMerged will be moved to the main profile. o All the objects in the ProfileToBeMerged will be moved to the main profile. o All the ProfileToBeMerged will be deleted at the end. o All the profileKeys in the ProfileIdsToBeMerged will be moved to the main profile. o Standard fields are merged as follows: o Fields are always "union"-ed if there are no conflicts in standard fields or attributeKeys. o When there are...
@@ -978,8 +883,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MergeProfilesAsync(AwsCustomerProfilesMergeProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MergeProfilesAsync(AwsCustomerProfilesMergeProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create/Update a DomainObjectType in a Customer Profiles domain. To cre- ate a new DomainObjectType, Data Store needs to be enabled on the Do- main. See also: AWS API Documentation
@@ -988,8 +892,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDomainObjectTypeAsync(AwsCustomerProfilesPutDomainObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDomainObjectTypeAsync(AwsCustomerProfilesPutDomainObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see TagResource /- UntagResource . See also: AWS API Documentation
@@ -998,8 +901,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutIntegrationAsync(AwsCustomerProfilesPutIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutIntegrationAsync(AwsCustomerProfilesPutIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Record, an in- ferred profile can get created if it is not mapped to an existing pro- file. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already ex- ists for the Profil...
@@ -1008,8 +910,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutProfileObjectAsync(AwsCustomerProfilesPutProfileObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutProfileObjectAsync(AwsCustomerProfilesPutProfileObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see TagResource /- UntagResource . See also: AWS API Documentation
@@ -1018,8 +919,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutProfileObjectTypeAsync(AwsCustomerProfilesPutProfileObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutProfileObjectTypeAsync(AwsCustomerProfilesPutProfileObjectTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes. You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snap- shots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the n...
@@ -1028,8 +928,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSegmentSubscriptionAsync(AwsCustomerProfilesPutSegmentSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSegmentSubscriptionAsync(AwsCustomerProfilesPutSegmentSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for profiles within a specific domain using one or more prede- fined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic. See also: AWS API Documentation
@@ -1038,8 +937,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchProfilesAsync(AwsCustomerProfilesSearchProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchProfilesAsync(AwsCustomerProfilesSearchProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves recommendations for a profile in a specific domain. The pro- file is identified using a search key, which consists of a KeyName and a KeyValues list. The KeyName can be a predefined key (for example, _profileId , _phone , _email ) or a custom-defined key. The search key must match exactly one profile. If no profile matches the search key, the operation returns a ResourceNotFoundException . If more than one profile matches the search key, the operation returns a BadRequestException . Yo...
@@ -1048,8 +946,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchRecommendationsAsync(AwsCustomerProfilesSearchRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchRecommendationsAsync(AwsCustomerProfilesSearchRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a recommender that was previously stopped. Starting a recom- mender resumes its ability to generate recommendations. See also: AWS API Documentation
@@ -1058,8 +955,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRecommenderAsync(AwsCustomerProfilesStartRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRecommenderAsync(AwsCustomerProfilesStartRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API starts the processing of an upload job to ingest profile data. See also: AWS API Documentation
@@ -1068,8 +964,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartUploadJobAsync(AwsCustomerProfilesStartUploadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartUploadJobAsync(AwsCustomerProfilesStartUploadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a recommender, suspending its ability to generate recommenda- tions. The recommender can be restarted later using StartRecommender. See also: AWS API Documentation
@@ -1078,8 +973,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRecommenderAsync(AwsCustomerProfilesStopRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopRecommenderAsync(AwsCustomerProfilesStopRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API stops the processing of an upload job. See also: AWS API Documentation
@@ -1088,8 +982,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopUploadJobAsync(AwsCustomerProfilesStopUploadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopUploadJobAsync(AwsCustomerProfilesStopUploadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Con- nect Customer Profiles resource. Tags can help you organize and catego- rize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with cer- tain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You...
@@ -1098,8 +991,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCustomerProfilesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCustomerProfilesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile ob- ject types, and integrations can be tagged. See also: AWS API Documentation
@@ -1108,8 +1000,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCustomerProfilesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCustomerProfilesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated at- tribute will not trigger inclusion of historical data greater than the current date range. See also: AWS API Documentation
@@ -1118,8 +1009,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCalculatedAttributeDefinitionAsync(AwsCustomerProfilesUpdateCalculatedAttributeDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCalculatedAttributeDefinitionAsync(AwsCustomerProfilesUpdateCalculatedAttributeDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website. See also: AWS API Documentation
@@ -1128,8 +1018,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainLayoutAsync(AwsCustomerProfilesUpdateDomainLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainLayoutAsync(AwsCustomerProfilesUpdateDomainLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name cant be changed. Use this API or CreateDomain to enable identity resolution : set Match- ing to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply. To add or remove tags on an existing Domain, see TagResource /- UntagResource . See also: AWS API Doc...
@@ -1138,8 +1027,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainAsync(AwsCustomerProfilesUpdateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainAsync(AwsCustomerProfilesUpdateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the properties of an Event Trigger. See also: AWS API Documentation
@@ -1148,8 +1036,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEventTriggerAsync(AwsCustomerProfilesUpdateEventTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEventTriggerAsync(AwsCustomerProfilesUpdateEventTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of a profile. The ProfileId is required for up- dating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept. See also: AWS API Documentation
@@ -1158,8 +1045,7 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProfileAsync(AwsCustomerProfilesUpdateProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProfileAsync(AwsCustomerProfilesUpdateProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of an existing recommender, allowing you to mod- ify its configuration and description. See also: AWS API Documentation
@@ -1168,7 +1054,6 @@ public interface IAwsCustomerProfiles
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecommenderAsync(AwsCustomerProfilesUpdateRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecommenderAsync(AwsCustomerProfilesUpdateRecommenderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -33,7 +33,7 @@ public class AwsLocation : IAwsLocation
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws location wait sub-commands.
     /// </summary>
     public AwsLocationWait Wait => _wait ??= new AwsLocationWait(_command);
 

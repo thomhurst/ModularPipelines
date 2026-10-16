@@ -33,7 +33,7 @@ public class AwsKinesis : IAwsKinesis
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws kinesis wait sub-commands.
     /// </summary>
     public AwsKinesisWait Wait => _wait ??= new AwsKinesisWait(_command);
 

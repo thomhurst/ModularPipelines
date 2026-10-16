@@ -31,7 +31,7 @@ public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions, I
     /// Creates a managed thing. A managed thing contains the device identi- fier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. ...
     /// </summary>
     /// <param name="Role">The type of device used. This will be the hub controller, cloud de- vice, or AWS IoT device. Possible values: o CONTROLLER o DEVICE</param>
-    /// <param name="AuthenticationMaterial">The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: o min: 1 o max: 512 o pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~\/: {},\\"]+</param>
+    /// <param name="AuthenticationMaterial">The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: o min: 1 o max: 512 o pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~//: {},\\"]+</param>
     /// <param name="AuthenticationMaterialType">The type of authentication material used for device connectivity setup requests. Possible values: o CUSTOM_PROTOCOL_QR_BAR_CODE o WIFI_SETUP_QR_BAR_CODE o ZWAVE_QR_BAR_CODE o ZIGBEE_QR_BAR_CODE o DISCOVERED_DEVICE o PRE_ONBOARDED_CLOUD</param>
     public AwsIotManagedIntegrationsCreateManagedThingOptions(
         AwsIotManagedIntegrationsCreateManagedThingRole Role,
@@ -71,7 +71,7 @@ public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions, I
     public AwsIotManagedIntegrationsCreateManagedThingRole? Role { get; private init; }
 
     /// <summary>
-    /// The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: o min: 1 o max: 512 o pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~\/: {},\\"]+
+    /// The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: o min: 1 o max: 512 o pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~//: {},\\"]+
     /// </summary>
     [CliOption("--authentication-material")]
     public string? AuthenticationMaterial { get; private init; }

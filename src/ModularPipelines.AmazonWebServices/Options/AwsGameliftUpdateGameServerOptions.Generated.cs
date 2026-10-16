@@ -79,7 +79,7 @@ public record AwsGameliftUpdateGameServerOptions : AwsOptions, IValidatableObjec
     public string? GameServerData { get; set; }
 
     /// <summary>
-    /// Indicates if the game server is available or is currently hosting gameplay. You can update a game server status from AVAILABLE to UTI- LIZED , but you can't change a the status from UTILIZED to AVAILABLE . Possible values: o AVAILABLE o UTILIZED
+    /// Indicates if the game server is available or is currently hosting gameplay. You can update a game server status from AVAILABLE to UTI- LIZED , but you can't change the status from UTILIZED to AVAILABLE . Possible values: o AVAILABLE o UTILIZED
     /// </summary>
     [CliOption("--utilization-status")]
     public AwsGameliftUpdateGameServerUtilizationStatus? UtilizationStatus { get; set; }

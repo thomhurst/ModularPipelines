@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws licensemanagerusersubscriptions commands.
+/// aws license-manager-user-subscriptions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscriptions

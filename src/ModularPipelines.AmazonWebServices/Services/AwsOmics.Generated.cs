@@ -33,7 +33,7 @@ public class AwsOmics : IAwsOmics
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws omics wait sub-commands.
     /// </summary>
     public AwsOmicsWait Wait => _wait ??= new AwsOmicsWait(_command);
 

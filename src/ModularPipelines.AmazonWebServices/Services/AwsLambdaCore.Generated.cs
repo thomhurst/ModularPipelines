@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws lambdacore commands.
+/// aws lambda-core commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLambdaCore : IAwsLambdaCore
@@ -47,7 +47,7 @@ public class AwsLambdaCore : IAwsLambdaCore
     }
 
     /// <summary>
-    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asyn- chronously. After deletion completes, subsequent calls to GetNetwork- Connector return ResourceNotFoundException . This operation is idempotent calling delete on a connector that is al- ready deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connec- tor, ensure that no Lambda MicroVM...
+    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asyn- chronously. After deletion completes, subsequent calls to GetNetwork- Connector return ResourceNotFoundException . This operation is idempotent calling delete on a connector that is al- ready deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connec- tor, ensure that no Lambda compute...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -89,6 +89,21 @@ public class AwsLambdaCore : IAwsLambdaCore
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaCoreListNetworkConnectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of the versions of a network connector. Each configuration update creates a new immutable version; this operation lists those versions for the connector you specify. You can optionally filter results by version state. Use the Marker parameter from a previ- ous response to retrieve the next page of results. Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (lat...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListNetworkConnectorVersionsAsync(
+        AwsLambdaCoreListNetworkConnectorVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

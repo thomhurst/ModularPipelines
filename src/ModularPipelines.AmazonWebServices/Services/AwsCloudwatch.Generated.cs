@@ -33,7 +33,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudwatch wait sub-commands.
     /// </summary>
     public AwsCloudwatchWait Wait => _wait ??= new AwsCloudwatchWait(_command);
 

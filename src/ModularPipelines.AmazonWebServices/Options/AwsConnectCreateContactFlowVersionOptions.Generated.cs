@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. This API only supports creating ver- sions for flows of type Campaign . See also: AWS API Documentation
+/// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsConnectCreateContactFlowVersionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. This API only supports creating ver- sions for flows of type Campaign . See also: AWS API Documentation
+    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
     /// <param name="ContactFlowId">The identifier of the flow.</param>

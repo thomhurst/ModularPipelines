@@ -62,7 +62,7 @@ public record AwsRoute53domainsCheckDomainAvailabilityOptions : AwsOptions, IVal
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Reserved for future use. Constraints: o pattern: |[A-Za-z]{2,3}
+    /// Reserved for future use. Constraints: o pattern: (|[A-Za-z]{2,3})
     /// </summary>
     [CliOption("--idn-lang-code")]
     public string? IdnLangCode { get; set; }

@@ -84,7 +84,7 @@ public record AwsSsoAdminUpdatePermissionSetOptions : AwsOptions, IValidatableOb
     public string? SessionDuration { get; set; }
 
     /// <summary>
-    /// Used to redirect users within the application during the federation authentication process. Constraints: o min: 1 o max: 240 o pattern: [a-zA-Z0-9&amp;$@#\\\/%?=~\-_'"|!:,.;*+\[\]\ \(\)\{\}]+
+    /// Used to redirect users within the application during the federation authentication process. Constraints: o min: 1 o max: 240 o pattern: [a-zA-Z0-9&amp;$@#\\\/%?=~/-_'"|!:,.;*+\[\]\ \(\)\{\}]+
     /// </summary>
     [CliOption("--relay-state")]
     public string? RelayState { get; set; }

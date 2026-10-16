@@ -28,8 +28,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessPointAsync(AwsEfsCreateAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessPointAsync(AwsEfsCreateAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new, empty file system. The operation requires a creation to- ken in the request that Amazon EFS uses to ensure idempotent creation (calling the operation with same creation token has no effect). If a file system does not currently exist that is owned by the caller's Ama- zon Web Services account with the specified creation token, this opera- tion does the following: o Creates a new, empty file system. The file system will have an Amazon EFS assigned ID, and an initial lifecycle state ...
@@ -38,8 +37,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFileSystemAsync(AwsEfsCreateFileSystemOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFileSystemAsync(AwsEfsCreateFileSystemOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple sub- nets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access ...
@@ -48,8 +46,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMountTargetAsync(AwsEfsCreateMountTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMountTargetAsync(AwsEfsCreateMountTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a replication conguration to either a new or existing EFS file system. For more information, see Amazon EFS replication in the Amazon EFS User Guide . The replication configuration specifies the following: o Source file system The EFS file system that you want to replicate. o Destination file system The destination file system to which the source file system is replicated. There can only be one destination file system in a replication configuration. NOTE: A file system can be part of onl...
@@ -58,8 +55,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReplicationConfigurationAsync(AwsEfsCreateReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReplicationConfigurationAsync(AwsEfsCreateReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified access point. After deletion is complete, new clients can no longer connect to the access points. Clients connected to the access point at the time of deletion will continue to function until they terminate their connection. This operation requires permissions for the elasticfilesystem:DeleteAc- cessPoint action. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessPointAsync(AwsEfsDeleteAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessPointAsync(AwsEfsDeleteAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a file system, permanently severing access to its contents. Upon return, the file system no longer exists and you can't access any contents of the deleted file system. You need to manually delete mount targets attached to a file system be- fore you can delete an EFS file system. This step is performed for you when you use the Amazon Web Services console to delete a file system. NOTE: You cannot delete a file system that is part of an EFS replication configuration. You need to delete the ...
@@ -78,8 +73,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFileSystemAsync(AwsEfsDeleteFileSystemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFileSystemAsync(AwsEfsDeleteFileSystemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the FileSystemPolicy for the specified file system. The default FileSystemPolicy goes into effect once the existing policy is deleted. For more information about the default file system policy, see Using Resource-based Policies with EFS . This operation requires permissions for the elasticfilesystem:Delete- FileSystemPolicy action. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFileSystemPolicyAsync(AwsEfsDeleteFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFileSystemPolicyAsync(AwsEfsDeleteFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified mount target. This operation forcibly breaks any mounts of the file system by using the mount target that is being deleted, which might disrupt instances or applications using those mounts. To avoid applications getting cut off abruptly, you might consider unmounting any mounts of the mount target, if feasible. The operation also deletes the associated network interface. Uncommitted writes might be lost, but breaking a mount tar- get using this operation does not corrupt th...
@@ -98,8 +91,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMountTargetAsync(AwsEfsDeleteMountTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMountTargetAsync(AwsEfsDeleteMountTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a replication configuration. Deleting a replication configura- tion ends the replication process. After a replication configuration is deleted, the destination file system becomes Writeable and its replica- tion overwrite protection is re-enabled. For more information, see Delete a replication configuration . This operation requires permissions for the elasticfilesys- tem:DeleteReplicationConfiguration action. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReplicationConfigurationAsync(AwsEfsDeleteReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReplicationConfigurationAsync(AwsEfsDeleteReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the description of a specific Amazon EFS access point if the AccessPointId is provided. If you provide an EFS FileSystemId , it re- turns descriptions of all access points for that file system. You can provide either an AccessPointId or a FileSystemId in the request, but not both. This operation requires permissions for the elasticfilesystem:De- scribeAccessPoints action. See also: AWS API Documentation describe-access-points is a paginated operation. Multiple API calls may be issued in ...
@@ -118,8 +109,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccessPointsAsync(AwsEfsDescribeAccessPointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccessPointsAsync(AwsEfsDescribeAccessPointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountPreferencesAsync(AwsEfsDescribeAccountPreferencesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountPreferencesAsync(AwsEfsDescribeAccountPreferencesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the backup policy for the specified EFS file system. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBackupPolicyAsync(AwsEfsDescribeBackupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBackupPolicyAsync(AwsEfsDescribeBackupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the FileSystemPolicy for the specified EFS file system. This operation requires permissions for the elasticfilesystem:De- scribeFileSystemPolicy action. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFileSystemPolicyAsync(AwsEfsDescribeFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFileSystemPolicyAsync(AwsEfsDescribeFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the description of a specific Amazon EFS file system if either the file system CreationToken or the FileSystemId is provided. Other- wise, it returns descriptions of all file systems owned by the caller's Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all file system descriptions, you can optionally spec- ify the MaxItems parameter to limit the number of descriptions in a re- sponse. This number is automatically set to 1...
@@ -158,8 +145,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFileSystemsAsync(AwsEfsDescribeFileSystemsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFileSystemsAsync(AwsEfsDescribeFileSystemsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current LifecycleConfiguration object for the specified EFS file system. Lifecycle management uses the LifecycleConfiguration ob- ject to identify when to move files between storage classes. For a file system without a LifecycleConfiguration object, the call returns an empty array in the response. This operation requires permissions for the elasticfilesystem:De- scribeLifecycleConfiguration operation. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLifecycleConfigurationAsync(AwsEfsDescribeLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLifecycleConfigurationAsync(AwsEfsDescribeLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the security groups currently in effect for a mount target. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted . This operation requires permissions for the following actions: o elasticfilesystem:DescribeMountTargetSecurityGroups action on the mount target's file system. o ec2:DescribeNetworkInterfaceAttribute action on the mount target's network interface. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMountTargetSecurityGroupsAsync(AwsEfsDescribeMountTargetSecurityGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMountTargetSecurityGroupsAsync(AwsEfsDescribeMountTargetSecurityGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the descriptions of all the current mount targets, or a spe- cific mount target, for a file system. When requesting all of the cur- rent mount targets, the order of mount targets returned in the response is unspecified. This operation requires permissions for the elasticfilesystem:Describe- MountTargets action, on either the file system ID that you specify in FileSystemId , or on the file system of the mount target that you spec- ify in MountTargetId . See also: AWS API Documentation des...
@@ -188,8 +172,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMountTargetsAsync(AwsEfsDescribeMountTargetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMountTargetsAsync(AwsEfsDescribeMountTargetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the replication configuration for a specific file system. If a file system is not specified, all of the replication configurations for the Amazon Web Services account in an Amazon Web Services Region are retrieved. See also: AWS API Documentation describe-replication-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output tex...
@@ -198,8 +181,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationConfigurationsAsync(AwsEfsDescribeReplicationConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationConfigurationsAsync(AwsEfsDescribeReplicationConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all tags for a top-level EFS resource. You must provide the ID of the resource that you want to retrieve the tags for. This operation requires permissions for the elasticfilesystem:De- scribeAccessPoints action. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsEfsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsEfsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget . This opera- tion replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount tar- get is not del...
@@ -218,8 +199,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyMountTargetSecurityGroupsAsync(AwsEfsModifyMountTargetSecurityGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyMountTargetSecurityGroupsAsync(AwsEfsModifyMountTargetSecurityGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 char- acter (32 bit) resource IDs for new EFS file system and mount target resources. All existing resource IDs are not affected by any changes you make. You can set the ID preference during the opt-in period as EFS transitions to long resource IDs. For more information, see Managing Amazon EFS resource IDs . NOTE: Starting in October, 2021, you will receive an ...
@@ -228,8 +208,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountPreferencesAsync(AwsEfsPutAccountPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountPreferencesAsync(AwsEfsPutAccountPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBackupPolicyAsync(AwsEfsPutBackupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBackupPolicyAsync(AwsEfsPutBackupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy is an IAM resource-based policy and can contain mul- tiple policy statements. A file system always has exactly one file sys- tem policy, which can be the default policy or an explicit policy set or updated using this API operation. EFS file system policies have a 20,000 character limit. When an explicit policy is set, it overrides the default policy. For more information about the default file system policy...
@@ -248,8 +226,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutFileSystemPolicyAsync(AwsEfsPutFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutFileSystemPolicyAsync(AwsEfsPutFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this action to manage storage for your file system. A LifecycleCon- figuration consists of one or more LifecyclePolicy objects that define the following: o ** TransitionToIA ** When to move files in the file system from primary storage (Standard storage class) into the Infrequent Access (IA) storage. System Message: WARNING/2 (&lt;string&gt;:, line 26) Inline strong start-string without end-string. o ** TransitionToArchive ** When to move files in the file system from their current storage class (...
@@ -258,8 +235,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutLifecycleConfigurationAsync(AwsEfsPutLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutLifecycleConfigurationAsync(AwsEfsPutLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a tag for an EFS resource. You can create tags for EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:TagRe- source action. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsEfsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsEfsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from an EFS resource. You can remove tags from EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:UntagRe- source action. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsEfsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsEfsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the throughput mode or the amount of provisioned throughput of an existing file system. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFileSystemAsync(AwsEfsUpdateFileSystemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFileSystemAsync(AwsEfsUpdateFileSystemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates protection on the file system. This operation requires permissions for the elasticfilesystem:Update- FileSystemProtection action. See also: AWS API Documentation
@@ -298,7 +271,6 @@ public interface IAwsEfs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFileSystemProtectionAsync(AwsEfsUpdateFileSystemProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFileSystemProtectionAsync(AwsEfsUpdateFileSystemProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

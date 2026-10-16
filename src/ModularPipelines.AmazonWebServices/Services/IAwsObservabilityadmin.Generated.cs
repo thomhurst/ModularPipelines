@@ -28,8 +28,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCentralizationRuleForOrganizationAsync(AwsObservabilityadminCreateCentralizationRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCentralizationRuleForOrganizationAsync(AwsObservabilityadminCreateCentralizationRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a dataset integration for the caller's account in the current region and returns its ARN. To use this operation, you must have permission to access the dataset integration resources through the IAM role specified in the RoleArn pa- rameter. If a dataset integration already exists for the account, this operation fails with a ConflictException . See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetIntegrationAsync(AwsObservabilityadminCreateDataSetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSetIntegrationAsync(AwsObservabilityadminCreateDataSetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using ana- lytics engines like Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateS3TableIntegrationAsync(AwsObservabilityadminCreateS3TableIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateS3TableIntegrationAsync(AwsObservabilityadminCreateS3TableIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through proces- sors to destinations, enabling data transformation and delivering capa- bilities. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTelemetryPipelineAsync(AwsObservabilityadminCreateTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTelemetryPipelineAsync(AwsObservabilityadminCreateTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a telemetry rule that applies across an Amazon Web Services Or- ganization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTelemetryRuleForOrganizationAsync(AwsObservabilityadminCreateTelemetryRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTelemetryRuleForOrganizationAsync(AwsObservabilityadminCreateTelemetryRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a telemetry rule that defines how telemetry should be config- ured for Amazon Web Services resources in your account. The rule speci- fies which resources should have telemetry enabled and how that teleme- try data should be collected based on resource type, telemetry type, and selection criteria. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTelemetryRuleAsync(AwsObservabilityadminCreateTelemetryRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTelemetryRuleAsync(AwsObservabilityadminCreateTelemetryRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCentralizationRuleForOrganizationAsync(AwsObservabilityadminDeleteCentralizationRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCentralizationRuleForOrganizationAsync(AwsObservabilityadminDeleteCentralizationRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same delete more than once, each call succeeds. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSetIntegrationAsync(AwsObservabilityadminDeleteDataSetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataSetIntegrationAsync(AwsObservabilityadminDeleteDataSetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteS3TableIntegrationAsync(AwsObservabilityadminDeleteS3TableIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteS3TableIntegrationAsync(AwsObservabilityadminDeleteS3TableIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a telemetry pipeline and its associated resources. This opera- tion stops data processing and removes the pipeline configuration. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTelemetryPipelineAsync(AwsObservabilityadminDeleteTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTelemetryPipelineAsync(AwsObservabilityadminDeleteTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated adminis- trator account. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTelemetryRuleForOrganizationAsync(AwsObservabilityadminDeleteTelemetryRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTelemetryRuleForOrganizationAsync(AwsObservabilityadminDeleteTelemetryRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a telemetry rule from your account. Any telemetry configura- tions previously created by the rule will remain but no new resources will be configured by this rule. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTelemetryRuleAsync(AwsObservabilityadminDeleteTelemetryRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTelemetryRuleAsync(AwsObservabilityadminDeleteTelemetryRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management ac- count or a delegated administrator account. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCentralizationRuleForOrganizationAsync(AwsObservabilityadminGetCentralizationRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCentralizationRuleForOrganizationAsync(AwsObservabilityadminGetCentralizationRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the dataset integration for the caller's account in the current region. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataSetIntegrationAsync(AwsObservabilityadminGetDataSetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataSetIntegrationAsync(AwsObservabilityadminGetDataSetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetS3TableIntegrationAsync(AwsObservabilityadminGetS3TableIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetS3TableIntegrationAsync(AwsObservabilityadminGetS3TableIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTelemetryEnrichmentStatusAsync(AwsObservabilityadminGetTelemetryEnrichmentStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTelemetryEnrichmentStatusAsync(AwsObservabilityadminGetTelemetryEnrichmentStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This returns the onboarding status of the telemetry configuration fea- ture for the organization. It can only be called by a Management Ac- count of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTelemetryEvaluationStatusForOrganizationAsync(AwsObservabilityadminGetTelemetryEvaluationStatusForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTelemetryEvaluationStatusForOrganizationAsync(AwsObservabilityadminGetTelemetryEvaluationStatusForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTelemetryEvaluationStatusAsync(AwsObservabilityadminGetTelemetryEvaluationStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTelemetryEvaluationStatusAsync(AwsObservabilityadminGetTelemetryEvaluationStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTelemetryPipelineAsync(AwsObservabilityadminGetTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTelemetryPipelineAsync(AwsObservabilityadminGetTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTelemetryRuleForOrganizationAsync(AwsObservabilityadminGetTelemetryRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTelemetryRuleForOrganizationAsync(AwsObservabilityadminGetTelemetryRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specific telemetry rule in your account. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTelemetryRuleAsync(AwsObservabilityadminGetTelemetryRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTelemetryRuleAsync(AwsObservabilityadminGetTelemetryRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation list-centralization-rules-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, th...
@@ -238,8 +217,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCentralizationRulesForOrganizationAsync(AwsObservabilityadminListCentralizationRulesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCentralizationRulesForOrganizationAsync(AwsObservabilityadminListCentralizationRulesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the dataset integrations in your account. See also: AWS API Documentation list-dataset-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DatasetIntegrationSummaries
@@ -248,8 +226,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSetIntegrationsAsync(AwsObservabilityadminListDataSetIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataSetIntegrationsAsync(AwsObservabilityadminListDataSetIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of telemetry configurations for Amazon Web Services re- sources supported by telemetry config in the organization. See also: AWS API Documentation list-resource-telemetry-for-organization is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data...
@@ -258,8 +235,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceTelemetryForOrganizationAsync(AwsObservabilityadminListResourceTelemetryForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceTelemetryForOrganizationAsync(AwsObservabilityadminListResourceTelemetryForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of telemetry configurations for Amazon Web Services re- sources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations . See also: AWS API Documentation list-resource-telemetry is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
@@ -268,8 +244,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceTelemetryAsync(AwsObservabilityadminListResourceTelemetryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceTelemetryAsync(AwsObservabilityadminListResourceTelemetryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation list-s3-table-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
@@ -278,8 +253,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListS3TableIntegrationsAsync(AwsObservabilityadminListS3TableIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListS3TableIntegrationsAsync(AwsObservabilityadminListS3TableIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsObservabilityadminListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsObservabilityadminListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the NextToken value from the response to retrieve the next set of results. See also: AWS API Documentation list-telemetry-pipelines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
@@ -298,8 +271,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTelemetryPipelinesAsync(AwsObservabilityadminListTelemetryPipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTelemetryPipelinesAsync(AwsObservabilityadminListTelemetryPipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated ad- ministrator account. See also: AWS API Documentation list-telemetry-rules-for-organization is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --...
@@ -308,8 +280,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTelemetryRulesForOrganizationAsync(AwsObservabilityadminListTelemetryRulesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTelemetryRulesForOrganizationAsync(AwsObservabilityadminListTelemetryRulesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix. See also: AWS API Documentation list-telemetry-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
@@ -318,8 +289,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTelemetryRulesAsync(AwsObservabilityadminListTelemetryRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTelemetryRulesAsync(AwsObservabilityadminListTelemetryRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTelemetryEnrichmentAsync(AwsObservabilityadminStartTelemetryEnrichmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTelemetryEnrichmentAsync(AwsObservabilityadminStartTelemetryEnrichmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This actions begins onboarding the organization and all member accounts to the telemetry config feature. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTelemetryEvaluationForOrganizationAsync(AwsObservabilityadminStartTelemetryEvaluationForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTelemetryEvaluationForOrganizationAsync(AwsObservabilityadminStartTelemetryEvaluationForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action begins onboarding the caller Amazon Web Services account to the telemetry config feature. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTelemetryEvaluationAsync(AwsObservabilityadminStartTelemetryEvaluationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTelemetryEvaluationAsync(AwsObservabilityadminStartTelemetryEvaluationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTelemetryEnrichmentAsync(AwsObservabilityadminStopTelemetryEnrichmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTelemetryEnrichmentAsync(AwsObservabilityadminStopTelemetryEnrichmentOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action offboards the Organization of the caller Amazon Web Ser- vices account from the telemetry config feature. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTelemetryEvaluationForOrganizationAsync(AwsObservabilityadminStopTelemetryEvaluationForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTelemetryEvaluationForOrganizationAsync(AwsObservabilityadminStopTelemetryEvaluationForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action begins offboarding the caller Amazon Web Services account from the telemetry config feature. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTelemetryEvaluationAsync(AwsObservabilityadminStopTelemetryEvaluationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTelemetryEvaluationAsync(AwsObservabilityadminStopTelemetryEvaluationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsObservabilityadminTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsObservabilityadminTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestTelemetryPipelineAsync(AwsObservabilityadminTestTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestTelemetryPipelineAsync(AwsObservabilityadminTestTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsObservabilityadminUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsObservabilityadminUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the or- ganization's management account or a delegated administrator account. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCentralizationRuleForOrganizationAsync(AwsObservabilityadminUpdateCentralizationRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCentralizationRuleForOrganizationAsync(AwsObservabilityadminUpdateCentralizationRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same update more than once, each call succeeds. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataSetIntegrationAsync(AwsObservabilityadminUpdateDataSetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataSetIntegrationAsync(AwsObservabilityadminUpdateDataSetIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of an existing telemetry pipeline. NOTE: The following attributes cannot be updated after pipeline cre- ation: o Pipeline name - The pipeline name is immutable o Pipeline ARN - The ARN is automatically generated and cannot be changed o Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type Processors can be added, removed, or modified. However, so...
@@ -438,8 +397,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTelemetryPipelineAsync(AwsObservabilityadminUpdateTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTelemetryPipelineAsync(AwsObservabilityadminUpdateTelemetryPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organi- zation's management account or a delegated administrator account. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTelemetryRuleForOrganizationAsync(AwsObservabilityadminUpdateTelemetryRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTelemetryRuleForOrganizationAsync(AwsObservabilityadminUpdateTelemetryRuleForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictEx- ception is returned to provide specific error information for concur- rent modification scenarios. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTelemetryRuleAsync(AwsObservabilityadminUpdateTelemetryRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTelemetryRuleAsync(AwsObservabilityadminUpdateTelemetryRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues. See also: AWS API Documentation
@@ -468,7 +424,6 @@ public interface IAwsObservabilityadmin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidateTelemetryPipelineConfigurationAsync(AwsObservabilityadminValidateTelemetryPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidateTelemetryPipelineConfigurationAsync(AwsObservabilityadminValidateTelemetryPipelineConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

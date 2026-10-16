@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws lexv2models commands.
+/// aws lexv2-models commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLexv2Models : IAwsLexv2Models
@@ -33,7 +33,7 @@ public class AwsLexv2Models : IAwsLexv2Models
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws lexv2-models wait sub-commands.
     /// </summary>
     public AwsLexv2ModelsWait Wait => _wait ??= new AwsLexv2ModelsWait(_command);
 

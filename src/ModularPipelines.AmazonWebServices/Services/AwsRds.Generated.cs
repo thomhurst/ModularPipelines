@@ -33,7 +33,7 @@ public class AwsRds : IAwsRds
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws rds wait sub-commands.
     /// </summary>
     public AwsRdsWait Wait => _wait ??= new AwsRdsWait(_command);
 

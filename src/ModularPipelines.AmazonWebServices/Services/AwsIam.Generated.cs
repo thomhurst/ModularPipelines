@@ -34,12 +34,12 @@ public class AwsIam : IAwsIam
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws iam wait sub-commands.
     /// </summary>
     public AwsIamWait Wait => _wait ??= new AwsIamWait(_command);
 
     /// <summary>
-    /// aws wizard sub-commands.
+    /// aws iam wizard sub-commands.
     /// </summary>
     public AwsIamWizard Wizard => _wizard ??= new AwsIamWizard(_command);
 

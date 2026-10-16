@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws computeoptimizer commands.
+/// aws compute-optimizer commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecommendationPreferencesAsync(AwsComputeOptimizerDeleteRecommendationPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecommendationPreferencesAsync(AwsComputeOptimizerDeleteRecommendationPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes recommendation export jobs created in the last seven days. Use the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRe- commendations actions to request an export of your recommendations. Then use the DescribeRecommendationExportJobs action to view your ex- port jobs. See also: AWS API Documentation describe-recommendation-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by ...
@@ -38,8 +37,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRecommendationExportJobsAsync(AwsComputeOptimizerDescribeRecommendationExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRecommendationExportJobsAsync(AwsComputeOptimizerDescribeRecommendationExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports optimization recommendations for Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one Auto Scaling group export job in progress per Amazon Web Services Region. See also: AWS API Documentatio...
@@ -48,8 +46,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportAutoScalingGroupRecommendationsAsync(AwsComputeOptimizerExportAutoScalingGroupRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportAutoScalingGroupRecommendationsAsync(AwsComputeOptimizerExportAutoScalingGroupRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports optimization recommendations for Amazon EBS volumes. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one Amazon EBS volume export job in progress per Ama- zon Web Services Region. See also: AWS API Documentatio...
@@ -58,8 +55,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportEbsVolumeRecommendationsAsync(AwsComputeOptimizerExportEbsVolumeRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportEbsVolumeRecommendationsAsync(AwsComputeOptimizerExportEbsVolumeRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports optimization recommendations for Amazon EC2 instances. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region. See also: AWS API Documentat...
@@ -68,8 +64,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportEc2InstanceRecommendationsAsync(AwsComputeOptimizerExportEc2InstanceRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportEc2InstanceRecommendationsAsync(AwsComputeOptimizerExportEc2InstanceRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports optimization recommendations for Amazon ECS services on Far- gate. Recommendations are exported in a CSV file, and its metadata in a JSON file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can only have one Amazon ECS service export job in progress per Amazon Web Services Region. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportEcsServiceRecommendationsAsync(AwsComputeOptimizerExportEcsServiceRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportEcsServiceRecommendationsAsync(AwsComputeOptimizerExportEcsServiceRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export optimization recommendations for your idle resources. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an ex- isting Amazon Simple Storage Service (Amazon S3) bucket that you spec- ify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one idle resource export job in progress per Amazon Web Services Region. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportIdleRecommendationsAsync(AwsComputeOptimizerExportIdleRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportIdleRecommendationsAsync(AwsComputeOptimizerExportIdleRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports optimization recommendations for Lambda functions. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one Lambda function export job in progress per Amazon Web Services Region. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportLambdaFunctionRecommendationsAsync(AwsComputeOptimizerExportLambdaFunctionRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportLambdaFunctionRecommendationsAsync(AwsComputeOptimizerExportLambdaFunctionRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an ex- isting Amazon Simple Storage Service (Amazon S3) bucket that you spec- ify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one license export job in progress per Amazon Web Services Region. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportLicenseRecommendationsAsync(AwsComputeOptimizerExportLicenseRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportLicenseRecommendationsAsync(AwsComputeOptimizerExportLicenseRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export optimization recommendations for your Amazon Aurora and Amazon Relational Database Service (Amazon RDS) databases. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an ex- isting Amazon Simple Storage Service (Amazon S3) bucket that you spec- ify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one Amazon Aurora or RDS export job in progress per A...
@@ -118,8 +109,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportRdsDatabaseRecommendationsAsync(AwsComputeOptimizerExportRdsDatabaseRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportRdsDatabaseRecommendationsAsync(AwsComputeOptimizerExportRdsDatabaseRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide . See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutoScalingGroupRecommendationsAsync(AwsComputeOptimizerGetAutoScalingGroupRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutoScalingGroupRecommendationsAsync(AwsComputeOptimizerGetAutoScalingGroupRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Amazon Elastic Block Store (Amazon EBS) volume recommendations. Compute Optimizer generates recommendations for Amazon EBS volumes that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide . See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEbsVolumeRecommendationsAsync(AwsComputeOptimizerGetEbsVolumeRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEbsVolumeRecommendationsAsync(AwsComputeOptimizerGetEbsVolumeRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Amazon EC2 instance recommendations. Compute Optimizer generates recommendations for Amazon Elastic Compute Cloud (Amazon EC2) instances that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide . See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEc2InstanceRecommendationsAsync(AwsComputeOptimizerGetEc2InstanceRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEc2InstanceRecommendationsAsync(AwsComputeOptimizerGetEc2InstanceRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the projected utilization metrics of Amazon EC2 instance recom- mendations. NOTE: The Cpu and Memory metrics are the only projected utilization met- rics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified Cloud- Watch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEc2RecommendationProjectedMetricsAsync(AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEc2RecommendationProjectedMetricsAsync(AwsComputeOptimizerGetEc2RecommendationProjectedMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the projected metrics of Amazon ECS service recommendations. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEcsServiceRecommendationProjectedMetricsAsync(AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEcsServiceRecommendationProjectedMetricsAsync(AwsComputeOptimizerGetEcsServiceRecommendationProjectedMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Amazon ECS service recommendations. Compute Optimizer generates recommendations for Amazon ECS services on Fargate that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide . See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEcsServiceRecommendationsAsync(AwsComputeOptimizerGetEcsServiceRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEcsServiceRecommendationsAsync(AwsComputeOptimizerGetEcsServiceRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all ap- plicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive . Use this action to view the recommendation prefer- ences that are in effect, or Active . See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEffectiveRecommendationPreferencesAsync(AwsComputeOptimizerGetEffectiveRecommendationPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEffectiveRecommendationPreferencesAsync(AwsComputeOptimizerGetEffectiveRecommendationPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the Compute Optimizer enrollment (opt-in) status of organiza- tion member accounts, if your account is an organization management ac- count. To get the enrollment status of standalone accounts, use the GetEn- rollmentStatus action. See also: AWS API Documentation get-enrollment-statuses-for-organization is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
@@ -198,8 +181,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEnrollmentStatusesForOrganizationAsync(AwsComputeOptimizerGetEnrollmentStatusesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEnrollmentStatusesForOrganizationAsync(AwsComputeOptimizerGetEnrollmentStatusesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the enrollment (opt in) status of an account to the Compute Op- timizer service. If the account is the management account of an organization, this ac- tion also confirms the enrollment status of member accounts of the or- ganization. Use the GetEnrollmentStatusesForOrganization action to get detailed information about the enrollment status of member accounts of an organization. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEnrollmentStatusAsync(AwsComputeOptimizerGetEnrollmentStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEnrollmentStatusAsync(AwsComputeOptimizerGetEnrollmentStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns idle resource recommendations. Compute Optimizer generates rec- ommendations for idle resources that meet a specific set of require- ments. For more information, see Resource requirements in the Compute Optimizer User Guide See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdleRecommendationsAsync(AwsComputeOptimizerGetIdleRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdleRecommendationsAsync(AwsComputeOptimizerGetIdleRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Lambda function recommendations. Compute Optimizer generates recommendations for functions that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide . See also: AWS API Documentation get-lambda-function-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. Wh...
@@ -228,8 +208,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLambdaFunctionRecommendationsAsync(AwsComputeOptimizerGetLambdaFunctionRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLambdaFunctionRecommendationsAsync(AwsComputeOptimizerGetLambdaFunctionRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns license recommendations for Amazon EC2 instances that run on a specific license. Compute Optimizer generates recommendations for licenses that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide . See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLicenseRecommendationsAsync(AwsComputeOptimizerGetLicenseRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLicenseRecommendationsAsync(AwsComputeOptimizerGetLicenseRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the projected metrics of Aurora and RDS database recommenda- tions. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRdsDatabaseRecommendationProjectedMetricsAsync(AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRdsDatabaseRecommendationProjectedMetricsAsync(AwsComputeOptimizerGetRdsDatabaseRecommendationProjectedMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Amazon Aurora and RDS database recommendations. Compute Optimizer generates recommendations for Amazon Aurora and RDS databases that meet a specific set of requirements. For more informa- tion, see the Supported resources and requirements in the Compute Opti- mizer User Guide . See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRdsDatabaseRecommendationsAsync(AwsComputeOptimizerGetRdsDatabaseRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRdsDatabaseRecommendationsAsync(AwsComputeOptimizerGetRdsDatabaseRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns existing recommendation preferences, such as enhanced infra- structure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation get-recommendation-preferences is a paginated oper...
@@ -268,8 +244,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommendationPreferencesAsync(AwsComputeOptimizerGetRecommendationPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommendationPreferencesAsync(AwsComputeOptimizerGetRecommendationPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the optimization findings for an account. It returns the number of: o Amazon EC2 instances in an account that are Underprovisioned , Over- provisioned , or Optimized . o EC2Auto Scaling groups in an account that are NotOptimized , or Opti- mized . o Amazon EBS volumes in an account that are NotOptimized , or Optimized . o Lambda functions in an account that are NotOptimized , or Optimized . o Amazon ECS services in an account that are Underprovisioned , Over- provisioned , or Optimized ....
@@ -278,8 +253,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommendationSummariesAsync(AwsComputeOptimizerGetRecommendationSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommendationSummariesAsync(AwsComputeOptimizerGetRecommendationSummariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new recommendation preference or updates an existing recom- mendation preference, such as enhanced infrastructure metrics. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRecommendationPreferencesAsync(AwsComputeOptimizerPutRecommendationPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRecommendationPreferencesAsync(AwsComputeOptimizerPutRecommendationPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Compute Opti- mizer, to view its recommendations, and to opt out. For more informa- tion, see Controlling access with Amazon Web Services Identity and Ac- cess Management in the Compute Optimizer User Guide . Wh...
@@ -298,7 +271,6 @@ public interface IAwsComputeOptimizer
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEnrollmentStatusAsync(AwsComputeOptimizerUpdateEnrollmentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEnrollmentStatusAsync(AwsComputeOptimizerUpdateEnrollmentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

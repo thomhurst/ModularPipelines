@@ -28,8 +28,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutoPredictorAsync(AwsForecastCreateAutoPredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutoPredictorAsync(AwsForecastCreateAutoPredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a dataset group, which holds a collection of related datasets. You can add datasets to the dataset group when you create the dataset group, or later by using the UpdateDatasetGroup operation. After creating a dataset group and adding datasets, you use the dataset group when you create a predictor. For more information, see Dataset groups . To get a list of all your datasets groups, use the ListDatasetGroups operation. NOTE: The Status of a dataset group must be ACTIVE before you can use ...
@@ -38,8 +37,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetGroupAsync(AwsForecastCreateDataSetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSetGroupAsync(AwsForecastCreateDataSetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports your training data to an Amazon Forecast dataset. You provide the location of your training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want to import the data to. You must specify a DataSource object that includes an Identity and Ac- cess Management (IAM) role that Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and processes it in an internal Amazon Web Services system...
@@ -48,8 +46,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetImportJobAsync(AwsForecastCreateDataSetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSetImportJobAsync(AwsForecastCreateDataSetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Forecast dataset. The information about the dataset that you provide helps Forecast understand how to consume the data for model training. This includes the following: o * DataFrequency * - How frequently your historical time-series data is collected. System Message: WARNING/2 (&lt;string&gt;:, line 26) Inline emphasis start-string without end-string. o * Domain * and * DatasetType * - Each dataset has an associated dataset domain and a type within the domain. Amazon Forecast provide...
@@ -58,8 +55,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSetAsync(AwsForecastCreateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSetAsync(AwsForecastCreateDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports an Explainability resource created by the CreateExplainability operation. Exported files are exported to an Amazon Simple Storage Ser- vice (Amazon S3) bucket. You must specify a DataDestination object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more informa- tion, see aws-forecast-iam-roles . NOTE: The Status of the export job must be ACTIVE before you can access the export in your...
@@ -68,8 +64,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExplainabilityExportAsync(AwsForecastCreateExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExplainabilityExportAsync(AwsForecastCreateExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: Explainability is only available for Forecasts and Predictors gener- ated from an AutoPredictor ( CreateAutoPredictor ) Creates an Amazon Forecast Explainability. Explainability helps you better understand how the attributes in your datasets impact forecast. Amazon Forecast uses a metric called Impact scores to quantify the relative impact of each attribute and determine whether they increase or decrease forecast values. To enable Forecast Explainability, your predictor must include at lea...
@@ -78,8 +73,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExplainabilityAsync(AwsForecastCreateExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExplainabilityAsync(AwsForecastCreateExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports a forecast created by the CreateForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; where the &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to ac- cess the Amazon S3 bucket. For more i...
@@ -88,8 +82,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateForecastExportJobAsync(AwsForecastCreateForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateForecastExportJobAsync(AwsForecastCreateForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train the predictor. This is known as inference. To re- trieve the forecast for a single item at low latency, use the opera- tion. To export the complete forecast into your Amazon Simple Storage Service (Amazon S3) bucket, use the CreateForecastExportJob operation. The range of the forecast is determined by the ForecastHorizon value, which you specify in the CreatePredictor request. When you query a forecast, you...
@@ -98,8 +91,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateForecastAsync(AwsForecastCreateForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateForecastAsync(AwsForecastCreateForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time. For more information, see Predictor Monitoring . See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMonitorAsync(AwsForecastCreateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMonitorAsync(AwsForecastCreateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports backtest forecasts and accuracy metrics generated by the Cre- ateAutoPredictor or CreatePredictor operations. Two folders containing CSV or Parquet files are exported to your specified S3 bucket. The export file names will match the following conventions: &lt;ExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;.csv The &lt;ExportTimestamp&gt; component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Amazon S3 bucket and an Identity and Acce...
@@ -118,8 +109,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePredictorBacktestExportJobAsync(AwsForecastCreatePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePredictorBacktestExportJobAsync(AwsForecastCreatePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation creates a legacy predictor that does not include all the predictor functionalities provided by Amazon Forecast. To create a predictor that is compatible with all aspects of Forecast, use CreateAutoPredictor . Creates an Amazon Forecast predictor. In the request, provide a dataset group and either specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If you specify an algorithm, you also can override algorithm-specific hyperpa- rameters. Amazon...
@@ -128,8 +118,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePredictorAsync(AwsForecastCreatePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePredictorAsync(AwsForecastCreatePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// What-if analysis is a scenario modeling technique where you make a hy- pothetical change to a time series and compare the forecasts generated by these changes against the baseline, unchanged time series. It is im- portant to remember that the purpose of a what-if analysis is to under- stand how a forecast can change given different modifications to the baseline time series. For example, imagine you are a clothing retailer who is considering an end of season sale to clear space for new styles. Af...
@@ -138,8 +127,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWhatIfAnalysisAsync(AwsForecastCreateWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWhatIfAnalysisAsync(AwsForecastCreateWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports a forecast created by the CreateWhatIfForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to ac- cess the Amazon S3 bucket. For more i...
@@ -148,8 +136,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWhatIfForecastExportAsync(AwsForecastCreateWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWhatIfForecastExportAsync(AwsForecastCreateWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A what-if forecast is a forecast that is created from a modified ver- sion of the baseline forecast. Each what-if forecast incorporates ei- ther a replacement dataset or a set of transformations to the original dataset. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWhatIfForecastAsync(AwsForecastCreateWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWhatIfForecastAsync(AwsForecastCreateWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a dataset group created using the CreateDatasetGroup operation. You can only delete dataset groups that have a status of ACTIVE , CRE- ATE_FAILED , or UPDATE_FAILED . To get the status, use the DescribeDatasetGroup operation. This operation deletes only the dataset group, not the datasets in the group. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSetGroupAsync(AwsForecastDeleteDataSetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataSetGroupAsync(AwsForecastDeleteDataSetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a dataset import job created using the CreateDatasetImportJob operation. You can delete only dataset import jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeDatasetImportJob operation. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSetImportJobAsync(AwsForecastDeleteDataSetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataSetImportJobAsync(AwsForecastDeleteDataSetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can only delete datasets that have a sta- tus of ACTIVE or CREATE_FAILED . To get the status use the DescribeDataset operation. NOTE: Forecast does not automatically update any dataset groups that con- tain the deleted dataset. In order to update the dataset group, use the UpdateDatasetGroup operation, omitting the deleted dataset's ARN. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSetAsync(AwsForecastDeleteDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataSetAsync(AwsForecastDeleteDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Explainability export. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteExplainabilityExportAsync(AwsForecastDeleteExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteExplainabilityExportAsync(AwsForecastDeleteExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CRE- ATE_FAILED . To get the status, use the DescribeExplainability opera- tion. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteExplainabilityAsync(AwsForecastDeleteExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteExplainabilityAsync(AwsForecastDeleteExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a forecast export job created using the CreateForecastEx- portJob operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeFore- castExportJob operation. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteForecastExportJobAsync(AwsForecastDeleteForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteForecastExportJobAsync(AwsForecastDeleteForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a forecast created using the CreateForecast operation. You can delete only forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeForecast operation. You can't delete a forecast while it is being exported. After a fore- cast is deleted, you can no longer query the forecast. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteForecastAsync(AwsForecastDeleteForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteForecastAsync(AwsForecastDeleteForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a monitor resource. You can only delete a monitor resource with a status of ACTIVE , ACTIVE_STOPPED , CREATE_FAILED , or CREATE_STOPPED . See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMonitorAsync(AwsForecastDeleteMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMonitorAsync(AwsForecastDeleteMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a predictor backtest export job. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePredictorBacktestExportJobAsync(AwsForecastDeletePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePredictorBacktestExportJobAsync(AwsForecastDeletePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a predictor created using the DescribePredictor or CreatePre- dictor operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribePredictor operation. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePredictorAsync(AwsForecastDeletePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePredictorAsync(AwsForecastDeletePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an entire resource tree. This operation will delete the parent resource and its child resources. Child resources are resources that were created from another resource. For example, when a forecast is generated from a predictor, the fore- cast is the child resource and the predictor is the parent resource. Amazon Forecast resources possess the following parent-child resource hierarchies: o Dataset : dataset import jobs o Dataset Group : predictors, predictor backtest export jobs, fore- ca...
@@ -268,8 +244,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourceTreeAsync(AwsForecastDeleteResourceTreeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourceTreeAsync(AwsForecastDeleteResourceTreeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a what-if analysis created using the CreateWhatIfAnalysis op- eration. You can delete only what-if analyses that have a status of AC- TIVE or CREATE_FAILED . To get the status, use the DescribeWhatIf- Analysis operation. You can't delete a what-if analysis while any of its forecasts are be- ing exported. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWhatIfAnalysisAsync(AwsForecastDeleteWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWhatIfAnalysisAsync(AwsForecastDeleteWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a what-if forecast export created using the CreateWhatIfFore- castExport operation. You can delete only what-if forecast exports that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhatIfForecastExport operation. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWhatIfForecastExportAsync(AwsForecastDeleteWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWhatIfForecastExportAsync(AwsForecastDeleteWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a what-if forecast created using the CreateWhatIfForecast op- eration. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeWhat- IfForecast operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analy- sis. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWhatIfForecastAsync(AwsForecastDeleteWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWhatIfForecastAsync(AwsForecastDeleteWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a predictor created using the CreateAutoPredictor operation. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAutoPredictorAsync(AwsForecastDescribeAutoPredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAutoPredictorAsync(AwsForecastDescribeAutoPredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a dataset group created using the CreateDatasetGroup opera- tion. In addition to listing the parameters provided in the CreateDataset- Group request, this operation includes the following properties: o DatasetArns - The datasets belonging to the group. o CreationTime o LastModificationTime o Status See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSetGroupAsync(AwsForecastDescribeDataSetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSetGroupAsync(AwsForecastDescribeDataSetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a dataset import job created using the CreateDatasetImportJob operation. In addition to listing the parameters provided in the CreateDatasetIm- portJob request, this operation includes the following properties: o CreationTime o LastModificationTime o DataSize o FieldStatistics o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSetImportJobAsync(AwsForecastDescribeDataSetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSetImportJobAsync(AwsForecastDescribeDataSetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an Amazon Forecast dataset created using the CreateDataset operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties: o CreationTime o LastModificationTime o Status See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSetAsync(AwsForecastDescribeDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSetAsync(AwsForecastDescribeDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an Explainability export created using the CreateExplain- abilityExport operation. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExplainabilityExportAsync(AwsForecastDescribeExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExplainabilityExportAsync(AwsForecastDescribeExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an Explainability resource created using the CreateExplain- ability operation. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExplainabilityAsync(AwsForecastDescribeExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExplainabilityAsync(AwsForecastDescribeExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a forecast export job created using the CreateForecastEx- portJob operation. In addition to listing the properties provided by the user in the Cre- ateForecastExportJob request, this operation lists the following prop- erties: o CreationTime o LastModificationTime o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeForecastExportJobAsync(AwsForecastDescribeForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeForecastExportJobAsync(AwsForecastDescribeForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a forecast created using the CreateForecast operation. In addition to listing the properties provided in the CreateForecast request, this operation lists the following properties: o DatasetGroupArn - The dataset group that provided the training data. o CreationTime o LastModificationTime o Status o Message - If an error occurred, information about the error. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeForecastAsync(AwsForecastDescribeForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeForecastAsync(AwsForecastDescribeForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a monitor resource. In addition to listing the properties provided in the CreateMonitor request, this operation lists the fol- lowing properties: o Baseline o CreationTime o LastEvaluationTime o LastEvaluationState o LastModificationTime o Message o Status See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMonitorAsync(AwsForecastDescribeMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMonitorAsync(AwsForecastDescribeMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a predictor backtest export job created using the CreatePre- dictorBacktestExportJob operation. In addition to listing the properties provided by the user in the Cre- atePredictorBacktestExportJob request, this operation lists the follow- ing properties: o CreationTime o LastModificationTime o Status o Message (if an error occurred) See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePredictorBacktestExportJobAsync(AwsForecastDescribePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePredictorBacktestExportJobAsync(AwsForecastDescribePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is only valid for legacy predictors created with Cre- atePredictor. If you are not using a legacy predictor, use De- scribeAutoPredictor . Describes a predictor created using the CreatePredictor operation. In addition to listing the properties provided in the CreatePredictor request, this operation lists the following properties: o DatasetImportJobArns - The dataset import jobs used to import train- ing data. o AutoMLAlgorithmArns - If AutoML is performed, the algorithms tha...
@@ -408,8 +370,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePredictorAsync(AwsForecastDescribePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePredictorAsync(AwsForecastDescribePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the what-if analysis created using the CreateWhatIfAnalysis operation. In addition to listing the properties provided in the CreateWhatIf- Analysis request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWhatIfAnalysisAsync(AwsForecastDescribeWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWhatIfAnalysisAsync(AwsForecastDescribeWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the what-if forecast export created using the CreateWhat- IfForecastExport operation. In addition to listing the properties provided in the CreateWhatIfFore- castExport request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWhatIfForecastExportAsync(AwsForecastDescribeWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWhatIfForecastExportAsync(AwsForecastDescribeWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the what-if forecast created using the CreateWhatIfForecast operation. In addition to listing the properties provided in the CreateWhatIfFore- cast request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWhatIfForecastAsync(AwsForecastDescribeWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWhatIfForecastAsync(AwsForecastDescribeWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model per- formed and to decide whether to use the predictor to generate a fore- cast. For more information, see Predictor Metrics . This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows ) is specified using the EvaluationParameters object, which is optionally included in the CreatePredic...
@@ -448,8 +406,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccuracyMetricsAsync(AwsForecastGetAccuracyMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccuracyMetricsAsync(AwsForecastGetAccuracyMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of dataset groups created using the CreateDatasetGroup operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can re- trieve the complete set of properties by using the dataset group ARN with the DescribeDatasetGroup operation. See also: AWS API Documentation list-dataset-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable...
@@ -458,8 +415,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSetGroupsAsync(AwsForecastListDataSetGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataSetGroupsAsync(AwsForecastListDataSetGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of dataset import jobs created using the CreateDatasetImportJob operation. For each import job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the DescribeDatasetImportJob operation. You can filter the list by providing an array of Filter objects. See also: AWS API Documentation list-dataset-import-jobs is a paginated operation. Multiple API calls may be issued in o...
@@ -468,8 +424,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSetImportJobsAsync(AwsForecastListDataSetImportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataSetImportJobsAsync(AwsForecastListDataSetImportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of datasets created using the CreateDataset operation. For each dataset, a summary of its properties, including its Amazon Re- source Name (ARN), is returned. To retrieve the complete set of proper- ties, use the ARN with the DescribeDataset operation. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. Wh...
@@ -478,8 +433,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDatasetsAsync(AwsForecastListDatasetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDatasetsAsync(AwsForecastListDatasetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Explainability resources created using the CreateEx- plainability operation. This operation returns a summary for each Ex- plainability. You can filter the list using an array of Filter ob- jects. To retrieve the complete set of properties for a particular Explain- ability resource, use the ARN with the DescribeExplainability opera- tion. See also: AWS API Documentation list-explainabilities is a paginated operation. Multiple API calls may be issued in order to retrieve the ent...
@@ -488,8 +442,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExplainabilitiesAsync(AwsForecastListExplainabilitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExplainabilitiesAsync(AwsForecastListExplainabilitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Explainability exports created using the CreateEx- plainabilityExport operation. This operation returns a summary for each Explainability export. You can filter the list using an array of Fil- ter objects. To retrieve the complete set of properties for a particular Explain- ability export, use the ARN with the DescribeExplainability operation. See also: AWS API Documentation list-explainability-exports is a paginated operation. Multiple API calls may be issued in order to retri...
@@ -498,8 +451,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExplainabilityExportsAsync(AwsForecastListExplainabilityExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExplainabilityExportsAsync(AwsForecastListExplainabilityExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of forecast export jobs created using the CreateFore- castExportJob operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the DescribeForecastExportJob operation. You can filter the list using an array of Filter objects. See also: AWS API Documentation list-forecast-export-jobs is a paginated operation. Multiple API calls may be issued in or...
@@ -508,8 +460,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListForecastExportJobsAsync(AwsForecastListForecastExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListForecastExportJobsAsync(AwsForecastListForecastExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of forecasts created using the CreateForecast opera- tion. For each forecast, this operation returns a summary of its prop- erties, including its Amazon Resource Name (ARN). To retrieve the com- plete set of properties, specify the ARN with the DescribeForecast op- eration. You can filter the list using an array of Filter objects. See also: AWS API Documentation list-forecasts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of ...
@@ -518,8 +469,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListForecastsAsync(AwsForecastListForecastsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListForecastsAsync(AwsForecastListForecastsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see predictor-monitoring . For more information about retrieving monitoring results see Viewing Monitoring Results . See also: AWS API Documentation list-monitor-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
@@ -528,8 +478,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMonitorEvaluationsAsync(AwsForecastListMonitorEvaluationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMonitorEvaluationsAsync(AwsForecastListMonitorEvaluationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of monitors created with the CreateMonitor operation and CreateAutoPredictor operation. For each monitor resource, this op- eration returns of a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the DescribeMonitor operation. See also: AWS API Documentation list-monitors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire d...
@@ -538,8 +487,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMonitorsAsync(AwsForecastListMonitorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMonitorsAsync(AwsForecastListMonitorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of predictor backtest export jobs created using the CreatePredictorBacktestExportJob operation. This operation returns a summary for each backtest export job. You can filter the list using an array of Filter objects. To retrieve the complete set of properties for a particular backtest export job, use the ARN with the DescribePredictorBacktestExportJob operation. See also: AWS API Documentation list-predictor-backtest-export-jobs is a paginated operation. Multiple API calls may be ...
@@ -548,8 +496,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPredictorBacktestExportJobsAsync(AwsForecastListPredictorBacktestExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPredictorBacktestExportJobsAsync(AwsForecastListPredictorBacktestExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of predictors created using the CreateAutoPredictor or CreatePredictor operations. For each predictor, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the DescribeAutoPredictor and DescribePredictor operations. You can filter the list using an array of Filter objects. See also: AWS API Documentation list-predictors is a paginated operation. Multiple API calls may be ...
@@ -558,8 +505,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPredictorsAsync(AwsForecastListPredictorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPredictorsAsync(AwsForecastListPredictorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for an Amazon Forecast resource. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsForecastListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsForecastListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of what-if analyses created using the CreateWhatIf- Analysis operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the DescribeWhatIfAnalysis operation. See also: AWS API Documentation list-what-if-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Y...
@@ -578,8 +523,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWhatIfAnalysesAsync(AwsForecastListWhatIfAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWhatIfAnalysesAsync(AwsForecastListWhatIfAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of what-if forecast exports created using the Create- WhatIfForecastExport operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Re- source Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the DescribeWhatIfForecast- Export operation. See also: AWS API Documentation list-what-if-forecast-exports is a paginated operation. Multiple API calls may be issued in order...
@@ -588,8 +532,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWhatIfForecastExportsAsync(AwsForecastListWhatIfForecastExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWhatIfForecastExportsAsync(AwsForecastListWhatIfForecastExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of what-if forecasts created using the CreateWhat- IfForecast operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the DescribeWhatIfForecast operation. See also: AWS API Documentation list-what-if-forecasts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results....
@@ -598,8 +541,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWhatIfForecastsAsync(AwsForecastListWhatIfForecastsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWhatIfForecastsAsync(AwsForecastListWhatIfForecastsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resumes a stopped monitor resource. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResumeResourceAsync(AwsForecastResumeResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResumeResourceAsync(AwsForecastResumeResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CRE- ATE_STOPPED . You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources): o Dataset Import Job o Predictor Job o Forecast Job o Forecast Export Job o Predictor Backtest Export Job o Explainability Job o Explainability Export Job See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopResourceAsync(AwsForecastStopResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopResourceAsync(AwsForecastStopResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource are not specified in the re- quest parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsForecastTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsForecastTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified tags from a resource. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsForecastUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsForecastUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces the datasets in a dataset group with the specified datasets. NOTE: The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. Use the DescribeDatasetGroup operation to get the status. See also: AWS API Documentation
@@ -648,7 +586,6 @@ public interface IAwsForecast
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataSetGroupAsync(AwsForecastUpdateDataSetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataSetGroupAsync(AwsForecastUpdateDataSetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

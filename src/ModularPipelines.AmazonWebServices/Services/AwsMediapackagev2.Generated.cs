@@ -33,7 +33,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws mediapackagev2 wait sub-commands.
     /// </summary>
     public AwsMediapackagev2Wait Wait => _wait ??= new AwsMediapackagev2Wait(_command);
 

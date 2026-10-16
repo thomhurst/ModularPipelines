@@ -33,7 +33,7 @@ public class AwsRepostspace : IAwsRepostspace
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws repostspace wait sub-commands.
     /// </summary>
     public AwsRepostspaceWait Wait => _wait ??= new AwsRepostspaceWait(_command);
 

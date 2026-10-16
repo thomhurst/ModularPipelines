@@ -132,6 +132,12 @@ public record AwsResiliencehubv2CreateServiceOptions : AwsOptions, IValidatableO
     public string? KmsKeyId { get; set; }
 
     /// <summary>
+    /// The optional DevOps Agent integration configuration to apply to the new service. If you omit this field, the new service has no DevOps Agent integration. agentSpaceArn -&gt; (string) The ARN of the DevOps Agent Agent Space to link to this service. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-zA-Z-]*:aide- vops:[a-z0-9-]+:[0-9]{12}:agentspace/[a-zA-Z0-9-]{1,64} Shorthand Syntax: agentSpaceArn=string JSON Syntax: { "agentSpaceArn": "string" }
+    /// </summary>
+    [CliOption("--dev-ops-agent-configuration")]
+    public string? DevOpsAgentConfiguration { get; set; }
+
+    /// <summary>
     /// Resource tags. Constraints: o min: 1 o max: 50 key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]

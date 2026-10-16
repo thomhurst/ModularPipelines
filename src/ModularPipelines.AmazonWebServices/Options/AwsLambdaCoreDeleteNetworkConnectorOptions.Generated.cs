@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asyn- chronously. After deletion completes, subsequent calls to GetNetwork- Connector return ResourceNotFoundException . This operation is idempotent calling delete on a connector that is al- ready deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connec- tor, ensure that no Lambda MicroVM...
+/// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asyn- chronously. After deletion completes, subsequent calls to GetNetwork- Connector return ResourceNotFoundException . This operation is idempotent calling delete on a connector that is al- ready deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connec- tor, ensure that no Lambda compute...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +25,9 @@ public record AwsLambdaCoreDeleteNetworkConnectorOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asyn- chronously. After deletion completes, subsequent calls to GetNetwork- Connector return ResourceNotFoundException . This operation is idempotent calling delete on a connector that is al- ready deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connec- tor, ensure that no Lambda MicroVM...
+    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asyn- chronously. After deletion completes, subsequent calls to GetNetwork- Connector return ResourceNotFoundException . This operation is idempotent calling delete on a connector that is al- ready deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connec- tor, ensure that no Lambda compute...
     /// </summary>
-    /// <param name="Identifier">A flexible identifier that accepts a network connector ID, name, or ARN Constraints: o min: 1 o max: 140</param>
+    /// <param name="Identifier">The identifier of the network connector to delete. Provide an un- qualified ARN (or an ID or name) to delete the entire connector and all of its versions, or a version-qualified ARN one that includes the immutable version suffix to delete a specific historical ver- sion. You can't delete the latest version with a version-qualified identifier; delete the connector instead. Constraints: o min: 1 o max: 140</param>
     public AwsLambdaCoreDeleteNetworkConnectorOptions(
         string Identifier
     )
@@ -56,7 +56,7 @@ public record AwsLambdaCoreDeleteNetworkConnectorOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A flexible identifier that accepts a network connector ID, name, or ARN Constraints: o min: 1 o max: 140
+    /// The identifier of the network connector to delete. Provide an un- qualified ARN (or an ID or name) to delete the entire connector and all of its versions, or a version-qualified ARN one that includes the immutable version suffix to delete a specific historical ver- sion. You can't delete the latest version with a version-qualified identifier; delete the connector instead. Constraints: o min: 1 o max: 140
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }

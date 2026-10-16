@@ -33,7 +33,7 @@ public class AwsB2Bi : IAwsB2Bi
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws b2bi wait sub-commands.
     /// </summary>
     public AwsB2BiWait Wait => _wait ??= new AwsB2BiWait(_command);
 

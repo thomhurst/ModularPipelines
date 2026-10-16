@@ -33,7 +33,7 @@ public class AwsAppstream : IAwsAppstream
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws appstream wait sub-commands.
     /// </summary>
     public AwsAppstreamWait Wait => _wait ??= new AwsAppstreamWait(_command);
 

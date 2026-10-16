@@ -33,7 +33,7 @@ public class AwsRoute53 : IAwsRoute53
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws route53 wait sub-commands.
     /// </summary>
     public AwsRoute53Wait Wait => _wait ??= new AwsRoute53Wait(_command);
 

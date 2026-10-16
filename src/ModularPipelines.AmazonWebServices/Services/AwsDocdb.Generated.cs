@@ -33,7 +33,7 @@ public class AwsDocdb : IAwsDocdb
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws docdb wait sub-commands.
     /// </summary>
     public AwsDocdbWait Wait => _wait ??= new AwsDocdbWait(_command);
 

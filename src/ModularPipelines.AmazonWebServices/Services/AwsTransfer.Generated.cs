@@ -33,7 +33,7 @@ public class AwsTransfer : IAwsTransfer
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws transfer wait sub-commands.
     /// </summary>
     public AwsTransferWait Wait => _wait ??= new AwsTransferWait(_command);
 
@@ -1017,7 +1017,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters. See also: AWS API Documentation
+    /// Updates the host key that's specified by the ServerId and HostKeyId pa- rameters. You can update the description of the host key, change where the host key is stored by specifying the StorageType , and specify the KMS key used to encrypt the host key when it's stored in Secrets Man- ager. To change a host key's storage type from SERVICE_MANAGED to SE- CRETS_MANAGER , you must have the transfer:ExportHostKey permission. transfer:ExportHostKey is a permission-only action that has no corre- spondin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

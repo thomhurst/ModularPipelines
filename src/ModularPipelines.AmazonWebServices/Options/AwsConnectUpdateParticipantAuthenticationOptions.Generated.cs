@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -74,6 +75,7 @@ public record AwsConnectUpdateParticipantAuthenticationOptions : AwsOptions, IVa
     /// <summary>
     /// The code query parameter provided by Cognito in the redirectUri . Constraints: o min: 1 o max: 2048
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; set; }
 

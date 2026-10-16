@@ -33,7 +33,7 @@ public class AwsRekognition : IAwsRekognition
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws rekognition wait sub-commands.
     /// </summary>
     public AwsRekognitionWait Wait => _wait ??= new AwsRekognitionWait(_command);
 

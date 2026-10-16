@@ -75,6 +75,7 @@ public record AwsDatasyncCreateLocationAzureBlobOptions : AwsOptions, IValidatab
     /// <summary>
     /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage. NOTE: If you provide an authentication token using SasConfiguration , but do not provide secret configuration details using CmkSecret- Config or CustomSecretConfig , then DataSync stores the token using your Amazon Web Services account's secrets manager secret. Token -&gt; (string) [required] Specifies a SAS token that provides permissions to access your Azure Blob Storage. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks some- thing like this: sp=r&amp;st=2023-12-20T14:54:52Z&amp;se=2023-12-20T22:54:52Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=aB- BKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D Constraints: o min: 1 o max: 255 o pattern: ^.+$ Shorthand Syntax: Token=string JSON Syntax: { "Token": "string" }
     /// </summary>
+    [SecretValue]
     [CliOption("--sas-configuration")]
     public string? SasConfiguration { get; set; }
 

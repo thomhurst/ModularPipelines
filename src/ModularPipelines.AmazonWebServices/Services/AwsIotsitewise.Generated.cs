@@ -33,7 +33,7 @@ public class AwsIotsitewise : IAwsIotsitewise
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws iotsitewise wait sub-commands.
     /// </summary>
     public AwsIotsitewiseWait Wait => _wait ??= new AwsIotsitewiseWait(_command);
 

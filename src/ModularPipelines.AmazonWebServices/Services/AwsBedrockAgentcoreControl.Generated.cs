@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockagentcorecontrol commands.
+/// aws bedrock-agentcore-control commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
@@ -33,7 +33,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws bedrock-agentcore-control wait sub-commands.
     /// </summary>
     public AwsBedrockAgentcoreControlWait Wait => _wait ??= new AwsBedrockAgentcoreControlWait(_command);
 

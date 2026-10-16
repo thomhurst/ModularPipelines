@@ -33,7 +33,7 @@ public class AwsS3Api : IAwsS3Api
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws s3api wait sub-commands.
     /// </summary>
     public AwsS3ApiWait Wait => _wait ??= new AwsS3ApiWait(_command);
 

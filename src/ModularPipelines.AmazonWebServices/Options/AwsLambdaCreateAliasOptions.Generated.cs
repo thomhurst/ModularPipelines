@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an alias for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a dif- ferent version. You can also map an alias to split invocation requests between two ver- sions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
+/// Creates an alias for a Lambda Event Function version. Use aliases to provide clients with a function identifier that you can update to in- voke a different version. You can also map an alias to split invocation requests between two ver- sions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsLambdaCreateAliasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an alias for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a dif- ferent version. You can also map an alias to split invocation requests between two ver- sions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
+    /// Creates an alias for a Lambda Event Function version. Use aliases to provide clients with a function identifier that you can update to in- voke a different version. You can also map an alias to split invocation requests between two ver- sions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
     /// </summary>
     /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name - MyFunction . o Function ARN - arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
     /// <param name="Name">The name of the alias. Constraints: o min: 1 o max: 128 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_]+)</param>

@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a capacity provider that manages compute resources for Lambda functions See also: AWS API Documentation
+/// Creates a capacity provider that manages compute resources for Lambda Event Functions See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsLambdaCreateCapacityProviderOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a capacity provider that manages compute resources for Lambda functions See also: AWS API Documentation
+    /// Creates a capacity provider that manages compute resources for Lambda Event Functions See also: AWS API Documentation
     /// </summary>
     /// <param name="CapacityProviderName">The name of the capacity provider. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
     /// <param name="VpcConfig">The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched. SubnetIds -&gt; (list) [required] A list of subnet IDs where the capacity provider launches com- pute instances. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) [required] A list of security group IDs that control network access for compute instances managed by the capacity provider. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>

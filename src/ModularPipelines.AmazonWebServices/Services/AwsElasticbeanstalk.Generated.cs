@@ -33,7 +33,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elasticbeanstalk wait sub-commands.
     /// </summary>
     public AwsElasticbeanstalkWait Wait => _wait ??= new AwsElasticbeanstalkWait(_command);
 

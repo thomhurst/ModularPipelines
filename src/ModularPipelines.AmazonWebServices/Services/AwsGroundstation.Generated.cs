@@ -33,7 +33,7 @@ public class AwsGroundstation : IAwsGroundstation
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws groundstation wait sub-commands.
     /// </summary>
     public AwsGroundstationWait Wait => _wait ??= new AwsGroundstationWait(_command);
 

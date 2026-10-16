@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws arcregionswitch commands.
+/// aws arc-region-switch commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsArcRegionSwitch
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws arc-region-switch wait sub-commands.
     /// </summary>
-    AwsArcRegionSwitchWait Wait => throw new System.NotSupportedException();
+    AwsArcRegionSwitchWait Wait { get; }
 
     /// <summary>
     /// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the ap- proval decision. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApprovePlanExecutionStepAsync(AwsArcRegionSwitchApprovePlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApprovePlanExecutionStepAsync(AwsArcRegionSwitchApprovePlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an in-progress plan execution. This operation stops the execu- tion of the plan and prevents any further steps from being processed. You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelPlanExecutionAsync(AwsArcRegionSwitchCancelPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelPlanExecutionAsync(AwsArcRegionSwitchCancelPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Region switch plan. A plan defines the steps required to shift traffic from one Amazon Web Services Region to another. You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and work- flows that define the steps to execute during a Region switch. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePlanAsync(AwsArcRegionSwitchCreatePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePlanAsync(AwsArcRegionSwitchCreatePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Region switch plan. You must specify the ARN of the plan to delete. You cannot delete a plan that has an active execution in progress. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePlanAsync(AwsArcRegionSwitchDeletePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePlanAsync(AwsArcRegionSwitchDeletePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected. See also: AWS API Documentation get-plan-evaluation-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
@@ -73,8 +69,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPlanEvaluationStatusAsync(AwsArcRegionSwitchGetPlanEvaluationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPlanEvaluationStatusAsync(AwsArcRegionSwitchGetPlanEvaluationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID. See also: AWS API Documentation get-plan-execution is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
@@ -83,8 +78,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPlanExecutionAsync(AwsArcRegionSwitchGetPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPlanExecutionAsync(AwsArcRegionSwitchGetPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-spe- cific information about a plan. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPlanInRegionAsync(AwsArcRegionSwitchGetPlanInRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPlanInRegionAsync(AwsArcRegionSwitchGetPlanInRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPlanAsync(AwsArcRegionSwitchGetPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPlanAsync(AwsArcRegionSwitchGetPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process. See also: AWS API Documentation list-plan-execution-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
@@ -113,8 +105,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPlanExecutionEventsAsync(AwsArcRegionSwitchListPlanExecutionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPlanExecutionEventsAsync(AwsArcRegionSwitchListPlanExecutionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the executions of a Region switch plan. This operation returns information about both current and historical executions. See also: AWS API Documentation list-plan-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
@@ -123,8 +114,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPlanExecutionsAsync(AwsArcRegionSwitchListPlanExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPlanExecutionsAsync(AwsArcRegionSwitchListPlanExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Region switch plans in your Amazon Web Services account that are available in the current Amazon Web Services Region. See also: AWS API Documentation list-plans-in-region is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
@@ -133,8 +123,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPlansInRegionAsync(AwsArcRegionSwitchListPlansInRegionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPlansInRegionAsync(AwsArcRegionSwitchListPlansInRegionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Region switch plans in your Amazon Web Services account. See also: AWS API Documentation list-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: plans
@@ -143,8 +132,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPlansAsync(AwsArcRegionSwitchListPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPlansAsync(AwsArcRegionSwitchListPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the Amazon Route 53 health checks in a specific Amazon Web Ser- vices Region. See also: AWS API Documentation list-route53-health-checks-in-region is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
@@ -153,8 +141,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRoute53HealthChecksInRegionAsync(AwsArcRegionSwitchListRoute53HealthChecksInRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRoute53HealthChecksInRegionAsync(AwsArcRegionSwitchListRoute53HealthChecksInRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the Amazon Route 53 health checks. See also: AWS API Documentation list-route53-health-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: healthChecks
@@ -163,18 +150,16 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRoute53HealthChecksAsync(AwsArcRegionSwitchListRoute53HealthChecksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRoute53HealthChecksAsync(AwsArcRegionSwitchListRoute53HealthChecksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the service quota warnings for the plans that you can access. Re- gion switch creates a warning when the applied quota value in one Re- gion of a plan is lower than the value required for the matching re- source in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Regio...
+    /// Lists the service quota warnings for the plans that you can access. Re- gion switch creates a warning when the applied quota value in one Re- gion of a plan is lower than the value required for the matching re- source in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through Resource Access Manager (RAM). To re- turn warnings for specific plans, provide a list of plan Amazon Re- source Names (ARNs). Region sw...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceQuotaWarningsAsync(AwsArcRegionSwitchListServiceQuotaWarningsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceQuotaWarningsAsync(AwsArcRegionSwitchListServiceQuotaWarningsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags attached to a Region switch resource. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsArcRegionSwitchListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsArcRegionSwitchListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the execution of a Region switch plan. You can execute a plan in either graceful or ungraceful mode. Specifing ungraceful mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPlanExecutionAsync(AwsArcRegionSwitchStartPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPlanExecutionAsync(AwsArcRegionSwitchStartPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates tags for a Region switch resource. You can assign meta- data to your resources in the form of tags, which are key-value pairs. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsArcRegionSwitchTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsArcRegionSwitchTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a Region switch resource. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsArcRegionSwitchUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsArcRegionSwitchUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePlanExecutionAsync(AwsArcRegionSwitchUpdatePlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePlanExecutionAsync(AwsArcRegionSwitchUpdatePlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a specific step in an in-progress plan execution. This opera- tion allows you to modify the step's comment or action. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePlanExecutionStepAsync(AwsArcRegionSwitchUpdatePlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePlanExecutionStepAsync(AwsArcRegionSwitchUpdatePlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Region switch plan. You can modify the plan's de- scription, workflows, execution role, recovery time objective, associ- ated alarms, and triggers. See also: AWS API Documentation
@@ -243,7 +222,6 @@ public interface IAwsArcRegionSwitch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePlanAsync(AwsArcRegionSwitchUpdatePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePlanAsync(AwsArcRegionSwitchUpdatePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

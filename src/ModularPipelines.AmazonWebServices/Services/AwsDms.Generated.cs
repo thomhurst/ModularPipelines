@@ -33,7 +33,7 @@ public class AwsDms : IAwsDms
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws dms wait sub-commands.
     /// </summary>
     public AwsDmsWait Wait => _wait ??= new AwsDmsWait(_command);
 

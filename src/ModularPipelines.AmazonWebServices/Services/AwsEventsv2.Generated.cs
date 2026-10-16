@@ -33,7 +33,7 @@ public class AwsEventsv2 : IAwsEventsv2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws eventsv2 wait sub-commands.
     /// </summary>
     public AwsEventsv2Wait Wait => _wait ??= new AwsEventsv2Wait(_command);
 

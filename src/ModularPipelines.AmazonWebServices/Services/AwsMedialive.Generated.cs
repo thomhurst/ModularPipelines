@@ -33,7 +33,7 @@ public class AwsMedialive : IAwsMedialive
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws medialive wait sub-commands.
     /// </summary>
     public AwsMedialiveWait Wait => _wait ??= new AwsMedialiveWait(_command);
 

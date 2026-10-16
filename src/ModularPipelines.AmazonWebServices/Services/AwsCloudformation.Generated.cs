@@ -33,7 +33,7 @@ public class AwsCloudformation : IAwsCloudformation
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudformation wait sub-commands.
     /// </summary>
     public AwsCloudformationWait Wait => _wait ??= new AwsCloudformationWait(_command);
 

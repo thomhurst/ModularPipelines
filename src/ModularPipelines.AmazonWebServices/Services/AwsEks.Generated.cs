@@ -33,7 +33,7 @@ public class AwsEks : IAwsEks
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws eks wait sub-commands.
     /// </summary>
     public AwsEksWait Wait => _wait ??= new AwsEksWait(_command);
 

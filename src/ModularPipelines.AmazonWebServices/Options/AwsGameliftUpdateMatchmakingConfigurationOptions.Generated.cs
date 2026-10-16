@@ -69,7 +69,7 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions, IVa
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN ) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt; . Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE , do not set this parameter. (string) Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$ Syntax: "string" "string" ...
+    /// The Amazon Resource Name (ARN ) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt; . Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. A matchmaking configuration supports only one queue; if you specify more than one ARN, the re- quest fails with an InvalidRequestException . If FlexMatchMode is set to STANDALONE , do not set this parameter. (string) Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--game-session-queue-arns", GroupValues = true)]
     public IEnumerable<string>? GameSessionQueueArns { get; set; }

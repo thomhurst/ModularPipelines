@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws codegurureviewer commands.
+/// aws codeguru-reviewer commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCodeguruReviewer : IAwsCodeguruReviewer
@@ -33,7 +33,7 @@ public class AwsCodeguruReviewer : IAwsCodeguruReviewer
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws codeguru-reviewer wait sub-commands.
     /// </summary>
     public AwsCodeguruReviewerWait Wait => _wait ??= new AwsCodeguruReviewerWait(_command);
 

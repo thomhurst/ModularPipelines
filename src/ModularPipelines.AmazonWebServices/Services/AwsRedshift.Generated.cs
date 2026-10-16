@@ -33,7 +33,7 @@ public class AwsRedshift : IAwsRedshift
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws redshift wait sub-commands.
     /// </summary>
     public AwsRedshiftWait Wait => _wait ??= new AwsRedshiftWait(_command);
 

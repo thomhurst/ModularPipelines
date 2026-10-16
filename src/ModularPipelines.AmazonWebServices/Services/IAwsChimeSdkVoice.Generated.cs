@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkvoice commands.
+/// aws chime-sdk-voice commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociatePhoneNumbersWithVoiceConnectorGroupAsync(AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociatePhoneNumbersWithVoiceConnectorGroupAsync(AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Con- nector. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociatePhoneNumbersWithVoiceConnectorAsync(AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociatePhoneNumbersWithVoiceConnectorAsync(AwsChimeSdkVoiceAssociatePhoneNumbersWithVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors be- fore they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeletePhoneNumberAsync(AwsChimeSdkVoiceBatchDeletePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeletePhoneNumberAsync(AwsChimeSdkVoiceBatchDeletePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNum- berRequestItem . For example, you can update the product type, the calling name, or phone name. NOTE: You cannot have a duplicate phoneNumberId in a request. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdatePhoneNumberAsync(AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdatePhoneNumberAsync(AwsChimeSdkVoiceBatchUpdatePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an order for phone numbers to be provisioned. For numbers out- side the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePhoneNumberOrderAsync(AwsChimeSdkVoiceCreatePhoneNumberOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePhoneNumberOrderAsync(AwsChimeSdkVoiceCreatePhoneNumberOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an outbound call to a phone number from the phone number speci- fied in the request, and it invokes the endpoint of the specified sip- MediaApplicationId . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSipMediaApplicationCallAsync(AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSipMediaApplicationCallAsync(AwsChimeSdkVoiceCreateSipMediaApplicationCallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications and rules in the Ama- zon Chime SDK Administrator Guide . See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSipMediaApplicationAsync(AwsChimeSdkVoiceCreateSipMediaApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSipMediaApplicationAsync(AwsChimeSdkVoiceCreateSipMediaApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see Managing SIP media applications and rules in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSipRuleAsync(AwsChimeSdkVoiceCreateSipRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSipRuleAsync(AwsChimeSdkVoiceCreateSipRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Chime SDK Voice Connector group under the administra- tor's AWS account. You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including VoiceConnectorItems in the request. You can include Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVoiceConnectorGroupAsync(AwsChimeSdkVoiceCreateVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVoiceConnectorGroupAsync(AwsChimeSdkVoiceCreateVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Chime SDK Voice Connector. For more information about Voice Connectors, see Managing Amazon Chime SDK Voice Connector groups in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVoiceConnectorAsync(AwsChimeSdkVoiceCreateVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVoiceConnectorAsync(AwsChimeSdkVoiceCreateVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profile domains, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Developer Guide . See al...
@@ -128,8 +118,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVoiceProfileDomainAsync(AwsChimeSdkVoiceCreateVoiceProfileDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVoiceProfileDomainAsync(AwsChimeSdkVoiceCreateVoiceProfileDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a voice profile, which consists of an enrolled user and their latest voice print. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Devel- oper Guide . See also: AWS API...
@@ -138,8 +127,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVoiceProfileAsync(AwsChimeSdkVoiceCreateVoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVoiceProfileAsync(AwsChimeSdkVoiceCreateVoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Moves the specified phone number into the Deletion queue . A phone num- ber must be disassociated from any users or Amazon Chime SDK Voice Con- nectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days be- fore they are deleted permanently. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePhoneNumberAsync(AwsChimeSdkVoiceDeletePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePhoneNumberAsync(AwsChimeSdkVoiceDeletePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a SIP media application. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSipMediaApplicationAsync(AwsChimeSdkVoiceDeleteSipMediaApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSipMediaApplicationAsync(AwsChimeSdkVoiceDeleteSipMediaApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a SIP rule. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSipRuleAsync(AwsChimeSdkVoiceDeleteSipRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSipRuleAsync(AwsChimeSdkVoiceDeleteSipRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the emergency calling details from the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceConnectorEmergencyCallingConfigurationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorEmergencyCallingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceConnectorEmergencyCallingConfigurationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorEmergencyCallingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the external systems configuration for a Voice Connector. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceConnectorExternalSystemsConfigurationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorExternalSystemsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceConnectorExternalSystemsConfigurationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorExternalSystemsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnec- torItems and phone numbers associated with the group must be removed before it can be deleted. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceConnectorGroupAsync(AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceConnectorGroupAsync(AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associ- ated with the Amazon Chime SDK Voice Connector must be disassociated from it before it can be deleted. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceConnectorAsync(AwsChimeSdkVoiceDeleteVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceConnectorAsync(AwsChimeSdkVoiceDeleteVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the origination settings for the specified Amazon Chime SDK Voice Connector. NOTE: If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the origination settings. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceConnectorOriginationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorOriginationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceConnectorOriginationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorOriginationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Voice Connector's streaming configuration. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceConnectorStreamingConfigurationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorStreamingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceConnectorStreamingConfigurationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorStreamingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified SIP credentials used by your equipment to authen- ticate during call termination. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceConnectorTerminationCredentialsAsync(AwsChimeSdkVoiceDeleteVoiceConnectorTerminationCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceConnectorTerminationCredentialsAsync(AwsChimeSdkVoiceDeleteVoiceConnectorTerminationCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the termination settings for the specified Amazon Chime SDK Voice Connector. NOTE: If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the termination settings. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceConnectorTerminationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorTerminationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceConnectorTerminationAsync(AwsChimeSdkVoiceDeleteVoiceConnectorTerminationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes all voice profiles in the domain. WARNING: This action is not reversible. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceProfileDomainAsync(AwsChimeSdkVoiceDeleteVoiceProfileDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceProfileDomainAsync(AwsChimeSdkVoiceDeleteVoiceProfileDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVoiceProfileAsync(AwsChimeSdkVoiceDeleteVoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVoiceProfileAsync(AwsChimeSdkVoiceDeleteVoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector group. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociatePhoneNumbersFromVoiceConnectorGroupAsync(AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociatePhoneNumbersFromVoiceConnectorGroupAsync(AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociatePhoneNumbersFromVoiceConnectorAsync(AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociatePhoneNumbersFromVoiceConnectorAsync(AwsChimeSdkVoiceDisassociatePhoneNumbersFromVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGlobalSettingsAsync(AwsChimeSdkVoiceGetGlobalSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGlobalSettingsAsync(AwsChimeSdkVoiceGetGlobalSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details for the specified phone number ID, such as associa- tions, capabilities, and product type. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPhoneNumberAsync(AwsChimeSdkVoiceGetPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPhoneNumberAsync(AwsChimeSdkVoiceGetPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details for the specified phone number order, such as the or- der creation timestamp, phone numbers in E.164 format, product type, and order status. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPhoneNumberOrderAsync(AwsChimeSdkVoiceGetPhoneNumberOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPhoneNumberOrderAsync(AwsChimeSdkVoiceGetPhoneNumberOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the phone number settings for the administrator's AWS ac- count, such as the default outbound calling name. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPhoneNumberSettingsAsync(AwsChimeSdkVoiceGetPhoneNumberSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPhoneNumberSettingsAsync(AwsChimeSdkVoiceGetPhoneNumberSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the logging configuration for the specified SIP media appli- cation. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSipMediaApplicationLoggingConfigurationAsync(AwsChimeSdkVoiceGetSipMediaApplicationLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSipMediaApplicationLoggingConfigurationAsync(AwsChimeSdkVoiceGetSipMediaApplicationLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSipMediaApplicationAsync(AwsChimeSdkVoiceGetSipMediaApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSipMediaApplicationAsync(AwsChimeSdkVoiceGetSipMediaApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a SIP rule, such as the rule ID, name, trig- gers, and target endpoints. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSipRuleAsync(AwsChimeSdkVoiceGetSipRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSipRuleAsync(AwsChimeSdkVoiceGetSipRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of the specified speaker search task. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSpeakerSearchTaskAsync(AwsChimeSdkVoiceGetSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSpeakerSearchTaskAsync(AwsChimeSdkVoiceGetSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the emergency calling configuration details for the specified Voice Connector. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorEmergencyCallingConfigurationAsync(AwsChimeSdkVoiceGetVoiceConnectorEmergencyCallingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorEmergencyCallingConfigurationAsync(AwsChimeSdkVoiceGetVoiceConnectorEmergencyCallingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an external systems configuration for a Voice Connector. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorExternalSystemsConfigurationAsync(AwsChimeSdkVoiceGetVoiceConnectorExternalSystemsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorExternalSystemsConfigurationAsync(AwsChimeSdkVoiceGetVoiceConnectorExternalSystemsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems . See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorGroupAsync(AwsChimeSdkVoiceGetVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorGroupAsync(AwsChimeSdkVoiceGetVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the logging configuration settings for the specified Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorLoggingConfigurationAsync(AwsChimeSdkVoiceGetVoiceConnectorLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorLoggingConfigurationAsync(AwsChimeSdkVoiceGetVoiceConnectorLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector, such as timestamps,name, outbound host, and encryption requirements. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorAsync(AwsChimeSdkVoiceGetVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorAsync(AwsChimeSdkVoiceGetVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the origination settings for the specified Voice Connector. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorOriginationAsync(AwsChimeSdkVoiceGetVoiceConnectorOriginationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorOriginationAsync(AwsChimeSdkVoiceGetVoiceConnectorOriginationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the streaming configuration details for the specified Amazon Chime SDK Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorStreamingConfigurationAsync(AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorStreamingConfigurationAsync(AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the last time a SIP OPTIONS ping was re- ceived from your SIP infrastructure for the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorTerminationHealthAsync(AwsChimeSdkVoiceGetVoiceConnectorTerminationHealthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorTerminationHealthAsync(AwsChimeSdkVoiceGetVoiceConnectorTerminationHealthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the termination setting details for the specified Voice Con- nector. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceConnectorTerminationAsync(AwsChimeSdkVoiceGetVoiceConnectorTerminationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceConnectorTerminationAsync(AwsChimeSdkVoiceGetVoiceConnectorTerminationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of the specified voice profile domain. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceProfileDomainAsync(AwsChimeSdkVoiceGetVoiceProfileDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceProfileDomainAsync(AwsChimeSdkVoiceGetVoiceProfileDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of the specified voice profile. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceProfileAsync(AwsChimeSdkVoiceGetVoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceProfileAsync(AwsChimeSdkVoiceGetVoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a voice tone analysis task. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVoiceToneAnalysisTaskAsync(AwsChimeSdkVoiceGetVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVoiceToneAnalysisTaskAsync(AwsChimeSdkVoiceGetVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAvailableVoiceConnectorRegionsAsync(AwsChimeSdkVoiceListAvailableVoiceConnectorRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAvailableVoiceConnectorRegionsAsync(AwsChimeSdkVoiceListAvailableVoiceConnectorRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the phone numbers for an administrator's Amazon Chime SDK ac- count. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPhoneNumberOrdersAsync(AwsChimeSdkVoiceListPhoneNumberOrdersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPhoneNumberOrdersAsync(AwsChimeSdkVoiceListPhoneNumberOrdersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the phone numbers for the specified Amazon Chime SDK account, Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice Connector group. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPhoneNumbersAsync(AwsChimeSdkVoiceListPhoneNumbersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPhoneNumbersAsync(AwsChimeSdkVoiceListPhoneNumbersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the SIP media applications under the administrator's AWS account. See also: AWS API Documentation list-sip-media-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SipMediaApplicati...
@@ -528,8 +478,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSipMediaApplicationsAsync(AwsChimeSdkVoiceListSipMediaApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSipMediaApplicationsAsync(AwsChimeSdkVoiceListSipMediaApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the SIP rules under the administrator's AWS account. See also: AWS API Documentation list-sip-rules is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SipRules
@@ -538,8 +487,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSipRulesAsync(AwsChimeSdkVoiceListSipRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSipRulesAsync(AwsChimeSdkVoiceListSipRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the countries that you can order phone numbers from. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSupportedPhoneNumberCountriesAsync(AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSupportedPhoneNumberCountriesAsync(AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the tags in a given resource. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsChimeSdkVoiceListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsChimeSdkVoiceListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon Chime SDK Voice Connector groups in the administra- tor's AWS account. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVoiceConnectorGroupsAsync(AwsChimeSdkVoiceListVoiceConnectorGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVoiceConnectorGroupsAsync(AwsChimeSdkVoiceListVoiceConnectorGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS account. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVoiceConnectorsAsync(AwsChimeSdkVoiceListVoiceConnectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVoiceConnectorsAsync(AwsChimeSdkVoiceListVoiceConnectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Con- nector. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVoiceConnectorTerminationCredentialsAsync(AwsChimeSdkVoiceListVoiceConnectorTerminationCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVoiceConnectorTerminationCredentialsAsync(AwsChimeSdkVoiceListVoiceConnectorTerminationCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the specified voice profile domains in the administrator's AWS account. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVoiceProfileDomainsAsync(AwsChimeSdkVoiceListVoiceProfileDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVoiceProfileDomainsAsync(AwsChimeSdkVoiceListVoiceProfileDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the voice profiles in a voice profile domain. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVoiceProfilesAsync(AwsChimeSdkVoiceListVoiceProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVoiceProfilesAsync(AwsChimeSdkVoiceListVoiceProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the logging configuration for the specified SIP media applica- tion. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSipMediaApplicationLoggingConfigurationAsync(AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSipMediaApplicationLoggingConfigurationAsync(AwsChimeSdkVoicePutSipMediaApplicationLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Voice Connector's emergency calling configuration. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutVoiceConnectorEmergencyCallingConfigurationAsync(AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutVoiceConnectorEmergencyCallingConfigurationAsync(AwsChimeSdkVoicePutVoiceConnectorEmergencyCallingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an external systems configuration to a Voice Connector. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutVoiceConnectorExternalSystemsConfigurationAsync(AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutVoiceConnectorExternalSystemsConfigurationAsync(AwsChimeSdkVoicePutVoiceConnectorExternalSystemsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Voice Connector's logging configuration. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutVoiceConnectorLoggingConfigurationAsync(AwsChimeSdkVoicePutVoiceConnectorLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutVoiceConnectorLoggingConfigurationAsync(AwsChimeSdkVoicePutVoiceConnectorLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Voice Connector's origination settings. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutVoiceConnectorOriginationAsync(AwsChimeSdkVoicePutVoiceConnectorOriginationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutVoiceConnectorOriginationAsync(AwsChimeSdkVoicePutVoiceConnectorOriginationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Voice Connector's streaming configuration settings. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutVoiceConnectorStreamingConfigurationAsync(AwsChimeSdkVoicePutVoiceConnectorStreamingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutVoiceConnectorStreamingConfigurationAsync(AwsChimeSdkVoicePutVoiceConnectorStreamingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Voice Connector's termination credentials. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutVoiceConnectorTerminationCredentialsAsync(AwsChimeSdkVoicePutVoiceConnectorTerminationCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutVoiceConnectorTerminationCredentialsAsync(AwsChimeSdkVoicePutVoiceConnectorTerminationCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Voice Connector's termination settings. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutVoiceConnectorTerminationAsync(AwsChimeSdkVoicePutVoiceConnectorTerminationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutVoiceConnectorTerminationAsync(AwsChimeSdkVoicePutVoiceConnectorTerminationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores a deleted phone number. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestorePhoneNumberAsync(AwsChimeSdkVoiceRestorePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestorePhoneNumberAsync(AwsChimeSdkVoiceRestorePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the provisioned phone numbers in an organization. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAvailablePhoneNumbersAsync(AwsChimeSdkVoiceSearchAvailablePhoneNumbersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAvailablePhoneNumbersAsync(AwsChimeSdkVoiceSearchAvailablePhoneNumbersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all no- tices and obtain all consents from the speaker as required under ap- plicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSpeakerSearchTaskAsync(AwsChimeSdkVoiceStartSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSpeakerSearchTaskAsync(AwsChimeSdkVoiceStartSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see Using Amazon Chime SDK voice analytics in the Amazon Chime SDK Developer Guide . WARNING: Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartVoiceToneAnalysisTaskAsync(AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartVoiceToneAnalysisTaskAsync(AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a speaker search task. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopSpeakerSearchTaskAsync(AwsChimeSdkVoiceStopSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopSpeakerSearchTaskAsync(AwsChimeSdkVoiceStopSpeakerSearchTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a voice tone analysis task. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopVoiceToneAnalysisTaskAsync(AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopVoiceToneAnalysisTaskAsync(AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a tag to the specified resource. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsChimeSdkVoiceTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsChimeSdkVoiceTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a resource. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsChimeSdkVoiceUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsChimeSdkVoiceUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGlobalSettingsAsync(AwsChimeSdkVoiceUpdateGlobalSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGlobalSettingsAsync(AwsChimeSdkVoiceUpdateGlobalSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Me- dia Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pend- ing updates to outbound calling names must b...
@@ -788,8 +712,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePhoneNumberAsync(AwsChimeSdkVoiceUpdatePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePhoneNumberAsync(AwsChimeSdkVoiceUpdatePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update. See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePhoneNumberSettingsAsync(AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePhoneNumberSettingsAsync(AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Invokes the AWS Lambda function associated with the SIP media applica- tion and transaction ID in an update request. The Lambda function can then return a new set of actions. See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSipMediaApplicationCallAsync(AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSipMediaApplicationCallAsync(AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the details of the specified SIP media application. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSipMediaApplicationAsync(AwsChimeSdkVoiceUpdateSipMediaApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSipMediaApplicationAsync(AwsChimeSdkVoiceUpdateSipMediaApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the details of the specified SIP rule. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSipRuleAsync(AwsChimeSdkVoiceUpdateSipRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSipRuleAsync(AwsChimeSdkVoiceUpdateSipRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group. See also: AWS API Documentation
@@ -838,8 +757,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVoiceConnectorGroupAsync(AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVoiceConnectorGroupAsync(AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the details for the specified Amazon Chime SDK Voice Connector. See also: AWS API Documentation
@@ -848,8 +766,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVoiceConnectorAsync(AwsChimeSdkVoiceUpdateVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVoiceConnectorAsync(AwsChimeSdkVoiceUpdateVoiceConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings for the specified voice profile domain. See also: AWS API Documentation
@@ -858,8 +775,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVoiceProfileDomainAsync(AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVoiceProfileDomainAsync(AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified voice profiles voice print and refreshes its ex- piration timestamp. WARNING: As a condition of using this feature, you acknowledge that the col- lection, use, storage, and retention of your callers biometric iden- tifiers and biometric information (biometric data) in the form of a digital voiceprint requires the callers informed consent via a writ- ten release. Such consent is required under various state laws, in- cluding biometrics laws in Illinois, Texas, Washington and...
@@ -868,8 +784,7 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVoiceProfileAsync(AwsChimeSdkVoiceUpdateVoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVoiceProfileAsync(AwsChimeSdkVoiceUpdateVoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence In- formation Data Format Location Object file that you include in SIP re- quests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. See also: AWS API Documentation
@@ -878,7 +793,6 @@ public interface IAwsChimeSdkVoice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidateE911AddressAsync(AwsChimeSdkVoiceValidateE911AddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidateE911AddressAsync(AwsChimeSdkVoiceValidateE911AddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

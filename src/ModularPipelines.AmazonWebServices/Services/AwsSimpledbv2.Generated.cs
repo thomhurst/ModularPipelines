@@ -33,7 +33,7 @@ public class AwsSimpledbv2 : IAwsSimpledbv2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws simpledbv2 wait sub-commands.
     /// </summary>
     public AwsSimpledbv2Wait Wait => _wait ??= new AwsSimpledbv2Wait(_command);
 

@@ -33,7 +33,7 @@ public class AwsDeploy : IAwsDeploy
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws deploy wait sub-commands.
     /// </summary>
     public AwsDeployWait Wait => _wait ??= new AwsDeployWait(_command);
 

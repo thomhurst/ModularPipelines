@@ -33,7 +33,7 @@ public class AwsSchemas : IAwsSchemas
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws schemas wait sub-commands.
     /// </summary>
     public AwsSchemasWait Wait => _wait ??= new AwsSchemasWait(_command);
 

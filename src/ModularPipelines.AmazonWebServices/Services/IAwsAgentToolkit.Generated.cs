@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws agenttoolkit commands.
+/// aws agent-toolkit commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddSkillAsync(AwsAgentToolkitAddSkillOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddSkillAsync(AwsAgentToolkitAddSkillOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Check installed AWS skills for available updates. Lists the version currently on disk alongside the latest version available. Only skills with an update available are listed, pass --all to list every installed skill. Nothing is downloaded or modified, run aws agent-toolkit up- date-skill to apply an update. By default it checks skills for all de- tected agents, use --agent to check only a specific tool.
@@ -38,8 +37,7 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckSkillUpdatesAsync(AwsAgentToolkitCheckSkillUpdatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckSkillUpdatesAsync(AwsAgentToolkitCheckSkillUpdatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the contents of a single file from a skill. Use aws agent-toolkit get-skill-metadata to discover available file names for each skill. By default the latest version is retrieved, use --skill-version for a specific skill version.
@@ -48,8 +46,7 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSkillFileAsync(AwsAgentToolkitGetSkillFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSkillFileAsync(AwsAgentToolkitGetSkillFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves metadata for a skill, including its version, description, categories, and file list. Use --skill-version to get the metadata for a specific version of the skill. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSkillMetadataAsync(AwsAgentToolkitGetSkillMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSkillMetadataAsync(AwsAgentToolkitGetSkillMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists skills available in the remote catalog. Use --category-filter to filter by a single category. See also: AWS API Documentation list-available-skills is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
@@ -68,8 +64,7 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAvailableSkillsAsync(AwsAgentToolkitListAvailableSkillsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAvailableSkillsAsync(AwsAgentToolkitListAvailableSkillsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List AWS skills that were previously installed by the aws agent-toolkit commands. Shows the skill name, agent, and file path for each installa- tion. By default it lists skills from all detected agents, use --agent to filter results to a specific tool.
@@ -78,8 +73,7 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstalledSkillsAsync(AwsAgentToolkitListInstalledSkillsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstalledSkillsAsync(AwsAgentToolkitListInstalledSkillsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a previously installed AWS skill from detected agents. By de- fault the skill is removed from all detected agents, use --agent to re- move from a specific tool only.
@@ -88,8 +82,7 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveSkillAsync(AwsAgentToolkitRemoveSkillOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveSkillAsync(AwsAgentToolkitRemoveSkillOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the remote catalog for skills matching a query. See also: AWS API Documentation search-skills is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: skills
@@ -98,8 +91,7 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchSkillsAsync(AwsAgentToolkitSearchSkillsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchSkillsAsync(AwsAgentToolkitSearchSkillsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update installed AWS skills to the latest version. Compares the locally installed version against the available skills and downloads the newer version if available. Pass --skill-name to update a single skill or --all to update every installed skill that is out of date. By default skills are updated for all detected agents, use --agent to update for only a specific tool.
@@ -108,7 +100,6 @@ public interface IAwsAgentToolkit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSkillAsync(AwsAgentToolkitUpdateSkillOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSkillAsync(AwsAgentToolkitUpdateSkillOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

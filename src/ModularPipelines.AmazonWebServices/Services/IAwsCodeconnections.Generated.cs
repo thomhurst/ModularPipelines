@@ -28,8 +28,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConnectionAsync(AwsCodeconnectionsCreateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConnectionAsync(AwsCodeconnectionsCreateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. NOTE: A host created through the CLI or the SDK is in PENDING status by default. You can make its status AVAILABLE by setting up the host in the console. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHostAsync(AwsCodeconnectionsCreateHostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHostAsync(AwsCodeconnectionsCreateHostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a speci- fied Git repository. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRepositoryLinkAsync(AwsCodeconnectionsCreateRepositoryLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRepositoryLinkAsync(AwsCodeconnectionsCreateRepositoryLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a sync configuration which allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource. Parameters for the sync configuration are determined by the sync type. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSyncConfigurationAsync(AwsCodeconnectionsCreateSyncConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSyncConfigurationAsync(AwsCodeconnectionsCreateSyncConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The connection to be deleted. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectionAsync(AwsCodeconnectionsDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectionAsync(AwsCodeconnectionsDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The host to be deleted. Before you delete a host, all connections asso- ciated to the host must be deleted. NOTE: A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHostAsync(AwsCodeconnectionsDeleteHostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHostAsync(AwsCodeconnectionsDeleteHostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the association between your connection and a specified exter- nal Git repository. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRepositoryLinkAsync(AwsCodeconnectionsDeleteRepositoryLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRepositoryLinkAsync(AwsCodeconnectionsDeleteRepositoryLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the sync configuration for a specified repository and connec- tion. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSyncConfigurationAsync(AwsCodeconnectionsDeleteSyncConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSyncConfigurationAsync(AwsCodeconnectionsDeleteSyncConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the connection ARN and details such as status, owner, and provider type. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionAsync(AwsCodeconnectionsGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionAsync(AwsCodeconnectionsGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the host ARN and details such as status, provider type, end- point, and, if applicable, the VPC configuration. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHostAsync(AwsCodeconnectionsGetHostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHostAsync(AwsCodeconnectionsGetHostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git reposi- tory. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRepositoryLinkAsync(AwsCodeconnectionsGetRepositoryLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRepositoryLinkAsync(AwsCodeconnectionsGetRepositoryLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote reposi- tory. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRepositorySyncStatusAsync(AwsCodeconnectionsGetRepositorySyncStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRepositorySyncStatusAsync(AwsCodeconnectionsGetRepositorySyncStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the status of the sync with the Git repository for a specific Amazon Web Services resource. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceSyncStatusAsync(AwsCodeconnectionsGetResourceSyncStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceSyncStatusAsync(AwsCodeconnectionsGetResourceSyncStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the most recent sync blockers. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSyncBlockerSummaryAsync(AwsCodeconnectionsGetSyncBlockerSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSyncBlockerSummaryAsync(AwsCodeconnectionsGetSyncBlockerSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSyncConfigurationAsync(AwsCodeconnectionsGetSyncConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSyncConfigurationAsync(AwsCodeconnectionsGetSyncConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the connections associated with your account. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConnectionsAsync(AwsCodeconnectionsListConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConnectionsAsync(AwsCodeconnectionsListConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the hosts associated with your account. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHostsAsync(AwsCodeconnectionsListHostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHostsAsync(AwsCodeconnectionsListHostsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the repository links created for connections in your account. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRepositoryLinksAsync(AwsCodeconnectionsListRepositoryLinksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRepositoryLinksAsync(AwsCodeconnectionsListRepositoryLinksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the repository sync definitions for repository links in your ac- count. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRepositorySyncDefinitionsAsync(AwsCodeconnectionsListRepositorySyncDefinitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRepositorySyncDefinitionsAsync(AwsCodeconnectionsListRepositorySyncDefinitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of sync configurations for a specified repository. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSyncConfigurationsAsync(AwsCodeconnectionsListSyncConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSyncConfigurationsAsync(AwsCodeconnectionsListSyncConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCodeconnectionsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCodeconnectionsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCodeconnectionsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCodeconnectionsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from an Amazon Web Services resource. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCodeconnectionsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCodeconnectionsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a specified host with the provided configurations. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHostAsync(AwsCodeconnectionsUpdateHostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHostAsync(AwsCodeconnectionsUpdateHostOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the association between your connection and a specified exter- nal Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRepositoryLinkAsync(AwsCodeconnectionsUpdateRepositoryLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRepositoryLinkAsync(AwsCodeconnectionsUpdateRepositoryLinkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSyncBlockerAsync(AwsCodeconnectionsUpdateSyncBlockerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSyncBlockerAsync(AwsCodeconnectionsUpdateSyncBlockerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the sync configuration for your connection and a specified ex- ternal Git repository. See also: AWS API Documentation
@@ -288,7 +262,6 @@ public interface IAwsCodeconnections
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSyncConfigurationAsync(AwsCodeconnectionsUpdateSyncConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSyncConfigurationAsync(AwsCodeconnectionsUpdateSyncConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

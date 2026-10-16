@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsSagemaker
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws sagemaker wait sub-commands.
     /// </summary>
-    AwsSagemakerWait Wait => throw new System.NotSupportedException();
+    AwsSagemakerWait Wait { get; }
 
     /// <summary>
     /// Creates an association between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddAssociationAsync(AwsSagemakerAddAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddAssociationAsync(AwsSagemakerAddAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or overwrites one or more tags for the specified SageMaker re- source. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more in- formation, see Amazon Web Services Tagging Strategies . NOTE: Tags that you add to a hyperparameter tuni...
@@ -43,8 +42,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddTagsAsync(AwsSagemakerAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddTagsAsync(AwsSagemakerAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a trial component with a trial. A trial component can be as- sociated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTrialComponentAsync(AwsSagemakerAssociateTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTrialComponentAsync(AwsSagemakerAssociateTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. To use this operation, you must have the sagemaker:AttachClusterN- odeNetworkInterface permission. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachClusterNodeNetworkInterfaceAsync(AwsSagemakerAttachClusterNodeNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachClusterNodeNetworkInterfaceAsync(AwsSagemakerAttachClusterNodeNetworkInterfaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Con- tainer Storage Interface (CSI) driver to manage the lifecycle of per- sistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachClusterNodeVolumeAsync(AwsSagemakerAttachClusterNodeVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachClusterNodeVolumeAsync(AwsSagemakerAttachClusterNodeVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds nodes to a HyperPod cluster by incrementing the target count for one or more instance groups. This operation returns a unique NodeLogi- calId for each node being added, which can be used to track the provi- sioning status of the node. This API provides a safer alternative to UpdateCluster for scaling operations by avoiding unintended configura- tion changes. NOTE: This API is only supported for clusters using Continuous as the NodeProvisioningMode . See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAddClusterNodesAsync(AwsSagemakerBatchAddClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAddClusterNodesAsync(AwsSagemakerBatchAddClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs. WARNING: o To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the in- stance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod . o If you want to invoke this API on an existing ...
@@ -93,8 +87,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteClusterNodesAsync(AwsSagemakerBatchDeleteClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteClusterNodesAsync(AwsSagemakerBatchDeleteClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action batch describes a list of versioned model packages See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDescribeModelPackageAsync(AwsSagemakerBatchDescribeModelPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDescribeModelPackageAsync(AwsSagemakerBatchDescribeModelPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud Re- bootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or apply- ing certain configuration changes that require a restart. NOTE: o Rebooting a node may cause temporary ser...
@@ -113,8 +105,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchRebootClusterNodesAsync(AwsSagemakerBatchRebootClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchRebootClusterNodesAsync(AwsSagemakerBatchRebootClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance config- uration remain the same. This operation is useful for recovering from hardware failures or per- sistent issues that cannot be resolved through a reboot. WARNING: o Data Loss Warning: Replacing nodes destroys all instance...
@@ -123,8 +114,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchReplaceClusterNodesAsync(AwsSagemakerBatchReplaceClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchReplaceClusterNodesAsync(AwsSagemakerBatchReplaceClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an action . An action is a lineage tracking entity that repre- sents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output arti- fact. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateActionAsync(AwsSagemakerCreateActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateActionAsync(AwsSagemakerCreateActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a benchmark job that runs performance benchmarks against infer- ence infrastructure using a predefined AI workload configuration. The benchmark job measures metrics such as latency, throughput, and cost for your generative AI inference endpoints. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiBenchmarkJobAsync(AwsSagemakerCreateAiBenchmarkJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiBenchmarkJobAsync(AwsSagemakerCreateAiBenchmarkJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a recommendation job that generates intelligent optimization recommendations for generative AI inference deployments. The job ana- lyzes your model, workload configuration, and performance targets to recommend optimal instance types, model optimization techniques (such as quantization and speculative decoding), and deployment configura- tions. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiRecommendationJobAsync(AwsSagemakerCreateAiRecommendationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiRecommendationJobAsync(AwsSagemakerCreateAiRecommendationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a reusable AI workload configuration that defines datasets, data sources, and benchmark tool settings for consistent performance testing of generative AI inference deployments on Amazon SageMaker AI. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAiWorkloadConfigAsync(AwsSagemakerCreateAiWorkloadConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAiWorkloadConfigAsync(AwsSagemakerCreateAiWorkloadConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a machine learning algorithm that you can use in SageMaker and list in the Amazon Web Services Marketplace. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAlgorithmAsync(AwsSagemakerCreateAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAlgorithmAsync(AwsSagemakerCreateAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a configuration for running a SageMaker AI image as a Kernel- Gateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppImageConfigAsync(AwsSagemakerCreateAppImageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppImageConfigAsync(AwsSagemakerCreateAppImageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associ- ated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppAsync(AwsSagemakerCreateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppAsync(AwsSagemakerCreateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an artifact . An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more infor- mation, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateArtifactAsync(AwsSagemakerCreateArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateArtifactAsync(AwsSagemakerCreateArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. Sage- Maker AI then automates the entire model development lifecycle, includ- ing data preprocessing, model training, tuning, and evaluation. Aut...
@@ -213,8 +195,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutoMlJobAsync(AwsSagemakerCreateAutoMlJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutoMlJobAsync(AwsSagemakerCreateAutoMlJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. Sage- Maker AI then automates the entire model development lifecycle, includ- ing data preprocessing, model training, tuning, and evaluation. ...
@@ -223,8 +204,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutoMlJobV2Async(AwsSagemakerCreateAutoMlJobV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutoMlJobV2Async(AwsSagemakerCreateAutoMlJobV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the Amazon SageMaker Developer Guide . See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClusterAsync(AwsSagemakerCreateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClusterAsync(AwsSagemakerCreateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create cluster policy configuration. This policy is used for task pri- oritization and fair-share allocation of idle compute. This helps pri- oritize critical workloads and distributes idle compute across enti- ties. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClusterSchedulerConfigAsync(AwsSagemakerCreateClusterSchedulerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClusterSchedulerConfigAsync(AwsSagemakerCreateClusterSchedulerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repos- itory is a resource in your SageMaker AI account, so it can be associ- ated with more than one notebook instance, and it persists indepen- dently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in ...
@@ -253,8 +231,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCodeRepositoryAsync(AwsSagemakerCreateCodeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCodeRepositoryAsync(AwsSagemakerCreateCodeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a model compilation job. After the model has been compiled, Ama- zon SageMaker AI saves the resulting model artifacts to an Amazon Sim- ple Storage Service (Amazon S3) bucket that you specify. If you choose to host your model using Amazon SageMaker AI hosting ser- vices, you can use the resulting model artifacts as part of the model. You can also use the artifacts with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the fol...
@@ -263,8 +240,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCompilationJobAsync(AwsSagemakerCreateCompilationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCompilationJobAsync(AwsSagemakerCreateCompilationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create compute allocation definition. This defines how compute is allo- cated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateComputeQuotaAsync(AwsSagemakerCreateComputeQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateComputeQuotaAsync(AwsSagemakerCreateComputeQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a context . A context is a lineage tracking entity that repre- sents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContextAsync(AwsSagemakerCreateContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContextAsync(AwsSagemakerCreateContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker AI Model Mon- itor . See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataQualityJobDefinitionAsync(AwsSagemakerCreateDataQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataQualityJobDefinitionAsync(AwsSagemakerCreateDataQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a device fleet. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeviceFleetAsync(AwsSagemakerCreateDeviceFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeviceFleetAsync(AwsSagemakerCreateDeviceFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Domain . A domain consists of an associated Amazon Elastic File System volume, a list of authorized users, and a variety of secu- rity, application, policy, and Amazon Virtual Private Cloud (VPC) con- figurations. Users within a domain can share notebook files and other artifacts with each other. EFS storage When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home direc- tory within the EFS volume for notebooks,...
@@ -313,8 +285,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainAsync(AwsSagemakerCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainAsync(AwsSagemakerCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an edge deployment plan, consisting of multiple stages. Each stage may have a different deployment configuration and devices. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEdgeDeploymentPlanAsync(AwsSagemakerCreateEdgeDeploymentPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEdgeDeploymentPlanAsync(AwsSagemakerCreateEdgeDeploymentPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new stage in an existing edge deployment plan. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEdgeDeploymentStageAsync(AwsSagemakerCreateEdgeDeploymentStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEdgeDeploymentStageAsync(AwsSagemakerCreateEdgeDeploymentStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEdgePackagingJobAsync(AwsSagemakerCreateEdgePackagingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEdgePackagingJobAsync(AwsSagemakerCreateEdgePackagingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an endpoint configuration that SageMaker hosting services uses to deploy models. In the configuration, you identify one or more mod- els, created using the CreateModel API, to deploy and the resources that you want SageMaker to provision. Then you call the CreateEndpoint API. NOTE: Use this API if you want to use SageMaker hosting services to deploy models into production. In the request, you define a ProductionVariant , for each model that you want to deploy. Each ProductionVariant para...
@@ -353,8 +321,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEndpointConfigAsync(AwsSagemakerCreateEndpointConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEndpointConfigAsync(AwsSagemakerCreateEndpointConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API. Use this API to deploy models using SageMaker hosting services. NOTE: You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint opera- tions are being performed on the endpoint. To update an endpoint, you must...
@@ -363,8 +330,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEndpointAsync(AwsSagemakerCreateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEndpointAsync(AwsSagemakerCreateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a SageMaker experiment . An experiment is a collection of tri- als that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components , that produce a machine learning model. NOTE: In the Studio UI, trials are referred to as run groups and trial components are referred to as runs . The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a chang...
@@ -373,8 +339,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExperimentAsync(AwsSagemakerCreateExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExperimentAsync(AwsSagemakerCreateExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new FeatureGroup . A FeatureGroup is a group of Features de- fined in the FeatureStore to describe a Record . The FeatureGroup defines the schema and features contained in the Fea- tureGroup . A FeatureGroup definition is composed of a list of Features , a RecordIdentifierFeatureName , an EventTimeFeatureName and configu- rations for its OnlineStore and OfflineStore . Check Amazon Web Ser- vices service quotas to see the FeatureGroup s quota for your Amazon Web Services account. Note th...
@@ -383,8 +348,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFeatureGroupAsync(AwsSagemakerCreateFeatureGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFeatureGroupAsync(AwsSagemakerCreateFeatureGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a flow definition. See also: AWS API Documentation
@@ -393,8 +357,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFlowDefinitionAsync(AwsSagemakerCreateFlowDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFlowDefinitionAsync(AwsSagemakerCreateFlowDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates presigned URLs for accessing hub content artifacts. This opera- tion generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement accep- tance. See also: AWS API Documentation create-hub-content-presigned-urls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination b...
@@ -403,8 +366,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHubContentPresignedUrlsAsync(AwsSagemakerCreateHubContentPresignedUrlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHubContentPresignedUrlsAsync(AwsSagemakerCreateHubContentPresignedUrlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a hub content reference in order to add a model in the JumpStart public hub to a private hub. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHubContentReferenceAsync(AwsSagemakerCreateHubContentReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHubContentReferenceAsync(AwsSagemakerCreateHubContentReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a hub. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHubAsync(AwsSagemakerCreateHubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHubAsync(AwsSagemakerCreateHubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruc- tion area, the item to review, and an input area. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHumanTaskUiAsync(AwsSagemakerCreateHumanTaskUiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHumanTaskUiAsync(AwsSagemakerCreateHumanTaskUiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best version of a model by running many training jobs on your dataset using the algorithm you choose and values for hyperparameters within ranges that you specify. It then chooses the hyperparameter val- ues that result in a model that performs the best, as measured by an objective metric that you choose. A hyperparameter tuning job automatically creates Amazon SageMaker ex- periments, trials, and trial components for each...
@@ -443,8 +402,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHyperParameterTuningJobAsync(AwsSagemakerCreateHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHyperParameterTuningJobAsync(AwsSagemakerCreateHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker AI image . See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateImageAsync(AwsSagemakerCreateImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateImageAsync(AwsSagemakerCreateImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a version of the SageMaker AI image specified by ImageName . The version represents the Amazon ECR container image specified by Ba- seImage . See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateImageVersionAsync(AwsSagemakerCreateImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateImageVersionAsync(AwsSagemakerCreateImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelera- tors, and memory are allocated. You can deploy multiple inference com- ponents to an endpoint, where each inference component contains one model and ...
@@ -473,8 +429,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInferenceComponentAsync(AwsSagemakerCreateInferenceComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInferenceComponentAsync(AwsSagemakerCreateInferenceComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an inference experiment using the configurations specified in the request. Use this API to setup and schedule an experiment to compare model vari- ants on a Amazon SageMaker inference endpoint. For more information about inference experiments, see Shadow tests . Amazon SageMaker begins your experiment at the scheduled time and routes traffic to your endpoint's model variants based on your speci- fied configuration. While the experiment is in progress or after it has concluded, you can vi...
@@ -483,8 +438,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInferenceExperimentAsync(AwsSagemakerCreateInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInferenceExperimentAsync(AwsSagemakerCreateInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a recommendation job. You can create either an instance recom- mendation or load test job. See also: AWS API Documentation
@@ -493,8 +447,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInferenceRecommendationsJobAsync(AwsSagemakerCreateInferenceRecommendationsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInferenceRecommendationsJobAsync(AwsSagemakerCreateInferenceRecommendationsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access re- sources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn rein- forcement learning with reward signals. Use the AgentRFTEvaluation cat- egory to evaluate a fine-tuned or base model by running m...
@@ -503,8 +456,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateJobAsync(AwsSagemakerCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateJobAsync(AwsSagemakerCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models. You can select your workforce from one of three providers: o A private workforce that you create. It can include employees, con- tractors, and outside experts. Use a private workforce when want the data to stay within your organization or when a specific set of skills is required. o One or more vendors that you select from the Amazon Web Services Mar- ke...
@@ -513,8 +465,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLabelingJobAsync(AwsSagemakerCreateLabelingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLabelingJobAsync(AwsSagemakerCreateLabelingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. See also: AWS API Documentation
@@ -523,8 +474,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMlflowAppAsync(AwsSagemakerCreateMlflowAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMlflowAppAsync(AwsSagemakerCreateMlflowAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see Create an MLflow Tracking Server . See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMlflowTrackingServerAsync(AwsSagemakerCreateMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMlflowTrackingServerAsync(AwsSagemakerCreateMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the definition for a model bias job. See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelBiasJobDefinitionAsync(AwsSagemakerCreateModelBiasJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelBiasJobDefinitionAsync(AwsSagemakerCreateModelBiasJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon SageMaker Model Card export job. See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelCardExportJobAsync(AwsSagemakerCreateModelCardExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelCardExportJobAsync(AwsSagemakerCreateModelCardExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon SageMaker Model Card. For information about how to use model cards, see Amazon SageMaker Model Card . See also: AWS API Documentation
@@ -563,8 +510,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelCardAsync(AwsSagemakerCreateModelCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelCardAsync(AwsSagemakerCreateModelCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the definition for a model explainability job. See also: AWS API Documentation
@@ -573,8 +519,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelExplainabilityJobDefinitionAsync(AwsSagemakerCreateModelExplainabilityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelExplainabilityJobDefinitionAsync(AwsSagemakerCreateModelExplainabilityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a model in SageMaker. In the request, you name the model and describe a primary container. For the primary container, you specify the Docker image that contains inference code, artifacts (from prior training), and a custom environment map that the inference code uses when you deploy the model for predictions. Use this API to create a model if you want to use SageMaker hosting services or run a batch transform job. To host your model, you create an endpoint configuration with the Cre- ate...
@@ -583,8 +528,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelAsync(AwsSagemakerCreateModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelAsync(AwsSagemakerCreateModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a model group. A model group contains a group of model ver- sions. See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelPackageGroupAsync(AwsSagemakerCreateModelPackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelPackageGroupAsync(AwsSagemakerCreateModelPackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a model package that you can use to create SageMaker models or list on Amazon Web Services Marketplace, or a versioned model that is part of a model group. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker. To create a model package by specifying a Docker container that con- tains your inference code and the Amazon S3 location of your model ar- tifacts, provide values for InferenceSpecification . To create a model from an algor...
@@ -603,8 +546,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelPackageAsync(AwsSagemakerCreateModelPackageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelPackageAsync(AwsSagemakerCreateModelPackageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker AI Model Mon- itor . See also: AWS API Documentation
@@ -613,8 +555,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateModelQualityJobDefinitionAsync(AwsSagemakerCreateModelQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateModelQualityJobDefinitionAsync(AwsSagemakerCreateModelQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a schedule that regularly starts Amazon SageMaker AI Processing Jobs to monitor the data captured for an Amazon SageMaker AI Endpoint. See also: AWS API Documentation
@@ -623,8 +564,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMonitoringScheduleAsync(AwsSagemakerCreateMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMonitoringScheduleAsync(AwsSagemakerCreateMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a lifecycle configuration that you can associate with a note- book instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin . View Amazon CloudWatch Logs for notebook instance lifecycle configura- tions in log group /aws/sagemaker/NotebookInstanc...
@@ -633,8 +573,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNotebookInstanceLifecycleConfigAsync(AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNotebookInstanceLifecycleConfigAsync(AwsSagemakerCreateNotebookInstanceLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an SageMaker AI notebook instance. A notebook instance is a ma- chine learning (ML) compute instance running on a Jupyter notebook. In a CreateNotebookInstance request, specify the type of ML compute in- stance that you want to run. SageMaker AI launches the instance, in- stalls common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance. SageMaker AI also provides a set of example notebooks. Each notebook demonstra...
@@ -643,8 +582,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNotebookInstanceAsync(AwsSagemakerCreateNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNotebookInstanceAsync(AwsSagemakerCreateNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a job that optimizes a model for inference performance. To cre- ate the job, you provide the location of a source model, and you pro- vide the settings for the optimization techniques that you want the job to apply. When the job completes successfully, SageMaker uploads the new optimized model to the output destination that you specify. For more information about how to use this action, and about the sup- ported optimization techniques, see Optimize model inference with Ama- zon SageMake...
@@ -653,8 +591,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOptimizationJobAsync(AwsSagemakerCreateOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOptimizationJobAsync(AwsSagemakerCreateOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon SageMaker Partner AI App. See also: AWS API Documentation
@@ -663,8 +600,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePartnerAppAsync(AwsSagemakerCreatePartnerAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePartnerAppAsync(AwsSagemakerCreatePartnerAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a presigned URL to access an Amazon SageMaker Partner AI App. See also: AWS API Documentation
@@ -673,8 +609,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePartnerAppPresignedUrlAsync(AwsSagemakerCreatePartnerAppPresignedUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePartnerAppPresignedUrlAsync(AwsSagemakerCreatePartnerAppPresignedUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a pipeline using a JSON pipeline definition. See also: AWS API Documentation
@@ -683,8 +618,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePipelineAsync(AwsSagemakerCreatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePipelineAsync(AwsSagemakerCreatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Do- main's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM. The IAM role or user passed to this API defines the permissions to ac- cess the app. Once the presigned URL is created, no additional permis- sion is required to access...
@@ -693,8 +627,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePresignedDomainUrlAsync(AwsSagemakerCreatePresignedDomainUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePresignedDomainUrlAsync(AwsSagemakerCreatePresignedDomainUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see Launch the MLflow UI using a presigned URL . See also: AWS API Documentation
@@ -703,8 +636,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePresignedMlflowAppUrlAsync(AwsSagemakerCreatePresignedMlflowAppUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePresignedMlflowAppUrlAsync(AwsSagemakerCreatePresignedMlflowAppUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL . See also: AWS API Documentation
@@ -713,8 +645,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePresignedMlflowTrackingServerUrlAsync(AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePresignedMlflowTrackingServerUrlAsync(AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker AI console, when you choose Open next to a notebook instance, SageMaker AI opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no ad- ditional permission is required to ...
@@ -723,8 +654,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePresignedNotebookInstanceUrlAsync(AwsSagemakerCreatePresignedNotebookInstanceUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePresignedNotebookInstanceUrlAsync(AwsSagemakerCreatePresignedNotebookInstanceUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a processing job. See also: AWS API Documentation
@@ -733,8 +663,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProcessingJobAsync(AwsSagemakerCreateProcessingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProcessingJobAsync(AwsSagemakerCreateProcessingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an ap- proved model. See also: AWS API Documentation
@@ -743,8 +672,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProjectAsync(AwsSagemakerCreateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProjectAsync(AwsSagemakerCreateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a private space or a space used for real time collaboration in a domain. See also: AWS API Documentation
@@ -753,8 +681,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSpaceAsync(AwsSagemakerCreateSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSpaceAsync(AwsSagemakerCreateSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Amazon SageMaker AI Studio Lifecycle Configuration. See also: AWS API Documentation
@@ -763,8 +690,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStudioLifecycleConfigAsync(AwsSagemakerCreateStudioLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStudioLifecycleConfigAsync(AwsSagemakerCreateStudioLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a model training job. After training completes, SageMaker saves the resulting model artifacts to an Amazon S3 location that you spec- ify. If you choose to host your model using SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than Sage- Maker, provided that you know how to use them for inference. In the request body, you provide the following: o AlgorithmSpecification - Identifie...
@@ -773,8 +699,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrainingJobAsync(AwsSagemakerCreateTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrainingJobAsync(AwsSagemakerCreateTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to com- putational resources within specific timelines and budgets, without the need to manage underlying infrastructure. How it works Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker Hyp...
@@ -783,8 +708,16 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrainingPlanAsync(AwsSagemakerCreateTrainingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrainingPlanAsync(AwsSagemakerCreateTrainingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates a training session in Amazon SageMaker. A training session pro- visions compute resources for fine-tuning a foundation model using Low-Rank Adaptation (LoRA). After the session is created, you can sub- mit training operations and sample inference requests through the Ama- zon SageMaker Training Session Runtime API. The following operations are related to CreateTrainingSession : o DescribeTrainingSession o ListTrainingSessions o StopTrainingSession o DeleteTrainingSession See also: AWS AP...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateTrainingSessionAsync(AwsSagemakerCreateTrainingSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a transform job. A transform job uses a trained model to get in- ferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following: o TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. o ModelName - Identifies the mode...
@@ -793,8 +726,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTransformJobAsync(AwsSagemakerCreateTransformJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTransformJobAsync(AwsSagemakerCreateTransformJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a trial component , which is a stage of a machine learning trial . A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experi- ments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the log...
@@ -803,8 +735,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrialComponentAsync(AwsSagemakerCreateTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrialComponentAsync(AwsSagemakerCreateTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an SageMaker trial . A trial is a set of steps called trial components that produce a machine learning model. A trial is part of a single SageMaker experiment . When you use SageMaker Studio or the SageMaker Python SDK, all experi- ments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial and then use the Search API to search...
@@ -813,8 +744,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrialAsync(AwsSagemakerCreateTrialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrialAsync(AwsSagemakerCreateTrialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user pro- file is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's pri- va...
@@ -823,8 +753,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserProfileAsync(AwsSagemakerCreateUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserProfileAsync(AwsSagemakerCreateUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to create a workforce. This operation will return an error if a workforce already exists in the Amazon Web Services Region that you specify. You can only create one workforce in each Amazon Web Services Region per Amazon Web Services account. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use the DeleteWorkforce API operation to delete the existing workforce and then use CreateWorkforce to create a new workforce. To cre...
@@ -833,8 +762,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkforceAsync(AwsSagemakerCreateWorkforceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkforceAsync(AwsSagemakerCreateWorkforceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new work team for labeling your data. A work team is defined by one or more Amazon Cognito user pools. You must first create the user pools before you can create a work team. You cannot create more than 25 work teams in an account and region. See also: AWS API Documentation
@@ -843,8 +771,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkteamAsync(AwsSagemakerCreateWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkteamAsync(AwsSagemakerCreateWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an action. See also: AWS API Documentation
@@ -853,8 +780,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteActionAsync(AwsSagemakerDeleteActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteActionAsync(AwsSagemakerDeleteActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified AI benchmark job. See also: AWS API Documentation
@@ -863,8 +789,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiBenchmarkJobAsync(AwsSagemakerDeleteAiBenchmarkJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiBenchmarkJobAsync(AwsSagemakerDeleteAiBenchmarkJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified AI recommendation job. See also: AWS API Documentation
@@ -873,8 +798,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiRecommendationJobAsync(AwsSagemakerDeleteAiRecommendationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiRecommendationJobAsync(AwsSagemakerDeleteAiRecommendationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified AI workload configuration. You cannot delete a configuration that is referenced by an active benchmark job. See also: AWS API Documentation
@@ -883,8 +807,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAiWorkloadConfigAsync(AwsSagemakerDeleteAiWorkloadConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAiWorkloadConfigAsync(AwsSagemakerDeleteAiWorkloadConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified algorithm from your account. See also: AWS API Documentation
@@ -893,8 +816,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAlgorithmAsync(AwsSagemakerDeleteAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAlgorithmAsync(AwsSagemakerDeleteAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an AppImageConfig. See also: AWS API Documentation
@@ -903,8 +825,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppImageConfigAsync(AwsSagemakerDeleteAppImageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppImageConfigAsync(AwsSagemakerDeleteAppImageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to stop and delete an app. See also: AWS API Documentation
@@ -913,8 +834,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppAsync(AwsSagemakerDeleteAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppAsync(AwsSagemakerDeleteAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an artifact. Either ArtifactArn or Source must be specified. See also: AWS API Documentation
@@ -923,8 +843,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteArtifactAsync(AwsSagemakerDeleteArtifactOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteArtifactAsync(AwsSagemakerDeleteArtifactOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an association. See also: AWS API Documentation
@@ -933,8 +852,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssociationAsync(AwsSagemakerDeleteAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssociationAsync(AwsSagemakerDeleteAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a SageMaker HyperPod cluster. See also: AWS API Documentation
@@ -943,8 +861,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterAsync(AwsSagemakerDeleteClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterAsync(AwsSagemakerDeleteClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the cluster policy of the cluster. See also: AWS API Documentation
@@ -953,8 +870,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterSchedulerConfigAsync(AwsSagemakerDeleteClusterSchedulerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterSchedulerConfigAsync(AwsSagemakerDeleteClusterSchedulerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Git repository from your account. See also: AWS API Documentation
@@ -963,8 +879,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCodeRepositoryAsync(AwsSagemakerDeleteCodeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCodeRepositoryAsync(AwsSagemakerDeleteCodeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model arti- facts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COM- PLETED , FAILED , or STOPPED . If the job status is STARTING or IN- PROGRESS , stop the job, and then delete it after its stat...
@@ -973,8 +888,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCompilationJobAsync(AwsSagemakerDeleteCompilationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCompilationJobAsync(AwsSagemakerDeleteCompilationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the compute allocation from the cluster. See also: AWS API Documentation
@@ -983,8 +897,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteComputeQuotaAsync(AwsSagemakerDeleteComputeQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteComputeQuotaAsync(AwsSagemakerDeleteComputeQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an context. See also: AWS API Documentation
@@ -993,8 +906,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContextAsync(AwsSagemakerDeleteContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContextAsync(AwsSagemakerDeleteContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a data quality monitoring job definition. See also: AWS API Documentation
@@ -1003,8 +915,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataQualityJobDefinitionAsync(AwsSagemakerDeleteDataQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataQualityJobDefinitionAsync(AwsSagemakerDeleteDataQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a fleet. See also: AWS API Documentation
@@ -1013,8 +924,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDeviceFleetAsync(AwsSagemakerDeleteDeviceFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDeviceFleetAsync(AwsSagemakerDeleteDeviceFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using IAM Identity Center. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts. See also: AWS API Documentation
@@ -1023,8 +933,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainAsync(AwsSagemakerDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainAsync(AwsSagemakerDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an edge deployment plan if (and only if) all the stages in the plan are inactive or there are no stages in the plan. See also: AWS API Documentation
@@ -1033,8 +942,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEdgeDeploymentPlanAsync(AwsSagemakerDeleteEdgeDeploymentPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEdgeDeploymentPlanAsync(AwsSagemakerDeleteEdgeDeploymentPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a stage in an edge deployment plan if (and only if) the stage is inactive. See also: AWS API Documentation
@@ -1043,8 +951,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEdgeDeploymentStageAsync(AwsSagemakerDeleteEdgeDeploymentStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEdgeDeploymentStageAsync(AwsSagemakerDeleteEdgeDeploymentStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration. You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. If you delete the EndpointConfig of an end- point that is active or being created or updated you may lose visibil- ity into the instance type the endpoint is using. ...
@@ -1053,8 +960,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEndpointConfigAsync(AwsSagemakerDeleteEndpointConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEndpointConfigAsync(AwsSagemakerDeleteEndpointConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an endpoint. SageMaker frees up all of the resources that were deployed when the endpoint was created. SageMaker retires any custom KMS key grants associated with the end- point, meaning you don't need to use the RevokeGrant API call. When you delete your endpoint, SageMaker asynchronously deletes associ- ated endpoint resources such as KMS key grants. You might still see these resources in your account for a few minutes after deleting your endpoint. Do not delete or revoke the permissio...
@@ -1063,8 +969,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEndpointAsync(AwsSagemakerDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEndpointAsync(AwsSagemakerDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an SageMaker experiment. All trials associated with the experi- ment must be deleted first. Use the ListTrials API to get a list of the trials associated with the experiment. See also: AWS API Documentation
@@ -1073,8 +978,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteExperimentAsync(AwsSagemakerDeleteExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteExperimentAsync(AwsSagemakerDeleteExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the FeatureGroup and any data that was written to the Online- Store of the FeatureGroup . Data cannot be accessed from the Online- Store immediately after DeleteFeatureGroup is called. Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted. Note that it can take approximately 10-15 minutes to delete an Online- Store FeatureGroup with the InMemory StorageType . See also: A...
@@ -1083,8 +987,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFeatureGroupAsync(AwsSagemakerDeleteFeatureGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFeatureGroupAsync(AwsSagemakerDeleteFeatureGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified flow definition. See also: AWS API Documentation
@@ -1093,8 +996,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFlowDefinitionAsync(AwsSagemakerDeleteFlowDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFlowDefinitionAsync(AwsSagemakerDeleteFlowDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the contents of a hub. See also: AWS API Documentation
@@ -1103,8 +1005,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHubContentAsync(AwsSagemakerDeleteHubContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHubContentAsync(AwsSagemakerDeleteHubContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a hub content reference in order to remove a model from a pri- vate hub. See also: AWS API Documentation
@@ -1113,8 +1014,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHubContentReferenceAsync(AwsSagemakerDeleteHubContentReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHubContentReferenceAsync(AwsSagemakerDeleteHubContentReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a hub. See also: AWS API Documentation
@@ -1123,8 +1023,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHubAsync(AwsSagemakerDeleteHubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHubAsync(AwsSagemakerDeleteHubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis . When you delete a worker task tem- plate, it no longer appears when you call ListHumanTaskUis . See also: AWS API Documentation
@@ -1133,8 +1032,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHumanTaskUiAsync(AwsSagemakerDeleteHumanTaskUiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHumanTaskUiAsync(AwsSagemakerDeleteHumanTaskUiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a hyperparameter tuning job. The DeleteHyperParameterTuningJob API deletes only the tuning job entry that was created in SageMaker when you called the CreateHyperParameterTuningJob API. It does not delete training jobs, artifacts, or the IAM role that you specified when creating the model. See also: AWS API Documentation
@@ -1143,8 +1041,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHyperParameterTuningJobAsync(AwsSagemakerDeleteHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHyperParameterTuningJobAsync(AwsSagemakerDeleteHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a SageMaker AI image and all versions of the image. The con- tainer images aren't deleted. See also: AWS API Documentation
@@ -1153,8 +1050,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteImageAsync(AwsSagemakerDeleteImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteImageAsync(AwsSagemakerDeleteImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a version of a SageMaker AI image. The container image the ver- sion represents isn't deleted. See also: AWS API Documentation
@@ -1163,8 +1059,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteImageVersionAsync(AwsSagemakerDeleteImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteImageVersionAsync(AwsSagemakerDeleteImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an inference component. See also: AWS API Documentation
@@ -1173,8 +1068,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInferenceComponentAsync(AwsSagemakerDeleteInferenceComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInferenceComponentAsync(AwsSagemakerDeleteInferenceComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an inference experiment. NOTE: This operation does not delete your endpoint, variants, or any un- derlying resources. This operation only deletes the metadata of your experiment. See also: AWS API Documentation
@@ -1183,8 +1077,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInferenceExperimentAsync(AwsSagemakerDeleteInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInferenceExperimentAsync(AwsSagemakerDeleteInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a job. This operation is idempotent. If the job is currently running, you must stop it before deleting it by calling StopJob . The following operations are related to DeleteJob : o CreateJob o StopJob o DescribeJob See also: AWS API Documentation
@@ -1193,8 +1086,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteJobAsync(AwsSagemakerDeleteJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteJobAsync(AwsSagemakerDeleteJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an MLflow App. See also: AWS API Documentation
@@ -1203,8 +1095,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMlflowAppAsync(AwsSagemakerDeleteMlflowAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMlflowAppAsync(AwsSagemakerDeleteMlflowAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an MLflow Tracking Server. For more information, see Clean up MLflow resources . See also: AWS API Documentation
@@ -1213,8 +1104,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMlflowTrackingServerAsync(AwsSagemakerDeleteMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMlflowTrackingServerAsync(AwsSagemakerDeleteMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon SageMaker AI model bias job definition. See also: AWS API Documentation
@@ -1223,8 +1113,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelBiasJobDefinitionAsync(AwsSagemakerDeleteModelBiasJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelBiasJobDefinitionAsync(AwsSagemakerDeleteModelBiasJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon SageMaker Model Card. See also: AWS API Documentation
@@ -1233,8 +1122,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelCardAsync(AwsSagemakerDeleteModelCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelCardAsync(AwsSagemakerDeleteModelCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon SageMaker AI model explainability job definition. See also: AWS API Documentation
@@ -1243,8 +1131,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelExplainabilityJobDefinitionAsync(AwsSagemakerDeleteModelExplainabilityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelExplainabilityJobDefinitionAsync(AwsSagemakerDeleteModelExplainabilityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a model. The DeleteModel API deletes only the model entry that was created in SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model. See also: AWS API Documentation
@@ -1253,8 +1140,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelAsync(AwsSagemakerDeleteModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelAsync(AwsSagemakerDeleteModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified model group. See also: AWS API Documentation
@@ -1263,8 +1149,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelPackageGroupAsync(AwsSagemakerDeleteModelPackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelPackageGroupAsync(AwsSagemakerDeleteModelPackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a model group resource policy. See also: AWS API Documentation
@@ -1273,8 +1158,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelPackageGroupPolicyAsync(AwsSagemakerDeleteModelPackageGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelPackageGroupPolicyAsync(AwsSagemakerDeleteModelPackageGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a model package. A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker. See also: AWS API Documentation
@@ -1283,8 +1167,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelPackageAsync(AwsSagemakerDeleteModelPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelPackageAsync(AwsSagemakerDeleteModelPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the secified model quality monitoring job definition. See also: AWS API Documentation
@@ -1293,8 +1176,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteModelQualityJobDefinitionAsync(AwsSagemakerDeleteModelQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteModelQualityJobDefinitionAsync(AwsSagemakerDeleteModelQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule. See also: AWS API Documentation
@@ -1303,8 +1185,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMonitoringScheduleAsync(AwsSagemakerDeleteMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMonitoringScheduleAsync(AwsSagemakerDeleteMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a notebook instance lifecycle configuration. See also: AWS API Documentation
@@ -1313,8 +1194,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNotebookInstanceLifecycleConfigAsync(AwsSagemakerDeleteNotebookInstanceLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNotebookInstanceLifecycleConfigAsync(AwsSagemakerDeleteNotebookInstanceLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API. WARNING: When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the note- book instance. See also: AWS API Documentation
@@ -1323,8 +1203,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNotebookInstanceAsync(AwsSagemakerDeleteNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNotebookInstanceAsync(AwsSagemakerDeleteNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an optimization job. See also: AWS API Documentation
@@ -1333,8 +1212,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOptimizationJobAsync(AwsSagemakerDeleteOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOptimizationJobAsync(AwsSagemakerDeleteOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a SageMaker Partner AI App. See also: AWS API Documentation
@@ -1343,8 +1221,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePartnerAppAsync(AwsSagemakerDeletePartnerAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePartnerAppAsync(AwsSagemakerDeletePartnerAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a pipeline if there are no running instances of the pipeline. To delete a pipeline, you must stop all running instances of the pipeline using the StopPipelineExecution API. When you delete a pipeline, all instances of the pipeline are deleted. See also: AWS API Documentation
@@ -1353,8 +1230,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePipelineAsync(AwsSagemakerDeletePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePipelineAsync(AwsSagemakerDeletePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (Stopped , Failed , or Completed ). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to cre- ate another processing job. See also: AWS API Documentation
@@ -1363,8 +1239,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProcessingJobAsync(AwsSagemakerDeleteProcessingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProcessingJobAsync(AwsSagemakerDeleteProcessingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the specified project. See also: AWS API Documentation
@@ -1373,8 +1248,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProjectAsync(AwsSagemakerDeleteProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProjectAsync(AwsSagemakerDeleteProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to delete a space. See also: AWS API Documentation
@@ -1383,8 +1257,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSpaceAsync(AwsSagemakerDeleteSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSpaceAsync(AwsSagemakerDeleteSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In or- der to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Life- cycle Configuration from UserSettings in all Domains and UserProfiles. See also: AWS API Documentation
@@ -1393,8 +1266,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStudioLifecycleConfigAsync(AwsSagemakerDeleteStudioLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStudioLifecycleConfigAsync(AwsSagemakerDeleteStudioLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the ListTags API. NOTE: When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. NOTE: When you call this API to delete tags from a SageMaker Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or User Profile launched before you call...
@@ -1403,8 +1275,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTagsAsync(AwsSagemakerDeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTagsAsync(AwsSagemakerDeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (Stopped , Failed , or Completed ) and don't retain an Available managed warm pool . You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another training job. See also: AWS API Documentation
@@ -1413,8 +1284,16 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrainingJobAsync(AwsSagemakerDeleteTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrainingJobAsync(AwsSagemakerDeleteTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes a training session. You must stop a running session before deleting it. Use the StopTrainingSession operation to stop the session first. The following operations are related to DeleteTrainingSession : o CreateTrainingSession o DescribeTrainingSession o StopTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteTrainingSessionAsync(AwsSagemakerDeleteTrainingSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified trial component. A trial component must be disas- sociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
@@ -1423,8 +1302,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrialComponentAsync(AwsSagemakerDeleteTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrialComponentAsync(AwsSagemakerDeleteTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the DescribeTrialComponent API to get the list of trial components. See also: AWS API Documentation
@@ -1433,8 +1311,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrialAsync(AwsSagemakerDeleteTrialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrialAsync(AwsSagemakerDeleteTrialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other arti- facts. See also: AWS API Documentation
@@ -1443,8 +1320,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserProfileAsync(AwsSagemakerDeleteUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserProfileAsync(AwsSagemakerDeleteUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the ex- isting workforce and then use CreateWorkforce to create a new work- force. WARNING: If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you w...
@@ -1453,8 +1329,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkforceAsync(AwsSagemakerDeleteWorkforceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkforceAsync(AwsSagemakerDeleteWorkforceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing work team. This operation can't be undone. See also: AWS API Documentation
@@ -1463,8 +1338,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkteamAsync(AwsSagemakerDeleteWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkteamAsync(AwsSagemakerDeleteWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters the specified devices. After you deregister a device, you will need to re-register the devices. See also: AWS API Documentation
@@ -1473,8 +1347,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterDevicesAsync(AwsSagemakerDeregisterDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterDevicesAsync(AwsSagemakerDeregisterDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an action. See also: AWS API Documentation
@@ -1483,8 +1356,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeActionAsync(AwsSagemakerDescribeActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeActionAsync(AwsSagemakerDescribeActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details of an AI benchmark job, including its status, configu- ration, target endpoint, and timing information. See also: AWS API Documentation
@@ -1493,8 +1365,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAiBenchmarkJobAsync(AwsSagemakerDescribeAiBenchmarkJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAiBenchmarkJobAsync(AwsSagemakerDescribeAiBenchmarkJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details of an AI recommendation job, including its status, model source, performance targets, optimization recommendations, and deployment configurations. See also: AWS API Documentation
@@ -1503,8 +1374,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAiRecommendationJobAsync(AwsSagemakerDescribeAiRecommendationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAiRecommendationJobAsync(AwsSagemakerDescribeAiRecommendationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details of an AI workload configuration, including the dataset configuration, benchmark tool settings, tags, and creation time. See also: AWS API Documentation
@@ -1513,8 +1383,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAiWorkloadConfigAsync(AwsSagemakerDescribeAiWorkloadConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAiWorkloadConfigAsync(AwsSagemakerDescribeAiWorkloadConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of the specified algorithm that is in your ac- count. See also: AWS API Documentation
@@ -1523,8 +1392,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAlgorithmAsync(AwsSagemakerDescribeAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAlgorithmAsync(AwsSagemakerDescribeAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an AppImageConfig. See also: AWS API Documentation
@@ -1533,8 +1401,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppImageConfigAsync(AwsSagemakerDescribeAppImageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppImageConfigAsync(AwsSagemakerDescribeAppImageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the app. See also: AWS API Documentation
@@ -1543,8 +1410,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppAsync(AwsSagemakerDescribeAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppAsync(AwsSagemakerDescribeAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an artifact. See also: AWS API Documentation
@@ -1553,8 +1419,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeArtifactAsync(AwsSagemakerDescribeArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeArtifactAsync(AwsSagemakerDescribeArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an AutoML job created by calling CreateAutoMLJob . NOTE: AutoML jobs created by calling CreateAutoMLJobV2 cannot be described by DescribeAutoMLJob . See also: AWS API Documentation
@@ -1563,8 +1428,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAutoMlJobAsync(AwsSagemakerDescribeAutoMlJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAutoMlJobAsync(AwsSagemakerDescribeAutoMlJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an AutoML job created by calling CreateAutoMLJobV2 or CreateAutoMLJob . See also: AWS API Documentation
@@ -1573,8 +1437,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAutoMlJobV2Async(AwsSagemakerDescribeAutoMlJobV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAutoMlJobV2Async(AwsSagemakerDescribeAutoMlJobV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific event for a given Hy- perPod cluster. This functionality is only supported when the NodePro- visioningMode is set to Continuous . See also: AWS API Documentation
@@ -1583,8 +1446,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterEventAsync(AwsSagemakerDescribeClusterEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterEventAsync(AwsSagemakerDescribeClusterEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information of a node (also called a instance interchange- ably) of a SageMaker HyperPod cluster. See also: AWS API Documentation
@@ -1593,8 +1455,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterNodeAsync(AwsSagemakerDescribeClusterNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterNodeAsync(AwsSagemakerDescribeClusterNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information of a SageMaker HyperPod cluster. See also: AWS API Documentation
@@ -1603,8 +1464,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterAsync(AwsSagemakerDescribeClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterAsync(AwsSagemakerDescribeClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Description of the cluster policy. This policy is used for task priori- tization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities. See also: AWS API Documentation
@@ -1613,8 +1473,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterSchedulerConfigAsync(AwsSagemakerDescribeClusterSchedulerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterSchedulerConfigAsync(AwsSagemakerDescribeClusterSchedulerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about the specified Git repository. See also: AWS API Documentation
@@ -1623,8 +1482,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCodeRepositoryAsync(AwsSagemakerDescribeCodeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCodeRepositoryAsync(AwsSagemakerDescribeCodeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a model compilation job. To create a model compilation job, use CreateCompilationJob . To get information about multiple model compilation jobs, use ListCompilationJobs . See also: AWS API Documentation
@@ -1633,8 +1491,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCompilationJobAsync(AwsSagemakerDescribeCompilationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCompilationJobAsync(AwsSagemakerDescribeCompilationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Description of the compute allocation definition. See also: AWS API Documentation
@@ -1643,8 +1500,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeComputeQuotaAsync(AwsSagemakerDescribeComputeQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeComputeQuotaAsync(AwsSagemakerDescribeComputeQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a context. See also: AWS API Documentation
@@ -1653,8 +1509,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeContextAsync(AwsSagemakerDescribeContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeContextAsync(AwsSagemakerDescribeContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the details of a data quality monitoring job definition. See also: AWS API Documentation
@@ -1663,8 +1518,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataQualityJobDefinitionAsync(AwsSagemakerDescribeDataQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataQualityJobDefinitionAsync(AwsSagemakerDescribeDataQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A description of the fleet the device belongs to. See also: AWS API Documentation
@@ -1673,8 +1527,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDeviceFleetAsync(AwsSagemakerDescribeDeviceFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDeviceFleetAsync(AwsSagemakerDescribeDeviceFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the device. See also: AWS API Documentation
@@ -1683,8 +1536,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDeviceAsync(AwsSagemakerDescribeDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDeviceAsync(AwsSagemakerDescribeDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The description of the domain. See also: AWS API Documentation
@@ -1693,8 +1545,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainAsync(AwsSagemakerDescribeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainAsync(AwsSagemakerDescribeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an edge deployment plan with deployment status per stage. See also: AWS API Documentation
@@ -1703,8 +1554,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEdgeDeploymentPlanAsync(AwsSagemakerDescribeEdgeDeploymentPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEdgeDeploymentPlanAsync(AwsSagemakerDescribeEdgeDeploymentPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A description of edge packaging jobs. See also: AWS API Documentation
@@ -1713,8 +1563,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEdgePackagingJobAsync(AwsSagemakerDescribeEdgePackagingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEdgePackagingJobAsync(AwsSagemakerDescribeEdgePackagingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the description of an endpoint configuration created using the CreateEndpointConfig API. See also: AWS API Documentation
@@ -1723,8 +1572,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointConfigAsync(AwsSagemakerDescribeEndpointConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEndpointConfigAsync(AwsSagemakerDescribeEndpointConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the description of an endpoint. See also: AWS API Documentation
@@ -1733,8 +1581,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointAsync(AwsSagemakerDescribeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEndpointAsync(AwsSagemakerDescribeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of an experiment's properties. See also: AWS API Documentation
@@ -1743,8 +1590,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExperimentAsync(AwsSagemakerDescribeExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExperimentAsync(AwsSagemakerDescribeExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to describe a FeatureGroup . The response includes information on the creation time, FeatureGroup name, the unique identi- fier for each FeatureGroup , and more. See also: AWS API Documentation
@@ -1753,8 +1599,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFeatureGroupAsync(AwsSagemakerDescribeFeatureGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFeatureGroupAsync(AwsSagemakerDescribeFeatureGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shows the metadata for a feature within a feature group. See also: AWS API Documentation
@@ -1763,8 +1608,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFeatureMetadataAsync(AwsSagemakerDescribeFeatureMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFeatureMetadataAsync(AwsSagemakerDescribeFeatureMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified flow definition. See also: AWS API Documentation
@@ -1773,8 +1617,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFlowDefinitionAsync(AwsSagemakerDescribeFlowDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFlowDefinitionAsync(AwsSagemakerDescribeFlowDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe the content of a hub. See also: AWS API Documentation
@@ -1783,8 +1626,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHubContentAsync(AwsSagemakerDescribeHubContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHubContentAsync(AwsSagemakerDescribeHubContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a hub. See also: AWS API Documentation
@@ -1793,8 +1635,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHubAsync(AwsSagemakerDescribeHubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHubAsync(AwsSagemakerDescribeHubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the requested human task user interface (worker task template). See also: AWS API Documentation
@@ -1803,8 +1644,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHumanTaskUiAsync(AwsSagemakerDescribeHumanTaskUiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHumanTaskUiAsync(AwsSagemakerDescribeHumanTaskUiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more. See also: AWS API Documentation
@@ -1813,8 +1653,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHyperParameterTuningJobAsync(AwsSagemakerDescribeHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHyperParameterTuningJobAsync(AwsSagemakerDescribeHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a SageMaker AI image. See also: AWS API Documentation
@@ -1823,8 +1662,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImageAsync(AwsSagemakerDescribeImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImageAsync(AwsSagemakerDescribeImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a version of a SageMaker AI image. See also: AWS API Documentation
@@ -1833,8 +1671,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImageVersionAsync(AwsSagemakerDescribeImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImageVersionAsync(AwsSagemakerDescribeImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an inference component. See also: AWS API Documentation
@@ -1843,8 +1680,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInferenceComponentAsync(AwsSagemakerDescribeInferenceComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInferenceComponentAsync(AwsSagemakerDescribeInferenceComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details about an inference experiment. See also: AWS API Documentation
@@ -1853,8 +1689,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInferenceExperimentAsync(AwsSagemakerDescribeInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInferenceExperimentAsync(AwsSagemakerDescribeInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the results of the Inference Recommender job. One or more rec- ommendation jobs are returned. See also: AWS API Documentation
@@ -1863,8 +1698,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInferenceRecommendationsJobAsync(AwsSagemakerDescribeInferenceRecommendationsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInferenceRecommendationsJobAsync(AwsSagemakerDescribeInferenceRecommendationsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob : o CreateJob o ListJobs o StopJob o DeleteJob See also: AWS API Documentation
@@ -1873,8 +1707,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobAsync(AwsSagemakerDescribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobAsync(AwsSagemakerDescribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the JSON schema for a specified job category and schema ver- sion. Use this schema to validate your JobConfigDocument before calling CreateJob . If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion : o ListJobSchemaVersions o CreateJob See also: AWS API Documentation
@@ -1883,8 +1716,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobSchemaVersionAsync(AwsSagemakerDescribeJobSchemaVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobSchemaVersionAsync(AwsSagemakerDescribeJobSchemaVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a labeling job. See also: AWS API Documentation
@@ -1893,8 +1725,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLabelingJobAsync(AwsSagemakerDescribeLabelingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLabelingJobAsync(AwsSagemakerDescribeLabelingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of properties for the requested lineage group. For more information, see Cross-Account Lineage Tracking in the Amazon SageMaker Developer Guide . See also: AWS API Documentation
@@ -1903,8 +1734,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLineageGroupAsync(AwsSagemakerDescribeLineageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLineageGroupAsync(AwsSagemakerDescribeLineageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an MLflow App. See also: AWS API Documentation
@@ -1913,8 +1743,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMlflowAppAsync(AwsSagemakerDescribeMlflowAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMlflowAppAsync(AwsSagemakerDescribeMlflowAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an MLflow Tracking Server. See also: AWS API Documentation
@@ -1923,8 +1752,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMlflowTrackingServerAsync(AwsSagemakerDescribeMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMlflowTrackingServerAsync(AwsSagemakerDescribeMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a model bias job definition. See also: AWS API Documentation
@@ -1933,8 +1761,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeModelBiasJobDefinitionAsync(AwsSagemakerDescribeModelBiasJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeModelBiasJobDefinitionAsync(AwsSagemakerDescribeModelBiasJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an Amazon SageMaker Model Card export job. See also: AWS API Documentation
@@ -1943,8 +1770,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeModelCardExportJobAsync(AwsSagemakerDescribeModelCardExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeModelCardExportJobAsync(AwsSagemakerDescribeModelCardExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card. WARNING: To retrieve only metadata about a model card without requiring kms:Decrypt permission on the associated customer-managed Amazon Web Services KMS key, set IncludedData to MetadataOnly . The default is AllData , which returns the full model card Content and requires kms:Decrypt permission when a customer-managed key is configured. See also: AWS API Documentation
@@ -1953,8 +1779,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeModelCardAsync(AwsSagemakerDescribeModelCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeModelCardAsync(AwsSagemakerDescribeModelCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a model explainability job definition. See also: AWS API Documentation
@@ -1963,8 +1788,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeModelExplainabilityJobDefinitionAsync(AwsSagemakerDescribeModelExplainabilityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeModelExplainabilityJobDefinitionAsync(AwsSagemakerDescribeModelExplainabilityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a model that you created using the CreateModel API. See also: AWS API Documentation
@@ -1973,8 +1797,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeModelAsync(AwsSagemakerDescribeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeModelAsync(AwsSagemakerDescribeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a description for the specified model group. See also: AWS API Documentation
@@ -1983,8 +1806,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeModelPackageGroupAsync(AwsSagemakerDescribeModelPackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeModelPackageGroupAsync(AwsSagemakerDescribeModelPackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Market- place. WARNING: If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API. To call this operation without requiring kms:De- crypt permission on the customer-managed key, set IncludedData to MetadataOnly ; the response is returned with the embedded Model- Card.ModelCard...
@@ -1993,8 +1815,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeModelPackageAsync(AwsSagemakerDescribeModelPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeModelPackageAsync(AwsSagemakerDescribeModelPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a model quality job definition. See also: AWS API Documentation
@@ -2003,8 +1824,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeModelQualityJobDefinitionAsync(AwsSagemakerDescribeModelQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeModelQualityJobDefinitionAsync(AwsSagemakerDescribeModelQualityJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the schedule for a monitoring job. See also: AWS API Documentation
@@ -2013,8 +1833,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMonitoringScheduleAsync(AwsSagemakerDescribeMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMonitoringScheduleAsync(AwsSagemakerDescribeMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance . See also: AWS API Documentation
@@ -2023,8 +1842,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNotebookInstanceLifecycleConfigAsync(AwsSagemakerDescribeNotebookInstanceLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNotebookInstanceLifecycleConfigAsync(AwsSagemakerDescribeNotebookInstanceLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a notebook instance. See also: AWS API Documentation
@@ -2033,8 +1851,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNotebookInstanceAsync(AwsSagemakerDescribeNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNotebookInstanceAsync(AwsSagemakerDescribeNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the properties of the specified optimization job. See also: AWS API Documentation
@@ -2043,8 +1860,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOptimizationJobAsync(AwsSagemakerDescribeOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOptimizationJobAsync(AwsSagemakerDescribeOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a SageMaker Partner AI App. See also: AWS API Documentation
@@ -2053,8 +1869,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePartnerAppAsync(AwsSagemakerDescribePartnerAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePartnerAppAsync(AwsSagemakerDescribePartnerAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the details of an execution's pipeline definition. See also: AWS API Documentation
@@ -2063,8 +1878,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePipelineDefinitionForExecutionAsync(AwsSagemakerDescribePipelineDefinitionForExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePipelineDefinitionForExecutionAsync(AwsSagemakerDescribePipelineDefinitionForExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the details of a pipeline execution. See also: AWS API Documentation
@@ -2073,8 +1887,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePipelineExecutionAsync(AwsSagemakerDescribePipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePipelineExecutionAsync(AwsSagemakerDescribePipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the details of a pipeline. See also: AWS API Documentation
@@ -2083,8 +1896,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePipelineAsync(AwsSagemakerDescribePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePipelineAsync(AwsSagemakerDescribePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of a processing job. See also: AWS API Documentation
@@ -2093,8 +1905,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProcessingJobAsync(AwsSagemakerDescribeProcessingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProcessingJobAsync(AwsSagemakerDescribeProcessingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the details of a project. See also: AWS API Documentation
@@ -2103,8 +1914,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProjectAsync(AwsSagemakerDescribeProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProjectAsync(AwsSagemakerDescribeProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a reserved capacity. See also: AWS API Documentation
@@ -2113,8 +1923,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedCapacityAsync(AwsSagemakerDescribeReservedCapacityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedCapacityAsync(AwsSagemakerDescribeReservedCapacityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the space. See also: AWS API Documentation
@@ -2123,8 +1932,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpaceAsync(AwsSagemakerDescribeSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpaceAsync(AwsSagemakerDescribeSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the Amazon SageMaker AI Studio Lifecycle Configuration. See also: AWS API Documentation
@@ -2133,8 +1941,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStudioLifecycleConfigAsync(AwsSagemakerDescribeStudioLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStudioLifecycleConfigAsync(AwsSagemakerDescribeStudioLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a work team provided by a vendor. It returns de- tails about the subscription with a vendor in the Amazon Web Services Marketplace. See also: AWS API Documentation
@@ -2143,8 +1950,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSubscribedWorkteamAsync(AwsSagemakerDescribeSubscribedWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSubscribedWorkteamAsync(AwsSagemakerDescribeSubscribedWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a training job. Some of the attributes below only appear if the training job success- fully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason , attributes like TrainingStartTime , TrainingTimeInSeconds , TrainingEndTime , and BillableTimeInSeconds may not be present in the response. See also: AWS API Documentation
@@ -2153,8 +1959,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrainingJobAsync(AwsSagemakerDescribeTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrainingJobAsync(AwsSagemakerDescribeTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the extension history for a specified training plan. The re- sponse includes details about each extension, such as the offering ID, start and end dates, status, payment status, and cost information. See also: AWS API Documentation describe-training-plan-extension-history is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --q...
@@ -2163,8 +1968,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrainingPlanExtensionHistoryAsync(AwsSagemakerDescribeTrainingPlanExtensionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrainingPlanExtensionHistoryAsync(AwsSagemakerDescribeTrainingPlanExtensionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific training plan. See also: AWS API Documentation
@@ -2173,8 +1977,16 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrainingPlanAsync(AwsSagemakerDescribeTrainingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrainingPlanAsync(AwsSagemakerDescribeTrainingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves detailed information about a training session, including its current status, model configuration, Low-Rank Adaptation (LoRA) parame- ters, and timestamps. The following operations are related to DescribeTrainingSession : o CreateTrainingSession o ListTrainingSessions o StopTrainingSession o DeleteTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeTrainingSessionAsync(AwsSagemakerDescribeTrainingSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a transform job. See also: AWS API Documentation
@@ -2183,8 +1995,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTransformJobAsync(AwsSagemakerDescribeTransformJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTransformJobAsync(AwsSagemakerDescribeTransformJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of a trials component's properties. See also: AWS API Documentation
@@ -2193,8 +2004,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrialComponentAsync(AwsSagemakerDescribeTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrialComponentAsync(AwsSagemakerDescribeTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of a trial's properties. See also: AWS API Documentation
@@ -2203,8 +2013,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrialAsync(AwsSagemakerDescribeTrialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrialAsync(AwsSagemakerDescribeTrialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a user profile. For more information, see CreateUserProfile . See also: AWS API Documentation
@@ -2213,8 +2022,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserProfileAsync(AwsSagemakerDescribeUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserProfileAsync(AwsSagemakerDescribeUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (- CIDRs ). Allowable IP address ranges are the IP addresses that workers can use to access tasks. WARNING: This operation applies only to private workforces. See also: AWS API Documentation
@@ -2223,8 +2031,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWorkforceAsync(AwsSagemakerDescribeWorkforceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWorkforceAsync(AwsSagemakerDescribeWorkforceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specific work team. You can see information such as the creation date, the last updated date, membership informa- tion, and the work team's Amazon Resource Name (ARN). See also: AWS API Documentation
@@ -2233,8 +2040,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWorkteamAsync(AwsSagemakerDescribeWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWorkteamAsync(AwsSagemakerDescribeWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Con- tainer Storage Interface (CSI) driver to manage the lifecycle of per- sistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
@@ -2243,8 +2049,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachClusterNodeVolumeAsync(AwsSagemakerDetachClusterNodeVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachClusterNodeVolumeAsync(AwsSagemakerDetachClusterNodeVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects. See also: AWS API Documentation
@@ -2253,8 +2058,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableSagemakerServicecatalogPortfolioAsync(AwsSagemakerDisableSagemakerServicecatalogPortfolioOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableSagemakerServicecatalogPortfolioAsync(AwsSagemakerDisableSagemakerServicecatalogPortfolioOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a compo- nent, you must disassociate the component from all trials it is associ- ated with. To associate a trial component with a trial, call the AssociateTrialComponent API. To get a list of the trials a component is associated with, use the Search API. Specify ExperimentTrialComponent for the Resource parame- ter. The list appears in the response under Results....
@@ -2263,8 +2067,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTrialComponentAsync(AwsSagemakerDisassociateTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTrialComponentAsync(AwsSagemakerDisassociateTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects. See also: AWS API Documentation
@@ -2273,8 +2076,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableSagemakerServicecatalogPortfolioAsync(AwsSagemakerEnableSagemakerServicecatalogPortfolioOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableSagemakerServicecatalogPortfolioAsync(AwsSagemakerEnableSagemakerServicecatalogPortfolioOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your train- ing plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the `` SearchTrainingPlanOfferings `` API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the `` DescribeTrainingPlanExtensionHistory `` API. See also: AWS API Documentation
@@ -2283,8 +2085,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExtendTrainingPlanAsync(AwsSagemakerExtendTrainingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExtendTrainingPlanAsync(AwsSagemakerExtendTrainingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a fleet. See also: AWS API Documentation
@@ -2293,8 +2094,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeviceFleetReportAsync(AwsSagemakerGetDeviceFleetReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeviceFleetReportAsync(AwsSagemakerGetDeviceFleetReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The resource policy for the lineage group. See also: AWS API Documentation
@@ -2303,8 +2103,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLineageGroupPolicyAsync(AwsSagemakerGetLineageGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLineageGroupPolicyAsync(AwsSagemakerGetLineageGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a resource policy that manages access for a model group. For in- formation about resource policies, see Identity-based policies and re- source-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
@@ -2313,8 +2112,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetModelPackageGroupPolicyAsync(AwsSagemakerGetModelPackageGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetModelPackageGroupPolicyAsync(AwsSagemakerGetModelPackageGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects. See also: AWS API Documentation
@@ -2323,8 +2121,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSagemakerServicecatalogPortfolioStatusAsync(AwsSagemakerGetSagemakerServicecatalogPortfolioStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSagemakerServicecatalogPortfolioStatusAsync(AwsSagemakerGetSagemakerServicecatalogPortfolioStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an Amazon SageMaker Inference Recommender autoscaling recommen- dation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint. See also: AWS API Documentation
@@ -2333,8 +2130,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetScalingConfigurationRecommendationAsync(AwsSagemakerGetScalingConfigurationRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetScalingConfigurationRecommendationAsync(AwsSagemakerGetScalingConfigurationRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// An auto-complete API for the search functionality in the SageMaker con- sole. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters , Tags , and Metrics . See also: AWS API Documentation
@@ -2343,8 +2139,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSearchSuggestionsAsync(AwsSagemakerGetSearchSuggestionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSearchSuggestionsAsync(AwsSagemakerGetSearchSuggestionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Import hub content. See also: AWS API Documentation
@@ -2353,8 +2148,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportHubContentAsync(AwsSagemakerImportHubContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportHubContentAsync(AwsSagemakerImportHubContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the actions in your account and their properties. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ActionSummaries
@@ -2363,8 +2157,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListActionsAsync(AwsSagemakerListActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListActionsAsync(AwsSagemakerListActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of AI benchmark jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated. See also: AWS API Documentation list-ai-benchmark-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
@@ -2373,8 +2166,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiBenchmarkJobsAsync(AwsSagemakerListAiBenchmarkJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiBenchmarkJobsAsync(AwsSagemakerListAiBenchmarkJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of AI recommendation jobs in your account. You can fil- ter the results by name, status, and creation time, and sort the re- sults. The response is paginated. See also: AWS API Documentation list-ai-recommendation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --q...
@@ -2383,8 +2175,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiRecommendationJobsAsync(AwsSagemakerListAiRecommendationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiRecommendationJobsAsync(AwsSagemakerListAiRecommendationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of AI workload configurations in your account. You can filter the results by name and creation time, and sort the results. The response is paginated. See also: AWS API Documentation list-ai-workload-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
@@ -2393,8 +2184,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAiWorkloadConfigsAsync(AwsSagemakerListAiWorkloadConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAiWorkloadConfigsAsync(AwsSagemakerListAiWorkloadConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the machine learning algorithms that have been created. See also: AWS API Documentation list-algorithms is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AlgorithmSummaryList
@@ -2403,8 +2193,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAlgorithmsAsync(AwsSagemakerListAlgorithmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAlgorithmsAsync(AwsSagemakerListAlgorithmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the aliases of a specified image or image version. See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: SageMakerImageVersionAliases
@@ -2413,8 +2202,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAliasesAsync(AwsSagemakerListAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAliasesAsync(AwsSagemakerListAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string. See also: AWS API Documentation list-app-image-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
@@ -2423,8 +2211,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppImageConfigsAsync(AwsSagemakerListAppImageConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppImageConfigsAsync(AwsSagemakerListAppImageConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists apps. See also: AWS API Documentation list-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Apps
@@ -2433,8 +2220,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppsAsync(AwsSagemakerListAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppsAsync(AwsSagemakerListAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the artifacts in your account and their properties. See also: AWS API Documentation list-artifacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ArtifactSummaries
@@ -2443,8 +2229,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListArtifactsAsync(AwsSagemakerListArtifactsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListArtifactsAsync(AwsSagemakerListArtifactsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the associations in your account and their properties. See also: AWS API Documentation list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AssociationSummaries
@@ -2453,8 +2238,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssociationsAsync(AwsSagemakerListAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssociationsAsync(AwsSagemakerListAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Request a list of jobs. See also: AWS API Documentation list-auto-ml-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AutoMLJobSummaries
@@ -2463,8 +2247,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutoMlJobsAsync(AwsSagemakerListAutoMlJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutoMlJobsAsync(AwsSagemakerListAutoMlJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the candidates created for the job. See also: AWS API Documentation list-candidates-for-auto-ml-job is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Candidates
@@ -2473,8 +2256,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCandidatesForAutoMlJobAsync(AwsSagemakerListCandidatesForAutoMlJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCandidatesForAutoMlJobAsync(AwsSagemakerListCandidatesForAutoMlJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the NodeProvisioningMode is set to Continuous . See also: AWS API Documentation list-cluster-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
@@ -2483,8 +2265,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListClusterEventsAsync(AwsSagemakerListClusterEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListClusterEventsAsync(AwsSagemakerListClusterEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of instances (also called nodes interchangeably) in a SageMaker HyperPod cluster. See also: AWS API Documentation list-cluster-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: C...
@@ -2493,8 +2274,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListClusterNodesAsync(AwsSagemakerListClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListClusterNodesAsync(AwsSagemakerListClusterNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the cluster policy configurations. See also: AWS API Documentation list-cluster-scheduler-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterSchedulerConfigSummaries
@@ -2503,8 +2283,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListClusterSchedulerConfigsAsync(AwsSagemakerListClusterSchedulerConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListClusterSchedulerConfigsAsync(AwsSagemakerListClusterSchedulerConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of SageMaker HyperPod clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterSummaries
@@ -2513,8 +2292,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListClustersAsync(AwsSagemakerListClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListClustersAsync(AwsSagemakerListClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the Git repositories in your account. See also: AWS API Documentation list-code-repositories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CodeRepositorySummaryList
@@ -2523,8 +2301,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCodeRepositoriesAsync(AwsSagemakerListCodeRepositoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCodeRepositoriesAsync(AwsSagemakerListCodeRepositoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists model compilation jobs that satisfy various filters. To create a model compilation job, use CreateCompilationJob . To get information about a particular model compilation job you have created, use DescribeCompilationJob . See also: AWS API Documentation list-compilation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
@@ -2533,8 +2310,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCompilationJobsAsync(AwsSagemakerListCompilationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCompilationJobsAsync(AwsSagemakerListCompilationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the resource allocation definitions. See also: AWS API Documentation list-compute-quotas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ComputeQuotaSummaries
@@ -2543,8 +2319,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComputeQuotasAsync(AwsSagemakerListComputeQuotasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComputeQuotasAsync(AwsSagemakerListComputeQuotasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the contexts in your account and their properties. See also: AWS API Documentation list-contexts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContextSummaries
@@ -2553,8 +2328,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContextsAsync(AwsSagemakerListContextsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContextsAsync(AwsSagemakerListContextsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the data quality job definitions in your account. See also: AWS API Documentation list-data-quality-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinitionSummaries
@@ -2563,8 +2337,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataQualityJobDefinitionsAsync(AwsSagemakerListDataQualityJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataQualityJobDefinitionsAsync(AwsSagemakerListDataQualityJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of devices in the fleet. See also: AWS API Documentation list-device-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DeviceFleetSummaries
@@ -2573,8 +2346,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeviceFleetsAsync(AwsSagemakerListDeviceFleetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeviceFleetsAsync(AwsSagemakerListDeviceFleetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A list of devices. See also: AWS API Documentation list-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: DeviceSummaries
@@ -2583,8 +2355,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDevicesAsync(AwsSagemakerListDevicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDevicesAsync(AwsSagemakerListDevicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the domains. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Domains
@@ -2593,8 +2364,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainsAsync(AwsSagemakerListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainsAsync(AwsSagemakerListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all edge deployment plans. See also: AWS API Documentation list-edge-deployment-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EdgeDeploymentPlanSummaries
@@ -2603,8 +2373,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEdgeDeploymentPlansAsync(AwsSagemakerListEdgeDeploymentPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEdgeDeploymentPlansAsync(AwsSagemakerListEdgeDeploymentPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of edge packaging jobs. See also: AWS API Documentation list-edge-packaging-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EdgePackagingJobSummaries
@@ -2613,8 +2382,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEdgePackagingJobsAsync(AwsSagemakerListEdgePackagingJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEdgePackagingJobsAsync(AwsSagemakerListEdgePackagingJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists endpoint configurations. See also: AWS API Documentation list-endpoint-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EndpointConfigs
@@ -2623,8 +2391,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEndpointConfigsAsync(AwsSagemakerListEndpointConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEndpointConfigsAsync(AwsSagemakerListEndpointConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists endpoints. See also: AWS API Documentation list-endpoints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Endpoints
@@ -2633,8 +2400,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEndpointsAsync(AwsSagemakerListEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEndpointsAsync(AwsSagemakerListEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time. See also: AWS API Documentation list-experiments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
@@ -2643,8 +2409,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExperimentsAsync(AwsSagemakerListExperimentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExperimentsAsync(AwsSagemakerListExperimentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List FeatureGroup s based on given filter and order. See also: AWS API Documentation list-feature-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FeatureGroupSummaries
@@ -2653,8 +2418,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFeatureGroupsAsync(AwsSagemakerListFeatureGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFeatureGroupsAsync(AwsSagemakerListFeatureGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the flow definitions in your account. See also: AWS API Documentation list-flow-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FlowDefinitionSummaries
@@ -2663,8 +2427,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlowDefinitionsAsync(AwsSagemakerListFlowDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlowDefinitionsAsync(AwsSagemakerListFlowDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the contents of a hub. See also: AWS API Documentation
@@ -2673,8 +2436,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHubContentsAsync(AwsSagemakerListHubContentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHubContentsAsync(AwsSagemakerListHubContentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List hub content versions. See also: AWS API Documentation
@@ -2683,8 +2445,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHubContentVersionsAsync(AwsSagemakerListHubContentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHubContentVersionsAsync(AwsSagemakerListHubContentVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all existing hubs. See also: AWS API Documentation
@@ -2693,8 +2454,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHubsAsync(AwsSagemakerListHubsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHubsAsync(AwsSagemakerListHubsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the human task user interfaces in your ac- count. See also: AWS API Documentation list-human-task-uis is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HumanTaskUiSummaries
@@ -2703,8 +2463,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHumanTaskUisAsync(AwsSagemakerListHumanTaskUisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHumanTaskUisAsync(AwsSagemakerListHumanTaskUisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account. See also: AWS API Documentation list-hyper-parameter-tuning-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
@@ -2713,8 +2472,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHyperParameterTuningJobsAsync(AwsSagemakerListHyperParameterTuningJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHyperParameterTuningJobsAsync(AwsSagemakerListHyperParameterTuningJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must ex...
@@ -2723,8 +2481,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListImagesAsync(AwsSagemakerListImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListImagesAsync(AwsSagemakerListImagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time. See also: AWS API Documentation list-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
@@ -2733,8 +2490,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListImageVersionsAsync(AwsSagemakerListImageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListImageVersionsAsync(AwsSagemakerListImageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the inference components in your account and their properties. See also: AWS API Documentation list-inference-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InferenceComponents
@@ -2743,8 +2499,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInferenceComponentsAsync(AwsSagemakerListInferenceComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInferenceComponentsAsync(AwsSagemakerListInferenceComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of all inference experiments. See also: AWS API Documentation list-inference-experiments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InferenceExperiments
@@ -2753,8 +2508,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInferenceExperimentsAsync(AwsSagemakerListInferenceExperimentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInferenceExperimentsAsync(AwsSagemakerListInferenceExperimentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists recommendation jobs that satisfy various filters. See also: AWS API Documentation list-inference-recommendations-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InferenceRecommendationsJ...
@@ -2763,8 +2517,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInferenceRecommendationsJobsAsync(AwsSagemakerListInferenceRecommendationsJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInferenceRecommendationsJobsAsync(AwsSagemakerListInferenceRecommendationsJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types. See also: AWS API Documentation list-inference-recommendations-job-steps is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated ...
@@ -2773,8 +2526,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInferenceRecommendationsJobStepsAsync(AwsSagemakerListInferenceRecommendationsJobStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInferenceRecommendationsJobStepsAsync(AwsSagemakerListInferenceRecommendationsJobStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists available configuration schema versions for a specified job cate- gory. Use the schema versions with DescribeJobSchemaVersion to retrieve the full schema document. The following operations are related to ListJobSchemaVersions : o DescribeJobSchemaVersion o CreateJob See also: AWS API Documentation list-job-schema-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
@@ -2783,8 +2535,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJobSchemaVersionsAsync(AwsSagemakerListJobSchemaVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJobSchemaVersionsAsync(AwsSagemakerListJobSchemaVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists jobs in a specified category. You can filter results by creation time, last modified time, name, and status. Results are sorted by the field you specify in SortBy . Use pagination to retrieve large result sets efficiently. The following operations are related to ListJobs : o CreateJob o DescribeJob See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providin...
@@ -2793,8 +2544,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJobsAsync(AwsSagemakerListJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJobsAsync(AwsSagemakerListJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of labeling jobs assigned to a specified work team. See also: AWS API Documentation list-labeling-jobs-for-workteam is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LabelingJobSummaryLis...
@@ -2803,8 +2553,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLabelingJobsForWorkteamAsync(AwsSagemakerListLabelingJobsForWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLabelingJobsForWorkteamAsync(AwsSagemakerListLabelingJobsForWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of labeling jobs. See also: AWS API Documentation list-labeling-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LabelingJobSummaryList
@@ -2813,8 +2562,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLabelingJobsAsync(AwsSagemakerListLabelingJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLabelingJobsAsync(AwsSagemakerListLabelingJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A list of lineage groups shared with your Amazon Web Services account. For more information, see Cross-Account Lineage Tracking in the Amazon SageMaker Developer Guide . See also: AWS API Documentation list-lineage-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
@@ -2823,8 +2571,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLineageGroupsAsync(AwsSagemakerListLineageGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLineageGroupsAsync(AwsSagemakerListLineageGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all MLflow Apps See also: AWS API Documentation list-mlflow-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Summaries
@@ -2833,8 +2580,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMlflowAppsAsync(AwsSagemakerListMlflowAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMlflowAppsAsync(AwsSagemakerListMlflowAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all MLflow Tracking Servers. See also: AWS API Documentation list-mlflow-tracking-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrackingServerSummaries
@@ -2843,8 +2589,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMlflowTrackingServersAsync(AwsSagemakerListMlflowTrackingServersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMlflowTrackingServersAsync(AwsSagemakerListMlflowTrackingServersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists model bias jobs definitions that satisfy various filters. See also: AWS API Documentation list-model-bias-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinitionSummarie...
@@ -2853,8 +2598,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelBiasJobDefinitionsAsync(AwsSagemakerListModelBiasJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelBiasJobDefinitionsAsync(AwsSagemakerListModelBiasJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the export jobs for the Amazon SageMaker Model Card. See also: AWS API Documentation list-model-card-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelCardExportJobSummaries
@@ -2863,8 +2607,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelCardExportJobsAsync(AwsSagemakerListModelCardExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelCardExportJobsAsync(AwsSagemakerListModelCardExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List existing model cards. See also: AWS API Documentation list-model-cards is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelCardSummaries
@@ -2873,8 +2616,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelCardsAsync(AwsSagemakerListModelCardsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelCardsAsync(AwsSagemakerListModelCardsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List existing versions of an Amazon SageMaker Model Card. See also: AWS API Documentation list-model-card-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ModelCardVersionSummaryList
@@ -2883,8 +2625,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelCardVersionsAsync(AwsSagemakerListModelCardVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelCardVersionsAsync(AwsSagemakerListModelCardVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists model explainability job definitions that satisfy various fil- ters. See also: AWS API Documentation list-model-explainability-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: ...
@@ -2893,8 +2634,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelExplainabilityJobDefinitionsAsync(AwsSagemakerListModelExplainabilityJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelExplainabilityJobDefinitionsAsync(AwsSagemakerListModelExplainabilityJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the domain, framework, task, and model name of standard machine learning models found in common model zoos. See also: AWS API Documentation list-model-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
@@ -2903,8 +2643,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelMetadataAsync(AwsSagemakerListModelMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelMetadataAsync(AwsSagemakerListModelMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the model groups in your Amazon Web Services account. See also: AWS API Documentation list-model-package-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ModelPackageGroupSummary...
@@ -2913,8 +2652,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelPackageGroupsAsync(AwsSagemakerListModelPackageGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelPackageGroupsAsync(AwsSagemakerListModelPackageGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the model packages that have been created. See also: AWS API Documentation list-model-packages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelPackageSummaryList
@@ -2923,8 +2661,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelPackagesAsync(AwsSagemakerListModelPackagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelPackagesAsync(AwsSagemakerListModelPackagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of model quality monitoring job definitions in your ac- count. See also: AWS API Documentation list-model-quality-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefi...
@@ -2933,8 +2670,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelQualityJobDefinitionsAsync(AwsSagemakerListModelQualityJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelQualityJobDefinitionsAsync(AwsSagemakerListModelQualityJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists models created with the CreateModel API. See also: AWS API Documentation list-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Models
@@ -2943,8 +2679,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListModelsAsync(AwsSagemakerListModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListModelsAsync(AwsSagemakerListModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of past alerts in a model monitoring schedule. See also: AWS API Documentation list-monitoring-alert-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MonitoringAlertHistory
@@ -2953,8 +2688,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMonitoringAlertHistoryAsync(AwsSagemakerListMonitoringAlertHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMonitoringAlertHistoryAsync(AwsSagemakerListMonitoringAlertHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the alerts for a single monitoring schedule. See also: AWS API Documentation list-monitoring-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MonitoringAlertSummaries
@@ -2963,8 +2697,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMonitoringAlertsAsync(AwsSagemakerListMonitoringAlertsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMonitoringAlertsAsync(AwsSagemakerListMonitoringAlertsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns list of all monitoring job executions. See also: AWS API Documentation list-monitoring-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MonitoringExecutionSummaries
@@ -2973,8 +2706,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMonitoringExecutionsAsync(AwsSagemakerListMonitoringExecutionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMonitoringExecutionsAsync(AwsSagemakerListMonitoringExecutionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns list of all monitoring schedules. See also: AWS API Documentation list-monitoring-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MonitoringScheduleSummaries
@@ -2983,8 +2715,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMonitoringSchedulesAsync(AwsSagemakerListMonitoringSchedulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMonitoringSchedulesAsync(AwsSagemakerListMonitoringSchedulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API. See also: AWS API Documentation list-notebook-instance-lifecycle-configs is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of ...
@@ -2993,8 +2724,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNotebookInstanceLifecycleConfigsAsync(AwsSagemakerListNotebookInstanceLifecycleConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNotebookInstanceLifecycleConfigsAsync(AwsSagemakerListNotebookInstanceLifecycleConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the SageMaker AI notebook instances in the re- quester's account in an Amazon Web Services Region. See also: AWS API Documentation list-notebook-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- i...
@@ -3003,8 +2733,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNotebookInstancesAsync(AwsSagemakerListNotebookInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNotebookInstancesAsync(AwsSagemakerListNotebookInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the optimization jobs in your account and their properties. See also: AWS API Documentation list-optimization-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: OptimizationJobSummaries
@@ -3013,8 +2742,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOptimizationJobsAsync(AwsSagemakerListOptimizationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOptimizationJobsAsync(AwsSagemakerListOptimizationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the SageMaker Partner AI Apps in an account. See also: AWS API Documentation list-partner-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Summaries
@@ -3023,8 +2751,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPartnerAppsAsync(AwsSagemakerListPartnerAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPartnerAppsAsync(AwsSagemakerListPartnerAppsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the pipeline executions. See also: AWS API Documentation list-pipeline-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: PipelineExecutionSummaries
@@ -3033,8 +2760,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelineExecutionsAsync(AwsSagemakerListPipelineExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelineExecutionsAsync(AwsSagemakerListPipelineExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of PipeLineExecutionStep objects. See also: AWS API Documentation list-pipeline-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineExecutionSteps
@@ -3043,8 +2769,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelineExecutionStepsAsync(AwsSagemakerListPipelineExecutionStepsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelineExecutionStepsAsync(AwsSagemakerListPipelineExecutionStepsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of parameters for a pipeline execution. See also: AWS API Documentation list-pipeline-parameters-for-execution is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: PipelineParameters
@@ -3053,8 +2778,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelineParametersForExecutionAsync(AwsSagemakerListPipelineParametersForExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelineParametersForExecutionAsync(AwsSagemakerListPipelineParametersForExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of pipelines. See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineSummaries
@@ -3063,8 +2787,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelinesAsync(AwsSagemakerListPipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelinesAsync(AwsSagemakerListPipelinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of all versions of the pipeline. See also: AWS API Documentation list-pipeline-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineVersionSummaries
@@ -3073,8 +2796,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPipelineVersionsAsync(AwsSagemakerListPipelineVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPipelineVersionsAsync(AwsSagemakerListPipelineVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists processing jobs that satisfy various filters. See also: AWS API Documentation list-processing-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProcessingJobSummaries
@@ -3083,8 +2805,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProcessingJobsAsync(AwsSagemakerListProcessingJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProcessingJobsAsync(AwsSagemakerListProcessingJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the projects in an Amazon Web Services account. See also: AWS API Documentation
@@ -3093,8 +2814,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProjectsAsync(AwsSagemakerListProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProjectsAsync(AwsSagemakerListProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of ResourceCatalog s viewable is 1000. See also: AWS API Documentation list-resource-catalogs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
@@ -3103,8 +2823,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceCatalogsAsync(AwsSagemakerListResourceCatalogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceCatalogsAsync(AwsSagemakerListResourceCatalogsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists spaces. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Spaces
@@ -3113,8 +2832,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSpacesAsync(AwsSagemakerListSpacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSpacesAsync(AwsSagemakerListSpacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists devices allocated to the stage, containing detailed device infor- mation and deployment status. See also: AWS API Documentation list-stage-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
@@ -3123,8 +2841,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStageDevicesAsync(AwsSagemakerListStageDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStageDevicesAsync(AwsSagemakerListStageDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account. See also: AWS API Documentation list-studio-lifecycle-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
@@ -3133,8 +2850,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStudioLifecycleConfigsAsync(AwsSagemakerListStudioLifecycleConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStudioLifecycleConfigsAsync(AwsSagemakerListStudioLifecycleConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satis- fies the filter specified in the NameContains parameter. See also: AWS API Documentation list-subscribed-workteams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
@@ -3143,8 +2859,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSubscribedWorkteamsAsync(AwsSagemakerListSubscribedWorkteamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSubscribedWorkteamsAsync(AwsSagemakerListSubscribedWorkteamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the tags for the specified SageMaker resource. See also: AWS API Documentation list-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Tags
@@ -3153,8 +2868,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsAsync(AwsSagemakerListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsAsync(AwsSagemakerListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched. See also: AWS API Documentation list-training-jobs-for-hyper-parameter-tuning-job is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data fro...
@@ -3163,8 +2877,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrainingJobsForHyperParameterTuningJobAsync(AwsSagemakerListTrainingJobsForHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrainingJobsForHyperParameterTuningJobAsync(AwsSagemakerListTrainingJobsForHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists training jobs. NOTE: When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusE- quals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following para- meters: { ... MaxResults: 100, StatusEquals: InProgress ... } First, 100 trainings jobs with any status, including those other than InProgress , are selected...
@@ -3173,8 +2886,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrainingJobsAsync(AwsSagemakerListTrainingJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrainingJobsAsync(AwsSagemakerListTrainingJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of training plans for the current account. See also: AWS API Documentation list-training-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrainingPlanSummaries
@@ -3183,8 +2895,16 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrainingPlansAsync(AwsSagemakerListTrainingPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrainingPlansAsync(AwsSagemakerListTrainingPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists training sessions in your account. You can filter results by cre- ation time, name, and status. The operation paginates results. To re- trieve additional results, use the NextToken parameter. The following operations are related to ListTrainingSessions : o CreateTrainingSession o DescribeTrainingSession See also: AWS API Documentation list-training-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagina...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListTrainingSessionsAsync(AwsSagemakerListTrainingSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists transform jobs. See also: AWS API Documentation list-transform-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransformJobSummaries
@@ -3193,8 +2913,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTransformJobsAsync(AwsSagemakerListTransformJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTransformJobsAsync(AwsSagemakerListTransformJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following: o ExperimentName o SourceArn o TrialName See also: AWS API Documentation list-trial-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no...
@@ -3203,8 +2922,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrialComponentsAsync(AwsSagemakerListTrialComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrialComponentsAsync(AwsSagemakerListTrialComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time. See also: AWS API Documentation list-trials is a paginated operation. Multiple API calls may be issued in order to retrieve...
@@ -3213,8 +2931,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrialsAsync(AwsSagemakerListTrialsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrialsAsync(AwsSagemakerListTrialsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all UltraServers that are part of a specified reserved capacity. See also: AWS API Documentation list-ultra-servers-by-reserved-capacity is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: UltraS...
@@ -3223,8 +2940,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUltraServersByReservedCapacityAsync(AwsSagemakerListUltraServersByReservedCapacityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUltraServersByReservedCapacityAsync(AwsSagemakerListUltraServersByReservedCapacityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists user profiles. See also: AWS API Documentation list-user-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UserProfiles
@@ -3233,8 +2949,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserProfilesAsync(AwsSagemakerListUserProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserProfilesAsync(AwsSagemakerListUserProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to list all private and vendor workforces in an Ama- zon Web Services Region. Note that you can only have one private work- force per Amazon Web Services Region. See also: AWS API Documentation list-workforces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
@@ -3243,8 +2958,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkforcesAsync(AwsSagemakerListWorkforcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkforcesAsync(AwsSagemakerListWorkforcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter. See also: AWS API Documentation list-workteams is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
@@ -3253,8 +2967,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkteamsAsync(AwsSagemakerListWorkteamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkteamsAsync(AwsSagemakerListWorkteamsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a resouce policy to control access to a model group. For informa- tion about resoure policies, see Identity-based policies and re- source-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
@@ -3263,8 +2976,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutModelPackageGroupPolicyAsync(AwsSagemakerPutModelPackageGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutModelPackageGroupPolicyAsync(AwsSagemakerPutModelPackageGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this action to inspect your lineage and discover relationships be- tween entities. For more information, see Querying Lineage Entities in the Amazon SageMaker Developer Guide . See also: AWS API Documentation
@@ -3273,8 +2985,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QueryLineageAsync(AwsSagemakerQueryLineageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QueryLineageAsync(AwsSagemakerQueryLineageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Register devices. See also: AWS API Documentation
@@ -3283,8 +2994,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterDevicesAsync(AwsSagemakerRegisterDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterDevicesAsync(AwsSagemakerRegisterDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renders the UI template so that you can preview the worker's experi- ence. See also: AWS API Documentation
@@ -3293,8 +3003,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RenderUiTemplateAsync(AwsSagemakerRenderUiTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RenderUiTemplateAsync(AwsSagemakerRenderUiTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retry the execution of the pipeline. See also: AWS API Documentation
@@ -3303,8 +3012,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetryPipelineExecutionAsync(AwsSagemakerRetryPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetryPipelineExecutionAsync(AwsSagemakerRetryPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or de- scending order. You can query against the following value types: numeric, text, Boolean, and timestamp. NOTE: The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Re- sources Reference for more information. See...
@@ -3313,8 +3021,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAsync(AwsSagemakerSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAsync(AwsSagemakerSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for available training plan offerings based on specified cri- teria. o Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration). o And then, they create a plan that best matches their needs using the ID of the plan offering they want to use. For more information about how to reserve GPU capacity for your Sage- Maker training jobs or SageMaker HyperPod clusters using Amazon Sage- Maker Training Plan , see `` CreateTrainingPl...
@@ -3323,8 +3030,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchTrainingPlanOfferingsAsync(AwsSagemakerSearchTrainingPlanOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchTrainingPlanOfferingsAsync(AwsSagemakerSearchTrainingPlanOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Notifies the pipeline that the execution of a callback step failed, along with a message describing why. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS). See also: AWS API Documentation
@@ -3333,8 +3039,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendPipelineExecutionStepFailureAsync(AwsSagemakerSendPipelineExecutionStepFailureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendPipelineExecutionStepFailureAsync(AwsSagemakerSendPipelineExecutionStepFailureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Notifies the pipeline that the execution of a callback step succeeded and provides a list of the step's output parameters. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS). See also: AWS API Documentation
@@ -3343,8 +3048,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendPipelineExecutionStepSuccessAsync(AwsSagemakerSendPipelineExecutionStepSuccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendPipelineExecutionStepSuccessAsync(AwsSagemakerSendPipelineExecutionStepSuccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for de- tails. See also: AWS API Documentation
@@ -3353,8 +3057,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartClusterHealthCheckAsync(AwsSagemakerStartClusterHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartClusterHealthCheckAsync(AwsSagemakerStartClusterHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a stage in an edge deployment plan. See also: AWS API Documentation
@@ -3363,8 +3066,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEdgeDeploymentStageAsync(AwsSagemakerStartEdgeDeploymentStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEdgeDeploymentStageAsync(AwsSagemakerStartEdgeDeploymentStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an inference experiment. See also: AWS API Documentation
@@ -3373,8 +3075,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartInferenceExperimentAsync(AwsSagemakerStartInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartInferenceExperimentAsync(AwsSagemakerStartInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Programmatically start an MLflow Tracking Server. See also: AWS API Documentation
@@ -3383,8 +3084,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMlflowTrackingServerAsync(AwsSagemakerStartMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMlflowTrackingServerAsync(AwsSagemakerStartMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a previously stopped monitoring schedule. NOTE: By default, when you successfully create a new schedule, the status of a monitoring schedule is scheduled . See also: AWS API Documentation
@@ -3393,8 +3093,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMonitoringScheduleAsync(AwsSagemakerStartMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMonitoringScheduleAsync(AwsSagemakerStartMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Launches an ML compute instance with the latest version of the li- braries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService . A notebook instance's status must be InService before you can connect to your Jupyter notebook. See also: AWS API Documentation
@@ -3403,8 +3102,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartNotebookInstanceAsync(AwsSagemakerStartNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartNotebookInstanceAsync(AwsSagemakerStartNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a pipeline execution. See also: AWS API Documentation
@@ -3413,8 +3111,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPipelineExecutionAsync(AwsSagemakerStartPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPipelineExecutionAsync(AwsSagemakerStartPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a remote connection session between a local integrated devel- opment environments (IDEs) and a remote SageMaker space. See also: AWS API Documentation
@@ -3423,8 +3120,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSessionAsync(AwsSagemakerStartSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSessionAsync(AwsSagemakerStartSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a running AI benchmark job. See also: AWS API Documentation
@@ -3433,8 +3129,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAiBenchmarkJobAsync(AwsSagemakerStopAiBenchmarkJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAiBenchmarkJobAsync(AwsSagemakerStopAiBenchmarkJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a running AI recommendation job. See also: AWS API Documentation
@@ -3443,8 +3138,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAiRecommendationJobAsync(AwsSagemakerStopAiRecommendationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAiRecommendationJobAsync(AwsSagemakerStopAiRecommendationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A method for forcing a running job to shut down. See also: AWS API Documentation
@@ -3453,8 +3147,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAutoMlJobAsync(AwsSagemakerStopAutoMlJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAutoMlJobAsync(AwsSagemakerStopAutoMlJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a model compilation job. To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM sig- nal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker AI changes the CompilationJobStatus of the job to Stopping . After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped . See also: AWS API Documentation
@@ -3463,8 +3156,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopCompilationJobAsync(AwsSagemakerStopCompilationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopCompilationJobAsync(AwsSagemakerStopCompilationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a stage in an edge deployment plan. See also: AWS API Documentation
@@ -3473,8 +3165,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEdgeDeploymentStageAsync(AwsSagemakerStopEdgeDeploymentStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopEdgeDeploymentStageAsync(AwsSagemakerStopEdgeDeploymentStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Request to stop an edge packaging job. See also: AWS API Documentation
@@ -3483,8 +3174,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEdgePackagingJobAsync(AwsSagemakerStopEdgePackagingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopEdgePackagingJobAsync(AwsSagemakerStopEdgePackagingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. Af- ter the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job. See also: AWS API Documentation
@@ -3493,8 +3183,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopHyperParameterTuningJobAsync(AwsSagemakerStopHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopHyperParameterTuningJobAsync(AwsSagemakerStopHyperParameterTuningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an inference experiment. See also: AWS API Documentation
@@ -3503,8 +3192,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopInferenceExperimentAsync(AwsSagemakerStopInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopInferenceExperimentAsync(AwsSagemakerStopInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an Inference Recommender job. See also: AWS API Documentation
@@ -3513,8 +3201,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopInferenceRecommendationsJobAsync(AwsSagemakerStopInferenceRecommendationsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopInferenceRecommendationsJobAsync(AwsSagemakerStopInferenceRecommendationsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a running job. When you call StopJob , Amazon SageMaker sets the job status to Stopping . After the job stops, the status changes to Stopped . Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob . The following operations are related to StopJob : o CreateJob o DescribeJob o DeleteJob See also: AWS API Documentation
@@ -3523,8 +3210,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopJobAsync(AwsSagemakerStopJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopJobAsync(AwsSagemakerStopJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket. See also: AWS API Documentation
@@ -3533,8 +3219,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopLabelingJobAsync(AwsSagemakerStopLabelingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopLabelingJobAsync(AwsSagemakerStopLabelingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Programmatically stop an MLflow Tracking Server. See also: AWS API Documentation
@@ -3543,8 +3228,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopMlflowTrackingServerAsync(AwsSagemakerStopMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopMlflowTrackingServerAsync(AwsSagemakerStopMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a previously started monitoring schedule. See also: AWS API Documentation
@@ -3553,8 +3237,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopMonitoringScheduleAsync(AwsSagemakerStopMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopMonitoringScheduleAsync(AwsSagemakerStopMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates the ML compute instance. Before terminating the instance, SageMaker AI disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume. SageMaker AI stops charging you for the ML compute instance when you call StopNotebookInstance . To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNote- bookInstance launches another ML compute instance, configures it, and attaches the preserved ML...
@@ -3563,8 +3246,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopNotebookInstanceAsync(AwsSagemakerStopNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopNotebookInstanceAsync(AwsSagemakerStopNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ends a running inference optimization job. See also: AWS API Documentation
@@ -3573,8 +3255,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopOptimizationJobAsync(AwsSagemakerStopOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopOptimizationJobAsync(AwsSagemakerStopOptimizationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a pipeline execution. Callback Step A pipeline execution won't stop while a callback step is running. When you call StopPipelineExecution on a pipeline execution with a running callback step, SageMaker Pipelines sends an additional Amazon SQS mes- sage to the specified SQS queue. The body of the SQS message contains a "Status" field which is set to "Stopping". You should add logic to your Amazon SQS message consumer to take any needed action (for example, resource cleanup) upon receipt of ...
@@ -3583,8 +3264,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopPipelineExecutionAsync(AwsSagemakerStopPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopPipelineExecutionAsync(AwsSagemakerStopPipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a processing job. See also: AWS API Documentation
@@ -3593,8 +3273,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopProcessingJobAsync(AwsSagemakerStopProcessingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopProcessingJobAsync(AwsSagemakerStopProcessingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a training job. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algo- rithms might use this 120-second window to save the model artifacts, so the results of the training is not lost. When it receives a StopTrainingJob request, SageMaker changes the sta- tus of the job to Stopping . After SageMaker stops the job, it sets the status to Stopped . See also: AWS API Documentation
@@ -3603,8 +3282,16 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTrainingJobAsync(AwsSagemakerStopTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTrainingJobAsync(AwsSagemakerStopTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Stops a running training session and sets the session status to Stop- ping . After the session stops, the status changes to Stopped . To delete a stopped session, use the DeleteTrainingSession operation. The following operations are related to StopTrainingSession : o CreateTrainingSession o DescribeTrainingSession o DeleteTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> StopTrainingSessionAsync(AwsSagemakerStopTrainingSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping . After Amazon SageMaker stops the job, the status is set to Stopped . When you stop a batch transform job be- fore it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3. See also: AWS API Documentation
@@ -3613,8 +3300,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTransformJobAsync(AwsSagemakerStopTransformJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTransformJobAsync(AwsSagemakerStopTransformJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an action. See also: AWS API Documentation
@@ -3623,8 +3309,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateActionAsync(AwsSagemakerUpdateActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateActionAsync(AwsSagemakerUpdateActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of an AppImageConfig. See also: AWS API Documentation
@@ -3633,8 +3318,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppImageConfigAsync(AwsSagemakerUpdateAppImageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppImageConfigAsync(AwsSagemakerUpdateAppImageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an artifact. See also: AWS API Documentation
@@ -3643,8 +3327,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateArtifactAsync(AwsSagemakerUpdateArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateArtifactAsync(AwsSagemakerUpdateArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a SageMaker HyperPod cluster. See also: AWS API Documentation
@@ -3653,8 +3336,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateClusterAsync(AwsSagemakerUpdateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateClusterAsync(AwsSagemakerUpdateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the cluster policy configuration. See also: AWS API Documentation
@@ -3663,8 +3345,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateClusterSchedulerConfigAsync(AwsSagemakerUpdateClusterSchedulerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateClusterSchedulerConfigAsync(AwsSagemakerUpdateClusterSchedulerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the platform software of a SageMaker HyperPod cluster for secu- rity patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster . WARNING: The UpgradeClusterSoftware API call may impact your SageMaker Hyper- Pod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads. See also: AWS API Documentation
@@ -3673,8 +3354,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateClusterSoftwareAsync(AwsSagemakerUpdateClusterSoftwareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateClusterSoftwareAsync(AwsSagemakerUpdateClusterSoftwareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified Git repository with the specified values. See also: AWS API Documentation
@@ -3683,8 +3363,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCodeRepositoryAsync(AwsSagemakerUpdateCodeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCodeRepositoryAsync(AwsSagemakerUpdateCodeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the compute allocation definition. See also: AWS API Documentation
@@ -3693,8 +3372,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateComputeQuotaAsync(AwsSagemakerUpdateComputeQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateComputeQuotaAsync(AwsSagemakerUpdateComputeQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a context. See also: AWS API Documentation
@@ -3703,8 +3381,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContextAsync(AwsSagemakerUpdateContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContextAsync(AwsSagemakerUpdateContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a fleet of devices. See also: AWS API Documentation
@@ -3713,8 +3390,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDeviceFleetAsync(AwsSagemakerUpdateDeviceFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDeviceFleetAsync(AwsSagemakerUpdateDeviceFleetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates one or more devices in a fleet. See also: AWS API Documentation
@@ -3723,8 +3399,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDevicesAsync(AwsSagemakerUpdateDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDevicesAsync(AwsSagemakerUpdateDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the default settings for new user profiles in the domain. See also: AWS API Documentation
@@ -3733,8 +3408,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainAsync(AwsSagemakerUpdateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainAsync(AwsSagemakerUpdateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deploys the EndpointConfig specified in the request to a new fleet of instances. SageMaker shifts endpoint traffic to the new instances with the updated endpoint configuration and then deletes the old instances using the previous EndpointConfig (there is no availability loss). For more information about how to control the update and traffic shifting process, see Update models in production . When SageMaker receives the request, it sets the endpoint status to Up- dating . After updating the endpo...
@@ -3743,8 +3417,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEndpointAsync(AwsSagemakerUpdateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEndpointAsync(AwsSagemakerUpdateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates variant weight of one or more variants associated with an ex- isting endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating . After updating the endpoint, it sets the status to InService . To check the status of an endpoint, use the DescribeEndpoint API. See also: AWS API Documentation
@@ -3753,8 +3426,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEndpointWeightsAndCapacitiesAsync(AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEndpointWeightsAndCapacitiesAsync(AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds, updates, or removes the description of an experiment. Updates the display name of an experiment. See also: AWS API Documentation
@@ -3763,8 +3435,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateExperimentAsync(AwsSagemakerUpdateExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateExperimentAsync(AwsSagemakerUpdateExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the feature group by either adding features or updating the on- line store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStore- Config request parameter. If a TtlDuration is specified, the default TtlDuration applies for all ...
@@ -3773,8 +3444,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFeatureGroupAsync(AwsSagemakerUpdateFeatureGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFeatureGroupAsync(AwsSagemakerUpdateFeatureGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the description and parameters of the feature group. See also: AWS API Documentation
@@ -3783,8 +3453,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFeatureMetadataAsync(AwsSagemakerUpdateFeatureMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFeatureMetadataAsync(AwsSagemakerUpdateFeatureMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates SageMaker hub content (either a Model or Notebook resource). You can update the metadata that describes the resource. In addition to the required request fields, specify at least one of the following fields to update: o HubContentDescription o HubContentDisplayName o HubContentMarkdown o HubContentSearchKeywords o SupportStatus For more information about hubs, see Private curated hubs for founda- tion model access control in JumpStart . NOTE: If you want to update a ModelReference resour...
@@ -3793,8 +3462,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHubContentAsync(AwsSagemakerUpdateHubContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHubContentAsync(AwsSagemakerUpdateHubContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the contents of a SageMaker hub for a ModelReference resource. A ModelReference allows you to access public SageMaker JumpStart models from within your private hub. When using this API, you can update the MinVersion field for additional flexibility in the model version. You shouldn't update any additional fields when using this API, because the metadata in your private hub should match the public JumpStart model's metadata. NOTE: If you want to update a Model or Notebook resource in your...
@@ -3803,8 +3471,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHubContentReferenceAsync(AwsSagemakerUpdateHubContentReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHubContentReferenceAsync(AwsSagemakerUpdateHubContentReferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a hub. See also: AWS API Documentation
@@ -3813,8 +3480,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHubAsync(AwsSagemakerUpdateHubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHubAsync(AwsSagemakerUpdateHubOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of a SageMaker AI image. To change the image's tags, use the AddTags and DeleteTags APIs. See also: AWS API Documentation
@@ -3823,8 +3489,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateImageAsync(AwsSagemakerUpdateImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateImageAsync(AwsSagemakerUpdateImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of a SageMaker AI image version. See also: AWS API Documentation
@@ -3833,8 +3498,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateImageVersionAsync(AwsSagemakerUpdateImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateImageVersionAsync(AwsSagemakerUpdateImageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an inference component. See also: AWS API Documentation
@@ -3843,8 +3507,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInferenceComponentAsync(AwsSagemakerUpdateInferenceComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInferenceComponentAsync(AwsSagemakerUpdateInferenceComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Runtime settings for a model that is deployed with an inference compo- nent. See also: AWS API Documentation
@@ -3853,8 +3516,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInferenceComponentRuntimeConfigAsync(AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInferenceComponentRuntimeConfigAsync(AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an inference experiment that you created. The status of the in- ference experiment has to be either Created , Running . For more infor- mation on the status of an inference experiment, see DescribeInferenceExperiment . See also: AWS API Documentation
@@ -3863,8 +3525,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInferenceExperimentAsync(AwsSagemakerUpdateInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInferenceExperimentAsync(AwsSagemakerUpdateInferenceExperimentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an MLflow App. See also: AWS API Documentation
@@ -3873,8 +3534,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMlflowAppAsync(AwsSagemakerUpdateMlflowAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMlflowAppAsync(AwsSagemakerUpdateMlflowAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates properties of an existing MLflow Tracking Server. See also: AWS API Documentation
@@ -3883,8 +3543,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMlflowTrackingServerAsync(AwsSagemakerUpdateMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMlflowTrackingServerAsync(AwsSagemakerUpdateMlflowTrackingServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an Amazon SageMaker Model Card. WARNING: You cannot update both model card content and model card status in a single call. See also: AWS API Documentation
@@ -3893,8 +3552,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateModelCardAsync(AwsSagemakerUpdateModelCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateModelCardAsync(AwsSagemakerUpdateModelCardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a versioned model. See also: AWS API Documentation
@@ -3903,8 +3561,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateModelPackageAsync(AwsSagemakerUpdateModelPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateModelPackageAsync(AwsSagemakerUpdateModelPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the parameters of a model monitor alert. See also: AWS API Documentation
@@ -3913,8 +3570,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMonitoringAlertAsync(AwsSagemakerUpdateMonitoringAlertOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMonitoringAlertAsync(AwsSagemakerUpdateMonitoringAlertOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a previously created schedule. See also: AWS API Documentation
@@ -3923,8 +3579,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMonitoringScheduleAsync(AwsSagemakerUpdateMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMonitoringScheduleAsync(AwsSagemakerUpdateMonitoringScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API. NOTE: Updates to lifecycle configurations affect all notebook instances using that configuration upon their next start. Lifecycle configura- tion scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Con- figuration Script for security best practic...
@@ -3933,8 +3588,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNotebookInstanceLifecycleConfigAsync(AwsSagemakerUpdateNotebookInstanceLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNotebookInstanceLifecycleConfigAsync(AwsSagemakerUpdateNotebookInstanceLifecycleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements. NOTE: This API can attach lifecycle configurations to notebook instances. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Principals with this permission and access to lifecycle configurations can execute code with the execution role's...
@@ -3943,8 +3597,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNotebookInstanceAsync(AwsSagemakerUpdateNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNotebookInstanceAsync(AwsSagemakerUpdateNotebookInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates all of the SageMaker Partner AI Apps in an account. See also: AWS API Documentation
@@ -3953,8 +3606,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePartnerAppAsync(AwsSagemakerUpdatePartnerAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePartnerAppAsync(AwsSagemakerUpdatePartnerAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a pipeline execution. See also: AWS API Documentation
@@ -3963,8 +3615,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePipelineExecutionAsync(AwsSagemakerUpdatePipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePipelineExecutionAsync(AwsSagemakerUpdatePipelineExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a pipeline. See also: AWS API Documentation
@@ -3973,8 +3624,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePipelineAsync(AwsSagemakerUpdatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePipelineAsync(AwsSagemakerUpdatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a pipeline version. See also: AWS API Documentation
@@ -3983,8 +3633,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePipelineVersionAsync(AwsSagemakerUpdatePipelineVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePipelineVersionAsync(AwsSagemakerUpdatePipelineVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model. NOTE: You must not update a project that is in use. If you update the Ser- viceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project. See also: AWS API Documentation
@@ -3993,8 +3642,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProjectAsync(AwsSagemakerUpdateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProjectAsync(AwsSagemakerUpdateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings of a space. NOTE: You can't edit the app type of a space in the SpaceSettings . See also: AWS API Documentation
@@ -4003,8 +3651,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSpaceAsync(AwsSagemakerUpdateSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSpaceAsync(AwsSagemakerUpdateSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a model training job to request a new Debugger profiling config- uration or to change warm pool retention length. See also: AWS API Documentation
@@ -4013,8 +3660,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrainingJobAsync(AwsSagemakerUpdateTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrainingJobAsync(AwsSagemakerUpdateTrainingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates one or more properties of a trial component. See also: AWS API Documentation
@@ -4023,8 +3669,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrialComponentAsync(AwsSagemakerUpdateTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrialComponentAsync(AwsSagemakerUpdateTrialComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the display name of a trial. See also: AWS API Documentation
@@ -4033,8 +3678,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrialAsync(AwsSagemakerUpdateTrialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrialAsync(AwsSagemakerUpdateTrialOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a user profile. See also: AWS API Documentation
@@ -4043,8 +3687,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserProfileAsync(AwsSagemakerUpdateUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserProfileAsync(AwsSagemakerUpdateUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet. Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten CIDRs . By default, a workforce isn't restricted to ...
@@ -4053,8 +3696,7 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkforceAsync(AwsSagemakerUpdateWorkforceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkforceAsync(AwsSagemakerUpdateWorkforceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing work team with new member definitions or descrip- tion. See also: AWS API Documentation
@@ -4063,7 +3705,6 @@ public interface IAwsSagemaker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkteamAsync(AwsSagemakerUpdateWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkteamAsync(AwsSagemakerUpdateWorkteamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

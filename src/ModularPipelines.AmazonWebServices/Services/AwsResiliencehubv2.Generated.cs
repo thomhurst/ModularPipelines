@@ -33,7 +33,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws resiliencehubv2 wait sub-commands.
     /// </summary>
     public AwsResiliencehubv2Wait Wait => _wait ??= new AwsResiliencehubv2Wait(_command);
 

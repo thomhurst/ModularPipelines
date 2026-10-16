@@ -33,7 +33,7 @@ public class AwsAppConfig : IAwsAppConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws appconfig wait sub-commands.
     /// </summary>
     public AwsAppConfigWait Wait => _wait ??= new AwsAppConfigWait(_command);
 

@@ -33,7 +33,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws gameliftstreams wait sub-commands.
     /// </summary>
     public AwsGameliftstreamsWait Wait => _wait ??= new AwsGameliftstreamsWait(_command);
 

@@ -28,8 +28,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelParticipantAuthenticationAsync(AwsConnectparticipantCancelParticipantAuthenticationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelParticipantAuthenticationAsync(AwsConnectparticipantCancelParticipantAuthenticationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict excep- tion is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS AP...
@@ -38,8 +37,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CompleteAttachmentUploadAsync(AwsConnectparticipantCompleteAttachmentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CompleteAttachmentUploadAsync(AwsConnectparticipantCompleteAttachmentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the participant's connection. For security recommendations, see Connect Customer Chat security best practices . For WebRTC security recommendations, see Connect Customer WebRTC secu- rity best practices . NOTE: ParticipantToken is used for invoking this API instead of Connec- tionToken . The participant token is valid for the lifetime of the participant un- til they are part of a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new participant needs t...
@@ -48,8 +46,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateParticipantConnectionAsync(AwsConnectparticipantCreateParticipantConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateParticipantConnectionAsync(AwsConnectparticipantCreateParticipantConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the view for the specified view token. For security recommendations, see Connect Customer Chat security best practices . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeViewAsync(AwsConnectparticipantDescribeViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeViewAsync(AwsConnectparticipantDescribeViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disconnects a participant. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisconnectParticipantAsync(AwsConnectparticipantDisconnectParticipantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisconnectParticipantAsync(AwsConnectparticipantDisconnectParticipantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see Connect Customer Chat security best practices . NOTE: o The participant role CUSTOM_BOT is not permitted to access attach- ments customers may upload. An AccessDeniedException can indicate that the participant may be a CUSTOM_BOT, and it doesn't have ac- cess to attachments. o ConnectionToken is used for invoking this API instead of Partici...
@@ -78,8 +73,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAttachmentAsync(AwsConnectparticipantGetAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAttachmentAsync(AwsConnectparticipantGetAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see Connect Customer Chat security best practices . NOTE: o This API can only be called within one minute of receiving the au- thenticationInitiated event. o The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of Partici- pantTo...
@@ -88,8 +82,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAuthenticationUrlAsync(AwsConnectparticipantGetAuthenticationUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAuthenticationUrlAsync(AwsConnectparticipantGetAuthenticationUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a transcript of the session, including details about any at- tachments. For information about accessing past chat contact tran- scripts for a persistent chat, see Enable persistent chat . For security recommendations, see Connect Customer Chat security best practices . If you have a process that consumes events in the transcript of an chat that has ended, note that chat transcripts contain the following event content types if the event has occurred during the chat session: o applicatio...
@@ -98,8 +91,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTranscriptAsync(AwsConnectparticipantGetTranscriptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTranscriptAsync(AwsConnectparticipantGetTranscriptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType is no longer maintained since December 31, 2024. This event has been migrated to the CreateParticipantConnection API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a con- flict exception. For security recommendations, see...
@@ -108,8 +100,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendEventAsync(AwsConnectparticipantSendEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendEventAsync(AwsConnectparticipantSendEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a message. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendMessageAsync(AwsConnectparticipantSendMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendMessageAsync(AwsConnectparticipantSendMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
@@ -128,7 +118,6 @@ public interface IAwsConnectparticipant
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAttachmentUploadAsync(AwsConnectparticipantStartAttachmentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAttachmentUploadAsync(AwsConnectparticipantStartAttachmentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

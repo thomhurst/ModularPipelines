@@ -33,7 +33,7 @@ public class AwsEc2 : IAwsEc2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ec2 wait sub-commands.
     /// </summary>
     public AwsEc2Wait Wait => _wait ??= new AwsEc2Wait(_command);
 
@@ -5649,6 +5649,15 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociaAsync(
+        AwsEc2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociaOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociaOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

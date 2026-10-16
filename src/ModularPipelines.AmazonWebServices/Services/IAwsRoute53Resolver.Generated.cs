@@ -28,8 +28,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateFirewallRuleGroupAsync(AwsRoute53resolverAssociateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateFirewallRuleGroupAsync(AwsRoute53resolverAssociateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address, submit one AssociateResolv- erEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see DisassociateResolverEndpointIpAddress . See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateResolverEndpointIpAddressAsync(AwsRoute53resolverAssociateResolverEndpointIpAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateResolverEndpointIpAddressAsync(AwsRoute53resolverAssociateResolverEndpointIpAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one Associ- ateResolverQueryLogConfig request for each VPC. NOTE: The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuratio...
@@ -48,8 +46,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateResolverQueryLogConfigAsync(AwsRoute53resolverAssociateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateResolverQueryLogConfigAsync(AwsRoute53resolverAssociateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see CreateResolverRule . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateResolverRuleAsync(AwsRoute53resolverAssociateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateResolverRuleAsync(AwsRoute53resolverAssociateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates multiple DNS Firewall rules in the specified rule group. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateFirewallRuleAsync(AwsRoute53resolverBatchCreateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreateFirewallRuleAsync(AwsRoute53resolverBatchCreateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes multiple DNS Firewall rules from the specified rule group. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteFirewallRuleAsync(AwsRoute53resolverBatchDeleteFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteFirewallRuleAsync(AwsRoute53resolverBatchDeleteFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates multiple DNS Firewall rules in the specified rule group. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateFirewallRuleAsync(AwsRoute53resolverBatchUpdateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateFirewallRuleAsync(AwsRoute53resolverBatchUpdateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using Im- portFirewallDomains , or with domain strings, using UpdateFirewallDo- mains . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFirewallDomainListAsync(AwsRoute53resolverCreateFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFirewallDomainListAsync(AwsRoute53resolverCreateFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group by calling CreateFirewallRule . See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFirewallRuleGroupAsync(AwsRoute53resolverCreateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFirewallRuleGroupAsync(AwsRoute53resolverCreateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: o FirewallDomainListId match a customer-managed or Amazon Web Ser- vices-managed domain list. o DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). o FirewallRuleType match one of the rule-type variants return...
@@ -118,8 +109,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFirewallRuleAsync(AwsRoute53resolverCreateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFirewallRuleAsync(AwsRoute53resolverCreateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOutpostResolverAsync(AwsRoute53resolverCreateOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOutpostResolverAsync(AwsRoute53resolverCreateOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound: o An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network. o An outbound Resolver endpoint forwards DNS queries from the DNS ser- vice for a VPC to your network. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResolverEndpointAsync(AwsRoute53resolverCreateResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResolverEndpointAsync(AwsRoute53resolverCreateResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Re- solver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateRe- solverQueryLogConfig . For more information, see AssociateResolverQueryLogConfig . You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other...
@@ -148,8 +136,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResolverQueryLogConfigAsync(AwsRoute53resolverCreateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResolverQueryLogConfigAsync(AwsRoute53resolverCreateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResolverRuleAsync(AwsRoute53resolverCreateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResolverRuleAsync(AwsRoute53resolverCreateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified domain list. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFirewallDomainListAsync(AwsRoute53resolverDeleteFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFirewallDomainListAsync(AwsRoute53resolverDeleteFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified firewall rule group. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFirewallRuleGroupAsync(AwsRoute53resolverDeleteFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFirewallRuleGroupAsync(AwsRoute53resolverDeleteFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Ad- vanced rules) together with FirewallRuleGroupId . DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED . See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFirewallRuleAsync(AwsRoute53resolverDeleteFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFirewallRuleAsync(AwsRoute53resolverDeleteFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Resolver on the Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOutpostResolverAsync(AwsRoute53resolverDeleteOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOutpostResolverAsync(AwsRoute53resolverDeleteOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint: o Inbound : DNS queries from your network are no longer routed to the DNS service for the specified VPC. o Outbound : DNS queries from a VPC are no longer routed to your net- work. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResolverEndpointAsync(AwsRoute53resolverDeleteResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResolverEndpointAsync(AwsRoute53resolverDeleteResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query log- ging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configura- tion. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQ...
@@ -218,8 +199,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResolverQueryLogConfigAsync(AwsRoute53resolverDeleteResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResolverQueryLogConfigAsync(AwsRoute53resolverDeleteResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you associated the Resolver rule with. For more information, see DisassociateResolverRule . See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResolverRuleAsync(AwsRoute53resolverDeleteResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResolverRuleAsync(AwsRoute53resolverDeleteResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateFirewallRuleGroupAsync(AwsRoute53resolverDisassociateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateFirewallRuleGroupAsync(AwsRoute53resolverDisassociateFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address, submit one Disassoci- ateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see AssociateResolverEndpointIpAddress . See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateResolverEndpointIpAddressAsync(AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateResolverEndpointIpAddressAsync(AwsRoute53resolverDisassociateResolverEndpointIpAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a VPC from a query logging configuration. NOTE: Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways: o The accounts that you shared the configuration with can disassoci- ate VPCs from the configuration. o You can stop sharing the configuration. See al...
@@ -258,8 +235,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateResolverQueryLogConfigAsync(AwsRoute53resolverDisassociateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateResolverQueryLogConfigAsync(AwsRoute53resolverDisassociateResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between a specified Resolver rule and a speci- fied VPC. WARNING: If you disassociate a Resolver rule from a VPC, Resolver stops for- warding DNS queries for the domain name that you specified in the Resolver rule. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateResolverRuleAsync(AwsRoute53resolverDisassociateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateResolverRuleAsync(AwsRoute53resolverDisassociateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC). See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallConfigAsync(AwsRoute53resolverGetFirewallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFirewallConfigAsync(AwsRoute53resolverGetFirewallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the specified firewall domain list. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallDomainListAsync(AwsRoute53resolverGetFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFirewallDomainListAsync(AwsRoute53resolverGetFirewallDomainListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a firewall rule group association, which enables DNS filter- ing for a VPC with one rule group. A VPC can have more than one fire- wall rule group association, and a rule group can be associated with more than one VPC. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallRuleGroupAssociationAsync(AwsRoute53resolverGetFirewallRuleGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFirewallRuleGroupAssociationAsync(AwsRoute53resolverGetFirewallRuleGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the specified firewall rule group. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallRuleGroupAsync(AwsRoute53resolverGetFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFirewallRuleGroupAsync(AwsRoute53resolverGetFirewallRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM). See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFirewallRuleGroupPolicyAsync(AwsRoute53resolverGetFirewallRuleGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFirewallRuleGroupPolicyAsync(AwsRoute53resolverGetFirewallRuleGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified Resolver on the Outpost, such as its instance count and type, name, and the current status of the Resolver. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOutpostResolverAsync(AwsRoute53resolverGetOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOutpostResolverAsync(AwsRoute53resolverGetOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverConfigAsync(AwsRoute53resolverGetResolverConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverConfigAsync(AwsRoute53resolverGetResolverConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets DNSSEC validation information for a specified resource. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverDnssecConfigAsync(AwsRoute53resolverGetResolverDnssecConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverDnssecConfigAsync(AwsRoute53resolverGetResolverDnssecConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current sta- tus of the endpoint. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverEndpointAsync(AwsRoute53resolverGetResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverEndpointAsync(AwsRoute53resolverGetResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC with a query logging configuration, Resolver logs DNS queries that originate in that VPC. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverQueryLogConfigAssociationAsync(AwsRoute53resolverGetResolverQueryLogConfigAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverQueryLogConfigAssociationAsync(AwsRoute53resolverGetResolverQueryLogConfigAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified Resolver query logging configura- tion, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverQueryLogConfigAsync(AwsRoute53resolverGetResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverQueryLogConfigAsync(AwsRoute53resolverGetResolverQueryLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a query logging policy. A query logging policy specifies the Resolver query logging operations and resources that you want to allow another Amazon Web Services account to be able to use. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverQueryLogConfigPolicyAsync(AwsRoute53resolverGetResolverQueryLogConfigPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverQueryLogConfigPolicyAsync(AwsRoute53resolverGetResolverQueryLogConfigPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using AssociateResolverRule . See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverRuleAssociationAsync(AwsRoute53resolverGetResolverRuleAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverRuleAssociationAsync(AwsRoute53resolverGetResolverRuleAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the outbound Resolver endpoint that the rule is associated with. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverRuleAsync(AwsRoute53resolverGetResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverRuleAsync(AwsRoute53resolverGetResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with an- other account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResolverRulePolicyAsync(AwsRoute53resolverGetResolverRulePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResolverRulePolicyAsync(AwsRoute53resolverGetResolverRulePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the follow- ing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportFirewallDomainsAsync(AwsRoute53resolverImportFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportFirewallDomainsAsync(AwsRoute53resolverImportFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the firewall configurations that you have defined. DNS Fire- wall uses the configurations to manage firewall behavior for your VPCs. A single call might return only a partial list of the configurations. For information, see MaxResults . See also: AWS API Documentation list-firewall-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
@@ -438,8 +397,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallConfigsAsync(AwsRoute53resolverListFirewallConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallConfigsAsync(AwsRoute53resolverListFirewallConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling ListFirewallDomains . A single call to this list operation might return only a partial list of the domain lists. For information, see MaxResults . See also: AWS API Documentation list-firewall-domain-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginati...
@@ -448,8 +406,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallDomainListsAsync(AwsRoute53resolverListFirewallDomainListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallDomainListsAsync(AwsRoute53resolverListFirewallDomainListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the domains that you have defined for the specified firewall domain list. A single call might return only a partial list of the domains. For in- formation, see MaxResults . See also: AWS API Documentation list-firewall-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
@@ -458,8 +415,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallDomainsAsync(AwsRoute53resolverListFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallDomainsAsync(AwsRoute53resolverListFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group. A single call might return only a partial list of the associations. For information, see MaxResults . See also: AWS API Documentation list-firewall-rule-group-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When...
@@ -468,8 +424,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallRuleGroupAssociationsAsync(AwsRoute53resolverListFirewallRuleGroupAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallRuleGroupAssociationsAsync(AwsRoute53resolverListFirewallRuleGroupAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the minimal high-level information for the rule groups that you have defined. A single call might return only a partial list of the rule groups. For information, see MaxResults . See also: AWS API Documentation list-firewall-rule-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
@@ -478,8 +433,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallRuleGroupsAsync(AwsRoute53resolverListFirewallRuleGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallRuleGroupsAsync(AwsRoute53resolverListFirewallRuleGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For infor- mation, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operatio...
@@ -488,8 +442,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallRulesAsync(AwsRoute53resolverListFirewallRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallRulesAsync(AwsRoute53resolverListFirewallRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the rule-type variants that can be used in the FirewallRule- Type field of CreateFirewallRule and UpdateFirewallRule . Each re- turned FirewallRuleTypeDefinition identifies one variant + value com- bination for example, FirewallAdvancedContentCategory + VIO- LENCE_AND_HATE_SPEECH , or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCate- gory , FirewallAdvancedThreatCategory , DnsThreatProtection , and Part- nerThreatPro...
@@ -498,8 +451,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFirewallRuleTypesAsync(AwsRoute53resolverListFirewallRuleTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFirewallRuleTypesAsync(AwsRoute53resolverListFirewallRuleTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account. See also: AWS API Documentation list-outpost-resolvers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
@@ -508,8 +460,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOutpostResolversAsync(AwsRoute53resolverListOutpostResolversOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOutpostResolversAsync(AwsRoute53resolverListOutpostResolversOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs. See also: AWS API Documentation list-resolver-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
@@ -518,8 +469,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverConfigsAsync(AwsRoute53resolverListResolverConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResolverConfigsAsync(AwsRoute53resolverListResolverConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account. See also: AWS API Documentation list-resolver-dnssec-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
@@ -528,8 +478,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverDnssecConfigsAsync(AwsRoute53resolverListResolverDnssecConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResolverDnssecConfigsAsync(AwsRoute53resolverListResolverDnssecConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the IP addresses for a specified Resolver endpoint. See also: AWS API Documentation list-resolver-endpoint-ip-addresses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpAddresses
@@ -538,8 +487,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverEndpointIpAddressesAsync(AwsRoute53resolverListResolverEndpointIpAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResolverEndpointIpAddressesAsync(AwsRoute53resolverListResolverEndpointIpAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the Resolver endpoints that were created using the current Amazon Web Services account. See also: AWS API Documentation list-resolver-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expression...
@@ -548,8 +496,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverEndpointsAsync(AwsRoute53resolverListResolverEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResolverEndpointsAsync(AwsRoute53resolverListResolverEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about associations between Amazon VPCs and query log- ging configurations. See also: AWS API Documentation list-resolver-query-log-config-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following...
@@ -558,8 +505,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverQueryLogConfigAssociationsAsync(AwsRoute53resolverListResolverQueryLogConfigAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResolverQueryLogConfigAssociationsAsync(AwsRoute53resolverListResolverQueryLogConfigAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save DNS query logs and specifies the VPCs that you want to log queries for. See also: AWS API Documentation list-resolver-query-log-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on ...
@@ -568,8 +514,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverQueryLogConfigsAsync(AwsRoute53resolverListResolverQueryLogConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResolverQueryLogConfigsAsync(AwsRoute53resolverListResolverQueryLogConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account. See also: AWS API Documentation list-resolver-rule-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
@@ -578,8 +523,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverRuleAssociationsAsync(AwsRoute53resolverListResolverRuleAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResolverRuleAssociationsAsync(AwsRoute53resolverListResolverRuleAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Resolver rules that were created using the current Amazon Web Services account. See also: AWS API Documentation list-resolver-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ResolverRul...
@@ -588,8 +532,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResolverRulesAsync(AwsRoute53resolverListResolverRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResolverRulesAsync(AwsRoute53resolverListResolverRulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags that you associated with the specified resource. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tags
@@ -598,8 +541,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsRoute53resolverListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsRoute53resolverListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule group. You can use the policy to share the rule group using Resource Access Manager (RAM). See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutFirewallRuleGroupPolicyAsync(AwsRoute53resolverPutFirewallRuleGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutFirewallRuleGroupPolicyAsync(AwsRoute53resolverPutFirewallRuleGroupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share, and the operations that you want the account to be able to perform on the configuration. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResolverQueryLogConfigPolicyAsync(AwsRoute53resolverPutResolverQueryLogConfigPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResolverQueryLogConfigPolicyAsync(AwsRoute53resolverPutResolverQueryLogConfigPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies an Amazon Web Services rule that you want to share with an- other account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResolverRulePolicyAsync(AwsRoute53resolverPutResolverRulePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResolverRulePolicyAsync(AwsRoute53resolverPutResolverRulePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more tags to a specified resource. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsRoute53resolverTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsRoute53resolverTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from a specified resource. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsRoute53resolverUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsRoute53resolverUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC). See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallConfigAsync(AwsRoute53resolverUpdateFirewallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallConfigAsync(AwsRoute53resolverUpdateFirewallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the firewall domain list from an array of domain specifica- tions. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallDomainsAsync(AwsRoute53resolverUpdateFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallDomainsAsync(AwsRoute53resolverUpdateFirewallDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the association of a FirewallRuleGroup with a VPC. The associ- ation enables DNS filtering for the VPC. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallRuleGroupAssociationAsync(AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallRuleGroupAssociationAsync(AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified firewall rule. The rule's FirewallRuleType , FirewallDomainListId , and top-level DnsThreatProtection match source cannot be changed after creation. Rules whose Status is CREATING or CREATION_FAILED cannot be updated; remove a failed rule with Delete- FirewallRule . See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFirewallRuleAsync(AwsRoute53resolverUpdateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFirewallRuleAsync(AwsRoute53resolverUpdateFirewallRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOutpostResolverAsync(AwsRoute53resolverUpdateOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOutpostResolverAsync(AwsRoute53resolverUpdateOutpostResolverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResolverConfigAsync(AwsRoute53resolverUpdateResolverConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResolverConfigAsync(AwsRoute53resolverUpdateResolverConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing DNSSEC validation configuration. If there is no ex- isting DNSSEC validation configuration, one is created. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResolverDnssecConfigAsync(AwsRoute53resolverUpdateResolverDnssecConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResolverDnssecConfigAsync(AwsRoute53resolverUpdateResolverDnssecConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name, or endpoint type for an inbound or an outbound Re- solver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResolverEndpointAsync(AwsRoute53resolverUpdateResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResolverEndpointAsync(AwsRoute53resolverUpdateResolverEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates settings for a specified Resolver rule. ResolverRuleId is re- quired, and all other parameters are optional. If you don't specify a parameter, it retains its current value. See also: AWS API Documentation
@@ -738,7 +667,6 @@ public interface IAwsRoute53Resolver
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResolverRuleAsync(AwsRoute53resolverUpdateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResolverRuleAsync(AwsRoute53resolverUpdateResolverRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

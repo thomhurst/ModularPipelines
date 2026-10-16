@@ -33,7 +33,7 @@ public class AwsCloudfront : IAwsCloudfront
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudfront wait sub-commands.
     /// </summary>
     public AwsCloudfrontWait Wait => _wait ??= new AwsCloudfrontWait(_command);
 

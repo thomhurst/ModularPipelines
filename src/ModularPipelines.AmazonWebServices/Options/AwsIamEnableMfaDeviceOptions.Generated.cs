@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -82,12 +83,14 @@ public record AwsIamEnableMfaDeviceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// An authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+
     /// </summary>
+    [SecretValue]
     [CliOption("--authentication-code1")]
     public string? AuthenticationCode1 { get; private init; }
 
     /// <summary>
     /// A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+
     /// </summary>
+    [SecretValue]
     [CliOption("--authentication-code2")]
     public string? AuthenticationCode2 { get; private init; }
 

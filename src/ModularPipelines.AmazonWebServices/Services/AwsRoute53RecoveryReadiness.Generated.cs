@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws route53recoveryreadiness commands.
+/// aws route53-recovery-readiness commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness

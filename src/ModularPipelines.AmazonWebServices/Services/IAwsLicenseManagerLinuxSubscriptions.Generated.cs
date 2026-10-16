@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws licensemanagerlinuxsubscriptions commands.
+/// aws license-manager-linux-subscriptions commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterSubscriptionProviderAsync(AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterSubscriptionProviderAsync(AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get details for a Bring Your Own License (BYOL) subscription that's registered to your account. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRegisteredSubscriptionProviderAsync(AwsLicenseManagerLinuxSubscriptionsGetRegisteredSubscriptionProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRegisteredSubscriptionProviderAsync(AwsLicenseManagerLinuxSubscriptionsGetRegisteredSubscriptionProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Linux subscriptions service settings for your account. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceSettingsAsync(AwsLicenseManagerLinuxSubscriptionsGetServiceSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceSettingsAsync(AwsLicenseManagerLinuxSubscriptionsGetServiceSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the running Amazon EC2 instances that were discovered with com- mercial Linux subscriptions. See also: AWS API Documentation list-linux-subscription-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
@@ -58,8 +55,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLinuxSubscriptionInstancesAsync(AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLinuxSubscriptionInstancesAsync(AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggre- gated across your accounts in Organizations. See also: AWS API Documentation list-linux-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, th...
@@ -68,8 +64,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLinuxSubscriptionsAsync(AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLinuxSubscriptionsAsync(AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Bring Your Own License (BYOL) subscription registration resources for your account. See also: AWS API Documentation list-registered-subscription-providers is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query ...
@@ -78,8 +73,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRegisteredSubscriptionProvidersAsync(AwsLicenseManagerLinuxSubscriptionsListRegisteredSubscriptionProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRegisteredSubscriptionProvidersAsync(AwsLicenseManagerLinuxSubscriptionsListRegisteredSubscriptionProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the metadata tags that are assigned to the specified Amazon Web Services resource. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsLicenseManagerLinuxSubscriptionsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsLicenseManagerLinuxSubscriptionsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterSubscriptionProviderAsync(AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterSubscriptionProviderAsync(AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add metadata tags to the specified Amazon Web Services resource. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsLicenseManagerLinuxSubscriptionsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsLicenseManagerLinuxSubscriptionsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove one or more metadata tag from the specified Amazon Web Services resource. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsLicenseManagerLinuxSubscriptionsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsLicenseManagerLinuxSubscriptionsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the service settings for Linux subscriptions. See also: AWS API Documentation
@@ -128,7 +118,6 @@ public interface IAwsLicenseManagerLinuxSubscriptions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceSettingsAsync(AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceSettingsAsync(AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

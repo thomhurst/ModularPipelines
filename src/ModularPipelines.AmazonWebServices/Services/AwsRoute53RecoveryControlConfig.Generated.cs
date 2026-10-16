@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws route53recoverycontrolconfig commands.
+/// aws route53-recovery-control-config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
@@ -33,7 +33,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws route53-recovery-control-config wait sub-commands.
     /// </summary>
     public AwsRoute53RecoveryControlConfigWait Wait => _wait ??= new AwsRoute53RecoveryControlConfigWait(_command);
 

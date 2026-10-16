@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListTenantsOptions : AwsOptions
 {
     /// <summary>
-    /// An object that contains filters to apply when listing tenants. You can filter by tenant name or sending status. key -&gt; (string) The filter key to use when listing tenants. This can be one of the following: o TENANT_NAME_CONTAINS Filter by a substring of the tenant name. o SENDING_STATUS Filter by sending status. Possible values: o TENANT_NAME_CONTAINS o SENDING_STATUS value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: TENANT_NAME_CONTAINS SENDING_STATUS JSON Syntax: {"TENANT_NAME_CONTAINS"|"SENDING_STATUS": "string" ...}
+    /// An object that contains filters to apply when listing tenants. You can filter by a substring of the tenant name or by sending status. key -&gt; (string) The filter key to use when listing tenants. This can be one of the following: o TENANT_NAME_CONTAINS Filter by a substring of the tenant name. o SENDING_STATUS Filter by sending status. Possible values: o TENANT_NAME_CONTAINS o SENDING_STATUS value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: TENANT_NAME_CONTAINS SENDING_STATUS JSON Syntax: {"TENANT_NAME_CONTAINS"|"SENDING_STATUS": "string" ...}
     /// </summary>
     [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }

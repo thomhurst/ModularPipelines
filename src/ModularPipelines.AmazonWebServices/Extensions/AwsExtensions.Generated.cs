@@ -181,6 +181,7 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsEmr, AwsEmr>();
         services.TryAddScoped<IAwsEmrContainers, AwsEmrContainers>();
         services.TryAddScoped<IAwsEmrServerless, AwsEmrServerless>();
+        services.TryAddScoped<IAwsEndusermessaging, AwsEndusermessaging>();
         services.TryAddScoped<IAwsEntityresolution, AwsEntityresolution>();
         services.TryAddScoped<IAwsEs, AwsEs>();
         services.TryAddScoped<IAwsEvents, AwsEvents>();
@@ -253,6 +254,7 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsLambda, AwsLambda>();
         services.TryAddScoped<IAwsLambdaCore, AwsLambdaCore>();
         services.TryAddScoped<IAwsLambdaMicrovms, AwsLambdaMicrovms>();
+        services.TryAddScoped<IAwsLambdaWeb, AwsLambdaWeb>();
         services.TryAddScoped<IAwsLaunchWizard, AwsLaunchWizard>();
         services.TryAddScoped<IAwsLexRuntime, AwsLexRuntime>();
         services.TryAddScoped<IAwsLexv2Models, AwsLexv2Models>();
@@ -344,6 +346,7 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsPolly, AwsPolly>();
         services.TryAddScoped<IAwsPricing, AwsPricing>();
         services.TryAddScoped<IAwsPricingPlanManager, AwsPricingPlanManager>();
+        services.TryAddScoped<IAwsProton, AwsProton>();
         services.TryAddScoped<IAwsQapps, AwsQapps>();
         services.TryAddScoped<IAwsQbusiness, AwsQbusiness>();
         services.TryAddScoped<IAwsQconnect, AwsQconnect>();
@@ -388,6 +391,7 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsSagemakerjobruntime, AwsSagemakerjobruntime>();
         services.TryAddScoped<IAwsSagemakerMetrics, AwsSagemakerMetrics>();
         services.TryAddScoped<IAwsSagemakerRuntime, AwsSagemakerRuntime>();
+        services.TryAddScoped<IAwsSagemakertrainingsessionruntime, AwsSagemakertrainingsessionruntime>();
         services.TryAddScoped<IAwsSavingsplans, AwsSavingsplans>();
         services.TryAddScoped<IAwsScheduler, AwsScheduler>();
         services.TryAddScoped<IAwsSchemas, AwsSchemas>();

@@ -33,7 +33,7 @@ public class AwsNeptune : IAwsNeptune
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws neptune wait sub-commands.
     /// </summary>
     public AwsNeptuneWait Wait => _wait ??= new AwsNeptuneWait(_command);
 

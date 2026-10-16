@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and the functi...
+/// Modifies the version-specific settings of a Lambda Event Function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsLambdaUpdateFunctionConfigurationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and the functi...
+    /// Modifies the version-specific settings of a Lambda Event Function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and th...
     /// </summary>
     /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
     public AwsLambdaUpdateFunctionConfigurationOptions(

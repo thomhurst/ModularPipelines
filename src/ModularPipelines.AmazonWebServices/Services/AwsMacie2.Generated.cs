@@ -33,7 +33,7 @@ public class AwsMacie2 : IAwsMacie2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws macie2 wait sub-commands.
     /// </summary>
     public AwsMacie2Wait Wait => _wait ??= new AwsMacie2Wait(_command);
 

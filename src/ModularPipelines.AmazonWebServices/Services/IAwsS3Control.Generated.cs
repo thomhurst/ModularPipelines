@@ -28,8 +28,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAccessGrantsIdentityCenterAsync(AwsS3controlAssociateAccessGrantsIdentityCenterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAccessGrantsIdentityCenterAsync(AwsS3controlAssociateAccessGrantsIdentityCenterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants in- stance in the same Region as the S3 data. You can create an S3 Access Grants instance using the CreateAccessGrantsInstance . You must also have registered at least one S3 data location in your S3 Access Grants instance using CreateAccessGrantsLocation . Permissions You must have the s3:Creat...
@@ -38,8 +37,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessGrantAsync(AwsS3controlCreateAccessGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessGrantAsync(AwsS3controlCreateAccessGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an S3 Access Grants instance, which serves as a logical group- ing for access grants. You can create one S3 Access Grants instance per Region per account. Permissions You must have the s3:CreateAccessGrantsInstance permission to use this operation. Additional Permissions To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance , sso:CreateAp- plication , sso:PutApplicationGrant , and sso:PutApplicationAuthentica- tionMe...
@@ -48,8 +46,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessGrantsInstanceAsync(AwsS3controlCreateAccessGrantsInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessGrantsInstanceAsync(AwsS3controlCreateAccessGrantsInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Ac- cess Grants instance. The location can be one of the following: o The default S3 location s3:// o A bucket - S3://&lt;bucket-name&gt; o A bucket and prefix - S3://&lt;bucket-name&gt;/&lt;prefix&gt; When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume th...
@@ -58,8 +55,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessGrantsLocationAsync(AwsS3controlCreateAccessGrantsLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessGrantsLocationAsync(AwsS3controlCreateAccessGrantsLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Creates an Object Lambda Access Point. For more information, see Transforming objects with Object Lambda Access Points in the Amazon S3 User Guide . The following actions are related to CreateAccessPointForObjectLambda : o DeleteAccessPointForObjectLambda o GetAccessPointForObjectLambda o ListAccessPointsForObjectLambda See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessPointForObjectLambdaAsync(AwsS3controlCreateAccessPointForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessPointForObjectLambdaAsync(AwsS3controlCreateAccessPointForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide . To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference . NOTE: S3 on Outposts only supports VPC-style access points. For more information, see Accessing Am...
@@ -78,8 +73,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessPointAsync(AwsS3controlCreateAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessPointAsync(AwsS3controlCreateAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see Create Bucket in the Amazon S3 API Reference . Creates a new Outposts bucket. By creating the bucket, you become the bucket owner. To create an Outposts bucket, you must have S3 on Out- posts. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide . Not every string is an acceptable bucket name. For information on bucket naming restrictions, see Working with Amazon S3 Buckets . S3 on Out...
@@ -88,8 +82,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBucketAsync(AwsS3controlCreateBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBucketAsync(AwsS3controlCreateBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions For information about permissions required to use the Batch Operations, see Granting permissions for S3 Batch Operations in the Amazon S3 User Guide . Related actions include: o Des...
@@ -98,8 +91,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateJobAsync(AwsS3controlCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateJobAsync(AwsS3controlCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Creates a Multi-Region Access Point and associates it with the speci- fied buckets. For more information about creating Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User Guide . This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations i...
@@ -108,8 +100,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMultiRegionAccessPointAsync(AwsS3controlCreateMultiRegionAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMultiRegionAccessPointAsync(AwsS3controlCreateMultiRegionAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new S3 Storage Lens group and associates it with the speci- fied Amazon Web Services account ID. An S3 Storage Lens group is a cus- tom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that youve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see Working with S3 Storage Lens groups . To use this operation, you must ...
@@ -118,8 +109,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStorageLensGroupAsync(AwsS3controlCreateStorageLensGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStorageLensGroupAsync(AwsS3controlCreateStorageLensGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have ac- cess to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this opera- tion. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessGrantAsync(AwsS3controlDeleteAccessGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessGrantAsync(AwsS3controlDeleteAccessGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes your S3 Access Grants instance. You must first delete the ac- cess grants and locations before S3 Access Grants can delete the in- stance. See DeleteAccessGrant and DeleteAccessGrantsLocation . If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center in- stance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAcce...
@@ -138,8 +127,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessGrantsInstanceAsync(AwsS3controlDeleteAccessGrantsInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessGrantsInstanceAsync(AwsS3controlDeleteAccessGrantsInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource policy of the S3 Access Grants instance. The re- source policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance. Permissions You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permis- sion to use this operation. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessGrantsInstanceResourcePolicyAsync(AwsS3controlDeleteAccessGrantsInstanceResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessGrantsInstanceResourcePolicyAsync(AwsS3controlDeleteAccessGrantsInstanceResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See Delete a grant for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in or- der to create access grants. Permissions You must have the s3:DeleteAccessGrantsLocation permission to use this operation. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessGrantsLocationAsync(AwsS3controlDeleteAccessGrantsLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessGrantsLocationAsync(AwsS3controlDeleteAccessGrantsLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Deletes the specified Object Lambda Access Point. The following actions are related to DeleteAccessPointForObjectLambda : o CreateAccessPointForObjectLambda o GetAccessPointForObjectLambda o ListAccessPointsForObjectLambda See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessPointForObjectLambdaAsync(AwsS3controlDeleteAccessPointForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessPointForObjectLambdaAsync(AwsS3controlDeleteAccessPointForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control . For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions...
@@ -178,8 +163,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessPointAsync(AwsS3controlDeleteAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessPointAsync(AwsS3controlDeleteAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Removes the resource policy for an Object Lambda Access Point. The following actions are related to DeleteAccessPointPolicyForObject- Lambda : o GetAccessPointPolicyForObjectLambda o PutAccessPointPolicyForObjectLambda See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessPointPolicyForObjectLambdaAsync(AwsS3controlDeleteAccessPointPolicyForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessPointPolicyForObjectLambdaAsync(AwsS3controlDeleteAccessPointPolicyForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the access point policy for the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control . For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples se...
@@ -198,8 +181,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessPointPolicyAsync(AwsS3controlDeleteAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessPointPolicyAsync(AwsS3controlDeleteAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing access point scope for a directory bucket. NOTE: When you delete the scope of an access point, all prefixes and per- missions are deleted. To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see REST error responses . See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessPointScopeAsync(AwsS3controlDeleteAccessPointScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessPointScopeAsync(AwsS3controlDeleteAccessPointScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action deletes an Amazon S3 on Outposts bucket's lifecycle con- figuration. To delete an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon S3 API Reference . Deletes the lifecycle configuration from the specified Outposts bucket. Amazon S3 on Outposts removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer automatically deletes any objects on the bas...
@@ -218,8 +199,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketLifecycleConfigurationAsync(AwsS3controlDeleteBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketLifecycleConfigurationAsync(AwsS3controlDeleteBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action deletes an Amazon S3 on Outposts bucket. To delete an S3 bucket, see DeleteBucket in the Amazon S3 API Reference . Deletes the Amazon S3 on Outposts bucket. All objects (including all object versions and delete markers) in the bucket must be deleted be- fore the bucket itself can be deleted. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide . All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-...
@@ -228,8 +208,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketAsync(AwsS3controlDeleteBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketAsync(AwsS3controlDeleteBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy, see DeleteBucketPolicy in the Amazon S3 API Reference . This implementation of the DELETE action uses the policy subresource to delete the policy of a specified Amazon S3 on Outposts bucket. If you are using an identity other than the root user of the Amazon Web Ser- vices account that owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy permissions on the specified Outp...
@@ -238,8 +217,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketPolicyAsync(AwsS3controlDeleteBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketPolicyAsync(AwsS3controlDeleteBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation deletes an Amazon S3 on Outposts bucket's replication configuration. To delete an S3 bucket's replication configuration, see DeleteBucketReplication in the Amazon S3 API Reference . Deletes the replication configuration from the specified S3 on Outposts bucket. To use this operation, you must have permissions to perform the s3-out- posts:PutReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more infor- ma...
@@ -248,8 +226,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketReplicationAsync(AwsS3controlDeleteBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketReplicationAsync(AwsS3controlDeleteBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags, see DeleteBucketTagging in the Amazon S3 API Reference . Deletes the tags from the Outposts bucket. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide . To use this action, you must have permission to perform the PutBucket- Tagging action. By default, the bucket owner has this permission and can grant this permission to others. All Amazon S3 on Outposts REST API requests for ...
@@ -258,8 +235,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketTaggingAsync(AwsS3controlDeleteBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketTaggingAsync(AwsS3controlDeleteBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the entire tag set from the specified S3 Batch Operations job. Permissions To use the DeleteJobTagging operation, you must have permission to per- form the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide . Related actions include: o CreateJob o GetJobTagging o PutJobTagging See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteJobTaggingAsync(AwsS3controlDeleteJobTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteJobTaggingAsync(AwsS3controlDeleteJobTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations in the Amazon S3 User Guide . This request is asynch...
@@ -278,8 +253,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMultiRegionAccessPointAsync(AwsS3controlDeleteMultiRegionAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMultiRegionAccessPointAsync(AwsS3controlDeleteMultiRegionAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Removes the PublicAccessBlock configuration for an Amazon Web Services account. This operation might be restricted when the account is managed by organization-level Block Public Access policies. Youll get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override ac- count-level settings, preventing direct account-level modifications. For more informa...
@@ -288,8 +262,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePublicAccessBlockAsync(AwsS3controlDeletePublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePublicAccessBlockAsync(AwsS3controlDeletePublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . See also: AWS API Documentat...
@@ -298,8 +271,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStorageLensConfigurationAsync(AwsS3controlDeleteStorageLensConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStorageLensConfigurationAsync(AwsS3controlDeleteStorageLensConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration tags. For more infor- mation about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more informa- tion, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . See also: AW...
@@ -308,8 +280,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStorageLensConfigurationTaggingAsync(AwsS3controlDeleteStorageLensConfigurationTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStorageLensConfigurationTaggingAsync(AwsS3controlDeleteStorageLensConfigurationTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the re- quired Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStorageLensGroupAsync(AwsS3controlDeleteStorageLensGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStorageLensGroupAsync(AwsS3controlDeleteStorageLensGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the configuration parameters and status for a Batch Opera- tions job. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the DescribeJob operation, you must have permission to perform the s3:DescribeJob action. Related actions include: o CreateJob o ListJobs o UpdateJobPriority o UpdateJobStatus See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobAsync(AwsS3controlDescribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobAsync(AwsS3controlDescribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Re- gion Access Point. For more information about managing Multi-Region Ac- cess Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPoint : o CreateMultiRegionAccessPoint o DeleteMultiRegionAccessPoint o GetMultiRegionAccessPoint o ListMultiRegionAccessPoint...
@@ -338,8 +307,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMultiRegionAccessPointOperationAsync(AwsS3controlDescribeMultiRegionAccessPointOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMultiRegionAccessPointOperationAsync(AwsS3controlDescribeMultiRegionAccessPointOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance. Permissions You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must have the sso:DeleteApplication permission to use this opera- tion. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DissociateAccessGrantsIdentityCenterAsync(AwsS3controlDissociateAccessGrantsIdentityCenterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DissociateAccessGrantsIdentityCenterAsync(AwsS3controlDissociateAccessGrantsIdentityCenterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of an access grant from your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrant permission to use this operation. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessGrantAsync(AwsS3controlGetAccessGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessGrantAsync(AwsS3controlGetAccessGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the S3 Access Grants instance that contains a particular pre- fix. Permissions You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation. Additional Permissions The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix . See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessGrantsInstanceForPrefixAsync(AwsS3controlGetAccessGrantsInstanceForPrefixOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessGrantsInstanceForPrefixAsync(AwsS3controlGetAccessGrantsInstanceForPrefixOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the S3 Access Grants instance for a Region in your account. Permissions You must have the s3:GetAccessGrantsInstance permission to use this op- eration. NOTE: GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessGrantsInstanceAsync(AwsS3controlGetAccessGrantsInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessGrantsInstanceAsync(AwsS3controlGetAccessGrantsInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the resource policy of the S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessGrantsInstanceResourcePolicyAsync(AwsS3controlGetAccessGrantsInstanceResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessGrantsInstanceResourcePolicyAsync(AwsS3controlGetAccessGrantsInstanceResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a particular location registered in your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsLocation permission to use this op- eration. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessGrantsLocationAsync(AwsS3controlGetAccessGrantsLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessGrantsLocationAsync(AwsS3controlGetAccessGrantsLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForOb- jectLambda : o PutAccessPointConfigurationForObjectLambda See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPointConfigurationForObjectLambdaAsync(AwsS3controlGetAccessPointConfigurationForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPointConfigurationForObjectLambdaAsync(AwsS3controlGetAccessPointConfigurationForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns configuration information about the specified Object Lambda Ac- cess Point The following actions are related to GetAccessPointForObjectLambda : o CreateAccessPointForObjectLambda o DeleteAccessPointForObjectLambda o ListAccessPointsForObjectLambda See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPointForObjectLambdaAsync(AwsS3controlGetAccessPointForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPointForObjectLambdaAsync(AwsS3controlGetAccessPointForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns configuration information about the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control . For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Example...
@@ -428,8 +388,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPointAsync(AwsS3controlGetAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPointAsync(AwsS3controlGetAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns the resource policy for an Object Lambda Access Point. The following actions are related to GetAccessPointPolicyForObject- Lambda : o DeleteAccessPointPolicyForObjectLambda o PutAccessPointPolicyForObjectLambda See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPointPolicyForObjectLambdaAsync(AwsS3controlGetAccessPointPolicyForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPointPolicyForObjectLambdaAsync(AwsS3controlGetAccessPointPolicyForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy : o PutAccessPointPolicy o DeleteAccessPointPolicy See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPointPolicyAsync(AwsS3controlGetAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPointPolicyAsync(AwsS3controlGetAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns the status of the resource policy associated with an Object Lambda Access Point. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPointPolicyStatusForObjectLambdaAsync(AwsS3controlGetAccessPointPolicyStatusForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPointPolicyStatusForObjectLambdaAsync(AwsS3controlGetAccessPointPolicyStatusForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 access points in the Amazon S3 User Guide . See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPointPolicyStatusAsync(AwsS3controlGetAccessPointPolicyStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPointPolicyStatusAsync(AwsS3controlGetAccessPointPolicyStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see REST error responses . See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessPointScopeAsync(AwsS3controlGetAccessPointScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessPointScopeAsync(AwsS3controlGetAccessPointScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action gets an Amazon S3 on Outposts bucket's lifecycle config- uration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference . Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see Object Lifecycle Manage- ment in Amazon S3 User Guide . To use this action, you must have permission to perform the...
@@ -488,8 +442,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketLifecycleConfigurationAsync(AwsS3controlGetBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketLifecycleConfigurationAsync(AwsS3controlGetBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Amazon S3 on Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Out- posts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions ca...
@@ -498,8 +451,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketAsync(AwsS3controlGetBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketAsync(AwsS3controlGetBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for an S3 bucket, see GetBucketPolicy in the Amazon S3 API Reference . Returns the policy of a specified Outposts bucket. For more informa- tion, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket an...
@@ -508,8 +460,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketPolicyAsync(AwsS3controlGetBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketPolicyAsync(AwsS3controlGetBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation gets an Amazon S3 on Outposts bucket's replication configuration. To get an S3 bucket's replication configuration, see GetBucketReplication in the Amazon S3 API Reference . Returns the replication configuration of an S3 on Outposts bucket. For more information about S3 on Outposts, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . For information about S3 replication on Outposts configuration, see Replicating objects for S3 on Outposts in the Amazon S3 User Guide...
@@ -518,8 +469,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketReplicationAsync(AwsS3controlGetBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketReplicationAsync(AwsS3controlGetBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action gets an Amazon S3 on Outposts bucket's tags. To get an S3 bucket tags, see GetBucketTagging in the Amazon S3 API Reference . Returns the tag set associated with the Outposts bucket. For more in- formation, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . To use this action, you must have permission to perform the GetBucket- Tagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following sp...
@@ -528,8 +478,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketTaggingAsync(AwsS3controlGetBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketTaggingAsync(AwsS3controlGetBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation returns the versioning state for S3 on Outposts buck- ets only. To return the versioning state for an S3 bucket, see GetBucketVersioning in the Amazon S3 API Reference . Returns the versioning state for an S3 on Outposts bucket. With S3 Ver- sioning, you can save multiple distinct copies of your objects and re- cover from unintended user actions and application failures. If you've never set versioning on your bucket, it has no versioning state. In that case, the GetBucketVer...
@@ -538,8 +487,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketVersioningAsync(AwsS3controlGetBucketVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketVersioningAsync(AwsS3controlGetBucketVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following per- missions specified in the trust policy when registering the location: sts:AssumeRole , for directory users or groups sts:SetC...
@@ -548,8 +496,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataAccessAsync(AwsS3controlGetDataAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataAccessAsync(AwsS3controlGetDataAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the tags on an S3 Batch Operations job. Permissions To use the GetJobTagging operation, you must have permission to perform the s3:GetJobTagging action. For more information, see Controlling ac- cess and labeling jobs using tags in the Amazon S3 User Guide . Related actions include: o CreateJob o PutJobTagging o DeleteJobTagging See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobTaggingAsync(AwsS3controlGetJobTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobTaggingAsync(AwsS3controlGetJobTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns configuration information about the specified Multi-Region Ac- cess Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPoint : o CreateMultiRegionAccessPoint o DeleteMu...
@@ -568,8 +514,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMultiRegionAccessPointAsync(AwsS3controlGetMultiRegionAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMultiRegionAccessPointAsync(AwsS3controlGetMultiRegionAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPointPolicy : o GetMultiRegionAccessPointPolicyStatus ...
@@ -578,8 +523,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMultiRegionAccessPointPolicyAsync(AwsS3controlGetMultiRegionAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMultiRegionAccessPointPolicyAsync(AwsS3controlGetMultiRegionAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPointPolicyS- tatu...
@@ -588,8 +532,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMultiRegionAccessPointPolicyStatusAsync(AwsS3controlGetMultiRegionAccessPointPolicyStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMultiRegionAccessPointPolicyStatusAsync(AwsS3controlGetMultiRegionAccessPointPolicyStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns the routing configuration for a Multi-Region Access Point, in- dicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions: o us-east-1 o us-west-2 o ap-southeast-2 o ap-northeast-1 o eu-west-1 See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMultiRegionAccessPointRoutesAsync(AwsS3controlGetMultiRegionAccessPointRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMultiRegionAccessPointRoutesAsync(AwsS3controlGetMultiRegionAccessPointRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon Web Ser- vices account. This operation returns the effective account-level con- figuration, which may inherit from organization-level policies. For more information, see Using Amazon S3 block public access . Related actions include: o DeletePublicAccessBlock o PutPublicAccessBlock See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPublicAccessBlockAsync(AwsS3controlGetPublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPublicAccessBlockAsync(AwsS3controlGetPublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Get- StorageLensConfiguration action. For more information, see Setting permissions...
@@ -618,8 +559,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStorageLensConfigurationAsync(AwsS3controlGetStorageLensConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStorageLensConfigurationAsync(AwsS3controlGetStorageLensConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more infor- mation about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Get- StorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . See also: AWS A...
@@ -628,8 +568,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStorageLensConfigurationTaggingAsync(AwsS3controlGetStorageLensConfigurationTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStorageLensConfigurationTaggingAsync(AwsS3controlGetStorageLensConfigurationTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStorageLensGroupAsync(AwsS3controlGetStorageLensGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStorageLensGroupAsync(AwsS3controlGetStorageLensGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of S3 Access Grants instances. An S3 Access Grants in- stance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessGrantsInstancesAsync(AwsS3controlListAccessGrantsInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessGrantsInstancesAsync(AwsS3controlListAccessGrantsInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the locations registered in your S3 Access Grants in- stance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessGrantsLocationsAsync(AwsS3controlListAccessGrantsLocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessGrantsLocationsAsync(AwsS3controlListAccessGrantsLocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of access grants in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrants permission to use this operation. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessGrantsAsync(AwsS3controlListAccessGrantsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessGrantsAsync(AwsS3controlListAccessGrantsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see ListAccesspoints . To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see REST error responses . See also: AWS API Documentation list-access-points-for-directory-buckets is a paginated oper...
@@ -678,8 +613,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessPointsForDirectoryBucketsAsync(AwsS3controlListAccessPointsForDirectoryBucketsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessPointsForDirectoryBucketsAsync(AwsS3controlListAccessPointsForDirectoryBucketsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns some or all (up to 1,000) access points associated with the Ob- ject Lambda Access Point per call. If there are more access points than what can be returned in one call, the response will include a continua- tion token that you can use to list the additional access points. The following actions are related to ListAccessPointsForObjectLambda : o CreateAccessPointForObjectLambda o DeleteAccessPointForObjectLambda o GetAccessPointF...
@@ -688,8 +622,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessPointsForObjectLambdaAsync(AwsS3controlListAccessPointsForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessPointsForObjectLambdaAsync(AwsS3controlListAccessPointsForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns a list of the access points. You can retrieve up to 1,000 ac- cess points per call. If the call returns more than 1,000 access points (or the number specified in maxResults , whichever is less), the re- sponse will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL . All Amazon ...
@@ -698,8 +631,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessPointsAsync(AwsS3controlListAccessPointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessPointsAsync(AwsS3controlListAccessPointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope , using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with...
@@ -708,8 +640,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCallerAccessGrantsAsync(AwsS3controlListCallerAccessGrantsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCallerAccessGrantsAsync(AwsS3controlListCallerAccessGrantsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account mak- ing the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the ListJobs operation, you must have permission to perform the s3:ListJobs action. Related actions include: o CreateJob o DescribeJob o UpdateJobPriority o UpdateJobStatus See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJobsAsync(AwsS3controlListJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJobsAsync(AwsS3controlListJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Mult...
@@ -728,8 +658,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMultiRegionAccessPointsAsync(AwsS3controlListMultiRegionAccessPointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMultiRegionAccessPointsAsync(AwsS3controlListMultiRegionAccessPointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the Examples section. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRegionalBucketsAsync(AwsS3controlListRegionalBucketsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRegionalBucketsAsync(AwsS3controlListRegionalBucketsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Gets a list of Amazon S3 Storage Lens configurations. For more informa- tion about S3 Storage Lens, see Assessing your storage activity and us- age with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:List- StorageLensConfigurations action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide . See also: AWS API D...
@@ -748,8 +676,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStorageLensConfigurationsAsync(AwsS3controlListStorageLensConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStorageLensConfigurationsAsync(AwsS3controlListStorageLensConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the Storage Lens groups in the specified home Region. To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the re- quired Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStorageLensGroupsAsync(AwsS3controlListStorageLensGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStorageLensGroupsAsync(AwsS3controlListStorageLensGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation allows you to list all of the tags for a specified re- source. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources. NOTE: This operation is only supported for the following Amazon S3 re- sources: o General purpose buckets o Access Points for directory buckets o Access Points for general purpose buckets o Directory buckets o S3 Storage Lens groups o S3 Access Grants instances, registered locations, and gran...
@@ -768,8 +694,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsS3controlListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsS3controlListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the resource policy of the S3 Access Grants instance. Permissions You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccessGrantsInstanceResourcePolicyAsync(AwsS3controlPutAccessGrantsInstanceResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccessGrantsInstanceResourcePolicyAsync(AwsS3controlPutAccessGrantsInstanceResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForOb- jectLambda : o GetAccessPointConfigurationForObjectLambda See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccessPointConfigurationForObjectLambdaAsync(AwsS3controlPutAccessPointConfigurationForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccessPointConfigurationForObjectLambdaAsync(AwsS3controlPutAccessPointConfigurationForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide . The following actions are related to PutAccessPointPolicyForObject- Lambda : o DeleteAccessPointPolicyForObjectLambda o GetAccessPointPolicyForObjectLambda See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccessPointPolicyForObjectLambdaAsync(AwsS3controlPutAccessPointPolicyForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccessPointPolicyForObjectLambdaAsync(AwsS3controlPutAccessPointPolicyForObjectLambdaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an access policy with the specified access point. Each ac- cess point can have only one policy, so a request made to this API re- places any existing policy associated with the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control . For an example of the request syntax for Amazon S3 o...
@@ -808,8 +730,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccessPointPolicyAsync(AwsS3controlPutAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccessPointPolicyAsync(AwsS3controlPutAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. NOTE: You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses . See also: ...
@@ -818,8 +739,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccessPointScopeAsync(AwsS3controlPutAccessPointScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccessPointScopeAsync(AwsS3controlPutAccessPointScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action puts a lifecycle configuration to an Amazon S3 on Out- posts bucket. To put a lifecycle configuration to an S3 bucket, see PutBucketLifecycleConfiguration in the Amazon S3 API Reference . Creates a new lifecycle configuration for the S3 on Outposts bucket or replaces an existing lifecycle configuration. Outposts buckets only support lifecycle configurations that delete/expire objects after a certain period of time and abort incomplete multipart uploads. All Amazon S3 on Outpost...
@@ -828,8 +748,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketLifecycleConfigurationAsync(AwsS3controlPutBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketLifecycleConfigurationAsync(AwsS3controlPutBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action puts a bucket policy to an Amazon S3 on Outposts bucket. To put a policy on an S3 bucket, see PutBucketPolicy in the Amazon S3 API Reference . Applies an Amazon S3 bucket policy to an Outposts bucket. For more in- formation, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the PutBucketPolicy permissions on the speci...
@@ -838,8 +757,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketPolicyAsync(AwsS3controlPutBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketPolicyAsync(AwsS3controlPutBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action creates an Amazon S3 on Outposts bucket's replication configuration. To create an S3 bucket's replication configuration, see PutBucketReplication in the Amazon S3 API Reference . Creates a replication configuration or replaces an existing one. For information about S3 replication on Outposts configuration, see Replicating objects for S3 on Outposts in the Amazon S3 User Guide . NOTE: It can take a while to propagate PUT or DELETE requests for a repli- cation configuration to al...
@@ -848,8 +766,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketReplicationAsync(AwsS3controlPutBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketReplicationAsync(AwsS3controlPutBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see PutBucketTagging in the Amazon S3 API Ref- erence . Sets the tags for an S3 on Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide . Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services ac- count bill with tag key values included. Then, to see the cost of com- bined res...
@@ -858,8 +775,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketTaggingAsync(AwsS3controlPutBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketTaggingAsync(AwsS3controlPutBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference . Sets the versioning state for an S3 on Outposts bucket. With S3 Ver- sioning, you can save multiple distinct copies of your objects and re- cover from unintended user actions and application failures. You can set the versioning state to one of the following: o Enabled - Enables versioning for the objects in the buck...
@@ -868,8 +784,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketVersioningAsync(AwsS3controlPutBucketVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketVersioningAsync(AwsS3controlPutBucketVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using GetJobTagging , modify that tag set, and use this operation to replace the tag set with the one you...
@@ -878,8 +793,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutJobTaggingAsync(AwsS3controlPutJobTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutJobTaggingAsync(AwsS3controlPutJobTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Associates an access control policy with the specified Multi-Region Ac- cess Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is as- sociated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-...
@@ -888,8 +802,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutMultiRegionAccessPointPolicyAsync(AwsS3controlPutMultiRegionAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutMultiRegionAccessPointPolicyAsync(AwsS3controlPutMultiRegionAccessPointPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. This operation may be restricted when the account is managed by organization-level Block Public Access policies. You might get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override account-level settings, preventing direct ac- count-level modifications. Fo...
@@ -898,8 +811,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutPublicAccessBlockAsync(AwsS3controlPutPublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutPublicAccessBlockAsync(AwsS3controlPutPublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide . For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Put- StorageLensConfiguration action. For more information, see Setting permissions to use Amazo...
@@ -908,8 +820,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutStorageLensConfigurationAsync(AwsS3controlPutStorageLensConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutStorageLensConfigurationAsync(AwsS3controlPutStorageLensConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configura- tion. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Put- StorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide...
@@ -918,8 +829,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutStorageLensConfigurationTaggingAsync(AwsS3controlPutStorageLensConfigurationTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutStorageLensConfigurationTaggingAsync(AwsS3controlPutStorageLensConfigurationTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported by directory buckets. Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indi- cates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be ...
@@ -928,8 +838,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SubmitMultiRegionAccessPointRoutesAsync(AwsS3controlSubmitMultiRegionAccessPointRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SubmitMultiRegionAccessPointRoutesAsync(AwsS3controlSubmitMultiRegionAccessPointRoutesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource. NOTE: This operation is only supported for the following Amazon S3 re- source: o General purpose buckets o Access Points for directory buckets o Access Points for general purpose buckets o Director...
@@ -938,8 +847,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsS3controlTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsS3controlTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation removes the specified user-defined tags from an S3 re- source. You can pass one or more tag keys. NOTE: This operation is only supported for the following Amazon S3 re- sources: o General purpose buckets o Access Points for directory buckets o Access Points for general purpose buckets o Directory buckets o S3 Storage Lens groups o S3 Access Grants instances, registered locations, and grants . Permissions For general purpose buckets, access points for general purpose buckets, Stora...
@@ -948,8 +856,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsS3controlUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsS3controlUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the IAM role of a registered location in your S3 Access Grants instance. Permissions You must have the s3:UpdateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission: iam:PassRole See also: AWS API Documentation
@@ -958,8 +865,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAccessGrantsLocationAsync(AwsS3controlUpdateAccessGrantsLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAccessGrantsLocationAsync(AwsS3controlUpdateAccessGrantsLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing S3 Batch Operations job's priority. For more infor- mation, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action. Related actions include: o CreateJob o ListJobs o DescribeJob o UpdateJobStatus See also: AWS API Documentation
@@ -968,8 +874,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateJobPriorityAsync(AwsS3controlUpdateJobPriorityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateJobPriorityAsync(AwsS3controlUpdateJobPriorityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more in- formation, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the UpdateJobStatus operation, you must have permission to per- form the s3:UpdateJobStatus action. Related actions include: o CreateJob o ListJobs o DescribeJob o UpdateJobStatus See also: AWS API Documentation
@@ -978,8 +883,7 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateJobStatusAsync(AwsS3controlUpdateJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateJobStatusAsync(AwsS3controlUpdateJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the re- quired Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups . For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes . See also: AWS API Documentation
@@ -988,7 +892,6 @@ public interface IAwsS3Control
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateStorageLensGroupAsync(AwsS3controlUpdateStorageLensGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateStorageLensGroupAsync(AwsS3controlUpdateStorageLensGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

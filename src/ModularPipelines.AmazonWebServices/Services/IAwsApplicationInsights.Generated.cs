@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws applicationinsights commands.
+/// aws application-insights commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddWorkloadAsync(AwsApplicationInsightsAddWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddWorkloadAsync(AwsApplicationInsightsAddWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an application that is created from a resource group. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationAsync(AwsApplicationInsightsCreateApplicationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationAsync(AwsApplicationInsightsCreateApplicationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a custom component by grouping similar standalone instances to monitor. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateComponentAsync(AwsApplicationInsightsCreateComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateComponentAsync(AwsApplicationInsightsCreateComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an log pattern to a LogPatternSet . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLogPatternAsync(AwsApplicationInsightsCreateLogPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLogPatternAsync(AwsApplicationInsightsCreateLogPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified application from monitoring. Does not delete the application. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationAsync(AwsApplicationInsightsDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationAsync(AwsApplicationInsightsDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteComponentAsync(AwsApplicationInsightsDeleteComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteComponentAsync(AwsApplicationInsightsDeleteComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified log pattern from a LogPatternSet . See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLogPatternAsync(AwsApplicationInsightsDeleteLogPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLogPatternAsync(AwsApplicationInsightsDeleteLogPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the application. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationAsync(AwsApplicationInsightsDescribeApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationAsync(AwsApplicationInsightsDescribeApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the monitoring configuration of the component. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeComponentConfigurationAsync(AwsApplicationInsightsDescribeComponentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeComponentConfigurationAsync(AwsApplicationInsightsDescribeComponentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the recommended monitoring configuration of the component. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeComponentConfigurationRecommendationAsync(AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeComponentConfigurationRecommendationAsync(AwsApplicationInsightsDescribeComponentConfigurationRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a component and lists the resources that are grouped together in a component. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeComponentAsync(AwsApplicationInsightsDescribeComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeComponentAsync(AwsApplicationInsightsDescribeComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe a specific log pattern from a LogPatternSet . See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLogPatternAsync(AwsApplicationInsightsDescribeLogPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLogPatternAsync(AwsApplicationInsightsDescribeLogPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an anomaly or error with the application. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeObservationAsync(AwsApplicationInsightsDescribeObservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeObservationAsync(AwsApplicationInsightsDescribeObservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the anomalies or errors associated with the problem. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProblemObservationsAsync(AwsApplicationInsightsDescribeProblemObservationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProblemObservationsAsync(AwsApplicationInsightsDescribeProblemObservationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an application problem. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProblemAsync(AwsApplicationInsightsDescribeProblemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProblemAsync(AwsApplicationInsightsDescribeProblemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a workload and its configuration. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWorkloadAsync(AwsApplicationInsightsDescribeWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWorkloadAsync(AwsApplicationInsightsDescribeWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the IDs of the applications that you are monitoring. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationsAsync(AwsApplicationInsightsListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationsAsync(AwsApplicationInsightsListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the auto-grouped, standalone, and custom components of the appli- cation. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComponentsAsync(AwsApplicationInsightsListComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComponentsAsync(AwsApplicationInsightsListComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the INFO, WARN, and ERROR events for periodic configuration up- dates performed by Application Insights. Examples of events represented are: o INFO: creating a new alarm or updating an alarm threshold. o WARN: alarm not created due to insufficient data points used to pre- dict thresholds. o ERROR: alarm not created due to permission errors or exceeding quo- tas. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConfigurationHistoryAsync(AwsApplicationInsightsListConfigurationHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConfigurationHistoryAsync(AwsApplicationInsightsListConfigurationHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the log pattern sets in the specific application. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLogPatternSetsAsync(AwsApplicationInsightsListLogPatternSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLogPatternSetsAsync(AwsApplicationInsightsListLogPatternSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the log patterns in the specific log LogPatternSet . See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLogPatternsAsync(AwsApplicationInsightsListLogPatternsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLogPatternsAsync(AwsApplicationInsightsListLogPatternsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the problems with your application. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProblemsAsync(AwsApplicationInsightsListProblemsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProblemsAsync(AwsApplicationInsightsListProblemsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value . A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsApplicationInsightsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsApplicationInsightsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the workloads that are configured on a given component. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkloadsAsync(AwsApplicationInsightsListWorkloadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkloadsAsync(AwsApplicationInsightsListWorkloadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove workload from a component. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveWorkloadAsync(AwsApplicationInsightsRemoveWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveWorkloadAsync(AwsApplicationInsightsRemoveWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an appli- cation. Tags can help you categorize and manage application in differ- ent ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a...
@@ -278,8 +253,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsApplicationInsightsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsApplicationInsightsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove one or more tags (keys and values) from a specified application. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsApplicationInsightsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsApplicationInsightsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the application. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationAsync(AwsApplicationInsightsUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationAsync(AwsApplicationInsightsUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the monitoring configurations for the component. The configura- tion input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigura- tionRecommendation . See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateComponentConfigurationAsync(AwsApplicationInsightsUpdateComponentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateComponentConfigurationAsync(AwsApplicationInsightsUpdateComponentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the custom component name and/or the list of resources that make up the component. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateComponentAsync(AwsApplicationInsightsUpdateComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateComponentAsync(AwsApplicationInsightsUpdateComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a log pattern to a LogPatternSet . See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLogPatternAsync(AwsApplicationInsightsUpdateLogPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLogPatternAsync(AwsApplicationInsightsUpdateLogPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the visibility of the problem or specifies the problem as RE- SOLVED . See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProblemAsync(AwsApplicationInsightsUpdateProblemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProblemAsync(AwsApplicationInsightsUpdateProblemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a workload to a component. Each component can have at most five workloads. See also: AWS API Documentation
@@ -348,7 +316,6 @@ public interface IAwsApplicationInsights
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkloadAsync(AwsApplicationInsightsUpdateWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkloadAsync(AwsApplicationInsightsUpdateWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

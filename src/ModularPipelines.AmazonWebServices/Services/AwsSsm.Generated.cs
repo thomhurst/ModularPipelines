@@ -33,7 +33,7 @@ public class AwsSsm : IAwsSsm
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ssm wait sub-commands.
     /// </summary>
     public AwsSsmWait Wait => _wait ??= new AwsSsmWait(_command);
 
