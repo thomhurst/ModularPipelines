@@ -7,6 +7,54 @@ public class CopyUnixPermissionsTests
 {
     [Test]
     [MatrixDataSource]
+    public async Task Async_Copy_Preserves_Permissions_Without_Special_Bits(
+        [Matrix("file", "file-folder", "folder")] string copy,
+        [Matrix(false, true)] bool overwrite,
+        [Matrix(UnixFileMode.SetUser, UnixFileMode.SetGroup, UnixFileMode.StickyBit,
+            UnixFileMode.SetUser | UnixFileMode.SetGroup | UnixFileMode.StickyBit)] UnixFileMode specialBits)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            throw new SkipTestException("Unix file permissions are unavailable on Windows.");
+        }
+
+        await using var temporary = new TempFolder();
+        var sourceFolder = temporary.Folder.CreateFolder("source");
+        var source = sourceFolder.GetFile("script");
+        await source.WriteAsync("contents");
+        const UnixFileMode permissions = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute
+            | UnixFileMode.GroupRead | UnixFileMode.OtherExecute;
+        File.SetUnixFileMode(source.Path, permissions | specialBits);
+        await Assert.That(File.GetUnixFileMode(source.Path)).IsEqualTo(permissions | specialBits);
+
+        var destinationFolder = temporary.Folder.CreateFolder("destination");
+        var destination = destinationFolder.GetFile(source.Name);
+        if (overwrite)
+        {
+            await destination.WriteAsync("old contents");
+            File.SetUnixFileMode(destination.Path, UnixFileMode.UserRead | UnixFileMode.UserWrite | specialBits);
+        }
+
+        switch (copy)
+        {
+            case "file":
+                await source.CopyToAsync(destination.Path);
+                break;
+            case "file-folder":
+                await source.CopyToAsync(destinationFolder);
+                break;
+            case "folder":
+                await sourceFolder.CopyToAsync(destinationFolder.Path);
+                break;
+        }
+
+        await Assert.That(File.GetUnixFileMode(destination.Path)).IsEqualTo(permissions);
+        await Assert.That(File.GetUnixFileMode(source.Path)).IsEqualTo(permissions | specialBits);
+        await Assert.That(await destination.ReadAsync()).IsEqualTo("contents");
+    }
+
+    [Test]
+    [MatrixDataSource]
     public async Task File_CopyTo_Preserves_Unix_Mode(
         [Matrix(false, true)] bool useAsync,
         [Matrix(false, true)] bool useFolder,

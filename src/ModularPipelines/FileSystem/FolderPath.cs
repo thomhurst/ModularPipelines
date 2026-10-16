@@ -372,10 +372,8 @@ public class FolderPath : IEquatable<FolderPath>
                 }
             }
             CopyMetadata(filePath, newPath, preserveTimestamps);
-            if (!OperatingSystem.IsWindows() && ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
-            {
-                File.SetUnixFileMode(newPath, File.GetUnixFileMode(filePath));
-            }
+            // Restore permissions last because read-only attributes can change the Unix mode.
+            FileCopyMetadata.CopyUnixPermissions(_provider, filePath, newPath);
         }
 
         // Creating child entries changes directory timestamps, so restore metadata after all writes.
